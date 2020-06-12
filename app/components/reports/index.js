@@ -11,7 +11,7 @@ import Row from 'components/common/row';
 import moment from 'moment';
 import i18n from 'i18next';
 import debounceUI from 'helpers/debounceUI';
-import tracker from 'helpers/googleAnalytics';
+import { trackScreenView } from 'helpers/analytics';
 import styles from './styles';
 import { Navigation } from 'react-native-navigation';
 import exportReports from 'helpers/exportReports';
@@ -83,7 +83,7 @@ class Reports extends PureComponent<Props, State> {
   }
 
   componentDidMount() {
-    tracker.trackScreenView('My Reports');
+    trackScreenView('My Reports');
   }
 
   fetchExportSize = async (reportIds: Array<string>) => {

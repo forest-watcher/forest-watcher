@@ -7,6 +7,7 @@ import { setAreaDownloadTooltipSeen, showNotConnectedNotification } from 'redux-
 
 import Areas from 'components/areas';
 import { initialiseAreaLayerSettings } from 'redux-modules/layerSettings';
+import { trackSharedContent } from 'helpers/analytics';
 import exportBundleFromRedux from 'helpers/sharing/exportBundleFromRedux';
 import shareBundle from 'helpers/sharing/shareBundle';
 
@@ -30,6 +31,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
           areaIds: ids
         })
       );
+      trackSharedContent('area');
       await shareBundle(outputPath);
     },
     initialiseAreaLayerSettings: (featureId: string, areaId: string) => {

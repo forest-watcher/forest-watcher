@@ -7,6 +7,7 @@ import i18n from 'i18next';
 import RNFS from 'react-native-fs';
 import { unzip } from 'react-native-zip-archive';
 
+import { trackImportedContent } from 'helpers/analytics';
 import FWError from 'helpers/fwError';
 import createTemporaryStagingDirectory from 'helpers/sharing/createTemporaryStagingDirectory';
 import deleteStagedBundle from 'helpers/sharing/deleteStagedBundle';
@@ -47,10 +48,10 @@ export default async function importBundle(uri: string, dispatch: Dispatch): Pro
 
 export function checkBundleCompatibility(version: number) {
   if (version > APP_DATA_FORMAT_VERSION) {
-    throw new FWError({ message: i18n.t("importBundle.incompatibleBundle") });
+    throw new FWError({ message: i18n.t('importBundle.incompatibleBundle') });
   } else if (version < APP_DATA_FORMAT_VERSION) {
     if (version === 1) {
-      throw new FWError({ message: i18n.t("importBundle.incompatibleBundle") });
+      throw new FWError({ message: i18n.t('importBundle.incompatibleBundle') });
     }
     // For past versions we can either (i) migrate or (ii) fail
     // Handle those decisions for each past version here
@@ -72,6 +73,7 @@ export async function importStagedBundle(
   checkBundleCompatibility(bundle.data.version);
   importAppData(bundle.data, request, dispatch);
   await importFileManifest(bundle, request);
+  trackImportedContent('bundle', 'gfwbundle', true);
 }
 
 /**

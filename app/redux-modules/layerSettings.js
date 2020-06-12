@@ -6,6 +6,8 @@ import type { Dispatch, GetState, State } from 'types/store.types';
 import type { Area } from 'types/areas.types';
 import { DATASETS } from 'config/constants';
 
+import { trackReportsToggled, trackRoutesToggled, trackAlertTypeToggled } from 'helpers/analytics';
+
 // Actions
 const TOGGLE_ALERTS_LAYER = 'layerSettings/TOGGLE_ALERTS_LAYER';
 const TOGGLE_ROUTES_LAYER = 'layerSettings/TOGGLE_ROUTES_LAYER';
@@ -91,18 +93,24 @@ export default function reducer(
 
   switch (action.type) {
     case TOGGLE_ALERTS_LAYER: {
+      const newState = !state[featureId].alerts.layerIsActive;
+      alertLayerToggleUpdated(newState, state[featureId].alerts.glad.active, state[featureId].alerts.viirs.active);
+
       return {
         ...state,
         [featureId]: {
           ...state[featureId],
           alerts: {
             ...state[featureId].alerts,
-            layerIsActive: !state[featureId].alerts.layerIsActive
+            layerIsActive: newState
           }
         }
       };
     }
     case TOGGLE_ROUTES_LAYER: {
+      const routeState = state[featureId].routes;
+      routeLayerToggleUpdated(!routeState.layerIsActive, routeState.activeRouteIds?.length ?? 0, routeState.showAll);
+
       return {
         ...state,
         [featureId]: {
@@ -115,6 +123,10 @@ export default function reducer(
       };
     }
     case TOGGLE_REPORTS_LAYER: {
+      const newState = !state[featureId].reports.layerIsActive;
+      const ownReportsActive = state[featureId].reports.myReportsActive;
+      const importedReportsActive = state[featureId].reports.importedReportsActive;
+      reportLayerToggleUpdated(newState, ownReportsActive, importedReportsActive);
       return {
         ...state,
         [featureId]: {
@@ -139,6 +151,7 @@ export default function reducer(
       };
     }
     case TOGGLE_MY_REPORTS_LAYER: {
+      trackReportsToggled('own', !state[featureId].reports.myReportsActive);
       return {
         ...state,
         [featureId]: {
@@ -151,6 +164,7 @@ export default function reducer(
       };
     }
     case TOGGLE_IMPORTED_REPORTS_LAYER: {
+      trackReportsToggled('imported', !state[featureId].reports.importedReportsActive);
       return {
         ...state,
         [featureId]: {
@@ -183,6 +197,8 @@ export default function reducer(
       };
     }
     case TOGGLE_GLAD_ALERTS: {
+      const newState = !state[featureId].alerts.glad.active;
+      alertLayerToggleUpdated(state[featureId].alerts.layerIsActive, newState, state[featureId].alerts.viirs.active);
       return {
         ...state,
         [featureId]: {
@@ -191,13 +207,15 @@ export default function reducer(
             ...state[featureId].alerts,
             glad: {
               ...state[featureId].alerts.glad,
-              active: !state[featureId].alerts.glad.active
+              active: newState
             }
           }
         }
       };
     }
     case TOGGLE_VIIRS_ALERTS: {
+      const newState = !state[featureId].alerts.viirs.active;
+      alertLayerToggleUpdated(state[featureId].alerts.layerIsActive, state[featureId].alerts.glad.active, newState);
       return {
         ...state,
         [featureId]: {
@@ -206,7 +224,7 @@ export default function reducer(
             ...state[featureId].alerts,
             viirs: {
               ...state[featureId].alerts.viirs,
-              active: !state[featureId].alerts.viirs.active
+              active: newState
             }
           }
         }
@@ -343,6 +361,9 @@ export default function reducer(
           newActiveRouteIds = activeRouteIds.filter(id => id !== routeId);
         }
       }
+
+      routeLayerToggleUpdated(state[featureId].routes.layerIsActive, newActiveRouteIds?.length ?? 0, showAll);
+
       return {
         ...state,
         [featureId]: {
@@ -370,6 +391,40 @@ export default function reducer(
     }
     default:
       return state;
+  }
+}
+
+function alertLayerToggleUpdated(mainToggleState, gladEnabled, viirsEnabled) {
+  if (gladEnabled && viirsEnabled) {
+    trackAlertTypeToggled('glad_viirs', mainToggleState);
+  } else if (gladEnabled && !viirsEnabled) {
+    trackAlertTypeToggled('glad', mainToggleState);
+  } else if (!gladEnabled && viirsEnabled) {
+    trackAlertTypeToggled('viirs', mainToggleState);
+  } else {
+    trackAlertTypeToggled('none', mainToggleState);
+  }
+}
+
+function reportLayerToggleUpdated(mainToggleState, ownReportsEnabled, importedReportsEnabled) {
+  if (ownReportsEnabled && importedReportsEnabled) {
+    trackReportsToggled('all', mainToggleState);
+  } else if (ownReportsEnabled && !importedReportsEnabled) {
+    trackReportsToggled('own', mainToggleState);
+  } else if (!ownReportsEnabled && importedReportsEnabled) {
+    trackReportsToggled('imported', mainToggleState);
+  } else {
+    trackReportsToggled('none', mainToggleState);
+  }
+}
+
+function routeLayerToggleUpdated(mainToggleState: boolean, total: number, showingAll: boolean) {
+  if (showingAll) {
+    trackRoutesToggled('all', total, mainToggleState);
+  } else if (!showingAll && total > 0) {
+    trackRoutesToggled('some', total, mainToggleState);
+  } else {
+    trackRoutesToggled('none', 0, mainToggleState);
   }
 }
 
@@ -432,6 +487,8 @@ export function toggleRoutesLayer(featureId: string): LayerSettingsAction {
 }
 
 export function toggleReportsLayer(featureId: string): LayerSettingsAction {
+  console.warn(`toggleReportsLayer - ${featureId}`);
+
   return {
     type: TOGGLE_REPORTS_LAYER,
     payload: {
@@ -450,6 +507,8 @@ export function toggleContextualLayersLayer(featureId: string): LayerSettingsAct
 }
 
 export function toggleMyReportsLayer(featureId: string): LayerSettingsAction {
+  console.warn(`toggleReportsLayer - ${featureId}`);
+
   return {
     type: TOGGLE_MY_REPORTS_LAYER,
     payload: {
@@ -459,6 +518,7 @@ export function toggleMyReportsLayer(featureId: string): LayerSettingsAction {
 }
 
 export function toggleImportedReportsLayer(featureId: string): LayerSettingsAction {
+  console.warn(`toggleReportsLayer - ${featureId}`);
   return {
     type: TOGGLE_IMPORTED_REPORTS_LAYER,
     payload: {

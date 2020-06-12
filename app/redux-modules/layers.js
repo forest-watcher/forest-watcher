@@ -24,7 +24,12 @@ import { LOGOUT_REQUEST } from 'redux-modules/user';
 import { SAVE_AREA_COMMIT, DELETE_AREA_COMMIT } from 'redux-modules/areas';
 import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 
-import tracker from 'helpers/googleAnalytics';
+import {
+  trackLayersToggled,
+  trackDownloadedContent,
+  trackContentDownloadStarted,
+  trackImportedContent
+} from 'helpers/analytics';
 import { storeTilesFromUrl } from 'helpers/layer-store/storeLayerFiles';
 import deleteLayerFiles from 'helpers/layer-store/deleteLayerFiles';
 
@@ -369,16 +374,16 @@ export function setActiveContextualLayer(layerId: string, value: boolean) {
     );
     if (!value) {
       if (currentActiveLayer) {
-        tracker.trackLayerToggledEvent(currentActiveLayer.name, false);
+        trackLayersToggled(currentActiveLayer.name, false);
       }
     } else if (layerId !== currentActiveLayerId) {
       if (currentActiveLayer) {
-        tracker.trackLayerToggledEvent(currentActiveLayer.name, false);
+        trackLayersToggled(currentActiveLayer.name, false);
       }
       activeLayer = layerId;
       const nextActiveLayer: ?ContextualLayer = state.layers.data?.find(layerData => layerData.id === layerId);
       if (nextActiveLayer) {
-        tracker.trackLayerToggledEvent(nextActiveLayer.name, true);
+        trackLayersToggled(nextActiveLayer.name, true);
       }
     }
     return dispatch({ type: SET_ACTIVE_LAYER, payload: activeLayer });
@@ -434,6 +439,7 @@ export function importContextualLayer(layerFile: File): Thunk<Promise<void>> {
         url: `${importedFile.path}/${importedFile.subFiles[0]}`,
         size: importedFile.size
       };
+      trackImportedContent('layer', layerFile.fileName, true, importedFile.size);
       dispatch({
         type: IMPORT_LAYER_COMMIT,
         payload: layerData
@@ -441,6 +447,7 @@ export function importContextualLayer(layerFile: File): Thunk<Promise<void>> {
     } catch (err) {
       // Fire and forget!
       dispatch({ type: IMPORT_LAYER_ROLLBACK, payload: err });
+      trackImportedContent('layer', layerFile.fileName, false, layerFile.size);
       throw err;
     }
   };
@@ -493,15 +500,24 @@ export function cacheAreaBasemap(dataType: DownloadDataType, dataId: string, bas
       const route = state.routes.previousRoutes.find(route => route.id === dataId);
 
       if (route) {
-        bbox = bboxForRoute(route);
+        try {
+          bbox = bboxForRoute(route);
+        } catch {
+          console.warn('3SC - Could not generate BBox for route - does it have two or more points?');
+          dispatch({ type: CACHE_LAYER_COMMIT, payload: { dataId, layerId: basemapId } });
+          return;
+        }
       }
     }
 
     if (!bbox) {
+      dispatch({ type: CACHE_LAYER_COMMIT, payload: { dataId, layerId: basemapId } });
       return;
     }
 
     const areaBounds = [[bbox[2], bbox[3]], [bbox[0], bbox[1]]];
+
+    trackContentDownloadStarted(packName);
     const progressListener = (offlineRegion, status) => {
       if (!status.percentage) {
         return;
@@ -512,10 +528,12 @@ export function cacheAreaBasemap(dataType: DownloadDataType, dataId: string, bas
       });
       if (status.state === MAPBOX_DOWNLOAD_COMPLETED_STATE) {
         dispatch({ type: CACHE_LAYER_COMMIT, payload: { dataId, layerId: basemapId } });
+        trackDownloadedContent('basemap', packName, true);
       }
     };
     const errorListener = (offlineRegion, err) => {
       dispatch({ type: CACHE_LAYER_ROLLBACK, payload: { dataId, layerId: basemapId } });
+      trackDownloadedContent('basemap', packName, false);
       console.error('3SC download basemap error: ', err);
     };
     const downloadPackOptions = {
@@ -548,9 +566,18 @@ export function cacheAreaLayer(dataType: DownloadDataType, dataId: string, layer
         layerId: layer.id,
         layerUrl: layer.url
       };
+      const layerKey = `${dataId}|${layerId}`;
+      trackContentDownloadStarted(layerKey);
       downloadAllLayers('contextual_layer', downloadConfig, dispatch)
-        .then(path => dispatch({ type: CACHE_LAYER_COMMIT, payload: { path, dataId, layerId } }))
-        .catch(() => dispatch({ type: CACHE_LAYER_ROLLBACK, payload: { dataId, layerId } }));
+        .then(path => {
+          dispatch({ type: CACHE_LAYER_COMMIT, payload: { path, dataId, layerId } });
+          trackDownloadedContent('layer', layerKey, true);
+          return;
+        })
+        .catch(() => {
+          dispatch({ type: CACHE_LAYER_ROLLBACK, payload: { dataId, layerId } });
+          trackDownloadedContent('layer', layerKey, false);
+        });
       dispatch({ type: CACHE_LAYER_REQUEST, payload: { dataId, layerId } });
     }
   };

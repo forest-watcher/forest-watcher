@@ -7,6 +7,7 @@ import { logout } from 'redux-modules/user';
 import { setOfflineMode } from 'redux-modules/app';
 
 import Settings from 'components/settings';
+import { trackSharedContent } from 'helpers/analytics';
 import { exportWholeAppBundleFromRedux } from 'helpers/sharing/exportBundleFromRedux';
 import shareBundle from 'helpers/sharing/shareBundle';
 
@@ -34,6 +35,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     },
     shareAppData: async (): Promise<string> => {
       const outputPath = await dispatch(exportWholeAppBundleFromRedux());
+      trackSharedContent('bundle');
       await shareBundle(outputPath);
       return outputPath;
     }

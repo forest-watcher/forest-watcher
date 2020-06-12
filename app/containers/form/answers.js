@@ -11,6 +11,7 @@ import { saveReport, uploadReport, deleteReport, setReportAnswer } from 'redux-m
 import { setActiveAlerts } from 'redux-modules/alerts';
 
 import { shouldBeConnected } from 'helpers/app';
+import { trackSharedContent } from 'helpers/analytics';
 import { getTemplate, mapFormToAnsweredQuestions, mapReportToMetadata } from 'helpers/forms';
 import exportReports from 'helpers/exportReports';
 import Answers from 'components/form/answers';
@@ -59,6 +60,7 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
           reportIds: [ownProps.reportName]
         })
       );
+      trackSharedContent('report');
       await shareBundle(outputPath);
     },
     saveReport: (name: string, data: Report) => {

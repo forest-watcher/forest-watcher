@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import { View, ScrollView, Text } from 'react-native';
-import tracker from 'helpers/googleAnalytics';
+import { trackScreenView } from 'helpers/analytics';
 
 import Row from 'components/common/row';
 import styles from './styles';
@@ -30,7 +30,7 @@ export default class FaqCategory extends Component<Props> {
     };
   }
   componentDidMount() {
-    tracker.trackScreenView('FaqCategory');
+    trackScreenView('FaqCategory');
   }
 
   handleStaticLinks = (question: FAQQuestion) => {

@@ -22,7 +22,7 @@ import Theme from 'config/theme';
 import i18n from 'i18next';
 import { getVersionName } from 'helpers/app';
 import debounceUI from 'helpers/debounceUI';
-import tracker from 'helpers/googleAnalytics';
+import { trackLogin, trackScreenView } from 'helpers/analytics';
 import { getLanguage } from 'helpers/language';
 
 const SafeAreaView = withSafeArea(View, 'padding', 'bottom');
@@ -74,7 +74,7 @@ type State = {
   webviewVisible: boolean,
   webViewUrl: string,
   webViewCurrentUrl: string,
-  socialNetwork: ?string,
+  socialNetwork: ?('email' | 'facebook' | 'twitter' | 'google'),
   versionName: string
 };
 
@@ -112,7 +112,7 @@ class Login extends PureComponent<Props, State> {
   }
 
   componentDidMount() {
-    tracker.trackScreenView('Login');
+    trackScreenView('Login');
 
     // Determine the current insets. This is so, for the page indictator view,
     // we can add additional padding to ensure the white background is extended
@@ -190,6 +190,8 @@ class Login extends PureComponent<Props, State> {
   };
 
   onLoggedIn() {
+    trackLogin(this.state.socialNetwork);
+
     this.setState({
       webviewVisible: false,
       webViewUrl: ''
