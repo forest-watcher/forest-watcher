@@ -11,8 +11,8 @@ import { trackImportedContent } from 'helpers/analytics';
 import { importLayerFile } from 'helpers/layer-store/import/importLayerFile';
 
 // Actions
-const IMPORT_BASEMAP_REQUEST = 'basemaps/IMPORT_BASEMAP_REQUEST';
-const IMPORT_BASEMAP_COMMIT = 'basemaps/IMPORT_BASEMAP_COMMIT';
+export const IMPORT_BASEMAP_REQUEST = 'basemaps/IMPORT_BASEMAP_REQUEST';
+export const IMPORT_BASEMAP_COMMIT = 'basemaps/IMPORT_BASEMAP_COMMIT';
 const IMPORT_BASEMAP_CLEAR = 'basemaps/IMPORT_BASEMAP_CLEAR';
 const IMPORT_BASEMAP_ROLLBACK = 'basemaps/IMPORT_BASEMAP_ROLLBACK';
 const RENAME_BASEMAP = 'basemaps/RENAME_BASEMAP';
@@ -41,8 +41,19 @@ export default function reducer(state: BasemapsState = initialState, action: Bas
       return { ...state, importing: true, importError: null };
     }
     case IMPORT_BASEMAP_COMMIT: {
-      const imported = [...state.importedBasemaps, action.payload];
-      return { ...state, importing: false, importError: null, importedBasemaps: imported };
+      const basemapToSave = action.payload;
+      // Ignore the saved basemap if it already exists - this could happen when importing a layer for example
+      const possiblyPreexistingBasemap = state.importedBasemaps.find(basemap => basemap.id === basemapToSave.id);
+      if (possiblyPreexistingBasemap) {
+        console.warn('3SC', `Ignore already existing basemap with ID ${basemapToSave.id}`);
+        return state;
+      }
+      return {
+        ...state,
+        importing: false,
+        importError: null,
+        importedBasemaps: [...state.importedBasemaps, basemapToSave]
+      };
     }
     case IMPORT_BASEMAP_CLEAR: {
       return { ...state, importing: false, importError: null };
@@ -88,7 +99,7 @@ export function importBasemap(basemapFile: File): Thunk<Promise<void>> {
     try {
       const importedFile: LayerFile = await importLayerFile(basemapFile);
       const basemap: Basemap = {
-        isImported: true,
+        isCustom: true,
         id: importedFile.layerId,
         name: basemapFile.name,
         path: importedFile.path,
