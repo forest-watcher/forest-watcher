@@ -39,6 +39,7 @@ type Props = {|
   +componentId: string,
   +deleteMappingFile: (id: string, type: LayerType) => void,
   +exportLayers: (ids: Array<string>) => Promise<void>,
+  +importGFWContextualLayer: ContextualLayer => Promise<void>,
   +importedFiles: Array<ContextualLayer> | Array<Basemap>,
   +mappingFileType: LayerType,
   +renameMappingFile: (id: string, type: LayerType, newName: string) => void
@@ -274,6 +275,7 @@ class MappingFiles extends Component<Props, State> {
             <View key={file.id} style={styles.rowContainer}>
               <MappingFileRow
                 deletable={(!!file.size && file.size > 0) || file.isGFW}
+                downloaded={file.isDownloaded}
                 inEditMode={inEditMode}
                 onDeletePress={() => {
                   // TODO: Ensure this handles GFW layer / basemap deletion correctly.
@@ -284,7 +286,12 @@ class MappingFiles extends Component<Props, State> {
                     this.onFileSelectedForExport(file.id);
                   }
                 }}
-                onDownloadPress={() => {}}
+                onDownloadPress={() => {
+                  // TODO: Add basemap download logic.
+                  if (this.props.mappingFileType === 'contextual_layer') {
+                    this.props.importGFWContextualLayer(file);
+                  }
+                }}
                 onInfoPress={file.description ? this.onInfoPress.bind(this, file) : undefined}
                 image={file.image ?? icons[mappingFileType].placeholder}
                 renamable={false}
