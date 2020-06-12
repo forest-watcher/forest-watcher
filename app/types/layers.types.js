@@ -31,6 +31,7 @@ export type ContextualLayer = {
   },
   url: string,
   isImported?: true,
+  isDownloaded?: boolean,
   isGFW?: ?boolean,
   size?: ?number
 };
@@ -47,7 +48,8 @@ export type LayersState = {
   pendingCache: LayersPendingCache,
   importError: ?Error,
   imported: Array<ContextualLayer>,
-  importingLayer: boolean
+  importingLayer: boolean,
+  importProgress: { [layerId: string]: LayersCacheStatus }
 };
 
 export type LayersProgress = {
@@ -62,6 +64,8 @@ export type LayersCacheStatus = {
     error: boolean
   }
 };
+
+export type UpdateProgressActionType = 'layers/UPDATE_PROGRESS' | 'layers/IMPORT_LAYER_PROGRESS';
 
 type LayersCache = {
   [string]: { areaId: string }
@@ -85,6 +89,8 @@ export type LayersAction =
   | SetCacheStatus
   | DeleteAreaCommit
   | ImportLayerRequest
+  | ImportLayerProgress
+  | ImportLayerAreaCompleted
   | ImportLayerCommit
   | ImportLayerClear
   | ImportLayerRollback
@@ -103,8 +109,18 @@ type GetLayersCommit = {
 };
 type GetLayersRollback = { type: 'layers/GET_LAYERS_ROLLBACK' };
 type SetActiveContextualLayer = { type: 'layers/SET_ACTIVE_LAYER', payload: ?string };
+
+// For consistency & reuse, the update progress actions use the same payload structure.
 type UpdateProgress = {
   type: 'layers/UPDATE_PROGRESS',
+  payload: {
+    id: string,
+    layerId: string,
+    progress: number
+  }
+};
+type ImportLayerProgress = {
+  type: 'layers/IMPORT_LAYER_PROGRESS',
   payload: {
     id: string,
     layerId: string,
@@ -130,9 +146,23 @@ type SetCacheStatus = {
   payload: LayersCacheStatus
 };
 
-type ImportLayerRequest = { type: 'layers/IMPORT_LAYER_REQUEST' };
+type ImportLayerRequest = {
+  type: 'layers/IMPORT_LAYER_REQUEST',
+  // We only attach the below payload when importing remote layers.
+  payload?: { data: Area, layerId: string, remote: boolean }
+};
+type ImportLayerAreaCompleted = {
+  type: 'layers/IMPORT_LAYER_AREA_COMPLETED',
+  payload: {
+    id: string,
+    layerId: string
+  }
+};
 type ImportLayerCommit = { type: 'layers/IMPORT_LAYER_COMMIT', payload: ContextualLayer };
 type ImportLayerClear = { type: 'layers/IMPORT_LAYER_CLEAR' };
-type ImportLayerRollback = { type: 'layers/IMPORT_LAYER_ROLLBACK', payload: ?Error };
+type ImportLayerRollback = {
+  type: 'layers/IMPORT_LAYER_ROLLBACK',
+  payload: ?Error | { dataId: string, layerId: string }
+};
 type RenameLayer = { type: 'layers/RENAME_LAYER', payload: { id: string, name: string } };
 type DeleteLayer = { type: 'layers/DELETE_LAYER', payload: string };

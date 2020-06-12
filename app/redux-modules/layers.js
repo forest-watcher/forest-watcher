@@ -1,11 +1,11 @@
 // @flow
 import type {
   ContextualLayer,
-  ImportLayerCommit,
   LayersState,
   LayersAction,
   LayersCacheStatus,
-  LayersProgress
+  LayersProgress,
+  UpdateProgressActionType
 } from 'types/layers.types';
 import type { Dispatch, GetState, State, Thunk } from 'types/store.types';
 import type { Area } from 'types/areas.types';
@@ -44,7 +44,10 @@ export const INVALIDATE_CACHE = 'layers/INVALIDATE_CACHE';
 const UPDATE_PROGRESS = 'layers/UPDATE_PROGRESS';
 
 export const IMPORT_LAYER_REQUEST = 'layers/IMPORT_LAYER_REQUEST';
+export const IMPORT_LAYER_PROGRESS = 'layers/IMPORT_LAYER_PROGRESS';
+export const IMPORT_LAYER_AREA_COMPLETED = 'layers/IMPORT_LAYER_AREA_COMPLETED';
 export const IMPORT_LAYER_COMMIT = 'layers/IMPORT_LAYER_COMMIT';
+
 const IMPORT_LAYER_CLEAR = 'layers/IMPORT_LAYER_CLEAR';
 const IMPORT_LAYER_ROLLBACK = 'layers/IMPORT_LAYER_ROLLBACK';
 const RENAME_LAYER = 'layers/RENAME_LAYER';
@@ -65,7 +68,8 @@ const initialState: LayersState = {
   pendingCache: {}, // key value with layer => areaId to cache
   importError: null,
   imported: [],
-  importingLayer: false // whether a layer is currently being imported.
+  importingLayer: false, // whether a layer is currently being imported.
+  importProgress: {} // saves the progress relative to each layer, for every area being downloaded.
 };
 
 export default function reducer(state: LayersState = initialState, action: LayersAction) {
@@ -283,6 +287,8 @@ export default function reducer(state: LayersState = initialState, action: Layer
     }
     case IMPORT_LAYER_COMMIT: {
       const layerToSave = action.payload;
+
+      // TODO: Instead of ignoring the layer, maybe we should replace it?...
       // Ignore the saved layer if it already exists - this could happen when importing a layer for example
       const possiblyPreexistingLayer = state.imported.find(layer => layer.id === layerToSave.id);
       if (possiblyPreexistingLayer) {
@@ -292,10 +298,86 @@ export default function reducer(state: LayersState = initialState, action: Layer
       return { ...state, importingLayer: false, importError: null, imported: [...state.imported, layerToSave] };
     }
     case IMPORT_LAYER_REQUEST: {
-      return { ...state, importingLayer: true, importError: null };
+      const updatedState = { ...state, importingLayer: true, importError: null };
+
+      if (action.payload?.remote) {
+        // This is a remote layer, we need to add this area into the layer's progress state so it can be tracked.
+        const dataId = action.payload?.data?.id;
+        const layerId = action.payload?.layerId;
+
+        if (!dataId || !layerId) {
+          return updatedState;
+        }
+
+        // Within the importProgressState, within the layer-specific object, we mark the
+        // given area as being downloaded.
+        // We can then refer to this for download progress or to hold errors.
+        const updatedStateWithProgress = {
+          ...updatedState,
+          importProgress: {
+            ...updatedState.importProgress,
+            [layerId]: {
+              ...updatedState.importProgress[layerId],
+              [dataId]: {
+                requested: true,
+                progress: 0,
+                completed: false,
+                error: false
+              }
+            }
+          }
+        };
+
+        return updatedStateWithProgress;
+      }
+      return updatedState;
+    }
+    case IMPORT_LAYER_PROGRESS: {
+      const { id, progress, layerId } = action.payload;
+
+      const updatedStateWithProgress = {
+        ...state,
+        importProgress: {
+          [layerId]: {
+            ...state.importProgress[layerId],
+            [id]: {
+              ...state.importProgress[layerId]?.[id],
+              progress
+            }
+          }
+        }
+      };
+
+      return updatedStateWithProgress;
+    }
+    case IMPORT_LAYER_AREA_COMPLETED: {
+      const { id, layerId } = action.payload;
+
+      // Remove the area from the layer's progress state.
+      // When the progress state is empty, all of the areas have resolved and the
+      // download can be shown to have completed.
+      const layerProgressState = { ...state.importProgress[layerId] };
+      delete layerProgressState[id];
+
+      return {
+        ...state,
+        importProgress: {
+          ...state.importProgress,
+          [layerId]: layerProgressState
+        }
+      };
     }
     case IMPORT_LAYER_ROLLBACK: {
-      return { ...state, importingLayer: false, importError: action.payload };
+      // TODO: Right now, we don't use rollback for remote download errors.
+      // This is because, we'd need to check the payload / meta for the area + layer ids
+      // and then do the progress deletion that happens in the success action.
+      // So right now, we just call the success action. That could be updated to accept a failure
+      // state which'll in turn show UI.
+      return {
+        ...state,
+        importingLayer: false,
+        importError: action.payload
+      };
     }
     case RENAME_LAYER: {
       let layers = state.imported;
@@ -385,7 +467,12 @@ export function setActiveContextualLayer(layerId: string, value: boolean) {
   };
 }
 
-async function downloadLayer(layerType: LayerType, config, dispatch: Dispatch): Promise<string> {
+async function downloadLayer(
+  layerType: LayerType,
+  config,
+  dispatch: Dispatch,
+  updateActionName: UpdateProgressActionType = UPDATE_PROGRESS
+): Promise<string> {
   const { data, layerId, layerUrl, zoom } = config;
   return await storeTilesFromUrl(
     layerType,
@@ -395,7 +482,7 @@ async function downloadLayer(layerType: LayerType, config, dispatch: Dispatch): 
     [zoom.start, zoom.end],
     (received, total) => {
       const progress = received / total;
-      dispatch({ type: UPDATE_PROGRESS, payload: { id: data.id, progress, layerId } });
+      dispatch({ type: updateActionName, payload: { id: data.id, progress, layerId } });
     }
   );
 }
@@ -403,7 +490,8 @@ async function downloadLayer(layerType: LayerType, config, dispatch: Dispatch): 
 function downloadAllLayers(
   layerType: LayerType,
   config: { data: Area | Route, layerId: string, layerUrl: string },
-  dispatch: Dispatch
+  dispatch: Dispatch,
+  updateActionName: UpdateProgressActionType = UPDATE_PROGRESS
 ) {
   const { cacheZoom } = CONSTANTS.maps;
   return Promise.all(
@@ -446,8 +534,117 @@ export function importContextualLayer(layerFile: File): Thunk<Promise<void>> {
   };
 }
 
-export function importGFWContextualLayer(layer: ContextualLayer): ImportLayerCommit {
-  return { type: IMPORT_LAYER_COMMIT, payload: layer };
+/**
+ * importGFWContextualLayer - downloads tiles for the given layer, for every currently available area.
+ * @param {ContextualLayer} layer
+ */
+export function importGFWContextualLayer(layer: ContextualLayer): Thunk<LayersAction> {
+  return async (dispatch: Dispatch, getState: GetState) => {
+    const state = getState();
+    const areas = state.areas.data;
+    const layerId = layer.id;
+
+    await areas.forEach(async area => {
+      const dataId = area.id;
+      if (layer.url.startsWith('mapbox://')) {
+        // This is a mapbox layer - we must use OfflineManager
+        // TODO: Test this against a mapbox style URL
+        // TODO: Merge this with the basemap downloading code as part of additional GFW-420 work.
+        const packName = `${dataId}|${layerId}`;
+        const pack = await MapboxGL.offlineManager.getPack(packName);
+
+        if (pack) {
+          // offline pack with with this id already exists.
+          console.info('3SC', 'Error: offline pack with with this id already exists');
+          dispatch({
+            type: IMPORT_LAYER_PROGRESS,
+            payload: { id: dataId, progress: 100, layerId }
+          });
+          dispatch(gfwContextualLayerImportCompleted(dataId, layer));
+          return;
+        }
+
+        const bbox = area.geostore.bbox;
+
+        if (!bbox) {
+          dispatch(gfwContextualLayerImportCompleted(dataId, layer));
+          return;
+        }
+
+        const areaBounds = [[bbox[2], bbox[3]], [bbox[0], bbox[1]]];
+        const progressListener = (offlineRegion, status) => {
+          if (!status.percentage) {
+            return;
+          }
+          dispatch({
+            type: IMPORT_LAYER_PROGRESS,
+            payload: { id: dataId, progress: status.percentage / 100, layerId }
+          });
+          if (status.state === MAPBOX_DOWNLOAD_COMPLETED_STATE) {
+            dispatch(gfwContextualLayerImportCompleted(dataId, layer));
+          }
+        };
+        const errorListener = (offlineRegion, err) => {
+          dispatch(gfwContextualLayerImportCompleted(dataId, layer));
+          console.error('3SC download layer error: ', err);
+        };
+        const downloadPackOptions = {
+          name: packName,
+          styleURL: layer.url,
+          minZoom: 1,
+          maxZoom: CONSTANTS.maps.cacheZoom[0].end,
+          bounds: areaBounds
+        };
+
+        try {
+          dispatch({ type: IMPORT_LAYER_REQUEST, payload: { data: area, layerId, remote: true } });
+          await MapboxGL.offlineManager.createPack(downloadPackOptions, progressListener, errorListener);
+        } catch (error) {
+          console.error('3SC layer download error: ', error);
+          dispatch(gfwContextualLayerImportCompleted(dataId, layer));
+        }
+      } else {
+        dispatch({ type: IMPORT_LAYER_REQUEST, payload: { data: area, layerId, remote: true } });
+        downloadAllLayers(
+          'contextual_layer',
+          { data: area, layerId, layerUrl: layer.url },
+          dispatch,
+          IMPORT_LAYER_PROGRESS
+        )
+          .then(path => dispatch(gfwContextualLayerImportCompleted(area.id, layer)))
+          .catch(() => dispatch(gfwContextualLayerImportCompleted(area.id, layer)));
+      }
+    });
+  };
+}
+
+/**
+ * Called whenever a GFW contextual layer download has completed.
+ *
+ * NOTE: This may be called even if the layer download for the given area has failed.
+ * This means that the layer progress will be removed, so the overall download can complete.
+ * TODO: Perhaps we should also pass through a success boolean, so upon completing all downloads we
+ * can show UI to say if some areas failed to download?
+ *
+ * @param {string} dataId
+ * @param {ContextualLayer} layer
+ */
+function gfwContextualLayerImportCompleted(dataId: string, layer: ContextualLayer): Thunk<LayersAction> {
+  return async (dispatch: Dispatch, getState: GetState) => {
+    // By marking the area as completed, we remove the progress object for the area from the progress state.
+    // This means we then only keep track of areas that are still downloading / unpacking.
+    await dispatch({ type: IMPORT_LAYER_AREA_COMPLETED, payload: { id: dataId, layerId: layer.id } });
+
+    if (Object.keys(getState().layers.importProgress[layer.id]).length === 0) {
+      // The download has completed, and we can now commit the entire layer.
+      // TODO: If an area has failed to download, should we show an alert to state this?
+      console.warn('download complete!!!!!!!');
+
+      // TODO: Get collective file size for all tiles, add it to the layer.
+
+      dispatch({ type: IMPORT_LAYER_COMMIT, payload: { ...layer, isDownloaded: true } });
+    }
+  };
 }
 
 function getAreaById(areas: Array<Area>, areaId: string): ?Area {

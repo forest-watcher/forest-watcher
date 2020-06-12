@@ -21,7 +21,10 @@ export type Basemap = {
   /**
    * Flag indicating whether or not this basemap was imported from a sharing bundle
    */
-  isImported?: boolean
+  isImported?: boolean,
+
+  // Flag indicating whether or not this basemap has been downloaded for the user's areas.
+  isDownloaded?: boolean
 };
 
 export type BasemapsState = {
