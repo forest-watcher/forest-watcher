@@ -67,7 +67,7 @@ function mapDispatchToProps(dispatch: Dispatch, ownProps: OwnProps) {
               }
         )
       );
-      trackSharedContent('layer');
+      trackSharedContent(ownProps.mappingFileType === 'basemap' ? 'basemap' : 'layer');
       await shareBundle(outputPath);
     },
     renameMappingFile: async (id: string, type: LayerType, newName: string) => {
