@@ -86,6 +86,7 @@ function mapStateToProps(state: State, ownProps: OwnProps) {
     layerSettings,
     featureId,
     basemap: getActiveBasemap(featureId, state),
+    downloadedLayerCache: state.layers.downloadedLayerProgress,
     isConnected: shouldBeConnected(state),
     isOfflineMode: state.app.offlineMode,
     coordinatesFormat: state.app.coordinatesFormat,

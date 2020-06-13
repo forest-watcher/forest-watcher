@@ -7,7 +7,7 @@ import type { Basemap } from 'types/basemaps.types';
 import type { Coordinates, CoordinatesFormat } from 'types/common.types';
 import type { Location, LocationPoint, Route } from 'types/routes.types';
 import type { BasicReport, ReportArea } from 'types/reports.types';
-import type { ContextualLayer } from 'types/layers.types';
+import type { ContextualLayer, LayersCacheStatus } from 'types/layers.types';
 import type { LayerSettings } from 'types/layerSettings.types';
 import type { Feature } from '@turf/helpers';
 
@@ -24,7 +24,7 @@ import {
 } from 'react-native';
 import * as Sentry from '@sentry/react-native';
 
-import { REPORTS, MAPS } from 'config/constants';
+import { GFW_CONTEXTUAL_LAYERS_METADATA, REPORTS, MAPS } from 'config/constants';
 import throttle from 'lodash/throttle';
 import toUpper from 'lodash/toUpper';
 import kebabCase from 'lodash/kebabCase';
@@ -36,6 +36,7 @@ import CircleButton from 'components/common/circle-button';
 import BottomDialog from 'components/map/bottom-dialog';
 import LocationErrorBanner from 'components/map/locationErrorBanner';
 import { formatCoordsByFormat, getPolygonBoundingBox, closestFeature } from 'helpers/map';
+import { pathForLayer, pathForMBTilesFile } from 'helpers/layer-store/layerFilePaths';
 import debounceUI from 'helpers/debounceUI';
 import tracker from 'helpers/googleAnalytics';
 import Theme from 'config/theme';
@@ -45,6 +46,7 @@ import { Navigation, NavigationButtonPressedEvent } from 'react-native-navigatio
 import { withSafeArea } from 'react-native-safe-area';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import { MBTilesSource } from 'react-native-mbtiles';
+import { initialWindowSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { toFileUri } from 'helpers/fileURI';
 
@@ -76,12 +78,8 @@ import InfoBanner from 'components/map/info-banner';
 import Alerts from 'components/map/alerts';
 import { formatInfoBannerDate } from 'helpers/date';
 import Reports from 'containers/map/reports';
-import { initialWindowSafeAreaInsets } from 'react-native-safe-area-context';
 import { lineString } from '@turf/helpers';
 import { showMapWalkthrough } from 'screens/common';
-import { pathForMBTilesFile } from 'helpers/layer-store/layerFilePaths';
-
-import { GFW_CONTEXTUAL_LAYERS_METADATA } from 'config/constants';
 
 const emitter = require('tiny-emitter/instance');
 
@@ -108,6 +106,7 @@ type Props = {
   componentId: string,
   createReport: BasicReport => void,
   ctxLayerLocalTilePath?: string,
+  downloadedLayerCache: { [id: string]: LayersCacheStatus },
   areaCoordinates: ?Array<Coordinates>,
   getImportedContextualLayersById: (Array<string>) => Array<ContextualLayer>, // TODO: This shouldn't be a function
   isConnected: boolean,
@@ -682,6 +681,17 @@ class MapComponent extends Component<Props, State> {
     if (!layerMetadata) {
       return null;
     }
+
+    const tileURLTemplates = layer.url.startsWith('mapbox://') ? null : [layer.url];
+
+    if (
+      !layer.url.startsWith('mapbox://') &&
+      this.props.featureId &&
+      this.props.downloadedLayerCache[layer.id]?.[this.props.featureId]
+    ) {
+      tileURLTemplates?.push(`file:/${pathForLayer('contextual_layer', layer.id)}/{z}x{x}x{y}`);
+    }
+
     const sourceID = 'imported_layer_' + layer.id;
     switch (layerMetadata.tileFormat) {
       case 'vector':
@@ -692,7 +702,7 @@ class MapComponent extends Component<Props, State> {
             maxZoomLevel={layerMetadata.maxZoom}
             minZoomLevel={layerMetadata.minZoom}
             url={layer.url.startsWith('mapbox://') ? layer.url : null}
-            tileUrlTemplates={layer.url.startsWith('mapbox://') ? null : [layer.url]}
+            tileUrlTemplates={tileURLTemplates}
           >
             {layerMetadata.vectorMapLayers.map((vectorLayer, index) => {
               return (
@@ -713,7 +723,7 @@ class MapComponent extends Component<Props, State> {
             id={sourceID}
             maxZoomLevel={layerMetadata.maxZoom}
             minZoomLevel={layerMetadata.minZoom}
-            tileUrlTemplates={[layer.url]}
+            tileUrlTemplates={tileURLTemplates}
           >
             <MapboxGL.RasterLayer id={'imported_layer_layer_' + layer.id} sourceId={sourceID} />
           </MapboxGL.RasterSource>
@@ -721,7 +731,7 @@ class MapComponent extends Component<Props, State> {
     }
   };
 
-  renderCustomImportedContextualLayers = (layer: ContextualLayer) => {
+  renderCustomImportedContextualLayer = (layer: ContextualLayer) => {
     return (
       <MapboxGL.ShapeSource key={layer.id} id={'imported_layer_' + layer.id} url={toFileUri(layer.url)}>
         <MapboxGL.SymbolLayer
