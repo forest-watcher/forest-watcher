@@ -287,15 +287,16 @@ export default function reducer(state: LayersState = initialState, action: Layer
     }
     case IMPORT_LAYER_COMMIT: {
       const layerToSave = action.payload;
+      let importedLayers = [...state.imported];
 
-      // TODO: Instead of ignoring the layer, maybe we should replace it?...
-      // Ignore the saved layer if it already exists - this could happen when importing a layer for example
-      const possiblyPreexistingLayer = state.imported.find(layer => layer.id === layerToSave.id);
-      if (possiblyPreexistingLayer) {
-        console.warn('3SC', `Ignore already existing layer with ID ${layerToSave.id}`);
-        return state;
+      if (importedLayers.find(layer => layer.id === layerToSave.id)){
+        // This layer already exists in redux, replace the existing entry with the new one.
+        importedLayers = importedLayers.map(layer => layer.id === layerToSave.id ? layerToSave : layer)
+
+        return { ...state, importingLayer: false, importError: null, imported: importedLayers };
       }
-      return { ...state, importingLayer: false, importError: null, imported: [...state.imported, layerToSave] };
+
+      return { ...state, importingLayer: false, importError: null, imported: [importedLayers, layerToSave] };
     }
     case IMPORT_LAYER_REQUEST: {
       const updatedState = { ...state, importingLayer: true, importError: null };
