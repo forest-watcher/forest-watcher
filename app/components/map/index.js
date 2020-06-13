@@ -684,12 +684,12 @@ class MapComponent extends Component<Props, State> {
 
     const tileURLTemplates = layer.url.startsWith('mapbox://') ? null : [layer.url];
 
-    if (
-      !layer.url.startsWith('mapbox://') &&
-      this.props.featureId &&
-      this.props.downloadedLayerCache[layer.id]?.[this.props.featureId]
-    ) {
-      tileURLTemplates?.push(`file:/${pathForLayer('contextual_layer', layer.id)}/{z}x{x}x{y}`);
+    if (!layer.url.startsWith('mapbox://') && this.props.featureId) {
+      const layerDownloadProgress = this.props.downloadedLayerCache[layer.id]?.[this.props.featureId];
+
+      if (layerDownloadProgress?.completed && !layerDownloadProgress?.error) {
+        tileURLTemplates?.push(`file:/${pathForLayer('contextual_layer', layer.id)}/{z}x{x}x{y}`);
+      }
     }
 
     const sourceID = 'imported_layer_' + layer.id;
