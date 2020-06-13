@@ -31,7 +31,6 @@ export type ContextualLayer = {
   },
   url: string,
   isImported?: true,
-  isDownloaded?: boolean,
   isGFW?: ?boolean,
   size?: ?number
 };
@@ -49,7 +48,7 @@ export type LayersState = {
   importError: ?Error,
   imported: Array<ContextualLayer>,
   importingLayer: boolean,
-  importProgress: { [layerId: string]: LayersCacheStatus }
+  downloadedLayerProgress: { [layerId: string]: LayersCacheStatus }
 };
 
 export type LayersProgress = {
@@ -155,7 +154,8 @@ type ImportLayerAreaCompleted = {
   type: 'layers/IMPORT_LAYER_AREA_COMPLETED',
   payload: {
     id: string,
-    layerId: string
+    layerId: string,
+    failed: boolean
   }
 };
 type ImportLayerCommit = { type: 'layers/IMPORT_LAYER_COMMIT', payload: ContextualLayer };

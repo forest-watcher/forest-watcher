@@ -37,7 +37,9 @@ function mapStateToProps(state: State, ownProps: OwnProps) {
       : state.basemaps.importedBasemaps;
 
   return {
+    areaTotal: state.areas.data.length,
     baseFiles,
+    downloadedLayerProgress: state.layers.downloadedLayerProgress,
     importedFiles
   };
 }
@@ -68,8 +70,8 @@ function mapDispatchToProps(dispatch: Dispatch, ownProps: OwnProps) {
       );
       await shareBundle(outputPath);
     },
-    importGFWContextualLayer: async (layer: ContextualLayer) => {
-      await dispatch(importGFWContextualLayer(layer));
+    importGFWContextualLayer: async (layer: ContextualLayer, onlyNonDownloadedAreas: boolean = false) => {
+      await dispatch(importGFWContextualLayer(layer, onlyNonDownloadedAreas));
     },
     renameMappingFile: async (id: string, type: LayerType, newName: string) => {
       if (type === 'basemap') {

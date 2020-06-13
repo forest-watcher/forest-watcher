@@ -1,7 +1,7 @@
 // @flow
 import type { Basemap } from 'types/basemaps.types';
 import type { LayerType } from 'types/sharing.types';
-import type { ContextualLayer } from 'types/layers.types';
+import type { ContextualLayer, LayersCacheStatus } from 'types/layers.types';
 
 import React, { Component } from 'react';
 import { View, ScrollView, Share, Text } from 'react-native';
@@ -35,11 +35,13 @@ const icons = {
 };
 
 type Props = {|
+  +areaTotal: number,
   +baseFiles: Array<ContextualLayer> | Array<Basemap>,
   +componentId: string,
   +deleteMappingFile: (id: string, type: LayerType) => void,
+  +downloadedLayerProgress: { [id: string]: LayersCacheStatus },
   +exportLayers: (ids: Array<string>) => Promise<void>,
-  +importGFWContextualLayer: ContextualLayer => Promise<void>,
+  +importGFWContextualLayer: (ContextualLayer, boolean) => Promise<void>,
   +importedFiles: Array<ContextualLayer> | Array<Basemap>,
   +mappingFileType: LayerType,
   +renameMappingFile: (id: string, type: LayerType, newName: string) => void
@@ -255,7 +257,7 @@ class MappingFiles extends Component<Props, State> {
   });
 
   renderGFWFiles = () => {
-    const { baseFiles, mappingFileType } = this.props;
+    const { areaTotal, baseFiles, downloadedLayerProgress, mappingFileType } = this.props;
     const { inEditMode, inShareMode } = this.state;
 
     if (baseFiles.length === 0) {
@@ -271,11 +273,17 @@ class MappingFiles extends Component<Props, State> {
       <View>
         <Text style={styles.heading}>{i18n.t(this.i18nKeyFor('gfw'))}</Text>
         {baseFiles.map(file => {
+          const fileDownloadProgress = Object.values(downloadedLayerProgress[file.id] ?? {});
+          // If the file is fully downloaded, we should show the refresh icon. Otherwise, we should show the download icon.
+          const fileIsFullyDownloaded =
+            fileDownloadProgress.filter(area => area.completed && !area.error).length === areaTotal;
+          // TODO: Add support for 'download in progress' UI to MappingFileRow.
+          const fileIsDownloading = fileDownloadProgress.filter(area => area.requested).length > 0;
           return (
             <View key={file.id} style={styles.rowContainer}>
               <MappingFileRow
                 deletable={(!!file.size && file.size > 0) || file.isGFW}
-                downloaded={file.isDownloaded}
+                downloaded={fileIsFullyDownloaded}
                 inEditMode={inEditMode}
                 onDeletePress={() => {
                   // TODO: Ensure this handles GFW layer / basemap deletion correctly.
@@ -287,9 +295,13 @@ class MappingFiles extends Component<Props, State> {
                   }
                 }}
                 onDownloadPress={() => {
+                  if (fileIsDownloading) {
+                    return;
+                  }
+
                   // TODO: Add basemap download logic.
                   if (this.props.mappingFileType === 'contextual_layer') {
-                    this.props.importGFWContextualLayer(file);
+                    this.props.importGFWContextualLayer(file, !fileIsFullyDownloaded);
                   }
                 }}
                 onInfoPress={file.description ? this.onInfoPress.bind(this, file) : undefined}
