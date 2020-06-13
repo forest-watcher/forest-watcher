@@ -296,7 +296,7 @@ export default function reducer(state: LayersState = initialState, action: Layer
         return { ...state, importingLayer: false, importError: null, imported: importedLayers };
       }
 
-      return { ...state, importingLayer: false, importError: null, imported: [importedLayers, layerToSave] };
+      return { ...state, importingLayer: false, importError: null, imported: [...importedLayers, layerToSave] };
     }
     case IMPORT_LAYER_REQUEST: {
       const updatedState = { ...state, importingLayer: true, importError: null };
