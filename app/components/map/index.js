@@ -31,6 +31,7 @@ import kebabCase from 'lodash/kebabCase';
 import deburr from 'lodash/deburr';
 import moment from 'moment';
 
+import GFWVectorLayer from './gfw-vector-layer';
 import CircleButton from 'components/common/circle-button';
 import BottomDialog from 'components/map/bottom-dialog';
 import LocationErrorBanner from 'components/map/locationErrorBanner';
@@ -78,6 +79,9 @@ import Reports from 'containers/map/reports';
 import { initialWindowSafeAreaInsets } from 'react-native-safe-area-context';
 import { lineString } from '@turf/helpers';
 import { showMapWalkthrough } from 'screens/common';
+import { pathForMBTilesFile } from 'helpers/layer-store/layerFilePaths';
+
+import { GFW_CONTEXTUAL_LAYERS_METADATA } from 'config/constants';
 
 const emitter = require('tiny-emitter/instance');
 
@@ -673,6 +677,69 @@ class MapComponent extends Component<Props, State> {
     return this.state.infoBannerShowing && this.state.infoBannerProps.featureId === routeId;
   };
 
+  renderGFWImportedContextualLayer = (layer: ContextualLayer) => {
+    const layerMetadata = GFW_CONTEXTUAL_LAYERS_METADATA[layer.id];
+    if (!layerMetadata) {
+      return null;
+    }
+    const sourceID = 'imported_layer_' + layer.id;
+    switch (layerMetadata.tileFormat) {
+      case 'vector':
+        return (
+          <MapboxGL.VectorSource
+            key={layer.id}
+            id={sourceID}
+            maxZoomLevel={layerMetadata.maxZoom}
+            minZoomLevel={layerMetadata.minZoom}
+            url={layer.url.startsWith('mapbox://') ? layer.url : null}
+            tileUrlTemplates={layer.url.startsWith('mapbox://') ? null : [layer.url]}
+          >
+            {layerMetadata.vectorMapLayers.map((vectorLayer, index) => {
+              return (
+                <GFWVectorLayer
+                  sourceID={sourceID}
+                  id={'imported_layer_layer_' + layer.id + '_' + index}
+                  key={index}
+                  layer={vectorLayer}
+                />
+              );
+            })}
+          </MapboxGL.VectorSource>
+        );
+      default:
+        return (
+          <MapboxGL.RasterSource
+            key={layer.id}
+            id={sourceID}
+            maxZoomLevel={layerMetadata.maxZoom}
+            minZoomLevel={layerMetadata.minZoom}
+            tileUrlTemplates={[layer.url]}
+          >
+            <MapboxGL.RasterLayer id={'imported_layer_layer_' + layer.id} sourceId={sourceID} />
+          </MapboxGL.RasterSource>
+        );
+    }
+  };
+
+  renderCustomImportedContextualLayers = (layer: ContextualLayer) => {
+    return (
+      <MapboxGL.ShapeSource key={layer.id} id={'imported_layer_' + layer.id} url={toFileUri(layer.url)}>
+        <MapboxGL.SymbolLayer
+          filter={['match', ['geometry-type'], ['Point', 'MultiPoint'], true, false]}
+          id={'imported_layer_symbol_' + layer.id}
+          sourceID={'imported_layer_' + layer.id}
+          style={mapboxStyles.icon}
+        />
+        <MapboxGL.LineLayer id={'imported_layer_line_' + layer.id} style={mapboxStyles.geoJsonStyleSpec} />
+        <MapboxGL.FillLayer
+          filter={['match', ['geometry-type'], ['LineString', 'MultiLineString'], false, true]}
+          id={'imported_layer_fill_' + layer.id}
+          style={mapboxStyles.geoJsonStyleSpec}
+        />
+      </MapboxGL.ShapeSource>
+    );
+  };
+
   // Renders all active imported contextual layers in settings
   renderImportedContextualLayers = () => {
     const layerIds = this.props.layerSettings.contextualLayers.activeContextualLayerIds;
@@ -680,26 +747,9 @@ class MapComponent extends Component<Props, State> {
     return (
       <React.Fragment>
         {layerFiles.map(layerFile => {
-          return (
-            <MapboxGL.ShapeSource
-              key={layerFile.id}
-              id={'imported_layer_' + layerFile.id}
-              url={toFileUri(layerFile.url)}
-            >
-              <MapboxGL.SymbolLayer
-                filter={['match', ['geometry-type'], ['Point', 'MultiPoint'], true, false]}
-                id={'imported_layer_symbol_' + layerFile.id}
-                sourceID={'imported_layer_' + layerFile.id}
-                style={mapboxStyles.icon}
-              />
-              <MapboxGL.LineLayer id={'imported_layer_line_' + layerFile.id} style={mapboxStyles.geoJsonStyleSpec} />
-              <MapboxGL.FillLayer
-                filter={['match', ['geometry-type'], ['LineString', 'MultiLineString'], false, true]}
-                id={'imported_layer_fill_' + layerFile.id}
-                style={mapboxStyles.geoJsonStyleSpec}
-              />
-            </MapboxGL.ShapeSource>
-          );
+          return layerFile.isGFW
+            ? this.renderGFWImportedContextualLayer(layerFile)
+            : this.renderCustomImportedContextualLayer(layerFile);
         })}
       </React.Fragment>
     );
@@ -1006,7 +1056,12 @@ class MapComponent extends Component<Props, State> {
           onPress={this.onMapPress}
           compassViewMargins={{ x: 5, y: 50 }}
         >
-          <MBTilesSource basemap={basemap} belowLayerID={'areaOutlineLayer'} port={MapComponent.offlinePortNumber} />
+          <MBTilesSource
+            basemapId={basemap.id}
+            basemapPath={basemap.isCustom ? pathForMBTilesFile(basemap) : null}
+            belowLayerID={'areaOutlineLayer'}
+            port={MapComponent.offlinePortNumber}
+          />
           {renderMapCamera}
           {this.renderAreaOutline()}
           {layerSettings.routes.layerIsActive && this.renderAllRoutes()}
