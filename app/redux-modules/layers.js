@@ -563,7 +563,10 @@ export function importGFWContent(
       // We should only download non-downloaded areas, rather than refresh the entire cache.
       // We may do this when a new area has been created & we wish to download that new layer,
       // or when an error has occurred. Requesting all of the tiles again would be unnecessary.
-      const layerProgress = state.layers.downloadedLayerProgress[layerId];
+      const layerProgress =
+        contentType === 'contextual_layer'
+          ? state.layers.downloadedLayerProgress[layerId]
+          : state.basemaps.downloadedBasemapProgress[layerId];
 
       const completedAreas = Object.keys(layerProgress ?? {}).filter(areaKey => {
         const area = layerProgress[areaKey];
@@ -640,11 +643,12 @@ export function importGFWContent(
 }
 
 /**
- * Called whenever a GFW contextual layer download has completed, even if it completed with an error.
+ * Called whenever a GFW basemap / contextual layer download has completed, even if it completed with an error.
  * This means we can resolve the area's progress state accordingly and track the download result.
  *
+ * @param {LayerType} contentType
  * @param {string} dataId
- * @param {ContextualLayer} layer
+ * @param {Basemap | ContextualLayer} layer
  * @param {boolean} withFailure
  */
 function gfwContentImportCompleted(
