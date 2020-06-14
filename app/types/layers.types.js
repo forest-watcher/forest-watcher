@@ -148,7 +148,7 @@ type SetCacheStatus = {
 type ImportLayerRequest = {
   type: 'layers/IMPORT_LAYER_REQUEST',
   // We only attach the below payload when importing remote layers.
-  payload?: { data: Area, layerId: string, remote: boolean }
+  payload?: { dataId: string, layerId: string, remote: boolean }
 };
 type ImportLayerAreaCompleted = {
   type: 'layers/IMPORT_LAYER_AREA_COMPLETED',

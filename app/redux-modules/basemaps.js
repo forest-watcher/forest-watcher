@@ -11,6 +11,8 @@ import { importLayerFile } from 'helpers/layer-store/import/importLayerFile';
 
 // Actions
 export const IMPORT_BASEMAP_REQUEST = 'basemaps/IMPORT_BASEMAP_REQUEST';
+export const IMPORT_BASEMAP_PROGRESS = 'basemaps/IMPORT_BASEMAP_PROGRESS';
+export const IMPORT_BASEMAP_AREA_COMPLETED = 'basemaps/IMPORT_BASEMAP_AREA_COMPLETED';
 export const IMPORT_BASEMAP_COMMIT = 'basemaps/IMPORT_BASEMAP_COMMIT';
 const IMPORT_BASEMAP_CLEAR = 'basemaps/IMPORT_BASEMAP_CLEAR';
 const IMPORT_BASEMAP_ROLLBACK = 'basemaps/IMPORT_BASEMAP_ROLLBACK';
@@ -18,7 +20,8 @@ const RENAME_BASEMAP = 'basemaps/RENAME_BASEMAP';
 const DELETE_BASEMAP = 'basemaps/DELETE_BASEMAP';
 
 // Reducer
-const initialState = {
+const initialState: BasemapsState = {
+  downloadedBasemapProgress: {},
   importedBasemaps: [],
   importError: null,
   importing: false
@@ -37,21 +40,95 @@ export default function reducer(state: BasemapsState = initialState, action: Bas
       };
     }
     case IMPORT_BASEMAP_REQUEST: {
-      return { ...state, importing: true, importError: null };
+      const updatedState = { ...state, importing: true, importError: null };
+
+      if (action.payload?.remote) {
+        // This is a remote layer, we need to add this area into the layer's progress state so it can be tracked.
+        const dataId = action.payload?.dataId;
+        const layerId = action.payload?.layerId;
+
+        if (!dataId || !layerId) {
+          return updatedState;
+        }
+
+        // Within the downloadedBasemapProgress state, within the basemap-specific object, we mark the
+        // given area as being downloaded.
+        // We can then refer to this for download progress or to hold errors.
+        const updatedStateWithProgress = {
+          ...updatedState,
+          downloadedBasemapProgress: {
+            ...updatedState.downloadedBasemapProgress,
+            [layerId]: {
+              ...updatedState.downloadedBasemapProgress[layerId],
+              [dataId]: {
+                requested: true,
+                progress: 0,
+                completed: false,
+                error: false
+              }
+            }
+          }
+        };
+
+        return updatedStateWithProgress;
+      }
+      return updatedState;
+    }
+    case IMPORT_BASEMAP_PROGRESS: {
+      const { id, progress, layerId } = action.payload;
+
+      const updatedStateWithProgress = {
+        ...state,
+        downloadedBasemapProgress: {
+          [layerId]: {
+            ...state.downloadedBasemapProgress[layerId],
+            [id]: {
+              ...state.downloadedBasemapProgress[layerId]?.[id],
+              progress
+            }
+          }
+        }
+      };
+
+      return updatedStateWithProgress;
+    }
+    case IMPORT_BASEMAP_AREA_COMPLETED: {
+      const { id, layerId, failed } = action.payload;
+
+      // Mark the download as completed, with an error if one occurred.
+      // We can then check for every request being completed, and if so the layer download can be concluded.
+      return {
+        ...state,
+        downloadedBasemapProgress: {
+          ...state.downloadedBasemapProgress,
+          [layerId]: {
+            ...state.downloadedBasemapProgress[layerId],
+            [id]: {
+              requested: false,
+              progress: 100,
+              completed: true,
+              error: failed
+            }
+          }
+        }
+      };
     }
     case IMPORT_BASEMAP_COMMIT: {
       const basemapToSave = action.payload;
-      // Ignore the saved basemap if it already exists - this could happen when importing a layer for example
-      const possiblyPreexistingBasemap = state.importedBasemaps.find(basemap => basemap.id === basemapToSave.id);
-      if (possiblyPreexistingBasemap) {
-        console.warn('3SC', `Ignore already existing basemap with ID ${basemapToSave.id}`);
-        return state;
+      let importedBasemaps = [...state.importedBasemaps];
+
+      if (importedBasemaps.find(basemap => basemap.id === basemapToSave.id)) {
+        // This layer already exists in redux, replace the existing entry with the new one.
+        importedBasemaps = importedBasemaps.map(basemap => (basemap.id === basemapToSave.id ? basemapToSave : basemap));
+
+        return { ...state, importingLayer: false, importError: null, importedBasemaps: importedBasemaps };
       }
+
       return {
         ...state,
         importing: false,
         importError: null,
-        importedBasemaps: [...state.importedBasemaps, basemapToSave]
+        importedBasemaps: [...importedBasemaps, basemapToSave]
       };
     }
     case IMPORT_BASEMAP_CLEAR: {

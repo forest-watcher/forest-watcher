@@ -39,9 +39,9 @@ type Props = {|
   +baseFiles: Array<ContextualLayer> | Array<Basemap>,
   +componentId: string,
   +deleteMappingFile: (id: string, type: LayerType) => void,
-  +downloadedLayerProgress: { [id: string]: LayersCacheStatus },
+  +downloadProgress: { [id: string]: LayersCacheStatus },
   +exportLayers: (ids: Array<string>) => Promise<void>,
-  +importGFWContextualLayer: (ContextualLayer, boolean) => Promise<void>,
+  +importGFWContent: (LayerType, Basemap | ContextualLayer, boolean) => Promise<void>,
   +importedFiles: Array<ContextualLayer> | Array<Basemap>,
   +mappingFileType: LayerType,
   +renameMappingFile: (id: string, type: LayerType, newName: string) => void
@@ -257,7 +257,7 @@ class MappingFiles extends Component<Props, State> {
   });
 
   renderGFWFiles = () => {
-    const { areaTotal, baseFiles, downloadedLayerProgress, mappingFileType } = this.props;
+    const { areaTotal, baseFiles, downloadProgress, mappingFileType } = this.props;
     const { inEditMode, inShareMode } = this.state;
 
     if (baseFiles.length === 0) {
@@ -273,7 +273,7 @@ class MappingFiles extends Component<Props, State> {
       <View>
         <Text style={styles.heading}>{i18n.t(this.i18nKeyFor('gfw'))}</Text>
         {baseFiles.map(file => {
-          const fileDownloadProgress = Object.values(downloadedLayerProgress[file.id] ?? {});
+          const fileDownloadProgress = Object.values(downloadProgress[file.id] ?? {});
           // If the file is fully downloaded, we should show the refresh icon. Otherwise, we should show the download icon.
           const fileIsFullyDownloaded =
             fileDownloadProgress.filter(area => area.completed && !area.error).length === areaTotal;
@@ -299,10 +299,7 @@ class MappingFiles extends Component<Props, State> {
                     return;
                   }
 
-                  // TODO: Add basemap download logic.
-                  if (this.props.mappingFileType === 'contextual_layer') {
-                    this.props.importGFWContextualLayer(file, !fileIsFullyDownloaded);
-                  }
+                  this.props.importGFWContent(this.props.mappingFileType, file, !fileIsFullyDownloaded);
                 }}
                 onInfoPress={file.description ? this.onInfoPress.bind(this, file) : undefined}
                 image={file.image ?? icons[mappingFileType].placeholder}
