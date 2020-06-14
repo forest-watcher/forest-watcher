@@ -25,8 +25,8 @@ function mapDispatchToProps(dispatch: Dispatch) {
       dispatch(copyLayerSettings(areaId, route.id));
     },
     finishAndSaveRoute: async (routeId: string, areaId: string) => {
-      await dispatch(enableRoutesLayer(areaId));
       await dispatch(finishAndSaveRoute());
+      await dispatch(enableRoutesLayer(areaId));
       await dispatch(showSavedRoute(areaId, routeId));
     }
   };
