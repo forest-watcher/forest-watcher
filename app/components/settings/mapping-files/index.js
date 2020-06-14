@@ -276,7 +276,7 @@ class MappingFiles extends Component<Props, State> {
           const fileDownloadProgress = Object.values(downloadProgress[file.id] ?? {});
           // If the file is fully downloaded, we should show the refresh icon. Otherwise, we should show the download icon.
           const fileIsFullyDownloaded =
-            fileDownloadProgress.filter(area => area.completed && !area.error).length === areaTotal;
+            fileDownloadProgress.filter(area => area.completed && !area.error).length >= areaTotal;
           // TODO: Add support for 'download in progress' UI to MappingFileRow.
           const fileIsDownloading = fileDownloadProgress.filter(area => area.requested).length > 0;
           return (
