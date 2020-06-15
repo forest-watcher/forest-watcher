@@ -399,18 +399,23 @@ class MappingFiles extends Component<Props, State> {
   };
 
   render() {
-    const { baseFiles, importedFiles } = this.props;
-    const { inEditMode, inShareMode } = this.state;
+    const { baseFiles, importedFiles, mappingFileType } = this.props;
+    const { inShareMode } = this.state;
 
-    const sortedBaseFiles = [...baseFiles].sort((a, b) => (a.name ?? '').localeCompare(b.name ?? ''));
+    const sortedBaseFiles =
+      mappingFileType === 'basemap'
+        ? [...baseFiles]
+        : [...baseFiles].sort((a, b) => (a.name ?? '').localeCompare(b.name ?? ''));
     const sortedImportedFiles = [...importedFiles].sort((a, b) => (a.name ?? '').localeCompare(b.name ?? ''));
+    const numFiles = sortedBaseFiles.length + sortedImportedFiles.length;
+    const hasFiles = numFiles > 0;
 
     const shareableBaseFiles = sortedBaseFiles.filter(this._isShareable);
     const shareableImportedFiles = sortedImportedFiles.filter(this._isShareable);
     const numShareableFiles = shareableBaseFiles.length + shareableImportedFiles.length;
     const hasShareableFiles = numShareableFiles > 0;
 
-    const visibleBaseFiles = inEditMode ? [] : inShareMode ? shareableBaseFiles : sortedBaseFiles;
+    const visibleBaseFiles = inShareMode ? shareableBaseFiles : sortedBaseFiles;
     const visibleImportedFiles = inShareMode ? shareableImportedFiles : sortedImportedFiles;
 
     // Determine if we're in export mode, and how many layers have been selected to export.
@@ -444,7 +449,7 @@ class MappingFiles extends Component<Props, State> {
                 : i18n.t(this.i18nKeyFor('export.manyAction'), { count: totalToExport })
               : i18n.t(this.i18nKeyFor('export.noneSelected'))
           }
-          showEditButton={importedFiles.length > 0}
+          showEditButton={hasFiles}
         >
           {this.renderFilesList(visibleBaseFiles, visibleImportedFiles)}
         </ShareSheet>
