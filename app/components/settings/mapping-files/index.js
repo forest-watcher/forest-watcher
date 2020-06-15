@@ -279,10 +279,15 @@ class MappingFiles extends Component<Props, State> {
             fileDownloadProgress.filter(area => area.completed && !area.error).length >= areaTotal;
           // TODO: Add support for 'download in progress' UI to MappingFileRow.
           const fileIsDownloading = fileDownloadProgress.filter(area => area.requested).length > 0;
+
+          // Downloads should be disabled if the file is in-progress, or if this is a basemap we've already downloaded.
+          // Basemaps should not be 'refreshed' as Mapbox will handle this internally.
+          const disableDownload = fileIsDownloading || (fileIsFullyDownloaded && mappingFileType === 'basemap');
           return (
             <View key={file.id} style={styles.rowContainer}>
               <MappingFileRow
                 deletable={(!!file.size && file.size > 0) || file.isGFW}
+                downloadable={mappingFileType === 'contextual_layer' || !file.tileUrl}
                 downloaded={fileIsFullyDownloaded}
                 inEditMode={inEditMode}
                 onDeletePress={() => {
@@ -294,15 +299,20 @@ class MappingFiles extends Component<Props, State> {
                     this.onFileSelectedForExport(file.id);
                   }
                 }}
-                onDownloadPress={() => {
-                  if (fileIsDownloading) {
-                    return;
-                  }
+                onDownloadPress={
+                  disableDownload
+                    ? null
+                    : () => {
+                        if (fileIsDownloading) {
+                          return;
+                        }
 
-                  this.props.importGFWContent(this.props.mappingFileType, file, !fileIsFullyDownloaded);
-                }}
+                        this.props.importGFWContent(this.props.mappingFileType, file, !fileIsFullyDownloaded);
+                      }
+                }
                 onInfoPress={file.description ? this.onInfoPress.bind(this, file) : undefined}
                 image={file.image ?? icons[mappingFileType].placeholder}
+                refreshable={fileIsFullyDownloaded && mappingFileType === 'contextual_layer'}
                 renamable={false}
                 title={i18n.t(file.name)}
                 subtitle={formatBytes(file.size ?? 0)}
@@ -339,6 +349,7 @@ class MappingFiles extends Component<Props, State> {
           return (
             <View key={file.id} style={styles.rowContainer}>
               <MappingFileRow
+                downloadable={false}
                 deletable={true}
                 inEditMode={inEditMode}
                 onDeletePress={() => {
