@@ -61,6 +61,7 @@ export type LayerSettingsAction =
   | ToggleRoutesLayer
   | ToggleReportsLayer
   | ToggleMyReportsLayer
+  | EnableRoutesLayer
   | ToggleImportedReportsLayer
   | ToggleContextualLayersLayer
   | InitialiseAlerts
@@ -117,6 +118,13 @@ export type ToggleImportedReportsLayer = {
     featureId: string
   }
 };
+export type EnableRoutesLayer = {
+  type: 'layerSettings/ENABLE_ROUTES_LAYER',
+  payload: {
+    featureId: string
+  }
+};
+
 export type InitialiseAlerts = {
   type: 'layerSettings/INITIALISE_ALERTS',
   payload: {

@@ -429,7 +429,7 @@ class Reports extends PureComponent<Props, State> {
             this.getUploaded(uploaded, nextIcon, inExportMode ? this.onReportSelectedForExport : this.onClickNext)}
           {imported &&
             imported.length > 0 &&
-            this.getImported(imported, nextIcon, inExportMode ? this.onReportSelectedForExport : this.onClickNext)}
+            this.getImported(imported, nextIcon, inExportMode ? this.onReportSelectedForExport : this.onClickUpload)}
         </View>
       </ScrollView>
     );

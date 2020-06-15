@@ -551,7 +551,7 @@ export function importGFWContent(
   contentType: LayerType,
   content: Basemap | ContextualLayer,
   onlyNonDownloadedAreas: boolean = false
-): Thunk<LayersAction> {
+): Thunk<Promise<void>> {
   return async (dispatch: Dispatch, getState: GetState) => {
     const state = getState();
 
@@ -584,7 +584,7 @@ export function importGFWContent(
       return;
     }
 
-    await areas.forEach(async area => {
+    const areaPromises = await areas.map(async area => {
       const dataId = area.id;
       if (url.startsWith('mapbox://')) {
         // This is a mapbox layer - we must use OfflineManager
@@ -634,11 +634,13 @@ export function importGFWContent(
         }
       } else {
         dispatch({ type: REQUEST_ACTION, payload: { dataId, layerId, remote: true } });
-        downloadAllLayers(contentType, { data: area, layerId, layerUrl: url }, dispatch, PROGRESS_ACTION)
+        await downloadAllLayers(contentType, { data: area, layerId, layerUrl: url }, dispatch, PROGRESS_ACTION)
           .then(path => dispatch(gfwContentImportCompleted(contentType, area.id, content)))
           .catch(() => dispatch(gfwContentImportCompleted(contentType, area.id, content, true)));
       }
     });
+
+    await Promise.all(areaPromises);
   };
 }
 
@@ -656,7 +658,7 @@ function gfwContentImportCompleted(
   dataId: string,
   layer: Basemap | ContextualLayer,
   withFailure: boolean = false
-): Thunk<LayersAction> {
+): Thunk<Promise<void>> {
   return async (dispatch: Dispatch, getState: GetState) => {
     const AREA_COMPLETE_ACTION =
       contentType === 'contextual_layer' ? IMPORT_LAYER_AREA_COMPLETED : IMPORT_BASEMAP_AREA_COMPLETED;

@@ -1,5 +1,4 @@
 // @flow
-import type { GroupedReports } from 'containers/reports';
 import type { Report } from 'types/reports.types';
 
 import React, { Component } from 'react';
@@ -10,7 +9,6 @@ import { mapboxStyles } from './styles';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import i18n from 'i18next';
 import moment from 'moment';
-import { REPORTS } from 'config/constants';
 import { featureCollection, point } from '@turf/helpers';
 
 export type ReportLayerSettings = {
@@ -22,8 +20,27 @@ export type ReportLayerSettings = {
 type Props = {
   myReports: Array<Report>,
   importedReports: Array<Report>,
+  selectedReport: ?{ reportName: string, lat: number, long: number },
   reportLayerSettings: ReportLayerSettings,
   onShapeSourcePressed?: () => void
+};
+
+export const getReportPosition = (report: Report) => {
+  let position;
+  const clickedPosition = JSON.parse(report.clickedPosition);
+  if (clickedPosition?.length) {
+    const lastClickedPosition = clickedPosition[clickedPosition.length - 1];
+    if (lastClickedPosition.lon && lastClickedPosition.lat) {
+      position = [lastClickedPosition.lon, lastClickedPosition.lat];
+    }
+  }
+  if (!position) {
+    position = report.userPosition
+      .split(',')
+      .reverse()
+      .map(a => Number(a));
+  }
+  return position;
 };
 
 export default class Reports extends Component<Props> {
@@ -36,37 +53,27 @@ export default class Reports extends Component<Props> {
   };
 
   reportToFeature = (report: Report) => {
+    const selected = this.props.selectedReport?.reportName === report.reportName;
+    const position = getReportPosition(report);
     const properties = {
-      icon: this.getReportIcon(!!report.isImported, false),
+      selected,
+      icon: this.getReportIcon(!!report.isImported, selected),
       date: moment(report.date),
       type: 'report',
       name: i18n.t('map.layerSettings.report'),
       imported: report.isImported,
+      // need to pass these as strings as they are rounded in onShapeSourcePressed method.
+      lat: '' + position[1],
+      long: '' + position[0],
       featureId: report.reportName
     };
-    let position;
-    const clickedPosition = JSON.parse(report.clickedPosition);
-    if (clickedPosition?.length) {
-      const lastClickedPosition = clickedPosition[clickedPosition.length - 1];
-      if (lastClickedPosition.lon && lastClickedPosition.lat) {
-        position = [lastClickedPosition.lon, lastClickedPosition.lat];
-      }
-    }
-    if (!position) {
-      position = report.userPosition
-        .split(',')
-        .reverse()
-        .map(a => Number(a));
-    }
     return point(position, properties);
   };
 
   renderReports = (reports: Array<Report>, imported: boolean) => {
-    if (!reports) {
+    if (!reports?.length) {
       return null;
     }
-    // remove reports with no location
-    reports = reports.filter(report => report.userPosition !== REPORTS.noGpsPosition);
     const reportFeatureCollection = reports ? featureCollection(reports.map(this.reportToFeature)) : null;
     const circleColor = imported ? Theme.colors.importedReport : Theme.colors.report;
     const onPress = this.props.onShapeSourcePressed || null;
