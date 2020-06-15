@@ -544,7 +544,7 @@ export function importContextualLayer(layerFile: File): Thunk<Promise<void>> {
 export function importGFWContextualLayer(
   layer: ContextualLayer,
   onlyNonDownloadedAreas: boolean = false
-): Thunk<LayersAction> {
+): Thunk<Promise<void>> {
   return async (dispatch: Dispatch, getState: GetState) => {
     const state = getState();
 
@@ -565,7 +565,7 @@ export function importGFWContextualLayer(
       areas = areas.filter(area => !completedAreas.includes(area.id));
     }
 
-    await areas.forEach(async area => {
+    const areaPromises = await areas.map(async area => {
       const dataId = area.id;
       if (layer.url.startsWith('mapbox://')) {
         // This is a mapbox layer - we must use OfflineManager
@@ -627,7 +627,7 @@ export function importGFWContextualLayer(
         }
       } else {
         dispatch({ type: IMPORT_LAYER_REQUEST, payload: { data: area, layerId, remote: true } });
-        downloadAllLayers(
+        await downloadAllLayers(
           'contextual_layer',
           { data: area, layerId, layerUrl: layer.url },
           dispatch,
@@ -637,6 +637,8 @@ export function importGFWContextualLayer(
           .catch(() => dispatch(gfwContextualLayerImportCompleted(area.id, layer, true)));
       }
     });
+
+    await Promise.all(areaPromises);
   };
 }
 
@@ -652,7 +654,7 @@ function gfwContextualLayerImportCompleted(
   dataId: string,
   layer: ContextualLayer,
   withFailure: boolean = false
-): Thunk<LayersAction> {
+): Thunk<Promise<void>> {
   return async (dispatch: Dispatch, getState: GetState) => {
     // We mark that area in the downloadedLayerProgress state as completed with 100% progress.
     // This means we can then keep track of areas that are still downloading / unpacking.

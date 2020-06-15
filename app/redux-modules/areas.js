@@ -10,7 +10,6 @@ import { RETRY_SYNC } from 'redux-modules/app';
 import { GET_ALERTS_COMMIT } from 'redux-modules/alerts';
 import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 
-import { deleteRoutes } from './routes';
 import deleteAlerts from 'helpers/alert-store/deleteAlerts';
 
 const GET_AREAS_REQUEST = 'areas/GET_AREAS_REQUEST';
