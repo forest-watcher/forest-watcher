@@ -16,7 +16,6 @@ import styles from './styles';
 import EmptyState from 'components/common/empty-state';
 import ShareSheet from 'components/common/share';
 
-import exportFileManifest from 'helpers/sharing/exportFileManifest';
 import calculateBundleSize from 'helpers/sharing/calculateBundleSize';
 import generateUniqueID from 'helpers/uniqueId';
 import { getShareButtonText } from 'helpers/sharing/utils';
