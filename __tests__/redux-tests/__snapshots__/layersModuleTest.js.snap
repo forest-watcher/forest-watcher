@@ -83,7 +83,7 @@ Array [
           "image": Object {
             "testUri": "../../../app/assets/basemap_mapbox_satellite.png",
           },
-          "isImported": false,
+          "isCustom": false,
           "name": "mapboxSatellite",
           "styleURL": "mapbox://styles/mapbox/satellite-v9",
           "tileUrl": null,
@@ -93,7 +93,7 @@ Array [
           "image": Object {
             "testUri": "../../../app/assets/basemap_default.png",
           },
-          "isImported": false,
+          "isCustom": false,
           "name": "default",
           "styleURL": "mapbox://styles/resourcewatch/cjww7iv8i07yx1cmjtgazn3r0?fresh=true",
           "tileUrl": null,
@@ -103,7 +103,7 @@ Array [
           "image": Object {
             "testUri": "../../../app/assets/basemap_dark.png",
           },
-          "isImported": false,
+          "isCustom": false,
           "name": "dark",
           "styleURL": "mapbox://styles/resourcewatch/cjww836hy1kep1co5xp717jek?fresh=true",
           "tileUrl": null,
@@ -174,7 +174,7 @@ Array [
           "image": Object {
             "testUri": "../../../app/assets/basemap_mapbox_satellite.png",
           },
-          "isImported": false,
+          "isCustom": false,
           "name": "mapboxSatellite",
           "styleURL": "mapbox://styles/mapbox/satellite-v9",
           "tileUrl": null,
@@ -184,7 +184,7 @@ Array [
           "image": Object {
             "testUri": "../../../app/assets/basemap_default.png",
           },
-          "isImported": false,
+          "isCustom": false,
           "name": "default",
           "styleURL": "mapbox://styles/resourcewatch/cjww7iv8i07yx1cmjtgazn3r0?fresh=true",
           "tileUrl": null,
@@ -194,7 +194,7 @@ Array [
           "image": Object {
             "testUri": "../../../app/assets/basemap_dark.png",
           },
-          "isImported": false,
+          "isCustom": false,
           "name": "dark",
           "styleURL": "mapbox://styles/resourcewatch/cjww836hy1kep1co5xp717jek?fresh=true",
           "tileUrl": null,
@@ -241,7 +241,7 @@ Array [
           "image": Object {
             "testUri": "../../../app/assets/basemap_mapbox_satellite.png",
           },
-          "isImported": false,
+          "isCustom": false,
           "name": "mapboxSatellite",
           "styleURL": "mapbox://styles/mapbox/satellite-v9",
           "tileUrl": null,
@@ -251,7 +251,7 @@ Array [
           "image": Object {
             "testUri": "../../../app/assets/basemap_default.png",
           },
-          "isImported": false,
+          "isCustom": false,
           "name": "default",
           "styleURL": "mapbox://styles/resourcewatch/cjww7iv8i07yx1cmjtgazn3r0?fresh=true",
           "tileUrl": null,
@@ -261,7 +261,7 @@ Array [
           "image": Object {
             "testUri": "../../../app/assets/basemap_dark.png",
           },
-          "isImported": false,
+          "isCustom": false,
           "name": "dark",
           "styleURL": "mapbox://styles/resourcewatch/cjww836hy1kep1co5xp717jek?fresh=true",
           "tileUrl": null,
@@ -355,7 +355,7 @@ Array [
           "image": Object {
             "testUri": "../../../app/assets/basemap_mapbox_satellite.png",
           },
-          "isImported": false,
+          "isCustom": false,
           "name": "mapboxSatellite",
           "styleURL": "mapbox://styles/mapbox/satellite-v9",
           "tileUrl": null,
@@ -365,7 +365,7 @@ Array [
           "image": Object {
             "testUri": "../../../app/assets/basemap_default.png",
           },
-          "isImported": false,
+          "isCustom": false,
           "name": "default",
           "styleURL": "mapbox://styles/resourcewatch/cjww7iv8i07yx1cmjtgazn3r0?fresh=true",
           "tileUrl": null,
@@ -375,7 +375,7 @@ Array [
           "image": Object {
             "testUri": "../../../app/assets/basemap_dark.png",
           },
-          "isImported": false,
+          "isCustom": false,
           "name": "dark",
           "styleURL": "mapbox://styles/resourcewatch/cjww836hy1kep1co5xp717jek?fresh=true",
           "tileUrl": null,
