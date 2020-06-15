@@ -137,6 +137,7 @@ type State = {
   heading: ?number,
   hasHeadingReadingFromCompass: boolean,
   selectedAlerts: Array<{ lat: number, long: number }>,
+  selectedReport: ?{ reportName: string, lat: number, long: number },
   customReporting: boolean,
   dragging: boolean,
   layoutHasForceRefreshed: boolean,
@@ -218,6 +219,7 @@ class MapComponent extends Component<Props, State> {
       heading: null,
       hasHeadingReadingFromCompass: false,
       selectedAlerts: [],
+      selectedReport: null,
       customReporting: false,
       dragging: false,
       layoutHasForceRefreshed: false,
@@ -446,9 +448,12 @@ class MapComponent extends Component<Props, State> {
 
   // Used when starting a new route
   getRouteDestination = (): ?[number, number] => {
-    if (this.state.selectedAlerts?.length) {
-      const lastSelectedAlert = this.state.selectedAlerts[this.state.selectedAlerts.length - 1];
+    const { selectedAlerts, selectedReport } = this.state;
+    if (selectedAlerts?.length) {
+      const lastSelectedAlert = selectedAlerts[this.state.selectedAlerts.length - 1];
       return [lastSelectedAlert.long, lastSelectedAlert.lat];
+    } else if (selectedReport) {
+      return [selectedReport.long, selectedReport.lat];
     }
     return this.state.mapCenterCoords;
   };
@@ -539,7 +544,8 @@ class MapComponent extends Component<Props, State> {
     this.dismissInfoBanner();
     this.setState({
       customReporting: false,
-      selectedAlerts: []
+      selectedAlerts: [],
+      selectedReport: null
     });
   });
 
@@ -579,7 +585,7 @@ class MapComponent extends Component<Props, State> {
 
   reportSelection = debounceUI(() => {
     this.dismissInfoBanner();
-    this.createReport(this.state.selectedAlerts);
+    this.createReport(this.state.selectedAlerts, this.state.selectedReport);
   });
 
   reportArea = debounceUI(() => {
@@ -603,7 +609,10 @@ class MapComponent extends Component<Props, State> {
     return 'currentLocation';
   };
 
-  createReport = (selectedAlerts: Array<{ lat: number, long: number }>) => {
+  createReport = (
+    selectedAlerts: Array<{ lat: number, long: number }>,
+    selectedReport: ?{ reportName: string, lat: number, long: number }
+  ) => {
     const { area } = this.props;
     const { userLocation, customReporting, mapCenterCoords } = this.state;
 
@@ -632,6 +641,13 @@ class MapComponent extends Component<Props, State> {
         lat: alert.lat,
         lon: alert.long
       }));
+    } else if (selectedReport) {
+      latLng = [
+        {
+          lat: selectedReport.lat,
+          lon: selectedReport.long
+        }
+      ];
     } else if (this.isRouteTracking() && userLocation) {
       latLng = [
         {
@@ -837,9 +853,17 @@ class MapComponent extends Component<Props, State> {
   };
 
   renderButtonPanel() {
-    const { customReporting, userLocation, locationError, selectedAlerts, infoBannerProps } = this.state;
+    const {
+      customReporting,
+      userLocation,
+      locationError,
+      selectedAlerts,
+      selectedReport,
+      infoBannerProps
+    } = this.state;
     const hasAlertsSelected = selectedAlerts && selectedAlerts.length > 0;
-    const canReport = hasAlertsSelected || customReporting;
+    const hasReportSelected = !!selectedReport;
+    const canReport = hasAlertsSelected || hasReportSelected || customReporting;
     const isRouteTracking = this.isRouteTracking();
 
     // To fix the missing signal text overflow rendering in reverse row
@@ -971,15 +995,21 @@ class MapComponent extends Component<Props, State> {
       return;
     }
     if (date && name) {
-      let selectedAlert;
+      let selectedAlert, selectedReportFeatureId, infoBannerShowing;
       if (type === 'alert') {
         // need to pass these as strings as they are rounded in onShapeSourcePressed method.
         selectedAlert = { lat: Number(lat), long: Number(long) };
       }
+      if (type === 'report') {
+        // need to pass these as strings as they are rounded in onShapeSourcePressed method.
+        selectedReportFeatureId = featureId;
+      }
       this.setState((prevState: State) => {
         const isAlert = alert => alert.lat === selectedAlert.lat && alert.long === selectedAlert.long;
-        let selectedAlerts = prevState.selectedAlerts;
+        let { selectedAlerts, selectedReport } = prevState;
         if (selectedAlert) {
+          // deselect report if alert is tapped
+          selectedReport = null;
           if (selectedAlerts.find(isAlert)) {
             // Deselect alert(s) at exact same location as alert that user pressed on
             selectedAlerts = selectedAlerts.filter(alert => !isAlert(alert));
@@ -987,10 +1017,29 @@ class MapComponent extends Component<Props, State> {
             // Add user pressed alert to selected alerts
             selectedAlerts = [...selectedAlerts, selectedAlert];
           }
+        } else if (selectedReportFeatureId) {
+          // deselect alert if report is tapped
+          selectedAlerts = [];
+          selectedReport =
+            selectedReport?.reportName === selectedReportFeatureId
+              ? null
+              : { reportName: selectedReportFeatureId, lat: Number(lat), long: Number(long) };
         }
+        infoBannerShowing = !!selectedAlerts?.length || !!selectedReport;
+
+        // show/hide info banner
+        Animated.spring(this.state.animatedPosition, {
+          toValue: infoBannerShowing ? 0 : DISMISSED_INFO_BANNER_POSTIION,
+          velocity: 3,
+          tension: 2,
+          friction: 8,
+          useNativeDriver: false
+        }).start();
+
         return {
           selectedAlerts,
-          infoBannerShowing: true,
+          selectedReport,
+          infoBannerShowing,
           infoBannerProps: {
             title: name,
             subtitle: formatInfoBannerDate(date, type),
@@ -999,21 +1048,15 @@ class MapComponent extends Component<Props, State> {
           }
         };
       });
-
-      // show info banner
-      Animated.spring(this.state.animatedPosition, {
-        toValue: 0,
-        velocity: 3,
-        tension: 2,
-        friction: 8,
-        useNativeDriver: false
-      }).start();
     }
   };
 
   onMapPress = () => {
     this.dismissInfoBanner();
-    this.setState({ selectedAlerts: [] });
+    this.setState({
+      selectedAlerts: [],
+      selectedReport: null
+    });
   };
 
   render() {
@@ -1097,7 +1140,11 @@ class MapComponent extends Component<Props, State> {
             selectedAlerts={this.state.selectedAlerts}
             onShapeSourcePressed={this.onAlertPressed}
           />
-          <Reports featureId={featureId} onShapeSourcePressed={this.onShapeSourcePressed} />
+          <Reports
+            featureId={featureId}
+            onShapeSourcePressed={this.onShapeSourcePressed}
+            selectedReport={this.state.selectedReport}
+          />
           <RouteMarkers
             isTracking={this.isRouteTracking()}
             userLocation={userLocation}
