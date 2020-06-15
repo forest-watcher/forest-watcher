@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 
 import SaveRoute from 'components/routes/save-route';
 import { finishAndSaveRoute, updateActiveRoute } from 'redux-modules/routes';
-import { copyLayerSettings, toggleRoutesLayer, showSavedRoute } from 'redux-modules/layerSettings';
+import { copyLayerSettings, enableRoutesLayer, showSavedRoute } from 'redux-modules/layerSettings';
 
 import { trackRouteFlowEvent } from 'helpers/analytics';
 
@@ -28,8 +28,8 @@ function mapDispatchToProps(dispatch: Dispatch) {
     },
     finishAndSaveRoute: async (routeId: string, areaId: string) => {
       trackRouteFlowEvent('saved');
-      await dispatch(toggleRoutesLayer(areaId));
       await dispatch(finishAndSaveRoute());
+      await dispatch(enableRoutesLayer(areaId));
       await dispatch(showSavedRoute(areaId, routeId));
     }
   };
