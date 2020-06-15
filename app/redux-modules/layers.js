@@ -289,9 +289,9 @@ export default function reducer(state: LayersState = initialState, action: Layer
       const layerToSave = action.payload;
       let importedLayers = [...state.imported];
 
-      if (importedLayers.find(layer => layer.id === layerToSave.id)){
+      if (importedLayers.find(layer => layer.id === layerToSave.id)) {
         // This layer already exists in redux, replace the existing entry with the new one.
-        importedLayers = importedLayers.map(layer => layer.id === layerToSave.id ? layerToSave : layer)
+        importedLayers = importedLayers.map(layer => (layer.id === layerToSave.id ? layerToSave : layer));
 
         return { ...state, importingLayer: false, importError: null, imported: importedLayers };
       }
@@ -541,10 +541,10 @@ export function importContextualLayer(layerFile: File): Thunk<Promise<void>> {
  * @param {ContextualLayer} layer
  * @param {boolean} onlyNonDownloadedAreas - true if we wish to only request areas that have failed / haven't yet been attempted.
  */
-export function importGFWContextualLayer(layer: ContextualLayer, onlyNonDownloadedAreas: boolean = false): Thunk<LayersAction> {
-  return async (dispatch: Dispatch, getState: GetState) => {
+export function importGFWContextualLayer(layer: ContextualLayer, onlyNonDownloadedAreas: boolean = false): Thunk<void> {
+  return (dispatch: Dispatch, getState: GetState) => {
     const state = getState();
-    
+
     const layerId = layer.id;
 
     let areas = state.areas.data;
@@ -554,15 +554,15 @@ export function importGFWContextualLayer(layer: ContextualLayer, onlyNonDownload
       // We may do this when a new area has been created & we wish to download that new layer,
       // or when an error has occurred. Requesting all of the tiles again would be unnecessary.
       const layerProgress = state.layers.downloadedLayerProgress[layerId];
-      
-      const completedAreas = Object.keys(layerProgress).filter(areaKey => {
+
+      const completedAreas = Object.keys(layerProgress ?? {}).filter(areaKey => {
         const area = layerProgress[areaKey];
-        return area.completed && !area.error
+        return area.completed && !area.error;
       });
-      areas = areas.filter(area => !completedAreas.includes(area.id))
+      areas = areas.filter(area => !completedAreas.includes(area.id));
     }
 
-    await areas.forEach(async area => {
+    areas.forEach(async area => {
       const dataId = area.id;
       if (layer.url.startsWith('mapbox://')) {
         // This is a mapbox layer - we must use OfflineManager
@@ -645,17 +645,22 @@ export function importGFWContextualLayer(layer: ContextualLayer, onlyNonDownload
  * @param {ContextualLayer} layer
  * @param {boolean} withFailure
  */
-function gfwContextualLayerImportCompleted(dataId: string, layer: ContextualLayer, withFailure: boolean = false): Thunk<LayersAction> {
+function gfwContextualLayerImportCompleted(
+  dataId: string,
+  layer: ContextualLayer,
+  withFailure: boolean = false
+): Thunk<Promise<void>> {
   return async (dispatch: Dispatch, getState: GetState) => {
     // We mark that area in the downloadedLayerProgress state as completed with 100% progress.
     // This means we can then keep track of areas that are still downloading / unpacking.
-    await dispatch({ type: IMPORT_LAYER_AREA_COMPLETED, payload: { id: dataId, layerId: layer.id, failed: withFailure } });
+    await dispatch({
+      type: IMPORT_LAYER_AREA_COMPLETED,
+      payload: { id: dataId, layerId: layer.id, failed: withFailure }
+    });
 
     // Check for any areas for this layer that are still in progress.
-    const downloadProgressForLayer = getState().layers.downloadedLayerProgress[layer.id] ?? {}
+    const downloadProgressForLayer = getState().layers.downloadedLayerProgress[layer.id] ?? {};
     const remainingAreas = Object.values(downloadProgressForLayer).filter(area => area.completed !== true);
-
-    console.warn(JSON.stringify(downloadProgressForLayer))
 
     if (remainingAreas?.length === 0) {
       // The download has completed, and we can now commit the entire layer.
