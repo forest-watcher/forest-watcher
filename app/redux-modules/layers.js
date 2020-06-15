@@ -541,8 +541,11 @@ export function importContextualLayer(layerFile: File): Thunk<Promise<void>> {
  * @param {ContextualLayer} layer
  * @param {boolean} onlyNonDownloadedAreas - true if we wish to only request areas that have failed / haven't yet been attempted.
  */
-export function importGFWContextualLayer(layer: ContextualLayer, onlyNonDownloadedAreas: boolean = false): Thunk<void> {
-  return (dispatch: Dispatch, getState: GetState) => {
+export function importGFWContextualLayer(
+  layer: ContextualLayer,
+  onlyNonDownloadedAreas: boolean = false
+): Thunk<Promise<void>> {
+  return async (dispatch: Dispatch, getState: GetState) => {
     const state = getState();
 
     const layerId = layer.id;
@@ -562,7 +565,7 @@ export function importGFWContextualLayer(layer: ContextualLayer, onlyNonDownload
       areas = areas.filter(area => !completedAreas.includes(area.id));
     }
 
-    areas.forEach(async area => {
+    const areaPromises = await areas.map(async area => {
       const dataId = area.id;
       if (layer.url.startsWith('mapbox://')) {
         // This is a mapbox layer - we must use OfflineManager
@@ -624,7 +627,7 @@ export function importGFWContextualLayer(layer: ContextualLayer, onlyNonDownload
         }
       } else {
         dispatch({ type: IMPORT_LAYER_REQUEST, payload: { data: area, layerId, remote: true } });
-        downloadAllLayers(
+        await downloadAllLayers(
           'contextual_layer',
           { data: area, layerId, layerUrl: layer.url },
           dispatch,
@@ -634,6 +637,8 @@ export function importGFWContextualLayer(layer: ContextualLayer, onlyNonDownload
           .catch(() => dispatch(gfwContextualLayerImportCompleted(area.id, layer, true)));
       }
     });
+
+    await Promise.all(areaPromises);
   };
 }
 
