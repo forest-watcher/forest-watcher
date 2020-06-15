@@ -25,6 +25,7 @@ export const BUNDLE_FILE_EXTENSION: string = '.gfwbundle';
  * The name of the data file held in the root of a bundle archive
  */
 export const BUNDLE_DATA_FILE_NAME: string = 'bundle.json';
+export const BUNDLE_DATA_ENCODING: string = 'utf8';
 
 /**
  * Exports a subset of app data to a standalone file that can be imported into other instances of the FW app
@@ -91,7 +92,7 @@ export async function stageBundle(bundle: SharingBundle): Promise<UnpackedSharin
   };
   const outputFile = `${outputPath}/${BUNDLE_DATA_FILE_NAME}`;
   const outputData = JSON.stringify(sanitisedBundle);
-  await RNFS.writeFile(outputFile, outputData);
+  await RNFS.writeFile(outputFile, outputData, BUNDLE_DATA_ENCODING);
 
   return {
     path: outputPath,
