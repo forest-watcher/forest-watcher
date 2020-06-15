@@ -169,10 +169,9 @@ class MappingFiles extends Component<Props, State> {
       return;
     }
 
-    const selectedForExport: Array<string> = [
-      ...this.props.importedFiles.map((layer: { id: string }) => layer.id),
-      ...(this.props.mappingFileType === 'basemap' ? [] : this.props.baseFiles.map(layer => layer.id))
-    ];
+    const allFiles = [...this.props.baseFiles, ...this.props.importedFiles];
+    const selectedForExport: Array<string> = allFiles.filter(this._isShareable).map(file => file.id);
+
     this.setState({
       selectedForExport: selectedForExport
     });
