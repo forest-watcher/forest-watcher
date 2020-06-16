@@ -83,13 +83,23 @@ export function pathWithoutRoot(path: string, rootDir: string): string {
  * data natively where possible.
  */
 export async function readBinaryFile(path: string): Promise<Buffer> {
-  const stream = await RNFetchBlob.fs.readStream(path, 'base64');
+  return await readFile(path, 'base64');
+}
+
+/**
+ * Read a file from the local file system
+ *
+ * Avoid doing this unless necessary as the loaded file contents are sent over the bridge. Process the
+ * data natively where possible.
+ */
+export async function readFile(path: string, encoding: 'base64' | 'utf8'): Promise<Buffer> {
+  const stream = await RNFetchBlob.fs.readStream(path, encoding);
   return new Promise((resolve, reject) => {
     stream.open();
 
     const chunks: Array<Buffer> = [];
     stream.onData((data: string | Array<number>) => {
-      const chunk = new Buffer(data, 'base64');
+      const chunk = new Buffer(data, encoding);
       chunks.push(chunk);
     });
     stream.onEnd(() => {
@@ -98,6 +108,17 @@ export async function readBinaryFile(path: string): Promise<Buffer> {
     });
     stream.onError(reject);
   });
+}
+
+/**
+ * Read a file from the local file system
+ *
+ * Avoid doing this unless necessary as the loaded file contents are sent over the bridge. Process the
+ * data natively where possible.
+ */
+export async function readTextFile(path: string): Promise<string> {
+  const buffer = await readFile(path, 'utf8');
+  return buffer.toString();
 }
 
 /**

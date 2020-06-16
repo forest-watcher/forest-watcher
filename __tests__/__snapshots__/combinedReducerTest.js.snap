@@ -33,6 +33,7 @@ Object {
     "syncing": false,
   },
   "basemaps": Object {
+    "downloadedBasemapProgress": Object {},
     "importError": null,
     "importedBasemaps": Array [],
     "importing": false,
@@ -1885,6 +1886,7 @@ Object {
     "cache": Object {},
     "cacheStatus": Object {},
     "data": Array [],
+    "downloadedLayerProgress": Object {},
     "importError": null,
     "imported": Array [],
     "importingLayer": false,
@@ -1964,6 +1966,7 @@ Object {
     "syncing": false,
   },
   "basemaps": Object {
+    "downloadedBasemapProgress": Object {},
     "importError": null,
     "importedBasemaps": Array [],
     "importing": false,
@@ -3816,6 +3819,7 @@ Object {
     "cache": Object {},
     "cacheStatus": Object {},
     "data": Array [],
+    "downloadedLayerProgress": Object {},
     "importError": null,
     "imported": Array [],
     "importingLayer": false,

@@ -3,9 +3,6 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 
 target 'ForestWatcher' do
 
-  # react-native-firebase dependency.
-  pod 'Firebase/Core', '6.13.0' # fixed as required by react-native-firebase.
-
   # Pods for ForestWatcher
   pod 'FBLazyVector', :path => "../node_modules/react-native/Libraries/FBLazyVector"
   pod 'FBReactNativeSpec', :path => "../node_modules/react-native/Libraries/FBReactNativeSpec"

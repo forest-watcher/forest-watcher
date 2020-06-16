@@ -13,7 +13,12 @@ import ProgressBar from 'react-native-progress/Bar';
 import Theme from 'config/theme';
 import styles from './styles';
 
-import tracker from 'helpers/googleAnalytics';
+import {
+  trackRouteDownloadFlowStarted,
+  trackRouteDownloadFlowEnded,
+  trackAreaDownloadFlowEnded,
+  trackAreaDownloadFlowStarted
+} from 'helpers/analytics';
 
 const downloadIcon = require('assets/download.png');
 const refreshIcon = require('assets/refresh.png');
@@ -77,12 +82,20 @@ class DataCacher extends PureComponent<Props, State> {
       ]);
     }
 
-    if (prevProps.cacheStatus.progress === 0 && this.props.cacheStatus.progress > 0 && this.props.dataType === 'area') {
-      tracker.trackAreaDownloadStartedEvent();
+    if (prevProps.cacheStatus.progress === 0 && this.props.cacheStatus.progress > 0) {
+      if (this.props.dataType === 'route') {
+        trackRouteDownloadFlowStarted(this.props.id);
+      } else {
+        trackAreaDownloadFlowStarted(this.props.id);
+      }
     }
 
-    if (this.props.pendingCache === 0 && prevProps.pendingCache > 0 && this.props.dataType === 'area') {
-      tracker.trackAreaDownloadEndedEvent(!this.props.cacheStatus.error);
+    if (this.props.pendingCache === 0 && prevProps.pendingCache > 0) {
+      if (this.props.dataType === 'route') {
+        trackRouteDownloadFlowEnded(this.props.id, !this.props.cacheStatus.error);
+      } else {
+        trackAreaDownloadFlowEnded(this.props.id, !this.props.cacheStatus.error);
+      }
     }
   }
 

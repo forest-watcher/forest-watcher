@@ -87,12 +87,15 @@ export default class ImportSharingBundleConfirmScreen extends PureComponent<Prop
 
   render() {
     const bundleData = this.props.formState.bundle.data;
-    const bundleSizeBytes = calculateImportBundleSize(bundleData, this.props.importRequest);
+    const bundleContents = summariseBundleContents(bundleData, this.props.importRequest);
+    const isImportEmpty = bundleContents.length === 0;
+
+    const bundleSizeBytes = isImportEmpty ? 0 : calculateImportBundleSize(bundleData, this.props.importRequest);
     const bundleSizeText = formatBytes(bundleSizeBytes);
 
     return (
       <View style={styles.container}>
-        {this.renderContent(bundleSizeText)}
+        {this.renderContent(bundleContents, bundleSizeText)}
         <BottomTray showProgressBar={this.state.isImporting} requiresSafeAreaView={true} style={styles.bottomTray}>
           {this.props.formState.numSteps > 1 && (
             <Text style={styles.progressText}>
@@ -103,7 +106,7 @@ export default class ImportSharingBundleConfirmScreen extends PureComponent<Prop
             </Text>
           )}
           <ActionButton
-            disabled={this.state.isImporting}
+            disabled={isImportEmpty || this.state.isImporting}
             noIcon
             onPress={this._startImport}
             secondary={false}
@@ -114,18 +117,21 @@ export default class ImportSharingBundleConfirmScreen extends PureComponent<Prop
     );
   }
 
-  renderContent = (bundleSize: string): any => {
+  renderContent = (bundleContents: Array<string>, bundleSize: string): any => {
     const bundle = this.props.formState.bundle.data;
     const bundleName = generateBundleName(bundle);
-    const bundleContents = summariseBundleContents(bundle, this.props.importRequest).join(', ');
+    const bundleContentsText = bundleContents.join(', ');
+    const isImportEmpty = bundleContents.length === 0;
+
     return (
       <ScrollView alwaysBounceVertical={false} style={styles.contentContainer}>
         <Text style={styles.bundleName}>{bundleName}</Text>
-        <Text style={styles.bundleContents}>{`${i18n.t('importBundle.importingPrefix')} ${bundleContents}`}</Text>
+        <Text style={styles.bundleContents}>{`${i18n.t('importBundle.importingPrefix')} ${bundleContentsText}`}</Text>
         {this.renderImportType(bundleSize)}
         {this.state.importError && (
           <Text style={styles.error}>{this.state.importError.message || this.state.importError}</Text>
         )}
+        {isImportEmpty && <Text style={styles.error}>{i18n.t('importBundle.emptyImportError')}</Text>}
       </ScrollView>
     );
   };

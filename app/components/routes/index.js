@@ -7,7 +7,7 @@ import _ from 'lodash';
 import moment from 'moment';
 import i18n from 'i18next';
 import debounceUI from 'helpers/debounceUI';
-import tracker from 'helpers/googleAnalytics';
+import { trackScreenView } from 'helpers/analytics';
 import styles from './styles';
 import { Navigation } from 'react-native-navigation';
 
@@ -79,7 +79,7 @@ export default class Routes extends PureComponent<Props, State> {
   }
 
   componentDidMount() {
-    tracker.trackScreenView('My Routes');
+    trackScreenView('My Routes');
   }
 
   fetchExportSize = async (routeIds: Array<string>) => {
@@ -338,7 +338,6 @@ export default class Routes extends PureComponent<Props, State> {
       <View style={styles.container}>
         <ShareSheet
           componentId={this.props.componentId}
-          enabled={totalToExport > 0}
           isSharing={this.state.creatingArchive}
           onShare={() => {
             this.onExportRoutesTapped(this.state.selectedForExport);

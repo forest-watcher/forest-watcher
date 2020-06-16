@@ -19,6 +19,7 @@ import {
 import { discardActiveRoute } from './redux-modules/routes';
 import Config from 'react-native-config';
 import MapboxGL from '@react-native-mapbox-gl/maps';
+import { trackRouteFlowEvent } from 'helpers/analytics';
 
 // Disable ios warnings
 // console.disableYellowBox = true;
@@ -88,6 +89,7 @@ export default class App {
       });
 
       if (!shouldResume) {
+        trackRouteFlowEvent('discardedOnLaunch');
         this.store.dispatch(discardActiveRoute());
         return;
       }

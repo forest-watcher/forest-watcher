@@ -13,7 +13,7 @@ import debounceUI from 'helpers/debounceUI';
 
 import { launchAppRoot } from 'main';
 import i18n from 'i18next';
-import tracker from 'helpers/googleAnalytics';
+import { trackScreenView } from 'helpers/analytics';
 import styles from './styles';
 
 const layersIcon = require('assets/contextualLayers.png');
@@ -151,7 +151,7 @@ export default class Settings extends Component<Props, State> {
   };
 
   componentDidMount() {
-    tracker.trackScreenView('Settings');
+    trackScreenView('Settings');
   }
 
   onLogoutPress = debounceUI(() => {

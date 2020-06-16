@@ -1,14 +1,15 @@
 // @flow
 import type {
   ContextualLayer,
-  ImportLayerCommit,
   LayersState,
   LayersAction,
   LayersCacheStatus,
-  LayersProgress
+  LayersProgress,
+  UpdateProgressActionType
 } from 'types/layers.types';
 import type { Dispatch, GetState, State, Thunk } from 'types/store.types';
 import type { Area } from 'types/areas.types';
+import type { Basemap } from 'types/basemaps.types';
 import type { File } from 'types/file.types';
 import type { Route } from 'types/routes.types';
 import type { DownloadDataType, LayerFile, LayerType } from 'types/sharing.types';
@@ -18,18 +19,29 @@ import Config from 'react-native-config';
 import omit from 'lodash/omit';
 import CONSTANTS, { GFW_BASEMAPS } from 'config/constants';
 import { bboxForRoute } from 'helpers/bbox';
+import { downloadOfflinePack, getMapboxOfflinePack, nameForMapboxOfflinePack } from 'helpers/mapbox';
 import { getActionsTodoCount } from 'helpers/sync';
 
 import { LOGOUT_REQUEST } from 'redux-modules/user';
 import { SAVE_AREA_COMMIT, DELETE_AREA_COMMIT } from 'redux-modules/areas';
+import {
+  IMPORT_BASEMAP_REQUEST,
+  IMPORT_BASEMAP_PROGRESS,
+  IMPORT_BASEMAP_AREA_COMPLETED,
+  IMPORT_BASEMAP_COMMIT
+} from 'redux-modules/basemaps';
 import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 
-import tracker from 'helpers/googleAnalytics';
+import {
+  trackLayersToggled,
+  trackDownloadedContent,
+  trackContentDownloadStarted,
+  trackImportedContent
+} from 'helpers/analytics';
 import { storeTilesFromUrl } from 'helpers/layer-store/storeLayerFiles';
 import deleteLayerFiles from 'helpers/layer-store/deleteLayerFiles';
 
 import { importLayerFile } from 'helpers/layer-store/import/importLayerFile';
-import MapboxGL from '@react-native-mapbox-gl/maps';
 
 const GET_LAYERS_REQUEST = 'layers/GET_LAYERS_REQUEST';
 const GET_LAYERS_COMMIT = 'layers/GET_LAYERS_COMMIT';
@@ -44,13 +56,14 @@ export const INVALIDATE_CACHE = 'layers/INVALIDATE_CACHE';
 const UPDATE_PROGRESS = 'layers/UPDATE_PROGRESS';
 
 export const IMPORT_LAYER_REQUEST = 'layers/IMPORT_LAYER_REQUEST';
+export const IMPORT_LAYER_PROGRESS = 'layers/IMPORT_LAYER_PROGRESS';
+export const IMPORT_LAYER_AREA_COMPLETED = 'layers/IMPORT_LAYER_AREA_COMPLETED';
 export const IMPORT_LAYER_COMMIT = 'layers/IMPORT_LAYER_COMMIT';
+
 const IMPORT_LAYER_CLEAR = 'layers/IMPORT_LAYER_CLEAR';
 const IMPORT_LAYER_ROLLBACK = 'layers/IMPORT_LAYER_ROLLBACK';
 const RENAME_LAYER = 'layers/RENAME_LAYER';
 const DELETE_LAYER = 'layers/DELETE_LAYER';
-
-const MAPBOX_DOWNLOAD_COMPLETED_STATE = 2;
 
 // Reducer
 const initialState: LayersState = {
@@ -65,7 +78,8 @@ const initialState: LayersState = {
   pendingCache: {}, // key value with layer => areaId to cache
   importError: null,
   imported: [],
-  importingLayer: false // whether a layer is currently being imported.
+  importingLayer: false, // whether a layer is currently being imported.
+  downloadedLayerProgress: {} // saves the progress relative to each layer, for every area being downloaded.
 };
 
 export default function reducer(state: LayersState = initialState, action: LayersAction) {
@@ -283,19 +297,99 @@ export default function reducer(state: LayersState = initialState, action: Layer
     }
     case IMPORT_LAYER_COMMIT: {
       const layerToSave = action.payload;
-      // Ignore the saved layer if it already exists - this could happen when importing a layer for example
-      const possiblyPreexistingLayer = state.imported.find(layer => layer.id === layerToSave.id);
-      if (possiblyPreexistingLayer) {
-        console.warn('3SC', `Ignore already existing layer with ID ${layerToSave.id}`);
-        return state;
+      let importedLayers = [...state.imported];
+
+      if (importedLayers.find(layer => layer.id === layerToSave.id)) {
+        // This layer already exists in redux, replace the existing entry with the new one.
+        importedLayers = importedLayers.map(layer => (layer.id === layerToSave.id ? layerToSave : layer));
+
+        return { ...state, importingLayer: false, importError: null, imported: importedLayers };
       }
-      return { ...state, importingLayer: false, importError: null, imported: [...state.imported, layerToSave] };
+
+      return { ...state, importingLayer: false, importError: null, imported: [...importedLayers, layerToSave] };
     }
     case IMPORT_LAYER_REQUEST: {
-      return { ...state, importingLayer: true, importError: null };
+      const updatedState = { ...state, importingLayer: true, importError: null };
+
+      if (action.payload?.remote) {
+        // This is a remote layer, we need to add this area into the layer's progress state so it can be tracked.
+        const dataId = action.payload?.dataId;
+        const layerId = action.payload?.layerId;
+
+        if (!dataId || !layerId) {
+          return updatedState;
+        }
+
+        // Within the downloadedLayerProgress state, within the layer-specific object, we mark the
+        // given area as being downloaded.
+        // We can then refer to this for download progress or to hold errors.
+        const updatedStateWithProgress = {
+          ...updatedState,
+          downloadedLayerProgress: {
+            ...updatedState.downloadedLayerProgress,
+            [layerId]: {
+              ...updatedState.downloadedLayerProgress[layerId],
+              [dataId]: {
+                requested: true,
+                progress: 0,
+                completed: false,
+                error: false
+              }
+            }
+          }
+        };
+
+        return updatedStateWithProgress;
+      }
+      return updatedState;
+    }
+    case IMPORT_LAYER_PROGRESS: {
+      const { id, progress, layerId } = action.payload;
+
+      const updatedStateWithProgress = {
+        ...state,
+        downloadedLayerProgress: {
+          [layerId]: {
+            ...state.downloadedLayerProgress[layerId],
+            [id]: {
+              ...state.downloadedLayerProgress[layerId]?.[id],
+              progress
+            }
+          }
+        }
+      };
+
+      return updatedStateWithProgress;
+    }
+    case IMPORT_LAYER_AREA_COMPLETED: {
+      const { id, layerId, failed } = action.payload;
+
+      // Mark the download as completed, with an error if one occurred.
+      // We can then check for every request being completed, and if so the layer download can be concluded.
+      return {
+        ...state,
+        downloadedLayerProgress: {
+          ...state.downloadedLayerProgress,
+          [layerId]: {
+            ...state.downloadedLayerProgress[layerId],
+            [id]: {
+              requested: false,
+              progress: 100,
+              completed: true,
+              error: failed
+            }
+          }
+        }
+      };
     }
     case IMPORT_LAYER_ROLLBACK: {
-      return { ...state, importingLayer: false, importError: action.payload };
+      // We do not use ROLLBACK for remote download errors - as a layer may complete for some of the requested areas.
+      // Instead, we will commit the changes we have got, and then use the progress state to determine if errors occured.
+      return {
+        ...state,
+        importingLayer: false,
+        importError: action.payload
+      };
     }
     case RENAME_LAYER: {
       let layers = state.imported;
@@ -318,7 +412,7 @@ export default function reducer(state: LayersState = initialState, action: Layer
       return { ...state, imported: layers, activeLayer: activeLayer };
     }
     case LOGOUT_REQUEST:
-      deleteLayerFiles().then(console.info('Folder removed successfully'));
+      deleteLayerFiles().then(() => console.info('Folder removed successfully'));
       return initialState;
     default:
       return state;
@@ -369,23 +463,28 @@ export function setActiveContextualLayer(layerId: string, value: boolean) {
     );
     if (!value) {
       if (currentActiveLayer) {
-        tracker.trackLayerToggledEvent(currentActiveLayer.name, false);
+        trackLayersToggled(currentActiveLayer.name, false);
       }
     } else if (layerId !== currentActiveLayerId) {
       if (currentActiveLayer) {
-        tracker.trackLayerToggledEvent(currentActiveLayer.name, false);
+        trackLayersToggled(currentActiveLayer.name, false);
       }
       activeLayer = layerId;
       const nextActiveLayer: ?ContextualLayer = state.layers.data?.find(layerData => layerData.id === layerId);
       if (nextActiveLayer) {
-        tracker.trackLayerToggledEvent(nextActiveLayer.name, true);
+        trackLayersToggled(nextActiveLayer.name, true);
       }
     }
     return dispatch({ type: SET_ACTIVE_LAYER, payload: activeLayer });
   };
 }
 
-async function downloadLayer(layerType: LayerType, config, dispatch: Dispatch): Promise<string> {
+async function downloadLayer(
+  layerType: LayerType,
+  config,
+  dispatch: Dispatch,
+  updateActionName: UpdateProgressActionType = UPDATE_PROGRESS
+): Promise<string> {
   const { data, layerId, layerUrl, zoom } = config;
   return await storeTilesFromUrl(
     layerType,
@@ -395,7 +494,7 @@ async function downloadLayer(layerType: LayerType, config, dispatch: Dispatch): 
     [zoom.start, zoom.end],
     (received, total) => {
       const progress = received / total;
-      dispatch({ type: UPDATE_PROGRESS, payload: { id: data.id, progress, layerId } });
+      dispatch({ type: updateActionName, payload: { id: data.id, progress, layerId } });
     }
   );
 }
@@ -403,7 +502,8 @@ async function downloadLayer(layerType: LayerType, config, dispatch: Dispatch): 
 function downloadAllLayers(
   layerType: LayerType,
   config: { data: Area | Route, layerId: string, layerUrl: string },
-  dispatch: Dispatch
+  dispatch: Dispatch,
+  updateActionName: UpdateProgressActionType = UPDATE_PROGRESS
 ) {
   const { cacheZoom } = CONSTANTS.maps;
   return Promise.all(
@@ -434,6 +534,7 @@ export function importContextualLayer(layerFile: File): Thunk<Promise<void>> {
         url: `${importedFile.path}/${importedFile.subFiles[0]}`,
         size: importedFile.size
       };
+      trackImportedContent('layer', layerFile.fileName, true, importedFile.size);
       dispatch({
         type: IMPORT_LAYER_COMMIT,
         payload: layerData
@@ -441,13 +542,158 @@ export function importContextualLayer(layerFile: File): Thunk<Promise<void>> {
     } catch (err) {
       // Fire and forget!
       dispatch({ type: IMPORT_LAYER_ROLLBACK, payload: err });
+      trackImportedContent('layer', layerFile.fileName, false, layerFile.size);
       throw err;
     }
   };
 }
 
-export function importGFWContextualLayer(layer: ContextualLayer): ImportLayerCommit {
-  return { type: IMPORT_LAYER_COMMIT, payload: layer };
+/**
+ * importGFWContent - downloads tiles for the given basemap/layer, for every currently available area.
+ * @param {LayerType} contentType
+ * @param {Basemap|ContextualLayer} content
+ * @param {boolean} onlyNonDownloadedAreas - true if we wish to only request areas that have failed / haven't yet been attempted.
+ */
+export function importGFWContent(
+  contentType: LayerType,
+  content: Basemap | ContextualLayer,
+  onlyNonDownloadedAreas: boolean = false
+): Thunk<Promise<void>> {
+  return async (dispatch: Dispatch, getState: GetState) => {
+    const state = getState();
+
+    const layerId = content.id;
+
+    let areas = state.areas.data;
+
+    if (onlyNonDownloadedAreas) {
+      // We should only download non-downloaded areas, rather than refresh the entire cache.
+      // We may do this when a new area has been created & we wish to download that new layer,
+      // or when an error has occurred. Requesting all of the tiles again would be unnecessary.
+      const layerProgress =
+        contentType === 'contextual_layer'
+          ? state.layers.downloadedLayerProgress[layerId]
+          : state.basemaps.downloadedBasemapProgress[layerId];
+
+      const completedAreas = Object.keys(layerProgress ?? {}).filter(areaKey => {
+        const area = layerProgress[areaKey];
+        return area.completed && !area.error;
+      });
+      areas = areas.filter(area => !completedAreas.includes(area.id));
+    }
+
+    const REQUEST_ACTION = contentType === 'contextual_layer' ? IMPORT_LAYER_REQUEST : IMPORT_BASEMAP_REQUEST;
+    const PROGRESS_ACTION = contentType === 'contextual_layer' ? IMPORT_LAYER_PROGRESS : IMPORT_BASEMAP_PROGRESS;
+
+    const url = contentType === 'contextual_layer' ? content.url : content.styleURL;
+
+    if (!url) {
+      return;
+    }
+
+    const areaPromises = areas.map(async area => {
+      const dataId = area.id;
+      if (url.startsWith('mapbox://')) {
+        // This is a mapbox layer - we must use OfflineManager
+        const name = nameForMapboxOfflinePack(dataId, layerId);
+        const pack = await getMapboxOfflinePack(name);
+
+        if (pack) {
+          // offline pack with with this id already exists.
+          console.info('3SC', 'Error: offline pack with with this id already exists');
+          dispatch({
+            type: PROGRESS_ACTION,
+            payload: { id: dataId, progress: 100, layerId }
+          });
+          // We resolve this layer as completed successfully - as Mapbox will keep it up to date.
+          dispatch(gfwContentImportCompleted(contentType, dataId, content));
+          return;
+        }
+
+        const bbox = area.geostore.bbox;
+
+        if (!bbox) {
+          dispatch(gfwContentImportCompleted(contentType, dataId, content, true));
+          return;
+        }
+
+        dispatch({ type: REQUEST_ACTION, payload: { dataId, layerId, remote: true } });
+
+        try {
+          await downloadOfflinePack(
+            { name, url, minZoom: 1, maxZoom: CONSTANTS.maps.cacheZoom[0].end, bbox },
+            (progress: number) => {
+              dispatch({
+                type: PROGRESS_ACTION,
+                payload: { id: dataId, progress, layerId }
+              });
+            },
+            (error: Error) => {
+              dispatch(gfwContentImportCompleted(contentType, dataId, content, true));
+            },
+            () => {
+              dispatch(gfwContentImportCompleted(contentType, dataId, content));
+            }
+          );
+        } catch (error) {
+          console.error('3SC layer download error: ', error);
+          dispatch(gfwContentImportCompleted(contentType, dataId, content, true));
+        }
+      } else {
+        dispatch({ type: REQUEST_ACTION, payload: { dataId, layerId, remote: true } });
+        await downloadAllLayers(contentType, { data: area, layerId, layerUrl: url }, dispatch, PROGRESS_ACTION)
+          .then(path => dispatch(gfwContentImportCompleted(contentType, area.id, content)))
+          .catch(() => dispatch(gfwContentImportCompleted(contentType, area.id, content, true)));
+      }
+    });
+
+    await Promise.all(areaPromises);
+  };
+}
+
+/**
+ * Called whenever a GFW basemap / contextual layer download has completed, even if it completed with an error.
+ * This means we can resolve the area's progress state accordingly and track the download result.
+ *
+ * @param {LayerType} contentType
+ * @param {string} dataId
+ * @param {Basemap | ContextualLayer} layer
+ * @param {boolean} withFailure
+ */
+function gfwContentImportCompleted(
+  contentType: LayerType,
+  dataId: string,
+  layer: Basemap | ContextualLayer,
+  withFailure: boolean = false
+): Thunk<Promise<void>> {
+  return async (dispatch: Dispatch, getState: GetState) => {
+    const AREA_COMPLETE_ACTION =
+      contentType === 'contextual_layer' ? IMPORT_LAYER_AREA_COMPLETED : IMPORT_BASEMAP_AREA_COMPLETED;
+    const COMMIT_ACTION = contentType === 'contextual_layer' ? IMPORT_LAYER_COMMIT : IMPORT_BASEMAP_COMMIT;
+    // We mark that area in the downloadedLayerProgress state as completed with 100% progress.
+    // This means we can then keep track of areas that are still downloading / unpacking.
+    await dispatch({
+      type: AREA_COMPLETE_ACTION,
+      payload: { id: dataId, layerId: layer.id, failed: withFailure }
+    });
+
+    // Check for any areas for this layer that are still in progress.
+    const downloadProgressForLayer =
+      contentType === 'contextual_layer'
+        ? getState().layers.downloadedLayerProgress[layer.id]
+        : getState().basemaps.downloadedBasemapProgress[layer.id] ?? {};
+    const remainingAreas = Object.values(downloadProgressForLayer).filter(area => area.completed !== true);
+
+    if (remainingAreas?.length === 0) {
+      // The download has completed, and we can now commit the entire layer.
+      // TODO: If an area has failed to download, should we show an alert to state this?
+      console.warn('download complete!!!!!!!');
+
+      // TODO: Get collective file size for all tiles, add it to the layer.
+
+      dispatch({ type: COMMIT_ACTION, payload: layer });
+    }
+  };
 }
 
 function getAreaById(areas: Array<Area>, areaId: string): ?Area {
@@ -471,8 +717,9 @@ function getRouteById(routes: Array<Route>, routeId: string): ?Route {
 
 export function cacheAreaBasemap(dataType: DownloadDataType, dataId: string, basemapId: string) {
   return async (dispatch: Dispatch, getState: GetState) => {
-    const packName = `${dataId}|${basemapId}`;
-    const pack = await MapboxGL.offlineManager.getPack(packName);
+    const name = nameForMapboxOfflinePack(dataId, basemapId);
+    const pack = await getMapboxOfflinePack(name);
+
     if (pack) {
       // offline pack with with this id already exists.
       console.info('3SC', 'Error: offline pack with with this id already exists');
@@ -493,44 +740,44 @@ export function cacheAreaBasemap(dataType: DownloadDataType, dataId: string, bas
       const route = state.routes.previousRoutes.find(route => route.id === dataId);
 
       if (route) {
-        bbox = bboxForRoute(route);
+        try {
+          bbox = bboxForRoute(route);
+        } catch {
+          console.warn('3SC - Could not generate BBox for route - does it have two or more points?');
+          dispatch({ type: CACHE_LAYER_COMMIT, payload: { dataId, layerId: basemapId } });
+          return;
+        }
       }
     }
 
     if (!bbox) {
+      dispatch({ type: CACHE_LAYER_COMMIT, payload: { dataId, layerId: basemapId } });
       return;
     }
 
-    const areaBounds = [[bbox[2], bbox[3]], [bbox[0], bbox[1]]];
-    const progressListener = (offlineRegion, status) => {
-      if (!status.percentage) {
-        return;
-      }
-      dispatch({
-        type: UPDATE_PROGRESS,
-        payload: { id: dataId, progress: status.percentage / 100, layerId: basemapId }
-      });
-      if (status.state === MAPBOX_DOWNLOAD_COMPLETED_STATE) {
-        dispatch({ type: CACHE_LAYER_COMMIT, payload: { dataId, layerId: basemapId } });
-      }
-    };
-    const errorListener = (offlineRegion, err) => {
-      dispatch({ type: CACHE_LAYER_ROLLBACK, payload: { dataId, layerId: basemapId } });
-      console.error('3SC download basemap error: ', err);
-    };
-    const downloadPackOptions = {
-      name: packName,
-      styleURL: basemapId,
-      minZoom: 1,
-      maxZoom: CONSTANTS.maps.cacheZoom[0].end,
-      bounds: areaBounds
-    };
-
+    trackContentDownloadStarted(name);
+    dispatch({ type: CACHE_LAYER_REQUEST, payload: { dataId, layerId: basemapId } });
     try {
-      dispatch({ type: CACHE_LAYER_REQUEST, payload: { dataId, layerId: basemapId } });
-      await MapboxGL.offlineManager.createPack(downloadPackOptions, progressListener, errorListener);
+      await downloadOfflinePack(
+        { name, url: basemapId, minZoom: 1, maxZoom: CONSTANTS.maps.cacheZoom[0].end, bbox },
+        (progress: number) => {
+          dispatch({
+            type: UPDATE_PROGRESS,
+            payload: { id: dataId, progress, layerId: basemapId }
+          });
+        },
+        (error: Error) => {
+          trackDownloadedContent('basemap', name, false);
+          dispatch({ type: CACHE_LAYER_ROLLBACK, payload: { dataId, layerId: basemapId } });
+        },
+        () => {
+          trackDownloadedContent('basemap', name, true);
+          dispatch({ type: CACHE_LAYER_COMMIT, payload: { dataId, layerId: basemapId } });
+        }
+      );
     } catch (error) {
       console.error('3SC basemap download error: ', error);
+      trackDownloadedContent('basemap', name, false);
       dispatch({ type: CACHE_LAYER_ROLLBACK, payload: { dataId, layerId: basemapId } });
     }
   };
@@ -548,9 +795,18 @@ export function cacheAreaLayer(dataType: DownloadDataType, dataId: string, layer
         layerId: layer.id,
         layerUrl: layer.url
       };
+      const layerKey = `${dataId}|${layerId}`;
+      trackContentDownloadStarted(layerKey);
       downloadAllLayers('contextual_layer', downloadConfig, dispatch)
-        .then(path => dispatch({ type: CACHE_LAYER_COMMIT, payload: { path, dataId, layerId } }))
-        .catch(() => dispatch({ type: CACHE_LAYER_ROLLBACK, payload: { dataId, layerId } }));
+        .then(path => {
+          dispatch({ type: CACHE_LAYER_COMMIT, payload: { path, dataId, layerId } });
+          trackDownloadedContent('layer', layerKey, true);
+          return;
+        })
+        .catch(() => {
+          dispatch({ type: CACHE_LAYER_ROLLBACK, payload: { dataId, layerId } });
+          trackDownloadedContent('layer', layerKey, false);
+        });
       dispatch({ type: CACHE_LAYER_REQUEST, payload: { dataId, layerId } });
     }
   };
