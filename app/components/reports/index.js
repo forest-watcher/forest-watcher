@@ -448,7 +448,6 @@ class Reports extends PureComponent<Props, State> {
       <View style={styles.container}>
         <ShareSheet
           componentId={this.props.componentId}
-          enabled={totalToExport > 0}
           disabled={totalReports === 0}
           isSharing={this.state.creatingArchive}
           onShare={() => {

@@ -323,7 +323,7 @@ export default function reducer(state: LayersState = initialState, action: Layer
       return { ...state, imported: layers, activeLayer: activeLayer };
     }
     case LOGOUT_REQUEST:
-      deleteLayerFiles().then(console.info('Folder removed successfully'));
+      deleteLayerFiles().then(() => console.info('Folder removed successfully'));
       return initialState;
     default:
       return state;

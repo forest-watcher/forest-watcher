@@ -16,11 +16,9 @@ import { Navigation, NavigationButtonPressedEvent } from 'react-native-navigatio
 type Props = {
   ...ElementConfig<typeof View>,
   componentId?: string,
-  enabled: boolean,
   disabled?: ?boolean,
   editButtonDisabledTitle?: string,
   editButtonEnabledTitle?: string,
-  editEnabled?: boolean,
   isSharing?: boolean,
   onEdit?: () => void,
   onEditingToggled?: (editing: boolean) => void,
@@ -31,7 +29,6 @@ type Props = {
   shareButtonDisabledTitle: string,
   shareButtonEnabledTitle: string,
   shareButtonInProgressTitle: string,
-  shareEnabled?: boolean,
   showEditButton?: boolean,
   selected: number
 };
@@ -117,6 +114,8 @@ export default class ShareSelector extends Component<Props, State> {
     const { editing, sharing } = this.state;
     const { isSharing, showEditButton } = this.props;
 
+    const hasItemsSelected = this.props.selected > 0;
+
     return (
       <View
         onStartShouldSetResponder={this.props.onStartShouldSetResponder}
@@ -141,7 +140,7 @@ export default class ShareSelector extends Component<Props, State> {
           >
             {showEditButton && !sharing && (
               <ActionButton
-                disabled={this.props.disabled || isSharing || (!this.props.enabled && editing)}
+                disabled={this.props.disabled || isSharing || (!hasItemsSelected && editing)}
                 noIcon
                 onPress={this.props.disabled ? null : editing ? this.props.onEdit : this.onClickEdit}
                 secondary={!editing}
@@ -151,7 +150,7 @@ export default class ShareSelector extends Component<Props, State> {
             {showEditButton && !editing && !sharing && <View style={{ width: 15 }} />}
             {!editing && (
               <ActionButton
-                disabled={this.props.disabled || isSharing || (!this.props.enabled && sharing)}
+                disabled={this.props.disabled || isSharing || (!hasItemsSelected && sharing)}
                 noIcon
                 onPress={this.props.disabled ? null : sharing ? this.props.onShare : this.onClickShare}
                 secondary={!sharing && !this.props.disabled}

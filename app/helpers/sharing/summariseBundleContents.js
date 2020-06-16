@@ -22,7 +22,7 @@ export default function summariseBundleContents(
       i18n.t('sharing.type.alerts')
     ),
     summariseItem(
-      importRequest.customBasemaps ? bundle.basemaps : [],
+      importRequest.customBasemaps.metadata ? bundle.basemaps : [],
       i18n.t('sharing.type.customBasemap'),
       i18n.t('sharing.type.customBasemaps')
     ),
