@@ -14,6 +14,7 @@ import { BUNDLE_DATA_FILE_NAME } from 'helpers/sharing/exportBundle';
 import { APP_DATA_FORMAT_VERSION } from 'helpers/sharing/exportAppData';
 import importAppData from 'helpers/sharing/importAppData';
 import importFileManifest from 'helpers/sharing/importFileManifest';
+import { readTextFile } from 'helpers/fileManagement';
 
 export const IMPORT_ENTIRE_BUNDLE_REQUEST: ImportBundleRequest = Object.freeze({
   areas: true,
@@ -103,7 +104,7 @@ export async function unpackBundle(uri: string): Promise<UnpackedSharingBundle> 
   }
 
   const bundleDataUri = `${stagingDir}/${BUNDLE_DATA_FILE_NAME}`;
-  const fileContents = await RNFS.readFile(bundleDataUri);
+  const fileContents = await readTextFile(bundleDataUri);
   const bundle = JSON.parse(fileContents);
   return {
     path: stagingDir,
