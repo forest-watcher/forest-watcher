@@ -322,6 +322,7 @@ class MappingFiles extends Component<Props, State> {
                 }
                 onInfoPress={file.description ? this.onInfoPress.bind(this, file) : undefined}
                 title={i18n.t(file.name)}
+                showSize={mappingFileType === 'contextual_layer'}
                 subtitle={formatBytes(file.size ?? 0)}
                 selected={inShareMode ? this.state.selectedForExport.includes(file.id) : null}
               />
@@ -370,6 +371,7 @@ class MappingFiles extends Component<Props, State> {
                 onRenamePress={() => {
                   this.confirmMappingFileRenaming(file);
                 }}
+                showSize
                 selected={inShareMode ? this.state.selectedForExport.includes(file.id) : null}
               />
             </View>

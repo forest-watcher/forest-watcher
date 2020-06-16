@@ -53,6 +53,7 @@ type Props = {
   onPress?: ?() => void,
   onInfoPress?: () => void,
   onRenamePress?: () => void,
+  showSize: boolean,
   selected?: ?boolean,
   style?: ?ViewStyle
 };
@@ -70,11 +71,13 @@ export default class MappingFileRow extends Component<Props, State> {
   }
 
   componentDidMount() {
-    this._calculateSize();
+    if (this.props.showSize) {
+      this._calculateSize();
+    }
   }
 
   componentDidUpdate(prevProps: Props) {
-    if (this.props.downloaded !== prevProps.downloaded) {
+    if (this.props.downloaded !== prevProps.downloaded && this.props.showSize) {
       this._calculateSize();
     }
   }
@@ -95,7 +98,7 @@ export default class MappingFileRow extends Component<Props, State> {
   renderIcons = () => {
     const isRenamable = this.props.layer.isCustom;
     // TODO: Need to recognise GFW layers as deletable
-    const isDeletable = (this.state.sizeInBytes ?? 0) > 0 || this.props.layer.isCustom;
+    const isDeletable = (this.state.sizeInBytes ?? 0) > 0 || this.props.layer.isCustom || this.props.downloaded;
     const isRefreshable =
       this.props.downloaded &&
       this.props.layerType === 'contextual_layer' &&
@@ -159,7 +162,7 @@ export default class MappingFileRow extends Component<Props, State> {
     const { layer, layerType, downloading } = this.props;
 
     const title = i18n.t(layer.name);
-    const subtitle = this.state.sizeInBytes !== null ? formatBytes(this.state.sizeInBytes) : '';
+    const subtitle = this.state.sizeInBytes !== null && this.props.showSize ? formatBytes(this.state.sizeInBytes) : '';
     const image = layer.image ?? icons[layerType].placeholder;
 
     return (
