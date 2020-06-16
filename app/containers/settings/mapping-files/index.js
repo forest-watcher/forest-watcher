@@ -14,7 +14,8 @@ import { deleteLayerFile } from 'helpers/layer-store/deleteLayerFiles';
 import exportBundleFromRedux from 'helpers/sharing/exportBundleFromRedux';
 import shareBundle from 'helpers/sharing/shareBundle';
 
-import { deleteBasemap, renameBasemap } from 'redux-modules/basemaps';
+import { showNotConnectedNotification } from 'redux-modules/app';
+import { deleteBasemap, deleteMapboxOfflinePacks, renameBasemap } from 'redux-modules/basemaps';
 import { deleteLayer, renameLayer, importGFWContent } from 'redux-modules/layers';
 import { unselectDeletedBasemap } from 'redux-modules/layerSettings';
 
@@ -44,7 +45,8 @@ function mapStateToProps(state: State, ownProps: OwnProps) {
       ownProps.mappingFileType === 'contextual_layer'
         ? state.layers.downloadedLayerProgress
         : state.basemaps.downloadedBasemapProgress,
-    importedFiles
+    importedFiles,
+    offlineMode: state.app.offlineMode
   };
 }
 
@@ -55,6 +57,7 @@ function mapDispatchToProps(dispatch: Dispatch, ownProps: OwnProps) {
 
       if (type === 'basemap') {
         await dispatch(deleteBasemap(id));
+        await dispatch(deleteMapboxOfflinePacks(id));
         await dispatch(unselectDeletedBasemap(id));
       } else {
         await dispatch(deleteLayer(id));
@@ -88,6 +91,9 @@ function mapDispatchToProps(dispatch: Dispatch, ownProps: OwnProps) {
       } else {
         await dispatch(renameLayer(id, newName));
       }
+    },
+    showNotConnectedNotification: () => {
+      dispatch(showNotConnectedNotification());
     }
   };
 }

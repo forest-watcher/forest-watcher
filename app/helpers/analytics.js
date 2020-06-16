@@ -95,7 +95,6 @@ const contentDownloadTimers: { [id: string]: number } = {};
 
 export const trackContentDownloadStarted = (id: string) => {
   contentDownloadTimers[id] = Date.now();
-  console.warn(`trackContentDownloadStarted - ${id}`);
 };
 
 export const trackDownloadedContent = (contentType: DownloadableContentType, id: string, success: boolean) => {

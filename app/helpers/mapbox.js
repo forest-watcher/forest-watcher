@@ -38,6 +38,25 @@ export const getMapboxOfflinePack = async (packName: string): Promise<?MapboxGL.
 };
 
 /**
+ * deleteMapboxOfflinePack - given the area / route id + basemap ID, deletes the corresponding
+ * basemap offline pack.
+ * @param {string} contentId
+ * @param {string} basemapId
+ */
+export const deleteMapboxOfflinePack = async (contentId: string, basemapId: string) => {
+  const name = nameForMapboxOfflinePack(contentId, basemapId);
+
+  await MapboxGL.offlineManager.deletePack(name);
+};
+
+/**
+ * deleteAllOfflinePacks - deletes all mapbox offline packs.
+ */
+export const deleteAllOfflinePacks = async () => {
+  await MapboxGL.offlineManager.resetDatabase();
+};
+
+/**
  * downloadOfflinePack - given request parameters and event handlers, attempts to download
  * map tiles for the given bounds.
  * @param {MapboxOfflinePackConfig} config

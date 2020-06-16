@@ -9,7 +9,7 @@ export async function deleteLayerFile(fileId: string, type: LayerType) {
     const path = pathForLayer(type, fileId);
     await RNFS.unlink(path);
   } catch (error) {
-    console.warn(error);
+    console.warn(`${error}`);
   }
 }
 

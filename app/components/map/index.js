@@ -1130,6 +1130,11 @@ class MapComponent extends Component<Props, State> {
           onPress={this.onMapPress}
           compassViewMargins={{ x: 5, y: 50 }}
         >
+          {basemap.tileUrl && (
+            <MapboxGL.RasterSource id="basemapTiles" url={basemap.tileUrl}>
+              <MapboxGL.RasterLayer id="basemapTileLayer" />
+            </MapboxGL.RasterSource>
+          )}
           <MBTilesSource
             basemapId={basemap.id}
             basemapPath={basemap.isCustom ? pathForMBTilesFile(basemap) : null}

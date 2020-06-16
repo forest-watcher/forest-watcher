@@ -14,6 +14,9 @@ import {
 } from 'react-native';
 import i18n from 'i18next';
 
+import ProgressBar from 'react-native-progress/Bar';
+
+import Theme from 'config/theme';
 import styles from './styles';
 import type { ContextualLayer } from 'types/layers.types';
 import type { Basemap } from 'types/basemaps.types';
@@ -41,6 +44,7 @@ const icons = {
 
 type Props = {
   downloaded?: boolean,
+  downloading?: boolean,
   inEditMode: boolean,
   layer: ContextualLayer | Basemap,
   layerType: LayerType,
@@ -154,11 +158,12 @@ export default class MappingFileRow extends Component<Props, State> {
   };
 
   render() {
-    const { layer, layerType } = this.props;
+    const { layer, layerType, downloading } = this.props;
 
     const title = i18n.t(layer.name);
     const subtitle = this.state.sizeInBytes !== null ? formatBytes(this.state.sizeInBytes) : 'LOADING';
     const image = layer.image ?? icons[layerType].placeholder;
+
     return (
       <View style={styles.item}>
         <View style={styles.imageContainer}>
@@ -174,7 +179,19 @@ export default class MappingFileRow extends Component<Props, State> {
             </View>
           )}
         </View>
-        <View style={styles.iconsContainer}>{this.renderIcons()}</View>
+        {!downloading && <View style={styles.iconsContainer}>{this.renderIcons()}</View>}
+        {downloading && (
+          <View style={styles.progressBarContainer}>
+            <ProgressBar
+              indeterminate={true}
+              width={Theme.screen.width}
+              height={4}
+              color={Theme.colors.turtleGreen}
+              borderRadius={0}
+              borderColor="transparent"
+            />
+          </View>
+        )}
       </View>
     );
   }

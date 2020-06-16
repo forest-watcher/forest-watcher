@@ -8,6 +8,7 @@ import { LOGOUT_REQUEST } from 'redux-modules/user';
 import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 
 import { trackImportedContent } from 'helpers/analytics';
+import { deleteMapboxOfflinePack } from 'helpers/mapbox';
 import { importLayerFile } from 'helpers/layer-store/import/importLayerFile';
 
 // Actions
@@ -155,7 +156,11 @@ export default function reducer(state: BasemapsState = initialState, action: Bas
     }
     case DELETE_BASEMAP: {
       const basemaps = state.importedBasemaps.filter(basemap => basemap.id !== action.payload);
-      return { ...state, importedBasemaps: basemaps };
+
+      const downloadProgress = { ...state.downloadedBasemapProgress };
+      delete downloadProgress[action.payload];
+
+      return { ...state, downloadedBasemapProgress: downloadProgress, importedBasemaps: basemaps };
     }
     case LOGOUT_REQUEST:
       return initialState;
@@ -212,6 +217,20 @@ export function deleteBasemap(id: string): BasemapsAction {
   return {
     type: DELETE_BASEMAP,
     payload: id
+  };
+}
+
+export function deleteMapboxOfflinePacks(basemapId: string): Thunk<Promise<void>> {
+  return async (dispatch: Dispatch, getState: GetState) => {
+    const state = getState();
+
+    const regionIds = [...state.areas.data, ...state.routes.previousRoutes].map(region => region.id);
+
+    const promises = regionIds.map(async (id: string) => {
+      await deleteMapboxOfflinePack(id, basemapId);
+    });
+
+    await Promise.all(promises);
   };
 }
 
