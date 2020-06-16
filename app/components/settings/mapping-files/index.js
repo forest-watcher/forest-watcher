@@ -288,9 +288,12 @@ class MappingFiles extends Component<Props, State> {
             fileDownloadProgress.filter(area => area.completed && !area.error).length >= areaTotal;
           const fileIsDownloading = fileDownloadProgress.filter(area => area.requested).length > 0;
 
+          const isNonDownloadableLayer = mappingFileType === 'contextual_layer' && file.url?.startsWith('mapbox://');
+
           // Downloads should be disabled if the file is in-progress, or if this is a basemap we've already downloaded.
           // Basemaps should not be 'refreshed' as Mapbox will handle this internally.
-          const disableDownload = fileIsDownloading || (fileIsFullyDownloaded && mappingFileType === 'basemap');
+          const disableDownload =
+            isNonDownloadableLayer || fileIsDownloading || (fileIsFullyDownloaded && mappingFileType === 'basemap');
           return (
             <View key={file.id} style={styles.rowContainer}>
               <MappingFileRow

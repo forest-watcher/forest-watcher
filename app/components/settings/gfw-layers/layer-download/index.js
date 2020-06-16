@@ -42,10 +42,14 @@ class LayerDownload extends PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      download: true,
+      download: this.layerIsOnlineOnly(props.layer?.url),
       downloading: false
     };
   }
+
+  layerIsOnlineOnly = (url: string): boolean => {
+    return url?.startsWith('mapbox://');
+  };
 
   onPressAdd = async () => {
     if (this.props.offlineMode && this.state.download) {
@@ -93,6 +97,33 @@ class LayerDownload extends PureComponent<Props, State> {
     });
   };
 
+  renderDownloadRow = () => {
+    const isOnlineOnly = this.layerIsOnlineOnly(this.props.layer.url);
+    const titleKey = isOnlineOnly ? 'importLayer.gfw.downloadUnavailableTitle' : 'importLayer.gfw.downloadTitle';
+    const subtitleKey = isOnlineOnly
+      ? 'importLayer.gfw.downloadUnavailableSubtitle'
+      : 'importLayer.gfw.downloadSubtitle';
+
+    console.warn(this.props.layer.url);
+
+    return (
+      <Row
+        action={
+          isOnlineOnly
+            ? null
+            : {
+                icon: this.state.download ? checkboxOnIcon : checkboxOffIcon,
+                callback: !this.state.downloading ? this.onPressDownload : null,
+                position: 'top'
+              }
+        }
+      >
+        <Text style={styles.rowTitleLabel}>{i18n.t(titleKey)}</Text>
+        <Text style={styles.rowSubtitleLabel}>{i18n.t(subtitleKey)}</Text>
+      </Row>
+    );
+  };
+
   render() {
     return (
       <View style={styles.container}>
@@ -117,16 +148,7 @@ class LayerDownload extends PureComponent<Props, State> {
               <Text style={styles.rowLabel}>{i18n.t('importLayer.gfw.description')}</Text>
             </Row>
           ) : null}
-          <Row
-            action={{
-              icon: this.state.download ? checkboxOnIcon : checkboxOffIcon,
-              callback: !this.state.downloading ? this.onPressDownload : null,
-              position: 'top'
-            }}
-          >
-            <Text style={styles.rowTitleLabel}>{i18n.t('importLayer.gfw.downloadTitle')}</Text>
-            <Text style={styles.rowSubtitleLabel}>{i18n.t('importLayer.gfw.downloadSubtitle')}</Text>
-          </Row>
+          {this.renderDownloadRow()}
           <Row
             action={{
               icon: !this.state.download ? checkboxOnIcon : checkboxOffIcon,

@@ -425,6 +425,8 @@
             "onlineSubtitle": "Layer data will only be available when online",
             "downloadTitle": "Download",
             "downloadSubtitle": "Layer data will be downloaded for offline use",
+            "downloadUnavailableTitle": "Download unavailable",
+            "downloadUnavailableSubtitle": "This layer is only available online",
             "title": "Add GFW Layers",
             "allLayers": "All GFW Layers (%{count})"
         }

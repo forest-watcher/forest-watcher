@@ -99,11 +99,10 @@ export default class MappingFileRow extends Component<Props, State> {
     const isRenamable = this.props.layer.isCustom;
     // TODO: Need to recognise GFW layers as deletable
     const isDeletable = (this.state.sizeInBytes ?? 0) > 0 || this.props.layer.isCustom || this.props.downloaded;
-    const isRefreshable =
-      this.props.downloaded &&
-      this.props.layerType === 'contextual_layer' &&
-      !(this.props.layer.url ?? '').startsWith('mapbox://');
-    const isDownloadable = this.props.layerType === 'contextual_layer' || !this.props.layer.tileUrl;
+    const isRefreshable = this.props.downloaded && this.props.layerType === 'contextual_layer';
+    const isDownloadable =
+      (this.props.layerType === 'contextual_layer' && !(this.props.layer.url ?? '').startsWith('mapbox://')) ||
+      (this.props.layerType === 'basemap' && !this.props.layer.tileUrl);
 
     if (this.props.inEditMode) {
       return (
@@ -135,6 +134,10 @@ export default class MappingFileRow extends Component<Props, State> {
       android: TouchableNativeFeedback,
       ios: TouchableHighlight
     });
+
+    if (!icon) {
+      return null;
+    }
 
     return (
       <Touchable
