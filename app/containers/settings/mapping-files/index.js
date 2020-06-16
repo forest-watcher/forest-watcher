@@ -14,7 +14,7 @@ import exportBundleFromRedux from 'helpers/sharing/exportBundleFromRedux';
 import shareBundle from 'helpers/sharing/shareBundle';
 
 import { deleteBasemap, renameBasemap } from 'redux-modules/basemaps';
-import { deleteLayer, renameLayer } from 'redux-modules/layers';
+import { deleteLayer, renameLayer, importGFWContextualLayer } from 'redux-modules/layers';
 import { unselectDeletedBasemap } from 'redux-modules/layerSettings';
 
 import { GFW_BASEMAPS } from 'config/constants';
@@ -37,7 +37,9 @@ function mapStateToProps(state: State, ownProps: OwnProps) {
       : state.basemaps.importedBasemaps;
 
   return {
+    areaTotal: state.areas.data.length,
     baseFiles,
+    downloadedLayerProgress: state.layers.downloadedLayerProgress,
     importedFiles
   };
 }
@@ -67,6 +69,9 @@ function mapDispatchToProps(dispatch: Dispatch, ownProps: OwnProps) {
         )
       );
       await shareBundle(outputPath);
+    },
+    importGFWContextualLayer: async (layer: ContextualLayer, onlyNonDownloadedAreas: boolean = false) => {
+      await dispatch(importGFWContextualLayer(layer, onlyNonDownloadedAreas));
     },
     renameMappingFile: async (id: string, type: LayerType, newName: string) => {
       if (type === 'basemap') {
