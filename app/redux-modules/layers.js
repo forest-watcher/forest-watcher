@@ -552,12 +552,12 @@ export function importContextualLayer(layerFile: File): Thunk<Promise<void>> {
  * importGFWContent - downloads tiles for the given basemap/layer, for every currently available area.
  * @param {LayerType} contentType
  * @param {Basemap|ContextualLayer} content
- * @param {boolean} onlyNonDownloadedAreas - true if we wish to only request areas that have failed / haven't yet been attempted.
+ * @param {boolean} onlyNonDownloadedRegions - true if we wish to only request regions that have failed / haven't yet been attempted.
  */
 export function importGFWContent(
   contentType: LayerType,
   content: Basemap | ContextualLayer,
-  onlyNonDownloadedAreas: boolean = false,
+  onlyNonDownloadedRegions: boolean = false,
   downloadContent: boolean = true
 ): Thunk<Promise<void>> {
   return async (dispatch: Dispatch, getState: GetState) => {
@@ -572,22 +572,22 @@ export function importGFWContent(
 
     const layerId = content.id;
 
-    let areas = state.areas.data;
+    let regions = [...state.areas.data, ...state.routes.previousRoutes];
 
-    if (onlyNonDownloadedAreas) {
-      // We should only download non-downloaded areas, rather than refresh the entire cache.
-      // We may do this when a new area has been created & we wish to download that new layer,
+    if (onlyNonDownloadedRegions) {
+      // We should only download non-downloaded regions, rather than refresh the entire cache.
+      // We may do this when a new region has been created & we wish to download that new layer,
       // or when an error has occurred. Requesting all of the tiles again would be unnecessary.
       const layerProgress =
         contentType === 'contextual_layer'
           ? state.layers.downloadedLayerProgress[layerId]
           : state.basemaps.downloadedBasemapProgress[layerId];
 
-      const completedAreas = Object.keys(layerProgress ?? {}).filter(areaKey => {
-        const area = layerProgress[areaKey];
-        return area.completed && !area.error;
+      const completedRegions = Object.keys(layerProgress ?? {}).filter(regionKey => {
+        const region = layerProgress[regionKey];
+        return region.completed && !region.error;
       });
-      areas = areas.filter(area => !completedAreas.includes(area.id));
+      regions = regions.filter(region => !completedRegions.includes(region.id));
     }
 
     const REQUEST_ACTION = contentType === 'contextual_layer' ? IMPORT_LAYER_REQUEST : IMPORT_BASEMAP_REQUEST;
@@ -599,8 +599,8 @@ export function importGFWContent(
       return;
     }
 
-    const areaPromises = areas.map(async area => {
-      const dataId = area.id;
+    const regionPromises = regions.map(async region => {
+      const dataId = region.id;
       if (url.startsWith('mapbox://')) {
         // This is a mapbox layer - we must use OfflineManager
         const name = nameForMapboxOfflinePack(dataId, layerId);
@@ -618,7 +618,19 @@ export function importGFWContent(
           return;
         }
 
-        const bbox = area.geostore.bbox;
+        let bbox: ?BBox2d = null;
+
+        if (region.geostore?.bbox) {
+          bbox = region.geostore?.bbox;
+        } else {
+          try {
+            bbox = bboxForRoute(region);
+          } catch {
+            console.warn('3SC - Could not generate BBox for route - does it have two or more points?');
+            dispatch({ type: CACHE_LAYER_COMMIT, payload: { dataId, layerId } });
+            return;
+          }
+        }
 
         if (!bbox) {
           dispatch(gfwContentImportCompleted(contentType, dataId, content, true));
@@ -649,13 +661,13 @@ export function importGFWContent(
         }
       } else {
         dispatch({ type: REQUEST_ACTION, payload: { dataId, layerId, remote: true } });
-        await downloadAllLayers(contentType, { data: area, layerId, layerUrl: url }, dispatch, PROGRESS_ACTION)
-          .then(path => dispatch(gfwContentImportCompleted(contentType, area.id, content)))
-          .catch(() => dispatch(gfwContentImportCompleted(contentType, area.id, content, true)));
+        await downloadAllLayers(contentType, { data: region, layerId, layerUrl: url }, dispatch, PROGRESS_ACTION)
+          .then(path => dispatch(gfwContentImportCompleted(contentType, region.id, content)))
+          .catch(() => dispatch(gfwContentImportCompleted(contentType, region.id, content, true)));
       }
     });
 
-    await Promise.all(areaPromises);
+    await Promise.all(regionPromises);
   };
 }
 
@@ -675,26 +687,26 @@ function gfwContentImportCompleted(
   withFailure: boolean = false
 ): Thunk<Promise<void>> {
   return async (dispatch: Dispatch, getState: GetState) => {
-    const AREA_COMPLETE_ACTION =
+    const REGION_COMPLETE_ACTION =
       contentType === 'contextual_layer' ? IMPORT_LAYER_AREA_COMPLETED : IMPORT_BASEMAP_AREA_COMPLETED;
     const COMMIT_ACTION = contentType === 'contextual_layer' ? IMPORT_LAYER_COMMIT : IMPORT_BASEMAP_COMMIT;
-    // We mark that area in the downloadedLayerProgress state as completed with 100% progress.
-    // This means we can then keep track of areas that are still downloading / unpacking.
+    // We mark that region in the downloadedLayerProgress state as completed with 100% progress.
+    // This means we can then keep track of regions that are still downloading / unpacking.
     await dispatch({
-      type: AREA_COMPLETE_ACTION,
+      type: REGION_COMPLETE_ACTION,
       payload: { id: dataId, layerId: layer.id, failed: withFailure }
     });
 
-    // Check for any areas for this layer that are still in progress.
+    // Check for any regions for this layer that are still in progress.
     const downloadProgressForLayer =
       contentType === 'contextual_layer'
         ? getState().layers.downloadedLayerProgress[layer.id]
         : getState().basemaps.downloadedBasemapProgress[layer.id] ?? {};
-    const remainingAreas = Object.values(downloadProgressForLayer).filter(area => area.completed !== true);
+    const remainingRegions = Object.values(downloadProgressForLayer).filter(region => region.completed !== true);
 
-    if (remainingAreas?.length === 0) {
+    if (remainingRegions?.length === 0) {
       // The download has completed, and we can now commit the entire layer.
-      // TODO: If an area has failed to download, should we show an alert to state this?
+      // TODO: If an region has failed to download, should we show an alert to state this?
       console.warn('download complete!!!!!!!');
 
       // TODO: Get collective file size for all tiles, add it to the layer.

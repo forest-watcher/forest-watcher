@@ -220,10 +220,12 @@ export function deleteBasemap(id: string): BasemapsAction {
 }
 
 export function deleteMapboxOfflinePacks(basemapId: string): Thunk<Promise<void>> {
-  return async (dispatch: Dispatch, state: GetState) => {
-    const areaIds = state().areas.data.map(area => area.id);
+  return async (dispatch: Dispatch, getState: GetState) => {
+    const state = getState();
 
-    const promises = areaIds.map(async (id: string) => {
+    const regionIds = [...state.areas.data, ...state.routes.previousRoutes].map(region => region.id);
+
+    const promises = regionIds.map(async (id: string) => {
       await deleteMapboxOfflinePack(id, basemapId);
     });
 
