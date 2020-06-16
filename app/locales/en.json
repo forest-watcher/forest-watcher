@@ -421,6 +421,7 @@
             "add": "Add Layer",
             "description": "View Description",
             "downloading": "Downloading Layer...",
+            "error": "The layer could not be downloaded, check your device storage capacity and internet connection and try again.",
             "onlineTitle": "Online Access Only",
             "onlineSubtitle": "Layer data will only be available when online",
             "downloadTitle": "Download",
