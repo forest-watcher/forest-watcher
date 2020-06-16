@@ -33,6 +33,7 @@ Object {
     "syncing": false,
   },
   "basemaps": Object {
+    "downloadedBasemapProgress": Object {},
     "importError": null,
     "importedBasemaps": Array [],
     "importing": false,
@@ -1965,6 +1966,7 @@ Object {
     "syncing": false,
   },
   "basemaps": Object {
+    "downloadedBasemapProgress": Object {},
     "importError": null,
     "importedBasemaps": Array [],
     "importing": false,
