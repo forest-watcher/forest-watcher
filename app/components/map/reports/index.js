@@ -20,7 +20,7 @@ export type ReportLayerSettings = {
 type Props = {
   myReports: Array<Report>,
   importedReports: Array<Report>,
-  selectedReport: ?{ reportName: string, lat: number, long: number },
+  selectedReports: Array<{ reportName: string, lat: number, long: number }>,
   reportLayerSettings: ReportLayerSettings,
   onShapeSourcePressed?: () => void
 };
@@ -53,7 +53,9 @@ export default class Reports extends Component<Props> {
   };
 
   reportToFeature = (report: Report) => {
-    const selected = this.props.selectedReport?.reportName === report.reportName;
+    const selected =
+      this.props.selectedReports?.length &&
+      this.props.selectedReports.find(rep => rep.reportName === report.reportName);
     const position = getReportPosition(report);
     const properties = {
       selected,
@@ -65,7 +67,8 @@ export default class Reports extends Component<Props> {
       // need to pass these as strings as they are rounded in onShapeSourcePressed method.
       lat: '' + position[1],
       long: '' + position[0],
-      featureId: report.reportName
+      featureId: report.reportName,
+      reportAreaName: report.area.name
     };
     return point(position, properties);
   };
@@ -97,7 +100,7 @@ export default class Reports extends Component<Props> {
           <MapboxGL.SymbolLayer
             id={key + 'Layer'}
             filter={['!', ['has', 'point_count']]}
-            style={mapboxStyles.reportIcon}
+            style={imported ? mapboxStyles.importedReportIcon : mapboxStyles.reportIcon}
           />
         </MapboxGL.ShapeSource>
       </View>
