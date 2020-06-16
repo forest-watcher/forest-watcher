@@ -25,12 +25,10 @@ import { presentInformationModal } from 'screens/common';
 const plusIcon = require('assets/add.png');
 const icons = {
   basemap: {
-    empty: require('assets/basemapEmpty.png'),
-    placeholder: require('assets/basemap_placeholder.png')
+    empty: require('assets/basemapEmpty.png')
   },
   contextual_layer: {
-    empty: require('assets/layersEmpty.png'),
-    placeholder: require('assets/layerPlaceholder.png')
+    empty: require('assets/layersEmpty.png')
   }
 };
 
@@ -291,7 +289,8 @@ class MappingFiles extends Component<Props, State> {
           return (
             <View key={file.id} style={styles.rowContainer}>
               <MappingFileRow
-                deletable={(!!file.size && file.size > 0) || file.isGFW}
+                layerType={mappingFileType}
+                layer={file}
                 downloaded={fileIsFullyDownloaded}
                 inEditMode={inEditMode}
                 onDeletePress={() => {
@@ -314,10 +313,6 @@ class MappingFiles extends Component<Props, State> {
                   }
                 }}
                 onInfoPress={file.description ? this.onInfoPress.bind(this, file) : undefined}
-                image={file.image ?? icons[mappingFileType].placeholder}
-                renamable={false}
-                title={i18n.t(file.name)}
-                subtitle={formatBytes(file.size ?? 0)}
                 selected={inShareMode ? this.state.selectedForExport.includes(file.id) : null}
               />
             </View>
@@ -351,7 +346,8 @@ class MappingFiles extends Component<Props, State> {
           return (
             <View key={file.id} style={styles.rowContainer}>
               <MappingFileRow
-                deletable={true}
+                layerType={mappingFileType}
+                layer={file}
                 inEditMode={inEditMode}
                 onDeletePress={() => {
                   this.confirmMappingFileDeletion(file);
@@ -365,10 +361,6 @@ class MappingFiles extends Component<Props, State> {
                   // TODO: Ensure this handles GFW layer / basemap renaming correctly.
                   this.confirmMappingFileRenaming(file);
                 }}
-                image={file.image ?? icons[mappingFileType].placeholder}
-                renamable={true}
-                title={i18n.t(file.name)}
-                subtitle={formatBytes(file.size ?? 0)}
                 selected={inShareMode ? this.state.selectedForExport.includes(file.id) : null}
               />
             </View>
