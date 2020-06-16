@@ -403,6 +403,7 @@
             "fileImportOptionTitle": "Import Option",
             "title": "Select Contextual Layer Data"
         },
+        "emptyImportError": "There is no data selected for import. Please go back and select items to be imported.",
         "importingPrefix": "Importing:",
         "incompatibleBundle": "Sorry, this sharing bundle was created with a different version of Forest Watcher, and cannot be imported.",
         "progress": "Step %{current} of %{total}",
