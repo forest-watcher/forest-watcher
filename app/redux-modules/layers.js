@@ -410,7 +410,10 @@ export default function reducer(state: LayersState = initialState, action: Layer
       const layers = state.imported.filter(layer => layer.id !== action.payload);
       const activeLayer = state.activeLayer === action.payload ? null : state.activeLayer;
 
-      return { ...state, imported: layers, activeLayer: activeLayer };
+      const downloadProgress = { ...state.downloadedLayerProgress };
+      delete downloadProgress[action.payload];
+
+      return { ...state, imported: layers, activeLayer: activeLayer, downloadedLayerProgress: downloadProgress };
     }
     case LOGOUT_REQUEST:
       deleteLayerFiles()
