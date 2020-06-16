@@ -562,9 +562,7 @@ export function importGFWContent(
 ): Thunk<Promise<void>> {
   return async (dispatch: Dispatch, getState: GetState) => {
     if (!downloadContent) {
-      // We're not downloading this content, so immediately commit it.
-      const COMMIT_ACTION = contentType === 'contextual_layer' ? IMPORT_LAYER_COMMIT : IMPORT_BASEMAP_COMMIT;
-      dispatch({ type: COMMIT_ACTION, payload: content });
+      // We're not downloading this content, so just return
       return;
     }
 
