@@ -24,12 +24,7 @@ import { getActionsTodoCount } from 'helpers/sync';
 
 import { LOGOUT_REQUEST } from 'redux-modules/user';
 import { SAVE_AREA_COMMIT, DELETE_AREA_COMMIT } from 'redux-modules/areas';
-import {
-  IMPORT_BASEMAP_REQUEST,
-  IMPORT_BASEMAP_PROGRESS,
-  IMPORT_BASEMAP_AREA_COMPLETED,
-  IMPORT_BASEMAP_COMMIT
-} from 'redux-modules/basemaps';
+import { IMPORT_BASEMAP_REQUEST, IMPORT_BASEMAP_PROGRESS, IMPORT_BASEMAP_AREA_COMPLETED } from 'redux-modules/basemaps';
 import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 
 import {
@@ -297,20 +292,18 @@ export default function reducer(state: LayersState = initialState, action: Layer
     }
     case IMPORT_LAYER_COMMIT: {
       const layerToSave = action.payload;
-      let importedLayers = [...state.imported];
-
-      if (importedLayers.find(layer => layer.id === layerToSave.id)) {
-        // This layer already exists in redux, replace the existing entry with the new one.
-        importedLayers = importedLayers.map(layer => (layer.id === layerToSave.id ? layerToSave : layer));
-
-        return { ...state, importingLayer: false, importError: null, imported: importedLayers };
+      // Ignore the saved layer if it already exists - this could happen when importing a layer for example
+      const possiblyPreexistingLayer = state.imported.find(layer => layer.id === layerToSave.id);
+      if (possiblyPreexistingLayer) {
+        console.warn('3SC', `Ignore already existing layer with ID ${layerToSave.id}`);
+        return state;
       }
-
-      return { ...state, importingLayer: false, importError: null, imported: [...importedLayers, layerToSave] };
+      return { ...state, importingLayer: false, importError: null, imported: [...state.imported, layerToSave] };
     }
     case IMPORT_LAYER_REQUEST: {
       const updatedState = { ...state, importingLayer: true, importError: null };
 
+      // TODO: Split this logic into its own action-reducer pair
       if (action.payload?.remote) {
         // This is a remote layer, we need to add this area into the layer's progress state so it can be tracked.
         const dataId = action.payload?.dataId;
@@ -669,7 +662,6 @@ function gfwContentImportCompleted(
   return async (dispatch: Dispatch, getState: GetState) => {
     const AREA_COMPLETE_ACTION =
       contentType === 'contextual_layer' ? IMPORT_LAYER_AREA_COMPLETED : IMPORT_BASEMAP_AREA_COMPLETED;
-    const COMMIT_ACTION = contentType === 'contextual_layer' ? IMPORT_LAYER_COMMIT : IMPORT_BASEMAP_COMMIT;
     // We mark that area in the downloadedLayerProgress state as completed with 100% progress.
     // This means we can then keep track of areas that are still downloading / unpacking.
     await dispatch({
@@ -688,10 +680,6 @@ function gfwContentImportCompleted(
       // The download has completed, and we can now commit the entire layer.
       // TODO: If an area has failed to download, should we show an alert to state this?
       console.warn('download complete!!!!!!!');
-
-      // TODO: Get collective file size for all tiles, add it to the layer.
-
-      dispatch({ type: COMMIT_ACTION, payload: layer });
     }
   };
 }
