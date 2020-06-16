@@ -122,7 +122,6 @@ export default function reducer(state: BasemapsState = initialState, action: Bas
       if (importedBasemaps.find(basemap => basemap.id === basemapToSave.id)) {
         // This layer already exists in redux, replace the existing entry with the new one.
         importedBasemaps = importedBasemaps.map(basemap => (basemap.id === basemapToSave.id ? basemapToSave : basemap));
-
         return { ...state, importingLayer: false, importError: null, importedBasemaps: importedBasemaps };
       }
 
