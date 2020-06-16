@@ -48,6 +48,7 @@ import ImportSharingBundleCustomLayers from 'components/sharing-bundle/import/cu
 import ImportSharingBundleCustomBasemaps from 'components/sharing-bundle/import/custom-basemaps';
 import ImportSharingBundleConfirm from 'containers/sharing-bundle/import/confirm';
 import Information from 'components/common/information';
+import MultipleItems from 'components/map/info-banner/multiple-items';
 
 /**
  * Registers a component with React Native Navigation
@@ -120,6 +121,7 @@ export function registerScreens(store, Provider) {
   registerComponent('ForestWatcher.ImportBundleCustomBasemaps', ImportSharingBundleCustomBasemaps, Provider, store);
   registerComponent('ForestWatcher.ImportBundleConfirm', ImportSharingBundleConfirm, Provider, store);
   registerComponent('ForestWatcher.Information', Information, Provider, store);
+  registerComponent('ForestWatcher.MultipleItems', MultipleItems, Provider, store);
 }
 
 export default registerScreens;

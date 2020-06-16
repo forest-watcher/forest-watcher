@@ -35,7 +35,7 @@ import GFWVectorLayer from './gfw-vector-layer';
 import CircleButton from 'components/common/circle-button';
 import BottomDialog from 'components/map/bottom-dialog';
 import LocationErrorBanner from 'components/map/locationErrorBanner';
-import { formatCoordsByFormat, getPolygonBoundingBox, closestFeature } from 'helpers/map';
+import { formatCoordsByFormat, getPolygonBoundingBox } from 'helpers/map';
 import debounceUI from 'helpers/debounceUI';
 import tracker from 'helpers/googleAnalytics';
 import Theme from 'config/theme';
@@ -74,7 +74,6 @@ import {
 import RouteMarkers from 'components/map/route';
 import InfoBanner from 'components/map/info-banner';
 import Alerts from 'components/map/alerts';
-import { formatInfoBannerDate } from 'helpers/date';
 import Reports from 'containers/map/reports';
 import { initialWindowSafeAreaInsets } from 'react-native-safe-area-context';
 import { lineString } from '@turf/helpers';
@@ -137,7 +136,7 @@ type State = {
   heading: ?number,
   hasHeadingReadingFromCompass: boolean,
   selectedAlerts: Array<{ lat: number, long: number }>,
-  selectedReport: ?{ reportName: string, lat: number, long: number },
+  selectedReports: Array<{ reportName: string, lat: number, long: number }>,
   customReporting: boolean,
   dragging: boolean,
   layoutHasForceRefreshed: boolean,
@@ -147,12 +146,8 @@ type State = {
   mapCenterCoords: ?[number, number],
   animatedPosition: any,
   infoBannerShowing: boolean,
-  infoBannerProps: {
-    title: string,
-    subtitle: string,
-    type: string,
-    featureId: string
-  }
+  // feature(s) that the user has just tapped on
+  tappedOnFeatures: [] // todo type
 };
 
 class MapComponent extends Component<Props, State> {
@@ -219,7 +214,7 @@ class MapComponent extends Component<Props, State> {
       heading: null,
       hasHeadingReadingFromCompass: false,
       selectedAlerts: [],
-      selectedReport: null,
+      selectedReports: [],
       customReporting: false,
       dragging: false,
       layoutHasForceRefreshed: false,
@@ -229,12 +224,7 @@ class MapComponent extends Component<Props, State> {
       mapCenterCoords: null,
       animatedPosition: new Animated.Value(DISMISSED_INFO_BANNER_POSTIION),
       infoBannerShowing: false,
-      infoBannerProps: {
-        title: '',
-        subtitle: '',
-        type: '',
-        featureId: ''
-      }
+      tappedOnFeatures: []
     };
   }
 
@@ -448,12 +438,12 @@ class MapComponent extends Component<Props, State> {
 
   // Used when starting a new route
   getRouteDestination = (): ?[number, number] => {
-    const { selectedAlerts, selectedReport } = this.state;
+    const { selectedAlerts, selectedReports } = this.state;
     if (selectedAlerts?.length) {
       const lastSelectedAlert = selectedAlerts[this.state.selectedAlerts.length - 1];
       return [lastSelectedAlert.long, lastSelectedAlert.lat];
-    } else if (selectedReport) {
-      return [selectedReport.long, selectedReport.lat];
+    } else if (selectedReports?.length) {
+      return [selectedReports[0].long, selectedReports[0].lat];
     }
     return this.state.mapCenterCoords;
   };
@@ -545,7 +535,7 @@ class MapComponent extends Component<Props, State> {
     this.setState({
       customReporting: false,
       selectedAlerts: [],
-      selectedReport: null
+      selectedReports: []
     });
   });
 
@@ -585,7 +575,7 @@ class MapComponent extends Component<Props, State> {
 
   reportSelection = debounceUI(() => {
     this.dismissInfoBanner();
-    this.createReport(this.state.selectedAlerts, this.state.selectedReport);
+    this.createReport(this.state.selectedAlerts, this.state.selectedReports?.[0]);
   });
 
   createReport = (
@@ -685,7 +675,7 @@ class MapComponent extends Component<Props, State> {
   };
 
   isRouteSelected = (routeId: ?string) => {
-    return this.state.infoBannerShowing && this.state.infoBannerProps.featureId === routeId;
+    return this.state.infoBannerShowing && this.state.tappedOnFeatures?.[0]?.featureId === routeId;
   };
 
   renderGFWImportedContextualLayer = (layer: ContextualLayer) => {
@@ -832,11 +822,11 @@ class MapComponent extends Component<Props, State> {
       userLocation,
       locationError,
       selectedAlerts,
-      selectedReport,
-      infoBannerProps
+      selectedReports,
+      tappedOnFeatures
     } = this.state;
     const hasAlertsSelected = selectedAlerts && selectedAlerts.length > 0;
-    const hasReportSelected = !!selectedReport;
+    const hasReportSelected = selectedReports?.length;
     const canReport = hasAlertsSelected || hasReportSelected || customReporting;
     const isRouteTracking = this.isRouteTracking();
 
@@ -850,7 +840,7 @@ class MapComponent extends Component<Props, State> {
           mostRecentLocationTime={userLocation?.timestamp}
         />
         <Animated.View style={{ transform: [{ translateY: this.state.animatedPosition }] }}>
-          <InfoBanner style={styles.infoBanner} {...infoBannerProps} />
+          <InfoBanner style={styles.infoBanner} tappedOnFeatures={tappedOnFeatures} />
         </Animated.View>
         <View style={styles.buttonPanel}>
           {canReport ? (
@@ -944,20 +934,61 @@ class MapComponent extends Component<Props, State> {
     }
   };
 
-  onAlertPressed = (e: any) => {
-    const feature = closestFeature(e.features, e.coordinates);
-    if (!feature) {
-      return;
-    }
-    this.onFeaturePressed(feature);
-  };
-
   onShapeSourcePressed = (e: any) => {
-    const feature = e.nativeEvent?.payload;
-    if (!feature) {
+    let features: Array<Feature> = e.features;
+    if (features?.length === 1) {
+      this.onFeaturePressed(features[0]);
       return;
     }
-    this.onFeaturePressed(feature);
+    // ignore routes if tapping on multiple features as they can be easily tapped on a different part of the route
+    features = features.filter(feature => feature.properties?.type !== 'route');
+    if (features?.length === 1) {
+      this.onFeaturePressed(features[0]);
+      return;
+    }
+    if (features?.length === 0) {
+      return;
+    }
+    // if any of the features are a cluster - zoom in on the cluster so items will be moved apart
+    const clusters = features.filter(feature => feature.properties?.cluster);
+    if (clusters.length) {
+      this.onClusterPress(clusters[0].geometry?.coordinates);
+      return;
+    }
+    // deselect all previously selected items and select all reports and alerts tapped on
+    const selectedAlerts = features
+      .filter(feature => feature.properties?.type === 'alert')
+      .map(feature => ({
+        lat: Number(feature.properties?.lat),
+        long: Number(feature.properties?.long)
+      }));
+    const selectedReports = features
+      .filter(feature => feature.properties?.type === 'report')
+      .map(feature => ({
+        reportName: feature.properties?.featureId,
+        lat: Number(feature.properties?.lat),
+        long: Number(feature.properties?.long)
+      }));
+
+    const tappedOnFeatures = features.filter(
+      feature => feature.properties?.type === 'alert' || feature.properties?.type === 'report'
+    );
+
+    this.setState({
+      selectedAlerts,
+      selectedReports,
+      infoBannerShowing: true,
+      tappedOnFeatures
+    });
+
+    // show/hide info banner
+    Animated.spring(this.state.animatedPosition, {
+      toValue: 0,
+      velocity: 3,
+      tension: 2,
+      friction: 8,
+      useNativeDriver: false
+    }).start();
   };
 
   onFeaturePressed = (feature: Feature) => {
@@ -968,7 +999,7 @@ class MapComponent extends Component<Props, State> {
       this.onClusterPress(feature.geometry?.coordinates);
       return;
     }
-    if (date && name) {
+    if (date && name && type) {
       let selectedAlert, selectedReportFeatureId, infoBannerShowing;
       if (type === 'alert') {
         // need to pass these as strings as they are rounded in onShapeSourcePressed method.
@@ -980,10 +1011,10 @@ class MapComponent extends Component<Props, State> {
       }
       this.setState((prevState: State) => {
         const isAlert = alert => alert.lat === selectedAlert.lat && alert.long === selectedAlert.long;
-        let { selectedAlerts, selectedReport } = prevState;
+        let { selectedAlerts, selectedReports } = prevState;
         if (selectedAlert) {
           // deselect report if alert is tapped
-          selectedReport = null;
+          selectedReports = [];
           if (selectedAlerts.find(isAlert)) {
             // Deselect alert(s) at exact same location as alert that user pressed on
             selectedAlerts = selectedAlerts.filter(alert => !isAlert(alert));
@@ -994,12 +1025,12 @@ class MapComponent extends Component<Props, State> {
         } else if (selectedReportFeatureId) {
           // deselect alert if report is tapped
           selectedAlerts = [];
-          selectedReport =
-            selectedReport?.reportName === selectedReportFeatureId
+          selectedReports =
+            selectedReports?.[0]?.reportName === selectedReportFeatureId
               ? null
-              : { reportName: selectedReportFeatureId, lat: Number(lat), long: Number(long) };
+              : [{ reportName: selectedReportFeatureId, lat: Number(lat), long: Number(long) }];
         }
-        infoBannerShowing = !!selectedAlerts?.length || !!selectedReport;
+        infoBannerShowing = !!selectedAlerts?.length || !!selectedReports?.length || type === 'route';
 
         // show/hide info banner
         Animated.spring(this.state.animatedPosition, {
@@ -1012,14 +1043,9 @@ class MapComponent extends Component<Props, State> {
 
         return {
           selectedAlerts,
-          selectedReport,
+          selectedReports,
           infoBannerShowing,
-          infoBannerProps: {
-            title: name,
-            subtitle: formatInfoBannerDate(date, type),
-            type,
-            featureId
-          }
+          tappedOnFeatures: [feature.properties]
         };
       });
     }
@@ -1029,7 +1055,7 @@ class MapComponent extends Component<Props, State> {
     this.dismissInfoBanner();
     this.setState({
       selectedAlerts: [],
-      selectedReport: null
+      selectedReports: []
     });
   };
 
@@ -1112,12 +1138,12 @@ class MapComponent extends Component<Props, State> {
             areaId={this.props.area?.id}
             reportedAlerts={this.props.reportedAlerts}
             selectedAlerts={this.state.selectedAlerts}
-            onShapeSourcePressed={this.onAlertPressed}
+            onShapeSourcePressed={this.onShapeSourcePressed}
           />
           <Reports
             featureId={featureId}
             onShapeSourcePressed={this.onShapeSourcePressed}
-            selectedReport={this.state.selectedReport}
+            selectedReports={this.state.selectedReports}
           />
           <RouteMarkers
             isTracking={this.isRouteTracking()}
