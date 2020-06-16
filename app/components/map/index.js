@@ -146,7 +146,7 @@ type State = {
   animatedPosition: any,
   infoBannerShowing: boolean,
   // feature(s) that the user has just tapped on
-  tappedOnFeatures: {
+  tappedOnFeatures: Array<{
     name: string,
     date: number,
     type: string,
@@ -159,7 +159,7 @@ type State = {
     selected?: boolean,
     reported?: boolean,
     clusterId?: string
-  }
+  }>
 };
 
 class MapComponent extends Component<Props, State> {
