@@ -7,6 +7,7 @@ import type { Dispatch, GetState, State, Thunk } from 'types/store.types';
 import { LOGOUT_REQUEST } from 'redux-modules/user';
 import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 
+import { trackImportedContent } from 'helpers/analytics';
 import { importLayerFile } from 'helpers/layer-store/import/importLayerFile';
 
 // Actions
@@ -105,12 +106,15 @@ export function importBasemap(basemapFile: File): Thunk<Promise<void>> {
         size: importedFile.size
       };
 
+      trackImportedContent('basemap', basemapFile.fileName, true, importedFile.size);
+
       dispatch({
         type: IMPORT_BASEMAP_COMMIT,
         payload: basemap
       });
     } catch (error) {
       dispatch({ type: IMPORT_BASEMAP_ROLLBACK, payload: error });
+      trackImportedContent('basemap', basemapFile.fileName, true, basemapFile.size);
       throw error;
     }
   };

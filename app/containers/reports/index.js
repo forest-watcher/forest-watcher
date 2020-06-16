@@ -8,6 +8,7 @@ import { getNextStep } from 'helpers/forms';
 import { showExportReportsSuccessfulNotification } from 'redux-modules/app';
 
 import Reports from 'components/reports';
+import { trackSharedContent } from 'helpers/analytics';
 import exportBundleFromRedux from 'helpers/sharing/exportBundleFromRedux';
 import shareBundle from 'helpers/sharing/shareBundle';
 
@@ -77,6 +78,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
           reportIds: ids
         })
       );
+      trackSharedContent('report');
       await shareBundle(outputPath);
     },
     showExportReportsSuccessfulNotification: () => {

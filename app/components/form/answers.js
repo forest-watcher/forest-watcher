@@ -9,12 +9,12 @@ import i18n from 'i18next';
 import ActionButton from 'components/common/action-button';
 import AnswerComponent from 'components/form/answer/answer';
 import ImageCarousel from 'components/common/image-carousel';
-import tracker, { REPORT_OUTCOME_CANCELLED, REPORT_OUTCOME_COMPLETED } from 'helpers/googleAnalytics';
 import withDraft from './withDraft';
 import styles from './styles';
 import displayExportReportDialog from 'helpers/sharing/displayExportReportDialog';
 import { pathForReportQuestionAttachment } from 'helpers/report-store/reportFilePaths';
 import { toFileUri } from 'helpers/fileURI';
+import { trackReportingConcluded } from 'helpers/analytics';
 
 const deleteIcon = require('assets/delete_red.png');
 const exportIcon = require('assets/upload.png');
@@ -110,7 +110,7 @@ class Answers extends PureComponent<Props> {
 
     if (buttonId === 'backButton') {
       Navigation.dismissModal(this.props.componentId);
-      tracker.trackReportFlowEndedEvent(REPORT_OUTCOME_CANCELLED);
+      trackReportingConcluded('cancelled', 'answers');
     }
   }
 
@@ -129,7 +129,8 @@ class Answers extends PureComponent<Props> {
     const { uploadReport, componentId, setActiveAlerts } = this.props;
     uploadReport();
     setActiveAlerts(true);
-    tracker.trackReportFlowEndedEvent(REPORT_OUTCOME_COMPLETED);
+
+    trackReportingConcluded('completed', 'overview');
     Navigation.dismissModal(componentId);
   };
 
@@ -173,6 +174,7 @@ class Answers extends PureComponent<Props> {
   handleDeleteArea = () => {
     const { componentId, deleteReport } = this.props;
     deleteReport();
+    trackReportingConcluded('cancelled', 'overview');
     Navigation.dismissModal(componentId);
   };
 

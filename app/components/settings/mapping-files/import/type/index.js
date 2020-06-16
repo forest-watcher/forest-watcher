@@ -21,6 +21,7 @@ const nextIcon = require('assets/next.png');
 const fileIcon = require('assets/fileIcon.png');
 
 import type { ImportError } from '../error';
+import { trackImportedContent } from 'helpers/analytics';
 
 type Props = {
   componentId: string,
@@ -65,6 +66,7 @@ class ImportMappingFileType extends PureComponent<Props, State> {
       });
       const validFile = await this.verifyImportedFile(res);
       if (!validFile) {
+        trackImportedContent(this.props.mappingFileType === 'basemap' ? 'basemap' : 'layer', res.name, false);
         return;
       }
       Navigation.push(this.props.componentId, {

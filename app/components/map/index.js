@@ -1,7 +1,7 @@
 // @flow
 import React, { Component, type Node } from 'react';
 
-import type { AlertsAction } from 'types/alerts.types';
+import type { Alert, AlertsAction } from 'types/alerts.types';
 import type { AreasAction } from 'types/areas.types';
 import type { Basemap } from 'types/basemaps.types';
 import type { Coordinates, CoordinatesFormat } from 'types/common.types';
@@ -38,7 +38,7 @@ import LocationErrorBanner from 'components/map/locationErrorBanner';
 import { formatCoordsByFormat, getPolygonBoundingBox, closestFeature } from 'helpers/map';
 import { pathForLayer, pathForMBTilesFile } from 'helpers/layer-store/layerFilePaths';
 import debounceUI from 'helpers/debounceUI';
-import tracker from 'helpers/googleAnalytics';
+import { trackScreenView, type ReportingSource } from 'helpers/analytics';
 import Theme from 'config/theme';
 import i18n from 'i18next';
 import styles, { mapboxStyles } from './styles';
@@ -104,7 +104,7 @@ const cancelIcon = require('assets/cancel.png');
 
 type Props = {
   componentId: string,
-  createReport: BasicReport => void,
+  createReport: (BasicReport, ReportingSource) => void,
   ctxLayerLocalTilePath?: string,
   downloadedLayerCache: { [id: string]: LayersCacheStatus },
   areaCoordinates: ?Array<Coordinates>,
@@ -249,7 +249,7 @@ class MapComponent extends Component<Props, State> {
     BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
     AppState.addEventListener('change', this.handleAppStateChange);
 
-    tracker.trackScreenView('Map');
+    trackScreenView('Map');
 
     emitter.on(GFWOnHeadingEvent, this.updateHeading);
     emitter.on(GFWOnLocationEvent, this.updateLocationFromGeolocation);
@@ -587,6 +587,27 @@ class MapComponent extends Component<Props, State> {
     this.createReport(this.state.selectedAlerts, this.state.selectedReport);
   });
 
+  reportArea = debounceUI(() => {
+    this.dismissInfoBanner();
+    this.createReport([...this.state.selectedAlerts]);
+  });
+
+  determineReportingSource = (
+    selectedAlerts: Array<Alert>,
+    isRouteTracking: boolean,
+    isCustomReporting: boolean
+  ): ReportingSource => {
+    if (isCustomReporting) {
+      return isRouteTracking ? 'customWhileRouting' : 'custom';
+    }
+
+    if (selectedAlerts?.length > 0) {
+      return selectedAlerts.length === 1 ? 'singleAlert' : 'alertGroup';
+    }
+
+    return 'currentLocation';
+  };
+
   createReport = (
     selectedAlerts: Array<{ lat: number, long: number }>,
     selectedReport: ?{ reportName: string, lat: number, long: number }
@@ -635,18 +656,23 @@ class MapComponent extends Component<Props, State> {
       ];
     }
 
+    const source = this.determineReportingSource(selectedAlerts, this.state.isRouteTracking, customReporting);
+
     const userLatLng =
       this.state.userLocation && `${this.state.userLocation.latitude},${this.state.userLocation.longitude}`;
     const reportedDataset = area.dataset ? `-${area.dataset.name}` : '';
     const areaName = toUpper(kebabCase(deburr(area.name)));
     const reportName = `${areaName}${reportedDataset}-REPORT--${moment().format('YYYY-MM-DDTHH:mm:ss')}`;
-    this.props.createReport({
-      area,
-      reportName,
-      selectedAlerts,
-      userPosition: userLatLng || REPORTS.noGpsPosition,
-      clickedPosition: JSON.stringify(latLng)
-    });
+    this.props.createReport(
+      {
+        area,
+        reportName,
+        selectedAlerts,
+        userPosition: userLatLng || REPORTS.noGpsPosition,
+        clickedPosition: JSON.stringify(latLng)
+      },
+      source
+    );
 
     Navigation.showModal({
       stack: {
