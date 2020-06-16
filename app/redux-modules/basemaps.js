@@ -42,7 +42,7 @@ export default function reducer(state: BasemapsState = initialState, action: Bas
       };
     }
     case IMPORT_BASEMAP_REQUEST: {
-      const updatedState = { ...state, importing: true, importError: null };
+      const updatedState = { ...state, importing: !(action.payload?.remote ?? false), importError: null };
 
       if (action.payload?.remote) {
         // This is a remote layer, we need to add this area into the layer's progress state so it can be tracked.
