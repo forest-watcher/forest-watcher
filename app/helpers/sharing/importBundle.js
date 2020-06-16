@@ -7,6 +7,7 @@ import i18n from 'i18next';
 import RNFS from 'react-native-fs';
 import { unzip } from 'react-native-zip-archive';
 
+import { trackImportedContent } from 'helpers/analytics';
 import FWError from 'helpers/fwError';
 import createTemporaryStagingDirectory from 'helpers/sharing/createTemporaryStagingDirectory';
 import deleteStagedBundle from 'helpers/sharing/deleteStagedBundle';
@@ -73,6 +74,7 @@ export async function importStagedBundle(
   checkBundleCompatibility(bundle.data.version);
   importAppData(bundle.data, request, dispatch);
   await importFileManifest(bundle, request);
+  trackImportedContent('bundle', 'gfwbundle', true);
 }
 
 /**

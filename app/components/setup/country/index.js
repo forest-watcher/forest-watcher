@@ -9,8 +9,8 @@ import ActionButton from 'components/common/action-button';
 import Callout from 'components/common/callout';
 import Theme from 'config/theme';
 import i18n from 'i18next';
+import { trackAreaCreationFlowStarted, trackScreenView } from 'helpers/analytics';
 import debounceUI from 'helpers/debounceUI';
-import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
 import { launchAppRoot } from 'main';
 import { showWelcomeScreen } from 'screens/common';
@@ -47,9 +47,8 @@ class SetupCountry extends Component {
   }
 
   componentDidMount() {
-    tracker.trackAreaCreationFlowStartedEvent();
-    tracker.trackScreenView('Set Up - Select Country');
-
+    trackAreaCreationFlowStarted();
+    trackScreenView('Set Up - Select Country');
     this.showWelcomeScreenIfNecessary();
   }
 

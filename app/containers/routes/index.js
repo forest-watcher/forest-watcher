@@ -8,6 +8,7 @@ import { showExportReportsSuccessfulNotification } from 'redux-modules/app';
 
 import Routes from 'components/routes';
 import { initialiseAreaLayerSettings } from 'redux-modules/layerSettings';
+import { trackSharedContent } from 'helpers/analytics';
 import exportBundleFromRedux from 'helpers/sharing/exportBundleFromRedux';
 import shareBundle from 'helpers/sharing/shareBundle';
 
@@ -29,6 +30,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
           routeIds: ids
         })
       );
+      trackSharedContent('route');
       await shareBundle(outputPath);
     },
     initialiseAreaLayerSettings: (featureId: string, areaId: string) => {

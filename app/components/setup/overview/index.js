@@ -7,8 +7,9 @@ import { Navigation } from 'react-native-navigation';
 import Theme from 'config/theme';
 import ActionButton from 'components/common/action-button';
 import i18n from 'i18next';
+import { getAreaSize } from 'helpers/area';
 import debounceUI from 'helpers/debounceUI';
-import tracker from 'helpers/googleAnalytics';
+import { trackAreaCreationFlowEnded, trackScreenView } from 'helpers/analytics';
 import styles from './styles';
 
 const editImage = require('assets/edit.png');
@@ -32,7 +33,7 @@ class SetupOverview extends Component {
   }
 
   componentDidMount() {
-    tracker.trackScreenView('Overview Set Up');
+    trackScreenView('Overview Set Up');
   }
 
   onNextPress = debounceUI(async () => {
@@ -43,7 +44,7 @@ class SetupOverview extends Component {
       },
       snapshot: this.props.snapshot
     };
-    tracker.trackAreaCreationFlowEndedEvent();
+    trackAreaCreationFlowEnded(getAreaSize(this.props.area));
     this.props.setSetupArea(params);
     this.props.saveArea(params);
     await Navigation.setStackRoot(this.props.componentId, {

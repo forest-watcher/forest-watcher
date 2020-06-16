@@ -5,7 +5,7 @@ import type { Route } from 'types/routes.types';
 import React, { Component } from 'react';
 import { Alert, View, Image, ScrollView, Text, TextInput, TouchableHighlight } from 'react-native';
 import debounceUI from 'helpers/debounceUI';
-import tracker from 'helpers/googleAnalytics';
+import { trackScreenView } from 'helpers/analytics';
 
 import i18n from 'i18next';
 import moment from 'moment';
@@ -69,7 +69,7 @@ class AreaDetail extends Component<Props, State> {
   }
 
   componentDidMount() {
-    tracker.trackScreenView('AreaDetail');
+    trackScreenView('AreaDetail');
   }
 
   navigationButtonPressed({ buttonId }: NavigationButtonPressedEvent) {

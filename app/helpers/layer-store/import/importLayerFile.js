@@ -42,12 +42,16 @@ export async function importLayerFile(layerFile: File): Promise<LayerFile> {
         geojson = togeojson.topojson(geojson);
       }
 
-      return await storeGeoJson(file.id, geojson);
+      const importedFile = await storeGeoJson(file.id, geojson);
+
+      return importedFile;
     }
     case 'kml':
     case 'gpx': {
       const geoJSON = await convertToGeoJSON(file.uri, fileExtension);
-      return await storeGeoJson(file.id, geoJSON);
+      const importedFile = await storeGeoJson(file.id, geoJSON);
+
+      return importedFile;
     }
     case 'kmz': {
       const tempZipPath = RNFS.TemporaryDirectoryPath + fileName.replace(/\.[^/.]+$/, '.zip');
@@ -62,7 +66,10 @@ export async function importLayerFile(layerFile: File): Promise<LayerFile> {
           throw new Error('Invalid KMZ bundle, missing a root .kml file');
         }
         const geoJSON = await convertToGeoJSON(mainFile, 'kml');
-        return await storeGeoJson(file.id, geoJSON);
+
+        const importedFile = await storeGeoJson(file.id, geoJSON);
+
+        return importedFile;
       } finally {
         RNFS.unlink(tempZipPath);
         RNFS.unlink(tempPath);
@@ -95,7 +102,10 @@ export async function importLayerFile(layerFile: File): Promise<LayerFile> {
         const polygons = await shapefile.parseShp(shapeFileData, projectionFileData);
         const features = featureCollection(polygons.map(polygon => feature(polygon)));
         await RNFS.unlink(unzippedPath);
-        return await storeGeoJson(file.id, features);
+
+        const importedFile = await storeGeoJson(file.id, features);
+
+        return importedFile;
       } finally {
         RNFS.unlink(tempZipPath.replace(/\.[^/.]+$/, ''));
         RNFS.unlink(tempZipPath);

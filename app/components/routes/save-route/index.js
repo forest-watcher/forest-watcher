@@ -4,6 +4,7 @@ import type { Route, RouteDifficulty } from 'types/routes.types';
 import React, { PureComponent } from 'react';
 import { Dimensions, Text, ScrollView, Picker } from 'react-native';
 import { Navigation } from 'react-native-navigation';
+import moment from 'moment';
 
 import styles from './styles';
 import ActionButton from 'components/common/action-button';
@@ -11,6 +12,8 @@ import InputText from 'components/common/text-input';
 import { getValidLocations, stopTrackingLocation } from 'helpers/location';
 import i18n from 'i18next';
 import RoutePreviewImage from '../preview-image';
+import { trackRouteDetailsUpdated } from 'helpers/analytics';
+import { getDistanceOfPolyline } from 'helpers/map';
 
 const screenDimensions = Dimensions.get('screen');
 
@@ -84,13 +87,22 @@ class SaveRoute extends PureComponent<Props, State> {
   };
 
   onSaveRoutePressed = async () => {
-    if (!this.state.route) {
+    const { route } = this.state;
+    if (!route) {
       return;
     }
 
     stopTrackingLocation();
-    await this.props.updateActiveRoute(this.state.route, this.state.route.areaId);
-    await this.props.finishAndSaveRoute(this.state.route.id, this.state.route.areaId);
+
+    const routeDistance = getDistanceOfPolyline(route.locations);
+    trackRouteDetailsUpdated(
+      route.difficulty,
+      (route.endDate ?? Date.now()) - route.startDate,
+      moment(route.endDate).format('l'),
+      routeDistance
+    );
+    await this.props.updateActiveRoute(route, route.areaId);
+    await this.props.finishAndSaveRoute(route.id, route.areaId);
     Navigation.pop(this.props.componentId);
   };
 

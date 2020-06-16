@@ -8,7 +8,7 @@ import { Navigation } from 'react-native-navigation';
 
 import Row from 'components/common/row';
 import debounceUI from 'helpers/debounceUI';
-import tracker from 'helpers/googleAnalytics';
+import { trackMenuButtonPress, trackScreenView } from 'helpers/analytics';
 import i18n from 'i18next';
 import styles from './styles';
 import Theme from 'config/theme';
@@ -90,7 +90,7 @@ class Dashboard extends PureComponent<Props> {
   }
 
   async componentDidMount() {
-    tracker.trackScreenView('Home - Dashboard');
+    trackScreenView('Home - Dashboard');
     this.checkNeedsUpdate();
     if (this.props.refreshing && !this.props.appSyncing) {
       this.props.setAreasRefreshing(false);
@@ -160,6 +160,7 @@ class Dashboard extends PureComponent<Props> {
   };
 
   onPressAreas = debounceUI(() => {
+    trackMenuButtonPress('areas');
     Navigation.push(this.props.componentId, {
       component: {
         name: 'ForestWatcher.Areas'
@@ -168,6 +169,7 @@ class Dashboard extends PureComponent<Props> {
   });
 
   onPressReports = debounceUI(() => {
+    trackMenuButtonPress('reports');
     Navigation.push(this.props.componentId, {
       component: {
         name: 'ForestWatcher.Reports'
@@ -176,6 +178,7 @@ class Dashboard extends PureComponent<Props> {
   });
 
   onPressRoutes = debounceUI(() => {
+    trackMenuButtonPress('routes');
     Navigation.push(this.props.componentId, {
       component: {
         name: 'ForestWatcher.Routes'
@@ -184,6 +187,7 @@ class Dashboard extends PureComponent<Props> {
   });
 
   onPressSettings = debounceUI(() => {
+    trackMenuButtonPress('settings');
     Navigation.push(this.props.componentId, {
       component: {
         name: 'ForestWatcher.Settings'
