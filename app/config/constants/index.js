@@ -190,16 +190,19 @@ export const GFW_BASEMAPS: Array<Basemap> = [
 // this allows us to update styling e.t.c. without the user having to delete and re-add GFW contextual layers!
 export const GFW_CONTEXTUAL_LAYERS_METADATA: { [string]: ContextualLayerRenderSpec } = {
   'bd2798d1-c771-4bff-84d9-c4d69d3b3121': {
+    isShareable: false,
     maxZoom: 12,
     minZoom: 3,
     tileFormat: 'raster'
   },
   'c1c306a3-31b6-409a-acf0-2a8f09e28363': {
+    isShareable: false,
     maxZoom: 12,
     minZoom: 3,
     tileFormat: 'raster'
   },
   'f84af037-4e4f-41cf-a053-94a606071232': {
+    isShareable: false,
     tileFormat: 'vector',
     vectorMapLayers: [
       {
@@ -344,6 +347,7 @@ export const GFW_CONTEXTUAL_LAYERS_METADATA: { [string]: ContextualLayerRenderSp
     ]
   },
   'caa9b9b7-5dec-4ad6-adbf-d7c2965c9371': {
+    isShareable: false,
     maxZoom: 9,
     tileFormat: 'vector',
     vectorMapLayers: [
@@ -440,6 +444,7 @@ export const GFW_CONTEXTUAL_LAYERS_METADATA: { [string]: ContextualLayerRenderSp
     ]
   },
   '51aad76b-e884-44e0-82a4-d3b2f87a052d': {
+    isShareable: false,
     maxZoom: 18,
     tileFormat: 'vector',
     vectorMapLayers: [
@@ -463,6 +468,7 @@ export const GFW_CONTEXTUAL_LAYERS_METADATA: { [string]: ContextualLayerRenderSp
     ]
   },
   'fcd10026-e892-4fb8-8d79-8d76e3b94005': {
+    isShareable: true,
     maxZoom: 19,
     minZoom: 2,
     tileFormat: 'vector',
@@ -487,6 +493,7 @@ export const GFW_CONTEXTUAL_LAYERS_METADATA: { [string]: ContextualLayerRenderSp
     ]
   },
   '0911abc4-d861-4d7a-84d6-0fa07b51d7d8': {
+    isShareable: true,
     maxZoom: 19,
     minZoom: 2,
     tileFormat: 'vector',
@@ -502,6 +509,7 @@ export const GFW_CONTEXTUAL_LAYERS_METADATA: { [string]: ContextualLayerRenderSp
     ]
   },
   'e37f881b-ed2e-485b-b194-6a6829aaff2e': {
+    isShareable: true,
     tileFormat: 'vector',
     vectorMapLayers: [
       {
@@ -602,6 +610,7 @@ export const GFW_CONTEXTUAL_LAYERS_METADATA: { [string]: ContextualLayerRenderSp
     ]
   },
   '5ce140d9-260b-4e42-8b15-bd62193a5955': {
+    isShareable: false,
     tileFormat: 'vector',
     vectorMapLayers: [
       {
@@ -664,6 +673,7 @@ export const GFW_CONTEXTUAL_LAYERS_METADATA: { [string]: ContextualLayerRenderSp
     ]
   },
   '82229960-13c2-4810-84e7-bdd4812d4578': {
+    isShareable: false,
     tileFormat: 'vector',
     vectorMapLayers: [
       {

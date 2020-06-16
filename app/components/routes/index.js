@@ -338,7 +338,6 @@ export default class Routes extends PureComponent<Props, State> {
       <View style={styles.container}>
         <ShareSheet
           componentId={this.props.componentId}
-          enabled={totalToExport > 0}
           isSharing={this.state.creatingArchive}
           onShare={() => {
             this.onExportRoutesTapped(this.state.selectedForExport);

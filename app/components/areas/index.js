@@ -274,7 +274,6 @@ class Areas extends Component<Props, State> {
             this.props.setAreaDownloadTooltipSeen(true);
             return false;
           }}
-          enabled={totalToExport > 0}
           onShare={() => {
             this.onExportAreasTapped(this.state.selectedForExport);
           }}
