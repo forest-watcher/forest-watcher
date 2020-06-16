@@ -20,10 +20,17 @@ const checkboxOnIcon = require('assets/radio_button.png');
 const checkboxOffIcon = require('assets/checkbox_off.png');
 
 type Props = {
-  addLayer: (contentType: LayerType, layer: ContextualLayer) => void,
+  addLayer: (
+    contentType: LayerType,
+    layer: ContextualLayer,
+    onlyNonDownloadedAreas: boolean,
+    downloadLayer: boolean
+  ) => void,
   componentId: string,
   layer: ContextualLayer,
-  popToComponentId: string
+  +offlineMode: boolean,
+  popToComponentId: string,
+  +showNotConnectedNotification: () => void
 };
 
 type State = {
@@ -41,7 +48,12 @@ class LayerDownload extends PureComponent<Props, State> {
   }
 
   onPressAdd = () => {
-    this.props.addLayer('contextual_layer', this.props.layer);
+    if (this.props.offlineMode && this.state.download) {
+      this.props.showNotConnectedNotification();
+      return;
+    }
+
+    this.props.addLayer('contextual_layer', this.props.layer, false, this.state.download);
 
     if (this.state.download) {
       this.setState({

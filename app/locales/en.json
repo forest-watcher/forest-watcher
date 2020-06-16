@@ -65,7 +65,7 @@
             "manyAction": "Export %{count} basemaps...",
             "successful": "Exporting basemaps succeeded!"
         },
-        "gfw": "GFW Basemaps",
+        "gfw": "Default Basemaps",
         "import": {
             "uniqueNameError": "You have already given a basemap this name, please choose a different name or delete the existing basemap.",
             "error": "Failed to import basemap, please make sure you are selecting the correct file type and the contents of the file matches the specification then try again.",
