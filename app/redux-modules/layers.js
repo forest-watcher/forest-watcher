@@ -704,9 +704,6 @@ function gfwContentImportCompleted(
 
     if (remainingRegions?.length === 0) {
       // The download has completed, and we can now commit the entire layer.
-      // TODO: If an region has failed to download, should we show an alert to state this?
-
-      // TODO: Get collective file size for all tiles, add it to the layer.
       dispatch({ type: COMMIT_ACTION, payload: layer });
     }
   };

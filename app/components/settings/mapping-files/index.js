@@ -288,7 +288,6 @@ class MappingFiles extends Component<Props, State> {
           // If the file is fully downloaded, we should show the refresh icon. Otherwise, we should show the download icon.
           const fileIsFullyDownloaded =
             fileDownloadProgress.filter(area => area.completed && !area.error).length >= areaTotal;
-          // TODO: Add support for 'download in progress' UI to MappingFileRow.
           const fileIsDownloading = fileDownloadProgress.filter(area => area.requested).length > 0;
 
           // Downloads should be disabled if the file is in-progress, or if this is a basemap we've already downloaded.
@@ -303,7 +302,6 @@ class MappingFiles extends Component<Props, State> {
                 downloading={fileIsDownloading}
                 inEditMode={inEditMode}
                 onDeletePress={() => {
-                  // TODO: Ensure this handles GFW layer / basemap deletion correctly.
                   this.confirmMappingFileDeletion(file);
                 }}
                 onPress={() => {
@@ -378,7 +376,6 @@ class MappingFiles extends Component<Props, State> {
                   }
                 }}
                 onRenamePress={() => {
-                  // TODO: Ensure this handles GFW layer / basemap renaming correctly.
                   this.confirmMappingFileRenaming(file);
                 }}
                 image={file.image ?? icons[mappingFileType].placeholder}
