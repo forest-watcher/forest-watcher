@@ -29,7 +29,6 @@ const initialState: BasemapsState = {
   importing: false
 };
 
-// TODO: Combine basemap logic with contextual layer logic in the layers class - they are both types of layer
 export default function reducer(state: BasemapsState = initialState, action: BasemapsAction): BasemapsState {
   switch (action.type) {
     case PERSIST_REHYDRATE: {
@@ -45,7 +44,6 @@ export default function reducer(state: BasemapsState = initialState, action: Bas
     case IMPORT_BASEMAP_REQUEST: {
       const updatedState = { ...state, importing: true, importError: null };
 
-      // TODO: Split this logic into its own action-reducer pair
       if (action.payload?.remote) {
         // This is a remote layer, we need to add this area into the layer's progress state so it can be tracked.
         const dataId = action.payload?.dataId;
@@ -78,7 +76,6 @@ export default function reducer(state: BasemapsState = initialState, action: Bas
       }
       return updatedState;
     }
-    // TODO: Combine with IMPORT_LAYER_PROGRESS
     case IMPORT_BASEMAP_PROGRESS: {
       const { id, progress, layerId } = action.payload;
 
@@ -97,7 +94,6 @@ export default function reducer(state: BasemapsState = initialState, action: Bas
 
       return updatedStateWithProgress;
     }
-    // TODO: Merge with IMPORT_LAYER_AREA_COMPLETED
     case IMPORT_BASEMAP_AREA_COMPLETED: {
       const { id, layerId, failed } = action.payload;
 
@@ -121,17 +117,19 @@ export default function reducer(state: BasemapsState = initialState, action: Bas
     }
     case IMPORT_BASEMAP_COMMIT: {
       const basemapToSave = action.payload;
-      // Ignore the saved basemap if it already exists - this could happen when importing a layer for example
-      const possiblyPreexistingBasemap = state.importedBasemaps.find(basemap => basemap.id === basemapToSave.id);
-      if (possiblyPreexistingBasemap) {
-        console.warn('3SC', `Ignore already existing basemap with ID ${basemapToSave.id}`);
-        return state;
+      let importedBasemaps = [...state.importedBasemaps];
+
+      if (importedBasemaps.find(basemap => basemap.id === basemapToSave.id)) {
+        // This layer already exists in redux, replace the existing entry with the new one.
+        importedBasemaps = importedBasemaps.map(basemap => (basemap.id === basemapToSave.id ? basemapToSave : basemap));
+        return { ...state, importingLayer: false, importError: null, importedBasemaps: importedBasemaps };
       }
+
       return {
         ...state,
         importing: false,
         importError: null,
-        importedBasemaps: [...state.importedBasemaps, basemapToSave]
+        importedBasemaps: [...importedBasemaps, basemapToSave]
       };
     }
     case IMPORT_BASEMAP_CLEAR: {
