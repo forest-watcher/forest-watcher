@@ -24,12 +24,7 @@ import { getActionsTodoCount } from 'helpers/sync';
 
 import { LOGOUT_REQUEST } from 'redux-modules/user';
 import { SAVE_AREA_COMMIT, DELETE_AREA_COMMIT } from 'redux-modules/areas';
-import {
-  IMPORT_BASEMAP_REQUEST,
-  IMPORT_BASEMAP_PROGRESS,
-  IMPORT_BASEMAP_AREA_COMPLETED,
-  IMPORT_BASEMAP_COMMIT
-} from 'redux-modules/basemaps';
+import { IMPORT_BASEMAP_REQUEST, IMPORT_BASEMAP_PROGRESS, IMPORT_BASEMAP_AREA_COMPLETED } from 'redux-modules/basemaps';
 import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 
 import {
@@ -570,8 +565,9 @@ export function importGFWContent(
   downloadContent: boolean = true
 ): Thunk<Promise<void>> {
   return async (dispatch: Dispatch, getState: GetState) => {
-    if (!downloadContent) {
-      // We're not downloading this content, so just return
+    if (!downloadContent && contentType === 'contextual_layer') {
+      // We're not downloading this content, so just commit.
+      dispatch({ type: IMPORT_LAYER_COMMIT, payload: content });
       return;
     }
 
@@ -696,7 +692,6 @@ function gfwContentImportCompleted(
   return async (dispatch: Dispatch, getState: GetState) => {
     const REGION_COMPLETE_ACTION =
       contentType === 'contextual_layer' ? IMPORT_LAYER_AREA_COMPLETED : IMPORT_BASEMAP_AREA_COMPLETED;
-    const COMMIT_ACTION = contentType === 'contextual_layer' ? IMPORT_LAYER_COMMIT : IMPORT_BASEMAP_COMMIT;
     // We mark that region in the downloadedLayerProgress state as completed with 100% progress.
     // This means we can then keep track of regions that are still downloading / unpacking.
     await dispatch({
@@ -714,7 +709,7 @@ function gfwContentImportCompleted(
 
     if (remainingRegions?.length === 0) {
       // The download has completed, and we can now commit the entire layer.
-      dispatch({ type: COMMIT_ACTION, payload: layer });
+      dispatch({ type: IMPORT_LAYER_COMMIT, payload: layer });
     }
   };
 }
