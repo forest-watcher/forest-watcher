@@ -797,7 +797,7 @@ class MapComponent extends Component<Props, State> {
     return (
       <React.Fragment>
         {layerFiles.map(layerFile => {
-          return layerFile.isGFW
+          return !layerFile.isCustom
             ? this.renderGFWImportedContextualLayer(layerFile)
             : this.renderCustomImportedContextualLayer(layerFile);
         })}

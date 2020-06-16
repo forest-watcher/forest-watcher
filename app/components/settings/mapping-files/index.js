@@ -257,6 +257,9 @@ class MappingFiles extends Component<Props, State> {
       return basemap.isCustom;
     } else if (this.props.mappingFileType === 'contextual_layer') {
       const layer = ((file: any): ContextualLayer);
+      if (layer.isCustom) {
+        return true;
+      }
       const layerMeta = GFW_CONTEXTUAL_LAYERS_METADATA[layer.id];
       return !layerMeta || layerMeta.isShareable;
     }

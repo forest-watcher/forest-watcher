@@ -30,12 +30,12 @@ function mapStateToProps(state: State, ownProps: OwnProps) {
   let baseFiles: Array<ContextualLayer | Basemap> =
     ownProps.mappingFileType === 'contextual_layer' ? state.layers.data || [] : GFW_BASEMAPS;
   if (ownProps.mappingFileType === 'contextual_layer') {
-    const importedGFWLayers = state.layers.imported.filter(layer => layer.isGFW);
+    const importedGFWLayers = state.layers.imported.filter(layer => !layer.isCustom);
     baseFiles = baseFiles.concat(importedGFWLayers);
   }
   const importedFiles: Array<File> =
     ownProps.mappingFileType === 'contextual_layer'
-      ? state.layers.imported.filter(layer => !layer.isGFW)
+      ? state.layers.imported.filter(layer => layer.isCustom)
       : state.basemaps.importedBasemaps;
 
   return {
