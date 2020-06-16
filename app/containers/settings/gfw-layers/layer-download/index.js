@@ -4,7 +4,7 @@ import type { ComponentProps, Dispatch, State } from 'types/store.types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import LayerDownload from 'components/settings/gfw-layers/layer-download';
-import { importGFWContextualLayer } from 'redux-modules/layers';
+import { importGFWContent } from 'redux-modules/layers';
 
 import type { ContextualLayer } from 'types/layers.types';
 
@@ -20,7 +20,7 @@ function mapStateToProps(state: State, ownProps: OwnProps) {
 const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
     {
-      addLayer: importGFWContextualLayer
+      addLayer: importGFWContent
     },
     dispatch
   );

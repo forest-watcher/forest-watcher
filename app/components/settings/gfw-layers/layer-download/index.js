@@ -6,6 +6,7 @@ import BottomTray from 'components/common/bottom-tray';
 import Row from 'components/common/row';
 
 import type { ContextualLayer } from 'types/layers.types';
+import type { LayerType } from 'types/sharing.types';
 
 import i18n from 'i18next';
 import styles from './styles';
@@ -19,7 +20,7 @@ const checkboxOnIcon = require('assets/radio_button.png');
 const checkboxOffIcon = require('assets/checkbox_off.png');
 
 type Props = {
-  addLayer: (layer: ContextualLayer) => void,
+  addLayer: (contentType: LayerType, layer: ContextualLayer) => void,
   componentId: string,
   layer: ContextualLayer,
   popToComponentId: string
@@ -40,7 +41,7 @@ class LayerDownload extends PureComponent<Props, State> {
   }
 
   onPressAdd = () => {
-    this.props.addLayer(this.props.layer);
+    this.props.addLayer('contextual_layer', this.props.layer);
 
     if (this.state.download) {
       this.setState({

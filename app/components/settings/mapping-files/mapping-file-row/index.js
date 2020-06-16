@@ -24,6 +24,7 @@ import { formatBytes } from 'helpers/data';
 const infoIcon = require('assets/info.png');
 const refreshIcon = require('assets/refreshLayer.png');
 const downloadIcon = require('assets/downloadGrey.png');
+const downloadedIcon = require('assets/downloadedGrey.png');
 const checkboxOff = require('assets/checkbox_off.png');
 const checkboxOn = require('assets/checkbox_on.png');
 const deleteIcon = require('assets/settingsDelete.png');
@@ -44,7 +45,7 @@ type Props = {
   layer: ContextualLayer | Basemap,
   layerType: LayerType,
   onDeletePress: () => void,
-  onDownloadPress?: () => void,
+  onDownloadPress?: ?() => void,
   onPress?: ?() => void,
   onInfoPress?: () => void,
   onRenamePress?: () => void,
@@ -90,10 +91,16 @@ export default class MappingFileRow extends Component<Props, State> {
   };
 
   renderIcons = () => {
+    const isRenamable = this.props.layer.isCustom;
+    // TODO: Need to recognise GFW layers as deletable
+    const isDeletable = (this.state.sizeInBytes ?? 0) > 0 || this.props.layer.isCustom;
+    const isRefreshable =
+      this.props.downloaded &&
+      this.props.layerType === 'contextual_layer' &&
+      !(this.props.layer.url ?? '').startsWith('mapbox://');
+    const isDownloadable = this.props.layerType === 'contextual_layer' || !this.props.layer.tileUrl;
+
     if (this.props.inEditMode) {
-      const isRenamable = this.props.layer.isCustom;
-      // TODO: Need to recognise GFW layers as deletable
-      const isDeletable = (this.state.sizeInBytes ?? 0) > 0 || this.props.layer.isCustom;
       return (
         <React.Fragment>
           {isRenamable && this.renderIcon(renameIcon, this.props.onRenamePress)}
@@ -106,13 +113,14 @@ export default class MappingFileRow extends Component<Props, State> {
     } else if (this.props.selected === true) {
       return this.renderIcon(checkboxOn, this.props.onPress);
     }
-    if (!this.props.onDownloadPress) {
-      return this.props.onInfoPress ? this.renderIcon(infoIcon, this.props.onInfoPress) : null;
-    }
+
     return (
       <React.Fragment>
         {this.props.onInfoPress && this.renderIcon(infoIcon, this.props.onInfoPress)}
-        {this.renderIcon(this.props.downloaded ? refreshIcon : downloadIcon, this.props.onDownloadPress)}
+        {this.renderIcon(
+          this.props.downloaded ? (isRefreshable ? refreshIcon : downloadedIcon) : isDownloadable ? downloadIcon : null,
+          this.props.onDownloadPress
+        )}
       </React.Fragment>
     );
   };
@@ -125,6 +133,7 @@ export default class MappingFileRow extends Component<Props, State> {
 
     return (
       <Touchable
+        disabled={onPress == null}
         onPress={onPress}
         background={Platform.select({
           // hide ripple as hitbox is wider than icon
@@ -148,7 +157,7 @@ export default class MappingFileRow extends Component<Props, State> {
     const { layer, layerType } = this.props;
 
     const title = i18n.t(layer.name);
-    const subtitle = this.state.sizeInBytes !== null ? formatBytes(this.state.sizeInBytes) : "LOADING";
+    const subtitle = this.state.sizeInBytes !== null ? formatBytes(this.state.sizeInBytes) : 'LOADING';
     const image = layer.image ?? icons[layerType].placeholder;
     return (
       <View style={styles.item}>

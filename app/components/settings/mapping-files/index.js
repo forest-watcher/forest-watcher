@@ -37,9 +37,9 @@ type Props = {|
   +baseFiles: Array<ContextualLayer> | Array<Basemap>,
   +componentId: string,
   +deleteMappingFile: (id: string, type: LayerType) => void,
-  +downloadedLayerProgress: { [id: string]: LayersCacheStatus },
+  +downloadProgress: { [id: string]: LayersCacheStatus },
   +exportLayers: (ids: Array<string>) => Promise<void>,
-  +importGFWContextualLayer: (ContextualLayer, boolean) => Promise<void>,
+  +importGFWContent: (LayerType, Basemap | ContextualLayer, boolean) => Promise<void>,
   +importedFiles: Array<ContextualLayer> | Array<Basemap>,
   +mappingFileType: LayerType,
   +renameMappingFile: (id: string, type: LayerType, newName: string) => void
@@ -269,7 +269,7 @@ class MappingFiles extends Component<Props, State> {
   });
 
   renderGFWFiles = (files: Array<ContextualLayer> | Array<Basemap>) => {
-    const { areaTotal, downloadedLayerProgress, mappingFileType } = this.props;
+    const { areaTotal, downloadProgress, mappingFileType } = this.props;
     const { inEditMode, inShareMode } = this.state;
 
     if (files.length === 0) {
@@ -280,12 +280,16 @@ class MappingFiles extends Component<Props, State> {
       <View>
         <Text style={styles.heading}>{i18n.t(this.i18nKeyFor('gfw'))}</Text>
         {files.map(file => {
-          const fileDownloadProgress = Object.values(downloadedLayerProgress[file.id] ?? {});
+          const fileDownloadProgress = Object.values(downloadProgress[file.id] ?? {});
           // If the file is fully downloaded, we should show the refresh icon. Otherwise, we should show the download icon.
           const fileIsFullyDownloaded =
-            fileDownloadProgress.filter(area => area.completed && !area.error).length === areaTotal;
+            fileDownloadProgress.filter(area => area.completed && !area.error).length >= areaTotal;
           // TODO: Add support for 'download in progress' UI to MappingFileRow.
           const fileIsDownloading = fileDownloadProgress.filter(area => area.requested).length > 0;
+
+          // Downloads should be disabled if the file is in-progress, or if this is a basemap we've already downloaded.
+          // Basemaps should not be 'refreshed' as Mapbox will handle this internally.
+          const disableDownload = fileIsDownloading || (fileIsFullyDownloaded && mappingFileType === 'basemap');
           return (
             <View key={file.id} style={styles.rowContainer}>
               <MappingFileRow
@@ -302,17 +306,20 @@ class MappingFiles extends Component<Props, State> {
                     this.onFileSelectedForExport(file.id);
                   }
                 }}
-                onDownloadPress={() => {
-                  if (fileIsDownloading) {
-                    return;
-                  }
+                onDownloadPress={
+                  disableDownload
+                    ? null
+                    : () => {
+                        if (fileIsDownloading) {
+                          return;
+                        }
 
-                  // TODO: Add basemap download logic.
-                  if (this.props.mappingFileType === 'contextual_layer') {
-                    this.props.importGFWContextualLayer(file, !fileIsFullyDownloaded);
-                  }
-                }}
+                        this.props.importGFWContent(this.props.mappingFileType, file, !fileIsFullyDownloaded);
+                      }
+                }
                 onInfoPress={file.description ? this.onInfoPress.bind(this, file) : undefined}
+                title={i18n.t(file.name)}
+                subtitle={formatBytes(file.size ?? 0)}
                 selected={inShareMode ? this.state.selectedForExport.includes(file.id) : null}
               />
             </View>
