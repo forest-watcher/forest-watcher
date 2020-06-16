@@ -81,8 +81,6 @@ export default class MappingFileRow extends Component<Props, State> {
 
   _calculateSize = async () => {
     // TODO: Handle basemaps stored using Mapbox OfflineManager
-    // TODO: Handle custom files
-
     const { layer, layerType } = this.props;
     const layerFiles = await queryLayerFiles(layerType, { whitelist: [layer.id], blacklist: [] });
     const sizeInBytes = manifestBundleSize({
