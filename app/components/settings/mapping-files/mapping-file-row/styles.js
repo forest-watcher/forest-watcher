@@ -48,5 +48,9 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  progressBarContainer: {
+    position: 'absolute',
+    bottom: 0
   }
 });
