@@ -25,7 +25,7 @@ type Props = {
     layer: ContextualLayer,
     onlyNonDownloadedAreas: boolean,
     downloadLayer: boolean
-  ) => void,
+  ) => Promise<void>,
   componentId: string,
   layer: ContextualLayer,
   +offlineMode: boolean,
