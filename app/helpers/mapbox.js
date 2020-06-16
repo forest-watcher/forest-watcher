@@ -17,6 +17,18 @@ export type MapboxOfflinePackConfig = {
 };
 
 /**
+ * nameForMapboxOfflinePack - merges the contentID / basemapId into a single string,
+ * that is used for identifying mapbox packs.
+ * @param {string} contentId
+ * @param {string} basemapId
+ *
+ * @returns {string}
+ */
+export const nameForMapboxOfflinePack = (contentId: string, basemapId: string): string => {
+  return `${contentId}|${basemapId}`;
+};
+
+/**
  * getMapboxOfflinePack - wraps the MapboxGL function, returning the offline maptile pack for
  * the given name, if it exists.
  * @param {string} packName

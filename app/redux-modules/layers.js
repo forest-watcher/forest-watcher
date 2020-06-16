@@ -19,7 +19,7 @@ import Config from 'react-native-config';
 import omit from 'lodash/omit';
 import CONSTANTS, { GFW_BASEMAPS } from 'config/constants';
 import { bboxForRoute } from 'helpers/bbox';
-import { downloadOfflinePack, getMapboxOfflinePack } from 'helpers/mapbox';
+import { downloadOfflinePack, getMapboxOfflinePack, nameForMapboxOfflinePack } from 'helpers/mapbox';
 import { getActionsTodoCount } from 'helpers/sync';
 
 import { LOGOUT_REQUEST } from 'redux-modules/user';
@@ -588,7 +588,7 @@ export function importGFWContent(
       const dataId = area.id;
       if (url.startsWith('mapbox://')) {
         // This is a mapbox layer - we must use OfflineManager
-        const name = `${dataId}|${layerId}`;
+        const name = nameForMapboxOfflinePack(dataId, layerId);
         const pack = await getMapboxOfflinePack(name);
 
         if (pack) {
@@ -710,7 +710,7 @@ function getRouteById(routes: Array<Route>, routeId: string): ?Route {
 
 export function cacheAreaBasemap(dataType: DownloadDataType, dataId: string, basemapId: string) {
   return async (dispatch: Dispatch, getState: GetState) => {
-    const name = `${dataId}|${basemapId}`;
+    const name = nameForMapboxOfflinePack(dataId, basemapId);
     const pack = await getMapboxOfflinePack(name);
 
     if (pack) {
