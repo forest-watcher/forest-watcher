@@ -61,7 +61,11 @@ class SetupOverview extends Component {
     });
   };
 
-  onNextPress = debounceUI(async () => {
+  onNextPress = debounceUI(() => {
+    if (!this.props.isConnected) {
+      this.props.showNotConnectedNotification();
+      return;
+    }
     const params = {
       area: {
         name: this.state.name,
@@ -145,6 +149,8 @@ SetupOverview.propTypes = {
   snapshot: PropTypes.string.isRequired,
   saveArea: PropTypes.func.isRequired,
   setSetupArea: PropTypes.func.isRequired,
+  isConnected: PropTypes.bool.isRequired,
+  showNotConnectedNotification: PropTypes.func,
   onTextFocus: PropTypes.func,
   onTextBlur: PropTypes.func
 };
