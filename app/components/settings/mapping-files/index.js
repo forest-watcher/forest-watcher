@@ -42,7 +42,9 @@ type Props = {|
   +importGFWContent: (LayerType, Basemap | ContextualLayer, boolean) => Promise<void>,
   +importedFiles: Array<ContextualLayer> | Array<Basemap>,
   +mappingFileType: LayerType,
-  +renameMappingFile: (id: string, type: LayerType, newName: string) => void
+  +offlineMode: boolean,
+  +renameMappingFile: (id: string, type: LayerType, newName: string) => void,
+  +showNotConnectedNotification: () => void
 |};
 
 type State = {|
@@ -269,7 +271,7 @@ class MappingFiles extends Component<Props, State> {
   });
 
   renderGFWFiles = (files: Array<ContextualLayer> | Array<Basemap>) => {
-    const { areaTotal, downloadProgress, mappingFileType } = this.props;
+    const { areaTotal, downloadProgress, mappingFileType, offlineMode } = this.props;
     const { inEditMode, inShareMode } = this.state;
 
     if (files.length === 0) {
@@ -284,7 +286,6 @@ class MappingFiles extends Component<Props, State> {
           // If the file is fully downloaded, we should show the refresh icon. Otherwise, we should show the download icon.
           const fileIsFullyDownloaded =
             fileDownloadProgress.filter(area => area.completed && !area.error).length >= areaTotal;
-          // TODO: Add support for 'download in progress' UI to MappingFileRow.
           const fileIsDownloading = fileDownloadProgress.filter(area => area.requested).length > 0;
 
           // Downloads should be disabled if the file is in-progress, or if this is a basemap we've already downloaded.
@@ -296,9 +297,9 @@ class MappingFiles extends Component<Props, State> {
                 layerType={mappingFileType}
                 layer={file}
                 downloaded={fileIsFullyDownloaded}
+                downloading={fileIsDownloading}
                 inEditMode={inEditMode}
                 onDeletePress={() => {
-                  // TODO: Ensure this handles GFW layer / basemap deletion correctly.
                   this.confirmMappingFileDeletion(file);
                 }}
                 onPress={() => {
@@ -307,14 +308,16 @@ class MappingFiles extends Component<Props, State> {
                   }
                 }}
                 onDownloadPress={
-                  disableDownload
+                  offlineMode
+                    ? this.props.showNotConnectedNotification
+                    : disableDownload
                     ? null
-                    : () => {
+                    : async () => {
                         if (fileIsDownloading) {
                           return;
                         }
 
-                        this.props.importGFWContent(this.props.mappingFileType, file, !fileIsFullyDownloaded);
+                        await this.props.importGFWContent(this.props.mappingFileType, file, !fileIsFullyDownloaded);
                       }
                 }
                 onInfoPress={file.description ? this.onInfoPress.bind(this, file) : undefined}
@@ -365,7 +368,6 @@ class MappingFiles extends Component<Props, State> {
                   }
                 }}
                 onRenamePress={() => {
-                  // TODO: Ensure this handles GFW layer / basemap renaming correctly.
                   this.confirmMappingFileRenaming(file);
                 }}
                 selected={inShareMode ? this.state.selectedForExport.includes(file.id) : null}

@@ -511,8 +511,6 @@ export function toggleRoutesLayer(featureId: string): LayerSettingsAction {
 }
 
 export function toggleReportsLayer(featureId: string): LayerSettingsAction {
-  console.warn(`toggleReportsLayer - ${featureId}`);
-
   return {
     type: TOGGLE_REPORTS_LAYER,
     payload: {
@@ -531,8 +529,6 @@ export function toggleContextualLayersLayer(featureId: string): LayerSettingsAct
 }
 
 export function toggleMyReportsLayer(featureId: string): LayerSettingsAction {
-  console.warn(`toggleReportsLayer - ${featureId}`);
-
   return {
     type: TOGGLE_MY_REPORTS_LAYER,
     payload: {
@@ -542,7 +538,6 @@ export function toggleMyReportsLayer(featureId: string): LayerSettingsAction {
 }
 
 export function toggleImportedReportsLayer(featureId: string): LayerSettingsAction {
-  console.warn(`toggleReportsLayer - ${featureId}`);
   return {
     type: TOGGLE_IMPORTED_REPORTS_LAYER,
     payload: {

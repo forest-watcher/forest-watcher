@@ -11,6 +11,8 @@ import i18n from 'i18next';
 
 const CookieManager = require('@react-native-community/cookies');
 
+import { deleteAllOfflinePacks } from 'helpers/mapbox';
+
 // Actions
 const GET_USER_REQUEST = 'user/GET_USER_REQUEST';
 const GET_USER_COMMIT = 'user/GET_USER_COMMIT';
@@ -260,6 +262,7 @@ export function logout(socialNetworkFallback: ?string): Thunk<void> {
     dispatch({ type: RESET_STATE });
 
     try {
+      await deleteAllOfflinePacks();
       await CookieManager.clearAll();
 
       const social = socialNetwork || socialNetworkFallback;

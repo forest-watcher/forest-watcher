@@ -1,5 +1,5 @@
 export default {
   StyleURL: {
-    Satellite: 'mapbox://styles/mapbox/satellite-v9'
+    SatelliteStreet: 'mapbox://styles/mapbox/satellite-streets-v11'
   }
 };

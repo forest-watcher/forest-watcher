@@ -146,8 +146,8 @@ export const ACTIONS_SAVED_TO_REPORT = 5;
 export const GFW_BASEMAPS: Array<Basemap> = [
   {
     isCustom: false,
-    id: MapboxGL.StyleURL.Satellite,
-    styleURL: MapboxGL.StyleURL.Satellite,
+    id: MapboxGL.StyleURL.SatelliteStreet,
+    styleURL: MapboxGL.StyleURL.SatelliteStreet,
     name: 'mapboxSatellite',
     image: require('assets/basemap_mapbox_satellite.png'),
     tileUrl: null
