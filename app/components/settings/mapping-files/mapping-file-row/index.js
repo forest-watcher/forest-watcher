@@ -16,7 +16,7 @@ import styles from './styles';
 const infoIcon = require('assets/info.png');
 const refreshIcon = require('assets/refreshLayer.png');
 const downloadIcon = require('assets/downloadGrey.png');
-const downloadedIcon = require('assets/downloaded.png');
+const downloadedIcon = require('assets/downloadedGrey.png');
 const checkboxOff = require('assets/checkbox_off.png');
 const checkboxOn = require('assets/checkbox_on.png');
 const deleteIcon = require('assets/settingsDelete.png');
@@ -61,7 +61,13 @@ export default class MappingFileRow extends Component<Props> {
       <React.Fragment>
         {this.props.onInfoPress && this.renderIcon(infoIcon, this.props.onInfoPress)}
         {this.renderIcon(
-          this.props.downloaded && this.props.refreshable ? refreshIcon : this.props.downloadable ? downloadIcon : null,
+          this.props.downloaded
+            ? this.props.refreshable
+              ? refreshIcon
+              : downloadedIcon
+            : this.props.downloadable
+            ? downloadIcon
+            : null,
           this.props.onDownloadPress
         )}
       </React.Fragment>
