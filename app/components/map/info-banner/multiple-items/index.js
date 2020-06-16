@@ -162,7 +162,7 @@ export default class MultipleItems extends PureComponent<Props, null> {
       >
         <View style={styles.container}>
           <Row>
-            <Text style={styles.itemText}>{'Location: ' + location}</Text>
+            <Text style={styles.itemText}>{location}</Text>
           </Row>
           {this.renderSection('report', i18n.t('map.layerSettings.myReports'), myReports)}
           {this.renderSection('report', i18n.t('map.layerSettings.importedReports'), importedReports)}
