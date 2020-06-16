@@ -25,7 +25,7 @@ type Props = {
     layer: ContextualLayer,
     onlyNonDownloadedAreas: boolean,
     downloadLayer: boolean
-  ) => void,
+  ) => Promise<void>,
   componentId: string,
   layer: ContextualLayer,
   +offlineMode: boolean,
@@ -47,19 +47,21 @@ class LayerDownload extends PureComponent<Props, State> {
     };
   }
 
-  onPressAdd = () => {
+  onPressAdd = async () => {
     if (this.props.offlineMode && this.state.download) {
       this.props.showNotConnectedNotification();
       return;
     }
 
-    this.props.addLayer('contextual_layer', this.props.layer, false, this.state.download);
-
     if (this.state.download) {
       this.setState({
         downloading: true
       });
-      //TODO: Await download before popping
+    }
+
+    await this.props.addLayer('contextual_layer', this.props.layer, false, this.state.download);
+
+    if (this.state.download) {
       this.setState({
         downloading: false
       });

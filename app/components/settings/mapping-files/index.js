@@ -300,6 +300,7 @@ class MappingFiles extends Component<Props, State> {
                 deletable={(!!file.size && file.size > 0) || file.isGFW}
                 downloadable={mappingFileType === 'contextual_layer' || !file.tileUrl}
                 downloaded={fileIsFullyDownloaded}
+                downloading={fileIsDownloading}
                 inEditMode={inEditMode}
                 onDeletePress={() => {
                   // TODO: Ensure this handles GFW layer / basemap deletion correctly.
@@ -315,12 +316,12 @@ class MappingFiles extends Component<Props, State> {
                     ? this.props.showNotConnectedNotification
                     : disableDownload
                     ? null
-                    : () => {
+                    : async () => {
                         if (fileIsDownloading) {
                           return;
                         }
 
-                        this.props.importGFWContent(this.props.mappingFileType, file, !fileIsFullyDownloaded);
+                        await this.props.importGFWContent(this.props.mappingFileType, file, !fileIsFullyDownloaded);
                       }
                 }
                 onInfoPress={file.description ? this.onInfoPress.bind(this, file) : undefined}

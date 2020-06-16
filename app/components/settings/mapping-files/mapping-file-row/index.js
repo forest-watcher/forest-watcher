@@ -11,6 +11,9 @@ import {
   Platform,
   TouchableNativeFeedback
 } from 'react-native';
+import ProgressBar from 'react-native-progress/Bar';
+
+import Theme from 'config/theme';
 import styles from './styles';
 
 const infoIcon = require('assets/info.png');
@@ -25,6 +28,7 @@ const renameIcon = require('assets/settingsEdit.png');
 type Props = {
   downloadable: boolean,
   downloaded?: boolean,
+  downloading?: boolean,
   deletable: boolean,
   image?: ?string | ?number,
   inEditMode: boolean,
@@ -103,6 +107,7 @@ export default class MappingFileRow extends Component<Props> {
   };
 
   render() {
+    const { downloading } = this.props;
     return (
       <View style={styles.item}>
         <View style={styles.imageContainer}>
@@ -118,7 +123,19 @@ export default class MappingFileRow extends Component<Props> {
             </View>
           )}
         </View>
-        <View style={styles.iconsContainer}>{this.renderIcons()}</View>
+        {!downloading && <View style={styles.iconsContainer}>{this.renderIcons()}</View>}
+        {downloading && (
+          <View style={styles.progressBarContainer}>
+            <ProgressBar
+              indeterminate={true}
+              width={Theme.screen.width}
+              height={4}
+              color={Theme.colors.turtleGreen}
+              borderRadius={0}
+              borderColor="transparent"
+            />
+          </View>
+        )}
       </View>
     );
   }
