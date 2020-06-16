@@ -17,7 +17,7 @@ export type Basemap = {
   /**
    * Flag indicating whether or not this basemap is a custom one added by the user
    */
-  isCustom: boolean,
+  isCustom?: boolean,
 
   /**
    * Flag indicating whether or not this basemap was imported from a sharing bundle
