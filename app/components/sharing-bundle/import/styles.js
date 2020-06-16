@@ -5,7 +5,7 @@ export default StyleSheet.create({
   bottomTray: {
     flexDirection: 'column',
     alignSelf: 'stretch',
-    alignItems: 'center'
+    alignItems: 'stretch'
   },
   container: {
     backgroundColor: Theme.background.main,
@@ -19,7 +19,8 @@ export default StyleSheet.create({
     color: Theme.fontColors.secondary,
     fontSize: 12,
     fontFamily: Theme.font,
-    marginBottom: 16
+    marginBottom: 16,
+    textAlign: 'center'
   },
   topBarTextButton: {
     fontSize: 16,
