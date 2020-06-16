@@ -557,9 +557,17 @@ export function importContextualLayer(layerFile: File): Thunk<Promise<void>> {
 export function importGFWContent(
   contentType: LayerType,
   content: Basemap | ContextualLayer,
-  onlyNonDownloadedAreas: boolean = false
+  onlyNonDownloadedAreas: boolean = false,
+  downloadContent: boolean = true
 ): Thunk<Promise<void>> {
   return async (dispatch: Dispatch, getState: GetState) => {
+    if (!downloadContent) {
+      // We're not downloading this content, so immediately commit it.
+      const COMMIT_ACTION = contentType === 'contextual_layer' ? IMPORT_LAYER_COMMIT : IMPORT_BASEMAP_COMMIT;
+      dispatch({ type: COMMIT_ACTION, payload: content });
+      return;
+    }
+
     const state = getState();
 
     const layerId = content.id;
@@ -690,7 +698,6 @@ function gfwContentImportCompleted(
       console.warn('download complete!!!!!!!');
 
       // TODO: Get collective file size for all tiles, add it to the layer.
-
       dispatch({ type: COMMIT_ACTION, payload: layer });
     }
   };

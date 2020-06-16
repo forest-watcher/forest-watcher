@@ -44,7 +44,9 @@ type Props = {|
   +importGFWContent: (LayerType, Basemap | ContextualLayer, boolean) => Promise<void>,
   +importedFiles: Array<ContextualLayer> | Array<Basemap>,
   +mappingFileType: LayerType,
-  +renameMappingFile: (id: string, type: LayerType, newName: string) => void
+  +offlineMode: boolean,
+  +renameMappingFile: (id: string, type: LayerType, newName: string) => void,
+  +showNotConnectedNotification: () => void
 |};
 
 type State = {|
@@ -271,7 +273,7 @@ class MappingFiles extends Component<Props, State> {
   });
 
   renderGFWFiles = (files: Array<ContextualLayer> | Array<Basemap>) => {
-    const { areaTotal, downloadProgress, mappingFileType } = this.props;
+    const { areaTotal, downloadProgress, mappingFileType, offlineMode } = this.props;
     const { inEditMode, inShareMode } = this.state;
 
     if (files.length === 0) {
@@ -309,7 +311,9 @@ class MappingFiles extends Component<Props, State> {
                   }
                 }}
                 onDownloadPress={
-                  disableDownload
+                  offlineMode
+                    ? this.props.showNotConnectedNotification
+                    : disableDownload
                     ? null
                     : () => {
                         if (fileIsDownloading) {
