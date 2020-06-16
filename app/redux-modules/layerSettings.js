@@ -5,7 +5,7 @@ import remove from 'lodash/remove';
 import type { Dispatch, GetState, State } from 'types/store.types';
 import type { Area } from 'types/areas.types';
 
-import { trackReportsToggled, trackRoutesToggled, trackAlertTypeToggled } from 'helpers/analytics';
+import { trackReportsToggled, trackRoutesToggled, trackAlertTypeToggled, trackLayersToggled } from 'helpers/analytics';
 
 // Actions
 const TOGGLE_ALERTS_LAYER = 'layerSettings/TOGGLE_ALERTS_LAYER';
@@ -152,6 +152,7 @@ export default function reducer(
       };
     }
     case TOGGLE_CONTEXTUAL_LAYERS_LAYER: {
+      trackLayersToggled('all', !state[featureId].contextualLayers.layerIsActive);
       return {
         ...state,
         [featureId]: {
@@ -451,6 +452,7 @@ export function clearEnabledContextualLayers(featureId: string): LayerSettingsAc
 }
 
 export function setContextualLayerShowing(featureId: string, layerId: string, showing: boolean): LayerSettingsAction {
+  trackLayersToggled(layerId, showing);
   return {
     type: SET_CONTEXTUAL_LAYER_SHOWING,
     payload: {
