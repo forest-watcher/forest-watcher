@@ -565,7 +565,7 @@ export function importGFWContextualLayer(
       areas = areas.filter(area => !completedAreas.includes(area.id));
     }
 
-    const areaPromises = await areas.map(async area => {
+    const areaPromises = areas.map(async area => {
       const dataId = area.id;
       if (layer.url.startsWith('mapbox://')) {
         // This is a mapbox layer - we must use OfflineManager
