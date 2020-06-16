@@ -1,7 +1,7 @@
 // @flow
 
 import React, { PureComponent } from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text, ScrollView, BackHandler } from 'react-native';
 
 import Row from 'components/common/row';
 import moment from 'moment';
@@ -69,6 +69,10 @@ export default class MultipleItems extends PureComponent<Props, null> {
     if (buttonId === 'done') {
       Navigation.dismissModal(this.props.componentId);
     }
+  }
+
+  componentDidMount() {
+    BackHandler.addEventListener('hardwareBackPress', () => Navigation.dismissModal(this.props.componentId));
   }
 
   /**
@@ -144,7 +148,7 @@ export default class MultipleItems extends PureComponent<Props, null> {
   }
 
   render() {
-    const features = this.props.tappedOnFeatures.map(feature => feature.properties);
+    const features = this.props.tappedOnFeatures;
     const alerts = features.filter(feature => feature.type === 'alert');
     const reports = features.filter(feature => feature.type === 'report');
     const myReports = reports.filter(reports => !reports.imported);

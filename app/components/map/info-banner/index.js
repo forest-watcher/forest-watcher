@@ -110,11 +110,11 @@ export default class InfoBanner extends Component<Props> {
     } else {
       showRightArrow = true;
       title = i18n.t('map.selectedItems.multipleItems');
-      const reportCount = tappedOnFeatures.filter(feature => feature.properties?.type === 'report').length;
+      const reportCount = tappedOnFeatures.filter(feature => feature.type === 'report').length;
       const reportString = i18n.t(reportCount === 1 ? 'map.selectedItems.oneReport' : 'map.selectedItems.manyReports', {
         count: reportCount
       });
-      const alertCount = tappedOnFeatures.filter(feature => feature.properties?.type === 'alert').length;
+      const alertCount = tappedOnFeatures.filter(feature => feature.type === 'alert').length;
       const alertString = i18n.t(alertCount === 1 ? 'map.selectedItems.oneAlert' : 'map.selectedItems.manyAlerts', {
         count: alertCount
       });

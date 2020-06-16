@@ -146,7 +146,20 @@ type State = {
   animatedPosition: any,
   infoBannerShowing: boolean,
   // feature(s) that the user has just tapped on
-  tappedOnFeatures: [] // todo type
+  tappedOnFeatures: {
+    name: string,
+    date: number,
+    type: string,
+    featureId: string,
+    lat?: string,
+    long?: string,
+    reportAreaName?: string,
+    imported?: boolean,
+    icon?: any,
+    selected?: boolean,
+    reported?: boolean,
+    clusterId?: string
+  }
 };
 
 class MapComponent extends Component<Props, State> {
@@ -972,12 +985,13 @@ class MapComponent extends Component<Props, State> {
 
   onShapeSourcePressed = (e: any) => {
     let features: Array<Feature> = e.features;
+    features = features.map(feature => feature.properties);
     if (features?.length === 1) {
       this.onFeaturePressed(features[0]);
       return;
     }
     // ignore routes if tapping on multiple features as they can be easily tapped on a different part of the route
-    features = features.filter(feature => feature.properties?.type !== 'route');
+    features = features.filter(feature => feature.type !== 'route');
     if (features?.length === 1) {
       this.onFeaturePressed(features[0]);
       return;
@@ -986,29 +1000,27 @@ class MapComponent extends Component<Props, State> {
       return;
     }
     // if any of the features are a cluster - zoom in on the cluster so items will be moved apart
-    const clusters = features.filter(feature => feature.properties?.cluster);
+    const clusters = features.filter(feature => feature.cluster);
     if (clusters.length) {
       this.onClusterPress(clusters[0].geometry?.coordinates);
       return;
     }
     // deselect all previously selected items and select all reports and alerts tapped on
     const selectedAlerts = features
-      .filter(feature => feature.properties?.type === 'alert')
+      .filter(feature => feature.type === 'alert')
       .map(feature => ({
-        lat: Number(feature.properties?.lat),
-        long: Number(feature.properties?.long)
+        lat: Number(feature.lat),
+        long: Number(feature.long)
       }));
     const selectedReports = features
-      .filter(feature => feature.properties?.type === 'report')
+      .filter(feature => feature.type === 'report')
       .map(feature => ({
-        reportName: feature.properties?.featureId,
-        lat: Number(feature.properties?.lat),
-        long: Number(feature.properties?.long)
+        reportName: feature.featureId,
+        lat: Number(feature.lat),
+        long: Number(feature.long)
       }));
 
-    const tappedOnFeatures = features.filter(
-      feature => feature.properties?.type === 'alert' || feature.properties?.type === 'report'
-    );
+    const tappedOnFeatures = features.filter(feature => feature.type === 'alert' || feature.type === 'report');
 
     this.setState({
       selectedAlerts,
@@ -1029,7 +1041,7 @@ class MapComponent extends Component<Props, State> {
 
   onFeaturePressed = (feature: Feature) => {
     // show info banner with feature details
-    const { date, name, type, featureId, cluster, lat, long } = feature.properties;
+    const { date, name, type, featureId, cluster, lat, long } = feature;
 
     if (cluster) {
       this.onClusterPress(feature.geometry?.coordinates);
@@ -1081,7 +1093,7 @@ class MapComponent extends Component<Props, State> {
           selectedAlerts,
           selectedReports,
           infoBannerShowing,
-          tappedOnFeatures: [feature.properties]
+          tappedOnFeatures: [feature]
         };
       });
     }
