@@ -321,7 +321,10 @@ class MappingFiles extends Component<Props, State> {
                 }
                 onInfoPress={file.description ? this.onInfoPress.bind(this, file) : undefined}
                 image={file.image ?? icons[mappingFileType].placeholder}
-                refreshable={fileIsFullyDownloaded && mappingFileType === 'contextual_layer'}
+                refreshable={
+                  fileIsFullyDownloaded &&
+                  (mappingFileType === 'contextual_layer' && !file.url?.startsWith('mapbox://'))
+                }
                 renamable={false}
                 title={i18n.t(file.name)}
                 subtitle={formatBytes(file.size ?? 0)}
