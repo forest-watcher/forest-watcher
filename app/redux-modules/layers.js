@@ -584,7 +584,7 @@ export function importGFWContent(
       return;
     }
 
-    const areaPromises = await areas.map(async area => {
+    const areaPromises = areas.map(async area => {
       const dataId = area.id;
       if (url.startsWith('mapbox://')) {
         // This is a mapbox layer - we must use OfflineManager
