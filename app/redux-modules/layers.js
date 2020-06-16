@@ -299,6 +299,11 @@ export default function reducer(state: LayersState = initialState, action: Layer
       const layerToSave = action.payload;
       let importedLayers = [...state.imported];
 
+      if (state.data.find(layer => layer.id === layerToSave.id)) {
+        // This layer exists in the default state, so do not import it.
+        return state;
+      }
+
       if (importedLayers.find(layer => layer.id === layerToSave.id)) {
         // This layer already exists in redux, replace the existing entry with the new one.
         importedLayers = importedLayers.map(layer => (layer.id === layerToSave.id ? layerToSave : layer));
@@ -309,7 +314,7 @@ export default function reducer(state: LayersState = initialState, action: Layer
       return { ...state, importingLayer: false, importError: null, imported: [...importedLayers, layerToSave] };
     }
     case IMPORT_LAYER_REQUEST: {
-      const updatedState = { ...state, importingLayer: true, importError: null };
+      const updatedState = { ...state, importingLayer: !(action.payload?.remote ?? false), importError: null };
 
       if (action.payload?.remote) {
         // This is a remote layer, we need to add this area into the layer's progress state so it can be tracked.
@@ -341,6 +346,7 @@ export default function reducer(state: LayersState = initialState, action: Layer
 
         return updatedStateWithProgress;
       }
+
       return updatedState;
     }
     case IMPORT_LAYER_PROGRESS: {
@@ -412,7 +418,10 @@ export default function reducer(state: LayersState = initialState, action: Layer
       return { ...state, imported: layers, activeLayer: activeLayer };
     }
     case LOGOUT_REQUEST:
-      deleteLayerFiles().then(() => console.info('Folder removed successfully'));
+      deleteLayerFiles()
+        .then(() => console.info('Folder removed successfully'))
+        .catch(error => console.info('An error occurred deleting files'));
+
       return initialState;
     default:
       return state;
@@ -695,11 +704,12 @@ function gfwContentImportCompleted(
       payload: { id: dataId, layerId: layer.id, failed: withFailure }
     });
 
+    if (contentType !== 'contextual_layer') {
+      return;
+    }
+
     // Check for any regions for this layer that are still in progress.
-    const downloadProgressForLayer =
-      contentType === 'contextual_layer'
-        ? getState().layers.downloadedLayerProgress[layer.id]
-        : getState().basemaps.downloadedBasemapProgress[layer.id] ?? {};
+    const downloadProgressForLayer = getState().layers.downloadedLayerProgress[layer.id] ?? {};
     const remainingRegions = Object.values(downloadProgressForLayer).filter(region => region.completed !== true);
 
     if (remainingRegions?.length === 0) {
