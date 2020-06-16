@@ -14,6 +14,7 @@ type OwnProps = {|
 function mapStateToProps(state: State) {
   return {
     area: state.setup.area,
+    syncingAreas: state.areas.syncing,
     snapshot: state.setup.snapshot
   };
 }
