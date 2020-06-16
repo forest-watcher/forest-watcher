@@ -10,7 +10,7 @@ import i18n from 'i18next';
 
 import EmptyState from 'components/common/empty-state';
 import ShareSheet from 'components/common/share';
-import Constants from 'config/constants';
+import Constants, { GFW_CONTEXTUAL_LAYERS_METADATA } from 'config/constants';
 import Theme from 'config/theme';
 import debounceUI from 'helpers/debounceUI';
 import showDeleteConfirmationPrompt from 'helpers/showDeleteModal';
@@ -172,10 +172,9 @@ class MappingFiles extends Component<Props, State> {
       return;
     }
 
-    const selectedForExport: Array<string> = [
-      ...this.props.importedFiles.map((layer: { id: string }) => layer.id),
-      ...(this.props.mappingFileType === 'basemap' ? [] : this.props.baseFiles.map(layer => layer.id))
-    ];
+    const allFiles = [...this.props.baseFiles, ...this.props.importedFiles];
+    const selectedForExport: Array<string> = allFiles.filter(this._isShareable).map(file => file.id);
+
     this.setState({
       selectedForExport: selectedForExport
     });
@@ -249,6 +248,21 @@ class MappingFiles extends Component<Props, State> {
     );
   };
 
+  /**
+   * Whether the specified layer can be shared with other users via sharing bundles
+   */
+  _isShareable = (file: Basemap | ContextualLayer): boolean => {
+    if (this.props.mappingFileType === 'basemap') {
+      const basemap = ((file: any): Basemap);
+      return basemap.isCustom;
+    } else if (this.props.mappingFileType === 'contextual_layer') {
+      const layer = ((file: any): ContextualLayer);
+      const layerMeta = GFW_CONTEXTUAL_LAYERS_METADATA[layer.id];
+      return !layerMeta || layerMeta.isShareable;
+    }
+    return true;
+  };
+
   onInfoPress = debounceUI((file: Basemap | ContextualLayer) => {
     presentInformationModal({
       title: file.name,
@@ -256,23 +270,18 @@ class MappingFiles extends Component<Props, State> {
     });
   });
 
-  renderGFWFiles = () => {
-    const { areaTotal, baseFiles, downloadProgress, mappingFileType } = this.props;
+  renderGFWFiles = (files: Array<ContextualLayer> | Array<Basemap>) => {
+    const { areaTotal, downloadProgress, mappingFileType } = this.props;
     const { inEditMode, inShareMode } = this.state;
 
-    if (baseFiles.length === 0) {
-      return null;
-    }
-
-    // It is against Mapbox ToS to share their tiles
-    if (mappingFileType === 'basemap' && this.state.inShareMode) {
+    if (files.length === 0) {
       return null;
     }
 
     return (
       <View>
         <Text style={styles.heading}>{i18n.t(this.i18nKeyFor('gfw'))}</Text>
-        {baseFiles.map(file => {
+        {files.map(file => {
           const fileDownloadProgress = Object.values(downloadProgress[file.id] ?? {});
           // If the file is fully downloaded, we should show the refresh icon. Otherwise, we should show the download icon.
           const fileIsFullyDownloaded =
@@ -325,12 +334,12 @@ class MappingFiles extends Component<Props, State> {
     );
   };
 
-  renderImportedFiles = () => {
-    const { importedFiles, mappingFileType } = this.props;
+  renderImportedFiles = (files: Array<ContextualLayer> | Array<Basemap>) => {
+    const { mappingFileType } = this.props;
     const { inEditMode, inShareMode } = this.state;
 
-    if (importedFiles.length === 0) {
-      if (mappingFileType === 'basemap') {
+    if (files.length === 0) {
+      if (!inShareMode) {
         return (
           <View>
             <Text style={styles.heading}>{i18n.t(this.i18nKeyFor('imported'))}</Text>
@@ -345,7 +354,7 @@ class MappingFiles extends Component<Props, State> {
     return (
       <View>
         <Text style={styles.heading}>{i18n.t(this.i18nKeyFor('imported'))}</Text>
-        {importedFiles.map(file => {
+        {files.map(file => {
           return (
             <View key={file.id} style={styles.rowContainer}>
               <MappingFileRow
@@ -391,7 +400,14 @@ class MappingFiles extends Component<Props, State> {
     );
   };
 
-  renderFilesList = () => {
+  renderFilesList = (
+    gfwFiles: Array<ContextualLayer> | Array<Basemap>,
+    importedFiles: Array<ContextualLayer> | Array<Basemap>
+  ) => {
+    if (gfwFiles.length === 0 && importedFiles.length === 0) {
+      return this.renderEmptyState();
+    }
+
     return (
       <ScrollView
         ref={ref => {
@@ -402,44 +418,54 @@ class MappingFiles extends Component<Props, State> {
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
       >
-        {this.renderGFWFiles()}
-        {this.renderImportedFiles()}
+        {this.renderGFWFiles(gfwFiles)}
+        {this.renderImportedFiles(importedFiles)}
       </ScrollView>
     );
   };
 
   render() {
     const { baseFiles, importedFiles, mappingFileType } = this.props;
+    const { inShareMode } = this.state;
+
+    const sortedBaseFiles =
+      mappingFileType === 'basemap'
+        ? [...baseFiles]
+        : [...baseFiles].sort((a, b) => (a.name ?? '').localeCompare(b.name ?? ''));
+    const sortedImportedFiles = [...importedFiles].sort((a, b) => (a.name ?? '').localeCompare(b.name ?? ''));
+    const numFiles = sortedBaseFiles.length + sortedImportedFiles.length;
+    const hasFiles = numFiles > 0;
+
+    const shareableBaseFiles = sortedBaseFiles.filter(this._isShareable);
+    const shareableImportedFiles = sortedImportedFiles.filter(this._isShareable);
+    const numShareableFiles = shareableBaseFiles.length + shareableImportedFiles.length;
+    const hasShareableFiles = numShareableFiles > 0;
+
+    const visibleBaseFiles = inShareMode ? shareableBaseFiles : sortedBaseFiles;
+    const visibleImportedFiles = inShareMode ? shareableImportedFiles : sortedImportedFiles;
+
     // Determine if we're in export mode, and how many layers have been selected to export.
     const totalToExport = this.state.selectedForExport.length;
-    const shareableFiles = importedFiles.length + (mappingFileType === 'basemap' ? 0 : baseFiles.length);
-    const editableFiles = shareableFiles;
-    const totalFiles = importedFiles.length + baseFiles.length;
-    const hasEditableFiles = editableFiles > 0;
-    const hasShareableFiles = shareableFiles > 0;
-    const hasFiles = totalFiles > 0;
 
     return (
       <View style={styles.container}>
         <ShareSheet
-          componentId={this.props.componentId}
-          editButtonDisabledTitle={i18n.t(this.i18nKeyFor('edit'))}
-          editButtonEnabledTitle={i18n.t(this.i18nKeyFor('edit'))}
-          shareButtonDisabledTitle={i18n.t(this.i18nKeyFor('share'))}
-          enabled={mappingFileType === 'contextual_layer' || totalToExport > 0}
-          onEditingToggled={this.setEditing}
-          onShare={() => {
-            this.onExportFilesTapped(this.state.selectedForExport);
-          }}
-          onSharingToggled={this.setSharing}
-          onToggleAllSelected={this.setAllSelected}
           ref={(ref: ?ShareSheet) => {
             this.shareSheet = ref;
           }}
+          componentId={this.props.componentId}
+          disabled={!hasShareableFiles}
+          editButtonDisabledTitle={i18n.t(this.i18nKeyFor('edit'))}
+          editButtonEnabledTitle={i18n.t(this.i18nKeyFor('edit'))}
+          shareButtonDisabledTitle={i18n.t(this.i18nKeyFor('share'))}
+          onEditingToggled={this.setEditing}
+          onSharingToggled={this.setSharing}
+          onToggleAllSelected={this.setAllSelected}
+          onShare={() => this.onExportFilesTapped(this.state.selectedForExport)}
           selected={totalToExport}
           selectAllCountText={
-            shareableFiles > 1
-              ? i18n.t(this.i18nKeyFor('export.many'), { count: shareableFiles })
+            numShareableFiles > 1
+              ? i18n.t(this.i18nKeyFor('export.many'), { count: numShareableFiles })
               : i18n.t(this.i18nKeyFor('export.one'), { count: 1 })
           }
           shareButtonEnabledTitle={
@@ -449,10 +475,9 @@ class MappingFiles extends Component<Props, State> {
                 : i18n.t(this.i18nKeyFor('export.manyAction'), { count: totalToExport })
               : i18n.t(this.i18nKeyFor('export.noneSelected'))
           }
-          showEditButton={hasEditableFiles}
-          disabled={!hasShareableFiles}
+          showEditButton={hasFiles}
         >
-          {hasFiles ? this.renderFilesList() : this.renderEmptyState()}
+          {this.renderFilesList(visibleBaseFiles, visibleImportedFiles)}
         </ShareSheet>
       </View>
     );
