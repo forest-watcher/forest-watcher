@@ -161,7 +161,7 @@ export default class MappingFileRow extends Component<Props, State> {
     const { layer, layerType, downloading } = this.props;
 
     const title = i18n.t(layer.name);
-    const subtitle = this.state.sizeInBytes !== null ? formatBytes(this.state.sizeInBytes) : 'LOADING';
+    const subtitle = this.state.sizeInBytes !== null ? formatBytes(this.state.sizeInBytes) : '';
     const image = layer.image ?? icons[layerType].placeholder;
 
     return (
