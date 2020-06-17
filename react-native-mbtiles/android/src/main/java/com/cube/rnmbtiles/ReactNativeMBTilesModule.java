@@ -71,7 +71,6 @@ public class ReactNativeMBTilesModule extends ReactContextBaseJavaModule {
         }
 
         server.stop();
-        source = null;
         server = null;
     }
 }
