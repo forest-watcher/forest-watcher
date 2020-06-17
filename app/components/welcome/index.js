@@ -24,14 +24,9 @@ const UPDATE_ITEMS = [
     body: () => i18n.t('whatsNew.layers.body')
   },
   {
-    icon: require('assets/deforestation.png'),
-    title: () => i18n.t('whatsNew.deforestationAlerts.title'),
-    body: () => i18n.t('whatsNew.deforestationAlerts.body')
-  },
-  {
-    icon: require('assets/subscription.png'),
-    title: () => i18n.t('whatsNew.subscriptions.title'),
-    body: () => i18n.t('whatsNew.subscriptions.body')
+    icon: require('assets/basemap.png'),
+    title: () => i18n.t('whatsNew.basemaps.title'),
+    body: () => i18n.t('whatsNew.basemaps.body')
   },
   {
     icon: require('assets/areas.png'),
