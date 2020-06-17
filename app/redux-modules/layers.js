@@ -539,7 +539,8 @@ export function importContextualLayer(layerFile: File): Thunk<Promise<void>> {
         isPublic: false,
         name: layerFile.name || '',
         url: `${importedFile.path}/${importedFile.subFiles[0]}`,
-        size: importedFile.size
+        size: importedFile.size,
+        isCustom: true
       };
       trackImportedContent('layer', layerFile.fileName, true, importedFile.size);
       dispatch({
