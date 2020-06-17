@@ -53,5 +53,11 @@ export default StyleSheet.create({
     height: 64,
     marginTop: 16,
     marginHorizontal: 8
+  },
+  mainContainer: {
+    flex: 1,
+    backgroundColor: Theme.background.main,
+    flexDirection: 'column',
+    justifyContent: 'space-around'
   }
 });

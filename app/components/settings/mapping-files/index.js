@@ -15,7 +15,6 @@ import Theme from 'config/theme';
 import debounceUI from 'helpers/debounceUI';
 import showDeleteConfirmationPrompt from 'helpers/showDeleteModal';
 import { trackScreenView } from 'helpers/analytics';
-import { formatBytes } from 'helpers/data';
 
 import styles from './styles';
 import MappingFileRow from 'components/settings/mapping-files/mapping-file-row';
@@ -25,12 +24,10 @@ import { presentInformationModal } from 'screens/common';
 const plusIcon = require('assets/add.png');
 const icons = {
   basemap: {
-    empty: require('assets/basemapEmpty.png'),
-    placeholder: require('assets/basemap_placeholder.png')
+    empty: require('assets/basemapEmpty.png')
   },
   contextual_layer: {
-    empty: require('assets/layersEmpty.png'),
-    placeholder: require('assets/layerPlaceholder.png')
+    empty: require('assets/layersEmpty.png')
   }
 };
 
@@ -259,6 +256,9 @@ class MappingFiles extends Component<Props, State> {
       return basemap.isCustom;
     } else if (this.props.mappingFileType === 'contextual_layer') {
       const layer = ((file: any): ContextualLayer);
+      if (layer.isCustom) {
+        return true;
+      }
       const layerMeta = GFW_CONTEXTUAL_LAYERS_METADATA[layer.id];
       return !layerMeta || layerMeta.isShareable;
     }
@@ -293,11 +293,12 @@ class MappingFiles extends Component<Props, State> {
           // Downloads should be disabled if the file is in-progress, or if this is a basemap we've already downloaded.
           // Basemaps should not be 'refreshed' as Mapbox will handle this internally.
           const disableDownload = fileIsDownloading || (fileIsFullyDownloaded && mappingFileType === 'basemap');
+
           return (
             <View key={file.id} style={styles.rowContainer}>
               <MappingFileRow
-                deletable={(!!file.size && file.size > 0) || file.isGFW}
-                downloadable={mappingFileType === 'contextual_layer' || !file.tileUrl}
+                layerType={mappingFileType}
+                layer={file}
                 downloaded={fileIsFullyDownloaded}
                 downloading={fileIsDownloading}
                 inEditMode={inEditMode}
@@ -323,14 +324,6 @@ class MappingFiles extends Component<Props, State> {
                       }
                 }
                 onInfoPress={file.description ? this.onInfoPress.bind(this, file) : undefined}
-                image={file.image ?? icons[mappingFileType].placeholder}
-                refreshable={
-                  fileIsFullyDownloaded &&
-                  (mappingFileType === 'contextual_layer' && !file.url?.startsWith('mapbox://'))
-                }
-                renamable={false}
-                title={i18n.t(file.name)}
-                subtitle={formatBytes(file.size ?? 0)}
                 selected={inShareMode ? this.state.selectedForExport.includes(file.id) : null}
               />
             </View>
@@ -364,8 +357,8 @@ class MappingFiles extends Component<Props, State> {
           return (
             <View key={file.id} style={styles.rowContainer}>
               <MappingFileRow
-                downloadable={false}
-                deletable={true}
+                layerType={mappingFileType}
+                layer={file}
                 inEditMode={inEditMode}
                 onDeletePress={() => {
                   this.confirmMappingFileDeletion(file);
@@ -378,10 +371,6 @@ class MappingFiles extends Component<Props, State> {
                 onRenamePress={() => {
                   this.confirmMappingFileRenaming(file);
                 }}
-                image={file.image ?? icons[mappingFileType].placeholder}
-                renamable={true}
-                title={i18n.t(file.name)}
-                subtitle={formatBytes(file.size ?? 0)}
                 selected={inShareMode ? this.state.selectedForExport.includes(file.id) : null}
               />
             </View>

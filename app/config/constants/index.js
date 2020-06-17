@@ -706,13 +706,11 @@ export const GFW_CONTEXTUAL_LAYERS: Array<ContextualLayer> = [
   {
     id: 'bd2798d1-c771-4bff-84d9-c4d69d3b3121',
     name: 'biodiversityIntactness',
-    isGFW: true,
     url: 'https://api.resourcewatch.org/v1/layer/bd2798d1-c771-4bff-84d9-c4d69d3b3121/tile/gee/{z}/{x}/{y}'
   },
   {
     id: 'c1c306a3-31b6-409a-acf0-2a8f09e28363',
     name: 'biodiversitySignificance',
-    isGFW: true,
     url: 'https://api.resourcewatch.org/v1/layer/c1c306a3-31b6-409a-acf0-2a8f09e28363/tile/gee/{z}/{x}/{y}'
   },
   /*{
@@ -728,7 +726,6 @@ export const GFW_CONTEXTUAL_LAYERS: Array<ContextualLayer> = [
     description:
       'Boundaries of areas over which indigenous peoples or local communities enjoy rights to the land and certain resources. Only select countries are included, and dates of data displayed vary by country.',
     name: 'landmarks',
-    isGFW: true,
     url: 'https://tiles.globalforestwatch.org/landmark_land_rights/v20191111/default/{z}/{x}/{y}.pbf'
   },
   {
@@ -736,7 +733,6 @@ export const GFW_CONTEXTUAL_LAYERS: Array<ContextualLayer> = [
     description:
       'Boundaries of forested areas allocated by governments to companies for harvesting timber and other wood products.',
     name: 'logging',
-    isGFW: true,
     url:
       'https://cartocdn-gusc-a.global.ssl.fastly.net/wri-01/api/v1/map/aa3157cf3a5b0acc1f78b48899fb7a02:1548761157303/{z}/{x}/{y}.mvt'
   },
@@ -744,7 +740,6 @@ export const GFW_CONTEXTUAL_LAYERS: Array<ContextualLayer> = [
     id: 'fcd10026-e892-4fb8-8d79-8d76e3b94005',
     description: 'Mining Areas',
     name: 'miningConcessions',
-    isGFW: true,
     tileFormat: 'vector',
     url: 'mapbox://resourcewatch.3259d78x'
   },
@@ -759,7 +754,6 @@ export const GFW_CONTEXTUAL_LAYERS: Array<ContextualLayer> = [
     id: 'e37f881b-ed2e-485b-b194-6a6829aaff2e',
     description: 'Legally protected areas by IUCN category. Updated monthly.',
     name: 'wdpa',
-    isGFW: true,
     tileFormat: 'vector',
     url: 'https://tiles.globalforestwatch.org/wdpa_protected_areas/v201909/mvt/{z}/{x}/{y}'
   },
@@ -776,7 +770,6 @@ export const GFW_CONTEXTUAL_LAYERS: Array<ContextualLayer> = [
     id: '82229960-13c2-4810-84e7-bdd4812d4578',
     description: 'Wood fiber plantation areas',
     name: 'woodFiberConcessions',
-    isGFW: true,
     url:
       'https://cartocdn-gusc-a.global.ssl.fastly.net/wri-01/api/v1/map/1805b7c9ae919f705548dfb470679f8a:1569405047170/{z}/{x}/{y}.mvt'
   }

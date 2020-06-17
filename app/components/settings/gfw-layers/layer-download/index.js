@@ -5,7 +5,7 @@ import ActionButton from 'components/common/action-button';
 import BottomTray from 'components/common/bottom-tray';
 import Row from 'components/common/row';
 
-import type { ContextualLayer } from 'types/layers.types';
+import type { ContextualLayer, LayersCacheStatus } from 'types/layers.types';
 import type { LayerType } from 'types/sharing.types';
 
 import i18n from 'i18next';
@@ -27,6 +27,7 @@ type Props = {
     downloadLayer: boolean
   ) => Promise<void>,
   componentId: string,
+  downloadProgress: ?LayersCacheStatus,
   layer: ContextualLayer,
   +offlineMode: boolean,
   popToComponentId: string,
@@ -39,9 +40,12 @@ type State = {
 };
 
 class LayerDownload extends PureComponent<Props, State> {
+  popOnDownload: boolean = false;
+
   constructor(props: Props) {
     super(props);
     this.state = {
+      downloadAttempted: false,
       download: true,
       downloading: false
     };
@@ -55,8 +59,10 @@ class LayerDownload extends PureComponent<Props, State> {
 
     if (this.state.download) {
       this.setState({
-        downloading: true
+        downloading: true,
+        downloadAttempted: true
       });
+      this.popOnDownload = true;
     }
 
     await this.props.addLayer('contextual_layer', this.props.layer, false, this.state.download);
@@ -65,14 +71,44 @@ class LayerDownload extends PureComponent<Props, State> {
       this.setState({
         downloading: false
       });
-    }
-
-    if (this.props.popToComponentId) {
-      Navigation.popTo(this.props.popToComponentId);
     } else {
-      Navigation.pop(this.props.componentId);
+      if (this.props.popToComponentId) {
+        Navigation.popTo(this.props.popToComponentId);
+      } else {
+        Navigation.pop(this.props.componentId);
+      }
     }
   };
+
+  componentDidUpdate(previousProps: Props) {
+    if (!this.popOnDownload) {
+      return;
+    }
+
+    const isDone = (status: ?LayersCacheStatus) => {
+      if (!status) {
+        return false;
+      }
+      const areaStatuses = Object.values(status);
+      return areaStatuses.filter(areaStatus => areaStatus?.completed ?? false).length === areaStatuses.length;
+    };
+    const previouslyDone = isDone(previousProps.downloadProgress);
+    const nowDone = isDone(this.props.downloadProgress);
+    const didError = Object.values(this.props.downloadProgress ?? {}).some(areaStatus => areaStatus.error);
+
+    // Set this back to false otherwise we could trigger another pop!
+    if (!previouslyDone && nowDone) {
+      this.popOnDownload = false;
+    }
+
+    if (!previouslyDone && nowDone && !didError) {
+      if (this.props.popToComponentId) {
+        Navigation.popTo(this.props.popToComponentId);
+      } else {
+        Navigation.pop(this.props.componentId);
+      }
+    }
+  }
 
   onPressViewDescription = debounceUI(() => {
     presentInformationModal({
@@ -94,6 +130,9 @@ class LayerDownload extends PureComponent<Props, State> {
   };
 
   render() {
+    const didError = Object.values(this.props.downloadProgress ?? {}).some(areaStatus => areaStatus.error);
+    const done = !Object.values(this.props.downloadProgress ?? {}).some(areaStatus => !areaStatus.completed);
+
     return (
       <View style={styles.container}>
         <ScrollView
@@ -117,6 +156,9 @@ class LayerDownload extends PureComponent<Props, State> {
               <Text style={styles.rowLabel}>{i18n.t('importLayer.gfw.description')}</Text>
             </Row>
           ) : null}
+          {didError && done && this.state.downloadAttempted && (
+            <Text style={styles.error}>{i18n.t('importLayer.gfw.error')}</Text>
+          )}
           <Row
             action={{
               icon: this.state.download ? checkboxOnIcon : checkboxOffIcon,

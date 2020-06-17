@@ -10,6 +10,14 @@ export default StyleSheet.create({
     paddingTop: 12,
     flex: 1
   },
+  error: {
+    fontSize: 12,
+    fontWeight: '400',
+    fontFamily: Theme.font,
+    color: Theme.colors.carnation,
+    paddingBottom: 24,
+    paddingHorizontal: 24
+  },
   heading: {
     ...Theme.sectionHeaderText,
     marginLeft: 24,

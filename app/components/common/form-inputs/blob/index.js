@@ -65,6 +65,7 @@ class ImageBlobInput extends Component<Props, State> {
       if (response.error) {
         Alert.alert(i18n.t('commonText.error'), response.error, [{ text: 'OK' }]);
       } else if (response.uri) {
+        this.handlePress('image/jpeg');
         await storeReportFiles([
           {
             reportName: this.props.reportName,
@@ -81,7 +82,15 @@ class ImageBlobInput extends Component<Props, State> {
     });
   };
 
+  handlePress = (value: ?string) => {
+    const { answer, onChange } = this.props;
+    if (value !== answer.value) {
+      onChange({ ...answer, value });
+    }
+  };
+
   removePicture = async () => {
+    this.handlePress(null);
     await deleteReportFiles({
       reportName: this.props.reportName,
       questionName: this.props.answer.questionName

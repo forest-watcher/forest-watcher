@@ -40,7 +40,9 @@ export function fileNameForAttachment(type: ReportAttachmentType): string {
  * by the question they belong to. This function takes a report name and returns the first part of that dir structure
  */
 export function pathForReport(reportName: string, dir: string = reportRootDir()): string {
-  return `${dir}/${reportName}`;
+  // Encode components so we don't inadvertently end up with invalid chars in the dir name
+  // However the returned path is intended as a raw path and should still be encoded for code that requires encoded paths
+  return `${dir}/${encodeURIComponent(reportName)}`;
 }
 
 /**
@@ -49,7 +51,9 @@ export function pathForReport(reportName: string, dir: string = reportRootDir())
  */
 export function pathForReportQuestion(reportName: string, questionName: string, dir: string = reportRootDir()): string {
   const path = pathForReport(reportName, dir);
-  return `${path}/${questionName}`;
+  // Encode components so we don't inadvertently end up with invalid chars in the dir name
+  // However the returned path is intended as a raw path and should still be encoded for code that requires encoded paths
+  return `${path}/${encodeURIComponent(questionName)}`;
 }
 
 /**

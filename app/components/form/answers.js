@@ -181,8 +181,9 @@ class Answers extends PureComponent<Props> {
   render() {
     const { results, readOnly, metadata } = this.props;
     const regularAnswers = results.filter(({ question }) => question.type !== 'blob');
+
     const images = results
-      .filter(({ question }) => question.type === 'blob')
+      .filter(({ question, answer }) => question.type === 'blob' && !!answer.value?.[0])
       .map((image, index) => ({
         id: image.question.Id,
         uri: toFileUri(pathForReportQuestionAttachment(this.props.reportName, image.question.name, 'image/jpeg')),

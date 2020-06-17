@@ -138,7 +138,7 @@ export default class ImportSharingBundleCustomLayersScreen extends PureComponent
       .sort((a, b) => a.localeCompare(b));
     const gfwLayerNames = bundleData.layers
       .filter(isGfwContextualLayer)
-      .map(item => item.name)
+      .map(item => i18n.t(item.name))
       .filter(Boolean)
       .sort((a, b) => a.localeCompare(b));
     return (

@@ -31,7 +31,7 @@ export type ContextualLayer = {
   },
   url: string,
   isImported?: true,
-  isGFW?: ?boolean,
+  isCustom?: ?boolean,
   size?: ?number
 };
 
