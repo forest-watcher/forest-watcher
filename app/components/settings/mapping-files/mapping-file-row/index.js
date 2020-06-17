@@ -167,12 +167,22 @@ export default class MappingFileRow extends Component<Props, State> {
   };
 
   render() {
-    const { layer, layerType, downloading } = this.props;
+    const { layer, layerType, downloaded, downloading } = this.props;
 
     const titleKey = layerType === 'basemap' && !layer.isCustom ? `basemaps.names.${layer.name}` : layer.name;
     const title = i18n.t(titleKey);
+
     const subtitle =
-      this.state.sizeInBytes !== null && layerType === 'contextual_layer' ? formatBytes(this.state.sizeInBytes) : '';
+      layerType === 'basemap' && !layer.isCustom
+        ? layer.tileUrl != null
+          ? i18n.t('importLayer.gfw.onlineTitle')
+          : downloaded
+          ? i18n.t('importLayer.gfw.downloaded')
+          : i18n.t('importLayer.gfw.notYetDownloaded')
+        : this.state.sizeInBytes !== null
+        ? formatBytes(this.state.sizeInBytes)
+        : '';
+
     const image = layer.image ?? icons[layerType].placeholder;
 
     return (
