@@ -24,14 +24,9 @@ const UPDATE_ITEMS = [
     body: () => i18n.t('whatsNew.layers.body')
   },
   {
-    icon: require('assets/deforestation.png'),
-    title: () => i18n.t('whatsNew.deforestationAlerts.title'),
-    body: () => i18n.t('whatsNew.deforestationAlerts.body')
-  },
-  {
-    icon: require('assets/subscription.png'),
-    title: () => i18n.t('whatsNew.subscriptions.title'),
-    body: () => i18n.t('whatsNew.subscriptions.body')
+    icon: require('assets/basemap.png'),
+    title: () => i18n.t('whatsNew.basemaps.title'),
+    body: () => i18n.t('whatsNew.basemaps.body')
   },
   {
     icon: require('assets/areas.png'),
@@ -95,7 +90,7 @@ export default class Welcome extends Component<Props> {
 
   render() {
     const { isAppUpdate } = this.props;
-    const items = isAppUpdate ? UPDATE_ITEMS : WELCOME_ITEMS;
+    const items = isAppUpdate ? UPDATE_ITEMS : UPDATE_ITEMS;
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.contentContainer}>
