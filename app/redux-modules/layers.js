@@ -190,7 +190,7 @@ export default function reducer(state: LayersState = initialState, action: Layer
         };
       });
 
-      // Delete the download progress for the given area, for every downloaded area.
+      // Delete the download progress for the given area, for every downloaded layer.
       const downloadedLayerProgress = { ...state.downloadedLayerProgress };
 
       Object.keys(downloadedLayerProgress).forEach(layerId => {
@@ -210,7 +210,7 @@ export default function reducer(state: LayersState = initialState, action: Layer
         return state;
       }
 
-      // Delete the download progress for the given area, for every downloaded area.
+      // Delete the download progress for the given route, for every downloaded layer.
       const downloadedLayerProgress = { ...state.downloadedLayerProgress };
 
       Object.keys(downloadedLayerProgress).forEach(layerId => {
