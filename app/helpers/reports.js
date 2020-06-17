@@ -25,6 +25,6 @@ export function readableNameForReportName(reportName: string): string {
     case 'VIIRS|GLAD':
       return i18n.t('report.gladAndViirs');
     default:
-      return i18n.t('report.noAlertDataset');
+      return i18n.t('report.custom');
   }
 }

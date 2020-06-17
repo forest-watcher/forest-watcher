@@ -569,6 +569,7 @@
         "answers": "Answers",
         "choosePicture": "Please take or choose a picture",
         "completed": "Completed",
+        "custom": "Custom Report",
         "datePlaceholder": "Select date",
         "delete": "Delete this report",
         "drafts": "Drafts",
@@ -593,6 +594,7 @@
             "successful": "Exporting reports succeeded!"
         },
         "glad": "Deforestation Report",
+        "gladAndViirs": "Deforestation and Fires Report",
         "here": "Report here",
         "imported": "Imported",
         "input": "Please, answer the question",
