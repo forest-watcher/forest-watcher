@@ -52,13 +52,13 @@ object RNMBTileServer: Runnable {
         try {
             while (isRunning) {
                 val socket = serverSocket?.accept() ?: throw Error()
-                Log.d(javaClass.simpleName, "request handled start")
+                Log.d(javaClass.simpleName, "request start")
                 handle(socket)
                 socket.close()
-                Log.d(javaClass.simpleName, "request handled in while")
+                Log.d(javaClass.simpleName, "request stop")
             }
         } catch (e: Exception) {
-            Log.d(javaClass.simpleName, e.localizedMessage)
+            Log.e(javaClass.simpleName, e.message, e)
         } finally {
             Log.d(javaClass.simpleName, "request handled")
         }
@@ -66,21 +66,14 @@ object RNMBTileServer: Runnable {
 
     @Throws
     private fun handle(socket: Socket) {
-        socket.getInputStream().reader().buffered().use { reader ->
-            var route: String? = null
-
-            // Read HTTP headers and parse out the route.
-            do {
-                val line = reader.readLine() ?: ""
-                if (line.startsWith("GET")) {
-                    route = line.substringAfter("GET /").substringBefore(" ")
-                    break
-                }
-            } while (!line.isEmpty())
+        socket.getInputStream().reader().use { reader ->
+            val lines = reader.readText().split("\n")
+            val route: String? = lines.firstOrNull { it.startsWith("GET") }?.substringAfter("GET /")?.substringBefore(" ")
 
             val sourceId = source?.id ?: return
 
-            if (route?.contains(sourceId) == false) {
+            if (route == null || !route.contains(sourceId)) {
+                Log.d(javaClass.simpleName, "Unexpected request: ${lines}")
                 return
             }
 
@@ -89,7 +82,7 @@ object RNMBTileServer: Runnable {
             // Output stream that we send the response to
             PrintStream(socket.getOutputStream()).use { stream ->
                 // Prepare the content to send.
-                if (null == route || null == source) {
+                if (null == source) {
                     writeServerError(stream)
                     return
                 }
@@ -120,15 +113,18 @@ object RNMBTileServer: Runnable {
         val x = route.getQueryParameter("x")?.toInt() ?: throw RNMBTileServerError.InvalidQueryParameters()
         val y = route.getQueryParameter("y")?.toInt() ?: throw RNMBTileServerError.InvalidQueryParameters()
 
+        Log.d(javaClass.simpleName, "tile request " + route)
         val content = source?.getTile(z, x, y)
         val output = ByteArrayOutputStream()
         output.write(content)
         output.flush()
 
+        Log.d(javaClass.simpleName, "tile found " + route)
         return output.toByteArray()
     }
 
     private fun writeServerError(output: PrintStream) {
+        Log.d(javaClass.simpleName, "tile not found")
         output.println("HTTP/1.0 404 File Not Found")
         output.flush()
     }
