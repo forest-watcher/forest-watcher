@@ -84,6 +84,7 @@ export default function reducer(state: BasemapsState = initialState, action: Bas
       const updatedStateWithProgress = {
         ...state,
         downloadedBasemapProgress: {
+          ...state.downloadedBasemapProgress,
           [layerId]: {
             ...state.downloadedBasemapProgress[layerId],
             [id]: {
