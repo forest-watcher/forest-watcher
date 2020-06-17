@@ -12,7 +12,7 @@ export function isCustomContextualLayerFile(layerFile: LayerFile) {
 }
 
 export function isCustomContextualLayer(layer: ContextualLayer) {
-  return true; // TODO
+  return layer.isCustom;
 }
 
 export function isGfwContextualLayerFile(layerFile: LayerFile) {
@@ -20,5 +20,5 @@ export function isGfwContextualLayerFile(layerFile: LayerFile) {
 }
 
 export function isGfwContextualLayer(layer: ContextualLayer) {
-  return false; // TODO
+  return !layer.isCustom;
 }
