@@ -90,7 +90,7 @@ export default class Welcome extends Component<Props> {
 
   render() {
     const { isAppUpdate } = this.props;
-    const items = isAppUpdate ? UPDATE_ITEMS : UPDATE_ITEMS;
+    const items = isAppUpdate ? UPDATE_ITEMS : WELCOME_ITEMS;
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.contentContainer}>
