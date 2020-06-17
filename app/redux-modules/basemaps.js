@@ -4,12 +4,14 @@ import type { File } from 'types/file.types';
 import type { LayerFile } from 'types/sharing.types';
 import type { Dispatch, GetState, State, Thunk } from 'types/store.types';
 
+import { DELETE_AREA_COMMIT } from 'redux-modules/areas';
 import { LOGOUT_REQUEST } from 'redux-modules/user';
 import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 
 import { trackImportedContent } from 'helpers/analytics';
 import { deleteMapboxOfflinePack } from 'helpers/mapbox';
 import { importLayerFile } from 'helpers/layer-store/import/importLayerFile';
+import { DELETE_ROUTE } from './routes';
 
 // Actions
 export const IMPORT_BASEMAP_REQUEST = 'basemaps/IMPORT_BASEMAP_REQUEST';
@@ -159,6 +161,40 @@ export default function reducer(state: BasemapsState = initialState, action: Bas
       delete downloadProgress[action.payload];
 
       return { ...state, downloadedBasemapProgress: downloadProgress, importedBasemaps: basemaps };
+    }
+    case DELETE_AREA_COMMIT: {
+      const downloadedBasemapProgress = { ...state.downloadedBasemapProgress };
+
+      const areaId = action.meta.area.id;
+      Object.keys(downloadedBasemapProgress).forEach(layerId => {
+        const layerProgress = downloadedBasemapProgress[layerId];
+
+        delete layerProgress[areaId];
+
+        downloadedBasemapProgress[areaId] = layerProgress;
+      });
+
+      return { ...state, downloadedBasemapProgress };
+    }
+    case DELETE_ROUTE: {
+      const routeId = action.payload.id ?? action.payload.areaId;
+
+      if (!routeId) {
+        return state;
+      }
+
+      // Delete the download progress for the given route, for every downloaded layer.
+      const downloadedBasemapProgress = { ...state.downloadedBasemapProgress };
+
+      Object.keys(downloadedBasemapProgress).forEach(layerId => {
+        const layerProgress = downloadedBasemapProgress[layerId];
+
+        delete layerProgress[routeId];
+
+        downloadedBasemapProgress[layerId] = layerProgress;
+      });
+
+      return { ...state, downloadedBasemapProgress };
     }
     case LOGOUT_REQUEST:
       return initialState;
