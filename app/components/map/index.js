@@ -35,7 +35,7 @@ import GFWVectorLayer from './gfw-vector-layer';
 import CircleButton from 'components/common/circle-button';
 import BottomDialog from 'components/map/bottom-dialog';
 import LocationErrorBanner from 'components/map/locationErrorBanner';
-import { formatCoordsByFormat, getPolygonBoundingBox } from 'helpers/map';
+import { closestFeature, formatCoordsByFormat, getPolygonBoundingBox } from 'helpers/map';
 import { pathForLayer, pathForMBTilesFile } from 'helpers/layer-store/layerFilePaths';
 import debounceUI from 'helpers/debounceUI';
 import { trackScreenView, type ReportingSource } from 'helpers/analytics';
@@ -983,7 +983,16 @@ class MapComponent extends Component<Props, State> {
     }
   };
 
+  onAlertPressed = (e: any) => {
+    const feature = closestFeature(e.features, e.coordinates);
+    if (!feature) {
+      return;
+    }
+    this.onFeaturePressed(feature.properties);
+  };
+
   onShapeSourcePressed = (e: any) => {
+    // all features *should* be of the same type, as you cannot touch items on different layers.
     let features: Array<Feature> = e.features;
     features = features.map(feature => feature.properties);
     if (features?.length === 1) {
@@ -1191,7 +1200,7 @@ class MapComponent extends Component<Props, State> {
             areaId={this.props.area?.id}
             reportedAlerts={this.props.reportedAlerts}
             selectedAlerts={this.state.selectedAlerts}
-            onShapeSourcePressed={this.onShapeSourcePressed}
+            onShapeSourcePressed={this.onAlertPressed}
           />
           <Reports
             featureId={featureId}
