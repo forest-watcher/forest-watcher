@@ -9,7 +9,7 @@ import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 
 // Actions
 const DISCARD_ACTIVE_ROUTE = 'routes/DISCARD_ACTIVE_ROUTE';
-const DELETE_ROUTE = 'routes/DELETE_ROUTE';
+export const DELETE_ROUTE = 'routes/DELETE_ROUTE';
 const FINISH_AND_SAVE_ROUTE = 'routes/FINISH_AND_SAVE_ROUTE';
 export const IMPORT_ROUTE = 'routes/IMPORT_ROUTE';
 const UPDATE_ACTIVE_ROUTE = 'routes/UPDATE_ACTIVE_ROUTE';

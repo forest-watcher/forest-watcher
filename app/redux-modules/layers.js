@@ -25,6 +25,7 @@ import { getActionsTodoCount } from 'helpers/sync';
 import { LOGOUT_REQUEST } from 'redux-modules/user';
 import { SAVE_AREA_COMMIT, DELETE_AREA_COMMIT } from 'redux-modules/areas';
 import { IMPORT_BASEMAP_REQUEST, IMPORT_BASEMAP_PROGRESS, IMPORT_BASEMAP_AREA_COMPLETED } from 'redux-modules/basemaps';
+import { DELETE_ROUTE } from 'redux-modules/routes';
 import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 
 import {
@@ -178,17 +179,49 @@ export default function reducer(state: LayersState = initialState, action: Layer
     }
     case DELETE_AREA_COMMIT: {
       const { area } = action.meta;
-      const cacheStatus = omit(state.cacheStatus, [area.id]);
-      const layersProgress = omit(state.layersProgress, [area.id]);
+      const areaId = area.id;
+      const cacheStatus = omit(state.cacheStatus, [areaId]);
+      const layersProgress = omit(state.layersProgress, [areaId]);
       let cache = { ...state.cache };
       Object.keys(cache).forEach(layerId => {
         cache = {
           ...cache,
-          [layerId]: omit(cache[layerId], [area.id])
+          [layerId]: omit(cache[layerId], [areaId])
         };
       });
-      // TODO: Delete tiles after layer is deleted
-      return { ...state, cache, cacheStatus, layersProgress };
+
+      // Delete the download progress for the given area, for every downloaded layer.
+      const downloadedLayerProgress = { ...state.downloadedLayerProgress };
+
+      Object.keys(downloadedLayerProgress).forEach(layerId => {
+        const layerProgress = downloadedLayerProgress[layerId];
+
+        delete layerProgress[areaId];
+
+        downloadedLayerProgress[layerId] = layerProgress;
+      });
+
+      return { ...state, cache, cacheStatus, layersProgress, downloadedLayerProgress };
+    }
+    case DELETE_ROUTE: {
+      const routeId = action.payload.id ?? action.payload.areaId;
+
+      if (!routeId) {
+        return state;
+      }
+
+      // Delete the download progress for the given route, for every downloaded layer.
+      const downloadedLayerProgress = { ...state.downloadedLayerProgress };
+
+      Object.keys(downloadedLayerProgress).forEach(layerId => {
+        const layerProgress = downloadedLayerProgress[layerId];
+
+        delete layerProgress[routeId];
+
+        downloadedLayerProgress[layerId] = layerProgress;
+      });
+
+      return { ...state, downloadedLayerProgress };
     }
     case UPDATE_PROGRESS: {
       const { id, progress, layerId } = action.payload;
