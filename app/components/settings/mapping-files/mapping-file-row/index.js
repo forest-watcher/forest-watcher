@@ -16,6 +16,7 @@ import i18n from 'i18next';
 
 import ProgressBar from 'react-native-progress/Bar';
 
+import { GFW_CONTEXTUAL_LAYERS_METADATA } from 'config/constants';
 import Theme from 'config/theme';
 import styles from './styles';
 import type { ContextualLayer } from 'types/layers.types';
@@ -71,19 +72,20 @@ export default class MappingFileRow extends Component<Props, State> {
   }
 
   componentDidMount() {
-    if (this.props.showSize) {
-      this._calculateSize();
-    }
+    this._calculateSize();
   }
 
   componentDidUpdate(prevProps: Props) {
-    if (this.props.downloaded !== prevProps.downloaded && this.props.showSize) {
+    if (this.props.downloaded !== prevProps.downloaded) {
       this._calculateSize();
     }
   }
 
   _calculateSize = async () => {
-    // TODO: Handle basemaps stored using Mapbox OfflineManager
+    if (!this.props.showSize) {
+      return;
+    }
+
     const { layer, layerType } = this.props;
     const layerFiles = await queryLayerFiles(layerType, { whitelist: [layer.id], blacklist: [] });
     const sizeInBytes = manifestBundleSize({
@@ -97,12 +99,15 @@ export default class MappingFileRow extends Component<Props, State> {
 
   renderIcons = () => {
     const isRenamable = this.props.layer.isCustom;
-    // TODO: Need to recognise GFW layers as deletable
-    const isDeletable = (this.state.sizeInBytes ?? 0) > 0 || this.props.layer.isCustom || this.props.downloaded;
+
+    const isDeletable =
+      (this.state.sizeInBytes ?? 0) > 0 ||
+      this.props.layer.isCustom ||
+      this.props.downloaded ||
+      (this.props.layerType && !!GFW_CONTEXTUAL_LAYERS_METADATA[this.props.layer.id]);
     const isRefreshable = this.props.downloaded && this.props.layerType === 'contextual_layer';
     const isDownloadable =
-      (this.props.layerType === 'contextual_layer' && !(this.props.layer.url ?? '').startsWith('mapbox://')) ||
-      (this.props.layerType === 'basemap' && !this.props.layer.tileUrl);
+      this.props.layerType === 'contextual_layer' || (this.props.layerType === 'basemap' && !this.props.layer.tileUrl);
 
     if (this.props.inEditMode) {
       return (
@@ -164,7 +169,8 @@ export default class MappingFileRow extends Component<Props, State> {
   render() {
     const { layer, layerType, downloading } = this.props;
 
-    const title = i18n.t(layer.name);
+    const titleKey = layerType === 'basemap' ? `basemaps.names.${layer.name}` : layer.name;
+    const title = i18n.t(titleKey);
     const subtitle = this.state.sizeInBytes !== null && this.props.showSize ? formatBytes(this.state.sizeInBytes) : '';
     const image = layer.image ?? icons[layerType].placeholder;
 

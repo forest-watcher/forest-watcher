@@ -15,7 +15,6 @@ import Theme from 'config/theme';
 import debounceUI from 'helpers/debounceUI';
 import showDeleteConfirmationPrompt from 'helpers/showDeleteModal';
 import { trackScreenView } from 'helpers/analytics';
-import { formatBytes } from 'helpers/data';
 
 import styles from './styles';
 import MappingFileRow from 'components/settings/mapping-files/mapping-file-row';
@@ -291,12 +290,10 @@ class MappingFiles extends Component<Props, State> {
             fileDownloadProgress.filter(area => area.completed && !area.error).length >= areaTotal;
           const fileIsDownloading = fileDownloadProgress.filter(area => area.requested).length > 0;
 
-          const isNonDownloadableLayer = mappingFileType === 'contextual_layer' && file.url?.startsWith('mapbox://');
-
           // Downloads should be disabled if the file is in-progress, or if this is a basemap we've already downloaded.
           // Basemaps should not be 'refreshed' as Mapbox will handle this internally.
-          const disableDownload =
-            isNonDownloadableLayer || fileIsDownloading || (fileIsFullyDownloaded && mappingFileType === 'basemap');
+          const disableDownload = fileIsDownloading || (fileIsFullyDownloaded && mappingFileType === 'basemap');
+
           return (
             <View key={file.id} style={styles.rowContainer}>
               <MappingFileRow
@@ -327,9 +324,7 @@ class MappingFiles extends Component<Props, State> {
                       }
                 }
                 onInfoPress={file.description ? this.onInfoPress.bind(this, file) : undefined}
-                title={i18n.t(file.name)}
                 showSize={mappingFileType === 'contextual_layer'}
-                subtitle={formatBytes(file.size ?? 0)}
                 selected={inShareMode ? this.state.selectedForExport.includes(file.id) : null}
               />
             </View>
