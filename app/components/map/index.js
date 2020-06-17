@@ -24,12 +24,13 @@ import {
 } from 'react-native';
 import * as Sentry from '@sentry/react-native';
 
-import { GFW_CONTEXTUAL_LAYERS_METADATA, REPORTS, MAPS } from 'config/constants';
+import { DATASETS, GFW_CONTEXTUAL_LAYERS_METADATA, REPORTS, MAPS } from 'config/constants';
 import throttle from 'lodash/throttle';
 import toUpper from 'lodash/toUpper';
 import kebabCase from 'lodash/kebabCase';
 import deburr from 'lodash/deburr';
 import moment from 'moment';
+import uniqBy from 'lodash/uniqBy';
 
 import GFWVectorLayer from './gfw-vector-layer';
 import CircleButton from 'components/common/circle-button';
@@ -135,7 +136,7 @@ type State = {
   userLocation: ?LocationPoint,
   heading: ?number,
   hasHeadingReadingFromCompass: boolean,
-  selectedAlerts: Array<{ lat: number, long: number }>,
+  selectedAlerts: Array<{ lat: number, long: number, datasetId: ?string }>,
   selectedReport: ?{ reportName: string, lat: number, long: number },
   customReporting: boolean,
   dragging: boolean,
@@ -593,7 +594,7 @@ class MapComponent extends Component<Props, State> {
   });
 
   determineReportingSource = (
-    selectedAlerts: Array<Alert>,
+    selectedAlerts: Array<{ lat: number, long: number, datasetId: ?string }>,
     isRouteTracking: boolean,
     isCustomReporting: boolean
   ): ReportingSource => {
@@ -608,8 +609,28 @@ class MapComponent extends Component<Props, State> {
     return 'currentLocation';
   };
 
+  determineReportingDatasetId = (selectedAlerts: Array<{ lat: number, long: number, datasetId: ?string }>): ?string => {
+    const alertsWithDataset: Array<{ lat: number, long: number, datasetId: ?string }> = selectedAlerts.filter(
+      alert => !!alert.datasetId
+    );
+    if (!alertsWithDataset.length) {
+      return null;
+    }
+    const uniqueDatasetAlerts: Array<{ lat: number, long: number, datasetId: ?string }> = uniqBy(
+      alertsWithDataset,
+      alert => {
+        return alert.datasetId;
+      }
+    );
+    return uniqueDatasetAlerts
+      .map(alert => {
+        return DATASETS[alert.datasetId ?? '']?.reportNameId ?? '';
+      })
+      .join('|');
+  };
+
   createReport = (
-    selectedAlerts: Array<{ lat: number, long: number }>,
+    selectedAlerts: Array<{ lat: number, long: number, datasetId: ?string }>,
     selectedReport: ?{ reportName: string, lat: number, long: number }
   ) => {
     const { area } = this.props;
@@ -660,7 +681,8 @@ class MapComponent extends Component<Props, State> {
 
     const userLatLng =
       this.state.userLocation && `${this.state.userLocation.latitude},${this.state.userLocation.longitude}`;
-    const reportedDataset = area.dataset ? `-${area.dataset.name}` : '';
+    const datasetId = this.determineReportingDatasetId(selectedAlerts);
+    const reportedDataset = datasetId ? `-${datasetId}` : '';
     const areaName = toUpper(kebabCase(deburr(area.name)));
     const reportName = `${areaName}${reportedDataset}-REPORT--${moment().format('YYYY-MM-DDTHH:mm:ss')}`;
     this.props.createReport(
@@ -998,7 +1020,7 @@ class MapComponent extends Component<Props, State> {
 
   onFeaturePressed = (feature: Feature) => {
     // show info banner with feature details
-    const { date, name, type, featureId, cluster, lat, long } = feature.properties;
+    const { date, name, type, featureId, cluster, lat, long, datasetId } = feature.properties;
 
     if (cluster) {
       this.onClusterPress(feature.geometry?.coordinates);
@@ -1008,7 +1030,7 @@ class MapComponent extends Component<Props, State> {
       let selectedAlert, selectedReportFeatureId, infoBannerShowing;
       if (type === 'alert') {
         // need to pass these as strings as they are rounded in onShapeSourcePressed method.
-        selectedAlert = { lat: Number(lat), long: Number(long) };
+        selectedAlert = { lat: Number(lat), long: Number(long), datasetId };
       }
       if (type === 'report') {
         // need to pass these as strings as they are rounded in onShapeSourcePressed method.

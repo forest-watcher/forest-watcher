@@ -104,7 +104,8 @@ export const DATASETS: { [slug: string]: AlertDatasetConfig } = {
     iconPrefix: 'glad',
     color: Theme.colors.glad,
     colorRecent: Theme.colors.recent,
-    colorReported: Theme.colors.report
+    colorReported: Theme.colors.report,
+    reportNameId: 'GLAD'
   },
   viirs: {
     id: 'viirs',
@@ -116,7 +117,8 @@ export const DATASETS: { [slug: string]: AlertDatasetConfig } = {
     iconPrefix: 'viirs',
     color: Theme.colors.viirs,
     colorRecent: Theme.colors.recent,
-    colorReported: Theme.colors.viirsReported
+    colorReported: Theme.colors.viirsReported,
+    reportNameId: 'VIIRS'
   }
 };
 

@@ -25,6 +25,7 @@ export type AlertsIndex = {|
 type AlertProperties = {|
   type: 'alert',
   clusterId: 'reported' | 'recent' | 'other',
+  datasetId: string,
   name: string,
   date: number,
   icon: string,
@@ -172,7 +173,8 @@ export default class AlertDataset extends PureComponent<Props, State> {
       name,
       reported,
       selected,
-      clusterId: reported ? 'reported' : isRecent ? 'recent' : 'other'
+      clusterId: reported ? 'reported' : isRecent ? 'recent' : 'other',
+      datasetId: alert.slug
     };
   };
 
