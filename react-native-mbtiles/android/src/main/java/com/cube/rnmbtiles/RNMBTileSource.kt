@@ -34,10 +34,10 @@ data class RNMBTileMetadata(
 }
 
 // Defines various errors that may occur whilst working against this source.
-sealed class RNMBTileSourceError : Error() {
-    class CouldNotReadFileError : RNMBTileSourceError()
-    class TileNotFoundError : RNMBTileSourceError()
-    class UnsupportedFormatError : RNMBTileSourceError()
+sealed class RNMBTileSourceException : Exception() {
+    class CouldNotReadFileException : RNMBTileSourceException()
+    class TileNotFoundException : RNMBTileSourceException()
+    class UnsupportedFormatException : RNMBTileSourceException()
 }
 
 // Defines a MBTileSource object, which is used by the tileserver to query for given tile indexes.
@@ -63,7 +63,7 @@ class RNMBTileSource(var id: String, var filePath: String) {
     private val database: SQLiteDatabase = try {
         SQLiteDatabase.openOrCreateDatabase(filePath, null)
     } catch (e: RuntimeException) {
-        throw RNMBTileSourceError.CouldNotReadFileError()
+        throw RNMBTileSourceException.CouldNotReadFileException()
     }
 
     // Initialises a source object with the given path and identifier.
@@ -78,14 +78,14 @@ class RNMBTileSource(var id: String, var filePath: String) {
             isVector = when (format) {
                 in VALID_VECTOR_FORMATS -> true
                 in VALID_RASTER_FORMATS -> false
-                else -> throw RNMBTileSourceError.UnsupportedFormatError()
+                else -> throw RNMBTileSourceException.UnsupportedFormatException()
             }
             val tileSize = 256
             val attribution = getMetadata("attribution")
             val layersJson = null// getMetadata("json")
 
             metadata = RNMBTileMetadata(minZoomLevel = minZoomLevel, maxZoomLevel = maxZoomLevel, isVector = isVector, tms = tms, tileSize = tileSize, attribution = attribution, layersJson = layersJson)
-        } catch (error: RNMBTileSourceError) {
+        } catch (error: RNMBTileSourceException) {
             print(error.localizedMessage)
             throw error
         }
@@ -102,7 +102,7 @@ class RNMBTileSource(var id: String, var filePath: String) {
                         "z" to z, "x" to x, "y" to y)
                 .parseList(TilesParser)
                 .run { if (!isEmpty()) get(0) else null }
-                ?: throw RNMBTileSourceError.TileNotFoundError()
+                ?: throw RNMBTileSourceException.TileNotFoundException()
     }
 
     // Given a metadata property, queries the database and returns it, if it exists.

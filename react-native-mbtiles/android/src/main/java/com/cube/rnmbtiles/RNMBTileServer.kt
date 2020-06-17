@@ -94,17 +94,21 @@ object RNMBTileServer: Runnable {
                     return
                 }
 
-                val bytes = loadContent(source, routeUrl)
-
-                // Send out the content.
-                stream.apply {
-                    println("HTTP/1.0 200 OK")
-                    println("Content-Type: " + detectMimeType(source?.format))
-                    println("Content-Length: " + bytes.size)
-                    if (source?.isVector == true) println("Content-Encoding: gzip")
-                    println()
-                    write(bytes)
-                    flush()
+                try {
+                    val bytes = loadContent(source, routeUrl)
+                    // Send out the content.
+                    stream.apply {
+                        println("HTTP/1.0 200 OK")
+                        println("Content-Type: " + detectMimeType(source?.format))
+                        println("Content-Length: " + bytes.size)
+                        if (source?.isVector == true) println("Content-Encoding: gzip")
+                        println()
+                        write(bytes)
+                        flush()
+                    }
+                } catch (ex: Exception) {
+                    writeServerError(stream)
+                    return
                 }
             }
         }
@@ -116,8 +120,8 @@ object RNMBTileServer: Runnable {
         val x = route.getQueryParameter("x")?.toInt() ?: throw RNMBTileServerError.InvalidQueryParameters()
         val y = route.getQueryParameter("y")?.toInt() ?: throw RNMBTileServerError.InvalidQueryParameters()
 
-        val output = ByteArrayOutputStream()
         val content = source?.getTile(z, x, y)
+        val output = ByteArrayOutputStream()
         output.write(content)
         output.flush()
 
