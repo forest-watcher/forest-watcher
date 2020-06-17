@@ -173,7 +173,7 @@ export default class MappingFileRow extends Component<Props, State> {
     const title = i18n.t(titleKey);
 
     const subtitle =
-      layerType === 'basemap'
+      layerType === 'basemap' && !layer.isCustom
         ? layer.tileUrl != null
           ? i18n.t('importLayer.gfw.onlineTitle')
           : downloaded
