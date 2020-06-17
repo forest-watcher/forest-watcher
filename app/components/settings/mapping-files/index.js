@@ -15,7 +15,6 @@ import Theme from 'config/theme';
 import debounceUI from 'helpers/debounceUI';
 import showDeleteConfirmationPrompt from 'helpers/showDeleteModal';
 import { trackScreenView } from 'helpers/analytics';
-import { formatBytes } from 'helpers/data';
 
 import styles from './styles';
 import MappingFileRow from 'components/settings/mapping-files/mapping-file-row';
@@ -257,6 +256,9 @@ class MappingFiles extends Component<Props, State> {
       return basemap.isCustom;
     } else if (this.props.mappingFileType === 'contextual_layer') {
       const layer = ((file: any): ContextualLayer);
+      if (layer.isCustom) {
+        return true;
+      }
       const layerMeta = GFW_CONTEXTUAL_LAYERS_METADATA[layer.id];
       return !layerMeta || layerMeta.isShareable;
     }
@@ -291,6 +293,7 @@ class MappingFiles extends Component<Props, State> {
           // Downloads should be disabled if the file is in-progress, or if this is a basemap we've already downloaded.
           // Basemaps should not be 'refreshed' as Mapbox will handle this internally.
           const disableDownload = fileIsDownloading || (fileIsFullyDownloaded && mappingFileType === 'basemap');
+
           return (
             <View key={file.id} style={styles.rowContainer}>
               <MappingFileRow
@@ -321,8 +324,6 @@ class MappingFiles extends Component<Props, State> {
                       }
                 }
                 onInfoPress={file.description ? this.onInfoPress.bind(this, file) : undefined}
-                title={i18n.t(file.name)}
-                subtitle={formatBytes(file.size ?? 0)}
                 selected={inShareMode ? this.state.selectedForExport.includes(file.id) : null}
               />
             </View>

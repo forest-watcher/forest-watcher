@@ -16,7 +16,16 @@ import bboxPolygon from '@turf/bbox-polygon';
  */
 export default function bboxesForFWData(areas: Array<Area>, routes: Array<Route>): FeatureCollection<Polygon> {
   const areaBBoxes: Array<BBox2d> = areas.map(area => bboxForArea(area)).filter(Boolean);
-  const routeBBoxes: Array<BBox2d> = routes.map(route => bboxForRoute(route));
+  const routeBBoxes: Array<BBox2d> = routes
+    .map(route => {
+      try {
+        return bboxForRoute(route);
+      } catch {
+        // The bbox couldn't be generated, the route likely has zero locations and can't be shared.
+        return null;
+      }
+    })
+    .filter(bbox => bbox !== null);
   const bboxes = [...areaBBoxes, ...routeBBoxes];
   const regions = bboxes.map(areaBBox => bboxPolygon(areaBBox));
   return featureCollection(regions);

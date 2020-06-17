@@ -24,12 +24,8 @@ import { getActionsTodoCount } from 'helpers/sync';
 
 import { LOGOUT_REQUEST } from 'redux-modules/user';
 import { SAVE_AREA_COMMIT, DELETE_AREA_COMMIT } from 'redux-modules/areas';
-import {
-  IMPORT_BASEMAP_REQUEST,
-  IMPORT_BASEMAP_PROGRESS,
-  IMPORT_BASEMAP_AREA_COMPLETED,
-  IMPORT_BASEMAP_COMMIT
-} from 'redux-modules/basemaps';
+import { IMPORT_BASEMAP_REQUEST, IMPORT_BASEMAP_PROGRESS, IMPORT_BASEMAP_AREA_COMPLETED } from 'redux-modules/basemaps';
+import { DELETE_ROUTE } from 'redux-modules/routes';
 import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 
 import {
@@ -183,17 +179,49 @@ export default function reducer(state: LayersState = initialState, action: Layer
     }
     case DELETE_AREA_COMMIT: {
       const { area } = action.meta;
-      const cacheStatus = omit(state.cacheStatus, [area.id]);
-      const layersProgress = omit(state.layersProgress, [area.id]);
+      const areaId = area.id;
+      const cacheStatus = omit(state.cacheStatus, [areaId]);
+      const layersProgress = omit(state.layersProgress, [areaId]);
       let cache = { ...state.cache };
       Object.keys(cache).forEach(layerId => {
         cache = {
           ...cache,
-          [layerId]: omit(cache[layerId], [area.id])
+          [layerId]: omit(cache[layerId], [areaId])
         };
       });
-      // TODO: Delete tiles after layer is deleted
-      return { ...state, cache, cacheStatus, layersProgress };
+
+      // Delete the download progress for the given area, for every downloaded layer.
+      const downloadedLayerProgress = { ...state.downloadedLayerProgress };
+
+      Object.keys(downloadedLayerProgress).forEach(layerId => {
+        const layerProgress = downloadedLayerProgress[layerId];
+
+        delete layerProgress[areaId];
+
+        downloadedLayerProgress[layerId] = layerProgress;
+      });
+
+      return { ...state, cache, cacheStatus, layersProgress, downloadedLayerProgress };
+    }
+    case DELETE_ROUTE: {
+      const routeId = action.payload.id ?? action.payload.areaId;
+
+      if (!routeId) {
+        return state;
+      }
+
+      // Delete the download progress for the given route, for every downloaded layer.
+      const downloadedLayerProgress = { ...state.downloadedLayerProgress };
+
+      Object.keys(downloadedLayerProgress).forEach(layerId => {
+        const layerProgress = downloadedLayerProgress[layerId];
+
+        delete layerProgress[routeId];
+
+        downloadedLayerProgress[layerId] = layerProgress;
+      });
+
+      return { ...state, downloadedLayerProgress };
     }
     case UPDATE_PROGRESS: {
       const { id, progress, layerId } = action.payload;
@@ -299,6 +327,11 @@ export default function reducer(state: LayersState = initialState, action: Layer
       const layerToSave = action.payload;
       let importedLayers = [...state.imported];
 
+      if (state.data.find(layer => layer.id === layerToSave.id)) {
+        // This layer exists in the default state, so do not import it.
+        return state;
+      }
+
       if (importedLayers.find(layer => layer.id === layerToSave.id)) {
         // This layer already exists in redux, replace the existing entry with the new one.
         importedLayers = importedLayers.map(layer => (layer.id === layerToSave.id ? layerToSave : layer));
@@ -309,7 +342,7 @@ export default function reducer(state: LayersState = initialState, action: Layer
       return { ...state, importingLayer: false, importError: null, imported: [...importedLayers, layerToSave] };
     }
     case IMPORT_LAYER_REQUEST: {
-      const updatedState = { ...state, importingLayer: true, importError: null };
+      const updatedState = { ...state, importingLayer: !(action.payload?.remote ?? false), importError: null };
 
       if (action.payload?.remote) {
         // This is a remote layer, we need to add this area into the layer's progress state so it can be tracked.
@@ -341,6 +374,7 @@ export default function reducer(state: LayersState = initialState, action: Layer
 
         return updatedStateWithProgress;
       }
+
       return updatedState;
     }
     case IMPORT_LAYER_PROGRESS: {
@@ -409,10 +443,16 @@ export default function reducer(state: LayersState = initialState, action: Layer
       const layers = state.imported.filter(layer => layer.id !== action.payload);
       const activeLayer = state.activeLayer === action.payload ? null : state.activeLayer;
 
-      return { ...state, imported: layers, activeLayer: activeLayer };
+      const downloadProgress = { ...state.downloadedLayerProgress };
+      delete downloadProgress[action.payload];
+
+      return { ...state, imported: layers, activeLayer: activeLayer, downloadedLayerProgress: downloadProgress };
     }
     case LOGOUT_REQUEST:
-      deleteLayerFiles().then(() => console.info('Folder removed successfully'));
+      deleteLayerFiles()
+        .then(() => console.info('Folder removed successfully'))
+        .catch(error => console.info('An error occurred deleting files'));
+
       return initialState;
     default:
       return state;
@@ -532,7 +572,8 @@ export function importContextualLayer(layerFile: File): Thunk<Promise<void>> {
         isPublic: false,
         name: layerFile.name || '',
         url: `${importedFile.path}/${importedFile.subFiles[0]}`,
-        size: importedFile.size
+        size: importedFile.size,
+        isCustom: true
       };
       trackImportedContent('layer', layerFile.fileName, true, importedFile.size);
       dispatch({
@@ -561,8 +602,9 @@ export function importGFWContent(
   downloadContent: boolean = true
 ): Thunk<Promise<void>> {
   return async (dispatch: Dispatch, getState: GetState) => {
-    if (!downloadContent) {
-      // We're not downloading this content, so just return
+    if (!downloadContent && contentType === 'contextual_layer') {
+      // We're not downloading this content, so just commit.
+      dispatch({ type: IMPORT_LAYER_COMMIT, payload: content });
       return;
     }
 
@@ -687,7 +729,6 @@ function gfwContentImportCompleted(
   return async (dispatch: Dispatch, getState: GetState) => {
     const REGION_COMPLETE_ACTION =
       contentType === 'contextual_layer' ? IMPORT_LAYER_AREA_COMPLETED : IMPORT_BASEMAP_AREA_COMPLETED;
-    const COMMIT_ACTION = contentType === 'contextual_layer' ? IMPORT_LAYER_COMMIT : IMPORT_BASEMAP_COMMIT;
     // We mark that region in the downloadedLayerProgress state as completed with 100% progress.
     // This means we can then keep track of regions that are still downloading / unpacking.
     await dispatch({
@@ -695,16 +736,17 @@ function gfwContentImportCompleted(
       payload: { id: dataId, layerId: layer.id, failed: withFailure }
     });
 
+    if (contentType !== 'contextual_layer') {
+      return;
+    }
+
     // Check for any regions for this layer that are still in progress.
-    const downloadProgressForLayer =
-      contentType === 'contextual_layer'
-        ? getState().layers.downloadedLayerProgress[layer.id]
-        : getState().basemaps.downloadedBasemapProgress[layer.id] ?? {};
+    const downloadProgressForLayer = getState().layers.downloadedLayerProgress[layer.id] ?? {};
     const remainingRegions = Object.values(downloadProgressForLayer).filter(region => region.completed !== true);
 
     if (remainingRegions?.length === 0) {
       // The download has completed, and we can now commit the entire layer.
-      dispatch({ type: COMMIT_ACTION, payload: layer });
+      dispatch({ type: IMPORT_LAYER_COMMIT, payload: layer });
     }
   };
 }

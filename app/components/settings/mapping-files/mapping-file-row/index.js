@@ -16,6 +16,7 @@ import i18n from 'i18next';
 
 import ProgressBar from 'react-native-progress/Bar';
 
+import { GFW_CONTEXTUAL_LAYERS_METADATA } from 'config/constants';
 import Theme from 'config/theme';
 import styles from './styles';
 import type { ContextualLayer } from 'types/layers.types';
@@ -80,8 +81,12 @@ export default class MappingFileRow extends Component<Props, State> {
   }
 
   _calculateSize = async () => {
-    // TODO: Handle basemaps stored using Mapbox OfflineManager
     const { layer, layerType } = this.props;
+
+    if (!layerType === 'basemap') {
+      return;
+    }
+
     const layerFiles = await queryLayerFiles(layerType, { whitelist: [layer.id], blacklist: [] });
     const sizeInBytes = manifestBundleSize({
       layerFiles,
@@ -93,16 +98,18 @@ export default class MappingFileRow extends Component<Props, State> {
   };
 
   renderIcons = () => {
-    const isRenamable = this.props.layer.isCustom;
-    // TODO: Need to recognise GFW layers as deletable
-    const isDeletable = (this.state.sizeInBytes ?? 0) > 0 || this.props.layer.isCustom;
-    const isRefreshable =
-      this.props.downloaded &&
-      this.props.layerType === 'contextual_layer' &&
-      !(this.props.layer.url ?? '').startsWith('mapbox://');
-    const isDownloadable = this.props.layerType === 'contextual_layer' || !this.props.layer.tileUrl;
+    const { inEditMode, layer, layerType, selected } = this.props;
+    const isRenamable = layer.isCustom;
+    const isPresentOnDisk = (this.state.sizeInBytes ?? 0) > 0 || this.props.downloaded;
 
-    if (this.props.inEditMode) {
+    const isDeletable =
+      isPresentOnDisk ||
+      layer.isCustom ||
+      (layerType === 'contextual_layer' && !!GFW_CONTEXTUAL_LAYERS_METADATA[layer.id]);
+    const isRefreshable = this.props.downloaded && layerType === 'contextual_layer';
+    const isDownloadable = layerType === 'contextual_layer' || (layerType === 'basemap' && !layer.tileUrl);
+
+    if (inEditMode) {
       return (
         <React.Fragment>
           {isRenamable && this.renderIcon(renameIcon, this.props.onRenamePress)}
@@ -110,9 +117,9 @@ export default class MappingFileRow extends Component<Props, State> {
         </React.Fragment>
       );
     }
-    if (this.props.selected === false) {
+    if (selected === false) {
       return this.renderIcon(checkboxOff, this.props.onPress);
-    } else if (this.props.selected === true) {
+    } else if (selected === true) {
       return this.renderIcon(checkboxOn, this.props.onPress);
     }
 
@@ -127,11 +134,15 @@ export default class MappingFileRow extends Component<Props, State> {
     );
   };
 
-  renderIcon = (icon, onPress: ?() => void) => {
+  renderIcon = (icon: ?number, onPress: ?() => void) => {
     const Touchable = Platform.select({
       android: TouchableNativeFeedback,
       ios: TouchableHighlight
     });
+
+    if (icon == null) {
+      return null;
+    }
 
     return (
       <Touchable
@@ -158,8 +169,10 @@ export default class MappingFileRow extends Component<Props, State> {
   render() {
     const { layer, layerType, downloading } = this.props;
 
-    const title = i18n.t(layer.name);
-    const subtitle = this.state.sizeInBytes !== null ? formatBytes(this.state.sizeInBytes) : '';
+    const titleKey = layerType === 'basemap' ? `basemaps.names.${layer.name}` : layer.name;
+    const title = i18n.t(titleKey);
+    const subtitle =
+      this.state.sizeInBytes !== null && layerType === 'contextual_layer' ? formatBytes(this.state.sizeInBytes) : '';
     const image = layer.image ?? icons[layerType].placeholder;
 
     return (

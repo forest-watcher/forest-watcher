@@ -4,12 +4,14 @@ import type { File } from 'types/file.types';
 import type { LayerFile } from 'types/sharing.types';
 import type { Dispatch, GetState, State, Thunk } from 'types/store.types';
 
+import { DELETE_AREA_COMMIT } from 'redux-modules/areas';
 import { LOGOUT_REQUEST } from 'redux-modules/user';
 import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 
 import { trackImportedContent } from 'helpers/analytics';
 import { deleteMapboxOfflinePack } from 'helpers/mapbox';
 import { importLayerFile } from 'helpers/layer-store/import/importLayerFile';
+import { DELETE_ROUTE } from './routes';
 
 // Actions
 export const IMPORT_BASEMAP_REQUEST = 'basemaps/IMPORT_BASEMAP_REQUEST';
@@ -42,7 +44,7 @@ export default function reducer(state: BasemapsState = initialState, action: Bas
       };
     }
     case IMPORT_BASEMAP_REQUEST: {
-      const updatedState = { ...state, importing: true, importError: null };
+      const updatedState = { ...state, importing: !(action.payload?.remote ?? false), importError: null };
 
       if (action.payload?.remote) {
         // This is a remote layer, we need to add this area into the layer's progress state so it can be tracked.
@@ -82,6 +84,7 @@ export default function reducer(state: BasemapsState = initialState, action: Bas
       const updatedStateWithProgress = {
         ...state,
         downloadedBasemapProgress: {
+          ...state.downloadedBasemapProgress,
           [layerId]: {
             ...state.downloadedBasemapProgress[layerId],
             [id]: {
@@ -159,6 +162,40 @@ export default function reducer(state: BasemapsState = initialState, action: Bas
       delete downloadProgress[action.payload];
 
       return { ...state, downloadedBasemapProgress: downloadProgress, importedBasemaps: basemaps };
+    }
+    case DELETE_AREA_COMMIT: {
+      const downloadedBasemapProgress = { ...state.downloadedBasemapProgress };
+
+      const areaId = action.meta.area.id;
+      Object.keys(downloadedBasemapProgress).forEach(layerId => {
+        const layerProgress = downloadedBasemapProgress[layerId];
+
+        delete layerProgress[areaId];
+
+        downloadedBasemapProgress[areaId] = layerProgress;
+      });
+
+      return { ...state, downloadedBasemapProgress };
+    }
+    case DELETE_ROUTE: {
+      const routeId = action.payload.id ?? action.payload.areaId;
+
+      if (!routeId) {
+        return state;
+      }
+
+      // Delete the download progress for the given route, for every downloaded layer.
+      const downloadedBasemapProgress = { ...state.downloadedBasemapProgress };
+
+      Object.keys(downloadedBasemapProgress).forEach(layerId => {
+        const layerProgress = downloadedBasemapProgress[layerId];
+
+        delete layerProgress[routeId];
+
+        downloadedBasemapProgress[layerId] = layerProgress;
+      });
+
+      return { ...state, downloadedBasemapProgress };
     }
     case LOGOUT_REQUEST:
       return initialState;

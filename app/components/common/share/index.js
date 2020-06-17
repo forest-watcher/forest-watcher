@@ -140,9 +140,9 @@ export default class ShareSelector extends Component<Props, State> {
           >
             {showEditButton && !sharing && (
               <ActionButton
-                disabled={this.props.disabled || isSharing || (!hasItemsSelected && editing)}
+                disabled={isSharing || (!hasItemsSelected && editing)}
                 noIcon
-                onPress={this.props.disabled ? null : editing ? this.props.onEdit : this.onClickEdit}
+                onPress={editing ? this.props.onEdit : this.onClickEdit}
                 secondary={!editing}
                 text={editing ? this.props.editButtonEnabledTitle : this.props.editButtonDisabledTitle}
               />
