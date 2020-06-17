@@ -169,7 +169,7 @@ export default class MappingFileRow extends Component<Props, State> {
   render() {
     const { layer, layerType, downloading } = this.props;
 
-    const titleKey = layerType === 'basemap' ? `basemaps.names.${layer.name}` : layer.name;
+    const titleKey = layerType === 'basemap' && !layer.isCustom ? `basemaps.names.${layer.name}` : layer.name;
     const title = i18n.t(titleKey);
     const subtitle =
       this.state.sizeInBytes !== null && layerType === 'contextual_layer' ? formatBytes(this.state.sizeInBytes) : '';
