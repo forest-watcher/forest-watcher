@@ -4,6 +4,7 @@ import type { ComponentProps, Dispatch, State } from 'types/store.types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import ContextualLayersLayerSettings from 'components/settings/layer-settings/contextual-layers';
+
 import {
   clearEnabledContextualLayers,
   DEFAULT_LAYER_SETTINGS,
@@ -29,6 +30,7 @@ function mapStateToProps(state: State, ownProps: OwnProps) {
     featureId: ownProps.featureId,
     contextualLayersLayerSettings:
       state.layerSettings?.[ownProps.featureId]?.contextualLayers || DEFAULT_LAYER_SETTINGS.contextualLayers,
+    downloadProgress: state.layers.downloadedLayerProgress,
     importedContextualLayers: importedFiles
   };
 }

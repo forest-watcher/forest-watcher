@@ -424,10 +424,12 @@
             "error": "The layer could not be downloaded, check your device storage capacity and internet connection and try again.",
             "onlineTitle": "Online Access Only",
             "onlineSubtitle": "Layer data will only be available when online",
+            "downloaded": "Downloaded",
             "downloadTitle": "Download",
             "downloadSubtitle": "Layer data will be downloaded for offline use",
             "downloadUnavailableTitle": "Download unavailable",
             "downloadUnavailableSubtitle": "This layer is only available online",
+            "notYetDownloaded": "Not downloaded",
             "title": "Add GFW Layers",
             "allLayers": "All GFW Layers (%{count})"
         }
