@@ -6,5 +6,6 @@ Description of patches created with the `patch-package` library.
 | ------------------------------ | ------- | -------- | ------------------------------------------------------------------------------------------ |
 | `react-native-navigation`      | v6.1.2  | 21/05/20 | iOS: Adds fixes for dismissModal animation causing black screen of death!                  |
 | `@react-native-mapbox-gl/maps` | v8.0.0  | 30/05/20 | iOS: Ensured that the library will request Always, as that is required for route tracking. |
+| `react-native-fs`              | v2.16.6  | 76/06/20 | Android: Ensure all API methods assume URI parameters are not percent-encoded consistently                            
 | `react-native-share`           | v3.3.2  | 13/05/20 | Android: Prevent MIME type being lost                                                      |
 | `react-native-zip-archive`     | v5.0.2  | 13/05/20 | Android: Upgrade zip4j and add support for content:// URIs                                 |
