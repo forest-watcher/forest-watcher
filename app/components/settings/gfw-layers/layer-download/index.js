@@ -104,8 +104,6 @@ class LayerDownload extends PureComponent<Props, State> {
       ? 'importLayer.gfw.downloadUnavailableSubtitle'
       : 'importLayer.gfw.downloadSubtitle';
 
-    console.warn(this.props.layer.url);
-
     return (
       <Row
         action={
