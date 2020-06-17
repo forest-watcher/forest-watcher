@@ -1,9 +1,12 @@
 // @flow
 import type { BBox2d } from '@turf/helpers';
 
+import Config from 'react-native-config';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 
 const MAPBOX_DOWNLOAD_COMPLETED_STATE = 2;
+
+const MAPBOX_URL_REGEX = /^mapbox:\/\/[a-zA-Z\d]+.[a-zA-Z\d]+$/;
 
 /**
  * Defines the parameters required for downloading a Mapbox offline pack.
@@ -14,6 +17,22 @@ export type MapboxOfflinePackConfig = {
   minZoom: number,
   maxZoom: number,
   bbox: BBox2d
+};
+
+/**
+ * Converts a mapbox url of format: 'mapbox://{username}.{tileset_id}'
+ *
+ * If the url is not of the correct format, null will be returned
+ * @param {string} url
+ *
+ * @returns {string}
+ */
+export const vectorTileURLForMapboxURL = (url: string): ?string => {
+  if (!url.match(MAPBOX_URL_REGEX)) {
+    return null;
+  }
+  const path = url.replace(/^(mapbox:\/\/)/, Config.MAPBOX_BASE_URL);
+  return path + '/{z}/{x}/{y}.vector.pbf?access_token=' + Config.MAPBOX_TOKEN;
 };
 
 /**
