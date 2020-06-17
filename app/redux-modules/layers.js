@@ -19,7 +19,7 @@ import Config from 'react-native-config';
 import omit from 'lodash/omit';
 import CONSTANTS, { GFW_BASEMAPS } from 'config/constants';
 import { bboxForRoute } from 'helpers/bbox';
-import { downloadOfflinePack, getMapboxOfflinePack, nameForMapboxOfflinePack } from 'helpers/mapbox';
+import { downloadOfflinePack, getMapboxOfflinePack, nameForMapboxOfflinePack, vectorTileURLForMapboxURL } from 'helpers/mapbox';
 import { getActionsTodoCount } from 'helpers/sync';
 
 import { LOGOUT_REQUEST } from 'redux-modules/user';
@@ -633,7 +633,8 @@ export function importGFWContent(
     const REQUEST_ACTION = contentType === 'contextual_layer' ? IMPORT_LAYER_REQUEST : IMPORT_BASEMAP_REQUEST;
     const PROGRESS_ACTION = contentType === 'contextual_layer' ? IMPORT_LAYER_PROGRESS : IMPORT_BASEMAP_PROGRESS;
 
-    const url = contentType === 'contextual_layer' ? content.url : content.styleURL;
+    const url =
+      contentType === 'contextual_layer' ? vectorTileURLForMapboxURL(content.url) ?? content.url : content.styleURL;
 
     if (!url) {
       return;

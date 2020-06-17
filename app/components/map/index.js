@@ -49,6 +49,7 @@ import { MBTilesSource } from 'react-native-mbtiles';
 import { initialWindowSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { toFileUri } from 'helpers/fileURI';
+import { vectorTileURLForMapboxURL } from 'helpers/mapbox';
 
 const SafeAreaView = withSafeArea(View, 'margin', 'top');
 const FooterSafeAreaView = withSafeArea(View, 'margin', 'bottom');
@@ -722,9 +723,10 @@ class MapComponent extends Component<Props, State> {
       return null;
     }
 
-    const tileURLTemplates = layer.url.startsWith('mapbox://') ? null : [layer.url];
+    const layerURL = vectorTileURLForMapboxURL(layer.url) ?? layer.url;
+    const tileURLTemplates = layerURL.startsWith('mapbox://') ? null : [layerURL];
 
-    if (!layer.url.startsWith('mapbox://') && this.props.featureId) {
+    if (!layerURL.startsWith('mapbox://') && this.props.featureId) {
       const layerDownloadProgress = this.props.downloadedLayerCache[layer.id]?.[this.props.featureId];
 
       if (layerDownloadProgress?.completed && !layerDownloadProgress?.error) {
@@ -741,7 +743,7 @@ class MapComponent extends Component<Props, State> {
             id={sourceID}
             maxZoomLevel={layerMetadata.maxZoom}
             minZoomLevel={layerMetadata.minZoom}
-            url={layer.url.startsWith('mapbox://') ? layer.url : null}
+            url={layerURL.startsWith('mapbox://') ? layerURL : null}
             tileUrlTemplates={tileURLTemplates}
           >
             {layerMetadata.vectorMapLayers.map((vectorLayer, index) => {
