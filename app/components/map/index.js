@@ -1008,6 +1008,12 @@ class MapComponent extends Component<Props, State> {
   };
 
   onAlertPressed = (e: any) => {
+    // if any of the features are a cluster - zoom in on the cluster so items will be moved apart
+    const clusters = e.features.filter(feature => feature.properties?.cluster);
+    if (clusters.length) {
+      this.onClusterPress(clusters[0].geometry?.coordinates);
+      return;
+    }
     const feature = closestFeature(e.features, e.coordinates);
     if (!feature) {
       return;
@@ -1030,12 +1036,6 @@ class MapComponent extends Component<Props, State> {
       return;
     }
     if (features?.length === 0) {
-      return;
-    }
-    // if any of the features are a cluster - zoom in on the cluster so items will be moved apart
-    const clusters = features.filter(feature => feature.cluster);
-    if (clusters.length) {
-      this.onClusterPress(clusters[0].geometry?.coordinates);
       return;
     }
     // deselect all previously selected items and select all reports and alerts tapped on
