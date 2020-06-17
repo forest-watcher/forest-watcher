@@ -19,7 +19,12 @@ import Config from 'react-native-config';
 import omit from 'lodash/omit';
 import CONSTANTS, { GFW_BASEMAPS } from 'config/constants';
 import { bboxForRoute } from 'helpers/bbox';
-import { downloadOfflinePack, getMapboxOfflinePack, nameForMapboxOfflinePack, vectorTileURLForMapboxURL } from 'helpers/mapbox';
+import {
+  downloadOfflinePack,
+  getMapboxOfflinePack,
+  nameForMapboxOfflinePack,
+  vectorTileURLForMapboxURL
+} from 'helpers/mapbox';
 import { getActionsTodoCount } from 'helpers/sync';
 
 import { LOGOUT_REQUEST } from 'redux-modules/user';
@@ -668,7 +673,7 @@ export function importGFWContent(
             bbox = bboxForRoute(region);
           } catch {
             console.warn('3SC - Could not generate BBox for route - does it have two or more points?');
-            dispatch({ type: CACHE_LAYER_COMMIT, payload: { dataId, layerId } });
+            dispatch(gfwContentImportCompleted(contentType, dataId, content, true));
             return;
           }
         }
