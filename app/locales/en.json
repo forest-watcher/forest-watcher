@@ -1,14 +1,11 @@
 {
     "alerts": {
-        "alertSystems": "Alert systems",
-        "locationDisabled": "Location disabled",
-        "noGPS": "No GPS"
+        "locationDisabled": "Location disabled"
     },
     "areaDetail": {
         "confirmDeleteWithRoutesMessage": "If you delete this area, you will no longer be able to access its saved routes. Delete?",
         "confirmDeleteWithRoutesTitle": "Delete area with routes",
-        "delete": "Delete this area",
-        "noAlerts": "No alerts for this area"
+        "delete": "Delete this area"
     },
     "areas": {
         "empty": {
@@ -17,21 +14,11 @@
             "title": "No Areas Monitored"
         },
         "export": {
-            "areaSizeAction": "Export Areas (%{bundleSize})",
-            "description": "How would you like to export this area?",
             "manyAreas": "%{count} Areas",
-            "manyAreasAction": "Export %{count} areas...",
-            "noneSelected": "No areas selected",
-            "oneArea": "%{count} Area",
-            "option": {
-                "asCSV": "Export as CSV..."
-            },
-            "successful": "Exporting areas succeeded!",
-            "title": "Export area"
+            "oneArea": "%{count} Area"
         },
         "importedAreas": "Imported Areas",
         "myAreas": "My Areas",
-        "share": "Share Areas",
         "title": "Areas",
         "tooltip": {
             "body": "View alerts and map layers without internet",
@@ -201,7 +188,6 @@
     "dashboard": {
         "areas": "Areas",
         "downloadFailed": "Download failed",
-        "makeAvailableOffline": "Make available offline",
         "map": "Map",
         "reports": "Reports",
         "routes": "Routes",
@@ -423,8 +409,6 @@
             "description": "View Description",
             "downloadSubtitle": "Layer data will be downloaded for offline use",
             "downloadTitle": "Download",
-            "downloadUnavailableSubtitle": "This layer is only available online",
-            "downloadUnavailableTitle": "Download unavailable",
             "downloaded": "Downloaded",
             "downloading": "Downloading Layer...",
             "error": "The layer could not be downloaded, check your device storage capacity and internet connection and try again.",
@@ -457,7 +441,6 @@
         "woodFiberConcessions": "Wood fiber concessions by type - 2019"
     },
     "login": {
-        "connectionRequired": "You need an internet connection",
         "emailLogin": {
             "emailAddress": "Email Address",
             "enterYourEmail": "Enter Your Email",
@@ -475,13 +458,10 @@
         "introductionText": "Sign in with a MyGFW account",
         "mustBeOnline": "You must be online to login",
         "signUp": "Sign Up",
-        "twitterTitle": "Twitter",
-        "unable": "Unable to login"
+        "twitterTitle": "Twitter"
     },
     "map": {
-        "alerts": "Alerts",
         "createdDate": "Created %{date}",
-        "ctxLayers": "Contextual layers",
         "destination": "Destination:",
         "distance": "Distance:",
         "gladAlert": "GLAD alert",
@@ -649,11 +629,7 @@
         },
         "export": {
             "manyRoutes": "%{count} Routes",
-            "manyRoutesAction": "Export %{count} routes...",
-            "noneSelected": "No routes selected",
-            "oneRoute": "%{count} Route",
-            "oneRouteAction": "Export %{count} route...",
-            "routeSizeAction": "Export Routes (%{bundleSize})"
+            "oneRoute": "%{count} Route"
         },
         "importedRoutes": "Imported Routes",
         "insufficientPermissionsDialogMessage": "We need background location permissions to be able to track your route.",
@@ -662,8 +638,6 @@
         "insufficientPermissionsDialogTitle": "Unable to track route",
         "location": "Location",
         "locationEnd": "End:",
-        "locationErrorDialogMessage": "Something went wrong while accessing your location",
-        "locationErrorDialogTitle": "Error retrieving location",
         "locationStart": "Start:",
         "myRoutes": "My Routes",
         "notification": {
@@ -675,29 +649,18 @@
         "resumeTrackingDialogPositiveButton": "Resume route",
         "resumeTrackingDialogTitle": "Resume route tracking",
         "save": "Save Route",
-        "share": "Share Routes",
         "stopRouteTrackingPanelContinueOption": "Continue route tracking",
         "stopRouteTrackingPanelDeleteOption": "Stop and delete route",
         "stopRouteTrackingPanelSaveOption": "Stop and save route",
         "stopRouteTrackingPanelTitle": "Stop Route Tracking",
-        "trackingInProgressErrorMessage": "You're already tracking a route in another area",
-        "trackingInProgressErrorTitle": "Route tracking in progress",
         "viewOnMap": "View Route on Map"
     },
     "settings": {
-        "1MonthAgo": "1 month ago",
-        "1yearAgo": "1 year ago",
-        "24hAgo": "24 hours ago",
-        "3MonthsAgo": "3 months ago",
-        "48hAgo": "48 hours ago",
-        "6MonthsAgo": "6 months ago",
-        "72hAgo": "72 hours ago",
         "aboutApp": "About this app",
         "aboutContactUs": "Contact Us",
         "aboutFAQ": "FAQs",
         "aboutPartners": "Partners",
         "aboutTerms": "Terms and Conditions",
-        "addArea": "ADD AREA",
         "basemaps": "Basemaps",
         "completeYourProfileOn": "Complete your profile on",
         "contextualLayers": "Contextual Layers",
@@ -708,13 +671,10 @@
         "coordinatesUtm": "UTM",
         "logOut": "Log Out",
         "offlineMode": "Offline Mode",
-        "oneWeekAgo": "One week ago",
         "shareData": "Share All App Data",
-        "timeFrame": "Time Frame",
         "title": "Settings",
         "unsafeLogout": "Your reports are not synced!",
         "unsavedDataLost": "If you proceed with the logout all your unsaved data will be lost.",
-        "yourAreas": "Your areas",
         "yourRoutes": "Your routes"
     },
     "setupCountry": {
@@ -730,11 +690,6 @@
         "invalidShape": "Invalid shape",
         "invalidSize": "Please draw a smaller area",
         "tapInstruction": "Tap on map to draw"
-    },
-    "setupHeader": {
-        "errorFirst": "Invalid prop",
-        "errorSecond": "supplied to",
-        "errorThird": "It is required if you show back button"
     },
     "setupOverview": {
         "areaName": "Name the area",
@@ -786,20 +741,6 @@
     "termsAndConditions": {
         "agreeText": "By using this app, you agree to these",
         "linkText": "terms and conditions"
-    },
-    "walkthrough": {
-        "skip": "skip tutorial",
-        "subtitle": {
-            "slide1": "First, set up an area that you want to monitor",
-            "slide2": "Select the deforestation or fire alerts that you want to display",
-            "slide3": "Navigate to an alert and collect data from the location",
-            "slide4": "Click on alerts to submit a report about them",
-            "slide5": "Or tap on any area in the map to create a report for that area",
-            "slide6": "More questions? Go to Settings to read our FAQs or visit fw.globalforestwatch.org"
-        },
-        "title": {
-            "slide1": "Welcome to Forest Watcher"
-        }
     },
     "welcome": {
         "deforestationAlerts": {

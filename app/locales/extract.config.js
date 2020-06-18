@@ -1,7 +1,7 @@
 module.exports = {
   options: {
     sort: true,
-    removeUnusedKeys: false,
+    removeUnusedKeys: true,
     func: {
       list: ['i18n.t'],
       extensions: ['.js']
