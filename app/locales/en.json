@@ -4,6 +4,12 @@
         "locationDisabled": "Location disabled",
         "noGPS": "No GPS"
     },
+    "areaDetail": {
+        "confirmDeleteWithRoutesMessage": "If you delete this area, you will no longer be able to access its saved routes. Delete?",
+        "confirmDeleteWithRoutesTitle": "Delete area with routes",
+        "delete": "Delete this area",
+        "noAlerts": "No alerts for this area"
+    },
     "areas": {
         "empty": {
             "action": "App FAQs",
@@ -11,44 +17,31 @@
             "title": "No Areas Monitored"
         },
         "export": {
-            "noneSelected": "No areas selected",
-            "oneArea": "%{count} Area",
             "areaSizeAction": "Export Areas (%{bundleSize})",
+            "description": "How would you like to export this area?",
             "manyAreas": "%{count} Areas",
             "manyAreasAction": "Export %{count} areas...",
-            "title": "Export area",
-            "description": "How would you like to export this area?",
+            "noneSelected": "No areas selected",
+            "oneArea": "%{count} Area",
             "option": {
                 "asCSV": "Export as CSV..."
             },
-            "successful": "Exporting areas succeeded!"
+            "successful": "Exporting areas succeeded!",
+            "title": "Export area"
         },
         "importedAreas": "Imported Areas",
         "myAreas": "My Areas",
         "share": "Share Areas",
+        "title": "Areas",
         "tooltip": {
-            "title": "Make Areas Available Offline",
-            "body": "View alerts and map layers without internet"
-        },
-        "title": "Areas"
-    },
-    "areaDetail": {
-        "confirmDeleteWithRoutesTitle": "Delete area with routes",
-        "confirmDeleteWithRoutesMessage": "If you delete this area, you will no longer be able to access its saved routes. Delete?",
-        "delete": "Delete this area",
-        "noAlerts": "No alerts for this area"
+            "body": "View alerts and map layers without internet",
+            "title": "Make Areas Available Offline"
+        }
     },
     "basemaps": {
         "delete": {
-            "title": "Delete this basemap?",
-            "message": "This action is irreversible, do you wish to continue?"
-        },
-        "names": {
-            "default": "Default",
-            "dark": "Dark",
-            "satellite": "Satellite",
-            "mapboxSatellite": "Mapbox Satellite",
-            "landsat": "Landsat"
+            "message": "This action is irreversible, do you wish to continue?",
+            "title": "Delete this basemap?"
         },
         "edit": "Edit",
         "empty": {
@@ -57,41 +50,48 @@
             "title": "No Custom Basemaps"
         },
         "export": {
+            "many": "%{count} Basemaps",
+            "manyAction": "Export %{count} basemaps...",
             "navBarButtonText": "Export",
             "noneSelected": "No basemaps selected",
             "one": "%{count} Basemap",
             "oneAction": "Export %{count} basemap...",
-            "many": "%{count} Basemaps",
-            "manyAction": "Export %{count} basemaps...",
             "successful": "Exporting basemaps succeeded!"
         },
         "gfw": "Default Basemaps",
         "import": {
-            "uniqueNameError": "You have already given a basemap this name, please choose a different name or delete the existing basemap.",
-            "error": "Failed to import basemap, please make sure you are selecting the correct file type and the contents of the file matches the specification then try again.",
-            "save": "Import Basemap",
-            "title": "Basemap Name",
-            "choose": "Choose basemap type",
             "addGFW": "",
+            "cannotContainVectorTiles": "* files may contain raster elements only",
+            "choose": "Choose basemap type",
+            "chooseAnother": "Choose Another",
             "custom": "Custom Basemap",
-            "supportedFileTypesInclude": "Supported file types include:",
+            "error": "Failed to import basemap, please make sure you are selecting the correct file type and the contents of the file matches the specification then try again.",
             "faq": "Custom Basemap FAQs",
+            "fileContainsVectorTiles": "contains vector elements and is not supported.",
             "fileSizeTooLarge": "File Too Large",
             "fileSizeTooLargeDesc": "Please try with a file smaller than 10MB",
             "fileTypeNotSupported": "File Type Not Supported",
             "fileTypeNotSupportedDesc": "is not a supported file type for basemaps.",
-            "vectorTilesNotSupported": "File Contains Vector Tiles",
-            "fileContainsVectorTiles": "contains vector elements and is not supported.",
-            "cannotContainVectorTiles": "* files may contain raster elements only",
-            "chooseAnother": "Choose Another"
+            "save": "Import Basemap",
+            "supportedFileTypesInclude": "Supported file types include:",
+            "title": "Basemap Name",
+            "uniqueNameError": "You have already given a basemap this name, please choose a different name or delete the existing basemap.",
+            "vectorTilesNotSupported": "File Contains Vector Tiles"
         },
         "imported": "Custom Basemaps",
-        "rename": {
-            "title": "Rename Basemap",
-            "message": "Enter your new name"
+        "names": {
+            "dark": "Dark",
+            "default": "Default",
+            "landsat": "Landsat",
+            "mapboxSatellite": "Mapbox Satellite",
+            "satellite": "Satellite"
         },
-        "title": "Manage Basemaps",
-        "share": "Share"
+        "rename": {
+            "message": "Enter your new name",
+            "title": "Rename Basemap"
+        },
+        "share": "Share",
+        "title": "Manage Basemaps"
     },
     "chooseImage": {
         "cancel": "Cancel",
@@ -119,9 +119,9 @@
         "fileName": "File name",
         "fileSizes": {
             "bytes": "%{size} bytes",
+            "gigaBytes": "%{size} GB",
             "kiloBytes": "%{size} kB",
             "megaBytes": "%{size} MB",
-            "gigaBytes": "%{size} GB",
             "teraBytes": "%{size} TB"
         },
         "finish": "Finish",
@@ -151,8 +151,8 @@
     },
     "contextualLayers": {
         "delete": {
-            "title": "Delete this layer?",
-            "message": "This action is irreversible, do you wish to continue?"
+            "message": "This action is irreversible, do you wish to continue?",
+            "title": "Delete this layer?"
         },
         "edit": "Edit",
         "empty": {
@@ -161,39 +161,39 @@
             "title": "No Contextual Layers"
         },
         "export": {
+            "many": "%{count} Layers",
+            "manyAction": "Export %{count} layers...",
             "navBarButtonText": "Export",
             "noneSelected": "No layers selected",
             "one": "%{count} Layers",
             "oneAction": "Export %{count} layers...",
-            "many": "%{count} Layers",
-            "manyAction": "Export %{count} layers...",
             "successful": "Exporting layers succeeded!"
         },
+        "gfw": "GFW Layers",
         "import": {
-            "uniqueNameError": "You have already given a layer this name, please choose a different name or delete the existing layer.",
-            "error": "Failed to import layer, please make sure you are selecting the correct file type and the contents of the file matches the specification then try again.",
-            "offlineWarning": "Only available online",
-            "save": "Import Layer",
-            "title": "Layer Name",
-            "choose": "Choose contextual layer type",
             "addGFW": "Add Global Forest Watch Layer",
+            "choose": "Choose contextual layer type",
+            "chooseAnother": "Choose Another",
             "custom": "Custom Contextual Layer",
-            "supportedFileTypesInclude": "Supported file types include:",
+            "error": "Failed to import layer, please make sure you are selecting the correct file type and the contents of the file matches the specification then try again.",
             "faq": "Custom Layer FAQs",
             "fileSizeTooLarge": "File Too Large",
             "fileSizeTooLargeDesc": "Please try with a file smaller than 10MB",
             "fileTypeNotSupported": "File Type Not Supported",
             "fileTypeNotSupportedDesc": "is not a supported file type for contextual layers.",
-            "chooseAnother": "Choose Another"
+            "offlineWarning": "Only available online",
+            "save": "Import Layer",
+            "supportedFileTypesInclude": "Supported file types include:",
+            "title": "Layer Name",
+            "uniqueNameError": "You have already given a layer this name, please choose a different name or delete the existing layer."
         },
-        "gfw": "GFW Layers",
         "imported": "Custom Layers",
         "rename": {
-            "title": "Rename Contextual Layer",
-            "message": "Enter your new name"
+            "message": "Enter your new name",
+            "title": "Rename Contextual Layer"
         },
-        "title": "Manage Contextual Layers",
-        "share": "Share"
+        "share": "Share",
+        "title": "Manage Contextual Layers"
     },
     "countries": {
         "searchPlaceholder": "Search for a country"
@@ -217,7 +217,6 @@
     "faq": {
         "categories": {
             "about": {
-                "title": "About Forest Watcher",
                 "questions": [
                     {
                         "content": {
@@ -246,10 +245,10 @@
                         },
                         "title": "Why did you create Forest Watcher?"
                     }
-                ]
+                ],
+                "title": "About Forest Watcher"
             },
             "alertsAndData": {
-                "title": "Alerts and Data in Forest Watcher",
                 "questions": [
                     {
                         "content": {
@@ -291,14 +290,14 @@
                         },
                         "title": "Can I add my own data layers into Forest Watcher? "
                     }
-                ]
+                ],
+                "title": "Alerts and Data in Forest Watcher"
             },
             "customLayers": {
-                "title": "Custom Layers",
-                "questions": []
+                "questions": [],
+                "title": "Custom Layers"
             },
             "features": {
-                "title": "Features and Functionality",
                 "questions": [
                     {
                         "content": {
@@ -316,10 +315,10 @@
                         },
                         "title": "What is Forest Watcher Desktop?"
                     }
-                ]
+                ],
+                "title": "Features and Functionality"
             },
             "help": {
-                "title": "Help and How to Contact Us",
                 "questions": [
                     {
                         "content": {
@@ -372,16 +371,17 @@
                         },
                         "title": "How do I get support?"
                     }
-                ]
+                ],
+                "title": "Help and How to Contact Us"
             },
             "inTheField": {
-                "title": "Using Forest Watcher in the Field",
-                "questions": []
+                "questions": [],
+                "title": "Using Forest Watcher in the Field"
             },
-            "sectionHeader": "Categories",
-            "title": "FAQs",
             "questionCountPlural": "%{count} Questions",
-            "questionCountSingular": "1 Question"
+            "questionCountSingular": "1 Question",
+            "sectionHeader": "Categories",
+            "title": "FAQs"
         }
     },
     "importBundle": {
@@ -419,19 +419,19 @@
     "importLayer": {
         "gfw": {
             "add": "Add Layer",
+            "allLayers": "All GFW Layers (%{count})",
             "description": "View Description",
+            "downloadSubtitle": "Layer data will be downloaded for offline use",
+            "downloadTitle": "Download",
+            "downloadUnavailableSubtitle": "This layer is only available online",
+            "downloadUnavailableTitle": "Download unavailable",
+            "downloaded": "Downloaded",
             "downloading": "Downloading Layer...",
             "error": "The layer could not be downloaded, check your device storage capacity and internet connection and try again.",
-            "onlineTitle": "Online Access Only",
-            "onlineSubtitle": "Layer data will only be available when online",
-            "downloaded": "Downloaded",
-            "downloadTitle": "Download",
-            "downloadSubtitle": "Layer data will be downloaded for offline use",
-            "downloadUnavailableTitle": "Download unavailable",
-            "downloadUnavailableSubtitle": "This layer is only available online",
             "notYetDownloaded": "Not downloaded",
-            "title": "Add GFW Layers",
-            "allLayers": "All GFW Layers (%{count})"
+            "onlineSubtitle": "Layer data will only be available when online",
+            "onlineTitle": "Online Access Only",
+            "title": "Add GFW Layers"
         }
     },
     "layers": {
@@ -458,37 +458,99 @@
     },
     "login": {
         "connectionRequired": "You need an internet connection",
+        "emailLogin": {
+            "emailAddress": "Email Address",
+            "enterYourEmail": "Enter Your Email",
+            "enterYourPassword": "Enter Your Password",
+            "forgotYourPassword": "Forgot Your Password?",
+            "login": "Login",
+            "loginError": "Error during login",
+            "loginWithEmail": "Login With Email",
+            "password": "Password"
+        },
         "emailTitle": "Login with Email",
         "facebookTitle": "Facebook",
         "failed": "There was an error during login/logout",
         "googleTitle": "Google",
         "introductionText": "Sign in with a MyGFW account",
-        "twitterTitle": "Twitter",
-        "signUp": "Sign Up",
-        "unable": "Unable to login",
         "mustBeOnline": "You must be online to login",
-        "emailLogin": {
-            "loginWithEmail": "Login With Email",
-            "emailAddress": "Email Address",
-            "enterYourEmail": "Enter Your Email",
-            "password": "Password",
-            "enterYourPassword": "Enter Your Password",
-            "login": "Login",
-            "forgotYourPassword": "Forgot Your Password?",
-            "loginError": "Error during login"
-        }
+        "signUp": "Sign Up",
+        "twitterTitle": "Twitter",
+        "unable": "Unable to login"
     },
     "map": {
         "alerts": "Alerts",
+        "createdDate": "Created %{date}",
         "ctxLayers": "Contextual layers",
         "destination": "Destination:",
         "distance": "Distance:",
+        "gladAlert": "GLAD alert",
+        "issuedDate": "Issued %{date}",
+        "layerSettings": {
+            "alertSettings": {
+                "alert": "Alert",
+                "deforestation": "Deforestation",
+                "fires": "Fires",
+                "glad": "GLAD",
+                "manyDays": "%{count} days",
+                "manyMonths": "%{count} months",
+                "noAlerts": "No Alerts",
+                "oneDay": "%{count} day",
+                "oneMonth": "%{count} month",
+                "recent": "Recent",
+                "reportedOn": "Reported On",
+                "showingManyDays": "Showing %{type} from the past %{count} days",
+                "showingManyMonths": "Showing %{type} from the past %{count} months",
+                "showingOneDay": "Showing %{type} from the past day",
+                "showingOneMonth": "Showing %{type} from the past month",
+                "timeFrame": "Time Frame",
+                "timeFrameDescDays": "Select the amount of days",
+                "timeFrameDescMonths": "Select the amount of months",
+                "viirs": "VIIRS"
+            },
+            "alerts": "Alerts",
+            "basemap": "Basemap",
+            "basemapSettings": {
+                "showingBasemap": "Basemap: %{basemap}"
+            },
+            "basemaps": "Basemaps",
+            "contextualLayers": "Contextual Layers",
+            "contextualLayersSettings": {
+                "showingManyContextualLayers": "%{count} Contextual Layers",
+                "showingOneContextualLayer": "%{count} Contextual Layer"
+            },
+            "customBasemaps": "Custom Basemaps",
+            "customLayers": "Custom Layers",
+            "gfwBasemaps": "GFW Basemaps",
+            "gfwLayers": "GFW Layers",
+            "importedReports": "Imported Reports",
+            "importedRoutes": "Imported Routes",
+            "layersHeading": "Layers",
+            "manageBasemaps": "Manage Basemaps",
+            "manageContextualLayers": "Manage Contextual Layers",
+            "manageReports": "Manage Reports",
+            "manageRoutes": "Manage Routes",
+            "myReports": "My Reports",
+            "myRoutes": "My Routes",
+            "onlyAvailableOnline": "Only Available Online",
+            "report": "Report",
+            "reportSettings": {
+                "showingAllReports": "All Reports",
+                "showingImportedReports": "Imported Reports",
+                "showingMyReports": "My Reports",
+                "showingNoReports": "No Reports"
+            },
+            "reports": "Reports",
+            "routeSettings": {
+                "showingAllRoutes": "All Routes",
+                "showingManyRoutes": "%{count} Routes",
+                "showingOneRoute": "%{count} Route"
+            },
+            "routes": "Routes",
+            "showing": "Showing: %{description}"
+        },
         "recent": "Recent",
         "reported": "Reported",
-        "gladAlert": "GLAD alert",
-        "viirsAlert": "VIIRS alert",
-        "issuedDate": "Issued %{date}",
-        "createdDate": "Created %{date}",
         "reportsAndRoutes": {
             "body": "Routes and Reports can also be created by tapping any alerts on the map",
             "title": "Reports and Routes"
@@ -497,81 +559,19 @@
             "body": "Routes and Reports can be created by dropping a pin",
             "title": "Reports and Routes"
         },
+        "selectedItems": {
+            "location": "Location: %{lat}, %{long}",
+            "manyAlerts": "%{count} Alerts",
+            "manyReports": "%{count} Reports",
+            "multipleItems": "Multiple Items",
+            "oneAlert": "1 Alert",
+            "oneReport": "1 Report"
+        },
         "settingsTooltip": {
             "body": "Show the layers and data relevant to you",
             "title": "Customise Map Display"
         },
-        "selectedItems": {
-            "multipleItems": "Multiple Items",
-            "oneReport": "1 Report",
-            "manyReports": "%{count} Reports",
-            "oneAlert": "1 Alert",
-            "manyAlerts": "%{count} Alerts",
-            "location": "Location: %{lat}, %{long}"
-        },
-        "layerSettings": {
-            "alerts": "Alerts",
-            "customLayers": "Custom Layers",
-            "gfwLayers": "GFW Layers",
-            "layersHeading": "Layers",
-            "routes": "Routes",
-            "reports": "Reports",
-            "contextualLayers": "Contextual Layers",
-            "basemap": "Basemap",
-            "report": "Report",
-            "myReports": "My Reports",
-            "importedReports": "Imported Reports",
-            "manageContextualLayers": "Manage Contextual Layers",
-            "manageReports": "Manage Reports",
-            "manageBasemaps": "Manage Basemaps",
-            "basemaps": "Basemaps",
-            "gfwBasemaps": "GFW Basemaps",
-            "customBasemaps": "Custom Basemaps",
-            "myRoutes": "My Routes",
-            "importedRoutes": "Imported Routes",
-            "manageRoutes": "Manage Routes",
-            "showing": "Showing: %{description}",
-            "onlyAvailableOnline": "Only Available Online",
-            "alertSettings": {
-                "deforestation": "Deforestation",
-                "glad": "GLAD",
-                "fires": "Fires",
-                "viirs": "VIIRS",
-                "alert": "Alert",
-                "recent": "Recent",
-                "reportedOn": "Reported On",
-                "timeFrame": "Time Frame",
-                "timeFrameDescMonths": "Select the amount of months",
-                "timeFrameDescDays": "Select the amount of days",
-                "oneMonth": "%{count} month",
-                "manyMonths": "%{count} months",
-                "oneDay": "%{count} day",
-                "manyDays": "%{count} days",
-                "showingOneMonth": "Showing %{type} from the past month",
-                "showingManyMonths": "Showing %{type} from the past %{count} months",
-                "showingOneDay": "Showing %{type} from the past day",
-                "showingManyDays": "Showing %{type} from the past %{count} days",
-                "noAlerts": "No Alerts"
-            },
-            "routeSettings": {
-                "showingOneRoute": "%{count} Route",
-                "showingManyRoutes": "%{count} Routes",
-                "showingAllRoutes": "All Routes"
-            },
-            "reportSettings": {
-                "showingNoReports": "No Reports",
-                "showingMyReports": "My Reports",
-                "showingImportedReports": "Imported Reports",
-                "showingAllReports": "All Reports"
-            },
-            "contextualLayersSettings": {
-                "showingOneContextualLayer": "%{count} Contextual Layer",
-                "showingManyContextualLayers": "%{count} Contextual Layers"
-            },
-            "basemapSettings": {
-                "showingBasemap": "Basemap: %{basemap}"
-            }
-        }
+        "viirsAlert": "VIIRS alert"
     },
     "partners": {
         "description": "Forest Watcher is created in collaboration between World Resources Institute’s Global Forest Watch Program, Vizzuality, and the Jane Goodall Institute.",
@@ -593,18 +593,18 @@
         },
         "emptyPicture": "Empty",
         "export": {
+            "description": "How would you like to export this report?",
+            "manyReports": "%{count} Reports",
             "navBarButtonText": "Export",
             "noneSelected": "No reports selected",
             "oneReport": "%{count} Report",
-            "manyReports": "%{count} Reports",
-            "title": "Export report",
-            "description": "How would you like to export this report?",
             "option": {
                 "asCSV": "Export as CSV...",
                 "asSharingBundle": "Export as sharing bundle..."
             },
             "reportSizeAction": "Export Reports (%{bundleSize})",
-            "successful": "Exporting reports succeeded!"
+            "successful": "Exporting reports succeeded!",
+            "title": "Export report"
         },
         "glad": "Deforestation Report",
         "gladAndViirs": "Deforestation and Fires Report",
@@ -629,16 +629,16 @@
         "viirs": "Fire Report"
     },
     "routes": {
-        "backgroundErrorDialogTitle": "Route tracking paused",
         "backgroundErrorDialogMessage": "Please check your location settings and app permissions to resume route tracking.",
-        "confirmDeleteTitle": "Delete route",
+        "backgroundErrorDialogTitle": "Route tracking paused",
         "confirmDeleteMessage": "Are you sure you want to delete this route?",
+        "confirmDeleteTitle": "Delete route",
         "delete": "Delete Route",
         "difficulty": "Difficulty",
         "difficultyLevels": {
             "easy": "Easy",
-            "medium": "Medium",
-            "hard": "Hard"
+            "hard": "Hard",
+            "medium": "Medium"
         },
         "distance": "Distance",
         "duration": "Time Taken",
@@ -648,40 +648,40 @@
             "title": "No Routes"
         },
         "export": {
-            "oneRoute": "%{count} Route",
-            "oneRouteAction": "Export %{count} route...",
             "manyRoutes": "%{count} Routes",
             "manyRoutesAction": "Export %{count} routes...",
             "noneSelected": "No routes selected",
+            "oneRoute": "%{count} Route",
+            "oneRouteAction": "Export %{count} route...",
             "routeSizeAction": "Export Routes (%{bundleSize})"
         },
         "importedRoutes": "Imported Routes",
-        "insufficientPermissionsDialogTitle": "Unable to track route",
         "insufficientPermissionsDialogMessage": "We need background location permissions to be able to track your route.",
         "insufficientPermissionsDialogOpenAppSettings": "Check permissions",
         "insufficientPermissionsDialogOpenDeviceSettings": "Check location settings",
+        "insufficientPermissionsDialogTitle": "Unable to track route",
         "location": "Location",
         "locationEnd": "End:",
-        "locationErrorDialogTitle": "Error retrieving location",
         "locationErrorDialogMessage": "Something went wrong while accessing your location",
+        "locationErrorDialogTitle": "Error retrieving location",
         "locationStart": "Start:",
         "myRoutes": "My Routes",
         "notification": {
-            "title": "Route tracking in progress",
-            "message": "Forest Watcher is recording the route you are taking to your destination"
+            "message": "Forest Watcher is recording the route you are taking to your destination",
+            "title": "Route tracking in progress"
         },
-        "resumeTrackingDialogTitle": "Resume route tracking",
         "resumeTrackingDialogMessage": "You have an unfinished route. Would you like to resume it?",
-        "resumeTrackingDialogPositiveButton": "Resume route",
         "resumeTrackingDialogNegativeButton": "Delete route",
+        "resumeTrackingDialogPositiveButton": "Resume route",
+        "resumeTrackingDialogTitle": "Resume route tracking",
         "save": "Save Route",
         "share": "Share Routes",
-        "stopRouteTrackingPanelTitle": "Stop Route Tracking",
         "stopRouteTrackingPanelContinueOption": "Continue route tracking",
-        "stopRouteTrackingPanelSaveOption": "Stop and save route",
         "stopRouteTrackingPanelDeleteOption": "Stop and delete route",
-        "trackingInProgressErrorTitle": "Route tracking in progress",
+        "stopRouteTrackingPanelSaveOption": "Stop and save route",
+        "stopRouteTrackingPanelTitle": "Stop Route Tracking",
         "trackingInProgressErrorMessage": "You're already tracking a route in another area",
+        "trackingInProgressErrorTitle": "Route tracking in progress",
         "viewOnMap": "View Route on Map"
     },
     "settings": {
@@ -698,31 +698,31 @@
         "aboutPartners": "Partners",
         "aboutTerms": "Terms and Conditions",
         "addArea": "ADD AREA",
+        "basemaps": "Basemaps",
         "completeYourProfileOn": "Complete your profile on",
+        "contextualLayers": "Contextual Layers",
         "coordinatesDecimal": "Decimal",
         "coordinatesDegrees": "Degrees",
+        "coordinatesDescription": "Select a format you would like to display",
         "coordinatesFormat": "Coordinates Format",
         "coordinatesUtm": "UTM",
-        "coordinatesDescription": "Select a format you would like to display",
-        "basemaps": "Basemaps",
-        "contextualLayers": "Contextual Layers",
         "logOut": "Log Out",
         "offlineMode": "Offline Mode",
         "oneWeekAgo": "One week ago",
+        "shareData": "Share All App Data",
         "timeFrame": "Time Frame",
         "title": "Settings",
         "unsafeLogout": "Your reports are not synced!",
         "unsavedDataLost": "If you proceed with the logout all your unsaved data will be lost.",
         "yourAreas": "Your areas",
-        "yourRoutes": "Your routes",
-        "shareData": "Share All App Data"
+        "yourRoutes": "Your routes"
     },
     "setupCountry": {
         "firstInstruction": "First, select your country of interest",
         "secondWelcomeText": "please set up an area",
         "tooltip": {
-            "title": "Get Started",
-            "body": "Add an area that you would like to receive alerts for"
+            "body": "Add an area that you would like to receive alerts for",
+            "title": "Get Started"
         },
         "welcomeText": "Hi"
     },
@@ -742,15 +742,15 @@
     },
     "sharing": {
         "inProgress": "Sharing %{type}...",
-        "title": "Share %{type}",
+        "multiple": "Share %{type} (%{bundleSize})",
         "noneSelected": "No %{type} Selected",
         "one": "Share %{type} (%{bundleSize})",
-        "multiple": "Share %{type} (%{bundleSize})",
+        "title": "Share %{type}",
         "type": {
-            "area": "Area",
-            "areas": "Areas",
             "alert": "Alert",
             "alerts": "Alerts",
+            "area": "Area",
+            "areas": "Areas",
             "customBasemap": "Custom Basemap",
             "customBasemaps": "Custom Basemaps",
             "customLayer": "Custom Contextual Layer",
@@ -810,10 +810,6 @@
             "body": "Display custom layers or base maps for more effective monitoring",
             "title": "Customise Map Layers"
         },
-        "share": {
-            "body": "Share areas, routes, layers and more for improved team coordination",
-            "title": "Share Content"
-        },
         "reports": {
             "body": "Report on what you find on the ground through text and voice recording",
             "title": "Create Reports"
@@ -821,6 +817,10 @@
         "routes": {
             "body": "Easier navigation to alert areas to be investigated",
             "title": "Record Routes"
+        },
+        "share": {
+            "body": "Share areas, routes, layers and more for improved team coordination",
+            "title": "Share Content"
         },
         "title": "Welcome to Forest Watcher"
     },
