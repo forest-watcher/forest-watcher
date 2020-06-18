@@ -300,7 +300,13 @@ class Areas extends Component<Props, State> {
               onContentSizeChange={() => {
                 // GFW-579: Scroll to bottom of scrollview once, after new area added.
                 if (this.state.shouldScrollToBottom) {
-                  this.scrollView.scrollToEnd();
+                  if (areasImported.length === 0) {
+                    this.scrollView.scrollToEnd();
+                  } else {
+                    // Scroll to end of My Areas section to show newly added area
+                    const areasHeight = 156;
+                    this.scrollView.scrollTo({ y: areasHeight * (areasOwned.length - 1)});
+                  }
                   this.setState({ shouldScrollToBottom: false });
                 }
               }}
