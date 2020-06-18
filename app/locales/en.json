@@ -15,9 +15,7 @@
         },
         "export": {
             "manyAreas": "%{count} Areas",
-            "manyAreas_plural": "TRANSLATE_ME",
-            "oneArea": "%{count} Area",
-            "oneArea_plural": "TRANSLATE_ME"
+            "oneArea": "%{count} Area"
         },
         "importedAreas": "Imported Areas",
         "myAreas": "My Areas",
@@ -408,7 +406,6 @@
         "gfw": {
             "add": "Add Layer",
             "allLayers": "All GFW Layers (%{count})",
-            "allLayers_plural": "TRANSLATE_ME",
             "description": "View Description",
             "downloadSubtitle": "Layer data will be downloaded for offline use",
             "downloadTitle": "Download",
@@ -578,11 +575,9 @@
         "export": {
             "description": "How would you like to export this report?",
             "manyReports": "%{count} Reports",
-            "manyReports_plural": "TRANSLATE_ME",
             "navBarButtonText": "Export",
             "noneSelected": "No reports selected",
             "oneReport": "%{count} Report",
-            "oneReport_plural": "TRANSLATE_ME",
             "option": {
                 "asCSV": "Export as CSV...",
                 "asSharingBundle": "Export as sharing bundle..."
@@ -634,9 +629,7 @@
         },
         "export": {
             "manyRoutes": "%{count} Routes",
-            "manyRoutes_plural": "TRANSLATE_ME",
-            "oneRoute": "%{count} Route",
-            "oneRoute_plural": "TRANSLATE_ME"
+            "oneRoute": "%{count} Route"
         },
         "importedRoutes": "Imported Routes",
         "insufficientPermissionsDialogMessage": "We need background location permissions to be able to track your route.",
