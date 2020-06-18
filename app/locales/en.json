@@ -21,10 +21,8 @@
             "description": "How would you like to export this area?",
             "manyAreas": "%{count} Areas",
             "manyAreasAction": "Export %{count} areas...",
-            "manyAreas_plural": "TRANSLATE_ME",
             "noneSelected": "No areas selected",
             "oneArea": "%{count} Area",
-            "oneArea_plural": "TRANSLATE_ME",
             "option": {
                 "asCSV": "Export as CSV..."
             },
@@ -422,7 +420,6 @@
         "gfw": {
             "add": "Add Layer",
             "allLayers": "All GFW Layers (%{count})",
-            "allLayers_plural": "TRANSLATE_ME",
             "description": "View Description",
             "downloadSubtitle": "Layer data will be downloaded for offline use",
             "downloadTitle": "Download",
@@ -598,11 +595,9 @@
         "export": {
             "description": "How would you like to export this report?",
             "manyReports": "%{count} Reports",
-            "manyReports_plural": "TRANSLATE_ME",
             "navBarButtonText": "Export",
             "noneSelected": "No reports selected",
             "oneReport": "%{count} Report",
-            "oneReport_plural": "TRANSLATE_ME",
             "option": {
                 "asCSV": "Export as CSV...",
                 "asSharingBundle": "Export as sharing bundle..."
@@ -655,11 +650,9 @@
         "export": {
             "manyRoutes": "%{count} Routes",
             "manyRoutesAction": "Export %{count} routes...",
-            "manyRoutes_plural": "TRANSLATE_ME",
             "noneSelected": "No routes selected",
             "oneRoute": "%{count} Route",
             "oneRouteAction": "Export %{count} route...",
-            "oneRoute_plural": "TRANSLATE_ME",
             "routeSizeAction": "Export Routes (%{bundleSize})"
         },
         "importedRoutes": "Imported Routes",
