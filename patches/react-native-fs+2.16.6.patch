@@ -1,0 +1,15 @@
+diff --git a/node_modules/react-native-fs/android/src/main/java/com/rnfs/RNFSManager.java b/node_modules/react-native-fs/android/src/main/java/com/rnfs/RNFSManager.java
+index 7aab307..02bb2f0 100755
+--- a/node_modules/react-native-fs/android/src/main/java/com/rnfs/RNFSManager.java
++++ b/node_modules/react-native-fs/android/src/main/java/com/rnfs/RNFSManager.java
+@@ -73,6 +73,10 @@ public class RNFSManager extends ReactContextBaseJavaModule {
+   }
+ 
+   private Uri getFileUri(String filepath, boolean isDirectoryAllowed) throws IORejectionException {
++    // Uri.parse expects encoded filepaths, but RNFS has been written to handle unencoded paths so encode first
++    if (filepath.startsWith("/")) {
++      filepath = Uri.encode(filepath, "/");
++    }
+     Uri uri = Uri.parse(filepath);
+     if (uri.getScheme() == null) {
+       // No prefix, assuming that provided path is absolute path to file

@@ -2,131 +2,47 @@ package com.cube.rnmbtiles
 
 import android.net.Uri
 import android.util.Log
+import fi.iki.elonen.NanoHTTPD
+import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
+import java.io.OutputStream
 import java.io.PrintStream
+import java.io.PrintWriter
 import java.lang.Exception
 import java.net.ServerSocket
 import java.net.Socket
 
-sealed class RNMBTileServerError : Error() {
-    class InvalidQueryParameters : RNMBTileServerError()
-}
-
 // Defines an interface for running a tile server locally.
-object RNMBTileServer: Runnable {
+class RNMBTileServer(
+    val source: RNMBTileSource,
+    port: Int
+): NanoHTTPD(port) {
 
-    // The currently active tile source. This must be set otherwise requests will fail.
-    private var source: RNMBTileSource? = null
+    override fun serve(session: IHTTPSession): Response {
+        Log.d(javaClass.simpleName, "Received request: " + session)
+        val route = session.uri
 
-    // The currently active server.
-    private var serverSocket: ServerSocket? = null
-    var isRunning = false
-
-    // Generates and stores a basemap source, given a path and identifier.
-    fun prepare(basemapId: String, basemapPath: String): RNMBTileMetadata? {
-        try {
-            source = RNMBTileSource(id = basemapId, filePath = basemapPath)
-
-            return source?.metadata
-        } catch (e: Exception) {
-            Log.d(javaClass.simpleName, e.localizedMessage)
-            return null
+        if (route == null || !route.contains(source.id)) {
+            Log.d(javaClass.simpleName, "Unexpected request: ${session}")
+            return newFixedLengthResponse(Response.Status.NOT_FOUND, MIME_PLAINTEXT, "Not found")
         }
-    }
 
-    // Starts the server on a given port.
-    fun startServer(port: Int) {
-        serverSocket = ServerSocket(port)
-        isRunning = true
-        Thread(this).start()
-    }
+        val x = session.parms["x"] ?: return newFixedLengthResponse(Response.Status.BAD_REQUEST, MIME_PLAINTEXT, "Missing X")
+        val y = session.parms["y"] ?: return newFixedLengthResponse(Response.Status.BAD_REQUEST, MIME_PLAINTEXT, "Missing Y")
+        val z = session.parms["z"] ?: return newFixedLengthResponse(Response.Status.BAD_REQUEST, MIME_PLAINTEXT, "Missing Z")
 
-    // Stops the server.
-    fun stopServer() {
-        isRunning = false
-        serverSocket?.close()
-        serverSocket = null
-    }
-
-    override fun run() {
-        try {
-            while (isRunning) {
-                val socket = serverSocket?.accept() ?: throw Error()
-                Log.d(javaClass.simpleName, "request handled start")
-                handle(socket)
-                socket.close()
-                Log.d(javaClass.simpleName, "request handled in while")
-            }
-        } catch (e: Exception) {
-            Log.d(javaClass.simpleName, e.localizedMessage)
-        } finally {
-            Log.d(javaClass.simpleName, "request handled")
+        val bytes = try {
+            source.getTile(z.toInt(), x.toInt(), y.toInt())
+        } catch (ex: RNMBTileSourceException.TileNotFoundException) {
+            Log.d(javaClass.simpleName, "tile error: " + ex.message)
+            return newFixedLengthResponse(Response.Status.NOT_FOUND, MIME_PLAINTEXT, ex.message)
+        } catch (ex: Exception) {
+            Log.d(javaClass.simpleName, "generic error: " + ex.message)
+            return newFixedLengthResponse(Response.Status.INTERNAL_ERROR, MIME_PLAINTEXT, ex.message)
         }
-    }
 
-    @Throws
-    private fun handle(socket: Socket) {
-        socket.getInputStream().reader().buffered().use { reader ->
-            var route: String? = null
-
-            // Read HTTP headers and parse out the route.
-            do {
-                val line = reader.readLine() ?: ""
-                if (line.startsWith("GET")) {
-                    route = line.substringAfter("GET /").substringBefore(" ")
-                    break
-                }
-            } while (!line.isEmpty())
-
-            val sourceId = source?.id ?: return
-
-            if (route?.contains(sourceId) == false) {
-                return
-            }
-
-            val routeUrl = Uri.parse(route)
-
-            // Output stream that we send the response to
-            PrintStream(socket.getOutputStream()).use { stream ->
-                // Prepare the content to send.
-                if (null == route || null == source) {
-                    writeServerError(stream)
-                    return
-                }
-
-                val bytes = loadContent(source, routeUrl)
-
-                // Send out the content.
-                stream.apply {
-                    println("HTTP/1.0 200 OK")
-                    println("Content-Type: " + detectMimeType(source?.format))
-                    println("Content-Length: " + bytes.size)
-                    if (source?.isVector == true) println("Content-Encoding: gzip")
-                    println()
-                    write(bytes)
-                    flush()
-                }
-            }
-        }
-    }
-
-    @Throws
-    private fun loadContent(source: RNMBTileSource?, route: Uri): ByteArray {
-        val z = route.getQueryParameter("z")?.toInt() ?: throw RNMBTileServerError.InvalidQueryParameters()
-        val x = route.getQueryParameter("x")?.toInt() ?: throw RNMBTileServerError.InvalidQueryParameters()
-        val y = route.getQueryParameter("y")?.toInt() ?: throw RNMBTileServerError.InvalidQueryParameters()
-
-        val output = ByteArrayOutputStream()
-        val content = source?.getTile(z, x, y)
-        output.write(content)
-        output.flush()
-
-        return output.toByteArray()
-    }
-
-    private fun writeServerError(output: PrintStream) {
-        output.println("HTTP/1.0 404 File Not Found")
-        output.flush()
+        val mimeType = detectMimeType(source.format)
+        return newFixedLengthResponse(Response.Status.OK, mimeType, ByteArrayInputStream(bytes), bytes.size.toLong())
     }
 
     private fun detectMimeType(format: String?): String = when (format) {

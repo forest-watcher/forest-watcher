@@ -4,7 +4,7 @@ import i18n from 'i18next';
 
 // Using a full regex match for the end of the report name here including data so if user names there area something like SAMS-WIGGLY-REPORT
 // it doesn't intefere with our logic.
-const reportNameRegex = /-([A-Z]+)-REPORT--\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\d/;
+const reportNameRegex = /-([A-Z|]+)-REPORT--\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\d/;
 
 /**
  * Converts a report name, to a readable, localised string
@@ -21,7 +21,10 @@ export function readableNameForReportName(reportName: string): string {
       return i18n.t('report.viirs');
     case 'GLAD':
       return i18n.t('report.glad');
+    case 'GLAD|VIIRS':
+    case 'VIIRS|GLAD':
+      return i18n.t('report.gladAndViirs');
     default:
-      return reportName;
+      return i18n.t('report.custom');
   }
 }

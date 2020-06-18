@@ -4,6 +4,7 @@ import type { ComponentProps, Dispatch, State } from 'types/store.types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import ContextualLayersLayerSettings from 'components/settings/layer-settings/contextual-layers';
+
 import {
   clearEnabledContextualLayers,
   DEFAULT_LAYER_SETTINGS,
@@ -20,15 +21,16 @@ type OwnProps = {|
 
 function mapStateToProps(state: State, ownProps: OwnProps) {
   let baseFiles: Array<ContextualLayer> = state.layers.data || [];
-  const importedGFWLayers = state.layers.imported.filter(layer => layer.isGFW);
+  const importedGFWLayers = state.layers.imported.filter(layer => !layer.isCustom);
   baseFiles = baseFiles.concat(importedGFWLayers);
-  const importedFiles: Array<File> = state.layers.imported.filter(layer => !layer.isGFW);
+  const importedFiles: Array<File> = state.layers.imported.filter(layer => layer.isCustom);
 
   return {
     baseApiLayers: baseFiles,
     featureId: ownProps.featureId,
     contextualLayersLayerSettings:
       state.layerSettings?.[ownProps.featureId]?.contextualLayers || DEFAULT_LAYER_SETTINGS.contextualLayers,
+    downloadProgress: state.layers.downloadedLayerProgress,
     importedContextualLayers: importedFiles
   };
 }

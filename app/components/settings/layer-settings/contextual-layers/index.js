@@ -9,7 +9,7 @@ import ActionButton from 'components/common/action-button';
 import BottomTray from 'components/common/bottom-tray';
 import { Navigation, NavigationButtonPressedEvent } from 'react-native-navigation';
 
-import type { ContextualLayer } from 'types/layers.types';
+import type { ContextualLayer, LayersCacheStatus } from 'types/layers.types';
 import type { LayerSettingsAction } from 'types/layerSettings.types';
 import debounceUI from 'helpers/debounceUI';
 
@@ -28,6 +28,7 @@ type Props = {
   featureId: string,
   clearEnabledContextualLayers: string => LayerSettingsAction,
   contextualLayersLayerSettings: ContextualLayersLayerSettingsType,
+  +downloadProgress: { [id: string]: LayersCacheStatus },
   importedContextualLayers: Array<ContextualLayer>,
   setContextualLayerShowing: (featureId: string, layerId: string, showing: boolean) => LayerSettingsAction
 };
@@ -81,13 +82,15 @@ class ContextualLayersLayerSettings extends PureComponent<Props> {
   });
 
   renderGFWLayers = () => {
-    const { baseApiLayers, contextualLayersLayerSettings } = this.props;
+    const { baseApiLayers, contextualLayersLayerSettings, downloadProgress, featureId } = this.props;
     return (
       <View>
         <View style={styles.listHeader}>
           <Text style={styles.listTitle}>{i18n.t('map.layerSettings.gfwLayers')}</Text>
         </View>
         {baseApiLayers?.map((layer, index) => {
+          const isDownloadedForCurrentFeature = downloadProgress[layer.id]?.[featureId] != null;
+
           const selected = contextualLayersLayerSettings.activeContextualLayerIds.includes(layer.id);
           return (
             <ActionsRow
@@ -96,7 +99,14 @@ class ContextualLayersLayerSettings extends PureComponent<Props> {
               onPress={this.setContextualLayerShowing.bind(this, layer.id, !selected)}
               key={index}
             >
-              <Text style={styles.rowLabel}>{i18n.t(layer.name)}</Text>
+              <View style={{ flexDirection: 'column' }}>
+                <Text style={styles.rowLabel}>{i18n.t(layer.name)}</Text>
+                {!isDownloadedForCurrentFeature && (
+                  <Text style={[styles.rowLabel, styles.onlyAvailableOnlineLabel]}>
+                    {i18n.t(`map.layerSettings.onlyAvailableOnline`)}
+                  </Text>
+                )}
+              </View>
               <Image source={selected ? checkboxOn : checkboxOff} />
             </ActionsRow>
           );

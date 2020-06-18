@@ -45,5 +45,8 @@ export default StyleSheet.create({
     fontFamily: Theme.font,
     color: Theme.fontColors.secondary,
     fontSize: 12
+  },
+  onlyAvailableOnlineLabel: {
+    paddingTop: 16
   }
 });

@@ -21,6 +21,7 @@ import generateUniqueID from 'helpers/uniqueId';
 import { getShareButtonText } from 'helpers/sharing/utils';
 
 import Theme from 'config/theme';
+import { AREA_ROW_TOTAL_HEIGHT } from 'components/common/area-list/styles';
 
 const plusIcon = require('assets/add.png');
 const emptyIcon = require('assets/areasEmpty.png');
@@ -209,6 +210,24 @@ class Areas extends Component<Props, State> {
     });
   });
 
+  onScrollViewContentSizeChange = (areasOwnedLength, areasImportedLength) => {
+    if (areasOwnedLength < 4) {
+      // No need to scroll
+      return;
+    }
+    // GFW-579: Scroll to bottom of scroll view once, after new area added.
+    if (this.state.shouldScrollToBottom) {
+      if (areasImportedLength === 0) {
+        this.scrollView.scrollToEnd();
+      } else {
+        // Scroll to end of My Areas section to show newly added area
+        const areasHeight = AREA_ROW_TOTAL_HEIGHT;
+        this.scrollView.scrollTo({ y: areasHeight * (areasOwnedLength - 2) });
+      }
+      this.setState({ shouldScrollToBottom: false });
+    }
+  };
+
   setAllSelected = (selected: boolean) => {
     const selectedForExport = selected ? this.props.areas.map(area => area.id) : [];
     this.fetchExportSize(selectedForExport);
@@ -297,13 +316,7 @@ class Areas extends Component<Props, State> {
               ref={ref => {
                 this.scrollView = ref;
               }}
-              onContentSizeChange={() => {
-                // GFW-579: Scroll to bottom of scrollview once, after new area added.
-                if (this.state.shouldScrollToBottom) {
-                  this.scrollView.scrollToEnd();
-                  this.setState({ shouldScrollToBottom: false });
-                }
-              }}
+              onContentSizeChange={() => this.onScrollViewContentSizeChange(areasOwned.length, areasImported.length)}
               onStartShouldSetResponder={event => {
                 // If the user taps ANYWHERE set the area download tooltip as seen
                 event.persist();

@@ -24,18 +24,19 @@ import {
 } from 'react-native';
 import * as Sentry from '@sentry/react-native';
 
-import { GFW_CONTEXTUAL_LAYERS_METADATA, REPORTS, MAPS } from 'config/constants';
+import { DATASETS, GFW_CONTEXTUAL_LAYERS_METADATA, REPORTS, MAPS } from 'config/constants';
 import throttle from 'lodash/throttle';
 import toUpper from 'lodash/toUpper';
 import kebabCase from 'lodash/kebabCase';
 import deburr from 'lodash/deburr';
 import moment from 'moment';
+import uniqBy from 'lodash/uniqBy';
 
 import GFWVectorLayer from './gfw-vector-layer';
 import CircleButton from 'components/common/circle-button';
 import BottomDialog from 'components/map/bottom-dialog';
 import LocationErrorBanner from 'components/map/locationErrorBanner';
-import { formatCoordsByFormat, getPolygonBoundingBox } from 'helpers/map';
+import { closestFeature, formatCoordsByFormat, getPolygonBoundingBox } from 'helpers/map';
 import { pathForLayer, pathForMBTilesFile } from 'helpers/layer-store/layerFilePaths';
 import debounceUI from 'helpers/debounceUI';
 import { trackScreenView, type ReportingSource } from 'helpers/analytics';
@@ -49,6 +50,7 @@ import { MBTilesSource } from 'react-native-mbtiles';
 import { initialWindowSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { toFileUri } from 'helpers/fileURI';
+import { vectorTileURLForMapboxURL } from 'helpers/mapbox';
 
 const SafeAreaView = withSafeArea(View, 'margin', 'top');
 const FooterSafeAreaView = withSafeArea(View, 'margin', 'bottom');
@@ -134,7 +136,7 @@ type State = {
   userLocation: ?LocationPoint,
   heading: ?number,
   hasHeadingReadingFromCompass: boolean,
-  selectedAlerts: Array<{ lat: number, long: number }>,
+  selectedAlerts: Array<{ lat: number, long: number, datasetId: ?string }>,
   selectedReports: Array<{ reportName: string, lat: number, long: number }>,
   customReporting: boolean,
   dragging: boolean,
@@ -596,7 +598,7 @@ class MapComponent extends Component<Props, State> {
   });
 
   determineReportingSource = (
-    selectedAlerts: Array<Alert>,
+    selectedAlerts: Array<{ lat: number, long: number, datasetId: ?string }>,
     isRouteTracking: boolean,
     isCustomReporting: boolean
   ): ReportingSource => {
@@ -611,8 +613,28 @@ class MapComponent extends Component<Props, State> {
     return 'currentLocation';
   };
 
+  determineReportingDatasetId = (selectedAlerts: Array<{ lat: number, long: number, datasetId: ?string }>): ?string => {
+    const alertsWithDataset: Array<{ lat: number, long: number, datasetId: ?string }> = selectedAlerts.filter(
+      alert => !!alert.datasetId
+    );
+    if (!alertsWithDataset.length) {
+      return null;
+    }
+    const uniqueDatasetAlerts: Array<{ lat: number, long: number, datasetId: ?string }> = uniqBy(
+      alertsWithDataset,
+      alert => {
+        return alert.datasetId;
+      }
+    );
+    return uniqueDatasetAlerts
+      .map(alert => {
+        return DATASETS[alert.datasetId ?? '']?.reportNameId ?? '';
+      })
+      .join('|');
+  };
+
   createReport = (
-    selectedAlerts: Array<{ lat: number, long: number }>,
+    selectedAlerts: Array<{ lat: number, long: number, datasetId: ?string }>,
     selectedReport: ?{ reportName: string, lat: number, long: number }
   ) => {
     const { area } = this.props;
@@ -663,7 +685,8 @@ class MapComponent extends Component<Props, State> {
 
     const userLatLng =
       this.state.userLocation && `${this.state.userLocation.latitude},${this.state.userLocation.longitude}`;
-    const reportedDataset = area.dataset ? `-${area.dataset.name}` : '';
+    const datasetId = this.determineReportingDatasetId(selectedAlerts);
+    const reportedDataset = datasetId ? `-${datasetId}` : '';
     const areaName = toUpper(kebabCase(deburr(area.name)));
     const reportName = `${areaName}${reportedDataset}-REPORT--${moment().format('YYYY-MM-DDTHH:mm:ss')}`;
     this.props.createReport(
@@ -722,9 +745,10 @@ class MapComponent extends Component<Props, State> {
       return null;
     }
 
-    const tileURLTemplates = layer.url.startsWith('mapbox://') ? null : [layer.url];
+    const layerURL = vectorTileURLForMapboxURL(layer.url) ?? layer.url;
+    const tileURLTemplates = layerURL.startsWith('mapbox://') ? null : [layerURL];
 
-    if (!layer.url.startsWith('mapbox://') && this.props.featureId) {
+    if (!layerURL.startsWith('mapbox://') && this.props.featureId) {
       const layerDownloadProgress = this.props.downloadedLayerCache[layer.id]?.[this.props.featureId];
 
       if (layerDownloadProgress?.completed && !layerDownloadProgress?.error) {
@@ -741,7 +765,7 @@ class MapComponent extends Component<Props, State> {
             id={sourceID}
             maxZoomLevel={layerMetadata.maxZoom}
             minZoomLevel={layerMetadata.minZoom}
-            url={layer.url.startsWith('mapbox://') ? layer.url : null}
+            url={layerURL.startsWith('mapbox://') ? layerURL : null}
             tileUrlTemplates={tileURLTemplates}
           >
             {layerMetadata.vectorMapLayers.map((vectorLayer, index) => {
@@ -797,7 +821,7 @@ class MapComponent extends Component<Props, State> {
     return (
       <React.Fragment>
         {layerFiles.map(layerFile => {
-          return layerFile.isGFW
+          return !layerFile.isCustom
             ? this.renderGFWImportedContextualLayer(layerFile)
             : this.renderCustomImportedContextualLayer(layerFile);
         })}
@@ -983,7 +1007,22 @@ class MapComponent extends Component<Props, State> {
     }
   };
 
+  onAlertPressed = (e: any) => {
+    // if any of the features are a cluster - zoom in on the cluster so items will be moved apart
+    const clusters = e.features.filter(feature => feature.properties?.cluster);
+    if (clusters.length) {
+      this.onClusterPress(clusters[0].geometry?.coordinates);
+      return;
+    }
+    const feature = closestFeature(e.features, e.coordinates);
+    if (!feature) {
+      return;
+    }
+    this.onFeaturePressed(feature.properties);
+  };
+
   onShapeSourcePressed = (e: any) => {
+    // all features *should* be of the same type, as you cannot touch items on different layers.
     let features: Array<Feature> = e.features;
     features = features.map(feature => feature.properties);
     if (features?.length === 1) {
@@ -997,12 +1036,6 @@ class MapComponent extends Component<Props, State> {
       return;
     }
     if (features?.length === 0) {
-      return;
-    }
-    // if any of the features are a cluster - zoom in on the cluster so items will be moved apart
-    const clusters = features.filter(feature => feature.cluster);
-    if (clusters.length) {
-      this.onClusterPress(clusters[0].geometry?.coordinates);
       return;
     }
     // deselect all previously selected items and select all reports and alerts tapped on
@@ -1041,7 +1074,7 @@ class MapComponent extends Component<Props, State> {
 
   onFeaturePressed = (feature: Feature) => {
     // show info banner with feature details
-    const { date, name, type, featureId, cluster, lat, long } = feature;
+    const { date, name, type, featureId, cluster, lat, long, datasetId } = feature;
 
     if (cluster) {
       this.onClusterPress(feature.geometry?.coordinates);
@@ -1051,7 +1084,7 @@ class MapComponent extends Component<Props, State> {
       let selectedAlert, selectedReportFeatureId, infoBannerShowing;
       if (type === 'alert') {
         // need to pass these as strings as they are rounded in onShapeSourcePressed method.
-        selectedAlert = { lat: Number(lat), long: Number(long) };
+        selectedAlert = { lat: Number(lat), long: Number(long), datasetId };
       }
       if (type === 'report') {
         // need to pass these as strings as they are rounded in onShapeSourcePressed method.
@@ -1191,7 +1224,7 @@ class MapComponent extends Component<Props, State> {
             areaId={this.props.area?.id}
             reportedAlerts={this.props.reportedAlerts}
             selectedAlerts={this.state.selectedAlerts}
-            onShapeSourcePressed={this.onShapeSourcePressed}
+            onShapeSourcePressed={this.onAlertPressed}
           />
           <Reports
             featureId={featureId}

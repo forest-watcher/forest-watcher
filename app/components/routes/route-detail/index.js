@@ -2,7 +2,7 @@
 import type { AreasAction } from 'types/areas.types';
 
 import React, { PureComponent } from 'react';
-import { ActionSheetIOS, Alert, AlertIOS, Dimensions, Platform, View, ScrollView } from 'react-native';
+import { ActionSheetIOS, Alert, Dimensions, Platform, View, ScrollView } from 'react-native';
 import moment from 'moment';
 import i18n from 'i18next';
 import DialogAndroid from 'react-native-dialogs';
@@ -118,6 +118,11 @@ export default class RouteDetail extends PureComponent<Props> {
     ];
 
     const dialogItemHandler = idx => {
+      if (idx === dialogItems.length) {
+        // The user has cancelled selection.
+        return;
+      }
+
       const item = dialogItems[idx];
       this.props.updateRoute({
         difficulty: item.value
@@ -165,7 +170,7 @@ export default class RouteDetail extends PureComponent<Props> {
     } else {
       try {
         newName = await new Promise((resolve, reject) => {
-          AlertIOS.prompt(
+          Alert.prompt(
             title,
             message,
             [

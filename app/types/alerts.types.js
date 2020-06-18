@@ -24,7 +24,8 @@ export type AlertDatasetConfig = {
   iconPrefix: string,
   color: string,
   colorRecent: string,
-  colorReported: string
+  colorReported: string,
+  reportNameId: string
 };
 
 export type AlertsState = {

@@ -424,8 +424,12 @@
             "error": "The layer could not be downloaded, check your device storage capacity and internet connection and try again.",
             "onlineTitle": "Online Access Only",
             "onlineSubtitle": "Layer data will only be available when online",
+            "downloaded": "Downloaded",
             "downloadTitle": "Download",
             "downloadSubtitle": "Layer data will be downloaded for offline use",
+            "downloadUnavailableTitle": "Download unavailable",
+            "downloadUnavailableSubtitle": "This layer is only available online",
+            "notYetDownloaded": "Not downloaded",
             "title": "Add GFW Layers",
             "allLayers": "All GFW Layers (%{count})"
         }
@@ -578,6 +582,7 @@
         "answers": "Answers",
         "choosePicture": "Please take or choose a picture",
         "completed": "Completed",
+        "custom": "Custom Report",
         "datePlaceholder": "Select date",
         "delete": "Delete this report",
         "drafts": "Drafts",
@@ -602,6 +607,7 @@
             "successful": "Exporting reports succeeded!"
         },
         "glad": "Deforestation Report",
+        "gladAndViirs": "Deforestation and Fires Report",
         "here": "Report here",
         "imported": "Imported",
         "input": "Please, answer the question",
@@ -820,30 +826,20 @@
     },
     "whatsNew": {
         "areaSize": {
-            "body": "The maximum area size has increased to 20000 sqkm",
+            "body": "The maximum area size has increased to 20,000 square kilometers",
             "title": "Monitor Larger Areas"
         },
-        "deforestationAlerts": {
-            "title": "2019 Deforestation Data"
+        "basemaps": {
+            "body": "Add your own or view more from Global Forest Watch to better understand terrain",
+            "title": "Improved Basemaps"
         },
         "layers": {
             "body": "Add layers from Global Forest Watch or your own for more effective monitoring",
-            "title": "Custom Map Layers"
+            "title": "Improved Contextual Layers"
         },
         "share": {
             "body": "Share areas, routes, layers and more for improved team coordination",
             "title": "Share Content"
-        },
-        "subscriptions": {
-            "title": "View GFW Subscriptions"
-        },
-        "reports": {
-            "body": "Report on what you find on the ground through text and voice recording",
-            "title": "Create Reports"
-        },
-        "routes": {
-            "body": "Easier navigation to alert areas to be investigated",
-            "title": "Record Routes"
         },
         "title": "New in This Version"
     }
