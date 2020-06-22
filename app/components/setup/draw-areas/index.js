@@ -234,13 +234,6 @@ class DrawAreas extends Component {
     );
 
     const { markerLocations, nextPress } = this.state;
-    /*
-    const { contextualLayer } = this.props;
-    const ctxLayerKey =
-      Platform.OS === 'ios' && contextualLayer
-        ? `contextualLayerElement-${contextualLayer.name}`
-        : 'contextualLayerElement';
-    */
 
     return (
       <View style={styles.container}>
@@ -288,12 +281,7 @@ DrawAreas.propTypes = {
     bbox: PropTypes.object,
     centroid: PropTypes.object
   }).isRequired,
-  onDrawAreaFinish: PropTypes.func.isRequired,
-  contextualLayer: PropTypes.shape({
-    id: PropTypes.string,
-    name: PropTypes.string,
-    url: PropTypes.string.isRequired
-  })
+  onDrawAreaFinish: PropTypes.func.isRequired
 };
 
 export default DrawAreas;

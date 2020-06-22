@@ -39,7 +39,6 @@ export type LayersState = {
   data: Array<ContextualLayer>,
   synced: boolean,
   syncing: boolean,
-  activeLayer: ?string,
   syncDate: number,
   layersProgress: LayersProgress,
   cacheStatus: LayersCacheStatus,

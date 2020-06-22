@@ -47,7 +47,6 @@ import { importLayerFile } from 'helpers/layer-store/import/importLayerFile';
 const GET_LAYERS_REQUEST = 'layers/GET_LAYERS_REQUEST';
 const GET_LAYERS_COMMIT = 'layers/GET_LAYERS_COMMIT';
 const GET_LAYERS_ROLLBACK = 'layers/GET_LAYERS_ROLLBACK';
-const SET_ACTIVE_LAYER = 'layers/SET_ACTIVE_LAYER';
 const DOWNLOAD_DATA = 'layers/DOWNLOAD_DATA';
 const CACHE_LAYER_REQUEST = 'layers/CACHE_LAYER_REQUEST';
 const CACHE_LAYER_COMMIT = 'layers/CACHE_LAYER_COMMIT';
@@ -71,7 +70,6 @@ const initialState: LayersState = {
   data: [],
   synced: false,
   syncing: false,
-  activeLayer: null,
   syncDate: Date.now(),
   layersProgress: {}, // saves the progress relative to each area's layer
   cacheStatus: {}, // status of the current area cache
@@ -254,8 +252,6 @@ export default function reducer(state: LayersState = initialState, action: Layer
       });
       return { ...state, cache };
     }
-    case SET_ACTIVE_LAYER:
-      return { ...state, activeLayer: action.payload };
     case CACHE_LAYER_REQUEST: {
       const { dataId, layerId } = action.payload;
       const pendingCache = {
