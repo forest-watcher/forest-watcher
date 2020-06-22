@@ -1,6 +1,6 @@
 // @flow
 import React, { PureComponent } from 'react';
-import { Image, View, ScrollView, Text } from 'react-native';
+import { View, ScrollView, Text } from 'react-native';
 import ActionButton from 'components/common/action-button';
 import BottomTray from 'components/common/bottom-tray';
 import Row from 'components/common/row';

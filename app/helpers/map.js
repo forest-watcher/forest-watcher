@@ -10,7 +10,7 @@ import type { Coordinates, CoordinatesFormat } from 'types/common.types';
 import type { LayersState, ContextualLayer } from 'types/layers.types';
 import { isValidLatLng } from 'helpers/location';
 import { isEmpty, removeNulls } from 'helpers/utils';
-import { GeoJSONObject, point, lineString } from '@turf/helpers';
+import { GeoJSONObject, point, lineString, type Feature } from '@turf/helpers';
 import distanceBetweenCoordinates from '@turf/distance';
 import pointToLineDistance from '@turf/point-to-line-distance';
 import _ from 'lodash';
@@ -18,8 +18,6 @@ import type { Alert } from 'types/alerts.types';
 import type { AlertsIndex } from 'components/map/alerts/dataset';
 import geokdbush from 'geokdbush';
 import geoViewport from '@mapbox/geo-viewport';
-
-import type { Feature } from '@turf/helpers';
 
 const { width, height } = Dimensions.get('window');
 

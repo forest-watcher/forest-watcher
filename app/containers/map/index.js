@@ -10,10 +10,9 @@ import { connect } from 'react-redux';
 import { setSelectedAreaId } from 'redux-modules/areas';
 import { createReport } from 'redux-modules/reports';
 import { discardActiveRoute, getRoutesById, setRouteDestination } from 'redux-modules/routes';
-import { setCanDisplayAlerts, setActiveAlerts } from 'redux-modules/alerts';
+import { setCanDisplayAlerts } from 'redux-modules/alerts';
 import { getImportedContextualLayersById } from 'redux-modules/layers';
 import { trackRouteFlowEvent, trackReportingStarted, type ReportingSource } from 'helpers/analytics';
-import { getContextualLayer } from 'helpers/map';
 import { shouldBeConnected } from 'helpers/app';
 import { getSelectedArea, activeDataset } from 'helpers/area';
 import Map from 'components/map';
@@ -70,14 +69,12 @@ function mapStateToProps(state: State, ownProps: OwnProps) {
     };
   }
   const { cache } = state.layers;
-  const contextualLayer = getContextualLayer(state.layers);
   const route = reconcileRoutes(state.routes.activeRoute, ownProps.previousRoute);
   const allRouteIds = state.routes.previousRoutes.map(item => item.id);
   const featureId = area?.id || route?.id || '';
   const layerSettings = state.layerSettings?.[featureId] || DEFAULT_LAYER_SETTINGS;
 
   return {
-    contextualLayer,
     areaCoordinates,
     isTracking: !!state.routes.activeRoute,
     route,
@@ -93,10 +90,6 @@ function mapStateToProps(state: State, ownProps: OwnProps) {
     canDisplayAlerts: state.alerts.canDisplayAlerts,
     reportedAlerts: state.alerts.reported,
     basemapLocalTilePath: (area && area.id && cache.basemap && cache.basemap[area.id]) || '',
-    ctxLayerLocalTilePath:
-      area && state.layers.activeLayer && cache[state.layers.activeLayer]
-        ? cache[state.layers.activeLayer][area.id]
-        : '',
     mapWalkthroughSeen: state.app.mapWalkthroughSeen
   };
 }
@@ -105,7 +98,6 @@ function mapDispatchToProps(dispatch: Dispatch) {
   return {
     ...bindActionCreators(
       {
-        setActiveAlerts,
         setCanDisplayAlerts,
         setSelectedAreaId
       },

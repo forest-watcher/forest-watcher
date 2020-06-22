@@ -1,6 +1,4 @@
 // @flow
-import { Platform } from 'react-native';
-
 import RNFetchBlob from 'rn-fetch-blob';
 const RNFS = require('react-native-fs');
 

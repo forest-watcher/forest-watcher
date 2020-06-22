@@ -170,10 +170,7 @@ class DrawAreas extends Component {
 
   clearShape = () => {
     this.setState({
-      valid: true,
-      shape: {
-        coordinates: []
-      }
+      valid: true
     });
   };
 
@@ -286,7 +283,6 @@ class DrawAreas extends Component {
 
 DrawAreas.propTypes = {
   basemap: PropTypes.object.isRequired,
-  coordinates: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),
   country: PropTypes.shape({
     iso: PropTypes.string.isRequired,
     bbox: PropTypes.object,

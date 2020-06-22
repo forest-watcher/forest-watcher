@@ -1,7 +1,5 @@
 // @flow
 
-import type { Route } from 'types/routes.types';
-
 import React, { PureComponent } from 'react';
 import { Image, Linking, Platform, RefreshControl, ScrollView, StatusBar, Text, View } from 'react-native';
 import { Navigation } from 'react-native-navigation';
@@ -11,7 +9,6 @@ import debounceUI from 'helpers/debounceUI';
 import { trackMenuButtonPress, trackScreenView } from 'helpers/analytics';
 import i18n from 'i18next';
 import styles from './styles';
-import Theme from 'config/theme';
 import { showWelcomeScreen } from 'screens/common';
 
 const settingsIcon = require('assets/settings.png');
@@ -29,12 +26,10 @@ type Props = {
   appSyncing: boolean,
   refreshing: boolean,
   pristine: boolean,
-  setSelectedAreaId: string => void,
   setPristine: boolean => void,
   setWelcomeScreenSeen: boolean => void,
   updateApp: () => void,
-  showNotConnectedNotification: () => void,
-  activeRoute: ?Route
+  showNotConnectedNotification: () => void
 };
 
 class Dashboard extends PureComponent<Props> {
