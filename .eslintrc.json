@@ -40,7 +40,7 @@
     "babel/no-unused-expressions": "error",
     "consistent-return": "warn",
     "eqeqeq": ["warn", "always", { "null": "ignore" }],
-    "import/no-unused-modules": ["off", {"unusedExports": true}],
+    "import/no-unused-modules": ["off", { "unusedExports": true, "src":  ["./app/"] }],
     "no-console": [
       "error",
       {
