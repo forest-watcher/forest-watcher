@@ -5,7 +5,6 @@ import UtmLatLng from 'utm-latlng';
 import formatcoords from 'formatcoords';
 import i18n from 'i18next';
 import type { Coordinates, CoordinatesFormat } from 'types/common.types';
-import type { LayersState, ContextualLayer } from 'types/layers.types';
 import { isValidLatLng } from 'helpers/location';
 import { isEmpty, removeNulls } from 'helpers/utils';
 import { GeoJSONObject, point, lineString, type Feature } from '@turf/helpers';
@@ -106,13 +105,6 @@ export function cleanGeoJSON(geojson: GeoJSONObject): GeoJSONObject {
     };
   }
   return geojson;
-}
-
-export function getContextualLayer(layers: LayersState): ?ContextualLayer {
-  if (!layers.activeLayer) {
-    return null;
-  }
-  return layers.data.find(layer => layer.id === layers.activeLayer);
 }
 
 export function formatCoordsByFormat(coordinates: Coordinates, format: CoordinatesFormat) {

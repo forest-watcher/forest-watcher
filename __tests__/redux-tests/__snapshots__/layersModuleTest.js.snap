@@ -2,7 +2,6 @@
 
 exports[`Redux Layers Module Initial reducer state 1`] = `
 Object {
-  "activeLayer": null,
   "cache": Object {},
   "cacheStatus": Object {},
   "data": Array [],
@@ -324,7 +323,6 @@ Array [
 
 exports[`Redux Layers Module Redux Snapshot Thunk Actions resetCacheStatus full test 2`] = `
 Object {
-  "activeLayer": null,
   "cache": Object {},
   "cacheStatus": Object {
     "areaIDMock": Object {
@@ -392,7 +390,6 @@ Array [
 
 exports[`Redux Layers Module Redux Snapshot Thunk Actions resetCacheStatus full test 4`] = `
 Object {
-  "activeLayer": null,
   "cache": Object {},
   "cacheStatus": Object {
     "areaIDMock": Object {
@@ -449,7 +446,6 @@ Array [
 
 exports[`Redux Layers Module Redux Snapshot Thunk Actions resetCacheStatus full test 6`] = `
 Object {
-  "activeLayer": null,
   "cache": Object {},
   "cacheStatus": Object {
     "areaIDMock": Object {

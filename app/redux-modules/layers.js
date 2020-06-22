@@ -33,12 +33,7 @@ import { IMPORT_BASEMAP_REQUEST, IMPORT_BASEMAP_PROGRESS, IMPORT_BASEMAP_AREA_CO
 import { DELETE_ROUTE } from 'redux-modules/routes';
 import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 
-import {
-  trackLayersToggled,
-  trackDownloadedContent,
-  trackContentDownloadStarted,
-  trackImportedContent
-} from 'helpers/analytics';
+import { trackDownloadedContent, trackContentDownloadStarted, trackImportedContent } from 'helpers/analytics';
 import { storeTilesFromUrl } from 'helpers/layer-store/storeLayerFiles';
 import deleteLayerFiles from 'helpers/layer-store/deleteLayerFiles';
 
@@ -81,7 +76,7 @@ const initialState: LayersState = {
   downloadedLayerProgress: {} // saves the progress relative to each layer, for every area being downloaded.
 };
 
-export default function reducer(state: LayersState = initialState, action: LayersAction) {
+export default function reducer(state: LayersState = initialState, action: LayersAction): LayersState {
   switch (action.type) {
     case PERSIST_REHYDRATE: {
       // $FlowFixMe
@@ -442,12 +437,11 @@ export default function reducer(state: LayersState = initialState, action: Layer
     }
     case DELETE_LAYER: {
       const layers = state.imported.filter(layer => layer.id !== action.payload);
-      const activeLayer = state.activeLayer === action.payload ? null : state.activeLayer;
 
       const downloadProgress = { ...state.downloadedLayerProgress };
       delete downloadProgress[action.payload];
 
-      return { ...state, imported: layers, activeLayer: activeLayer, downloadedLayerProgress: downloadProgress };
+      return { ...state, imported: layers, downloadedLayerProgress: downloadProgress };
     }
     case LOGOUT_REQUEST:
       deleteLayerFiles()
@@ -491,32 +485,6 @@ export function getUserLayers() {
         }
       }
     });
-  };
-}
-
-export function setActiveContextualLayer(layerId: string, value: boolean) {
-  return (dispatch: Dispatch, getState: GetState) => {
-    let activeLayer = null;
-    const state = getState();
-    const currentActiveLayerId = state.layers.activeLayer;
-    const currentActiveLayer: ?ContextualLayer = state.layers.data?.find(
-      layerData => layerData.id === currentActiveLayerId
-    );
-    if (!value) {
-      if (currentActiveLayer) {
-        trackLayersToggled(currentActiveLayer.name, false);
-      }
-    } else if (layerId !== currentActiveLayerId) {
-      if (currentActiveLayer) {
-        trackLayersToggled(currentActiveLayer.name, false);
-      }
-      activeLayer = layerId;
-      const nextActiveLayer: ?ContextualLayer = state.layers.data?.find(layerData => layerData.id === layerId);
-      if (nextActiveLayer) {
-        trackLayersToggled(nextActiveLayer.name, true);
-      }
-    }
-    return dispatch({ type: SET_ACTIVE_LAYER, payload: activeLayer });
   };
 }
 
