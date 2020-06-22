@@ -19,12 +19,7 @@ import geokdbush from 'geokdbush';
 // Use example
 // const firstPoint = { latitude: -3.097125, longitude: -45.600375 }
 // const points = [{ latitude: -2.337625, longitude: -46.940875 }]
-export function getAllNeighbours(
-  alertsIndex: AlertsIndex,
-  firstPoint: Alert,
-  points: Array<Alert>,
-  distance: number = 0.03
-) {
+function getAllNeighbours(alertsIndex: AlertsIndex, firstPoint: Alert, points: Array<Alert>, distance: number = 0.03) {
   // default distance 30m - alerts are about 27.5m apart on the map (39m diagonally)
   const neighbours: Array<Alert> = [];
 

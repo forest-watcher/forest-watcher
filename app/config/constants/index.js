@@ -13,14 +13,6 @@ export const AREAS = {
   maxSize: 20000000000 // square meters
 };
 
-export const STORAGE = {
-  app: {
-    setup: '@App:setup',
-    tutorial: '@App:tutorial',
-    tutorialVersion: '@App:tutorialVersion'
-  }
-};
-
 export const MAPS = {
   smallPadding: {
     paddingLeft: 20,
@@ -52,7 +44,7 @@ export const LOCATION_TRACKING = {
   notificationIconColor: Theme.colors.white
 };
 
-export const COUNTRIES = {
+const COUNTRIES = {
   nameColumn: {
     en: 'name_engli',
     es: 'name_spani',
@@ -109,11 +101,6 @@ export const DATASETS: { [slug: string]: AlertDatasetConfig } = {
     colorReported: Theme.colors.viirsReported,
     reportNameId: 'VIIRS'
   }
-};
-
-export const GLAD_RECENT_RANGE = {
-  range: 7,
-  measure: 'days'
 };
 
 export const COORDINATES_FORMATS = {
@@ -769,7 +756,7 @@ export const DEFAULT_BASEMAP = GFW_BASEMAPS[0];
 export const ACCEPTED_FILE_TYPES_CONTEXTUAL_LAYERS = ['json', 'geojson', 'topojson', 'gpx', 'zip', 'kmz', 'kml'];
 export const ACCEPTED_FILE_TYPES_BASEMAPS = ['mbtiles'];
 
-export const LAYER_MAX_NAME_LENGTH = 40;
+const LAYER_MAX_NAME_LENGTH = 40;
 
 export const GFW_SIGN_UP_LINK = 'https://www.globalforestwatch.org/my-gfw';
 export const GFW_FORGOT_PASSWORD_LINK = `${Config.API_AUTH}/auth/reset-password`;
@@ -777,7 +764,6 @@ export const GFW_FORGOT_PASSWORD_LINK = `${Config.API_AUTH}/auth/reset-password`
 export default {
   areas: AREAS,
   basemaps: GFW_BASEMAPS,
-  storage: STORAGE,
   maps: MAPS,
   countries: COUNTRIES,
   files: FILES,

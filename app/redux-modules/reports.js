@@ -196,7 +196,7 @@ export default function reducer(state: ReportsState = initialState, action: Repo
 }
 
 // Action Creators
-export function getDefaultReport(): ReportsAction {
+function getDefaultReport(): ReportsAction {
   const url = `${Config.API_URL}/reports/default`;
 
   return {
