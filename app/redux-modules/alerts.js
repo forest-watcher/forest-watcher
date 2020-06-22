@@ -13,7 +13,6 @@ import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 import storeAlertsFromCsv from 'helpers/alert-store/storeAlertsFromCsv';
 import deleteAlerts from 'helpers/alert-store/deleteAlerts';
 
-const SET_CAN_DISPLAY_ALERTS = 'alerts/SET_CAN_DISPLAY_ALERTS';
 export const SET_ACTIVE_ALERTS = 'alerts/SET_ACTIVE_ALERTS';
 const GET_ALERTS_REQUEST = 'alerts/GET_ALERTS_REQUEST';
 export const GET_ALERTS_COMMIT = 'alerts/GET_ALERTS_COMMIT';
@@ -23,7 +22,6 @@ const GET_ALERTS_ROLLBACK = 'alerts/GET_ALERTS_ROLLBACK';
 const initialState = {
   cache: {},
   reported: [],
-  canDisplayAlerts: true,
   syncError: false,
   queue: []
 };
@@ -38,8 +36,6 @@ export default function reducer(state: AlertsState = initialState, action: Alert
     case RETRY_SYNC: {
       return { ...state, syncError: false };
     }
-    case SET_CAN_DISPLAY_ALERTS:
-      return { ...state, canDisplayAlerts: action.payload };
     case CREATE_REPORT: {
       const { selectedAlerts } = action.payload;
       let reported = [...state.reported];
@@ -86,13 +82,6 @@ export default function reducer(state: AlertsState = initialState, action: Alert
 }
 
 // Action Creators
-export function setCanDisplayAlerts(canDisplay: boolean) {
-  return {
-    type: SET_CAN_DISPLAY_ALERTS,
-    payload: canDisplay
-  };
-}
-
 export function setActiveAlerts() {
   return { type: SET_ACTIVE_ALERTS };
 }

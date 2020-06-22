@@ -112,7 +112,6 @@ type Props = {
   isOfflineMode: boolean,
   setCanDisplayAlerts: boolean => AlertsAction,
   reportedAlerts: Array<string>,
-  canDisplayAlerts: boolean,
   featureId: ?string,
   area: ?ReportArea,
   coordinatesFormat: CoordinatesFormat,
@@ -256,11 +255,6 @@ class MapComponent extends Component<Props, State> {
     emitter.on(GFWOnLocationEvent, this.updateLocationFromGeolocation);
 
     this.geoLocate();
-
-    const { setCanDisplayAlerts, canDisplayAlerts } = this.props;
-    if (!canDisplayAlerts) {
-      setCanDisplayAlerts(true);
-    }
 
     this.showMapWalkthroughIfNecessary();
   }
