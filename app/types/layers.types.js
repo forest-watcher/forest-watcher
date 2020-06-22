@@ -77,7 +77,6 @@ export type LayersAction =
   | GetLayersRequest
   | GetLayersCommit
   | GetLayersRollback
-  | SetActiveContextualLayer
   | UpdateProgress
   | CacheLayerRequest
   | CacheLayerCommit
@@ -106,7 +105,6 @@ type GetLayersCommit = {
   meta: { areas: Array<Area> }
 };
 type GetLayersRollback = { type: 'layers/GET_LAYERS_ROLLBACK' };
-type SetActiveContextualLayer = { type: 'layers/SET_ACTIVE_LAYER', payload: ?string };
 
 // For consistency & reuse, the update progress actions use the same payload structure.
 type UpdateProgress = {
