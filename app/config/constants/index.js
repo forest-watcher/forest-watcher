@@ -52,10 +52,6 @@ export const LOCATION_TRACKING = {
   notificationIconColor: Theme.colors.white
 };
 
-export const TILE_SERVERS = {
-  glad: 'http://wri-tiles.s3.amazonaws.com/glad_prod/tiles'
-};
-
 export const COUNTRIES = {
   nameColumn: {
     en: 'name_engli',
@@ -84,13 +80,6 @@ export const STATUS = {
   draft: 'draft',
   complete: 'complete',
   uploaded: 'uploaded'
-};
-
-export const REACH = {
-  WIFI: ['wifi'],
-  MOBILE: ['cellular'],
-  OTHER: ['bluetooth', 'ethernet', 'wimax'],
-  NONE: ['none', 'unknown']
 };
 
 export const DATASETS: { [slug: string]: AlertDatasetConfig } = {
@@ -790,12 +779,10 @@ export default {
   basemaps: GFW_BASEMAPS,
   storage: STORAGE,
   maps: MAPS,
-  tileServers: TILE_SERVERS,
   countries: COUNTRIES,
   files: FILES,
   reports: REPORTS,
   status: STATUS,
-  reach: REACH,
   datasets: DATASETS,
   actionsSavedToReport: ACTIONS_SAVED_TO_REPORT,
   layerMaxNameLength: LAYER_MAX_NAME_LENGTH
