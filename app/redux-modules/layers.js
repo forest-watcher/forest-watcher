@@ -503,6 +503,7 @@ export function setActiveContextualLayer(layerId: string, value: boolean) {
     let activeLayer = null;
     const state = getState();
     const currentActiveLayerId = state.layers.activeLayer;
+    // $FlowFixMe
     const currentActiveLayer: ?ContextualLayer = state.layers.data?.find(
       layerData => layerData.id === currentActiveLayerId
     );
@@ -515,6 +516,7 @@ export function setActiveContextualLayer(layerId: string, value: boolean) {
         trackLayersToggled(currentActiveLayer.name, false);
       }
       activeLayer = layerId;
+      // $FlowFixMe
       const nextActiveLayer: ?ContextualLayer = state.layers.data?.find(layerData => layerData.id === layerId);
       if (nextActiveLayer) {
         trackLayersToggled(nextActiveLayer.name, true);
@@ -902,6 +904,7 @@ export function downloadAreaById(areaId: string) {
 
 export function downloadRouteById(routeId: string) {
   return (dispatch: Dispatch, state: GetState) => {
+    // $FlowFixMe
     const route: ?Route = state().routes.previousRoutes?.find(route => route.id === routeId);
 
     if (!route) {

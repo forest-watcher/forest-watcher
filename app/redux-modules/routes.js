@@ -58,6 +58,7 @@ export const migrateV1RoutesToV2RoutesStructure = (
 
     // If the area cannot be found for the given route, we will set the geostoreId to null,
     // but ensure we update the ID to a unique identifier.
+    // $FlowFixMe
     const geostoreIdForRoute = areas?.find(area => area.id === route.areaId)?.geostore?.id;
 
     return {
