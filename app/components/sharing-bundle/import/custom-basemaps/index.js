@@ -38,7 +38,7 @@ export default class ImportSharingBundleCustomBasemapsScreen extends PureCompone
           }
         ],
         title: {
-          text: i18n.t('importBundle.customItems.title')
+          text: i18n.t('importBundle.customBasemaps.title')
         }
       }
     };

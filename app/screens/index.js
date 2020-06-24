@@ -123,5 +123,3 @@ export function registerScreens(store, Provider) {
   registerComponent('ForestWatcher.Information', Information, Provider, store);
   registerComponent('ForestWatcher.MultipleItems', MultipleItems, Provider, store);
 }
-
-export default registerScreens;

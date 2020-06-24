@@ -37,8 +37,7 @@ type Props = {|
   +exportRoutes: (ids: Array<string>) => Promise<void>,
   +routes: Array<Route>,
   +initialiseAreaLayerSettings: (string, string) => void,
-  +setSelectedAreaId: (areaId: string) => void,
-  +showExportReportsSuccessfulNotification: () => void
+  +setSelectedAreaId: (areaId: string) => void
 |};
 
 type State = {|

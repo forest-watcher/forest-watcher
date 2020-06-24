@@ -1,7 +1,7 @@
 // @flow
 import React, { Component, type Node } from 'react';
 
-import type { Alert, AlertsAction } from 'types/alerts.types';
+import type { AlertsAction } from 'types/alerts.types';
 import type { AreasAction } from 'types/areas.types';
 import type { Basemap } from 'types/basemaps.types';
 import type { Coordinates, CoordinatesFormat } from 'types/common.types';
@@ -9,7 +9,6 @@ import type { Location, LocationPoint, Route } from 'types/routes.types';
 import type { BasicReport, ReportArea } from 'types/reports.types';
 import type { ContextualLayer, LayersCacheStatus } from 'types/layers.types';
 import type { LayerSettings } from 'types/layerSettings.types';
-import type { Feature } from '@turf/helpers';
 
 import {
   Animated,
@@ -79,7 +78,7 @@ import RouteMarkers from 'components/map/route';
 import InfoBanner from 'components/map/info-banner';
 import Alerts from 'components/map/alerts';
 import Reports from 'containers/map/reports';
-import { lineString } from '@turf/helpers';
+import { lineString, type Feature } from '@turf/helpers';
 import { showMapWalkthrough } from 'screens/common';
 
 const emitter = require('tiny-emitter/instance');
@@ -106,7 +105,6 @@ const cancelIcon = require('assets/cancel.png');
 type Props = {
   componentId: string,
   createReport: (BasicReport, ReportingSource) => void,
-  ctxLayerLocalTilePath?: string,
   downloadedLayerCache: { [id: string]: LayersCacheStatus },
   areaCoordinates: ?Array<Coordinates>,
   getImportedContextualLayersById: (Array<string>) => Array<ContextualLayer>, // TODO: This shouldn't be a function
@@ -117,8 +115,6 @@ type Props = {
   canDisplayAlerts: boolean,
   featureId: ?string,
   area: ?ReportArea,
-  setActiveAlerts: () => AlertsAction,
-  contextualLayer: ?ContextualLayer,
   coordinatesFormat: CoordinatesFormat,
   mapWalkthroughSeen: boolean,
   setSelectedAreaId: string => AreasAction,

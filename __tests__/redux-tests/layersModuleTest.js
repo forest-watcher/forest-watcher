@@ -10,7 +10,6 @@ import layerReducer, {
   getUserLayers,
   refreshCacheById,
   resetCacheStatus,
-  setActiveContextualLayer,
   syncLayers
 } from 'redux-modules/layers';
 
@@ -244,20 +243,6 @@ describe('Redux Layers Module', () => {
       newState = mockDispatchAction(newState, resetCacheStatus('areaIDMock'), propertyMatcher);
       newState = mockDispatchAction(newState, downloadAreaById('areaIDMock'), propertyMatcher);
       mockDispatchAction(newState, resetCacheStatus('areaIDMock2'), propertyMatcher);
-    });
-
-    it('setActiveContextualLayer', () => {
-      store.dispatch(setActiveContextualLayer('layerMock', false));
-      store.dispatch(setActiveContextualLayer('layerMock', true));
-      expect(store.getActions()).toMatchSnapshot();
-    });
-
-    it('setActiveContextualLayer full test', () => {
-      const propertyMatcher = { syncDate: expect.any(Number) };
-      let newState = { layers: layerReducer(undefined, { type: 'NONE' }) };
-      newState = mockDispatchAction(newState, setActiveContextualLayer('layerMock', false), propertyMatcher);
-      newState = mockDispatchAction(newState, setActiveContextualLayer('layerMock', true), propertyMatcher);
-      mockDispatchAction(newState, setActiveContextualLayer('layerMock', true), propertyMatcher);
     });
 
     it('syncLayers', () => {

@@ -1,6 +1,4 @@
 // @flow
-import { Platform } from 'react-native';
-
 import RNFetchBlob from 'rn-fetch-blob';
 const RNFS = require('react-native-fs');
 
@@ -92,7 +90,7 @@ export async function readBinaryFile(path: string): Promise<Buffer> {
  * Avoid doing this unless necessary as the loaded file contents are sent over the bridge. Process the
  * data natively where possible.
  */
-export async function readFile(path: string, encoding: 'base64' | 'utf8'): Promise<Buffer> {
+async function readFile(path: string, encoding: 'base64' | 'utf8'): Promise<Buffer> {
   const stream = await RNFetchBlob.fs.readStream(path, encoding);
   return new Promise((resolve, reject) => {
     stream.open();

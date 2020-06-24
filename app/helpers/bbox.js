@@ -36,6 +36,7 @@ export default function bboxesForFWData(areas: Array<Area>, routes: Array<Route>
 /**
  * Returns the minimal bbox enclosing the specified area
  */
+// eslint-disable-next-line import/no-unused-modules
 export function bboxForArea(area: Area): ?BBox2d {
   return area.geostore?.bbox;
 }

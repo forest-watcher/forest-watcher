@@ -20,10 +20,9 @@ import CompassHeading from 'react-native-compass-heading';
 
 export const GFWLocationAuthorizedAlways = BackgroundGeolocation.AUTHORIZED;
 export const GFWLocationAuthorizedInUse = BackgroundGeolocation.AUTHORIZED_FOREGROUND;
-export const GFWLocationUnauthorized = BackgroundGeolocation.NOT_AUTHORIZED;
-export const GFWLocationUndetermined = 99; // This is a fixed constant within BackgroundGeolocation, but not exposed to JS!
+const GFWLocationUnauthorized = BackgroundGeolocation.NOT_AUTHORIZED;
+const GFWLocationUndetermined = 99; // This is a fixed constant within BackgroundGeolocation, but not exposed to JS!
 export const GFWOnLocationEvent = 'gfw_onlocation_event';
-export const GFWOnStationaryEvent = 'gfw_onstationary_event';
 export const GFWOnHeadingEvent = 'gfw_onheading_event';
 export const GFWOnErrorEvent = 'gfw_onerror_event';
 
@@ -121,7 +120,7 @@ async function requestAndroidLocationPermissions(): Promise<boolean> {
 /**
  * Wrapper function around BackgroundGeolocation.getCurrentLocation that turns it from callback-based to promise-based
  */
-export async function getCurrentLocation(): Promise<Location> {
+async function getCurrentLocation(): Promise<Location> {
   const result = await checkLocationStatus();
 
   if (!result.locationServicesEnabled) {
