@@ -256,7 +256,7 @@ export function setLoginAuth(details: { token: string, loggedIn: boolean, social
   };
 }
 
-export function logout(socialNetworkFallback: ?string): Thunk<void> {
+export function logout(socialNetworkFallback: ?string): Thunk<Promise<void>> {
   return async (dispatch: Dispatch, state: GetState) => {
     const { oAuthToken: tokenToRevoke, socialNetwork } = state().user;
     dispatch({ type: LOGOUT_REQUEST });

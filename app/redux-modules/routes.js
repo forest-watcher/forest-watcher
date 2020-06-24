@@ -48,10 +48,10 @@ export const migrateV1RoutesToV2RoutesStructure = (
     return routeState;
   }
 
-  let previousRoutes = [...routeState.previousRoutes];
+  let previousRoutes: Array<Route> = [...routeState.previousRoutes];
 
-  const reconcileRouteDetails = route => {
-    if (!route || !route.areaId) {
+  const reconcileRouteDetails = (route: Route) => {
+    if (!route.areaId) {
       return route;
     }
 
@@ -71,7 +71,7 @@ export const migrateV1RoutesToV2RoutesStructure = (
 
   previousRoutes = previousRoutes.map(reconcileRouteDetails);
 
-  const activeRoute = reconcileRouteDetails(routeState.activeRoute);
+  const activeRoute = routeState.activeRoute ? reconcileRouteDetails(routeState.activeRoute) : undefined;
 
   // Return the new route structure - this has now been migrated!
   return {
