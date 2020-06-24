@@ -16,7 +16,6 @@ node_modules/warning/.*
 .*/Libraries/Utilities/LoadingView.js
 
 ; Ignore react-native-keyboard-aware-scroll-view
-.*/node_modules/react-native-image-picker/.*
 .*/node_modules/react-native-keyboard-aware-scroll-view/.*
 .*/node_modules/react-native-safe-area/.*
 .*/node_modules/react-native-fs/.*
