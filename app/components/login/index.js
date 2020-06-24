@@ -60,7 +60,7 @@ type Props = {
   loading: boolean,
   loggedIn: boolean,
   logSuccess: boolean,
-  logout: (?string) => Thunk<void>,
+  logout: (?string) => Thunk<Promise<void>>,
   facebookLogin: () => Thunk<Promise<void>>,
   googleLogin: () => Thunk<Promise<void>>,
   setLoginAuth: ({

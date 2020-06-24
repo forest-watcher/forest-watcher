@@ -16,8 +16,8 @@ type Props = {
   featureId: string,
   area: ?Area,
   alertLayerSettings: AlertLayerSettingsType,
-  toggleGladAlerts: string => LayerSettingsAction,
-  toggleViirsAlerts: string => LayerSettingsAction,
+  toggleGladAlerts: string => void,
+  toggleViirsAlerts: string => void,
   setGladAlertsTimeFrame: (string, number) => LayerSettingsAction,
   setViirsAlertsTimeFrame: (string, number) => LayerSettingsAction
 };

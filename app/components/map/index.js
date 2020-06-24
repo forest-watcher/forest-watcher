@@ -138,7 +138,7 @@ type State = {
   dragging: boolean,
   layoutHasForceRefreshed: boolean,
   routeTrackingDialogState: number,
-  locationError: null | number,
+  locationError: ?number,
   mapCameraBounds: any,
   mapCenterCoords: ?[number, number],
   animatedPosition: any,
@@ -274,7 +274,7 @@ class MapComponent extends Component<Props, State> {
 
   onLocationUpdateError = (error: ?Error) => {
     this.setState({
-      locationError: error.code
+      locationError: error?.code
     });
   };
 
@@ -677,7 +677,7 @@ class MapComponent extends Component<Props, State> {
       ];
     }
 
-    const source = this.determineReportingSource(selectedAlerts, this.state.isRouteTracking, customReporting);
+    const source = this.determineReportingSource(selectedAlerts, this.isRouteTracking(), customReporting);
 
     const userLatLng =
       this.state.userLocation && `${this.state.userLocation.latitude},${this.state.userLocation.longitude}`;
@@ -748,6 +748,7 @@ class MapComponent extends Component<Props, State> {
       const layerDownloadProgress = this.props.downloadedLayerCache[layer.id]?.[this.props.featureId];
 
       if (layerDownloadProgress?.completed && !layerDownloadProgress?.error) {
+        // $FlowFixMe
         tileURLTemplates?.push(`file:/${pathForLayer('contextual_layer', layer.id)}/{z}x{x}x{y}`);
       }
     }
@@ -764,7 +765,8 @@ class MapComponent extends Component<Props, State> {
             url={layerURL.startsWith('mapbox://') ? layerURL : null}
             tileUrlTemplates={tileURLTemplates}
           >
-            {layerMetadata.vectorMapLayers.map((vectorLayer, index) => {
+            {/* $FlowFixMe */}
+            {layerMetadata.vectorMapLayers?.map((vectorLayer, index) => {
               return (
                 <GFWVectorLayer
                   sourceID={sourceID}
@@ -1104,7 +1106,7 @@ class MapComponent extends Component<Props, State> {
           selectedAlerts = [];
           selectedReports =
             selectedReports?.[0]?.reportName === selectedReportFeatureId
-              ? null
+              ? []
               : [{ reportName: selectedReportFeatureId, lat: Number(lat), long: Number(long) }];
         }
         infoBannerShowing = !!selectedAlerts?.length || !!selectedReports?.length || type === 'route';

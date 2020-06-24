@@ -129,7 +129,7 @@ export default class ImportSharingBundleConfirmScreen extends PureComponent<Prop
         <Text style={styles.bundleContents}>{`${i18n.t('importBundle.importingPrefix')} ${bundleContentsText}`}</Text>
         {this.renderImportType(bundleSize)}
         {this.state.importError && (
-          <Text style={styles.error}>{this.state.importError.message || this.state.importError}</Text>
+          <Text style={styles.error}>{this.state.importError.message ?? this.state.importError}</Text>
         )}
         {isImportEmpty && <Text style={styles.error}>{i18n.t('importBundle.emptyImportError')}</Text>}
       </ScrollView>

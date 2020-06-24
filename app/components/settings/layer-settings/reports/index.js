@@ -1,5 +1,4 @@
 // @flow
-import type { LayerSettingsAction } from 'types/layerSettings.types';
 import React, { PureComponent } from 'react';
 import { View, ScrollView } from 'react-native';
 import styles from './styles';
@@ -21,8 +20,8 @@ type Props = {
   componentId: string,
   featureId: string,
   reportsLayerSettings: ReportsLayerSettingsType,
-  toggleMyReportsLayer: string => LayerSettingsAction,
-  toggleImportedReportsLayer: string => LayerSettingsAction
+  toggleMyReportsLayer: string => void,
+  toggleImportedReportsLayer: string => void
 };
 
 class ReportLayerSettings extends PureComponent<Props> {

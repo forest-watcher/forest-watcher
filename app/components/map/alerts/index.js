@@ -5,7 +5,7 @@ import { View } from 'react-native';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import AlertDataset from 'components/map/alerts/dataset';
 import type { AlertLayerSettingsType } from 'types/layerSettings.types';
-import type { Alert } from 'types/common.types';
+import type { Alert } from 'types/alerts.types';
 
 type Props = {|
   +alertLayerSettings: AlertLayerSettingsType,

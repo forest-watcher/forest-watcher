@@ -40,7 +40,7 @@ type Props = {|
   +templates: {
     +[string]: Template
   },
-  +appLanguage: ?string,
+  +appLanguage: string,
   +getLastStep: string => ?number,
   +showExportReportsSuccessfulNotification: () => void
 |};

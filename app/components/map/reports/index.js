@@ -25,7 +25,7 @@ type Props = {
   onShapeSourcePressed?: () => void
 };
 
-const getReportPosition = (report: Report) => {
+const getReportPosition = (report: Report): [number, number] => {
   let position;
   const clickedPosition = JSON.parse(report.clickedPosition);
   if (clickedPosition?.length) {
@@ -34,12 +34,17 @@ const getReportPosition = (report: Report) => {
       position = [lastClickedPosition.lon, lastClickedPosition.lat];
     }
   }
+
   if (!position) {
-    position = report.userPosition
-      .split(',')
-      .reverse()
-      .map(a => Number(a));
+    const positionValues = report.userPosition.split(',').reverse();
+
+    if (positionValues.length > 2) {
+      throw new Error('3SC - getReportPosition was passed a report with an invalid userPosition string');
+    }
+
+    return positionValues.map(a => Number(a));
   }
+
   return position;
 };
 
@@ -54,8 +59,8 @@ export default class Reports extends Component<Props> {
 
   reportToFeature = (report: Report) => {
     const selected =
-      this.props.selectedReports?.length &&
-      this.props.selectedReports.find(rep => rep.reportName === report.reportName);
+      this.props.selectedReports?.length > 0 &&
+      !!this.props.selectedReports.find(rep => rep.reportName === report.reportName);
     const position = getReportPosition(report);
     const properties = {
       selected,

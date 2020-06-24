@@ -12,10 +12,10 @@ type Props = {
   sourceID: string
 };
 
-type State = {};
+type PaintStyle = { [string]: number | string };
 
-class GFWVectorLayer extends Component<Props, State> {
-  convertPaintToCamelCase = (paint: *): * => {
+class GFWVectorLayer extends Component<Props, {}> {
+  convertPaintToCamelCase = (paint: PaintStyle): PaintStyle => {
     return _.reduce(
       paint,
       function(newDict, val, oldKey) {
