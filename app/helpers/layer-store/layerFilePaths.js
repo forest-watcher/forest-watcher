@@ -1,8 +1,9 @@
 // @flow
+import type { File } from 'types/file.types';
+import type { LayerFile, LayerType } from 'types/sharing.types';
 
 import CONSTANTS from 'config/constants';
 import RNFetchBlob from 'rn-fetch-blob';
-import type { LayerFile, LayerType } from 'types/sharing.types';
 
 /**
  * Delimiter used to separate x, y, and z from a tile filename, e.g. 4x13x7.png
@@ -60,7 +61,7 @@ export function tileForFileName(fileName: string): [number, number, number] {
  * @param {File} file the basemap file reference
  */
 export function directoryForMBTilesFile(file: File): string {
-  return pathForLayerFile({ ...file, type: 'basemap', layerId: file.id, tileXYZ: [0, 0, 0] });
+  return pathForLayerFile({ path: file.path, size: file.size, type: 'basemap', layerId: file.id, tileXYZ: [0, 0, 0] });
 }
 
 /**

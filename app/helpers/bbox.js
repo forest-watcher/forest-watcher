@@ -1,5 +1,7 @@
 // @flow
 
+import type { Area } from 'types/areas.types';
+
 import type { Route, LocationPoint } from 'types/routes.types';
 import turfBbox from '@turf/bbox';
 import {

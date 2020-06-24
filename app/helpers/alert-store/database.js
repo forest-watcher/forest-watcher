@@ -13,7 +13,7 @@ type Schema = {|
   +properties: { [string]: string | { type: string, indexed: boolean } }
 |};
 
-const AlertSchema = {
+const AlertSchema: Schema = {
   name: 'Alert',
   primaryKey: 'id',
   properties: {
@@ -39,7 +39,7 @@ export function generateAlertId(alert: Alert): string {
   return `${alert.areaId}_${alert.slug}_${alert.long}_${alert.lat}_${alert.date}`;
 }
 
-export function initDb(schema: Schema = [AlertSchema]) {
+export function initDb(schema: Array<Schema> = [AlertSchema]) {
   return new Realm({ schema, schemaVersion: SCHEMA_VERSION, migration: migrate });
 }
 
