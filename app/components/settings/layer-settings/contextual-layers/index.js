@@ -83,12 +83,17 @@ class ContextualLayersLayerSettings extends PureComponent<Props> {
 
   renderGFWLayers = () => {
     const { baseApiLayers, contextualLayersLayerSettings, downloadProgress, featureId } = this.props;
+
+    if (!baseApiLayers) {
+      return null;
+    }
+
     return (
       <View>
         <View style={styles.listHeader}>
           <Text style={styles.listTitle}>{i18n.t('map.layerSettings.gfwLayers')}</Text>
         </View>
-        {baseApiLayers?.map((layer, index) => {
+        {baseApiLayers.map((layer, index) => {
           const isDownloadedForCurrentFeature = downloadProgress[layer.id]?.[featureId] != null;
 
           const selected = contextualLayersLayerSettings.activeContextualLayerIds.includes(layer.id);

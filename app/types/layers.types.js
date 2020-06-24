@@ -55,16 +55,21 @@ export type LayersProgress = {
   [string]: { layerId: number }
 };
 
-export type LayersCacheStatus = {
-  [string]: {
-    progress: number,
-    completed: boolean,
-    requested: boolean,
-    error: boolean
-  }
+export type LayerCacheData = {
+  progress: number,
+  completed: boolean,
+  requested: boolean,
+  error: boolean
 };
 
-export type UpdateProgressActionType = 'layers/UPDATE_PROGRESS' | 'layers/IMPORT_LAYER_PROGRESS';
+export type LayersCacheStatus = {
+  [string]: LayerCacheData
+};
+
+export type UpdateProgressActionType =
+  | 'basemaps/IMPORT_BASEMAP_PROGRESS'
+  | 'layers/UPDATE_PROGRESS'
+  | 'layers/IMPORT_LAYER_PROGRESS';
 
 type LayersCache = {
   [string]: { areaId: string }

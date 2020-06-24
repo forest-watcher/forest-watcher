@@ -21,7 +21,7 @@ type Props = {
   componentId: string,
   route: ?Route,
   updateActiveRoute: ($Shape<Route>, string) => void,
-  finishAndSaveRoute: (routeId: string, string) => void
+  finishAndSaveRoute: (routeId: string, string) => Promise<void>
 };
 
 type State = {
@@ -130,14 +130,15 @@ class SaveRoute extends PureComponent<Props, State> {
         <Text style={styles.headingText}>{i18n.t('routes.difficulty').toUpperCase()}</Text>
         <Picker
           selectedValue={this.state.route.difficulty}
-          onValueChange={this.changeRouteDifficulty}
+          // $FlowFixMe
+          onValueChange={value => this.changeRouteDifficulty(value)}
           style={styles.picker}
           itemStyle={{ height: 72 }} // Only for iOS
           mode="dropdown" // Only for Android
         >
-          <Picker.Item label={i18n.t('routes.difficultyLevels.easy')} value={'easy'} style={styles.pickerItem} />
-          <Picker.Item label={i18n.t('routes.difficultyLevels.medium')} value={'medium'} style={styles.pickerItem} />
-          <Picker.Item label={i18n.t('routes.difficultyLevels.hard')} value={'hard'} style={styles.pickerItem} />
+          <Picker.Item label={i18n.t('routes.difficultyLevels.easy')} value={'easy'} />
+          <Picker.Item label={i18n.t('routes.difficultyLevels.medium')} value={'medium'} />
+          <Picker.Item label={i18n.t('routes.difficultyLevels.hard')} value={'hard'} />
         </Picker>
         <ActionButton
           style={styles.actionButton}

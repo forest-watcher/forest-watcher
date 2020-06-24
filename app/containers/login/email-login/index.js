@@ -3,7 +3,7 @@ import type { ComponentProps, Dispatch, State } from 'types/store.types';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { clearEmailLoginError, emailLogin, setLoginAuth } from 'redux-modules/user';
+import { clearEmailLoginError, emailLogin } from 'redux-modules/user';
 import EmailLogin from 'components/login/email-login';
 
 type OwnProps = {|

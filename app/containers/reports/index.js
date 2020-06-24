@@ -40,6 +40,7 @@ export function getReports(reports: ReportsList, areas: Array<Area>, userId: str
 function sortReports(reports: GroupedReports) {
   const sorted = {};
   Object.keys(reports).forEach(status => {
+    // $FlowFixMe
     sorted[status] = reports[status].sort((a, b) => b.date - a.date); // todo: are report dates strings or numbers?
   });
   return sorted;

@@ -1,4 +1,6 @@
 // @flow
+import type { Thunk } from 'types/store.types';
+import type { UserAction } from 'types/user.types';
 
 import React, { Component } from 'react';
 import { View, Image, Text, TextInput, TouchableHighlight, ActivityIndicator, Keyboard } from 'react-native';
@@ -24,9 +26,9 @@ type State = {
 
 type Props = {
   componentId: string,
-  emailLogin: (email: string, password: string) => void,
+  emailLogin: (email: string, password: string) => Thunk<Promise<void>>,
   loginError: ?string,
-  clearEmailLoginError: () => Thunk<void>,
+  clearEmailLoginError: () => UserAction,
   loading: boolean
 };
 
@@ -132,6 +134,7 @@ export default class EmailLogin extends Component<Props, State> {
             placeholderTextColor={Theme.fontColors.secondary}
             returnKeyType={'next'}
             onSubmitEditing={() => {
+              // $FlowFixMe
               this.passwordTextInput?.focus?.();
             }}
             blurOnSubmit={false}

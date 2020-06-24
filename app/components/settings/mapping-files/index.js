@@ -1,8 +1,7 @@
 // @flow
 import type { Basemap } from 'types/basemaps.types';
 import type { LayerType } from 'types/sharing.types';
-import type { ContextualLayer, LayersCacheStatus } from 'types/layers.types';
-
+import type { ContextualLayer, LayersCacheStatus, LayerCacheData } from 'types/layers.types';
 import React, { Component } from 'react';
 import { View, ScrollView, Share, Text } from 'react-native';
 import { Navigation, NavigationButtonPressedEvent } from 'react-native-navigation';
@@ -33,16 +32,16 @@ const icons = {
 
 type Props = {|
   +areaTotal: number,
-  +baseFiles: Array<ContextualLayer> | Array<Basemap>,
+  +baseFiles: Array<ContextualLayer | Basemap>,
   +componentId: string,
-  +deleteMappingFile: (id: string, type: LayerType) => void,
+  +deleteMappingFile: (id: string, type: LayerType) => Promise<void>,
   +downloadProgress: { [id: string]: LayersCacheStatus },
   +exportLayers: (ids: Array<string>) => Promise<void>,
   +importGFWContent: (LayerType, Basemap | ContextualLayer, boolean) => Promise<void>,
-  +importedFiles: Array<ContextualLayer> | Array<Basemap>,
+  +importedFiles: Array<ContextualLayer | Basemap>,
   +mappingFileType: LayerType,
   +offlineMode: boolean,
-  +renameMappingFile: (id: string, type: LayerType, newName: string) => void,
+  +renameMappingFile: (id: string, type: LayerType, newName: string) => Promise<void>,
   +showNotConnectedNotification: () => void
 |};
 
@@ -102,6 +101,7 @@ class MappingFiles extends Component<Props, State> {
 
   componentDidAppear() {
     if (this.scrollToBottomOnAppear) {
+      // $FlowFixMe
       this.scrollView?.scrollToEnd?.({ animated: true });
     }
     this.scrollToBottomOnAppear = false;
@@ -159,6 +159,7 @@ class MappingFiles extends Component<Props, State> {
   onExportFilesTapped = debounceUI(selectedFiles => {
     // TODO: Loading screen while the async function below executed
     this.props.exportLayers(selectedFiles);
+    // $FlowFixMe
     this.shareSheet?.setSharing?.(false);
     this.setSharing(false);
   });
@@ -233,7 +234,7 @@ class MappingFiles extends Component<Props, State> {
     showRenameModal(
       i18n.t(this.i18nKeyFor('rename.title')),
       i18n.t(this.i18nKeyFor('rename.message')),
-      file.name,
+      file.name ?? '',
       i18n.t('commonText.cancel'),
       i18n.t('commonText.confirm'),
       Constants.layerMaxNameLength,
@@ -253,7 +254,7 @@ class MappingFiles extends Component<Props, State> {
   _isShareable = (file: Basemap | ContextualLayer): boolean => {
     if (this.props.mappingFileType === 'basemap') {
       const basemap = ((file: any): Basemap);
-      return basemap.isCustom;
+      return !!basemap.isCustom;
     } else if (this.props.mappingFileType === 'contextual_layer') {
       const layer = ((file: any): ContextualLayer);
       if (layer.isCustom) {
@@ -266,9 +267,15 @@ class MappingFiles extends Component<Props, State> {
   };
 
   onInfoPress = debounceUI((file: Basemap | ContextualLayer) => {
+    const { name } = file;
+
+    if (!name) {
+      return;
+    }
+
     presentInformationModal({
-      title: file.name,
-      body: file.description
+      title: name,
+      body: file.description ?? ''
     });
   });
 
@@ -284,7 +291,7 @@ class MappingFiles extends Component<Props, State> {
       <View>
         <Text style={styles.heading}>{i18n.t(this.i18nKeyFor('gfw'))}</Text>
         {files.map(file => {
-          const fileDownloadProgress = Object.values(downloadProgress[file.id] ?? {});
+          const fileDownloadProgress: Array<LayerCacheData> = Object.values(downloadProgress[file.id] ?? {});
           // If the file is fully downloaded, we should show the refresh icon. Otherwise, we should show the download icon.
           const fileIsFullyDownloaded =
             fileDownloadProgress.filter(area => area.completed && !area.error).length >= areaTotal;
@@ -443,6 +450,7 @@ class MappingFiles extends Component<Props, State> {
 
     return (
       <View style={styles.container}>
+        {/* $FlowFixMe add share in progress title */}
         <ShareSheet
           ref={(ref: ?ShareSheet) => {
             this.shareSheet = ref;

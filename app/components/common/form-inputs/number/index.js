@@ -11,7 +11,7 @@ import styles from '../styles';
 type Props = {
   question: Question,
   answer: Answer,
-  onChange: string => void
+  onChange: Answer => void
 };
 
 function InputNumber(props: Props) {

@@ -51,6 +51,7 @@ export default class AreaList extends Component<Props> {
               disableSettingsButton={this.props.sharing || (index === 0 && downloadCalloutVisible)}
               onSettingsPress={() => onAreaSettingsPress(area.id, area.name)}
               imageSrc={area.image}
+              // $FlowFixMe
               selected={this.props.sharing ? this.props.selectionState?.includes?.(area.id) : null}
               title={area.name}
               style={styles.row}

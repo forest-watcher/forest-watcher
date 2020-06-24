@@ -62,15 +62,15 @@ class AlertLayerSettings extends PureComponent<Props> {
     }
   };
 
-  onGladAlertsTimeFrameChanged = value => {
+  onGladAlertsTimeFrameChanged = (value: number) => {
     this.props.setGladAlertsTimeFrame(this.props.featureId, value);
   };
 
-  onViirsAlertsTimeFrameChanged = value => {
+  onViirsAlertsTimeFrameChanged = (value: number) => {
     this.props.setViirsAlertsTimeFrame(this.props.featureId, value);
   };
 
-  getGladTimeFrameOptions: Options = () => {
+  getGladTimeFrameOptions = (): Options => {
     return DATASETS.umd_as_it_happens.filterThresholdOptions.map(value => {
       return {
         value,
@@ -82,7 +82,7 @@ class AlertLayerSettings extends PureComponent<Props> {
     });
   };
 
-  getViirsTimeFrameOptions: Options = () => {
+  getViirsTimeFrameOptions = (): Options => {
     return DATASETS.viirs.filterThresholdOptions.map(value => {
       return {
         value,

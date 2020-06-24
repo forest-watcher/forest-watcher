@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import React, { Component, type Node } from 'react';
 
 import { Animated, Dimensions, View, Text } from 'react-native';
 import styles, { arrowWidth } from './styles';
@@ -11,13 +11,26 @@ import Svg, { Path } from 'react-native-svg';
 type Props = {
   above?: ?boolean,
   offset?: ?number,
-  body: string,
-  children: React.Node,
+  body: ?string,
+  children: Array<Node> | Node,
   containerWidth?: ?number,
   margin?: ?number,
-  title: string,
-  visible: boolean,
+  title: ?string,
+  visible: ?boolean,
   width?: ?number
+};
+
+type Layout = {
+  height: number,
+  width: number,
+  x: number,
+  y: number
+};
+
+type State = {
+  childLayout: ?Layout,
+  layout: ?Layout,
+  opacity: Animated.Value
 };
 
 const DEFAULT_MARGIN = 12;
@@ -27,8 +40,8 @@ const SCREEN_WIDTH = Dimensions.get('window').width;
 const ARROW_SVG_PATH_UP = 'M0 12 L0 10 C2 10 6 0 8 0 S14 10 16 10 L16 12';
 const ARROW_SVG_PATH_DOWN = 'M0 0 L0 2 C2 2 6 12 8 12 S14 2 16 2 L16 0';
 
-export default class Callout extends Component<Props> {
-  constructor(props) {
+export default class Callout extends Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = {
       childLayout: null,
@@ -37,13 +50,13 @@ export default class Callout extends Component<Props> {
     };
   }
 
-  onChildLayout = event => {
+  onChildLayout = (event: { nativeEvent: { layout: Layout } }) => {
     this.setState({
       childLayout: event.nativeEvent.layout
     });
   };
 
-  onLayout = event => {
+  onLayout = (event: { nativeEvent: { layout: Layout } }) => {
     if (event.nativeEvent.layout.height !== this.state.layout?.height) {
       this.setState({
         layout: event.nativeEvent.layout
@@ -51,7 +64,7 @@ export default class Callout extends Component<Props> {
     }
   };
 
-  shouldComponentUpdate(nextProps, nextState) {
+  shouldComponentUpdate(nextProps: Props, nextState: State) {
     const isVisible = this.props.visible;
     const shouldBeVisible = nextProps.visible;
 
@@ -59,7 +72,8 @@ export default class Callout extends Component<Props> {
       Animated.timing(this.state.opacity, {
         toValue: 0,
         delay: 0,
-        duration: 200
+        duration: 200,
+        useNativeDriver: true
       }).start();
     }
 
@@ -67,7 +81,8 @@ export default class Callout extends Component<Props> {
       Animated.timing(this.state.opacity, {
         toValue: 1,
         delay: 0,
-        duration: 200
+        duration: 200,
+        useNativeDriver: true
       }).start();
     }
 

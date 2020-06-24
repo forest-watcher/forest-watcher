@@ -14,6 +14,7 @@ import ImportMappingFileRename from 'components/settings/mapping-files/import/re
 type OwnProps = {|
   +componentId: string,
   mappingFileType: LayerType,
+  onImported: () => void,
   file: File
 |};
 

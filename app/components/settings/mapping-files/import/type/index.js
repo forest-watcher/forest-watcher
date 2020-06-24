@@ -120,8 +120,9 @@ class ImportMappingFileType extends PureComponent<Props, State> {
   });
 
   verifyImportedFile = async (file: File) => {
+    // $FlowFixMe
     const fileExtension = file.name
-      ?.split('.')
+      .split('.')
       ?.pop()
       ?.toLowerCase();
 

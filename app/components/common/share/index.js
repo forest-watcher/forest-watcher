@@ -64,30 +64,41 @@ export default class ShareSelector extends Component<Props, State> {
     });
   };
 
+  onEditingToggled = (value: boolean) => {
+    // $FlowFixMe
+    this.props.onEditingToggled?.(value);
+  };
+
+  onSharingToggled = (value: boolean) => {
+    // $FlowFixMe
+    this.props.onSharingToggled?.(value);
+  };
+
   navigationButtonPressed({ buttonId }: NavigationButtonPressedEvent) {
     if (buttonId === KEY_EXPORT_DONE) {
       this.setEditing(false);
       this.setSharing(false);
       // Call this separately so we don't end up with recursion if someone calls `setSharing` by referencing this component
-      this.props.onSharingToggled?.(false);
-      this.props.onEditingToggled?.(false);
+      this.onSharingToggled(false);
+      this.onEditingToggled(false);
     }
   }
 
   onClickEdit = () => {
     this.setEditing(true);
     // Call this separately so we don't end up with recursion if someone calls `setEditing` by referencing this component
-    this.props.onEditingToggled?.(true);
+    this.onEditingToggled(true);
   };
 
   onClickShare = () => {
     this.setSharing(true);
     // Call this separately so we don't end up with recursion if someone calls `setSharing` by referencing this component
-    this.props.onSharingToggled?.(true);
+    this.onSharingToggled(true);
   };
 
   onToggleAllSelected = () => {
     const anySelected = this.props.selected > 0;
+    // $FlowFixMe
     this.props.onToggleAllSelected?.(!anySelected);
   };
 

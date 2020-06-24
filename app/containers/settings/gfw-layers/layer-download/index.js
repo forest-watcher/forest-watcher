@@ -12,7 +12,8 @@ import type { ContextualLayer, LayersCacheStatus } from 'types/layers.types';
 type OwnProps = {|
   +componentId: string,
   downloadProgress: ?LayersCacheStatus,
-  layer: ContextualLayer
+  layer: ContextualLayer,
+  popToComponentId: string
 |};
 
 function mapStateToProps(state: State, ownProps: OwnProps) {

@@ -4,6 +4,7 @@ import type { Answer } from 'types/reports.types';
 import React, { Component } from 'react';
 import { Text, View, Image, TouchableHighlight, Alert } from 'react-native';
 import Config from 'react-native-config';
+import ImagePicker from 'react-native-image-picker';
 
 import ImageCard from 'components/common/image-card';
 import i18n from 'i18next';
@@ -11,7 +12,6 @@ import Theme from 'config/theme';
 
 import styles from './styles';
 
-import ImagePicker from 'react-native-image-picker';
 import { storeReportFiles } from 'helpers/report-store/storeReportFiles';
 import deleteReportFiles from 'helpers/report-store/deleteReportFiles';
 import { pathForReportQuestionAttachment } from 'helpers/report-store/reportFilePaths';

@@ -71,20 +71,26 @@ export default class RouteDetail extends PureComponent<Props> {
   }
 
   openRouteOnMap = debounceUI(() => {
+    const { route } = this.props;
+
+    if (!route) {
+      return;
+    }
+
     // Testing against a mocked route? You must provide your own area id here!
-    this.props.setSelectedAreaId(this.props.route.areaId);
+    this.props.setSelectedAreaId(route.areaId);
     Navigation.push(this.props.componentId, {
       component: {
         name: 'ForestWatcher.Map',
         options: {
           topBar: {
             title: {
-              text: this.props.route.name
+              text: route.name
             }
           }
         },
         passProps: {
-          previousRoute: this.props.route
+          previousRoute: route
         }
       }
     });
@@ -154,7 +160,7 @@ export default class RouteDetail extends PureComponent<Props> {
   onEditNamePress = debounceUI(async () => {
     const title = i18n.t('commonText.name');
     const message = null;
-    const placeholder = this.props.route.name ?? '';
+    const placeholder = this.props.route?.name ?? '';
     let newName = null;
 
     if (Platform.OS === 'android') {
@@ -206,7 +212,9 @@ export default class RouteDetail extends PureComponent<Props> {
       return null;
     }
 
-    const routeData = [{ label: [i18n.t('commonText.name')], value: [route.name], onEditPress: this.onEditNamePress }];
+    const routeData: Array<{ id: string, label: string, value: Array<string>, onEditPress?: () => void }> = [
+      { id: 'name', label: i18n.t('commonText.name'), value: [route.name], onEditPress: this.onEditNamePress }
+    ];
 
     const showLocations = route.locations?.length;
     if (showLocations) {
@@ -217,21 +225,27 @@ export default class RouteDetail extends PureComponent<Props> {
         coordinatesFormat
       )}`;
       const locationEnd = `${i18n.t('routes.locationEnd')} ${formatCoordsByFormat(lastLocation, coordinatesFormat)}`;
-      routeData.push({ label: [i18n.t('routes.location')], value: [locationStart, locationEnd] });
+      routeData.push({ id: 'location', label: i18n.t('routes.location'), value: [locationStart, locationEnd] });
 
       const routeDistance = getDistanceOfPolyline(route.locations);
-      routeData.push({ label: [i18n.t('routes.distance')], value: [formatDistance(routeDistance, 1, false)] });
+      routeData.push({
+        id: 'distance',
+        label: i18n.t('routes.distance'),
+        value: [formatDistance(routeDistance, 1, false)]
+      });
     }
 
     routeData.push(
-      { label: [i18n.t('commonText.date')], value: [moment(route.endDate).format('ll')] },
+      { id: 'date', label: i18n.t('commonText.date'), value: [moment(route.endDate).format('ll')] },
       {
-        label: [i18n.t('routes.difficulty')],
-        value: [i18n.t(`routes.difficultyLevels.${route.difficulty}`)],
+        id: 'difficult',
+        label: i18n.t('routes.difficulty'),
+        value: i18n.t(`routes.difficultyLevels.${route.difficulty}`),
         onEditPress: this.onEditDifficultyPress
       },
       {
-        label: [i18n.t('routes.duration')],
+        id: 'duration',
+        label: i18n.t('routes.duration'),
         value: [moment.duration(moment(route.endDate).diff(moment(route.startDate))).humanize()] // todo: format this correctly to be days, hours, minutes.
       }
     );
@@ -252,10 +266,11 @@ export default class RouteDetail extends PureComponent<Props> {
           {routeData.map((data, i) =>
             data.value?.[0] ? (
               <AnswerComponent
+                questionId={data.id}
                 question={data.label}
                 answers={data.value}
                 key={i}
-                readOnly={!data.onEditPress}
+                readOnly={data.onEditPress == null}
                 onEditPress={data.onEditPress}
               />
             ) : null

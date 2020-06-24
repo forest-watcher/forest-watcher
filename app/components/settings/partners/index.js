@@ -16,7 +16,7 @@ const jgiLogo = require('assets/jgi_logo.png');
 const gfwLogo = require('assets/gfw_logo.png');
 const vizzualityLogo = require('assets/vizzuality_logo.png');
 
-class Partners extends Component {
+class Partners extends Component<{}> {
   static options(passProps: {}) {
     return {
       topBar: {
@@ -26,6 +26,9 @@ class Partners extends Component {
       }
     };
   }
+
+  partners: Array<{ text: string, image: number, url: string, functionOnPress: string => void }>;
+
   constructor() {
     super();
     this.partners = [
@@ -66,7 +69,7 @@ class Partners extends Component {
     trackScreenView('Partners');
   }
 
-  handleLink = url => {
+  handleLink = (url: string) => {
     Linking.openURL(url);
   };
 

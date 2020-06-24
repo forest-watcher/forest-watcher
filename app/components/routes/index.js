@@ -23,7 +23,6 @@ import DataCacher from 'containers/common/download';
 import { formatDistance, getDistanceOfPolyline } from 'helpers/map';
 import Theme, { isSmallScreen } from 'config/theme';
 
-import exportFileManifest from 'helpers/sharing/exportFileManifest';
 import calculateBundleSize from 'helpers/sharing/calculateBundleSize';
 import generateUniqueID from 'helpers/uniqueId';
 import { getShareButtonText } from 'helpers/sharing/utils';
@@ -184,6 +183,7 @@ export default class Routes extends PureComponent<Props, State> {
     this.setState({
       creatingArchive: false
     });
+    // $FlowFixMe
     this.shareSheet?.setSharing?.(false);
     this.setSharing(false);
   });
