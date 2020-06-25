@@ -64,7 +64,7 @@ export default class RouteMarkers extends PureComponent<Props, State> {
   fetchRouteLocations = () => {
     getValidLocations((locations, error) => {
       if (error) {
-        // todo: handle error
+        console.warn('3SC', 'route', `fetchRouteLocations returned an error ${error}`);
         return;
       }
 
