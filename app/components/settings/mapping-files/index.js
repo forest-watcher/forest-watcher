@@ -18,7 +18,7 @@ import { trackScreenView } from 'helpers/analytics';
 import styles from './styles';
 import MappingFileRow from 'components/settings/mapping-files/mapping-file-row';
 import showRenameModal from 'helpers/showRenameModal';
-import { presentInformationModal } from 'screens/common';
+import { presentInformationModal, showFAQSection } from 'screens/common';
 
 const plusIcon = require('assets/add.png');
 const icons = {
@@ -394,7 +394,9 @@ class MappingFiles extends Component<Props, State> {
           actionTitle={i18n.t(this.i18nKeyFor('empty.action'))}
           body={i18n.t(this.i18nKeyFor('empty.body'))}
           icon={icons[this.props.mappingFileType].empty}
-          onActionPress={() => {}}
+          onActionPress={() => {
+            showFAQSection(this.props.componentId, i18n.t('settings.aboutFAQ'));
+          }}
           title={i18n.t(this.i18nKeyFor('empty.title'))}
         />
       </View>
