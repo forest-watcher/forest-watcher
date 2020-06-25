@@ -7,7 +7,6 @@ import type { Basemap } from 'types/basemaps.types';
 import type { Coordinates, CoordinatesFormat } from 'types/common.types';
 import type { Location, LocationPoint, Route } from 'types/routes.types';
 import type { BasicReport, ReportArea } from 'types/reports.types';
-import type { LayersCacheStatus } from 'types/layers.types';
 import type { LayerSettings } from 'types/layerSettings.types';
 
 import {
