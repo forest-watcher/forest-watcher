@@ -92,7 +92,7 @@ class Sync extends Component<Props> {
         monochrome
         noIcon
         style={styles.button}
-        onPress={retrySync} // TODO: retry again
+        onPress={retrySync}
         text={i18n.t('sync.tryAgain').toUpperCase()}
       />
     );

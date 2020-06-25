@@ -631,7 +631,6 @@ class MapComponent extends Component<Props, State> {
     const { userLocation, customReporting, mapCenterCoords } = this.state;
 
     if (!area) {
-      // TODO: How to handle null area?
       console.warn('3SC', 'Cannot create a report without an area');
       return;
     }

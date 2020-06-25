@@ -138,11 +138,9 @@ export function mapFormToAnsweredQuestions(
       answer: getAnswerValues(question, answer)
     };
 
-    const hasChild = answer.child && answer.child !== null;
-    const childMatchCondition =
-      hasChild && question.childQuestion && answer.value === question.childQuestion.conditionalValue;
-    if (childMatchCondition) {
-      const questionName = answer.child?.questionName ?? ''; // TODO: Is this how we want to handle null question names?
+    const childMatchCondition = question.childQuestion && answer.value === question.childQuestion.conditionalValue;
+    if (!!answer.child && childMatchCondition) {
+      const questionName = answer.child.questionName;
       const childQuestion = questions[questionName];
       return [
         answeredQuestion,
