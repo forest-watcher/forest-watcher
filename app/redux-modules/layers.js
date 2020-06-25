@@ -42,7 +42,6 @@ import { importLayerFile } from 'helpers/layer-store/import/importLayerFile';
 const GET_LAYERS_REQUEST = 'layers/GET_LAYERS_REQUEST';
 const GET_LAYERS_COMMIT = 'layers/GET_LAYERS_COMMIT';
 const GET_LAYERS_ROLLBACK = 'layers/GET_LAYERS_ROLLBACK';
-const SET_ACTIVE_LAYER = 'layers/SET_ACTIVE_LAYER';
 const DOWNLOAD_DATA = 'layers/DOWNLOAD_DATA';
 const CACHE_LAYER_REQUEST = 'layers/CACHE_LAYER_REQUEST';
 const CACHE_LAYER_COMMIT = 'layers/CACHE_LAYER_COMMIT';
@@ -66,7 +65,6 @@ const initialState: LayersState = {
   data: [],
   synced: false,
   syncing: false,
-  activeLayer: null,
   syncDate: Date.now(),
   layersProgress: {}, // saves the progress relative to each area's layer
   cacheStatus: {}, // status of the current area cache
@@ -78,7 +76,7 @@ const initialState: LayersState = {
   downloadedLayerProgress: {} // saves the progress relative to each layer, for every area being downloaded.
 };
 
-export default function reducer(state: LayersState = initialState, action: LayersAction) {
+export default function reducer(state: LayersState = initialState, action: LayersAction): LayersState {
   switch (action.type) {
     case PERSIST_REHYDRATE: {
       // $FlowFixMe
@@ -249,8 +247,6 @@ export default function reducer(state: LayersState = initialState, action: Layer
       });
       return { ...state, cache };
     }
-    case SET_ACTIVE_LAYER:
-      return { ...state, activeLayer: action.payload };
     case CACHE_LAYER_REQUEST: {
       const { dataId, layerId } = action.payload;
       const pendingCache = {
@@ -441,12 +437,11 @@ export default function reducer(state: LayersState = initialState, action: Layer
     }
     case DELETE_LAYER: {
       const layers = state.imported.filter(layer => layer.id !== action.payload);
-      const activeLayer = state.activeLayer === action.payload ? null : state.activeLayer;
 
       const downloadProgress = { ...state.downloadedLayerProgress };
       delete downloadProgress[action.payload];
 
-      return { ...state, imported: layers, activeLayer: activeLayer, downloadedLayerProgress: downloadProgress };
+      return { ...state, imported: layers, downloadedLayerProgress: downloadProgress };
     }
     case LOGOUT_REQUEST:
       deleteLayerFiles()
