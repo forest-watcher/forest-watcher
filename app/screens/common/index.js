@@ -77,3 +77,18 @@ export function showMapWalkthrough() {
     }
   });
 }
+
+export function showFAQSection(parentComponentId: string, title: string) {
+  Navigation.push(parentComponentId, {
+    component: {
+      name: 'ForestWatcher.FaqCategories',
+      options: {
+        topBar: {
+          title: {
+            text: title
+          }
+        }
+      }
+    }
+  });
+}
