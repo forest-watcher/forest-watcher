@@ -10,7 +10,6 @@ import { connect } from 'react-redux';
 import { setSelectedAreaId } from 'redux-modules/areas';
 import { createReport } from 'redux-modules/reports';
 import { discardActiveRoute, getRoutesById, setRouteDestination } from 'redux-modules/routes';
-import { setCanDisplayAlerts } from 'redux-modules/alerts';
 import { getImportedContextualLayersById } from 'redux-modules/layers';
 import { trackRouteFlowEvent, trackReportingStarted, type ReportingSource } from 'helpers/analytics';
 import { shouldBeConnected } from 'helpers/app';
@@ -87,7 +86,6 @@ function mapStateToProps(state: State, ownProps: OwnProps) {
     isConnected: shouldBeConnected(state),
     isOfflineMode: state.app.offlineMode,
     coordinatesFormat: state.app.coordinatesFormat,
-    canDisplayAlerts: state.alerts.canDisplayAlerts,
     reportedAlerts: state.alerts.reported,
     basemapLocalTilePath: (area && area.id && cache.basemap && cache.basemap[area.id]) || '',
     mapWalkthroughSeen: state.app.mapWalkthroughSeen
@@ -98,7 +96,6 @@ function mapDispatchToProps(dispatch: Dispatch) {
   return {
     ...bindActionCreators(
       {
-        setCanDisplayAlerts,
         setSelectedAreaId
       },
       dispatch
