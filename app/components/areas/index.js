@@ -43,7 +43,8 @@ type State = {|
   +bundleSize: number | typeof undefined,
   +creatingArchive: boolean,
   +selectedForExport: Array<string>,
-  +inShareMode: boolean
+  +inShareMode: boolean,
+  +shouldScrollToBottom: ?boolean
 |};
 
 class Areas extends Component<Props, State> {
@@ -67,6 +68,7 @@ class Areas extends Component<Props, State> {
   }
 
   fetchId: ?string;
+  scrollView: ?any;
   shareSheet: any;
 
   constructor(props: Props) {
@@ -210,7 +212,7 @@ class Areas extends Component<Props, State> {
     });
   });
 
-  onScrollViewContentSizeChange = (areasOwnedLength, areasImportedLength) => {
+  onScrollViewContentSizeChange = (areasOwnedLength: number, areasImportedLength: number) => {
     if (areasOwnedLength < 4) {
       // No need to scroll
       return;
@@ -218,11 +220,13 @@ class Areas extends Component<Props, State> {
     // GFW-579: Scroll to bottom of scroll view once, after new area added.
     if (this.state.shouldScrollToBottom) {
       if (areasImportedLength === 0) {
-        this.scrollView.scrollToEnd();
+        // $FlowFixMe
+        this.scrollView?.scrollToEnd();
       } else {
         // Scroll to end of My Areas section to show newly added area
         const areasHeight = AREA_ROW_TOTAL_HEIGHT;
-        this.scrollView.scrollTo({ y: areasHeight * (areasOwnedLength - 2) });
+        // $FlowFixMe
+        this.scrollView?.scrollTo({ y: areasHeight * (areasOwnedLength - 2) });
       }
       this.setState({ shouldScrollToBottom: false });
     }

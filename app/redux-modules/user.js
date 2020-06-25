@@ -1,4 +1,5 @@
 // @flow
+import type { LoginProvider } from 'types/app.types';
 import type { Dispatch, GetState, Thunk } from 'types/store.types';
 import type { UserState, UserAction } from 'types/user.types';
 
@@ -198,7 +199,7 @@ export function facebookLogin() {
   };
 }
 
-export function emailLogin(email: string, password: string) {
+export function emailLogin(email: string, password: string): Thunk<Promise<void>> {
   return async (dispatch: Dispatch) => {
     try {
       dispatch({ type: SET_LOGIN_LOADING, payload: true });
@@ -239,11 +240,11 @@ export function emailLogin(email: string, password: string) {
   };
 }
 
-export function clearEmailLoginError() {
+export function clearEmailLoginError(): UserAction {
   return { type: CLEAR_EMAIL_LOGIN_ERROR };
 }
 
-export function setLoginAuth(details: { token: string, loggedIn: boolean, socialNetwork: string }): UserAction {
+export function setLoginAuth(details: { token: string, loggedIn: boolean, socialNetwork: LoginProvider }): UserAction {
   const { token, loggedIn, socialNetwork } = details;
   return {
     type: SET_LOGIN_AUTH,
@@ -255,7 +256,7 @@ export function setLoginAuth(details: { token: string, loggedIn: boolean, social
   };
 }
 
-export function logout(socialNetworkFallback: ?string): Thunk<void> {
+export function logout(socialNetworkFallback: ?string): Thunk<Promise<void>> {
   return async (dispatch: Dispatch, state: GetState) => {
     const { oAuthToken: tokenToRevoke, socialNetwork } = state().user;
     dispatch({ type: LOGOUT_REQUEST });

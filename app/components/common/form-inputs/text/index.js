@@ -15,7 +15,7 @@ type State = {
 type Props = {
   question: Question,
   answer: Answer,
-  onChange: string => void
+  onChange: Answer => void
 };
 
 class InputTextCustom extends React.PureComponent<Props, State> {

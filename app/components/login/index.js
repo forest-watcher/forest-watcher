@@ -1,7 +1,8 @@
 // @flow
-
+import type { LoginProvider } from 'types/app.types';
 import type { Thunk } from 'types/store.types';
 import type { UserAction } from 'types/user.types';
+
 import React, { PureComponent } from 'react';
 import {
   ActivityIndicator,
@@ -59,12 +60,12 @@ type Props = {
   loading: boolean,
   loggedIn: boolean,
   logSuccess: boolean,
-  logout: (?string) => Thunk<void>,
+  logout: (?string) => Thunk<Promise<void>>,
   facebookLogin: () => Thunk<Promise<void>>,
   googleLogin: () => Thunk<Promise<void>>,
   setLoginAuth: ({
     token: string,
-    socialNetwork: string,
+    socialNetwork: LoginProvider,
     loggedIn: boolean
   }) => UserAction
 };
@@ -74,7 +75,7 @@ type State = {
   webviewVisible: boolean,
   webViewUrl: string,
   webViewCurrentUrl: string,
-  socialNetwork: ?('email' | 'facebook' | 'twitter' | 'google'),
+  socialNetwork: ?LoginProvider,
   versionName: string
 };
 
@@ -143,6 +144,7 @@ class Login extends PureComponent<Props, State> {
       console.warn('3SC login error: no social network property');
       return;
     }
+
     const parsedUrl = parseUrl(this.state.webViewCurrentUrl, true);
     if (
       parsedUrl.origin === Config.API_AUTH &&
@@ -151,13 +153,14 @@ class Login extends PureComponent<Props, State> {
     ) {
       this.props.setLoginAuth({
         token: parsedUrl.query.token,
+        // $FlowFixMe
         socialNetwork: this.state.socialNetwork,
         loggedIn: true
       });
     }
   };
 
-  onPress = debounceUI((socialNetwork: string) => {
+  onPress = debounceUI((socialNetwork: LoginProvider) => {
     this.setState({ socialNetwork });
 
     if (socialNetwork === 'email') {
@@ -180,7 +183,7 @@ class Login extends PureComponent<Props, State> {
       twitter: this.webViewProvider
     }[socialNetwork];
 
-    provider(socialNetwork);
+    provider();
   });
 
   onNavigationStateChange = (navState: { url: string, title: string }) => {
@@ -212,7 +215,7 @@ class Login extends PureComponent<Props, State> {
     });
   };
 
-  webViewProvider = (socialNetwork: string) => {
+  webViewProvider = (socialNetwork: LoginProvider = 'twitter') => {
     const callbackUrl = `${Config.API_AUTH}${Config.API_AUTH_CALLBACK_PATH}`;
     const url = `${Config.API_AUTH}/auth/${socialNetwork}?token=true&callbackUrl=${callbackUrl}`;
     this.setState({

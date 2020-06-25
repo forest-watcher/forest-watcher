@@ -1,6 +1,7 @@
 // @flow
+import type { ViewStyle } from 'types/reactElementStyles.types';
 
-import React, { Component } from 'react';
+import React, { Component, type Node } from 'react';
 
 import {
   View,
@@ -24,9 +25,6 @@ const checkboxOn = require('assets/checkbox_on.png');
 const radioOn = require('assets/radio_button.png');
 const downloadIcon = require('assets/download.png');
 
-type ViewProps = React.ElementProps<typeof View>;
-type ViewStyleProp = $PropertyType<ViewProps, 'style'>;
-
 type Legend = {
   color: string,
   title: string
@@ -36,7 +34,7 @@ type Props = {
   disabled?: boolean,
   disableSettingsButton?: ?string | ?boolean,
   disableStyleSettingsButton?: boolean,
-  downloadCalloutBody?: ?boolean,
+  downloadCalloutBody?: ?string,
   downloadCalloutVisible?: ?boolean,
   downloadCalloutTitle?: ?string,
   downloadVisible?: ?boolean,
@@ -51,11 +49,11 @@ type Props = {
   onIconPress?: () => void,
   onSettingsPress?: ?() => void,
   useRadioIcon?: ?boolean,
-  renderImageChildren?: (?void) => React.Node,
+  renderImageChildren?: (?void) => Node,
   selected?: ?boolean,
   settingsTitle?: ?string,
   smallerVerticalPadding?: ?boolean,
-  style?: ?ViewStyleProp,
+  style?: ?ViewStyle,
   subtitle?: ?string,
   title: string,
   backgroundImageResizeMode?: ?string
@@ -102,7 +100,7 @@ export default class VerticalSplitRow extends Component<Props> {
         activeOpacity={0.5}
         disabled={!this.props.onPress && !this.props.onIconPress}
         underlayColor="transparent"
-        onPress={!this.props.disabled && this.props.onPress}
+        onPress={!this.props.disabled ? this.props.onPress : null}
         style={this.props.style}
       >
         <View style={styles.item}>
@@ -151,13 +149,14 @@ export default class VerticalSplitRow extends Component<Props> {
               <SettingsButton
                 title={this.props.settingsTitle}
                 disabledStyle={this.props.disableStyleSettingsButton}
-                disabled={this.props.disableSettingsButton || this.props.onSettingsPress == null}
+                disabled={!!this.props.disableSettingsButton || this.props.onSettingsPress == null}
                 onPress={this.props.onSettingsPress}
                 style={styles.settingsButton}
               />
             )}
-            {this.props.legend?.length && (
+            {(this.props.legend?.length ?? 0) > 0 && (
               <View style={styles.legendContainer}>
+                {/* $FlowFixMe */}
                 {this.props.legend?.map(item => {
                   return (
                     <React.Fragment key={item.title}>

@@ -128,7 +128,7 @@ export default class ImportSharingBundleStartScreen extends PureComponent<Props,
 
     if (!bundle) {
       if (this.state.error) {
-        return <Text style={styles.error}>{this.state.error.message || this.state.error}</Text>;
+        return <Text style={styles.error}>{this.state.error.message ?? this.state.error}</Text>;
       }
       return <ActivityIndicator style={{ flex: 1 }} size={'large'} color={Theme.colors.turtleGreen} />;
     }

@@ -14,16 +14,17 @@ import Theme from 'config/theme';
 
 const nextIcon = require('assets/next.png');
 
-type AlertItem = {
+export type AlertItem = {
   date: number,
   type: 'alert',
   name: string,
   featureId: string,
   lat: string,
-  long: string
+  long: string,
+  imported: boolean
 };
 
-type ReportItem = {
+export type ReportItem = {
   date: number,
   type: 'report',
   name: string,
@@ -135,7 +136,7 @@ export default class MultipleItems extends PureComponent<Props, null> {
     });
   }
 
-  renderSection(type: 'alert' | 'report', title: string, features: Array<ReportItem>) {
+  renderSection(type: 'alert' | 'report', title: string, features: Array<AlertItem | ReportItem>) {
     if (features.length === 0) {
       return null;
     }

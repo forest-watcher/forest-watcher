@@ -107,11 +107,9 @@ class ImportMappingFileRename extends PureComponent<Props, State> {
 
     const nameAlreadyTaken = !!matchingFile;
 
+    const nameLength = this.state.file.name?.length ?? 0;
     return {
-      valid:
-        !nameAlreadyTaken &&
-        this.state.file.name.length > 0 &&
-        this.state.file.name.length <= Constants.layerMaxNameLength,
+      valid: !nameAlreadyTaken && nameLength > 0 && nameLength <= Constants.layerMaxNameLength,
       alreadyTaken: nameAlreadyTaken
     };
   };

@@ -1,7 +1,6 @@
 // @flow
 import type { Basemap } from 'types/basemaps.types';
 import type { LayerType } from 'types/sharing.types';
-import type { File } from 'types/file.types';
 import type { ContextualLayer } from 'types/layers.types';
 import type { ComponentProps, Dispatch, State } from 'types/store.types';
 
@@ -33,7 +32,7 @@ function mapStateToProps(state: State, ownProps: OwnProps) {
     const importedGFWLayers = state.layers.imported.filter(layer => !layer.isCustom);
     baseFiles = baseFiles.concat(importedGFWLayers);
   }
-  const importedFiles: Array<File> =
+  const importedFiles: Array<Basemap | ContextualLayer> =
     ownProps.mappingFileType === 'contextual_layer'
       ? state.layers.imported.filter(layer => layer.isCustom)
       : state.basemaps.importedBasemaps;

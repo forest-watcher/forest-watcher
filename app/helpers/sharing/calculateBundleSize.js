@@ -56,6 +56,7 @@ export function calculateImportBundleSize(bundle: SharingBundle, request: Import
     reports: request.reports ? bundle.reports : [],
     routes: request.routes ? bundle.routes : [],
     templates: request.reports ? bundle.templates : {},
+    timestamp: bundle.timestamp,
     version: bundle.version
   };
   const metaSize = JSON.stringify(filteredBundle).length; // really rough approximation of the bundle data file size

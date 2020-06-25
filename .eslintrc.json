@@ -26,29 +26,17 @@
     },
     "sourceType": "module"
   },
-  "plugins": [
-    "babel",
-    "flowtype",
-    "import",
-    "prettier",
-    "promise",
-    "react",
-    "react-native"
-  ],
+  "plugins": ["babel", "flowtype", "import", "prettier", "promise", "react", "react-native"],
   "rules": {
     "array-callback-return": "warn",
     "babel/no-unused-expressions": "error",
     "consistent-return": "warn",
     "eqeqeq": ["warn", "always", { "null": "ignore" }],
-    "import/no-unused-modules": ["warn", { "unusedExports": true, "src":  ["./app/"] }],
+    "import/no-unused-modules": "off",
     "no-console": [
       "error",
       {
-        "allow": [
-          "warn",
-          "error",
-          "info"
-        ]
+        "allow": ["warn", "error", "info"]
       }
     ],
     "no-duplicate-imports": "warn",
@@ -91,16 +79,8 @@
     "import/resolver": {
       "babel-module": {},
       "node": {
-        "extensions": [
-          ".android.js",
-          ".ios.js",
-          ".js",
-          ".jsx"
-        ],
-        "moduleDirectory": [
-          "node_modules",
-          "app"
-        ]
+        "extensions": [".android.js", ".ios.js", ".js", ".jsx"],
+        "moduleDirectory": ["node_modules", "app"]
       }
     },
     "react": {

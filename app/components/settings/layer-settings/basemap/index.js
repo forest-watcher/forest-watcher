@@ -71,7 +71,7 @@ class BasemapLayerSettings extends PureComponent<Props> {
                   this.selectBasemap(basemap);
                 }}
                 title={i18n.t(`basemaps.names.` + basemap.name)}
-                subtitle={disabled && i18n.t(`map.layerSettings.onlyAvailableOnline`)}
+                subtitle={disabled ? i18n.t(`map.layerSettings.onlyAvailableOnline`) : null}
                 selected={this.props.activeBasemapId === basemap.id}
                 imageSrc={basemap.image || basemapPlaceholder}
                 useRadioIcon

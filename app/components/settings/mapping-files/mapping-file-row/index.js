@@ -49,7 +49,7 @@ type Props = {
   layer: ContextualLayer | Basemap,
   layerType: LayerType,
   onDeletePress: () => void,
-  onDownloadPress?: ?() => void,
+  onDownloadPress?: ?() => void | Promise<void>,
   onPress?: ?() => void,
   onInfoPress?: () => void,
   onRenamePress?: () => void,
@@ -167,7 +167,8 @@ export default class MappingFileRow extends Component<Props, State> {
   render() {
     const { layer, layerType, downloaded, downloading } = this.props;
 
-    const titleKey = layerType === 'basemap' && !layer.isCustom ? `basemaps.names.${layer.name}` : layer.name;
+    const titleKey =
+      layerType === 'basemap' && !layer.isCustom && layer.name ? `basemaps.names.${layer.name}` : layer.name;
     const title = i18n.t(titleKey);
 
     const subtitle =
@@ -177,7 +178,7 @@ export default class MappingFileRow extends Component<Props, State> {
           : downloaded
           ? i18n.t('importLayer.gfw.downloaded')
           : i18n.t('importLayer.gfw.notYetDownloaded')
-        : this.state.sizeInBytes !== null
+        : this.state.sizeInBytes != null
         ? formatBytes(this.state.sizeInBytes)
         : '';
 
@@ -186,7 +187,7 @@ export default class MappingFileRow extends Component<Props, State> {
     return (
       <View style={styles.item}>
         <View style={styles.imageContainer}>
-          {image && <ImageBackground resizeMode={'cover'} style={styles.image} source={image} />}
+          {image != null && <ImageBackground resizeMode={'cover'} style={styles.image} source={image} />}
         </View>
         <View style={styles.contentContainer}>
           <Text numberOfLines={2} style={styles.title}>

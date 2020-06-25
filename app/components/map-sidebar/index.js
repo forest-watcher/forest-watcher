@@ -225,7 +225,13 @@ class MapSidebar extends PureComponent<Props, State> {
         >
           <Text style={styles.heading}>{i18n.t('map.layerSettings.layersHeading')}</Text>
           <VerticalSplitRow
-            onIconPress={() => this.props.toggleAlertsLayer(featureId)}
+            onIconPress={() => {
+              if (!featureId) {
+                return;
+              }
+
+              this.props.toggleAlertsLayer(featureId);
+            }}
             onSettingsPress={this.openAlertLayerSettings}
             title={i18n.t('map.layerSettings.alerts')}
             settingsTitle={this.getAlertsSettingsTitle(layerSettings)}
@@ -238,7 +244,13 @@ class MapSidebar extends PureComponent<Props, State> {
             largerLeftPadding
           />
           <VerticalSplitRow
-            onIconPress={() => this.props.toggleRoutesLayer(featureId)}
+            onIconPress={() => {
+              if (!featureId) {
+                return;
+              }
+
+              this.props.toggleRoutesLayer(featureId);
+            }}
             onSettingsPress={this.openRoutesLayerSettings}
             title={i18n.t('map.layerSettings.routes')}
             settingsTitle={this.getRoutesSettingsTitle(layerSettings)}
@@ -251,7 +263,13 @@ class MapSidebar extends PureComponent<Props, State> {
             largerLeftPadding
           />
           <VerticalSplitRow
-            onIconPress={() => this.props.toggleReportsLayer(featureId)}
+            onIconPress={() => {
+              if (!featureId) {
+                return;
+              }
+
+              this.props.toggleReportsLayer(featureId);
+            }}
             onSettingsPress={this.openReportsLayerSettings}
             title={i18n.t('map.layerSettings.reports')}
             settingsTitle={this.getReportSettingsTitle(layerSettings)}
@@ -264,7 +282,13 @@ class MapSidebar extends PureComponent<Props, State> {
             largerLeftPadding
           />
           <VerticalSplitRow
-            onIconPress={() => this.props.toggleContextualLayersLayer(featureId)}
+            onIconPress={() => {
+              if (!featureId) {
+                return;
+              }
+
+              this.props.toggleContextualLayersLayer(featureId);
+            }}
             onSettingsPress={this.openContextualLayersLayerSettings}
             title={i18n.t('map.layerSettings.contextualLayers')}
             settingsTitle={this.getContextualLayersSettingsTitle(layerSettings)}

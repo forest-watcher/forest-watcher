@@ -39,6 +39,8 @@ export default class FaqCategories extends Component<Props> {
     };
   }
 
+  categories: Array<FAQCategory>;
+
   constructor(props: Props) {
     super(props);
     this.categories = [
@@ -115,7 +117,7 @@ export default class FaqCategories extends Component<Props> {
                   <Text style={styles.rowTitleLabel}>{category.title}</Text>
                   <Text style={styles.rowSubtitleLabel}>
                     {i18n.t(
-                      category.questions.count === 1
+                      category.questions.length === 1
                         ? 'faq.categories.questionCountSingular'
                         : 'faq.categories.questionCountPlural',
                       { count: category.questions.length }

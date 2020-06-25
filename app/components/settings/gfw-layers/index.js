@@ -77,7 +77,7 @@ class GFWLayers extends PureComponent<Props, State> {
     const localisedSortedLayers = GFW_CONTEXTUAL_LAYERS.map(layer => {
       return {
         ...layer,
-        name: i18n.t(`layers.${layer.name}`)
+        name: i18n.t(`layers.${layer.name ?? ''}`)
       };
     }).sort((layerA, layerB) => {
       const nameA = layerA.name.toUpperCase();

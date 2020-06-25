@@ -182,6 +182,7 @@ export default class Routes extends PureComponent<Props, State> {
     this.setState({
       creatingArchive: false
     });
+    // $FlowFixMe
     this.shareSheet?.setSharing?.(false);
     this.setSharing(false);
   });

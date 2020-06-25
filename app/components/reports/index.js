@@ -40,7 +40,7 @@ type Props = {|
   +templates: {
     +[string]: Template
   },
-  +appLanguage: ?string,
+  +appLanguage: string,
   +getLastStep: string => ?number,
   +showExportReportsSuccessfulNotification: () => void
 |};
@@ -242,6 +242,7 @@ class Reports extends PureComponent<Props, State> {
 
       // Show 'export successful' notification, and reset export state to reset UI.
       this.props.showExportReportsSuccessfulNotification();
+      // $FlowFixMe
       this.shareSheet?.setSharing?.(false);
       this.setState({
         creatingArchive: false,
@@ -320,14 +321,6 @@ class Reports extends PureComponent<Props, State> {
    */
   renderReports(data: Array<Report>, image: any, onPress: string => void): any {
     return data.map((item: Report, index: number) => {
-      let positionParsed = '';
-      if (item.position) {
-        const latLng = item.position.split(',');
-        if (latLng && latLng.length > 1) {
-          positionParsed = `${parseFloat(latLng[0]).toFixed(4)}, ${parseFloat(latLng[1]).toFixed(4)}`;
-        }
-      }
-
       let icon = image;
       const position = 'center';
 
@@ -353,7 +346,6 @@ class Reports extends PureComponent<Props, State> {
           <View style={styles.listItem}>
             <Text style={styles.itemTitle}>{title}</Text>
             {item.area?.name && <Text style={styles.itemText}>{item.area.name}</Text>}
-            {item.position && <Text style={styles.itemText}>{positionParsed}</Text>}
             <Text style={styles.itemText}>{dateParsed}</Text>
             <Text style={styles.itemText}>{timeSinceParsed}</Text>
           </View>

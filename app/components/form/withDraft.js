@@ -78,6 +78,7 @@ function withDraft(WrappedComponent: any) {
     };
 
     navigationButtonPressed(event) {
+      // $FlowFixMe
       super.navigationButtonPressed?.bind(this)?.(event);
       if (event.buttonId === 'draft') {
         this.onPressDraft();

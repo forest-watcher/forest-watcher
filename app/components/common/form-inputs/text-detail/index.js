@@ -12,7 +12,7 @@ import detailStyles from './styles';
 
 type State = {
   value: string,
-  inputHeight: number
+  inputHeight: Animated.Value
 };
 
 type Props = {
@@ -55,7 +55,7 @@ class InputTextDetail extends Component<Props, State> {
   }
 
   setVisibility(visible: boolean) {
-    Animated.spring(this.state.inputHeight, { toValue: visible ? this.height : 0 }).start();
+    Animated.spring(this.state.inputHeight, { toValue: visible ? this.height : 0, useNativeDriver: false }).start();
   }
 
   render() {

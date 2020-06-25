@@ -11,7 +11,7 @@ type Props = {
   ...ElementConfig<typeof TouchableHighlight>,
   // greyed out state is used to reinforce that something is not currently visible on the map, but the button is not disabled!
   disabledStyle?: boolean,
-  title?: string
+  title: ?string
 };
 
 const settingsCogIcon = require('assets/settings_cog.png');
@@ -29,6 +29,7 @@ class SettingsButton extends Component<Props> {
 
     return (
       <View style={styles.margins}>
+        {/* $FlowFixMe */}
         <Touchable
           style={[styles.container, this.props.style]}
           onPress={onPress}

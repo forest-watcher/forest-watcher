@@ -1,5 +1,4 @@
 // @flow
-import type { AppAction } from 'types/app.types';
 import type { TextStyle } from 'types/reactElementStyles.types';
 
 import React, { Component } from 'react';
@@ -15,14 +14,15 @@ import i18n from 'i18next';
 
 const nextIcon = require('assets/next.png');
 
-type Option = { label?: string, labelKey: string, value: string };
+type OptionValue = string | number;
+type Option = { label?: string, labelKey: string, value: OptionValue };
 
 type Props = {
   description: ?string,
   label: string,
   labelStyle?: TextStyle,
-  selectedValue: string,
-  onValueChange: string => AppAction,
+  selectedValue: OptionValue,
+  onValueChange: OptionValue => void,
   options: Array<Option>,
   inactive?: ?boolean,
   hideLabel?: boolean
@@ -42,10 +42,11 @@ export default class Dropdown extends Component<Props> {
   }
 
   onDismissActionSheet = () => {
+    // $FlowFixMe
     this.actionSheet?.setModalVisible(false);
   };
 
-  onSelectedOption = (value: string) => {
+  onSelectedOption = (value: OptionValue) => {
     this.props.onValueChange(value);
   };
 
@@ -53,6 +54,8 @@ export default class Dropdown extends Component<Props> {
     if (this.props.inactive) {
       return;
     }
+
+    // $FlowFixMe
     this.actionSheet?.setModalVisible();
   };
 
@@ -64,7 +67,7 @@ export default class Dropdown extends Component<Props> {
       label: option.label ?? i18n.t(option.labelKey)
     }));
     const selectedLabel =
-      optionsWithLabel.find((option: Option) => option.value === selectedValue)?.label ?? selectedValue;
+      optionsWithLabel.find((option: Option) => option.value === selectedValue)?.label ?? `${selectedValue}`;
     const rowStyle = [styles.dropdownRow, this.props.inactive ? styles.inactiveDropdownRow : {}];
     return (
       <Row opacity={this.props.inactive ? 0.2 : 0.5} action={this.showActionSheetAction} rowStyle={rowStyle}>
@@ -104,7 +107,7 @@ export default class Dropdown extends Component<Props> {
                         rowStyle={styles.optionRow}
                         style={styles.optionRowContainer}
                       >
-                        <View style={[styles.switch, option.value === selectedValue ? styles.switchOn : ' ']}>
+                        <View style={[styles.switch, option.value === selectedValue ? styles.switchOn : null]}>
                           {option.value === selectedValue && <View style={styles.switchInterior} />}
                         </View>
                         <Text style={styles.smallLabel}>{option.label ?? ''}</Text>

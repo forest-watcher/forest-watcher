@@ -15,6 +15,7 @@ import { DATASETS } from 'config/constants';
 import { getNeighboursSelected } from 'helpers/map';
 import kdbush from 'kdbush';
 
+// eslint-disable-next-line import/no-unused-modules
 export type AlertsIndex = {|
   +ids: Array<number>,
   +coords: Array<number>,
@@ -23,13 +24,16 @@ export type AlertsIndex = {|
 |};
 
 type AlertProperties = {|
+  lat: string,
+  long: string,
   type: 'alert',
   clusterId: 'reported' | 'recent' | 'other',
   datasetId: string,
   name: string,
   date: number,
   icon: string,
-  reported: boolean
+  reported: boolean,
+  selected: boolean
 |};
 
 type Props = {|
@@ -43,10 +47,16 @@ type Props = {|
   +timeframeUnit: 'days' | 'months'
 |};
 
-type State = {|
+type FeatureCollectionState = {|
   +recentAlerts: FeatureCollection<Point>,
   +reportedAlerts: FeatureCollection<Point>,
   +otherAlerts: FeatureCollection<Point>
+|};
+
+type State = {|
+  ...FeatureCollectionState,
+  +alertsIndex: ?AlertsIndex,
+  +alertsFromDb: Array<Alert>
 |};
 
 /**
@@ -67,7 +77,7 @@ export default class AlertDataset extends PureComponent<Props, State> {
       recentAlerts: featureCollection([]),
       reportedAlerts: featureCollection([]),
       otherAlerts: featureCollection([]),
-      alertsIndex: {},
+      alertsIndex: null,
       alertsFromDb: []
     };
 
@@ -99,7 +109,7 @@ export default class AlertDataset extends PureComponent<Props, State> {
       this.props.selectedAlerts !== prevProps.selectedAlerts ||
       this.props.reportedAlerts !== prevProps.reportedAlerts
     ) {
-      if (this.state.alertsFromDb && this.state.alertsIndex?.nodeSize) {
+      if (this.state.alertsFromDb && this.state.alertsIndex && this.state.alertsIndex.nodeSize) {
         // if alerts are already cached - only refresh alert properties
         const updatedAlertState = this._createFeaturesForAlerts(this.state.alertsFromDb, this.state.alertsIndex);
 
@@ -207,7 +217,7 @@ export default class AlertDataset extends PureComponent<Props, State> {
     return iconName;
   };
 
-  _createFeaturesForAlerts = (alerts: Array<Alert>, alertsIndex: AlertsIndex): State => {
+  _createFeaturesForAlerts = (alerts: Array<Alert>, alertsIndex: AlertsIndex): FeatureCollectionState => {
     const selectedNeighbours = getNeighboursSelected(alertsIndex, this.props.selectedAlerts, alerts);
     const alertFeatures = alerts.map((alert: Alert) => {
       const properties = this._getAlertProperties(alert, selectedNeighbours);

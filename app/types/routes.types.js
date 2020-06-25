@@ -5,6 +5,7 @@ export type RouteState = {
   routeStructureVersion?: string
 };
 
+// eslint-disable-next-line import/no-unused-modules
 export type RouteDifficulty = 'easy' | 'medium' | 'hard';
 
 export type Route = {

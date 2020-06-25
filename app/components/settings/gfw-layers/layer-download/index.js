@@ -1,12 +1,13 @@
 // @flow
+import type { ContextualLayer, LayersCacheStatus } from 'types/layers.types';
+import type { LayerType } from 'types/sharing.types';
+import type { Thunk } from 'types/store.types';
+
 import React, { PureComponent } from 'react';
 import { View, ScrollView, Text } from 'react-native';
 import ActionButton from 'components/common/action-button';
 import BottomTray from 'components/common/bottom-tray';
 import Row from 'components/common/row';
-
-import type { ContextualLayer, LayersCacheStatus } from 'types/layers.types';
-import type { LayerType } from 'types/sharing.types';
 
 import i18n from 'i18next';
 import styles from './styles';
@@ -25,18 +26,19 @@ type Props = {
     layer: ContextualLayer,
     onlyNonDownloadedAreas: boolean,
     downloadLayer: boolean
-  ) => Promise<void>,
+  ) => Thunk<Promise<void>>,
   componentId: string,
   downloadProgress: ?LayersCacheStatus,
   layer: ContextualLayer,
   +offlineMode: boolean,
   popToComponentId: string,
-  +showNotConnectedNotification: () => void
+  +showNotConnectedNotification: () => Thunk<void>
 };
 
 type State = {
   download: boolean,
-  downloading: boolean
+  downloading: boolean,
+  downloadAttempted: boolean
 };
 
 class LayerDownload extends PureComponent<Props, State> {
@@ -89,11 +91,15 @@ class LayerDownload extends PureComponent<Props, State> {
       if (!status) {
         return false;
       }
-      const areaStatuses = Object.values(status);
+
+      // $FlowFixMe
+      const areaStatuses: Array<LayersCacheStatus> = Object.values(status);
       return areaStatuses.filter(areaStatus => areaStatus?.completed ?? false).length === areaStatuses.length;
     };
+
     const previouslyDone = isDone(previousProps.downloadProgress);
     const nowDone = isDone(this.props.downloadProgress);
+    // $FlowFixMe
     const didError = Object.values(this.props.downloadProgress ?? {}).some(areaStatus => areaStatus.error);
 
     // Set this back to false otherwise we could trigger another pop!
@@ -111,9 +117,16 @@ class LayerDownload extends PureComponent<Props, State> {
   }
 
   onPressViewDescription = debounceUI(() => {
+    const { layer } = this.props;
+    const { name, description } = layer;
+
+    if (!name || !description) {
+      return;
+    }
+
     presentInformationModal({
-      title: this.props.layer.name,
-      body: this.props.layer.description
+      title: name,
+      body: description
     });
   });
 
@@ -130,8 +143,10 @@ class LayerDownload extends PureComponent<Props, State> {
   };
 
   render() {
-    const didError = Object.values(this.props.downloadProgress ?? {}).some(areaStatus => areaStatus.error);
-    const done = !Object.values(this.props.downloadProgress ?? {}).some(areaStatus => !areaStatus.completed);
+    // $FlowFixMe
+    const downloadProgress: Array<LayersCacheStatus> = Object.values(this.props.downloadProgress ?? {});
+    const didError = downloadProgress.some(areaStatus => areaStatus.error);
+    const done = !downloadProgress.some(areaStatus => !areaStatus.completed);
 
     return (
       <View style={styles.container}>

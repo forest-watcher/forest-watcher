@@ -1,5 +1,6 @@
 // @flow
 
+import type { LoginProvider } from 'types/app.types';
 import type { OfflineMeta, PersistRehydrate } from 'types/offline.types';
 
 export type UserState = {
@@ -35,7 +36,7 @@ export type GetUserRollback = { type: 'user/GET_USER_ROLLBACK' };
 export type SetLoginAuth = {
   type: 'user/SET_LOGIN_AUTH',
   payload: {
-    socialNetwork: string,
+    socialNetwork: LoginProvider,
     loggedIn: boolean,
     token: string,
     oAuthToken?: string

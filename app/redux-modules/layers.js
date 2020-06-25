@@ -868,6 +868,7 @@ export function downloadAreaById(areaId: string) {
 
 export function downloadRouteById(routeId: string) {
   return (dispatch: Dispatch, state: GetState) => {
+    // $FlowFixMe
     const route: ?Route = state().routes.previousRoutes?.find(route => route.id === routeId);
 
     if (!route) {

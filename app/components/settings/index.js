@@ -59,7 +59,7 @@ export default class Settings extends Component<Props, State> {
   }
 
   aboutSections: Array<AboutSection>;
-  shareAction: { callback: () => void, icon: any };
+  shareAction: { callback: () => Promise<void>, icon: any };
 
   contextualLayersAction: { callback: () => void, icon: any };
 
