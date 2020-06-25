@@ -54,9 +54,7 @@ type FeatureCollectionState = {|
 |};
 
 type State = {|
-  +recentAlerts: FeatureCollection<Point>,
-  +reportedAlerts: FeatureCollection<Point>,
-  +otherAlerts: FeatureCollection<Point>,
+  ...FeatureCollectionState,
   +alertsIndex: ?AlertsIndex,
   +alertsFromDb: Array<Alert>
 |};
