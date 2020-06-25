@@ -4,7 +4,6 @@ import type { ComponentProps, Dispatch, State } from 'types/store.types';
 
 import { connect } from 'react-redux';
 
-import { getImportedContextualLayersById } from 'redux-modules/layers';
 import { DEFAULT_LAYER_SETTINGS } from 'redux-modules/layerSettings';
 
 import { getSelectedArea } from 'helpers/area';
@@ -20,19 +19,18 @@ function mapStateToProps(state: State, ownProps: OwnProps) {
   const featureId = area?.id || route?.id || '';
   const layerSettings = state.layerSettings?.[featureId] || DEFAULT_LAYER_SETTINGS;
 
+  const activeLayerIds = layerSettings.contextualLayers.activeContextualLayerIds;
+  const importedContextualLayers = [...state.layers.imported].filter(layer => activeLayerIds.includes(layer.id));
+
   return {
     downloadedLayerCache: state.layers.downloadedLayerProgress,
     featureId,
-    layerSettings
+    importedContextualLayers
   };
 }
 
 function mapDispatchToProps(dispatch: Dispatch) {
-  return {
-    getImportedContextualLayersById: layerIds => {
-      return dispatch(getImportedContextualLayersById(layerIds));
-    }
-  };
+  return {};
 }
 
 type PassedProps = ComponentProps<OwnProps, typeof mapStateToProps, typeof mapDispatchToProps>;

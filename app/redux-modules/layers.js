@@ -971,15 +971,6 @@ export function resetCacheStatus(id: string) {
   };
 }
 
-export function getImportedContextualLayersById(layerIds: Array<string>) {
-  return (dispatch: Dispatch, getState: GetState) => {
-    const state = getState();
-    return [...state.layers.imported].filter(layer => {
-      return layerIds.includes(layer.id);
-    });
-  };
-}
-
 // Return the amount of contextual layers and basemaps that can be downloaded
 function getDownloadableLayerCount(layers) {
   return [...layers, ...GFW_BASEMAPS.filter(basemap => !basemap.tileUrl)].length;

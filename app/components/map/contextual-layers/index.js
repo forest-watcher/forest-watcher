@@ -1,6 +1,5 @@
 // @flow
 import type { ContextualLayer, LayersCacheStatus } from 'types/layers.types';
-import type { LayerSettings } from 'types/layerSettings.types';
 
 import React, { Component } from 'react';
 import MapboxGL from '@react-native-mapbox-gl/maps';
@@ -17,8 +16,7 @@ import { mapboxStyles } from './styles';
 type Props = {
   downloadedLayerCache: { [id: string]: LayersCacheStatus },
   featureId: string,
-  getImportedContextualLayersById: (Array<string>) => Array<ContextualLayer>,
-  layerSettings: LayerSettings
+  importedContextualLayers: Array<ContextualLayer>
 };
 
 // Renders all active imported contextual layers in settings
@@ -101,8 +99,8 @@ export default class ContextualLayers extends Component<Props> {
   };
 
   render() {
-    const layerIds = this.props.layerSettings.contextualLayers.activeContextualLayerIds;
-    const layerFiles = this.props.getImportedContextualLayersById(layerIds);
+    const layerFiles = this.props.importedContextualLayers;
+
     return (
       <React.Fragment>
         {layerFiles.map(layerFile => {
