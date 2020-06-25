@@ -33,12 +33,7 @@ import { IMPORT_BASEMAP_REQUEST, IMPORT_BASEMAP_PROGRESS, IMPORT_BASEMAP_AREA_CO
 import { DELETE_ROUTE } from 'redux-modules/routes';
 import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 
-import {
-  trackLayersToggled,
-  trackDownloadedContent,
-  trackContentDownloadStarted,
-  trackImportedContent
-} from 'helpers/analytics';
+import { trackDownloadedContent, trackContentDownloadStarted, trackImportedContent } from 'helpers/analytics';
 import { storeTilesFromUrl } from 'helpers/layer-store/storeLayerFiles';
 import deleteLayerFiles from 'helpers/layer-store/deleteLayerFiles';
 
@@ -51,14 +46,14 @@ const SET_ACTIVE_LAYER = 'layers/SET_ACTIVE_LAYER';
 const DOWNLOAD_DATA = 'layers/DOWNLOAD_DATA';
 const CACHE_LAYER_REQUEST = 'layers/CACHE_LAYER_REQUEST';
 const CACHE_LAYER_COMMIT = 'layers/CACHE_LAYER_COMMIT';
-export const CACHE_LAYER_ROLLBACK = 'layers/CACHE_LAYER_ROLLBACK';
+const CACHE_LAYER_ROLLBACK = 'layers/CACHE_LAYER_ROLLBACK';
 const SET_CACHE_STATUS = 'layers/SET_CACHE_STATUS';
-export const INVALIDATE_CACHE = 'layers/INVALIDATE_CACHE';
+const INVALIDATE_CACHE = 'layers/INVALIDATE_CACHE';
 const UPDATE_PROGRESS = 'layers/UPDATE_PROGRESS';
 
 export const IMPORT_LAYER_REQUEST = 'layers/IMPORT_LAYER_REQUEST';
-export const IMPORT_LAYER_PROGRESS = 'layers/IMPORT_LAYER_PROGRESS';
-export const IMPORT_LAYER_AREA_COMPLETED = 'layers/IMPORT_LAYER_AREA_COMPLETED';
+const IMPORT_LAYER_PROGRESS = 'layers/IMPORT_LAYER_PROGRESS';
+const IMPORT_LAYER_AREA_COMPLETED = 'layers/IMPORT_LAYER_AREA_COMPLETED';
 export const IMPORT_LAYER_COMMIT = 'layers/IMPORT_LAYER_COMMIT';
 
 const IMPORT_LAYER_CLEAR = 'layers/IMPORT_LAYER_CLEAR';
@@ -498,32 +493,6 @@ export function getUserLayers() {
   };
 }
 
-export function setActiveContextualLayer(layerId: string, value: boolean) {
-  return (dispatch: Dispatch, getState: GetState) => {
-    let activeLayer = null;
-    const state = getState();
-    const currentActiveLayerId = state.layers.activeLayer;
-    const currentActiveLayer: ?ContextualLayer = state.layers.data?.find(
-      layerData => layerData.id === currentActiveLayerId
-    );
-    if (!value) {
-      if (currentActiveLayer) {
-        trackLayersToggled(currentActiveLayer.name, false);
-      }
-    } else if (layerId !== currentActiveLayerId) {
-      if (currentActiveLayer) {
-        trackLayersToggled(currentActiveLayer.name, false);
-      }
-      activeLayer = layerId;
-      const nextActiveLayer: ?ContextualLayer = state.layers.data?.find(layerData => layerData.id === layerId);
-      if (nextActiveLayer) {
-        trackLayersToggled(nextActiveLayer.name, true);
-      }
-    }
-    return dispatch({ type: SET_ACTIVE_LAYER, payload: activeLayer });
-  };
-}
-
 async function downloadLayer(
   layerType: LayerType,
   config,
@@ -776,6 +745,7 @@ function getRouteById(routes: Array<Route>, routeId: string): ?Route {
   return route ? { ...route } : null;
 }
 
+// eslint-disable-next-line import/no-unused-modules
 export function cacheAreaBasemap(dataType: DownloadDataType, dataId: string, basemapId: string) {
   return async (dispatch: Dispatch, getState: GetState) => {
     const name = nameForMapboxOfflinePack(dataId, basemapId);
@@ -844,6 +814,7 @@ export function cacheAreaBasemap(dataType: DownloadDataType, dataId: string, bas
   };
 }
 
+// eslint-disable-next-line import/no-unused-modules
 export function cacheAreaLayer(dataType: DownloadDataType, dataId: string, layerId: string) {
   return (dispatch: Dispatch, getState: GetState) => {
     const state = getState();
@@ -935,6 +906,7 @@ export function refreshCacheById(id: string, type: DownloadDataType) {
   };
 }
 
+// eslint-disable-next-line import/no-unused-modules
 export function cacheLayers(dataType: DownloadDataType, dataId: string, hasGeostoreId: boolean = true) {
   return (dispatch: Dispatch, state: GetState) => {
     const { pendingCache } = state().layers;

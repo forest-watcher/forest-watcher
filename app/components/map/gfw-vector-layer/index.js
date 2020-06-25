@@ -1,5 +1,5 @@
 // @flow
-import React, { Component, type Node } from 'react';
+import React, { Component } from 'react';
 
 import type { VectorMapLayer } from 'types/layers.types';
 import MapboxGL from '@react-native-mapbox-gl/maps';

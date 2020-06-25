@@ -16,8 +16,7 @@ type Props = {
   onAreaSettingsPress: (areaId: string, name: string) => void,
   selectionState?: Array<string>,
   sharing?: boolean,
-  showCache?: boolean,
-  pristine?: boolean
+  showCache?: boolean
 };
 
 export default class AreaList extends Component<Props> {

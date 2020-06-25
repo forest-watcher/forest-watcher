@@ -23,7 +23,6 @@ import DataCacher from 'containers/common/download';
 import { formatDistance, getDistanceOfPolyline } from 'helpers/map';
 import Theme, { isSmallScreen } from 'config/theme';
 
-import exportFileManifest from 'helpers/sharing/exportFileManifest';
 import calculateBundleSize from 'helpers/sharing/calculateBundleSize';
 import generateUniqueID from 'helpers/uniqueId';
 import { getShareButtonText } from 'helpers/sharing/utils';
@@ -38,8 +37,7 @@ type Props = {|
   +exportRoutes: (ids: Array<string>) => Promise<void>,
   +routes: Array<Route>,
   +initialiseAreaLayerSettings: (string, string) => void,
-  +setSelectedAreaId: (areaId: string) => void,
-  +showExportReportsSuccessfulNotification: () => void
+  +setSelectedAreaId: (areaId: string) => void
 |};
 
 type State = {|

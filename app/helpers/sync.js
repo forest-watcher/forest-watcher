@@ -19,7 +19,7 @@ export function getActionsTodoCount(pendingData: Object) {
   );
 }
 
-export function getTotalActionsTodoCount(state: State) {
+function getTotalActionsTodoCount(state: State) {
   const modulesToSync = [
     !state.areas.synced && !state.areas.syncing,
     !state.user.synced && !state.user.syncing,
@@ -29,7 +29,7 @@ export function getTotalActionsTodoCount(state: State) {
   return modulesToSync.reduce((ac, next) => (next ? ac + 1 : ac), 0);
 }
 
-export function getTotalActionsInProgessCount(state: State) {
+function getTotalActionsInProgessCount(state: State) {
   const actionsInProgress = [
     !state.areas.synced && state.areas.syncing,
     !state.user.synced && state.user.syncing,
