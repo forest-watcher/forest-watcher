@@ -4,7 +4,6 @@ exports[`async actions Test retrySync on initial state 1`] = `
 Object {
   "alerts": Object {
     "cache": Object {},
-    "canDisplayAlerts": true,
     "queue": Array [],
     "reported": Array [],
     "syncError": false,
@@ -1936,7 +1935,6 @@ exports[`async actions Tests redux initial state and handles unknown action 1`] 
 Object {
   "alerts": Object {
     "cache": Object {},
-    "canDisplayAlerts": true,
     "queue": Array [],
     "reported": Array [],
     "syncError": false,

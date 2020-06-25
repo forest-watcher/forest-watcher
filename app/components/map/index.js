@@ -107,7 +107,6 @@ type Props = {
   isOfflineMode: boolean,
   setCanDisplayAlerts: boolean => AlertsAction,
   reportedAlerts: Array<string>,
-  canDisplayAlerts: boolean,
   featureId: ?string,
   area: ?ReportArea,
   coordinatesFormat: CoordinatesFormat,
@@ -251,11 +250,6 @@ class MapComponent extends Component<Props, State> {
     emitter.on(GFWOnLocationEvent, this.updateLocationFromGeolocation);
 
     this.geoLocate();
-
-    const { setCanDisplayAlerts, canDisplayAlerts } = this.props;
-    if (!canDisplayAlerts) {
-      setCanDisplayAlerts(true);
-    }
 
     this.showMapWalkthroughIfNecessary();
   }
@@ -632,7 +626,6 @@ class MapComponent extends Component<Props, State> {
     const { userLocation, customReporting, mapCenterCoords } = this.state;
 
     if (!area) {
-      // TODO: How to handle null area?
       console.warn('3SC', 'Cannot create a report without an area');
       return;
     }
