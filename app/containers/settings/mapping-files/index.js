@@ -1,7 +1,6 @@
 // @flow
 import type { Basemap } from 'types/basemaps.types';
 import type { LayerType } from 'types/sharing.types';
-import type { File } from 'types/file.types';
 import type { ContextualLayer } from 'types/layers.types';
 import type { ComponentProps, Dispatch, State } from 'types/store.types';
 
