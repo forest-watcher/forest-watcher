@@ -7,7 +7,7 @@ import type { Basemap } from 'types/basemaps.types';
 import type { Coordinates, CoordinatesFormat } from 'types/common.types';
 import type { Location, LocationPoint, Route } from 'types/routes.types';
 import type { BasicReport, ReportArea } from 'types/reports.types';
-import type { ContextualLayer, LayersCacheStatus } from 'types/layers.types';
+import type { LayersCacheStatus } from 'types/layers.types';
 import type { LayerSettings } from 'types/layerSettings.types';
 
 import {
@@ -23,7 +23,7 @@ import {
 } from 'react-native';
 import * as Sentry from '@sentry/react-native';
 
-import { DATASETS, GFW_CONTEXTUAL_LAYERS_METADATA, REPORTS, MAPS } from 'config/constants';
+import { DATASETS, REPORTS, MAPS } from 'config/constants';
 import throttle from 'lodash/throttle';
 import toUpper from 'lodash/toUpper';
 import kebabCase from 'lodash/kebabCase';
@@ -31,12 +31,11 @@ import deburr from 'lodash/deburr';
 import moment from 'moment';
 import uniqBy from 'lodash/uniqBy';
 
-import GFWVectorLayer from './gfw-vector-layer';
 import CircleButton from 'components/common/circle-button';
 import BottomDialog from 'components/map/bottom-dialog';
 import LocationErrorBanner from 'components/map/locationErrorBanner';
 import { closestFeature, formatCoordsByFormat, getPolygonBoundingBox } from 'helpers/map';
-import { pathForLayer, pathForMBTilesFile } from 'helpers/layer-store/layerFilePaths';
+import { pathForMBTilesFile } from 'helpers/layer-store/layerFilePaths';
 import debounceUI from 'helpers/debounceUI';
 import { trackScreenView, type ReportingSource } from 'helpers/analytics';
 import Theme from 'config/theme';
@@ -47,9 +46,6 @@ import { withSafeArea } from 'react-native-safe-area';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import { MBTilesSource } from 'react-native-mbtiles';
 import { initialWindowSafeAreaInsets } from 'react-native-safe-area-context';
-
-import { toFileUri } from 'helpers/fileURI';
-import { vectorTileURLForMapboxURL } from 'helpers/mapbox';
 
 const SafeAreaView = withSafeArea(View, 'margin', 'top');
 const FooterSafeAreaView = withSafeArea(View, 'margin', 'bottom');
@@ -74,6 +70,7 @@ import {
   isValidLatLngArray
 } from 'helpers/location';
 
+import ContextualLayers from 'containers/map/contextual-layers';
 import RouteMarkers from 'components/map/route';
 import InfoBanner from 'components/map/info-banner';
 import Alerts from 'components/map/alerts';
@@ -105,9 +102,7 @@ const cancelIcon = require('assets/cancel.png');
 type Props = {
   componentId: string,
   createReport: (BasicReport, ReportingSource) => void,
-  downloadedLayerCache: { [id: string]: LayersCacheStatus },
   areaCoordinates: ?Array<Coordinates>,
-  getImportedContextualLayersById: (Array<string>) => Array<ContextualLayer>, // TODO: This shouldn't be a function
   isConnected: boolean,
   isOfflineMode: boolean,
   setCanDisplayAlerts: boolean => AlertsAction,
@@ -735,98 +730,6 @@ class MapComponent extends Component<Props, State> {
     return this.state.infoBannerShowing && this.state.tappedOnFeatures?.[0]?.featureId === routeId;
   };
 
-  renderGFWImportedContextualLayer = (layer: ContextualLayer) => {
-    const layerMetadata = GFW_CONTEXTUAL_LAYERS_METADATA[layer.id];
-    if (!layerMetadata) {
-      return null;
-    }
-
-    const layerURL = vectorTileURLForMapboxURL(layer.url) ?? layer.url;
-    const tileURLTemplates = layerURL.startsWith('mapbox://') ? null : [layerURL];
-
-    if (!layerURL.startsWith('mapbox://') && this.props.featureId) {
-      const layerDownloadProgress = this.props.downloadedLayerCache[layer.id]?.[this.props.featureId];
-
-      if (layerDownloadProgress?.completed && !layerDownloadProgress?.error) {
-        // $FlowFixMe
-        tileURLTemplates?.push(`file:/${pathForLayer('contextual_layer', layer.id)}/{z}x{x}x{y}`);
-      }
-    }
-
-    const sourceID = 'imported_layer_' + layer.id;
-    switch (layerMetadata.tileFormat) {
-      case 'vector':
-        return (
-          <MapboxGL.VectorSource
-            key={layer.id}
-            id={sourceID}
-            maxZoomLevel={layerMetadata.maxZoom}
-            minZoomLevel={layerMetadata.minZoom}
-            url={layerURL.startsWith('mapbox://') ? layerURL : null}
-            tileUrlTemplates={tileURLTemplates}
-          >
-            {/* $FlowFixMe */}
-            {layerMetadata.vectorMapLayers?.map((vectorLayer, index) => {
-              return (
-                <GFWVectorLayer
-                  sourceID={sourceID}
-                  id={'imported_layer_layer_' + layer.id + '_' + index}
-                  key={index}
-                  layer={vectorLayer}
-                />
-              );
-            })}
-          </MapboxGL.VectorSource>
-        );
-      default:
-        return (
-          <MapboxGL.RasterSource
-            key={layer.id}
-            id={sourceID}
-            maxZoomLevel={layerMetadata.maxZoom}
-            minZoomLevel={layerMetadata.minZoom}
-            tileUrlTemplates={tileURLTemplates}
-          >
-            <MapboxGL.RasterLayer id={'imported_layer_layer_' + layer.id} sourceId={sourceID} />
-          </MapboxGL.RasterSource>
-        );
-    }
-  };
-
-  renderCustomImportedContextualLayer = (layer: ContextualLayer) => {
-    return (
-      <MapboxGL.ShapeSource key={layer.id} id={'imported_layer_' + layer.id} url={toFileUri(layer.url)}>
-        <MapboxGL.SymbolLayer
-          filter={['match', ['geometry-type'], ['Point', 'MultiPoint'], true, false]}
-          id={'imported_layer_symbol_' + layer.id}
-          sourceID={'imported_layer_' + layer.id}
-          style={mapboxStyles.icon}
-        />
-        <MapboxGL.LineLayer id={'imported_layer_line_' + layer.id} style={mapboxStyles.geoJsonStyleSpec} />
-        <MapboxGL.FillLayer
-          filter={['match', ['geometry-type'], ['LineString', 'MultiLineString'], false, true]}
-          id={'imported_layer_fill_' + layer.id}
-          style={mapboxStyles.geoJsonStyleSpec}
-        />
-      </MapboxGL.ShapeSource>
-    );
-  };
-
-  // Renders all active imported contextual layers in settings
-  renderImportedContextualLayers = () => {
-    const layerIds = this.props.layerSettings.contextualLayers.activeContextualLayerIds;
-    const layerFiles = this.props.getImportedContextualLayersById(layerIds);
-    return (
-      <React.Fragment>
-        {layerFiles.map(layerFile => {
-          return !layerFile.isCustom
-            ? this.renderGFWImportedContextualLayer(layerFile)
-            : this.renderCustomImportedContextualLayer(layerFile);
-        })}
-      </React.Fragment>
-    );
-  };
-
   // Displays user location circle with direction heading on map
   renderUserLocation = () => {
     const userLocationStyle =
@@ -1213,9 +1116,7 @@ class MapComponent extends Component<Props, State> {
           {renderMapCamera}
           {this.renderAreaOutline()}
           {layerSettings.routes.layerIsActive && this.renderAllRoutes()}
-          {layerSettings.contextualLayers.layerIsActive && (
-            <React.Fragment>{this.renderImportedContextualLayers()}</React.Fragment>
-          )}
+          {layerSettings.contextualLayers.layerIsActive && <ContextualLayers />}
           {this.renderDestinationLine()}
           <Alerts
             alertLayerSettings={this.props.layerSettings.alerts}

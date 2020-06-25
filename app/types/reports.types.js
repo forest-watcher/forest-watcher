@@ -70,7 +70,7 @@ export type BasicReport = {
 export type ReportArea = {
   id: string,
   name: string,
-  datasets: Array<Dataset>,
+  datasets?: Array<Dataset>,
   dataset?: Dataset,
   templateId: string
 };
