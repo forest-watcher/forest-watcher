@@ -3,7 +3,6 @@
 exports[`Redux Alerts Module Initial reducer state 1`] = `
 Object {
   "cache": Object {},
-  "canDisplayAlerts": true,
   "queue": Array [],
   "reported": Array [],
   "syncError": false,
@@ -48,7 +47,6 @@ Object {
 exports[`Redux Alerts Module Simple Actions: snapshot and reducer test getAreaAlerts 2`] = `
 Object {
   "cache": Object {},
-  "canDisplayAlerts": true,
   "queue": Array [
     "areaID_datasetSlugMock",
   ],
@@ -66,41 +64,6 @@ Object {
 exports[`Redux Alerts Module Simple Actions: snapshot and reducer test setActiveAlerts 2`] = `
 Object {
   "cache": Object {},
-  "canDisplayAlerts": true,
-  "queue": Array [],
-  "reported": Array [],
-  "syncError": false,
-}
-`;
-
-exports[`Redux Alerts Module Simple Actions: snapshot and reducer test setCanDisplayAlerts 1`] = `
-Object {
-  "payload": true,
-  "type": "alerts/SET_CAN_DISPLAY_ALERTS",
-}
-`;
-
-exports[`Redux Alerts Module Simple Actions: snapshot and reducer test setCanDisplayAlerts 2`] = `
-Object {
-  "cache": Object {},
-  "canDisplayAlerts": true,
-  "queue": Array [],
-  "reported": Array [],
-  "syncError": false,
-}
-`;
-
-exports[`Redux Alerts Module Simple Actions: snapshot and reducer test setCanDisplayAlerts 3`] = `
-Object {
-  "payload": false,
-  "type": "alerts/SET_CAN_DISPLAY_ALERTS",
-}
-`;
-
-exports[`Redux Alerts Module Simple Actions: snapshot and reducer test setCanDisplayAlerts 4`] = `
-Object {
-  "cache": Object {},
-  "canDisplayAlerts": false,
   "queue": Array [],
   "reported": Array [],
   "syncError": false,

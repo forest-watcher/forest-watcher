@@ -1,9 +1,5 @@
 import 'react-native';
-import alertsReducer, {
-  getAreaAlerts,
-  setActiveAlerts,
-  setCanDisplayAlerts
-} from 'redux-modules/alerts';
+import alertsReducer, { getAreaAlerts, setActiveAlerts } from 'redux-modules/alerts';
 // todo test realm actions: resetAlertsDb & saveAlertsToDb ?
 
 describe('Redux Alerts Module', () => {
@@ -20,11 +16,6 @@ describe('Redux Alerts Module', () => {
 
     it('setActiveAlerts', () => {
       simpleActionTest(setActiveAlerts());
-    });
-
-    it('setCanDisplayAlerts', () => {
-      simpleActionTest(setCanDisplayAlerts(true));
-      simpleActionTest(setCanDisplayAlerts(false));
     });
 
     it('getAreaAlerts', () => {

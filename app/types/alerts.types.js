@@ -38,7 +38,6 @@ export type AlertsState = {
     }
   },
   reported: Array<string>,
-  canDisplayAlerts: boolean,
   syncError: boolean,
   queue: Array<string>
 };
@@ -46,7 +45,6 @@ export type AlertsState = {
 export type AlertsAction =
   | RetrySync
   | SetActiveAlerts
-  | SetCanDisplayAlerts
   | GetAreaAlertsRequest
   | GetAreaAlertsCommit
   | GetAreaAlertsRollback
@@ -55,7 +53,6 @@ export type AlertsAction =
   | LogoutRequest;
 
 type SetActiveAlerts = { type: 'alerts/SET_ACTIVE_ALERTS' };
-type SetCanDisplayAlerts = { type: 'alerts/SET_CAN_DISPLAY_ALERTS', payload: boolean };
 type GetAreaAlertsRequest = {
   type: 'alerts/GET_ALERTS_REQUEST',
   payload: string,
