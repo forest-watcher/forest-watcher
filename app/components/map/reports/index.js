@@ -25,7 +25,7 @@ type Props = {
   onShapeSourcePressed?: () => void
 };
 
-export const getReportPosition = (report: Report) => {
+const getReportPosition = (report: Report) => {
   let position;
   const clickedPosition = JSON.parse(report.clickedPosition);
   if (clickedPosition?.length) {

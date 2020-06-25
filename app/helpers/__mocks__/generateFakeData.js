@@ -30,6 +30,7 @@ export function createFakeLanguages(num = faker.random.number(4) + 1) {
   return _.range(faker.random.number(4) + 1).map(idx => faker.random.locale());
 }
 
+// eslint-disable-next-line import/no-unused-modules
 export function createFakeQuestionValues(languages, numValues) {
   return _.zipObject(
     languages,
@@ -89,10 +90,12 @@ export function createFakeReport(template, lang, overrides = {}) {
   };
 }
 
+// eslint-disable-next-line import/no-unused-modules
 export function createFakeAnswers(template, lang) {
   return template.questions.map(question => createFakeAnswer(question, lang));
 }
 
+// eslint-disable-next-line import/no-unused-modules
 export function createFakeAnswer(question, lang) {
   const value = createFakeAnswerValue(question, lang);
 
@@ -103,6 +106,7 @@ export function createFakeAnswer(question, lang) {
   };
 }
 
+// eslint-disable-next-line import/no-unused-modules
 export function createFakeAnswerValue(question, lang) {
   switch (question.type) {
     case 'date':

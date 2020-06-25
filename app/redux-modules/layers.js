@@ -45,14 +45,14 @@ const GET_LAYERS_ROLLBACK = 'layers/GET_LAYERS_ROLLBACK';
 const DOWNLOAD_DATA = 'layers/DOWNLOAD_DATA';
 const CACHE_LAYER_REQUEST = 'layers/CACHE_LAYER_REQUEST';
 const CACHE_LAYER_COMMIT = 'layers/CACHE_LAYER_COMMIT';
-export const CACHE_LAYER_ROLLBACK = 'layers/CACHE_LAYER_ROLLBACK';
+const CACHE_LAYER_ROLLBACK = 'layers/CACHE_LAYER_ROLLBACK';
 const SET_CACHE_STATUS = 'layers/SET_CACHE_STATUS';
-export const INVALIDATE_CACHE = 'layers/INVALIDATE_CACHE';
+const INVALIDATE_CACHE = 'layers/INVALIDATE_CACHE';
 const UPDATE_PROGRESS = 'layers/UPDATE_PROGRESS';
 
 export const IMPORT_LAYER_REQUEST = 'layers/IMPORT_LAYER_REQUEST';
-export const IMPORT_LAYER_PROGRESS = 'layers/IMPORT_LAYER_PROGRESS';
-export const IMPORT_LAYER_AREA_COMPLETED = 'layers/IMPORT_LAYER_AREA_COMPLETED';
+const IMPORT_LAYER_PROGRESS = 'layers/IMPORT_LAYER_PROGRESS';
+const IMPORT_LAYER_AREA_COMPLETED = 'layers/IMPORT_LAYER_AREA_COMPLETED';
 export const IMPORT_LAYER_COMMIT = 'layers/IMPORT_LAYER_COMMIT';
 
 const IMPORT_LAYER_CLEAR = 'layers/IMPORT_LAYER_CLEAR';
@@ -740,6 +740,7 @@ function getRouteById(routes: Array<Route>, routeId: string): ?Route {
   return route ? { ...route } : null;
 }
 
+// eslint-disable-next-line import/no-unused-modules
 export function cacheAreaBasemap(dataType: DownloadDataType, dataId: string, basemapId: string) {
   return async (dispatch: Dispatch, getState: GetState) => {
     const name = nameForMapboxOfflinePack(dataId, basemapId);
@@ -808,6 +809,7 @@ export function cacheAreaBasemap(dataType: DownloadDataType, dataId: string, bas
   };
 }
 
+// eslint-disable-next-line import/no-unused-modules
 export function cacheAreaLayer(dataType: DownloadDataType, dataId: string, layerId: string) {
   return (dispatch: Dispatch, getState: GetState) => {
     const state = getState();
@@ -899,6 +901,7 @@ export function refreshCacheById(id: string, type: DownloadDataType) {
   };
 }
 
+// eslint-disable-next-line import/no-unused-modules
 export function cacheLayers(dataType: DownloadDataType, dataId: string, hasGeostoreId: boolean = true) {
   return (dispatch: Dispatch, state: GetState) => {
     const { pendingCache } = state().layers;
