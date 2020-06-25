@@ -95,7 +95,7 @@ class AlertLayerSettings extends PureComponent<Props> {
   };
 
   render() {
-    const areaDatasets = this.props.area.datasets.map(dataset => dataset.slug);
+    const areaDatasets = this.props.area?.datasets?.map(dataset => dataset.slug) ?? [];
     const showViirs = areaDatasets.includes(DATASETS.viirs.id);
     const showGlad = areaDatasets.includes(DATASETS.umd_as_it_happens.id);
 

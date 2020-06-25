@@ -18,6 +18,7 @@ type Props = {
   allLayerSettings: { [featureId: string]: LayerSettings },
   defaultLayerSettings: LayerSettings,
   getActiveBasemap: (featureId: string) => Basemap,
+  selectedAreaId: string,
   toggleAlertsLayer: string => LayerSettingsAction,
   toggleRoutesLayer: string => LayerSettingsAction,
   toggleReportsLayer: string => LayerSettingsAction,
@@ -236,7 +237,8 @@ class MapSidebar extends PureComponent<Props, State> {
             title={i18n.t('map.layerSettings.alerts')}
             settingsTitle={this.getAlertsSettingsTitle(layerSettings)}
             selected={layerSettings.alerts.layerIsActive}
-            disableStyleSettingsButton={!layerSettings.alerts.layerIsActive}
+            disableSettingsButton={this.props.selectedAreaId.length === 0}
+            disableStyleSettingsButton={this.props.selectedAreaId.length === 0 || !layerSettings.alerts.layerIsActive}
             style={styles.rowContainer}
             hideDivider
             hideImage

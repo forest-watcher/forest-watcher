@@ -21,7 +21,8 @@ function mapStateToProps(state: State) {
   return {
     allLayerSettings: state.layerSettings,
     defaultLayerSettings: DEFAULT_LAYER_SETTINGS,
-    getActiveBasemap: featureId => getActiveBasemap(featureId, state)
+    getActiveBasemap: featureId => getActiveBasemap(featureId, state),
+    selectedAreaId: state.areas.selectedAreaId
   };
 }
 
