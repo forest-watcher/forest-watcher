@@ -10,7 +10,6 @@ import type { Alert } from 'types/common.types';
 type Props = {|
   +alertLayerSettings: AlertLayerSettingsType,
   +areaId?: ?string,
-  +featureId?: ?string,
   +reportedAlerts: Array<string>,
   +selectedAlerts: Array<Alert>,
   +onShapeSourcePressed?: () => void

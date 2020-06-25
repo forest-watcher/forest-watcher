@@ -1,37 +1,24 @@
 // @flow
 
-import { Dimensions } from 'react-native';
-import { COORDINATES_FORMATS, GLAD_RECENT_RANGE } from 'config/constants';
+import { COORDINATES_FORMATS } from 'config/constants';
 import UtmLatLng from 'utm-latlng';
 import formatcoords from 'formatcoords';
-import moment from 'moment';
 import i18n from 'i18next';
 import type { Coordinates, CoordinatesFormat } from 'types/common.types';
-import type { LayersState, ContextualLayer } from 'types/layers.types';
 import { isValidLatLng } from 'helpers/location';
 import { isEmpty, removeNulls } from 'helpers/utils';
-import { GeoJSONObject, point, lineString } from '@turf/helpers';
+import { GeoJSONObject, point, lineString, type Feature } from '@turf/helpers';
 import distanceBetweenCoordinates from '@turf/distance';
 import pointToLineDistance from '@turf/point-to-line-distance';
 import _ from 'lodash';
 import type { Alert } from 'types/alerts.types';
 import type { AlertsIndex } from 'components/map/alerts/dataset';
 import geokdbush from 'geokdbush';
-import geoViewport from '@mapbox/geo-viewport';
-
-import type { Feature } from '@turf/helpers';
-
-const { width, height } = Dimensions.get('window');
 
 // Use example
 // const firstPoint = { latitude: -3.097125, longitude: -45.600375 }
 // const points = [{ latitude: -2.337625, longitude: -46.940875 }]
-export function getAllNeighbours(
-  alertsIndex: AlertsIndex,
-  firstPoint: Alert,
-  points: Array<Alert>,
-  distance: number = 0.03
-) {
+function getAllNeighbours(alertsIndex: AlertsIndex, firstPoint: Alert, points: Array<Alert>, distance: number = 0.03) {
   // default distance 30m - alerts are about 27.5m apart on the map (39m diagonally)
   const neighbours: Array<Alert> = [];
 
@@ -115,18 +102,6 @@ export function cleanGeoJSON(geojson: GeoJSONObject): GeoJSONObject {
   return geojson;
 }
 
-export function isDateRecent(date: number) {
-  const { measure, range } = GLAD_RECENT_RANGE;
-  return moment().diff(moment(date), measure) <= range;
-}
-
-export function getContextualLayer(layers: LayersState): ?ContextualLayer {
-  if (!layers.activeLayer) {
-    return null;
-  }
-  return layers.data.find(layer => layer.id === layers.activeLayer);
-}
-
 export function formatCoordsByFormat(coordinates: Coordinates, format: CoordinatesFormat) {
   if (!isValidLatLng(coordinates)) {
     return '';
@@ -142,20 +117,6 @@ export function formatCoordsByFormat(coordinates: Coordinates, format: Coordinat
     // Not utm, not decimal... has to be degrees
     return formatcoords(latitude, longitude).format('FFf', { latLonSeparator: ', ', decimalPlaces: 2 });
   }
-}
-
-export function getMapZoom(region) {
-  if (!region.longitude || !region.latitude) {
-    return 0;
-  }
-  const bounds = [
-    region.longitude - region.longitudeDelta / 2.5,
-    region.latitude - region.latitudeDelta / 2.5,
-    region.longitude + region.longitudeDelta / 2.5,
-    region.latitude + region.latitudeDelta / 2.5
-  ];
-
-  return geoViewport.viewport(bounds, [width, height], 0, 18, 256).zoom || 0;
 }
 
 export function getNeighboursSelected(alertsIndex: AlertsIndex, selectedAlerts: Array<Alert>, allAlerts: Array<Alert>) {

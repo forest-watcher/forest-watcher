@@ -3,6 +3,7 @@ import Config from 'react-native-config';
 
 import checkConnectivity from 'helpers/networking';
 
+// eslint-disable-next-line import/no-unused-modules
 export class DetectNetworkPing {
   static urlList = [
     Config.API_URL,

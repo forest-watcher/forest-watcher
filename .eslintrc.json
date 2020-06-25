@@ -40,6 +40,7 @@
     "babel/no-unused-expressions": "error",
     "consistent-return": "warn",
     "eqeqeq": ["warn", "always", { "null": "ignore" }],
+    "import/no-unused-modules": ["warn", { "unusedExports": true, "src":  ["./app/"] }],
     "no-console": [
       "error",
       {
@@ -73,6 +74,8 @@
     "react/display-name": "off",
     "react/no-string-refs": "off",
     "react/no-unsafe": "warn",
+    "react/no-unused-prop-types": "warn",
+    "react/no-unused-state": "warn",
     "react-native/no-color-literals": "off",
     "react-native/no-inline-styles": "off",
     "react-native/no-raw-text": "off",

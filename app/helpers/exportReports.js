@@ -11,7 +11,7 @@ import i18n from 'i18next';
 
 const moment = require('moment');
 
-export const ExportMethod = {
+const ExportMethod = {
   CSV: 0,
   HTML: 1,
   PDF: 2
@@ -90,6 +90,7 @@ export default async function exportReports(
  *  An object where each key is a template ID, and its associated value is a string representing a CSV document of reports
  *  for that template
  */
+// eslint-disable-next-line import/no-unused-modules
 export function renderReportsAsCsv(
   reports: Array<Report>,
   templates: { [string]: Template },

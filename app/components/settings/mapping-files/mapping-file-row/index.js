@@ -1,6 +1,5 @@
 // @flow
 import type { LayerType } from 'types/sharing.types';
-import type { ViewStyle } from 'types/reactElementStyles.types';
 import React, { Component } from 'react';
 
 import {
@@ -54,8 +53,7 @@ type Props = {
   onPress?: ?() => void,
   onInfoPress?: () => void,
   onRenamePress?: () => void,
-  selected?: ?boolean,
-  style?: ?ViewStyle
+  selected?: ?boolean
 };
 
 type State = {

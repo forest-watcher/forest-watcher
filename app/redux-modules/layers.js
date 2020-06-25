@@ -33,12 +33,7 @@ import { IMPORT_BASEMAP_REQUEST, IMPORT_BASEMAP_PROGRESS, IMPORT_BASEMAP_AREA_CO
 import { DELETE_ROUTE } from 'redux-modules/routes';
 import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 
-import {
-  trackLayersToggled,
-  trackDownloadedContent,
-  trackContentDownloadStarted,
-  trackImportedContent
-} from 'helpers/analytics';
+import { trackDownloadedContent, trackContentDownloadStarted, trackImportedContent } from 'helpers/analytics';
 import { storeTilesFromUrl } from 'helpers/layer-store/storeLayerFiles';
 import deleteLayerFiles from 'helpers/layer-store/deleteLayerFiles';
 
@@ -47,18 +42,17 @@ import { importLayerFile } from 'helpers/layer-store/import/importLayerFile';
 const GET_LAYERS_REQUEST = 'layers/GET_LAYERS_REQUEST';
 const GET_LAYERS_COMMIT = 'layers/GET_LAYERS_COMMIT';
 const GET_LAYERS_ROLLBACK = 'layers/GET_LAYERS_ROLLBACK';
-const SET_ACTIVE_LAYER = 'layers/SET_ACTIVE_LAYER';
 const DOWNLOAD_DATA = 'layers/DOWNLOAD_DATA';
 const CACHE_LAYER_REQUEST = 'layers/CACHE_LAYER_REQUEST';
 const CACHE_LAYER_COMMIT = 'layers/CACHE_LAYER_COMMIT';
-export const CACHE_LAYER_ROLLBACK = 'layers/CACHE_LAYER_ROLLBACK';
+const CACHE_LAYER_ROLLBACK = 'layers/CACHE_LAYER_ROLLBACK';
 const SET_CACHE_STATUS = 'layers/SET_CACHE_STATUS';
-export const INVALIDATE_CACHE = 'layers/INVALIDATE_CACHE';
+const INVALIDATE_CACHE = 'layers/INVALIDATE_CACHE';
 const UPDATE_PROGRESS = 'layers/UPDATE_PROGRESS';
 
 export const IMPORT_LAYER_REQUEST = 'layers/IMPORT_LAYER_REQUEST';
-export const IMPORT_LAYER_PROGRESS = 'layers/IMPORT_LAYER_PROGRESS';
-export const IMPORT_LAYER_AREA_COMPLETED = 'layers/IMPORT_LAYER_AREA_COMPLETED';
+const IMPORT_LAYER_PROGRESS = 'layers/IMPORT_LAYER_PROGRESS';
+const IMPORT_LAYER_AREA_COMPLETED = 'layers/IMPORT_LAYER_AREA_COMPLETED';
 export const IMPORT_LAYER_COMMIT = 'layers/IMPORT_LAYER_COMMIT';
 
 const IMPORT_LAYER_CLEAR = 'layers/IMPORT_LAYER_CLEAR';
@@ -71,7 +65,6 @@ const initialState: LayersState = {
   data: [],
   synced: false,
   syncing: false,
-  activeLayer: null,
   syncDate: Date.now(),
   layersProgress: {}, // saves the progress relative to each area's layer
   cacheStatus: {}, // status of the current area cache
@@ -83,7 +76,7 @@ const initialState: LayersState = {
   downloadedLayerProgress: {} // saves the progress relative to each layer, for every area being downloaded.
 };
 
-export default function reducer(state: LayersState = initialState, action: LayersAction) {
+export default function reducer(state: LayersState = initialState, action: LayersAction): LayersState {
   switch (action.type) {
     case PERSIST_REHYDRATE: {
       // $FlowFixMe
@@ -254,8 +247,6 @@ export default function reducer(state: LayersState = initialState, action: Layer
       });
       return { ...state, cache };
     }
-    case SET_ACTIVE_LAYER:
-      return { ...state, activeLayer: action.payload };
     case CACHE_LAYER_REQUEST: {
       const { dataId, layerId } = action.payload;
       const pendingCache = {
@@ -446,12 +437,11 @@ export default function reducer(state: LayersState = initialState, action: Layer
     }
     case DELETE_LAYER: {
       const layers = state.imported.filter(layer => layer.id !== action.payload);
-      const activeLayer = state.activeLayer === action.payload ? null : state.activeLayer;
 
       const downloadProgress = { ...state.downloadedLayerProgress };
       delete downloadProgress[action.payload];
 
-      return { ...state, imported: layers, activeLayer: activeLayer, downloadedLayerProgress: downloadProgress };
+      return { ...state, imported: layers, downloadedLayerProgress: downloadProgress };
     }
     case LOGOUT_REQUEST:
       deleteLayerFiles()
@@ -495,34 +485,6 @@ export function getUserLayers() {
         }
       }
     });
-  };
-}
-
-export function setActiveContextualLayer(layerId: string, value: boolean) {
-  return (dispatch: Dispatch, getState: GetState) => {
-    let activeLayer = null;
-    const state = getState();
-    const currentActiveLayerId = state.layers.activeLayer;
-    // $FlowFixMe
-    const currentActiveLayer: ?ContextualLayer = state.layers.data?.find(
-      layerData => layerData.id === currentActiveLayerId
-    );
-    if (!value) {
-      if (currentActiveLayer) {
-        trackLayersToggled(currentActiveLayer.name, false);
-      }
-    } else if (layerId !== currentActiveLayerId) {
-      if (currentActiveLayer) {
-        trackLayersToggled(currentActiveLayer.name, false);
-      }
-      activeLayer = layerId;
-      // $FlowFixMe
-      const nextActiveLayer: ?ContextualLayer = state.layers.data?.find(layerData => layerData.id === layerId);
-      if (nextActiveLayer) {
-        trackLayersToggled(nextActiveLayer.name, true);
-      }
-    }
-    return dispatch({ type: SET_ACTIVE_LAYER, payload: activeLayer });
   };
 }
 
@@ -778,6 +740,7 @@ function getRouteById(routes: Array<Route>, routeId: string): ?Route {
   return route ? { ...route } : null;
 }
 
+// eslint-disable-next-line import/no-unused-modules
 export function cacheAreaBasemap(dataType: DownloadDataType, dataId: string, basemapId: string) {
   return async (dispatch: Dispatch, getState: GetState) => {
     const name = nameForMapboxOfflinePack(dataId, basemapId);
@@ -846,6 +809,7 @@ export function cacheAreaBasemap(dataType: DownloadDataType, dataId: string, bas
   };
 }
 
+// eslint-disable-next-line import/no-unused-modules
 export function cacheAreaLayer(dataType: DownloadDataType, dataId: string, layerId: string) {
   return (dispatch: Dispatch, getState: GetState) => {
     const state = getState();
@@ -938,6 +902,7 @@ export function refreshCacheById(id: string, type: DownloadDataType) {
   };
 }
 
+// eslint-disable-next-line import/no-unused-modules
 export function cacheLayers(dataType: DownloadDataType, dataId: string, hasGeostoreId: boolean = true) {
   return (dispatch: Dispatch, state: GetState) => {
     const { pendingCache } = state().layers;

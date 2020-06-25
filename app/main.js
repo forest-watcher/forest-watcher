@@ -16,7 +16,7 @@ import {
   showLocationSettings,
   startTrackingLocation
 } from 'helpers/location';
-import { discardActiveRoute } from './redux-modules/routes';
+import { discardActiveRoute } from 'redux-modules/routes';
 import Config from 'react-native-config';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import { trackRouteFlowEvent } from 'helpers/analytics';
@@ -27,6 +27,7 @@ import { trackRouteFlowEvent } from 'helpers/analytics';
 // Show request in chrome network tool
 // GLOBAL.XMLHttpRequest = GLOBAL.originalXMLHttpRequest || GLOBAL.XMLHttpRequest;
 
+// eslint-disable-next-line import/no-unused-modules
 export default class App {
   constructor() {
     this.store = null;

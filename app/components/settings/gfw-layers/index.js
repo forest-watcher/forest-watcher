@@ -16,7 +16,6 @@ const nextIcon = require('assets/next.png');
 
 type Props = {
   componentId: string,
-  layers: Array<ContextualLayer>,
   popToComponentId: string
 };
 

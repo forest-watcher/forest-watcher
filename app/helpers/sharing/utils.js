@@ -25,6 +25,7 @@ export const getShareButtonText = (type: string, totalToShare: number, bundleSiz
   }
 
   return i18n.t(transifexKey, {
+    // eslint-disable-next-line eqeqeq
     bundleSize: bundleSize != undefined ? formatBytes(bundleSize) : i18n.t('commonText.calculating'),
     type: type
   });

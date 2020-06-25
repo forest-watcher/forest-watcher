@@ -1882,7 +1882,6 @@ Object {
   },
   "layerSettings": Object {},
   "layers": Object {
-    "activeLayer": null,
     "cache": Object {},
     "cacheStatus": Object {},
     "data": Array [],
@@ -3815,7 +3814,6 @@ Object {
   },
   "layerSettings": Object {},
   "layers": Object {
-    "activeLayer": null,
     "cache": Object {},
     "cacheStatus": Object {},
     "data": Array [],

@@ -9,7 +9,7 @@ import {
   showNotConnectedNotification,
   setWelcomeScreenSeen
 } from 'redux-modules/app';
-import { setAreasRefreshing, setSelectedAreaId } from 'redux-modules/areas';
+import { setAreasRefreshing } from 'redux-modules/areas';
 import { isOutdated } from 'helpers/date';
 import { shouldBeConnected } from 'helpers/app';
 
@@ -26,7 +26,6 @@ function mapStateToProps(state: State) {
     appSyncing,
     isConnected,
     areasOutdated,
-    activeRoute: state.routes.activeRoute,
     refreshing: state.areas.refreshing,
     pristine: state.app.pristineCacheTooltip,
     hasSeenWelcomeScreen: state.app.hasSeenWelcomeScreen,
@@ -41,9 +40,6 @@ function mapDispatchToProps(dispatch: Dispatch) {
     },
     setPristine: (pristine: boolean) => {
       dispatch(setPristineCacheTooltip(pristine));
-    },
-    setSelectedAreaId: (areaId: string) => {
-      dispatch(setSelectedAreaId(areaId));
     },
     setWelcomeScreenSeen: (seen: boolean) => {
       dispatch(setWelcomeScreenSeen(seen));

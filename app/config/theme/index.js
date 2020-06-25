@@ -5,7 +5,7 @@ const backIcon = require('assets/backButton.png');
 const screen = Dimensions.get('window');
 export const isSmallScreen = screen.width <= 320;
 
-export const colors = {
+const colors = {
   turtleGreen: '#97be43',
   greyishBrown: '#555555',
   grey: '#8a8a8a',

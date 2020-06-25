@@ -19,13 +19,13 @@ import createTemporaryStagingDirectory from 'helpers/sharing/createTemporaryStag
 /**
  * Extension of the final bundle
  */
-export const BUNDLE_FILE_EXTENSION: string = '.gfwbundle';
+const BUNDLE_FILE_EXTENSION: string = '.gfwbundle';
 
 /**
  * The name of the data file held in the root of a bundle archive
  */
 export const BUNDLE_DATA_FILE_NAME: string = 'bundle.json';
-export const BUNDLE_DATA_ENCODING: string = 'utf8';
+const BUNDLE_DATA_ENCODING: string = 'utf8';
 
 /**
  * Exports a subset of app data to a standalone file that can be imported into other instances of the FW app
@@ -64,7 +64,7 @@ export default async function exportBundle(appState: State, request: ExportBundl
  *
  * @param bundle - The staged bundle to pack
  */
-export async function packageBundle(bundle: UnpackedSharingBundle): Promise<string> {
+async function packageBundle(bundle: UnpackedSharingBundle): Promise<string> {
   const outputFilePath = `${bundle.path}${BUNDLE_FILE_EXTENSION}`;
   return await zip(bundle.path, outputFilePath);
 }
@@ -74,7 +74,7 @@ export async function packageBundle(bundle: UnpackedSharingBundle): Promise<stri
  *
  * @param request - The request defining which data should be exported
  */
-export async function stageBundle(bundle: SharingBundle): Promise<UnpackedSharingBundle> {
+async function stageBundle(bundle: SharingBundle): Promise<UnpackedSharingBundle> {
   const outputPath = await createTemporaryStagingDirectory();
 
   // Stage files contained in the manifest

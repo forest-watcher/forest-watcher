@@ -16,6 +16,7 @@ export type ReportingSource = 'singleAlert' | 'alertGroup' | 'custom' | 'customW
 
 /// MISC
 
+// eslint-disable-next-line import/no-unused-modules
 export const disableAnalytics = (disabled: boolean) => {
   analytics().setAnalyticsCollectionEnabled(!disabled);
 };

@@ -4,8 +4,6 @@ import type { ComponentProps, Dispatch, State } from 'types/store.types';
 import { connect } from 'react-redux';
 import { setSelectedAreaId } from 'redux-modules/areas';
 
-import { showExportReportsSuccessfulNotification } from 'redux-modules/app';
-
 import Routes from 'components/routes';
 import { initialiseAreaLayerSettings } from 'redux-modules/layerSettings';
 import { trackSharedContent } from 'helpers/analytics';
@@ -38,9 +36,6 @@ function mapDispatchToProps(dispatch: Dispatch) {
     },
     setSelectedAreaId: (id: string) => {
       dispatch(setSelectedAreaId(id));
-    },
-    showExportReportsSuccessfulNotification: () => {
-      dispatch(showExportReportsSuccessfulNotification());
     }
   };
 }

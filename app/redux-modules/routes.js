@@ -33,6 +33,7 @@ const initialState: RouteState = {
  * @param {Array<Area>} areas
  * @param {() => string} getUniqueID - unless testing, use the default param provided to get unique uuids
  */
+// eslint-disable-next-line import/no-unused-modules
 export const migrateV1RoutesToV2RoutesStructure = (
   routeState: ?RouteState,
   areas: ?Array<Area>,

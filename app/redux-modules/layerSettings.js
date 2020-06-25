@@ -546,7 +546,7 @@ export function toggleImportedReportsLayer(featureId: string): LayerSettingsActi
   };
 }
 
-export function initialiseAlerts(featureId: string, showGlad: boolean, showViirs: boolean): LayerSettingsAction {
+function initialiseAlerts(featureId: string, showGlad: boolean, showViirs: boolean): LayerSettingsAction {
   return {
     type: INITIALISE_ALERTS,
     payload: {

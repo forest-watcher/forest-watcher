@@ -170,10 +170,7 @@ class DrawAreas extends Component {
 
   clearShape = () => {
     this.setState({
-      valid: true,
-      shape: {
-        coordinates: []
-      }
+      valid: true
     });
   };
 
@@ -237,13 +234,6 @@ class DrawAreas extends Component {
     );
 
     const { markerLocations, nextPress } = this.state;
-    /*
-    const { contextualLayer } = this.props;
-    const ctxLayerKey =
-      Platform.OS === 'ios' && contextualLayer
-        ? `contextualLayerElement-${contextualLayer.name}`
-        : 'contextualLayerElement';
-    */
 
     return (
       <View style={styles.container}>
@@ -286,18 +276,12 @@ class DrawAreas extends Component {
 
 DrawAreas.propTypes = {
   basemap: PropTypes.object.isRequired,
-  coordinates: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),
   country: PropTypes.shape({
     iso: PropTypes.string.isRequired,
     bbox: PropTypes.object,
     centroid: PropTypes.object
   }).isRequired,
-  onDrawAreaFinish: PropTypes.func.isRequired,
-  contextualLayer: PropTypes.shape({
-    id: PropTypes.string,
-    name: PropTypes.string,
-    url: PropTypes.string.isRequired
-  })
+  onDrawAreaFinish: PropTypes.func.isRequired
 };
 
 export default DrawAreas;

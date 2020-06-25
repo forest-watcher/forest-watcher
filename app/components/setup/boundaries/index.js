@@ -1,7 +1,6 @@
 // @flow
 import type { CountryArea, SetupAction } from 'types/setup.types';
 import type { Country } from 'types/countries.types';
-import type { ContextualLayer } from 'types/layers.types';
 
 import React, { Component } from 'react';
 import { Image, View } from 'react-native';
@@ -15,13 +14,12 @@ import DrawAreas from 'containers/setup/draw-areas';
 const mapSettingsIcon = require('assets/map_settings.png');
 const backgroundImage = require('assets/map_bg_gradient.png');
 
-type Props = {
-  setSetupArea: ({ area: CountryArea, snapshot: string }) => SetupAction,
-  coordinates: Array<Array<number>>,
-  setupCountry: ?Country,
-  contextualLayer: ?ContextualLayer,
-  componentId: string
-};
+type Props = {|
+  +setSetupArea: ({ area: CountryArea, snapshot: string }) => SetupAction,
+  +coordinates: Array<Array<number>>,
+  +setupCountry: ?Country,
+  +componentId: string
+|};
 
 class SetupBoundaries extends Component<Props> {
   static options(passProps: {}) {
@@ -91,7 +89,6 @@ class SetupBoundaries extends Component<Props> {
           country={this.props.setupCountry}
           coordinates={this.props.coordinates}
           onDrawAreaFinish={this.onDrawAreaFinish}
-          contextualLayer={this.props.contextualLayer}
         />
         <View pointerEvents="none" style={styles.header}>
           <Image style={styles.headerBg} source={backgroundImage} />

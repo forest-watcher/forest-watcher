@@ -8,7 +8,7 @@ import Theme from 'config/theme';
 import debounceUI from 'helpers/debounceUI';
 import { Navigation } from 'react-native-navigation';
 import { formatInfoBannerDate } from 'helpers/date';
-import i18n from "i18next";
+import i18n from 'i18next';
 
 const rightArrow = require('assets/next.png');
 
