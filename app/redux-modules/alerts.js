@@ -13,7 +13,7 @@ import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 import storeAlertsFromCsv from 'helpers/alert-store/storeAlertsFromCsv';
 import deleteAlerts from 'helpers/alert-store/deleteAlerts';
 
-export const SET_ACTIVE_ALERTS = 'alerts/SET_ACTIVE_ALERTS';
+const SET_ACTIVE_ALERTS = 'alerts/SET_ACTIVE_ALERTS';
 const GET_ALERTS_REQUEST = 'alerts/GET_ALERTS_REQUEST';
 export const GET_ALERTS_COMMIT = 'alerts/GET_ALERTS_COMMIT';
 const GET_ALERTS_ROLLBACK = 'alerts/GET_ALERTS_ROLLBACK';

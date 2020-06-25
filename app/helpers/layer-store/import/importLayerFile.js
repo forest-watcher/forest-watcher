@@ -117,7 +117,7 @@ export async function importLayerFile(layerFile: File): Promise<LayerFile> {
   }
 }
 
-export function getFormattedFile(layerFile: File) {
+function getFormattedFile(layerFile: File) {
   // We have to decode the file URI because iOS file manager doesn't like encoded uris!
   const file = {
     ...layerFile,

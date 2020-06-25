@@ -21,7 +21,7 @@ export function attachmentForFileName(fileName: string): ReportAttachmentType {
  * For now, only image attachments are supported, but we have written these functions generally so that other attachments
  * can be supported in future (e.g. audio)
  */
-export function fileNameForAttachment(type: ReportAttachmentType): string {
+function fileNameForAttachment(type: ReportAttachmentType): string {
   switch (type) {
     case 'image/jpeg': {
       return 'attachment.jpeg';

@@ -41,6 +41,7 @@ export const IMPORT_ENTIRE_BUNDLE_REQUEST: ImportBundleRequest = Object.freeze({
  * @param uri - The file to import
  * @param dispatch - Redux dispatch function used to emit actions to add data to the app
  */
+// eslint-disable-next-line import/no-unused-modules
 export default async function importBundle(uri: string, dispatch: Dispatch): Promise<void> {
   const unpackedBundle = await unpackBundle(uri);
   await importStagedBundle(unpackedBundle, IMPORT_ENTIRE_BUNDLE_REQUEST, dispatch);
