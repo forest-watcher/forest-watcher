@@ -131,7 +131,7 @@ ActionButton.propTypes = {
   error: PropTypes.bool,
   icon: PropTypes.string,
   text: PropTypes.string.isRequired,
-  onPress: PropTypes.func.isRequired,
+  onPress: PropTypes.func,
   noIcon: PropTypes.bool,
   main: PropTypes.bool,
   monochrome: PropTypes.bool,
