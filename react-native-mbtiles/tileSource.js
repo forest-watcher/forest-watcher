@@ -1,8 +1,10 @@
 // @flow
-import ReactNativeMBTiles, { type MBTileBasemapMetadata } from 'react-native-mbtiles';
 import React, { PureComponent } from 'react';
 import { AppState, Platform } from 'react-native';
 import MapboxGL from '@react-native-mapbox-gl/maps';
+
+import ReactNativeMBTiles from './nativeModule.js';
+import type { MBTileBasemapMetadata } from './types';
 
 type Props = {
   basemapId: string,
