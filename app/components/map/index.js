@@ -1,12 +1,12 @@
 // @flow
 import React, { Component, type Node } from 'react';
 
-import type { AlertsAction } from 'types/alerts.types';
+import type { SelectedAlert } from 'types/alerts.types';
 import type { AreasAction } from 'types/areas.types';
 import type { Basemap } from 'types/basemaps.types';
-import type { Coordinates, CoordinatesFormat } from 'types/common.types';
-import type { Location, LocationPoint, Route } from 'types/routes.types';
-import type { BasicReport, ReportArea } from 'types/reports.types';
+import type { Coordinates, CoordinatesFormat, MapFeature } from 'types/common.types';
+import type { LocationPoint, Route } from 'types/routes.types';
+import type { BasicReport, ReportArea, SelectedReport } from 'types/reports.types';
 import type { LayerSettings } from 'types/layerSettings.types';
 
 import {
@@ -30,9 +30,8 @@ import deburr from 'lodash/deburr';
 import moment from 'moment';
 import uniqBy from 'lodash/uniqBy';
 
-import CircleButton from 'components/common/circle-button';
 import BottomDialog from 'components/map/bottom-dialog';
-import LocationErrorBanner from 'components/map/locationErrorBanner';
+
 import { closestFeature, formatCoordsByFormat, getPolygonBoundingBox } from 'helpers/map';
 import { pathForMBTilesFile } from 'helpers/layer-store/layerFilePaths';
 import debounceUI from 'helpers/debounceUI';
@@ -47,8 +46,6 @@ import { MBTilesSource } from 'react-native-mbtiles';
 import { initialWindowSafeAreaInsets } from 'react-native-safe-area-context';
 
 const SafeAreaView = withSafeArea(View, 'margin', 'top');
-const FooterSafeAreaView = withSafeArea(View, 'margin', 'bottom');
-const FooterBackgroundSafeAreaView = withSafeArea(View, 'padding', 'bottom');
 
 import {
   GFWLocationAuthorizedAlways,
@@ -71,9 +68,10 @@ import {
 
 import ContextualLayers from 'containers/map/contextual-layers';
 import RouteMarkers from 'components/map/route';
-import InfoBanner from 'components/map/info-banner';
+
 import Alerts from 'components/map/alerts';
 import Reports from 'containers/map/reports';
+import Footer from 'components/map/footer';
 import { lineString, type Feature } from '@turf/helpers';
 import { showMapWalkthrough } from 'screens/common';
 
@@ -88,15 +86,10 @@ const DISMISSED_INFO_BANNER_POSTIION = 200 + initialWindowSafeAreaInsets.bottom;
 const backButtonImage = require('assets/back.png');
 const backgroundImage = require('assets/map_bg_gradient.png');
 const mapSettingsIcon = require('assets/map_settings.png');
-const startTrackingIcon = require('assets/startTracking.png');
-const stopTrackingIcon = require('assets/stopTracking.png');
-const myLocationIcon = require('assets/my_location.png');
-const createReportIcon = require('assets/createReport.png');
-const addLocationIcon = require('assets/add_location.png');
+
 const customReportingMarker = require('assets/custom-reporting-marker.png');
 const userLocationBearingImage = require('assets/userLocationBearing.png');
 const userLocationImage = require('assets/userLocation.png');
-const cancelIcon = require('assets/cancel.png');
 
 type Props = {
   componentId: string,
@@ -104,7 +97,6 @@ type Props = {
   areaCoordinates: ?Array<Coordinates>,
   isConnected: boolean,
   isOfflineMode: boolean,
-  setCanDisplayAlerts: boolean => AlertsAction,
   reportedAlerts: Array<string>,
   featureId: ?string,
   area: ?ReportArea,
@@ -115,7 +107,7 @@ type Props = {
   allRouteIds: Array<string>,
   layerSettings: LayerSettings,
   isTracking: boolean,
-  onStartTrackingRoute: (location: Location, areaId: string) => void,
+  onStartTrackingRoute: (location: Coordinates, areaId: string) => void,
   onCancelTrackingRoute: () => void,
   basemap: Basemap,
   getRoutesById: (routeIds: Array<string>) => Array<Route> // TODO: This shouldn't be a function
@@ -125,8 +117,8 @@ type State = {
   userLocation: ?LocationPoint,
   heading: ?number,
   hasHeadingReadingFromCompass: boolean,
-  selectedAlerts: Array<{ lat: number, long: number, datasetId: ?string }>,
-  selectedReports: Array<{ reportName: string, lat: number, long: number }>,
+  selectedAlerts: Array<SelectedAlert>,
+  selectedReports: Array<SelectedReport>,
   customReporting: boolean,
   dragging: boolean,
   layoutHasForceRefreshed: boolean,
@@ -137,20 +129,7 @@ type State = {
   animatedPosition: any,
   infoBannerShowing: boolean,
   // feature(s) that the user has just tapped on
-  tappedOnFeatures: Array<{
-    name: string,
-    date: number,
-    type: string,
-    featureId: string,
-    lat?: string,
-    long?: string,
-    reportAreaName?: string,
-    imported?: boolean,
-    icon?: any,
-    selected?: boolean,
-    reported?: boolean,
-    clusterId?: string
-  }>
+  tappedOnFeatures: Array<MapFeature>
 };
 
 class MapComponent extends Component<Props, State> {
@@ -582,7 +561,7 @@ class MapComponent extends Component<Props, State> {
   });
 
   determineReportingSource = (
-    selectedAlerts: Array<{ lat: number, long: number, datasetId: ?string }>,
+    selectedAlerts: Array<SelectedAlert>,
     isRouteTracking: boolean,
     isCustomReporting: boolean
   ): ReportingSource => {
@@ -597,19 +576,14 @@ class MapComponent extends Component<Props, State> {
     return 'currentLocation';
   };
 
-  determineReportingDatasetId = (selectedAlerts: Array<{ lat: number, long: number, datasetId: ?string }>): ?string => {
-    const alertsWithDataset: Array<{ lat: number, long: number, datasetId: ?string }> = selectedAlerts.filter(
-      alert => !!alert.datasetId
-    );
+  determineReportingDatasetId = (selectedAlerts: Array<SelectedAlert>): ?string => {
+    const alertsWithDataset: Array<SelectedAlert> = selectedAlerts.filter(alert => !!alert.datasetId);
     if (!alertsWithDataset.length) {
       return null;
     }
-    const uniqueDatasetAlerts: Array<{ lat: number, long: number, datasetId: ?string }> = uniqBy(
-      alertsWithDataset,
-      alert => {
-        return alert.datasetId;
-      }
-    );
+    const uniqueDatasetAlerts: Array<SelectedAlert> = uniqBy(alertsWithDataset, alert => {
+      return alert.datasetId;
+    });
     return uniqueDatasetAlerts
       .map(alert => {
         return DATASETS[alert.datasetId ?? '']?.reportNameId ?? '';
@@ -617,10 +591,7 @@ class MapComponent extends Component<Props, State> {
       .join('|');
   };
 
-  createReport = (
-    selectedAlerts: Array<{ lat: number, long: number, datasetId: ?string }>,
-    selectedReport: ?{ reportName: string, lat: number, long: number }
-  ) => {
+  createReport = (selectedAlerts: Array<SelectedAlert>, selectedReport: ?SelectedReport) => {
     const { area } = this.props;
     const { userLocation, customReporting, mapCenterCoords } = this.state;
 
@@ -629,7 +600,6 @@ class MapComponent extends Component<Props, State> {
       return;
     }
 
-    this.props.setCanDisplayAlerts(false);
     let latLng = [];
     if (customReporting) {
       if (!mapCenterCoords) {
@@ -781,68 +751,6 @@ class MapComponent extends Component<Props, State> {
       </MapboxGL.ShapeSource>
     );
   };
-
-  renderButtonPanel() {
-    const {
-      customReporting,
-      userLocation,
-      locationError,
-      selectedAlerts,
-      selectedReports,
-      tappedOnFeatures
-    } = this.state;
-    const hasAlertsSelected = selectedAlerts && selectedAlerts.length > 0;
-    const hasReportSelected = selectedReports?.length;
-    const canReport = hasAlertsSelected || hasReportSelected || customReporting;
-    const isRouteTracking = this.isRouteTracking();
-
-    // To fix the missing signal text overflow rendering in reverse row
-    // last to render will be on top of the others
-    return (
-      <React.Fragment>
-        <LocationErrorBanner
-          style={styles.locationErrorBanner}
-          locationError={locationError}
-          mostRecentLocationTime={userLocation?.timestamp}
-        />
-        <Animated.View style={{ transform: [{ translateY: this.state.animatedPosition }] }}>
-          <InfoBanner style={styles.infoBanner} tappedOnFeatures={tappedOnFeatures} />
-        </Animated.View>
-        <View style={styles.buttonPanel}>
-          {canReport ? (
-            <CircleButton shouldFillContainer onPress={this.reportSelection} light icon={createReportIcon} />
-          ) : (
-            <CircleButton shouldFillContainer onPress={this.onCustomReportingPress} icon={addLocationIcon} />
-          )}
-          {userLocation ? (
-            <CircleButton shouldFillContainer onPress={this.zoomToUserLocation} light icon={myLocationIcon} />
-          ) : null}
-          {canReport ? (
-            <CircleButton shouldFillContainer onPress={this.onSelectionCancelPress} light icon={cancelIcon} />
-          ) : null}
-          {isRouteTracking || canReport ? (
-            <CircleButton
-              shouldFillContainer
-              onPress={this.isRouteTracking() ? this.onStopTrackingPressed : this.onStartTrackingPressed}
-              light
-              icon={this.isRouteTracking() ? stopTrackingIcon : startTrackingIcon}
-            />
-          ) : null}
-        </View>
-      </React.Fragment>
-    );
-  }
-
-  renderMapFooter() {
-    return [
-      <FooterBackgroundSafeAreaView key="bg" pointerEvents="none" style={styles.footerBGContainer}>
-        <View style={styles.buttonPanelTray} />
-      </FooterBackgroundSafeAreaView>,
-      <FooterSafeAreaView key="footer" pointerEvents="box-none" style={styles.footer}>
-        {this.renderButtonPanel()}
-      </FooterSafeAreaView>
-    ];
-  }
 
   renderRouteTrackingDialog() {
     return this.state.routeTrackingDialogState !== ROUTE_TRACKING_BOTTOM_DIALOG_STATE_HIDDEN ? (
@@ -1132,7 +1040,22 @@ class MapComponent extends Component<Props, State> {
           {this.renderUserLocation()}
         </MapboxGL.MapView>
         {renderCustomReportingMarker}
-        {this.renderMapFooter()}
+        <Footer
+          animatedPosition={this.state.animatedPosition}
+          customReporting={this.state.customReporting}
+          isRouteTracking={this.isRouteTracking()}
+          locationError={this.state.locationError}
+          onCustomReportingPress={this.onCustomReportingPress}
+          onReportSelectionPress={this.reportSelection}
+          onSelectionCancelPress={this.onSelectionCancelPress}
+          onStartTrackingPress={this.onStartTrackingPressed}
+          onStopTrackingPress={this.onStopTrackingPressed}
+          onZoomToUserLocationPress={this.zoomToUserLocation}
+          selectedAlerts={this.state.selectedAlerts}
+          selectedReports={this.state.selectedReports}
+          tappedOnFeatures={this.state.tappedOnFeatures}
+          userLocation={this.state.userLocation}
+        />
         {this.renderRouteTrackingDialog()}
       </View>
     );
