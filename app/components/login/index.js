@@ -29,7 +29,7 @@ import { getLanguage } from 'helpers/language';
 const SafeAreaView = withSafeArea(View, 'padding', 'bottom');
 const WebViewSafeAreaView = withSafeArea(View, 'padding', 'top');
 
-import { launchAppRoot } from 'main';
+import { launchAppRoot } from 'screens/common';
 import moment from 'moment';
 import parseUrl from 'url-parse';
 

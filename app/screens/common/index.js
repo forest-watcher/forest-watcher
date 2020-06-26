@@ -92,3 +92,29 @@ export function showFAQSection(parentComponentId: string, title: string) {
     }
   });
 }
+
+export function launchAppRoot(screen: string) {
+  return Navigation.setRoot({
+    root: {
+      sideMenu: {
+        center: {
+          stack: {
+            children: [
+              {
+                component: {
+                  id: 'ForestWatcher.Dashboard',
+                  name: screen
+                }
+              }
+            ]
+          }
+        },
+        right: {
+          component: {
+            name: 'ForestWatcher.MapLayersDrawer'
+          }
+        }
+      }
+    }
+  });
+}
