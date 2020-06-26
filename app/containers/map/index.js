@@ -3,14 +3,13 @@ import type { Area } from 'types/areas.types';
 import type { Coordinates } from 'types/common.types';
 import type { ComponentProps, Dispatch, State } from 'types/store.types';
 import type { Location, Route } from 'types/routes.types';
-import type { BasicReport } from 'types/reports.types';
+import type { BasicReport, ReportArea } from 'types/reports.types';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { setSelectedAreaId } from 'redux-modules/areas';
 import { createReport } from 'redux-modules/reports';
 import { discardActiveRoute, getRoutesById, setRouteDestination } from 'redux-modules/routes';
-import { getImportedContextualLayersById } from 'redux-modules/layers';
 import { trackRouteFlowEvent, trackReportingStarted, type ReportingSource } from 'helpers/analytics';
 import { shouldBeConnected } from 'helpers/app';
 import { getSelectedArea, activeDataset } from 'helpers/area';
@@ -52,7 +51,7 @@ function mapStateToProps(state: State, ownProps: OwnProps) {
   const area: ?Area = getSelectedArea(state.areas.data, state.areas.selectedAreaId);
   let areaCoordinates: ?Array<Coordinates> = null;
   let dataset = null;
-  let areaProps = null;
+  let areaProps: ?ReportArea = null;
   if (area) {
     dataset = activeDataset(area);
     const geostore = area.geostore;
@@ -82,7 +81,6 @@ function mapStateToProps(state: State, ownProps: OwnProps) {
     layerSettings,
     featureId,
     basemap: getActiveBasemap(featureId, state),
-    downloadedLayerCache: state.layers.downloadedLayerProgress,
     isConnected: shouldBeConnected(state),
     isOfflineMode: state.app.offlineMode,
     coordinatesFormat: state.app.coordinatesFormat,
@@ -108,9 +106,6 @@ function mapDispatchToProps(dispatch: Dispatch) {
         numAlertsInReport = parsedAlerts.length;
       }
       trackReportingStarted(numAlertsInReport, source);
-    },
-    getImportedContextualLayersById: layerIds => {
-      return dispatch(getImportedContextualLayersById(layerIds));
     },
     onStartTrackingRoute: (location: Location, areaId: string) => {
       trackRouteFlowEvent('started');
