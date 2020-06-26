@@ -11,10 +11,10 @@ import {
   coordsObjectToArray,
   getValidLocations,
   GFWOnLocationEvent,
-  isValidLatLng,
   removeDuplicateLocations,
   type GFWLocationError
 } from 'helpers/location';
+import { isValidLatLng } from 'helpers/validation/location';
 import throttle from 'lodash/throttle';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import { feature, lineString, point } from '@turf/helpers';
