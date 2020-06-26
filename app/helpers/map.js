@@ -11,7 +11,7 @@ import { GeoJSONObject, point, lineString, type Feature } from '@turf/helpers';
 import distanceBetweenCoordinates from '@turf/distance';
 import pointToLineDistance from '@turf/point-to-line-distance';
 import _ from 'lodash';
-import type { Alert } from 'types/alerts.types';
+import type { Alert, SelectedAlert } from 'types/alerts.types';
 import type { AlertsIndex } from 'components/map/alerts/dataset';
 import geokdbush from 'geokdbush';
 
@@ -120,16 +120,23 @@ export function formatCoordsByFormat(coordinates: Coordinates, format: Coordinat
   }
 }
 
-export function getNeighboursSelected(alertsIndex: AlertsIndex, selectedAlerts: Array<Alert>, allAlerts: Array<Alert>) {
-  let neighbours: Array<Alert> = [];
+export function getNeighboursSelected(
+  alertsIndex: AlertsIndex,
+  selectedAlerts: Array<Alert | SelectedAlert>,
+  allAlerts: Array<Alert>
+) {
+  let neighbours: Array<Alert | SelectedAlert> = [];
 
-  selectedAlerts.forEach((alert: Alert) => {
+  selectedAlerts.forEach((alert: Alert | SelectedAlert) => {
     neighbours = [...neighbours, ...getAllNeighbours(alertsIndex, alert, allAlerts)];
   });
+
   // Remove duplicates
   neighbours = neighbours.filter(
-    (alert: Alert, index: number, self) => self.findIndex(t => t.lat === alert.lat && t.long === alert.long) === index
+    (alert: Alert | SelectedAlert, index: number, self) =>
+      self.findIndex(t => t.lat === alert.lat && t.long === alert.long) === index
   );
+
   return neighbours;
 }
 

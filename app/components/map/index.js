@@ -63,7 +63,8 @@ import {
   coordsObjectToArray,
   coordsArrayToObject,
   isValidLatLng,
-  isValidLatLngArray
+  isValidLatLngArray,
+  type GFWLocationError
 } from 'helpers/location';
 
 import ContextualLayers from 'containers/map/contextual-layers';
@@ -239,7 +240,7 @@ class MapComponent extends Component<Props, State> {
     return { ...bounds, ...MAPS.smallPadding };
   };
 
-  onLocationUpdateError = (error: ?Error) => {
+  onLocationUpdateError = (error: ?GFWLocationError) => {
     this.setState({
       locationError: error?.code
     });
