@@ -347,7 +347,7 @@ export function getCoordinateAndDistanceText(
 ) {
   if (isRouteTracking) {
     // Show the destination coordinates.
-    return getCoordinateText(route.destination, lastPosition, coordinatesFormat);
+    return getCoordinateText(route?.destination, lastPosition, coordinatesFormat);
   } else if (destinationCoordinates) {
     return getCoordinateText(coordsArrayToObject(destinationCoordinates), lastPosition, coordinatesFormat);
   } else {
@@ -382,7 +382,7 @@ export function coordsObjectToArray(coord: ?Coordinates) {
 }
 
 // returns true for valid lat lng values: { latitude: -1.00, longitude: 50.00 }
-export function isValidLatLng(location: { latitude: string, longitude: string } | Coordinate) {
+export function isValidLatLng(location: { latitude: string, longitude: string } | Coordinates) {
   return !isNaN(Number.parseFloat(location.latitude)) && !isNaN(Number.parseFloat(location.longitude));
 }
 
@@ -392,7 +392,7 @@ export function isValidLatLngArray(location: [string, string] | [number, number]
 }
 
 // removes locations with the same position as the previous location in the route
-export function removeDuplicateLocations(locations: ?Array<Location>) {
+export function removeDuplicateLocations(locations: ?Array<Coordinates>) {
   if (!locations) {
     return null;
   }

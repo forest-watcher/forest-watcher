@@ -112,6 +112,7 @@ export function formatCoordsByFormat(coordinates: Coordinates, format: Coordinat
     const utmCoords = utm.convertLatLngToUtm(latitude, longitude, 0);
     return `${utmCoords.ZoneNumber} ${utmCoords.ZoneLetter}, ${utmCoords.Easting} E ${utmCoords.Northing} N`;
   } else if (format === COORDINATES_FORMATS.decimal.value) {
+    // $FlowFixMe
     return `${latitude?.toFixed(4)}, ${longitude?.toFixed(4)}`;
   } else {
     // Not utm, not decimal... has to be degrees
@@ -120,14 +121,14 @@ export function formatCoordsByFormat(coordinates: Coordinates, format: Coordinat
 }
 
 export function getNeighboursSelected(alertsIndex: AlertsIndex, selectedAlerts: Array<Alert>, allAlerts: Array<Alert>) {
-  let neighbours = [];
+  let neighbours: Array<Alert> = [];
 
-  selectedAlerts.forEach(alert => {
+  selectedAlerts.forEach((alert: Alert) => {
     neighbours = [...neighbours, ...getAllNeighbours(alertsIndex, alert, allAlerts)];
   });
   // Remove duplicates
   neighbours = neighbours.filter(
-    (alert, index, self) => self.findIndex(t => t.lat === alert.lat && t.long === alert.long) === index
+    (alert: Alert, index: number, self) => self.findIndex(t => t.lat === alert.lat && t.long === alert.long) === index
   );
   return neighbours;
 }
@@ -142,7 +143,7 @@ export function getNeighboursSelected(alertsIndex: AlertsIndex, selectedAlerts: 
  * @return {number}
  *  Distance in metres
  */
-export function getDistanceOfLine(endLocation, startLocation) {
+export function getDistanceOfLine(endLocation: Coordinates, startLocation: Coordinates) {
   return (
     geokdbush.distance(endLocation.longitude, endLocation.latitude, startLocation.longitude, startLocation.latitude) *
     1000
@@ -157,7 +158,7 @@ export function getDistanceOfLine(endLocation, startLocation) {
  * @return {number}
  *  Total distance in metres
  */
-export function getDistanceOfPolyline(locations) {
+export function getDistanceOfPolyline(locations: Array<Coordinates>) {
   let cumulativeDistance = 0;
 
   if (locations.length < 2) {
@@ -182,14 +183,16 @@ export function getDistanceOfPolyline(locations) {
  * @param thresholdBeforeKm
  * @return {string}
  */
-export function formatDistance(distance, thresholdBeforeKm = 1, relativeToUser = true) {
+export function formatDistance(distance: number, thresholdBeforeKm: number = 1, relativeToUser: boolean = true) {
   let distanceText = `${distance.toFixed(0)}${
     relativeToUser ? i18n.t('commonText.metersAway') : i18n.t('commonText.meters')
   }`;
 
-  if (thresholdBeforeKm && distance >= thresholdBeforeKm * 1000) {
-    distance = (distance / 1000).toFixed(1); // in Kilometers
-    distanceText = `${distance}${relativeToUser ? i18n.t('commonText.kmAway') : i18n.t('commonText.kilometers')}`;
+  if (thresholdBeforeKm != null && distance >= thresholdBeforeKm * 1000) {
+    const roundedDistance = (distance / 1000).toFixed(1); // in Kilometers
+    distanceText = `${roundedDistance}${
+      relativeToUser ? i18n.t('commonText.kmAway') : i18n.t('commonText.kilometers')
+    }`;
   }
 
   return distanceText;
@@ -219,7 +222,7 @@ export function getPolygonBoundingBox(polygon) {
  *
  * @returns Feature
  */
-export function closestFeature(features: Array<Feature>, coordinate: { longitude: number, latitude: number }) {
+export function closestFeature(features: Array<Feature>, coordinate: Coordinates) {
   const coordinatePoint = point([coordinate.longitude, coordinate.latitude]);
   const geometryFeatures = features.filter((feature: Feature) => !!feature.geometry);
   return _.minBy(geometryFeatures, feature => {

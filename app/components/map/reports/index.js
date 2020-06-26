@@ -1,5 +1,5 @@
 // @flow
-import type { Report } from 'types/reports.types';
+import type { Report, SelectedReport } from 'types/reports.types';
 
 import React, { Component } from 'react';
 
@@ -20,7 +20,7 @@ export type ReportLayerSettings = {
 type Props = {
   myReports: Array<Report>,
   importedReports: Array<Report>,
-  selectedReports: Array<{ reportName: string, lat: number, long: number }>,
+  selectedReports: Array<SelectedReport>,
   reportLayerSettings: ReportLayerSettings,
   onShapeSourcePressed?: () => void
 };

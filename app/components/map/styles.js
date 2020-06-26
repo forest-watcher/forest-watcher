@@ -82,72 +82,9 @@ export default StyleSheet.create({
     position: 'absolute',
     top: 0
   },
-  buttonPanel: {
-    flexDirection: 'row-reverse', // See jsx comment to understand better
-    alignItems: 'flex-end',
-    justifyContent: 'space-between',
-    marginHorizontal: 24,
-    marginBottom: 16,
-    paddingBottom: 16
-  },
-  buttonPanelSelected: {
-    flexDirection: 'column'
-  },
-  buttonPanelRow: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center'
-  },
-  buttonPanelTray: {
-    height: 56
-  },
-  btnMarginContainer: {
-    marginTop: 8
-  },
-  footer: {
-    left: 0,
-    right: 0,
-    bottom: 0,
-    zIndex: 3,
-    position: 'absolute'
-  },
-  footerBGContainer: {
-    backgroundColor: 'rgba(0,0,0,0.3)',
-    left: 0,
-    right: 0,
-    bottom: 0,
-    zIndex: 3,
-    position: 'absolute'
-  },
-  footerBg: {
-    width: Theme.screen.width,
-    height: 100,
-    resizeMode: 'stretch',
-    position: 'absolute',
-    bottom: 0,
-    transform: [{ rotate: '180deg' }]
-  },
-  footerSubtitle: {
-    bottom: 20
-  },
-  btnReport: {
-    flex: 1
-  },
-  hidden: {
-    opacity: 0,
-    height: 0
-  },
   forceRefresh: {
     marginTop: -1,
     paddingTop: 1
-  },
-  locationErrorBanner: {
-    marginHorizontal: 25,
-    marginBottom: -64 // shows as same position as infoBanner
-  },
-  infoBanner: {
-    marginHorizontal: 25,
-    marginBottom: 39
   }
 });
 

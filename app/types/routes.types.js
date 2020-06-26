@@ -1,4 +1,6 @@
 // @flow
+import type { Coordinates } from 'types/common.types';
+
 export type RouteState = {
   activeRoute: ?Route,
   previousRoutes: Array<Route>,
@@ -18,14 +20,9 @@ export type Route = {
   startDate: number,
   endDate: ?number,
   difficulty: RouteDifficulty,
-  destination: Location,
+  destination: Coordinates,
   locations: Array<LocationPoint>,
   isImported?: true
-};
-
-export type Location = {
-  latitude: number,
-  longitude: number
 };
 
 export type LocationPoint = {

@@ -14,6 +14,12 @@ export type Alert = {
   date: number
 };
 
+export type SelectedAlert = {
+  lat: number,
+  long: number,
+  datasetId: ?string
+};
+
 export type AlertDatasetConfig = {
   id: string,
   nameKey: string,

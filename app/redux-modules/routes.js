@@ -1,6 +1,7 @@
 // @flow
 import type { Area } from 'types/areas.types';
-import type { Location, RouteState, RouteAction, Route, RouteDeletionCriteria } from 'types/routes.types';
+import type { Coordinates } from 'types/common.types';
+import type { RouteState, RouteAction, Route, RouteDeletionCriteria } from 'types/routes.types';
 import type { Dispatch, GetState, Thunk } from 'types/store.types';
 import { deleteAllLocations } from 'helpers/location';
 import generateUniqueID from 'helpers/uniqueId';
@@ -167,7 +168,7 @@ export function deleteRoutes(criteria: RouteDeletionCriteria): RouteAction {
   };
 }
 
-export function setRouteDestination(destination: Location, areaId: string): Thunk<RouteAction> {
+export function setRouteDestination(destination: Coordinates, areaId: string): Thunk<RouteAction> {
   return (dispatch: Dispatch, getState: GetState) => {
     deleteAllLocations();
 

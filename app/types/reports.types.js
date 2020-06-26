@@ -1,4 +1,5 @@
 // @flow
+import type { SelectedAlert } from 'types/alerts.types';
 import type { Dataset, GetAreasCommit } from 'types/areas.types';
 import type { LogoutRequest } from 'types/user.types';
 import type { OfflineMeta } from 'types/offline.types';
@@ -59,12 +60,18 @@ export type Report = {
   isImported?: true
 };
 
+export type SelectedReport = {
+  reportName: string,
+  lat: number,
+  long: number
+};
+
 export type BasicReport = {
   reportName: string,
   userPosition: string, // "x,x"
   clickedPosition: string, // JSON representation of an array of objects with lat and lon props
   area: ReportArea,
-  selectedAlerts: Array<{ lat: number, long: number, datasetId: ?string }>
+  selectedAlerts: Array<SelectedAlert>
 };
 
 export type ReportArea = {

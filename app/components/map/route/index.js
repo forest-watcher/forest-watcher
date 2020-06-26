@@ -1,6 +1,7 @@
 // @flow
 
-import type { Location, LocationPoint, Route } from 'types/routes.types';
+import type { Coordinates } from 'types/common.types';
+import type { LocationPoint, Route } from 'types/routes.types';
 
 import React, { PureComponent } from 'react';
 const emitter = require('tiny-emitter/instance');
@@ -80,8 +81,8 @@ export default class RouteMarkers extends PureComponent<Props, State> {
    * reconcileRouteLocations - Given two arrays of locations, determines which should be used.
    * This allows the UI to show locations for a current or previous route without needing to know what it's displaying.
    *
-   * @param  {array<Location>} currentRouteLocations  Locations for a current route, if the user is tracking a route.
-   * @param  {array<Location>} previousRouteLocations Locations for a previous route, if the user is viewing a saved route.
+   * @param  {array<LocationPoint>} currentRouteLocations  Locations for a current route, if the user is tracking a route.
+   * @param  {array<LocationPoint>} previousRouteLocations Locations for a previous route, if the user is viewing a saved route.
    */
   reconcileRouteLocations = (
     currentRouteLocations: Array<LocationPoint>,
@@ -131,7 +132,7 @@ export default class RouteMarkers extends PureComponent<Props, State> {
   };
 
   // Draw line from user location to destination
-  renderDestinationLine = (destination: ?Location, userLocation: ?LocationPoint) => {
+  renderDestinationLine = (destination: ?Coordinates, userLocation: ?LocationPoint) => {
     if (!destination || !userLocation) {
       return null;
     }

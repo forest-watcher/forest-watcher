@@ -1,4 +1,5 @@
 // @flow
+import type { MapFeature } from 'types/common.types';
 import type { ViewStyle } from 'types/reactElementStyles.types';
 
 import React, { Component } from 'react';
@@ -13,15 +14,7 @@ import i18n from 'i18next';
 const rightArrow = require('assets/next.png');
 
 type Props = {
-  tappedOnFeatures: Array<{
-    date: number,
-    name: string,
-    type: string,
-    featureId: string,
-    lat?: string,
-    long?: string,
-    reportAreaName?: string
-  }>,
+  tappedOnFeatures: Array<MapFeature>,
   style: ViewStyle
 };
 
