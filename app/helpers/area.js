@@ -11,7 +11,7 @@ export function getSelectedArea(areas: Array<Area>, selectedId: string): ?Area {
 }
 
 export function activeDataset(area: Area): ?Dataset {
-  if (!area?.datasets) {
+  if (!area.datasets) {
     return null;
   }
   const enabledDataset = area.datasets.find(Boolean);

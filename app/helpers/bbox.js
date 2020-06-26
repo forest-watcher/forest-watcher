@@ -1,6 +1,7 @@
 // @flow
 
 import type { Area } from 'types/areas.types';
+import type { Coordinates } from 'types/common.types';
 
 import type { Route, LocationPoint } from 'types/routes.types';
 import turfBbox from '@turf/bbox';
@@ -47,7 +48,7 @@ export function bboxForArea(area: Area): ?BBox2d {
 export function bboxForRoute(route: Route): BBox2d {
   const routePoints = [...route.locations, route.destination];
   const lineString = turfLineString(
-    routePoints.map((item: Location | LocationPoint) => [item.longitude, item.latitude])
+    routePoints.map((item: Coordinates | LocationPoint) => [item.longitude, item.latitude])
   );
   return turfBbox(lineString);
 }

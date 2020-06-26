@@ -2,7 +2,7 @@
 import type { Area } from 'types/areas.types';
 import type { Coordinates } from 'types/common.types';
 import type { ComponentProps, Dispatch, State } from 'types/store.types';
-import type { Location, Route } from 'types/routes.types';
+import type { Route } from 'types/routes.types';
 import type { BasicReport, ReportArea } from 'types/reports.types';
 
 import { bindActionCreators } from 'redux';
@@ -50,10 +50,9 @@ function reconcileRoutes(activeRoute: ?Route, previousRoute: ?Route): ?Route {
 function mapStateToProps(state: State, ownProps: OwnProps) {
   const area: ?Area = getSelectedArea(state.areas.data, state.areas.selectedAreaId);
   let areaCoordinates: ?Array<Coordinates> = null;
-  let dataset = null;
   let areaProps: ?ReportArea = null;
   if (area) {
-    dataset = activeDataset(area);
+    const dataset = activeDataset(area);
     const geostore = area.geostore;
     const areaFeatures = (geostore && geostore.geojson && geostore.geojson.features[0]) || false;
     if (areaFeatures) {
@@ -107,7 +106,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
       }
       trackReportingStarted(numAlertsInReport, source);
     },
-    onStartTrackingRoute: (location: Location, areaId: string) => {
+    onStartTrackingRoute: (location: Coordinates, areaId: string) => {
       trackRouteFlowEvent('started');
       dispatch(setRouteDestination(location, areaId));
     },
