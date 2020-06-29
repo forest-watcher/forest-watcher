@@ -2,9 +2,7 @@
 import type { MBTileBasemapMetadata } from './types.js';
 import MBTilesSource from './tileSource';
 
-import { NativeModules } from 'react-native';
-
-const { ReactNativeMBTiles } = NativeModules;
+import ReactNativeMBTiles from './nativeModule.js';
 
 const getMBTilesMetadata = async (path: string): Promise<MBTileBasemapMetadata> => {
   return await new Promise((resolve, reject) => {

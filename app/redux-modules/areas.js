@@ -6,7 +6,7 @@ import type { Dispatch, GetState } from 'types/store.types';
 import Config from 'react-native-config';
 // Actions
 import { LOGOUT_REQUEST } from 'redux-modules/user';
-import { RETRY_SYNC } from 'redux-modules/app';
+import { RETRY_SYNC } from 'redux-modules/shared';
 import { GET_ALERTS_COMMIT } from 'redux-modules/alerts';
 import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 

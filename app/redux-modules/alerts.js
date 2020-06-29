@@ -8,7 +8,7 @@ import Config from 'react-native-config';
 // Actions
 import { LOGOUT_REQUEST } from 'redux-modules/user';
 import { CREATE_REPORT } from 'redux-modules/reports';
-import { RETRY_SYNC } from 'redux-modules/app';
+import { RETRY_SYNC } from 'redux-modules/shared';
 import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 import storeAlertsFromCsv from 'helpers/alert-store/storeAlertsFromCsv';
 import deleteAlerts from 'helpers/alert-store/deleteAlerts';

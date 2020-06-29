@@ -14,10 +14,11 @@ import { syncReports } from 'redux-modules/reports';
 import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 import takeRight from 'lodash/takeRight';
 
+import { RETRY_SYNC } from 'redux-modules/shared';
+
 // Actions
 const SET_OFFLINE_MODE = 'app/SET_OFFLINE_MODE';
 const SET_APP_SYNCED = 'app/SET_APP_SYNCED';
-export const RETRY_SYNC = 'app/RETRY_SYNC';
 const SET_AREA_COUNTRY_TOOLTIP_SEEN = 'app/SET_AREA_COUNTRY_TOOLTIP_SEEN';
 const SET_AREA_DOWNLOAD_TOOLTIP_SEEN = 'app/SET_AREA_DOWNLOAD_TOOLTIP_SEEN';
 const SET_COORDINATES_FORMAT = 'app/SET_COORDINATES_FORMAT';

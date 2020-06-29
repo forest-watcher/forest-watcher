@@ -62,10 +62,9 @@ import {
   getCoordinateAndDistanceText,
   coordsObjectToArray,
   coordsArrayToObject,
-  isValidLatLng,
-  isValidLatLngArray,
   type GFWLocationError
 } from 'helpers/location';
+import { isValidLatLng, isValidLatLngArray } from 'helpers/validation/location';
 
 import ContextualLayers from 'containers/map/contextual-layers';
 import RouteMarkers from 'components/map/route';

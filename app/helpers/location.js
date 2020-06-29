@@ -385,16 +385,6 @@ export function coordsObjectToArray(coord: ?Coordinates) {
   return [coord?.longitude, coord?.latitude];
 }
 
-// returns true for valid lat lng values: { latitude: -1.00, longitude: 50.00 }
-export function isValidLatLng(location: { latitude: string, longitude: string } | Coordinates) {
-  return !isNaN(Number.parseFloat(location.latitude)) && !isNaN(Number.parseFloat(location.longitude));
-}
-
-// returns true for valid lat lng array: [50.00, -1.00]
-export function isValidLatLngArray(location: [string, string] | [number, number]) {
-  return !isNaN(Number.parseFloat(location[1])) && !isNaN(Number.parseFloat(location[0]));
-}
-
 // removes locations with the same position as the previous location in the route
 export function removeDuplicateLocations(locations: ?Array<Coordinates | LocationPoint>) {
   if (!locations) {

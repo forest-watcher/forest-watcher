@@ -5,7 +5,7 @@ import UtmLatLng from 'utm-latlng';
 import formatcoords from 'formatcoords';
 import i18n from 'i18next';
 import type { Coordinates, CoordinatesFormat } from 'types/common.types';
-import { isValidLatLng } from 'helpers/location';
+import { isValidLatLng } from 'helpers/validation/location';
 import { isEmpty, removeNulls } from 'helpers/utils';
 import { GeoJSONObject, point, lineString, type Feature } from '@turf/helpers';
 import distanceBetweenCoordinates from '@turf/distance';
