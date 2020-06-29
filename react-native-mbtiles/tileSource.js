@@ -24,7 +24,9 @@ export default class MBTilesSource extends PureComponent<Props, State> {
     this.state = {
       metadata: null
     };
+  }
 
+  componentDidMount() {
     this.prepareOfflineBasemapForUse();
   }
 
