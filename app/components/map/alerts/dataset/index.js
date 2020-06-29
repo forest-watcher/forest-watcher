@@ -1,5 +1,6 @@
 // @flow
 import type { Alert, AlertDatasetConfig, SelectedAlert } from 'types/alerts.types';
+import type { AlertFeatureProperties, MapboxFeaturePressEvent } from 'types/common.types';
 
 import React, { PureComponent } from 'react';
 
@@ -23,26 +24,13 @@ export type AlertsIndex = {|
   +nodeSize: number
 |};
 
-type AlertProperties = {|
-  lat: string,
-  long: string,
-  type: 'alert',
-  clusterId: 'reported' | 'recent' | 'other',
-  datasetId: string,
-  name: string,
-  date: number,
-  icon: string,
-  reported: boolean,
-  selected: boolean
-|};
-
 type Props = {|
   +areaId?: ?string,
   +isActive: boolean,
-  +onPress?: ?() => any,
+  +onPress?: ?(MapboxFeaturePressEvent<AlertFeatureProperties>) => any,
   +slug: 'umd_as_it_happens' | 'viirs',
-  +reportedAlerts: Array<string>,
-  +selectedAlerts: Array<SelectedAlert>,
+  +reportedAlerts: $ReadOnlyArray<string>,
+  +selectedAlerts: $ReadOnlyArray<SelectedAlert>,
   +timeframe: number,
   +timeframeUnit: 'days' | 'months'
 |};
@@ -166,7 +154,7 @@ export default class AlertDataset extends PureComponent<Props, State> {
     }
   };
 
-  _getAlertProperties = (alert: Alert, selectedNeighbours: Array<Alert>): AlertProperties => {
+  _getAlertProperties = (alert: Alert, selectedNeighbours: $ReadOnlyArray<Alert>): AlertFeatureProperties => {
     const { name, recencyTimestamp, iconPrefix } = this.datasets[alert.slug];
     const reported = this.props.reportedAlerts.includes(`${alert.long}${alert.lat}`);
     const isRecent = alert.date > recencyTimestamp;

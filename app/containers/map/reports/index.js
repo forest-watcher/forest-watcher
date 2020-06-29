@@ -1,4 +1,5 @@
 // @flow
+import type { MapboxFeaturePressEvent, ReportFeatureProperties } from 'types/common.types';
 import type { Report, SelectedReport } from 'types/reports.types';
 import type { ComponentProps, Dispatch, State } from 'types/store.types';
 
@@ -10,8 +11,8 @@ import { getReports } from 'containers/reports';
 
 type OwnProps = {|
   +featureId: string,
-  +onShapeSourcePressed: () => void,
-  selectedReports: Array<SelectedReport>
+  +onShapeSourcePressed?: (MapboxFeaturePressEvent<ReportFeatureProperties>) => void,
+  +selectedReports: $ReadOnlyArray<SelectedReport>
 |};
 
 function mapStateToProps(state: State, ownProps: OwnProps) {

@@ -386,10 +386,11 @@ export function coordsObjectToArray(coord: ?Coordinates) {
 }
 
 // removes locations with the same position as the previous location in the route
-export function removeDuplicateLocations(locations: ?Array<Coordinates | LocationPoint>) {
+export function removeDuplicateLocations<T: { latitude: number, longitude: number }>(locations: ?Array<T>): ?Array<T> {
   if (!locations) {
     return null;
   }
+
   _.reject(locations, function(location, i) {
     return (
       i > 0 && locations[i - 1].latitude === location.latitude && locations[i - 1].longitude === location.longitude

@@ -37,7 +37,7 @@ declare module '@turf/helpers' {
   declare type Geometries = Point | LineString | Polygon | MultiPoint | MultiLineString | MultiPolygon;
 
   declare interface GeoJSONObject {
-    +type: string;
+    +type: Types;
     +bbox?: ?BBox;
   }
 
@@ -45,7 +45,7 @@ declare module '@turf/helpers' {
     +type: GeometryTypes;
   }
 
-  declare interface Geometry extends GeoJSONObject {
+  declare interface Geometry extends GeometryObject {
     +coordinates: Position | Array<Position> | Array<Array<Position>> | Array<Array<Array<Position>>>;
   }
 
@@ -97,11 +97,11 @@ declare module '@turf/helpers' {
   }
 
   declare module.exports: {
-    feature: <G: GeometryObject>(G) => Feature<G>,
-    featureCollection: <T>(Array<Feature<T>>) => FeatureCollection<T>,
-    lineString: (coordinates: Array<[number, number]>, properties?: Properties) => Feature<LineString>,
-    point: (coordinates: [number, number], properties?: Properties) => Feature<Point>,
-    polygon: (coordinates: Array<Array<[number, number]>>, properties?: Properties) => Feature<Polygon>
+    feature: <G: GeometryObject, P: Properties>(G, properties?: P) => Feature<G, P>,
+    featureCollection: <T, P>(Array<Feature<T, P>>) => FeatureCollection<T, P>,
+    lineString: <P: Properties>(coordinates: Array<[number, number]>, properties?: P) => Feature<LineString, P>,
+    point: <P: Properties>(coordinates: [number, number], properties?: P) => Feature<Point, P>,
+    polygon: <P: Properties>(coordinates: Array<Array<[number, number]>>, properties?: P) => Feature<Polygon, P>
   };
 }
 

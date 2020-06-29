@@ -1,4 +1,5 @@
 // @flow
+import type { Coordinates } from 'types/common.types';
 
 // returns true for valid lat lng values: { latitude: -1.00, longitude: 50.00 }
 export function isValidLatLng(location: { latitude: string, longitude: string } | Coordinates) {

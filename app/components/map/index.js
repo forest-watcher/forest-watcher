@@ -4,7 +4,15 @@ import React, { Component, type Node } from 'react';
 import type { SelectedAlert } from 'types/alerts.types';
 import type { AreasAction } from 'types/areas.types';
 import type { Basemap } from 'types/basemaps.types';
-import type { Coordinates, CoordinatesFormat, MapFeature } from 'types/common.types';
+import type {
+  AlertFeatureProperties,
+  Coordinates,
+  CoordinatesFormat,
+  MapboxFeaturePressEvent,
+  MapItemFeatureProperties,
+  ReportFeatureProperties,
+  RouteFeatureProperties
+} from 'types/common.types';
 import type { LocationPoint, Route } from 'types/routes.types';
 import type { BasicReport, ReportArea, SelectedReport } from 'types/reports.types';
 import type { LayerSettings } from 'types/layerSettings.types';
@@ -72,7 +80,7 @@ import RouteMarkers from 'components/map/route';
 import Alerts from 'components/map/alerts';
 import Reports from 'containers/map/reports';
 import Footer from 'components/map/footer';
-import { lineString, type Feature } from '@turf/helpers';
+import { lineString, type Feature, type Geometry, type Position } from '@turf/helpers';
 import { showMapWalkthrough } from 'screens/common';
 
 const emitter = require('tiny-emitter/instance');
@@ -94,17 +102,17 @@ const userLocationImage = require('assets/userLocation.png');
 type Props = {
   componentId: string,
   createReport: (BasicReport, ReportingSource) => void,
-  areaCoordinates: ?Array<Coordinates>,
+  areaCoordinates: ?$ReadOnlyArray<Coordinates>,
   isConnected: boolean,
   isOfflineMode: boolean,
-  reportedAlerts: Array<string>,
+  reportedAlerts: $ReadOnlyArray<string>,
   featureId: ?string,
   area: ?ReportArea,
   coordinatesFormat: CoordinatesFormat,
   mapWalkthroughSeen: boolean,
   setSelectedAreaId: string => AreasAction,
   route: ?Route,
-  allRouteIds: Array<string>,
+  allRouteIds: $ReadOnlyArray<string>,
   layerSettings: LayerSettings,
   isTracking: boolean,
   onStartTrackingRoute: (location: Coordinates, areaId: string) => void,
@@ -117,8 +125,8 @@ type State = {
   userLocation: ?LocationPoint,
   heading: ?number,
   hasHeadingReadingFromCompass: boolean,
-  selectedAlerts: Array<SelectedAlert>,
-  selectedReports: Array<SelectedReport>,
+  selectedAlerts: $ReadOnlyArray<SelectedAlert>,
+  selectedReports: $ReadOnlyArray<SelectedReport>,
   customReporting: boolean,
   dragging: boolean,
   layoutHasForceRefreshed: boolean,
@@ -129,7 +137,7 @@ type State = {
   animatedPosition: any,
   infoBannerShowing: boolean,
   // feature(s) that the user has just tapped on
-  tappedOnFeatures: Array<MapFeature>
+  tappedOnFeatures: $ReadOnlyArray<MapItemFeatureProperties>
 };
 
 class MapComponent extends Component<Props, State> {
@@ -260,6 +268,16 @@ class MapComponent extends Component<Props, State> {
           }
         }
       });
+    }
+
+    if (prevState.infoBannerShowing !== this.state.infoBannerShowing) {
+      Animated.spring(this.state.animatedPosition, {
+        toValue: this.state.infoBannerShowing ? 0 : DISMISSED_INFO_BANNER_POSTIION,
+        velocity: 3,
+        tension: 2,
+        friction: 8,
+        useNativeDriver: false
+      }).start();
     }
   }
 
@@ -561,7 +579,7 @@ class MapComponent extends Component<Props, State> {
   });
 
   determineReportingSource = (
-    selectedAlerts: Array<SelectedAlert>,
+    selectedAlerts: $ReadOnlyArray<SelectedAlert>,
     isRouteTracking: boolean,
     isCustomReporting: boolean
   ): ReportingSource => {
@@ -576,7 +594,7 @@ class MapComponent extends Component<Props, State> {
     return 'currentLocation';
   };
 
-  determineReportingDatasetId = (selectedAlerts: Array<SelectedAlert>): ?string => {
+  determineReportingDatasetId = (selectedAlerts: $ReadOnlyArray<SelectedAlert>): ?string => {
     const alertsWithDataset: Array<SelectedAlert> = selectedAlerts.filter(alert => !!alert.datasetId);
     if (!alertsWithDataset.length) {
       return null;
@@ -591,7 +609,7 @@ class MapComponent extends Component<Props, State> {
       .join('|');
   };
 
-  createReport = (selectedAlerts: Array<SelectedAlert>, selectedReport: ?SelectedReport) => {
+  createReport = (selectedAlerts: $ReadOnlyArray<SelectedAlert>, selectedReport: ?SelectedReport) => {
     const { area } = this.props;
     const { userLocation, customReporting, mapCenterCoords } = this.state;
 
@@ -682,7 +700,7 @@ class MapComponent extends Component<Props, State> {
           userLocation={null}
           route={route}
           selected={this.isRouteSelected(route.id)}
-          onShapeSourcePressed={this.onShapeSourcePressed}
+          onShapeSourcePressed={this.onRouteFeaturesPressed}
         />
       );
     });
@@ -783,19 +801,26 @@ class MapComponent extends Component<Props, State> {
   }
 
   dismissInfoBanner = () => {
-    // dismiss info banner
-    this.setState({ infoBannerShowing: false });
-    Animated.spring(this.state.animatedPosition, {
-      toValue: DISMISSED_INFO_BANNER_POSTIION,
-      velocity: 3,
-      tension: 2,
-      friction: 8,
-      useNativeDriver: false
-    }).start();
+    this.setState({
+      infoBannerShowing: false
+    });
   };
 
-  onClusterPress = async (coords: [number, number]) => {
+  onClusterPress = async (clusterFeature: Feature<Geometry, any>) => {
     this.dismissInfoBanner();
+
+    let coords: ?Position = null;
+    const clusterGeometry = clusterFeature.geometry;
+    switch (clusterGeometry.type) {
+      case 'Point': {
+        coords = clusterGeometry.coordinates;
+        break;
+      }
+      default: {
+        break;
+      }
+    }
+
     if (coords && this.map) {
       const zoom = await this.map.getZoom();
       if (this.mapCamera) {
@@ -808,129 +833,95 @@ class MapComponent extends Component<Props, State> {
     }
   };
 
-  onAlertPressed = (e: any) => {
+  onAlertFeaturesPressed = (e: MapboxFeaturePressEvent<AlertFeatureProperties>) => {
     // if any of the features are a cluster - zoom in on the cluster so items will be moved apart
     const clusters = e.features.filter(feature => feature.properties?.cluster);
     if (clusters.length) {
-      this.onClusterPress(clusters[0].geometry?.coordinates);
+      this.onClusterPress(clusters[0]);
       return;
     }
     const feature = closestFeature(e.features, e.coordinates);
     if (!feature) {
       return;
     }
-    this.onFeaturePressed(feature.properties);
+
+    const alertProps: AlertFeatureProperties = feature.properties;
+    const pressedAlert: SelectedAlert = {
+      lat: Number(alertProps.lat),
+      long: Number(alertProps.long),
+      datasetId: alertProps.datasetId
+    };
+    const isAlert = alert => alert.lat === pressedAlert.lat && alert.long === pressedAlert.long;
+
+    this.setState((prevState: State) => {
+      const isAlertAlreadySelected = prevState.selectedAlerts.find(isAlert);
+      const selectedAlerts = isAlertAlreadySelected
+        ? prevState.selectedAlerts.filter(alert => !isAlert(alert))
+        : [...prevState.selectedAlerts, pressedAlert];
+      return {
+        selectedReports: [], // deselect report if alert is tapped
+        tappedOnFeatures: [alertProps],
+        selectedAlerts: selectedAlerts,
+        infoBannerShowing: selectedAlerts.length > 0
+      };
+    });
   };
 
-  onShapeSourcePressed = (e: any) => {
-    // all features *should* be of the same type, as you cannot touch items on different layers.
-    let features: Array<Feature> = e.features;
-    features = features.map(feature => feature.properties);
-    if (features?.length === 1) {
-      this.onFeaturePressed(features[0]);
+  onReportFeaturesPressed = (e: MapboxFeaturePressEvent<ReportFeatureProperties>) => {
+    const clusters = e.features.filter(feature => feature.properties?.cluster);
+    if (clusters.length) {
+      this.onClusterPress(clusters[0]);
       return;
     }
-    // ignore routes if tapping on multiple features as they can be easily tapped on a different part of the route
-    features = features.filter(feature => feature.type !== 'route');
-    if (features?.length === 1) {
-      this.onFeaturePressed(features[0]);
-      return;
-    }
-    if (features?.length === 0) {
-      return;
-    }
-    // deselect all previously selected items and select all reports and alerts tapped on
-    const selectedAlerts = features
-      .filter(feature => feature.type === 'alert')
-      .map(feature => ({
-        lat: Number(feature.lat),
-        long: Number(feature.long)
-      }));
-    const selectedReports = features
-      .filter(feature => feature.type === 'report')
-      .map(feature => ({
-        reportName: feature.featureId,
-        lat: Number(feature.lat),
-        long: Number(feature.long)
-      }));
 
-    const tappedOnFeatures = features.filter(feature => feature.type === 'alert' || feature.type === 'report');
+    const features: Array<ReportFeatureProperties> = (e.features ?? []).map(feature => feature.properties);
+
+    if (features.length === 0) {
+      return;
+    }
+
+    const pressedReports = features.map(feature => ({
+      reportName: feature.featureId,
+      lat: Number(feature.lat),
+      long: Number(feature.long)
+    }));
+
+    // If none of the pressedReports are selected, then select them all
+    // If all of the pressedReports are selected, then unselect them all
+    // If some of the pressedReports are selected, then select the unselected ones
+
+    this.setState((prevState: State) => {
+      const newlySelectedReports = pressedReports.filter(
+        pressedReport =>
+          !prevState.selectedReports.some(selectedReport => pressedReport.reportName === selectedReport.reportName)
+      );
+      const selectedReports =
+        newlySelectedReports.length > 0
+          ? [...prevState.selectedReports, ...newlySelectedReports]
+          : prevState.selectedReports.filter(
+              report => !pressedReports.some(pressedReport => pressedReport.reportName === report.reportName)
+            );
+
+      return {
+        selectedReports: selectedReports,
+        selectedAlerts: [], // deselect alert if report is tapped
+        infoBannerShowing: selectedReports.length > 0,
+        tappedOnFeatures: features
+      };
+    });
+  };
+
+  onRouteFeaturesPressed = (e: MapboxFeaturePressEvent<RouteFeatureProperties>) => {
+    const features: Array<RouteFeatureProperties> = (e.features ?? []).map(feature => feature.properties);
+
+    if (features.length === 0) {
+      return;
+    }
 
     this.setState({
-      selectedAlerts,
-      selectedReports,
       infoBannerShowing: true,
-      tappedOnFeatures
+      tappedOnFeatures: [features[0]]
     });
-
-    // show/hide info banner
-    Animated.spring(this.state.animatedPosition, {
-      toValue: 0,
-      velocity: 3,
-      tension: 2,
-      friction: 8,
-      useNativeDriver: false
-    }).start();
-  };
-
-  onFeaturePressed = (feature: Feature) => {
-    // show info banner with feature details
-    const { date, name, type, featureId, cluster, lat, long, datasetId } = feature;
-
-    if (cluster) {
-      this.onClusterPress(feature.geometry?.coordinates);
-      return;
-    }
-    if (date && name && type) {
-      let selectedAlert, selectedReportFeatureId, infoBannerShowing;
-      if (type === 'alert') {
-        // need to pass these as strings as they are rounded in onShapeSourcePressed method.
-        selectedAlert = { lat: Number(lat), long: Number(long), datasetId };
-      }
-      if (type === 'report') {
-        // need to pass these as strings as they are rounded in onShapeSourcePressed method.
-        selectedReportFeatureId = featureId;
-      }
-      this.setState((prevState: State) => {
-        const isAlert = alert => alert.lat === selectedAlert.lat && alert.long === selectedAlert.long;
-        let { selectedAlerts, selectedReports } = prevState;
-        if (selectedAlert) {
-          // deselect report if alert is tapped
-          selectedReports = [];
-          if (selectedAlerts.find(isAlert)) {
-            // Deselect alert(s) at exact same location as alert that user pressed on
-            selectedAlerts = selectedAlerts.filter(alert => !isAlert(alert));
-          } else {
-            // Add user pressed alert to selected alerts
-            selectedAlerts = [...selectedAlerts, selectedAlert];
-          }
-        } else if (selectedReportFeatureId) {
-          // deselect alert if report is tapped
-          selectedAlerts = [];
-          selectedReports =
-            selectedReports?.[0]?.reportName === selectedReportFeatureId
-              ? []
-              : [{ reportName: selectedReportFeatureId, lat: Number(lat), long: Number(long) }];
-        }
-        infoBannerShowing = !!selectedAlerts?.length || !!selectedReports?.length || type === 'route';
-
-        // show/hide info banner
-        Animated.spring(this.state.animatedPosition, {
-          toValue: infoBannerShowing ? 0 : DISMISSED_INFO_BANNER_POSTIION,
-          velocity: 3,
-          tension: 2,
-          friction: 8,
-          useNativeDriver: false
-        }).start();
-
-        return {
-          selectedAlerts,
-          selectedReports,
-          infoBannerShowing,
-          tappedOnFeatures: [feature]
-        };
-      });
-    }
   };
 
   onMapPress = () => {
@@ -1023,11 +1014,11 @@ class MapComponent extends Component<Props, State> {
             areaId={this.props.area?.id}
             reportedAlerts={this.props.reportedAlerts}
             selectedAlerts={this.state.selectedAlerts}
-            onShapeSourcePressed={this.onAlertPressed}
+            onShapeSourcePressed={this.onAlertFeaturesPressed}
           />
           <Reports
             featureId={featureId}
-            onShapeSourcePressed={this.onShapeSourcePressed}
+            onShapeSourcePressed={this.onReportFeaturesPressed}
             selectedReports={this.state.selectedReports}
           />
           <RouteMarkers
@@ -1035,7 +1026,7 @@ class MapComponent extends Component<Props, State> {
             userLocation={userLocation}
             route={route}
             selected={this.isRouteSelected(route?.id)}
-            onShapeSourcePressed={this.onShapeSourcePressed}
+            onShapeSourcePressed={this.onRouteFeaturesPressed}
           />
           {this.renderUserLocation()}
         </MapboxGL.MapView>

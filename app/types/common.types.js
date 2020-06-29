@@ -1,5 +1,7 @@
 // @flow
 
+import type { Feature, Geometry } from '@turf/helpers';
+
 export type Coordinates = {
   latitude: number,
   longitude: number
@@ -7,17 +9,54 @@ export type Coordinates = {
 
 export type CoordinatesFormat = 'decimal' | 'degrees' | 'utm';
 
-export type MapFeature = {
+/**
+ * GeoJSON feature properties used by the app when drawing alerts
+ */
+export type AlertFeatureProperties = {|
+  type: 'alert',
+  lat: string,
+  long: string,
+  clusterId: 'reported' | 'recent' | 'other',
+  datasetId: string,
   name: string,
   date: number,
-  type: string,
+  icon: string,
+  reported: boolean,
+  selected: boolean,
+  cluster?: boolean
+|};
+
+/**
+ * GeoJSON feature properties used by the app when drawing reports
+ */
+export type ReportFeatureProperties = {|
+  type: 'report',
+  selected: boolean,
+  icon: string,
+  date: number,
+  name: string,
+  imported: boolean,
+  // need to pass these as strings as they are rounded in onShapeSourcePressed method.
+  lat: string,
+  long: string,
   featureId: string,
-  lat?: string,
-  long?: string,
-  reportAreaName?: string,
-  imported?: boolean,
-  icon?: any,
-  selected?: boolean,
-  reported?: boolean,
-  clusterId?: string
+  reportAreaName: string,
+  cluster?: boolean
+|};
+
+/**
+ * GeoJSON feature properties used by the app when drawing routes
+ */
+export type RouteFeatureProperties = {|
+  type: 'route',
+  name: string,
+  date: ?number,
+  featureId: string
+|};
+
+// These are properties objects we attach to GeoJson features and give to Mapbox - we get them back from events
+export type MapItemFeatureProperties = AlertFeatureProperties | ReportFeatureProperties | RouteFeatureProperties;
+export type MapboxFeaturePressEvent<P> = {
+  features: Array<Feature<Geometry, P>>,
+  coordinates: Coordinates
 };

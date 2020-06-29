@@ -1,6 +1,7 @@
 // @flow
 
-import React, { PureComponent } from 'react';
+import type { ReportFeatureProperties } from 'types/common.types';
+import React, { PureComponent, type Node } from 'react';
 import { View, Text, ScrollView, BackHandler } from 'react-native';
 
 import Row from 'components/common/row';
@@ -14,30 +15,9 @@ import Theme from 'config/theme';
 
 const nextIcon = require('assets/next.png');
 
-export type AlertItem = {
-  date: number,
-  type: 'alert',
-  name: string,
-  featureId: string,
-  lat: string,
-  long: string,
-  imported: boolean
-};
-
-export type ReportItem = {
-  date: number,
-  type: 'report',
-  name: string,
-  featureId: string,
-  lat: string,
-  long: string,
-  imported: boolean,
-  reportAreaName: string
-};
-
 type Props = {|
   +componentId: string,
-  +tappedOnFeatures: Array<AlertItem | ReportItem>
+  +tappedOnFeatures: Array<ReportFeatureProperties>
 |};
 
 export default class MultipleItems extends PureComponent<Props, null> {
@@ -98,8 +78,8 @@ export default class MultipleItems extends PureComponent<Props, null> {
     })
   );
 
-  renderReports(features: Array<ReportItem>): any {
-    return features.map((report: ReportItem) => {
+  renderReports(features: Array<ReportFeatureProperties>): Node {
+    return features.map((report: ReportFeatureProperties) => {
       const dateParsed = moment(report.date).format('YYYY-MM-DD - HH:mm:ss');
       const timeSinceParsed = moment(report.date).fromNow();
       const title = readableNameForReportName(report.name);
@@ -121,39 +101,22 @@ export default class MultipleItems extends PureComponent<Props, null> {
     });
   }
 
-  renderAlerts(features: Array<AlertItem>): any {
-    return features.map((alert: AlertItem) => {
-      const dateParsed = moment(alert.date).format('YYYY-MM-DD');
-      const timeSinceParsed = moment(alert.date).fromNow();
-      const title = alert.name;
-      return (
-        <Row key={alert.name}>
-          <Text style={styles.itemTitle}>{title}</Text>
-          <Text style={styles.itemText}>{dateParsed}</Text>
-          <Text style={styles.itemText}>{timeSinceParsed}</Text>
-        </Row>
-      );
-    });
-  }
-
-  renderSection(type: 'alert' | 'report', title: string, features: Array<AlertItem | ReportItem>) {
+  renderSection(title: string, features: Array<ReportFeatureProperties>) {
     if (features.length === 0) {
       return null;
     }
     return (
       <View style={styles.listContainer}>
         <Text style={styles.listTitle}>{title}</Text>
-        {type === 'report' ? this.renderReports(features) : this.renderAlerts(features)}
+        {this.renderReports(features)}
       </View>
     );
   }
 
   render() {
     const features = this.props.tappedOnFeatures;
-    const alerts = features.filter(feature => feature.type === 'alert');
-    const reports = features.filter(feature => feature.type === 'report');
-    const myReports = reports.filter(reports => !reports.imported);
-    const importedReports = reports.filter(reports => reports.imported);
+    const myReports = features.filter(reports => !reports.imported);
+    const importedReports = features.filter(reports => reports.imported);
     const location = i18n.t('map.selectedItems.location', {
       lat: parseFloat(features[0].lat).toFixed(4),
       long: parseFloat(features[0].long).toFixed(4)
@@ -169,9 +132,8 @@ export default class MultipleItems extends PureComponent<Props, null> {
           <Row>
             <Text style={styles.itemText}>{location}</Text>
           </Row>
-          {this.renderSection('report', i18n.t('map.layerSettings.myReports'), myReports)}
-          {this.renderSection('report', i18n.t('map.layerSettings.importedReports'), importedReports)}
-          {this.renderSection('alert', i18n.t('map.layerSettings.alerts'), alerts)}
+          {this.renderSection(i18n.t('map.layerSettings.myReports'), myReports)}
+          {this.renderSection(i18n.t('map.layerSettings.importedReports'), importedReports)}
         </View>
       </ScrollView>
     );
