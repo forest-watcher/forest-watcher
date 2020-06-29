@@ -20,6 +20,8 @@ node_modules/warning/.*
 .*/node_modules/react-native-safe-area/.*
 .*/node_modules/react-native-fs/.*
 
+.*/__tests__/.*
+
 [untyped]
 .*/node_modules/@react-native-community/cli/.*/.*
 
