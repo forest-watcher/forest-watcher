@@ -14,7 +14,9 @@
  */
 
 declare module 'i18next' {
-  declare module.exports: any;
+  declare module.exports: {
+    t: (key: string, params?: {}) => string
+  };
 }
 
 /**
