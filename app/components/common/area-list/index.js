@@ -15,8 +15,7 @@ type Props = {
   onAreaPress: (areaId: string, name: string) => void,
   onAreaSettingsPress: (areaId: string, name: string) => void,
   selectionState?: Array<string>,
-  sharing?: boolean,
-  showCache?: boolean
+  sharing?: boolean
 };
 
 export default class AreaList extends Component<Props> {
@@ -26,8 +25,7 @@ export default class AreaList extends Component<Props> {
       downloadCalloutVisible,
       onAreaDownloadPress,
       onAreaPress,
-      onAreaSettingsPress,
-      showCache
+      onAreaSettingsPress
     } = this.props;
     if (!areas) {
       return null;
@@ -57,11 +55,10 @@ export default class AreaList extends Component<Props> {
               largerLeftPadding
               largeImage
             />
-            {showCache && (
+            {!this.props.sharing && (
               <DataCacher
                 dataType={'area'}
                 id={area.id}
-                disabled={this.props.sharing ?? false}
                 showTooltip={index === 0 && (downloadCalloutVisible ?? false)}
               />
             )}
