@@ -18,7 +18,12 @@ import geokdbush from 'geokdbush';
 // Use example
 // const firstPoint = { latitude: -3.097125, longitude: -45.600375 }
 // const points = [{ latitude: -2.337625, longitude: -46.940875 }]
-function getAllNeighbours(alertsIndex: AlertsIndex, firstPoint: Alert, points: Array<Alert>, distance: number = 0.03) {
+function getAllNeighbours(
+  alertsIndex: AlertsIndex,
+  firstPoint: Alert | SelectedAlert,
+  points: Array<Alert | SelectedAlert>,
+  distance: number = 0.03
+) {
   // default distance 30m - alerts are about 27.5m apart on the map (39m diagonally)
   const neighbours: Array<Alert> = [];
 
@@ -40,7 +45,7 @@ function getAllNeighbours(alertsIndex: AlertsIndex, firstPoint: Alert, points: A
     }
   }
 
-  function getNeighbours(point: Alert) {
+  function getNeighbours(point: Alert | SelectedAlert) {
     const data = geokdbush.around(alertsIndex, point.long, point.lat, 8, distance);
     checkSiblings(data);
   }
@@ -122,12 +127,12 @@ export function formatCoordsByFormat(coordinates: Coordinates, format: Coordinat
 
 export function getNeighboursSelected(
   alertsIndex: AlertsIndex,
-  selectedAlerts: Array<Alert | SelectedAlert>,
+  selectedAlerts: Array<SelectedAlert>,
   allAlerts: Array<Alert>
 ) {
   let neighbours: Array<Alert | SelectedAlert> = [];
 
-  selectedAlerts.forEach((alert: Alert | SelectedAlert) => {
+  selectedAlerts.forEach((alert: SelectedAlert) => {
     neighbours = [...neighbours, ...getAllNeighbours(alertsIndex, alert, allAlerts)];
   });
 
