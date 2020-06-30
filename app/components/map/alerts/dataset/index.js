@@ -110,6 +110,9 @@ export default class AlertDataset extends PureComponent<Props, State> {
       this.props.reportedAlerts !== prevProps.reportedAlerts
     ) {
       if (this.state.alertsFromDb && this.state.alertsIndex && this.state.alertsIndex.nodeSize) {
+        if (!this.props.isActive) {
+          return;
+        }
         // if alerts are already cached - only refresh alert properties
         const updatedAlertState = this._createFeaturesForAlerts(this.state.alertsFromDb, this.state.alertsIndex);
 
