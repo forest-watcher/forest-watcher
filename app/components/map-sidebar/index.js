@@ -15,7 +15,6 @@ const SafeAreaView = withSafeArea(View, 'padding', 'bottom');
 
 type Props = {
   areaId: ?string,
-  componentId: string,
   featureId: string,
   allLayerSettings: { [featureId: string]: LayerSettings },
   defaultLayerSettings: LayerSettings,

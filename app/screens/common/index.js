@@ -111,7 +111,12 @@ export function pushMapScreen(
 }
 
 export function pushMapSetupScreen(componentId: string) {
-  pushMapScreen(componentId, { featureId: 'newAreaFeatureId' }, i18n.t('commonText.setup'), 'ForestWatcher.SetupBoundaries');
+  pushMapScreen(
+    componentId,
+    { featureId: 'newAreaFeatureId' },
+    i18n.t('commonText.setup'),
+    'ForestWatcher.SetupBoundaries'
+  );
 }
 
 export function showWelcomeScreen() {

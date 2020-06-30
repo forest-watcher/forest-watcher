@@ -25,7 +25,6 @@ Object {
   "areas": Object {
     "data": Array [],
     "refreshing": false,
-    "selectedAreaId": "",
     "syncDate": Any<Number>,
     "syncError": false,
     "synced": false,
@@ -1956,7 +1955,6 @@ Object {
   "areas": Object {
     "data": Array [],
     "refreshing": false,
-    "selectedAreaId": "",
     "syncDate": Any<Number>,
     "syncError": false,
     "synced": false,
