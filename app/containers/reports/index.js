@@ -1,5 +1,4 @@
 // @flow
-import type { Area } from 'types/areas.types';
 import type { ComponentProps, Dispatch, State } from 'types/store.types';
 import type { Report, ReportsList } from 'types/reports.types';
 
