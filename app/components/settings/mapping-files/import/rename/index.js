@@ -131,6 +131,7 @@ class ImportMappingFileRename extends PureComponent<Props, State> {
             value={this.state.file.name}
             placeholder={i18n.t('commonText.fileName')}
             onChangeText={this.onFileNameChange}
+            editable={!this.props.importing}
           />
           {nameValidity.alreadyTaken && (
             <View style={styles.errorContainer}>
@@ -143,7 +144,7 @@ class ImportMappingFileRename extends PureComponent<Props, State> {
             </View>
           )}
         </ScrollView>
-        <BottomTray requiresSafeAreaView={!this.state.keyboardVisible}>
+        <BottomTray requiresSafeAreaView={!this.state.keyboardVisible} showProgressBar={this.props.importing}>
           <ActionButton
             onPress={nameValidity.valid ? this.onImportPressed : null}
             text={i18n.t(this.i18nKeyFor('save'))}
