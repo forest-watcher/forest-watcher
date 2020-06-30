@@ -240,7 +240,7 @@ export default class RouteDetail extends PureComponent<Props> {
       {
         id: 'difficult',
         label: i18n.t('routes.difficulty'),
-        value: i18n.t(`routes.difficultyLevels.${route.difficulty}`),
+        value: [i18n.t(`routes.difficultyLevels.${route.difficulty}`)],
         onEditPress: this.onEditDifficultyPress
       },
       {
