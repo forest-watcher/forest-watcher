@@ -28,7 +28,7 @@ export function getReports(reports: ReportsList): GroupedReports {
   Object.keys(reports).forEach(key => {
     const report = reports[key];
     // GFW-699: If a report was imported and then uploaded by the user, then we'll show it in the Uploaded group.
-    if (report.isImported && !report.status === 'uploaded') {
+    if (report.isImported && report.status !== 'uploaded') {
       data.imported.push(report);
     } else if (data[report.status]) {
       data[report.status].push(report);
