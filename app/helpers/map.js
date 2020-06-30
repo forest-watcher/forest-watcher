@@ -5,20 +5,25 @@ import UtmLatLng from 'utm-latlng';
 import formatcoords from 'formatcoords';
 import i18n from 'i18next';
 import type { Coordinates, CoordinatesFormat } from 'types/common.types';
-import { isValidLatLng } from 'helpers/location';
+import { isValidLatLng } from 'helpers/validation/location';
 import { isEmpty, removeNulls } from 'helpers/utils';
 import { GeoJSONObject, point, lineString, type Feature } from '@turf/helpers';
 import distanceBetweenCoordinates from '@turf/distance';
 import pointToLineDistance from '@turf/point-to-line-distance';
 import _ from 'lodash';
-import type { Alert } from 'types/alerts.types';
+import type { Alert, SelectedAlert } from 'types/alerts.types';
 import type { AlertsIndex } from 'components/map/alerts/dataset';
 import geokdbush from 'geokdbush';
 
 // Use example
 // const firstPoint = { latitude: -3.097125, longitude: -45.600375 }
 // const points = [{ latitude: -2.337625, longitude: -46.940875 }]
-function getAllNeighbours(alertsIndex: AlertsIndex, firstPoint: Alert, points: Array<Alert>, distance: number = 0.03) {
+function getAllNeighbours(
+  alertsIndex: AlertsIndex,
+  firstPoint: Alert | SelectedAlert,
+  points: Array<Alert | SelectedAlert>,
+  distance: number = 0.03
+) {
   // default distance 30m - alerts are about 27.5m apart on the map (39m diagonally)
   const neighbours: Array<Alert> = [];
 
@@ -40,7 +45,7 @@ function getAllNeighbours(alertsIndex: AlertsIndex, firstPoint: Alert, points: A
     }
   }
 
-  function getNeighbours(point: Alert) {
+  function getNeighbours(point: Alert | SelectedAlert) {
     const data = geokdbush.around(alertsIndex, point.long, point.lat, 8, distance);
     checkSiblings(data);
   }
@@ -120,16 +125,23 @@ export function formatCoordsByFormat(coordinates: Coordinates, format: Coordinat
   }
 }
 
-export function getNeighboursSelected(alertsIndex: AlertsIndex, selectedAlerts: Array<Alert>, allAlerts: Array<Alert>) {
-  let neighbours: Array<Alert> = [];
+export function getNeighboursSelected(
+  alertsIndex: AlertsIndex,
+  selectedAlerts: Array<SelectedAlert>,
+  allAlerts: Array<Alert>
+) {
+  let neighbours: Array<Alert | SelectedAlert> = [];
 
-  selectedAlerts.forEach((alert: Alert) => {
+  selectedAlerts.forEach((alert: SelectedAlert) => {
     neighbours = [...neighbours, ...getAllNeighbours(alertsIndex, alert, allAlerts)];
   });
+
   // Remove duplicates
   neighbours = neighbours.filter(
-    (alert: Alert, index: number, self) => self.findIndex(t => t.lat === alert.lat && t.long === alert.long) === index
+    (alert: Alert | SelectedAlert, index: number, self) =>
+      self.findIndex(t => t.lat === alert.lat && t.long === alert.long) === index
   );
+
   return neighbours;
 }
 

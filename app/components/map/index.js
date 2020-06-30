@@ -62,9 +62,9 @@ import {
   getCoordinateAndDistanceText,
   coordsObjectToArray,
   coordsArrayToObject,
-  isValidLatLng,
-  isValidLatLngArray
+  type GFWLocationError
 } from 'helpers/location';
+import { isValidLatLng, isValidLatLngArray } from 'helpers/validation/location';
 
 import ContextualLayers from 'containers/map/contextual-layers';
 import RouteMarkers from 'components/map/route';
@@ -239,7 +239,7 @@ class MapComponent extends Component<Props, State> {
     return { ...bounds, ...MAPS.smallPadding };
   };
 
-  onLocationUpdateError = (error: ?Error) => {
+  onLocationUpdateError = (error: ?GFWLocationError) => {
     this.setState({
       locationError: error?.code
     });

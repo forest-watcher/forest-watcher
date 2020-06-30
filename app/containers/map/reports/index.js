@@ -1,5 +1,5 @@
 // @flow
-import type { Report } from 'types/reports.types';
+import type { Report, SelectedReport } from 'types/reports.types';
 import type { ComponentProps, Dispatch, State } from 'types/store.types';
 
 import { bindActionCreators } from 'redux';
@@ -10,7 +10,8 @@ import { getReports } from 'containers/reports';
 
 type OwnProps = {|
   +featureId: string,
-  +onShapeSourcePressed: () => void
+  +onShapeSourcePressed: () => void,
+  selectedReports: Array<SelectedReport>
 |};
 
 function mapStateToProps(state: State, ownProps: OwnProps) {

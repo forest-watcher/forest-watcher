@@ -20,6 +20,7 @@ import { discardActiveRoute } from 'redux-modules/routes';
 import Config from 'react-native-config';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import { trackRouteFlowEvent } from 'helpers/analytics';
+import { launchAppRoot } from 'screens/common';
 
 // Disable ios warnings
 // console.disableYellowBox = true;
@@ -154,30 +155,4 @@ export default class App {
       await this.launchRoot();
     });
   }
-}
-
-export function launchAppRoot(screen) {
-  return Navigation.setRoot({
-    root: {
-      sideMenu: {
-        center: {
-          stack: {
-            children: [
-              {
-                component: {
-                  id: 'ForestWatcher.Dashboard',
-                  name: screen
-                }
-              }
-            ]
-          }
-        },
-        right: {
-          component: {
-            name: 'ForestWatcher.MapLayersDrawer'
-          }
-        }
-      }
-    }
-  });
 }

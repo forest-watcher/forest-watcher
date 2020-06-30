@@ -1,5 +1,5 @@
 // @flow
-import type { Alert, AlertDatasetConfig } from 'types/alerts.types';
+import type { Alert, AlertDatasetConfig, SelectedAlert } from 'types/alerts.types';
 
 import React, { PureComponent } from 'react';
 
@@ -42,7 +42,7 @@ type Props = {|
   +onPress?: ?() => any,
   +slug: 'umd_as_it_happens' | 'viirs',
   +reportedAlerts: Array<string>,
-  +selectedAlerts: Array<Alert>,
+  +selectedAlerts: Array<SelectedAlert>,
   +timeframe: number,
   +timeframeUnit: 'days' | 'months'
 |};

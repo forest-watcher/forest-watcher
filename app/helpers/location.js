@@ -1,22 +1,26 @@
 // @flow
-import BackgroundGeolocation, {
-  type Location,
-  type ServiceStatus
-} from '@mauron85/react-native-background-geolocation';
-
 import type { Coordinates, CoordinatesFormat } from 'types/common.types';
 import type { LocationPoint, Route } from 'types/routes.types';
+
+import BackgroundGeolocation, {
+  type Location,
+  type ServiceStatus,
+  type BackgroundGeolocationError
+} from '@mauron85/react-native-background-geolocation';
 import { Linking, PermissionsAndroid, Platform } from 'react-native';
 import * as Sentry from '@sentry/react-native';
-
-const emitter = require('tiny-emitter/instance');
+import i18n from 'i18next';
+import _ from 'lodash';
+import CompassHeading from 'react-native-compass-heading';
 
 import { LOCATION_TRACKING } from 'config/constants';
 import FWError from 'helpers/fwError';
 import { formatCoordsByFormat, formatDistance, getDistanceOfLine } from 'helpers/map';
-import i18n from 'i18next';
-import _ from 'lodash';
-import CompassHeading from 'react-native-compass-heading';
+
+const emitter = require('tiny-emitter/instance');
+
+// Defines the type of error emitted by BackgroundGeolocation.
+export type GFWLocationError = BackgroundGeolocationError;
 
 export const GFWLocationAuthorizedAlways = BackgroundGeolocation.AUTHORIZED;
 export const GFWLocationAuthorizedInUse = BackgroundGeolocation.AUTHORIZED_FOREGROUND;
@@ -162,7 +166,7 @@ async function getCurrentLocation(): Promise<Location> {
  * @param  {array<LocationPoint>} completion.locations An array of location placemarks, that were retrieved from the database.
  * @param  {object}               completion.error An error that occurred while attempting to fetch locations.
  */
-export function getValidLocations(completion: (?Array<Location>, ?Error) => void) {
+export function getValidLocations(completion: (?Array<Location>, ?GFWLocationError) => void) {
   BackgroundGeolocation.getValidLocations(
     locations => {
       const mappedLocations = locations.map(location => {
@@ -381,18 +385,8 @@ export function coordsObjectToArray(coord: ?Coordinates) {
   return [coord?.longitude, coord?.latitude];
 }
 
-// returns true for valid lat lng values: { latitude: -1.00, longitude: 50.00 }
-export function isValidLatLng(location: { latitude: string, longitude: string } | Coordinates) {
-  return !isNaN(Number.parseFloat(location.latitude)) && !isNaN(Number.parseFloat(location.longitude));
-}
-
-// returns true for valid lat lng array: [50.00, -1.00]
-export function isValidLatLngArray(location: [string, string] | [number, number]) {
-  return !isNaN(Number.parseFloat(location[1])) && !isNaN(Number.parseFloat(location[0]));
-}
-
 // removes locations with the same position as the previous location in the route
-export function removeDuplicateLocations(locations: ?Array<Coordinates>) {
+export function removeDuplicateLocations(locations: ?Array<Coordinates | LocationPoint>) {
   if (!locations) {
     return null;
   }

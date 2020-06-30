@@ -11,9 +11,10 @@ import {
   coordsObjectToArray,
   getValidLocations,
   GFWOnLocationEvent,
-  isValidLatLng,
-  removeDuplicateLocations
+  removeDuplicateLocations,
+  type GFWLocationError
 } from 'helpers/location';
+import { isValidLatLng } from 'helpers/validation/location';
 import throttle from 'lodash/throttle';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import { feature, lineString, point } from '@turf/helpers';
@@ -63,7 +64,7 @@ export default class RouteMarkers extends PureComponent<Props, State> {
   }
 
   fetchRouteLocations = () => {
-    getValidLocations((locations, error) => {
+    getValidLocations((locations, error: ?GFWLocationError) => {
       if (error) {
         console.warn('3SC', 'route', `fetchRouteLocations returned an error ${error}`);
         return;
@@ -87,7 +88,7 @@ export default class RouteMarkers extends PureComponent<Props, State> {
   reconcileRouteLocations = (
     currentRouteLocations: Array<LocationPoint>,
     previousRouteLocations: ?Array<LocationPoint>
-  ) => {
+  ): ?Array<LocationPoint> => {
     if (currentRouteLocations.length > 0) {
       return currentRouteLocations;
     } else if (previousRouteLocations && previousRouteLocations?.length > 0) {
@@ -116,7 +117,7 @@ export default class RouteMarkers extends PureComponent<Props, State> {
    * @param userLocation    - The last position update, passed into this object as a prop.
    * @param routeLocations  - The locations provided for this route.
    */
-  reconcileUserLocation = (userLocation: ?LocationPoint, routeLocations: ?Array<LocationPoint>) => {
+  reconcileUserLocation = (userLocation: ?LocationPoint, routeLocations: ?Array<LocationPoint>): ?LocationPoint => {
     if (userLocation) {
       return userLocation;
     } else if (routeLocations && routeLocations.length > 0) {
