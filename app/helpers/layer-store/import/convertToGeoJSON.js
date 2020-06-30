@@ -1,8 +1,8 @@
 // @flow
 
-const DOMParser = require('xmldom').DOMParser;
-const RNFS = require('react-native-fs');
+import { readTextFile } from 'helpers/fileManagement';
 
+const DOMParser = require('xmldom').DOMParser;
 import togeojson from 'helpers/toGeoJSON';
 
 /**
@@ -15,7 +15,7 @@ import togeojson from 'helpers/toGeoJSON';
  */
 export default async function convertToGeoJSON(uri: string, extension: string) {
   // Read from file so we can convert to GeoJSON
-  const fileContents = await RNFS.readFile(uri);
+  const fileContents = await readTextFile(uri);
   // Parse XML from file string
   const parser = new DOMParser();
   const xmlDoc = parser.parseFromString(fileContents);
