@@ -18,6 +18,7 @@ import type { Thunk } from 'types/store.types';
 import Constants from 'config/constants';
 
 import KeyboardSpacer from 'react-native-keyboard-spacer';
+import { ERROR_CODES } from 'helpers/fwError';
 
 type Props = {
   clearState: () => BasemapsAction | LayersAction,
@@ -140,7 +141,11 @@ class ImportMappingFileRename extends PureComponent<Props, State> {
           )}
           {!!this.props.importError && (
             <View style={styles.errorContainer}>
-              <Text style={[styles.listTitle, styles.error]}>{i18n.t(this.i18nKeyFor('error'))}</Text>
+              <Text style={[styles.listTitle, styles.error]}>
+                {this.props.importError.code === ERROR_CODES.FILE_TOO_LARGE
+                  ? `${i18n.t(this.i18nKeyFor('fileSizeTooLarge'))}: ${i18n.t(this.i18nKeyFor('fileSizeTooLargeDesc'))}`
+                  : i18n.t(this.i18nKeyFor('error'))}
+              </Text>
             </View>
           )}
         </ScrollView>
