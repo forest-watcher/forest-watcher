@@ -19,6 +19,7 @@ import VerticalSplitRow from 'components/common/vertical-split-row';
 import RoutePath from 'components/common/route-path';
 
 import { formatDistance, getDistanceOfPolyline } from 'helpers/map';
+import { pushMapScreen } from 'screens/common';
 
 const RoutePreviewSize = isSmallScreen ? 86 : 122;
 
@@ -40,8 +41,7 @@ type Props = {
   area: ?Area,
   disableDelete: boolean,
   routes: Array<Route>,
-  initialiseAreaLayerSettings: (string, string) => void,
-  setSelectedAreaId: (areaId: string) => void
+  initialiseAreaLayerSettings: (string, string) => void
 };
 
 class AreaDetail extends Component<Props, State> {
@@ -104,23 +104,8 @@ class AreaDetail extends Component<Props, State> {
   });
 
   onRoutePress = debounceUI((route: Route) => {
-    this.props.setSelectedAreaId(route.areaId);
     this.props.initialiseAreaLayerSettings(route.id, route.areaId);
-    Navigation.push(this.props.componentId, {
-      component: {
-        name: 'ForestWatcher.Map',
-        options: {
-          topBar: {
-            title: {
-              text: route.name
-            }
-          }
-        },
-        passProps: {
-          previousRoute: route
-        }
-      }
-    });
+    pushMapScreen(this.props.componentId, { areaId: route.areaId, routeId: route.id });
   });
 
   onRouteSettingsPress = debounceUI((route: Route) => {

@@ -26,6 +26,7 @@ import Theme, { isSmallScreen } from 'config/theme';
 import calculateBundleSize from 'helpers/sharing/calculateBundleSize';
 import generateUniqueID from 'helpers/uniqueId';
 import { getShareButtonText } from 'helpers/sharing/utils';
+import { pushMapScreen } from 'screens/common';
 
 const emptyIcon = require('assets/routesEmpty.png');
 const routeMapBackground = require('assets/routeMapBackground.png');
@@ -36,8 +37,7 @@ type Props = {|
   +componentId: string,
   +exportRoutes: (ids: Array<string>) => Promise<void>,
   +routes: Array<Route>,
-  +initialiseAreaLayerSettings: (string, string) => void,
-  +setSelectedAreaId: (areaId: string) => void
+  +initialiseAreaLayerSettings: (string, string) => void
 |};
 
 type State = {|
@@ -131,24 +131,8 @@ export default class Routes extends PureComponent<Props, State> {
    * Handles a route row being selected.
    */
   onClickRoute = debounceUI((route: Route) => {
-    // Testing against a mocked route? You must provide your own area id here!
-    this.props.setSelectedAreaId(route.areaId);
     this.props.initialiseAreaLayerSettings(route.id, route.areaId);
-    Navigation.push(this.props.componentId, {
-      component: {
-        name: 'ForestWatcher.Map',
-        options: {
-          topBar: {
-            title: {
-              text: route.name
-            }
-          }
-        },
-        passProps: {
-          previousRoute: route
-        }
-      }
-    });
+    pushMapScreen(this.props.componentId, { areaId: route.areaId, routeId: route.id }, route.name);
   });
 
   onClickRouteSettings = debounceUI((route: Route) => {

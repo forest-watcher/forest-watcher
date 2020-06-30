@@ -14,56 +14,42 @@ import type { Basemap } from 'types/basemaps.types';
 const SafeAreaView = withSafeArea(View, 'padding', 'bottom');
 
 type Props = {
+  areaId: ?string,
   componentId: string,
+  featureId: string,
   allLayerSettings: { [featureId: string]: LayerSettings },
   defaultLayerSettings: LayerSettings,
   getActiveBasemap: (featureId: string) => Basemap,
-  selectedAreaId: string,
   toggleAlertsLayer: string => LayerSettingsAction,
   toggleRoutesLayer: string => LayerSettingsAction,
   toggleReportsLayer: string => LayerSettingsAction,
   toggleContextualLayersLayer: string => LayerSettingsAction
 };
 
-type State = {
-  componentId: ?string,
-  featureId: ?string
-};
+class MapSidebar extends PureComponent<Props, null> {
+  static options(passProps: {}) {
+    return {
+      topBar: {
+        drawBehind: true,
+        visible: false
+      }
+    };
+  }
 
-class MapSidebar extends PureComponent<Props, State> {
   awaitingPushComponentName: ?string = null;
 
   constructor(props: Props) {
     super(props);
-
-    this.state = {
-      componentId: null,
-      featureId: null
-    };
-
     Navigation.events().bindComponent(this);
-
-    Navigation.events().registerCommandListener((name, params) => {
-      // https://github.com/wix/react-native-navigation/issues/3635
-      // Pass componentId so drawer can push screens
-      const passedProps = params?.options?.sideMenu?.right?.component?.passProps;
-      if (!passedProps) {
-        return;
-      }
-      const { componentId, featureId } = passedProps;
-      if (componentId) {
-        this.setState({ componentId, featureId });
-      }
-    });
   }
 
   componentDidDisappear() {
     if (Platform.OS === 'ios' && this.awaitingPushComponentName) {
-      Navigation.push(this.state.componentId, {
+      Navigation.push('ForestWatcher.Map', {
         component: {
           name: this.awaitingPushComponentName,
           passProps: {
-            featureId: this.state.featureId
+            featureId: this.props.featureId
           }
         }
       });
@@ -72,16 +58,12 @@ class MapSidebar extends PureComponent<Props, State> {
   }
 
   pushScreen = (componentName: string) => {
-    if (!this.state.componentId) {
-      return;
-    }
-
     if (Platform.OS === 'ios') {
       this.awaitingPushComponentName = componentName;
     }
 
     // close layers drawer
-    Navigation.mergeOptions(this.props.componentId, {
+    Navigation.mergeOptions('ForestWatcher.Map', {
       sideMenu: {
         right: {
           visible: false
@@ -92,11 +74,11 @@ class MapSidebar extends PureComponent<Props, State> {
     // On iOS we need to wait until `mergeOptions event is seen!`
     if (Platform.OS === 'android') {
       // push new screen using map screen's componentId
-      Navigation.push(this.state.componentId, {
+      Navigation.push('ForestWatcher.Map', {
         component: {
           name: componentName,
           passProps: {
-            featureId: this.state.featureId
+            featureId: this.props.featureId
           }
         }
       });
@@ -204,17 +186,16 @@ class MapSidebar extends PureComponent<Props, State> {
   };
 
   getBasemapsTitle = (): string => {
-    if (!this.state.featureId) {
+    if (!this.props.featureId) {
       return '';
     }
-    const basemap: Basemap = this.props.getActiveBasemap(this.state.featureId);
+    const basemap: Basemap = this.props.getActiveBasemap(this.props.featureId);
     const basemapName = basemap.isCustom ? basemap.name : i18n.t(`basemaps.names.` + basemap.name);
     return i18n.t('map.layerSettings.basemapSettings.showingBasemap', { basemap: basemapName });
   };
 
   render() {
-    const { allLayerSettings, defaultLayerSettings } = this.props;
-    const { featureId } = this.state;
+    const { allLayerSettings, defaultLayerSettings, featureId } = this.props;
     const layerSettings = featureId && allLayerSettings[featureId] ? allLayerSettings[featureId] : defaultLayerSettings;
     return (
       <View style={styles.container}>
@@ -237,8 +218,8 @@ class MapSidebar extends PureComponent<Props, State> {
             title={i18n.t('map.layerSettings.alerts')}
             settingsTitle={this.getAlertsSettingsTitle(layerSettings)}
             selected={layerSettings.alerts.layerIsActive}
-            disableSettingsButton={this.props.selectedAreaId.length === 0}
-            disableStyleSettingsButton={this.props.selectedAreaId.length === 0 || !layerSettings.alerts.layerIsActive}
+            disableSettingsButton={!this.props.areaId}
+            disableStyleSettingsButton={!this.props.areaId || !layerSettings.alerts.layerIsActive}
             style={styles.rowContainer}
             hideDivider
             hideImage

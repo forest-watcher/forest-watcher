@@ -1,25 +1,24 @@
 // @flow
-import type { Area } from 'types/areas.types';
 import type { Coordinates } from 'types/common.types';
 import type { ComponentProps, Dispatch, State } from 'types/store.types';
 import type { Route } from 'types/routes.types';
 import type { BasicReport, ReportArea } from 'types/reports.types';
 
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { setSelectedAreaId } from 'redux-modules/areas';
 import { createReport } from 'redux-modules/reports';
-import { discardActiveRoute, getRoutesById, setRouteDestination } from 'redux-modules/routes';
+import { discardActiveRoute, setRouteDestination } from 'redux-modules/routes';
 import { trackRouteFlowEvent, trackReportingStarted, type ReportingSource } from 'helpers/analytics';
 import { shouldBeConnected } from 'helpers/app';
-import { getSelectedArea, activeDataset } from 'helpers/area';
+import { activeDataset } from 'helpers/area';
 import Map from 'components/map';
 import { coordsArrayToObject } from 'helpers/location';
 import { DEFAULT_LAYER_SETTINGS, getActiveBasemap } from 'redux-modules/layerSettings';
 
 type OwnProps = {|
+  +areaId: ?string,
   +componentId: string,
-  previousRoute: Route
+  +featureId: string,
+  +routeId: ?string
 |};
 
 function getAreaCoordinates(areaFeature): Array<Coordinates> {
@@ -48,7 +47,9 @@ function reconcileRoutes(activeRoute: ?Route, previousRoute: ?Route): ?Route {
 }
 
 function mapStateToProps(state: State, ownProps: OwnProps) {
-  const area: ?Area = getSelectedArea(state.areas.data, state.areas.selectedAreaId);
+  const featureId = ownProps.featureId;
+  const area = state.areas.data.find(item => item.id === ownProps.areaId);
+  const previousRoute = state.routes.previousRoutes.find(item => item.id === ownProps.routeId);
   let areaCoordinates: ?Array<Coordinates> = null;
   let areaProps: ?ReportArea = null;
   if (area) {
@@ -66,19 +67,16 @@ function mapStateToProps(state: State, ownProps: OwnProps) {
     };
   }
   const { cache } = state.layers;
-  const route = reconcileRoutes(state.routes.activeRoute, ownProps.previousRoute);
-  const allRouteIds = state.routes.previousRoutes.map(item => item.id);
-  const featureId = area?.id || route?.id || '';
+  const route = reconcileRoutes(state.routes.activeRoute, previousRoute);
   const layerSettings = state.layerSettings?.[featureId] || DEFAULT_LAYER_SETTINGS;
 
   return {
     areaCoordinates,
     isTracking: !!state.routes.activeRoute,
     route,
-    allRouteIds,
+    routes: state.routes.previousRoutes,
     area: areaProps,
     layerSettings,
-    featureId,
     basemap: getActiveBasemap(featureId, state),
     isConnected: shouldBeConnected(state),
     isOfflineMode: state.app.offlineMode,
@@ -89,14 +87,8 @@ function mapStateToProps(state: State, ownProps: OwnProps) {
   };
 }
 
-function mapDispatchToProps(dispatch: Dispatch) {
+function mapDispatchToProps(dispatch: Dispatch, ownProps: OwnProps) {
   return {
-    ...bindActionCreators(
-      {
-        setSelectedAreaId
-      },
-      dispatch
-    ),
     createReport: (report: BasicReport, source: ReportingSource) => {
       dispatch(createReport(report));
       let numAlertsInReport = 0;
@@ -106,16 +98,16 @@ function mapDispatchToProps(dispatch: Dispatch) {
       }
       trackReportingStarted(numAlertsInReport, source);
     },
-    onStartTrackingRoute: (location: Coordinates, areaId: string) => {
-      trackRouteFlowEvent('started');
-      dispatch(setRouteDestination(location, areaId));
+    onStartTrackingRoute: (location: Coordinates) => {
+      const areaId = ownProps.areaId;
+      if (areaId) {
+        trackRouteFlowEvent('started');
+        dispatch(setRouteDestination(location, areaId));
+      }
     },
     onCancelTrackingRoute: () => {
       trackRouteFlowEvent('discardedFromMap');
       dispatch(discardActiveRoute());
-    },
-    getRoutesById: (routeIds: Array<string>) => {
-      return dispatch(getRoutesById(routeIds));
     }
   };
 }

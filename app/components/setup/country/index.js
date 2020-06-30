@@ -12,7 +12,7 @@ import i18n from 'i18next';
 import { trackAreaCreationFlowStarted, trackScreenView } from 'helpers/analytics';
 import debounceUI from 'helpers/debounceUI';
 import styles from './styles';
-import { launchAppRoot, showWelcomeScreen } from 'screens/common';
+import { launchAppRoot, pushMapSetupScreen, showWelcomeScreen } from 'screens/common';
 
 const SafeAreaView = withSafeArea(View, 'margin', 'bottom');
 const backIcon = require('assets/previous.png');
@@ -106,11 +106,7 @@ class SetupCountry extends Component {
       const currentCountry = this.getCurrentCountry(countries, user.country);
       this.props.setSetupCountry(currentCountry);
     }
-    Navigation.push(componentId, {
-      component: {
-        name: 'ForestWatcher.SetupBoundaries'
-      }
-    });
+    pushMapSetupScreen(componentId);
   });
 
   render() {

@@ -25,7 +25,6 @@ const UPDATE_AREA_ROLLBACK = 'areas/UPDATE_AREA_ROLLBACK';
 const DELETE_AREA_REQUEST = 'areas/DELETE_AREA_REQUEST';
 export const DELETE_AREA_COMMIT = 'areas/DELETE_AREA_COMMIT';
 const DELETE_AREA_ROLLBACK = 'areas/DELETE_AREA_ROLLBACK';
-const SET_SELECTED_AREA_ID = 'areas/SET_SELECTED_AREA_ID';
 
 // Helpers
 function getAreaById(areas: Array<Area>, areaId: ?string): ?Area {
@@ -36,7 +35,6 @@ function getAreaById(areas: Array<Area>, areaId: ?string): ?Area {
 // Reducer
 const initialState = {
   data: [],
-  selectedAreaId: '',
   synced: false,
   refreshing: false,
   syncing: false,
@@ -146,20 +144,16 @@ export default function reducer(state: AreasState = initialState, action: AreasA
     }
     case DELETE_AREA_COMMIT: {
       const { id } = action.meta.area || {};
-      const selectedAreaId = id === state.selectedAreaId ? '' : state.selectedAreaId;
       if (id) {
         deleteAlerts({
           areaId: id
         });
       }
-      return { ...state, synced: true, syncing: false, selectedAreaId };
+      return { ...state, synced: true, syncing: false };
     }
     case DELETE_AREA_ROLLBACK: {
       const data = [...state.data, action.meta.area];
       return { ...state, data, syncing: false };
-    }
-    case SET_SELECTED_AREA_ID: {
-      return { ...state, selectedAreaId: action.payload };
     }
     case LOGOUT_REQUEST: {
       return initialState;
@@ -222,13 +216,6 @@ export function updateArea(area: Area) {
         }
       }
     });
-  };
-}
-
-export function setSelectedAreaId(id: string): AreasAction {
-  return {
-    type: SET_SELECTED_AREA_ID,
-    payload: id
   };
 }
 
