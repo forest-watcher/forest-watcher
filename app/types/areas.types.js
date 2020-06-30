@@ -66,7 +66,6 @@ export type AreasAction =
   | UpdateAreaCommit
   | UpdateAreaRollback
   | RetrySync
-  | UpdateSelected
   | GetAreaAlertsCommit
   | DeleteAreaRequest
   | DeleteAreaCommit
