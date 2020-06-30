@@ -10,5 +10,5 @@ export default class FWError extends Error {
 }
 
 export const ERROR_CODES = {
-  FILE_TOO_LARGE: "FILE_TOO_LARGE"
+  FILE_TOO_LARGE: 'FILE_TOO_LARGE'
 };
