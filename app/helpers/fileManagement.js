@@ -1,5 +1,6 @@
 // @flow
 import RNFetchBlob from 'rn-fetch-blob';
+import FWError, { ERROR_CODES } from 'helpers/fwError';
 const RNFS = require('react-native-fs');
 
 global.Buffer = global.Buffer || require('buffer').Buffer; // eslint-disable-line
@@ -80,8 +81,8 @@ export function pathWithoutRoot(path: string, rootDir: string): string {
  * Avoid doing this unless necessary as the loaded file contents are sent over the bridge as base64. Process the binary
  * data natively where possible.
  */
-export async function readBinaryFile(path: string): Promise<Buffer> {
-  return await readFile(path, 'base64');
+export async function readBinaryFile(path: string, maxSizeBytes: ?number = null): Promise<Buffer> {
+  return await readFile(path, 'base64', maxSizeBytes);
 }
 
 /**
@@ -90,7 +91,14 @@ export async function readBinaryFile(path: string): Promise<Buffer> {
  * Avoid doing this unless necessary as the loaded file contents are sent over the bridge. Process the
  * data natively where possible.
  */
-async function readFile(path: string, encoding: 'base64' | 'utf8'): Promise<Buffer> {
+async function readFile(path: string, encoding: 'base64' | 'utf8', maxSizeBytes: ?number = null): Promise<Buffer> {
+  if (maxSizeBytes) {
+    const result = await RNFetchBlob.fs.stat(path);
+    if (result.size > maxSizeBytes) {
+      throw new FWError({ message: 'Avoid loading large file across bridge', code: ERROR_CODES.FILE_TOO_LARGE });
+    }
+  }
+
   const stream = await RNFetchBlob.fs.readStream(path, encoding);
   return new Promise((resolve, reject) => {
     stream.open();
@@ -114,8 +122,8 @@ async function readFile(path: string, encoding: 'base64' | 'utf8'): Promise<Buff
  * Avoid doing this unless necessary as the loaded file contents are sent over the bridge. Process the
  * data natively where possible.
  */
-export async function readTextFile(path: string): Promise<string> {
-  const buffer = await readFile(path, 'utf8');
+export async function readTextFile(path: string, maxSizeBytes: ?number = null): Promise<string> {
+  const buffer = await readFile(path, 'utf8', maxSizeBytes);
   return buffer.toString();
 }
 
