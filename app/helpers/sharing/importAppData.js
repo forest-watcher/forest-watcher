@@ -88,10 +88,11 @@ function importLayers(layers: Array<ContextualLayer>, dispatch: Dispatch) {
 }
 
 function importReports(reports: Array<Report>, dispatch: Dispatch) {
+  // GFW-699: Remove the uploaded status at the point of importing, so that the new owner can also choose to import
   reports.forEach(report => {
     dispatch({
       type: IMPORT_REPORT,
-      payload: { ...report, isImported: true }
+      payload: { ...report, isImported: true, status: report.status === 'uploaded' ? 'complete' : report.status }
     });
   });
 }

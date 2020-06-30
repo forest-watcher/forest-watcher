@@ -19,7 +19,7 @@ export type GroupedReports = {
   imported: Array<Report>
 };
 
-export function getReports(reports: ReportsList, areas: Array<Area>, userId: string): GroupedReports {
+export function getReports(reports: ReportsList): GroupedReports {
   const data = {
     draft: [],
     complete: [],
@@ -28,7 +28,8 @@ export function getReports(reports: ReportsList, areas: Array<Area>, userId: str
   };
   Object.keys(reports).forEach(key => {
     const report = reports[key];
-    if (report.isImported) {
+    // GFW-699: If a report was imported and then uploaded by the user, then we'll show it in the Uploaded group.
+    if (report.isImported && !report.status === 'uploaded') {
       data.imported.push(report);
     } else if (data[report.status]) {
       data[report.status].push(report);
@@ -54,7 +55,7 @@ function mapStateToProps(state: State) {
   return {
     appLanguage: state.app.language,
     templates: state.reports.templates,
-    reports: getReports(state.reports.list, state.areas.data, state.user.data.id),
+    reports: getReports(state.reports.list),
     getLastStep: formName => {
       const answers = state.reports.list[formName].answers;
       if (answers && answers.length) {
