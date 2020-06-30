@@ -37,7 +37,7 @@ export type Area = {
   userId: string,
   createdAt: string,
   image: string,
-  datasets: Array<Dataset>,
+  datasets: ?Array<Dataset>,
   use: Object,
   iso: Object,
   reportTemplate: Template,
