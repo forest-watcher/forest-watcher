@@ -69,7 +69,6 @@
         "names": {
             "dark": "Dark",
             "default": "Default",
-            "landsat": "Landsat",
             "mapboxSatellite": "Mapbox Satellite",
             "satellite": "Satellite"
         },
