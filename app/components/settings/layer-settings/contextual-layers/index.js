@@ -100,7 +100,6 @@ class ContextualLayersLayerSettings extends PureComponent<Props> {
           return (
             <ActionsRow
               style={styles.rowContent}
-              imageSrc={layerPlaceholder}
               onPress={this.setContextualLayerShowing.bind(this, layer.id, !selected)}
               key={index}
             >
