@@ -2,7 +2,6 @@
 import type { ComponentProps, Dispatch, State } from 'types/store.types';
 
 import { connect } from 'react-redux';
-import { setSelectedAreaId } from 'redux-modules/areas';
 
 import Routes from 'components/routes';
 import { initialiseAreaLayerSettings } from 'redux-modules/layerSettings';
@@ -33,9 +32,6 @@ function mapDispatchToProps(dispatch: Dispatch) {
     },
     initialiseAreaLayerSettings: (featureId: string, areaId: string) => {
       dispatch(initialiseAreaLayerSettings(featureId, areaId));
-    },
-    setSelectedAreaId: (id: string) => {
-      dispatch(setSelectedAreaId(id));
     }
   };
 }

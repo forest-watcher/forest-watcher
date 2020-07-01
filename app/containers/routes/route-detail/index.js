@@ -3,11 +3,9 @@ import type { Route } from 'types/routes.types';
 import type { ComponentProps, Dispatch, State } from 'types/store.types';
 
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import RouteDetail from 'components/routes/route-detail';
 
-import { deleteRoutes, updateSavedRoute } from '../../../redux-modules/routes';
-import { setSelectedAreaId } from '../../../redux-modules/areas';
+import { deleteRoutes, updateSavedRoute } from 'redux-modules/routes';
 
 type OwnProps = {|
   +componentId: string,
@@ -23,12 +21,6 @@ function mapStateToProps(state: State, ownProps: OwnProps) {
 
 function mapDispatchToProps(dispatch: Dispatch, ownProps: OwnProps) {
   return {
-    ...bindActionCreators(
-      {
-        setSelectedAreaId
-      },
-      dispatch
-    ),
     deleteRoute: () => {
       dispatch(
         deleteRoutes({

@@ -2,7 +2,6 @@
 import React, { Component, type Node } from 'react';
 
 import type { SelectedAlert } from 'types/alerts.types';
-import type { AreasAction } from 'types/areas.types';
 import type { Basemap } from 'types/basemaps.types';
 import type {
   AlertFeatureProperties,
@@ -81,7 +80,7 @@ import Alerts from 'components/map/alerts';
 import Reports from 'containers/map/reports';
 import Footer from 'components/map/footer';
 import { lineString, type Feature, type Geometry, type Position } from '@turf/helpers';
-import { showMapWalkthrough } from 'screens/common';
+import { showMapWalkthrough } from 'screens/maps';
 
 const emitter = require('tiny-emitter/instance');
 
@@ -91,9 +90,7 @@ const ROUTE_TRACKING_BOTTOM_DIALOG_STATE_STOPPING = 2;
 
 const DISMISSED_INFO_BANNER_POSTIION = 200 + initialWindowSafeAreaInsets.bottom;
 
-const backButtonImage = require('assets/back.png');
 const backgroundImage = require('assets/map_bg_gradient.png');
-const mapSettingsIcon = require('assets/map_settings.png');
 
 const customReportingMarker = require('assets/custom-reporting-marker.png');
 const userLocationBearingImage = require('assets/userLocationBearing.png');
@@ -110,15 +107,13 @@ type Props = {
   area: ?ReportArea,
   coordinatesFormat: CoordinatesFormat,
   mapWalkthroughSeen: boolean,
-  setSelectedAreaId: string => AreasAction,
   route: ?Route,
-  allRouteIds: $ReadOnlyArray<string>,
+  routes: $ReadOnlyArray<Route>,
   layerSettings: LayerSettings,
   isTracking: boolean,
-  onStartTrackingRoute: (location: Coordinates, areaId: string) => void,
+  onStartTrackingRoute: (location: Coordinates) => void,
   onCancelTrackingRoute: () => void,
-  basemap: Basemap,
-  getRoutesById: (routeIds: Array<string>) => Array<Route> // TODO: This shouldn't be a function
+  basemap: Basemap
 };
 
 type State = {
@@ -144,38 +139,6 @@ class MapComponent extends Component<Props, State> {
   static offlinePortNumber = 49333;
 
   margin = Platform.OS === 'ios' ? 50 : 100;
-
-  static options(passProps: {}) {
-    return {
-      statusBar: {
-        style: Platform.select({ android: 'light', ios: 'dark' })
-      },
-      topBar: {
-        background: {
-          color: 'transparent',
-          translucent: true
-        },
-        drawBehind: true,
-        title: {
-          color: Theme.fontColors.white,
-          text: i18n.t('dashboard.map')
-        },
-        leftButtons: [
-          {
-            id: 'backButton',
-            icon: backButtonImage,
-            color: Theme.fontColors.white
-          }
-        ],
-        rightButtons: [
-          {
-            id: 'settings',
-            icon: mapSettingsIcon
-          }
-        ]
-      }
-    };
-  }
 
   /**
    * The AppState listener for this component is responsible for stopping location tracking if it's not needed while
@@ -295,8 +258,6 @@ class MapComponent extends Component<Props, State> {
     emitter.off(GFWOnHeadingEvent, this.updateHeading);
     emitter.off(GFWOnErrorEvent, this.onLocationUpdateError);
     stopTrackingHeading();
-
-    this.props.setSelectedAreaId('');
   }
 
   /**
@@ -334,7 +295,7 @@ class MapComponent extends Component<Props, State> {
         this.showBottomDialog(true);
       }
     } else {
-      Navigation.pop(this.props.componentId);
+      Navigation.pop('ForestWatcher.Map');
     }
     return true;
   });
@@ -385,17 +346,16 @@ class MapComponent extends Component<Props, State> {
    * If the user has not given 'always' location permissions, an alert is shown.
    */
   onStartTrackingPressed = debounceUI(async () => {
-    const area = this.props.area;
     const routeDestination = this.getRouteDestination();
 
-    if (!area || !routeDestination) {
+    if (!routeDestination) {
       return;
     }
 
     this.dismissInfoBanner();
     try {
       await this.geoLocate(true);
-      this.props.onStartTrackingRoute(coordsArrayToObject(routeDestination), area.id);
+      this.props.onStartTrackingRoute(coordsArrayToObject(routeDestination));
 
       this.setState({ customReporting: false });
 
@@ -445,7 +405,7 @@ class MapComponent extends Component<Props, State> {
 
   openSaveRouteScreen = debounceUI(() => {
     this.closeBottomDialog();
-    Navigation.push(this.props.componentId, {
+    Navigation.push('ForestWatcher.Map', {
       component: {
         name: 'ForestWatcher.SaveRoute'
       }
@@ -541,15 +501,7 @@ class MapComponent extends Component<Props, State> {
     Navigation.mergeOptions(this.props.componentId, {
       sideMenu: {
         right: {
-          visible: true,
-          component: {
-            passProps: {
-              // https://github.com/wix/react-native-navigation/issues/3635
-              // Pass componentId so drawer can push screens
-              componentId: this.props.componentId,
-              featureId: this.props.featureId
-            }
-          }
+          visible: true
         }
       }
     });
@@ -688,22 +640,23 @@ class MapComponent extends Component<Props, State> {
   // Renders all active routes in layer settings
   renderAllRoutes = (): Node => {
     const { activeRouteIds, showAll } = this.props.layerSettings.routes;
-    let routeIds = showAll ? this.props.allRouteIds : activeRouteIds;
-    // this is already being rendered as it is the selected feature
-    routeIds = routeIds.filter(routeId => routeId !== this.props.featureId);
-    const routes: Array<Route> = this.props.getRoutesById(routeIds);
-    return routes.map((route: Route) => {
-      return (
-        <RouteMarkers
-          key={route.id}
-          isTracking={false}
-          userLocation={null}
-          route={route}
-          selected={this.isRouteSelected(route.id)}
-          onShapeSourcePressed={this.onRouteFeaturesPressed}
-        />
-      );
-    });
+    const routes: $ReadOnlyArray<Route> = showAll
+      ? this.props.routes
+      : activeRouteIds.map(routeId => this.props.routes.find(route => route.id === routeId)).filter(Boolean);
+    return routes
+      .filter(route => route.id !== this.props.featureId)
+      .map((route: Route) => {
+        return (
+          <RouteMarkers
+            key={route.id}
+            isTracking={false}
+            userLocation={null}
+            route={route}
+            selected={this.isRouteSelected(route.id)}
+            onShapeSourcePressed={this.onRouteFeaturesPressed}
+          />
+        );
+      });
   };
 
   isRouteSelected = (routeId: ?string) => {
@@ -780,7 +733,7 @@ class MapComponent extends Component<Props, State> {
             ? [
                 {
                   text: i18n.t('routes.stopRouteTrackingPanelContinueOption'),
-                  onPress: debounceUI(() => Navigation.pop(this.props.componentId)),
+                  onPress: debounceUI(() => Navigation.pop('ForestWatcher.Map')),
                   buttonProps: {}
                 }
               ]
@@ -1007,7 +960,7 @@ class MapComponent extends Component<Props, State> {
           {renderMapCamera}
           {this.renderAreaOutline()}
           {layerSettings.routes.layerIsActive && this.renderAllRoutes()}
-          {layerSettings.contextualLayers.layerIsActive && <ContextualLayers />}
+          {layerSettings.contextualLayers.layerIsActive && <ContextualLayers featureId={featureId} />}
           {this.renderDestinationLine()}
           <Alerts
             alertLayerSettings={this.props.layerSettings.alerts}

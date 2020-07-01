@@ -22,6 +22,7 @@ import { getShareButtonText } from 'helpers/sharing/utils';
 
 import Theme from 'config/theme';
 import { AREA_ROW_TOTAL_HEIGHT } from 'components/common/area-list/styles';
+import { pushMapScreen } from 'screens/maps';
 
 const plusIcon = require('assets/add.png');
 const emptyIcon = require('assets/areasEmpty.png');
@@ -33,7 +34,6 @@ type Props = {|
   +componentId: string,
   +exportAreas: (ids: Array<string>) => Promise<void>,
   +setAreaDownloadTooltipSeen: (seen: boolean) => void,
-  +setSelectedAreaId: (id: string) => void,
   +showNotConnectedNotification: () => void,
   +scrollToBottom?: boolean,
   +offlineMode: boolean
@@ -182,13 +182,8 @@ class Areas extends Component<Props, State> {
 
   onAreaPress = debounceUI((areaId: string, name: string) => {
     if (areaId) {
-      this.props.setSelectedAreaId(areaId);
       this.props.initialiseAreaLayerSettings(areaId, areaId);
-      Navigation.push(this.props.componentId, {
-        component: {
-          name: 'ForestWatcher.Map'
-        }
-      });
+      pushMapScreen(this.props.componentId, { areaId });
     }
   });
 

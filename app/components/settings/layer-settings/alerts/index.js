@@ -1,5 +1,7 @@
 // @flow
 
+import type { Area } from 'types/areas.types';
+import type { AlertLayerSettingsType, LayerSettingsAction } from 'types/layerSettings.types';
 import React, { PureComponent } from 'react';
 import { View, ScrollView, Text } from 'react-native';
 import styles from './styles';
@@ -8,8 +10,6 @@ import i18n from 'i18next';
 import Theme from 'config/theme';
 import { Navigation, NavigationButtonPressedEvent } from 'react-native-navigation';
 import Dropdown from 'components/common/dropdown';
-import type { Area } from 'types/areas.types';
-import type { AlertLayerSettingsType, LayerSettingsAction } from 'types/layerSettings.types';
 import { DATASETS } from 'config/constants';
 
 type Props = {

@@ -1,5 +1,4 @@
 // @flow
-import type { AreasAction } from 'types/areas.types';
 
 import React, { PureComponent } from 'react';
 import { ActionSheetIOS, Alert, Dimensions, Platform, View, ScrollView } from 'react-native';
@@ -17,6 +16,7 @@ import ActionButton from 'components/common/action-button';
 import debounceUI from 'helpers/debounceUI';
 import { formatCoordsByFormat, formatDistance, getDistanceOfPolyline } from 'helpers/map';
 import RoutePreviewImage from '../preview-image';
+import { pushMapScreen } from 'screens/maps';
 
 const closeIcon = require('assets/close.png');
 const screenDimensions = Dimensions.get('screen');
@@ -26,7 +26,6 @@ type Props = {
   coordinatesFormat: CoordinatesFormat,
   deleteRoute: () => void,
   updateRoute: ($Shape<Route>) => void,
-  setSelectedAreaId: string => AreasAction,
   route: ?Route
 };
 
@@ -77,23 +76,7 @@ export default class RouteDetail extends PureComponent<Props> {
       return;
     }
 
-    // Testing against a mocked route? You must provide your own area id here!
-    this.props.setSelectedAreaId(route.areaId);
-    Navigation.push(this.props.componentId, {
-      component: {
-        name: 'ForestWatcher.Map',
-        options: {
-          topBar: {
-            title: {
-              text: route.name
-            }
-          }
-        },
-        passProps: {
-          previousRoute: route
-        }
-      }
-    });
+    pushMapScreen(this.props.componentId, { areaId: route.areaId, routeId: route.id }, route.name);
   });
 
   /**

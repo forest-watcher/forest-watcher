@@ -4,7 +4,6 @@ exports[`Redux Areas Module Initial reducer state 1`] = `
 Object {
   "data": Array [],
   "refreshing": false,
-  "selectedAreaId": "",
   "syncDate": Any<Number>,
   "syncError": false,
   "synced": false,
@@ -230,7 +229,6 @@ exports[`Redux Areas Module Simple Actions: snapshot and reducer test saveArea 2
 Object {
   "data": Array [],
   "refreshing": true,
-  "selectedAreaId": "",
   "syncDate": Any<Number>,
   "syncError": false,
   "synced": false,
@@ -319,7 +317,6 @@ exports[`Redux Areas Module Simple Actions: snapshot and reducer test saveArea 4
 Object {
   "data": Array [],
   "refreshing": true,
-  "selectedAreaId": "",
   "syncDate": Any<Number>,
   "syncError": false,
   "synced": false,
@@ -350,7 +347,6 @@ exports[`Redux Areas Module Simple Actions: snapshot and reducer test saveLastAc
 Object {
   "data": Array [],
   "refreshing": false,
-  "selectedAreaId": "",
   "syncDate": Any<Number>,
   "syncError": false,
   "synced": false,
@@ -369,7 +365,6 @@ exports[`Redux Areas Module Simple Actions: snapshot and reducer test setAreasRe
 Object {
   "data": Array [],
   "refreshing": true,
-  "selectedAreaId": "",
   "syncDate": Any<Number>,
   "syncError": false,
   "synced": false,
@@ -388,26 +383,6 @@ exports[`Redux Areas Module Simple Actions: snapshot and reducer test setAreasRe
 Object {
   "data": Array [],
   "refreshing": false,
-  "selectedAreaId": "",
-  "syncDate": Any<Number>,
-  "syncError": false,
-  "synced": false,
-  "syncing": false,
-}
-`;
-
-exports[`Redux Areas Module Simple Actions: snapshot and reducer test setSelectedAreaId 1`] = `
-Object {
-  "payload": "IDMock",
-  "type": "areas/SET_SELECTED_AREA_ID",
-}
-`;
-
-exports[`Redux Areas Module Simple Actions: snapshot and reducer test setSelectedAreaId 2`] = `
-Object {
-  "data": Array [],
-  "refreshing": false,
-  "selectedAreaId": "IDMock",
   "syncDate": Any<Number>,
   "syncError": false,
   "synced": false,

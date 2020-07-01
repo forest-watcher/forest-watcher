@@ -14,15 +14,17 @@ import {
 } from 'redux-modules/layerSettings';
 
 type OwnProps = {|
-  +componentId: string
+  +areaId: ?string,
+  +componentId: string,
+  +featureId: string,
+  +routeId: ?string
 |};
 
 function mapStateToProps(state: State) {
   return {
     allLayerSettings: state.layerSettings,
     defaultLayerSettings: DEFAULT_LAYER_SETTINGS,
-    getActiveBasemap: featureId => getActiveBasemap(featureId, state),
-    selectedAreaId: state.areas.selectedAreaId
+    getActiveBasemap: featureId => getActiveBasemap(featureId, state)
   };
 }
 

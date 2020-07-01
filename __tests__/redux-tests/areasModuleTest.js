@@ -7,7 +7,6 @@ import areasReducer, {
   getAreas,
   saveArea,
   setAreasRefreshing,
-  setSelectedAreaId,
   syncAreas,
   updateArea
 } from 'redux-modules/areas';
@@ -26,10 +25,6 @@ describe('Redux Areas Module', () => {
 
     it('saveLastActions', () => {
       simpleActionTest(getAreas());
-    });
-
-    it('setSelectedAreaId', () => {
-      simpleActionTest(setSelectedAreaId('IDMock'));
     });
 
     it('setAreasRefreshing', () => {

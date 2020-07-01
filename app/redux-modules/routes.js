@@ -221,13 +221,6 @@ export function finishAndSaveRoute(): Thunk<RouteAction> {
   };
 }
 
-export function getRoutesById(routeIds: Array<string>): Thunk<Array<Route>> {
-  return (dispatch: Dispatch, getState: GetState) => {
-    const state = getState();
-    return state.routes.previousRoutes.filter(route => routeIds.includes(route.id));
-  };
-}
-
 export function getAllRouteIds(): Thunk<Array<string>> {
   return (dispatch: Dispatch, getState: GetState) => {
     const state = getState();

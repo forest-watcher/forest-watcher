@@ -5,13 +5,10 @@ import type { Country } from 'types/countries.types';
 import React, { Component } from 'react';
 import { Image, View } from 'react-native';
 
-import Theme from 'config/theme';
-import i18n from 'i18next';
 import styles from './styles';
 import { Navigation, NavigationButtonPressedEvent } from 'react-native-navigation';
 import DrawAreas from 'containers/setup/draw-areas';
 
-const mapSettingsIcon = require('assets/map_settings.png');
 const backgroundImage = require('assets/map_bg_gradient.png');
 
 type Props = {|
@@ -22,32 +19,6 @@ type Props = {|
 |};
 
 class SetupBoundaries extends Component<Props> {
-  static options(passProps: {}) {
-    return {
-      topBar: {
-        background: {
-          color: 'transparent',
-          translucent: true
-        },
-        backButton: {
-          color: Theme.colors.white
-        },
-        buttonColor: Theme.colors.white,
-        drawBehind: true,
-        rightButtons: [
-          {
-            id: 'settings',
-            icon: mapSettingsIcon
-          }
-        ],
-        title: {
-          color: Theme.colors.white,
-          text: i18n.t('commonText.setup')
-        }
-      }
-    };
-  }
-
   constructor(props: Props) {
     super(props);
     Navigation.events().bindComponent(this);
@@ -58,24 +29,18 @@ class SetupBoundaries extends Component<Props> {
       Navigation.mergeOptions(this.props.componentId, {
         sideMenu: {
           right: {
-            visible: true,
-            component: {
-              passProps: {
-                // https://github.com/wix/react-native-navigation/issues/3635
-                // Pass componentId so drawer can push screens
-                componentId: this.props.componentId,
-                featureId: 'newAreaFeatureId'
-              }
-            }
+            visible: true
           }
         }
       });
+    } else if (buttonId === 'backButton') {
+      Navigation.pop('ForestWatcher.Map');
     }
   }
 
   onDrawAreaFinish = (area: CountryArea, snapshot: string) => {
     this.props.setSetupArea({ area, snapshot });
-    Navigation.push(this.props.componentId, {
+    Navigation.push('ForestWatcher.Map', {
       component: {
         name: 'ForestWatcher.SetupOverview'
       }

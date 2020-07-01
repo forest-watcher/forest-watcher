@@ -55,29 +55,6 @@ export function showWelcomeScreen() {
   });
 }
 
-export function showMapWalkthrough() {
-  Navigation.showModal({
-    stack: {
-      children: [
-        {
-          component: {
-            name: 'ForestWatcher.MapWalkthrough',
-            options: {
-              animations: Theme.navigationAnimations.fadeModal,
-              layout: {
-                backgroundColor: 'transparent',
-                componentBackgroundColor: 'rgba(0,0,0,0.74)'
-              },
-              screenBackgroundColor: 'rgba(0,0,0,0.74)',
-              modalPresentationStyle: 'overCurrentContext'
-            }
-          }
-        }
-      ]
-    }
-  });
-}
-
 export function showFAQSection(parentComponentId: string, title: string) {
   Navigation.push(parentComponentId, {
     component: {
@@ -96,24 +73,15 @@ export function showFAQSection(parentComponentId: string, title: string) {
 export function launchAppRoot(screen: string) {
   return Navigation.setRoot({
     root: {
-      sideMenu: {
-        center: {
-          stack: {
-            children: [
-              {
-                component: {
-                  id: 'ForestWatcher.Dashboard',
-                  name: screen
-                }
-              }
-            ]
+      stack: {
+        children: [
+          {
+            component: {
+              id: 'ForestWatcher.Dashboard',
+              name: screen
+            }
           }
-        },
-        right: {
-          component: {
-            name: 'ForestWatcher.MapLayersDrawer'
-          }
-        }
+        ]
       }
     }
   });
