@@ -8,6 +8,7 @@ const { parse } = require('json2csv');
 import { PermissionsAndroid, Platform } from 'react-native';
 import RNFetchBlob from 'rn-fetch-blob';
 import i18n from 'i18next';
+import zipFolder from 'helpers/archive';
 
 const moment = require('moment');
 
@@ -41,7 +42,7 @@ export default async function exportReports(
   lang: string,
   dir: string = RNFetchBlob.fs.dirs.DocumentDir,
   method: number = ExportMethod.CSV
-) {
+): Promise<string> {
   // TODO: Handle non-CSV methods.
   if (method !== ExportMethod.CSV) {
     throw new Error('Only CSV exporting is handled right now!');
@@ -59,16 +60,19 @@ export default async function exportReports(
   const exportDirectory = `${dir}/Reports/${formattedDateTime}`;
 
   // For every CSV string (one per template), get the template's name & save the CSV string to a file!
-  const exportedFilePaths: Array<string> = Object.keys(csvStrings).map((key: string) => {
+  const writePromises = Object.keys(csvStrings).map(async (key: string) => {
     const csvString = csvStrings[key];
     const templateName: string = templates?.[key]?.['name']?.[lang] || templates?.[key]?.defaultLanguage;
 
     const completeFilePath = `${exportDirectory}/${templateName}.csv`;
-    RNFetchBlob.fs.writeFile(completeFilePath, csvString, 'utf8');
-    return completeFilePath;
+    return await RNFetchBlob.fs.writeFile(completeFilePath, csvString, 'utf8');
   });
 
-  return exportedFilePaths;
+  await Promise.all(writePromises);
+
+  const zippedReportsPath = await zipFolder(exportDirectory, `${exportDirectory}-zipped.zip`);
+
+  return zippedReportsPath;
 }
 
 /**
