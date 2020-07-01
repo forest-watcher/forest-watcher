@@ -1,6 +1,6 @@
 // @flow
 import type { SelectedAlert } from 'types/alerts.types';
-import type { MapFeature } from 'types/common.types';
+import type { MapItemFeatureProperties } from 'types/common.types';
 import type { SelectedReport } from 'types/reports.types';
 import type { LocationPoint } from 'types/routes.types';
 
@@ -35,9 +35,9 @@ type Props = {|
   onStartTrackingPress: () => void,
   onStopTrackingPress: () => void,
   onZoomToUserLocationPress: () => void,
-  selectedAlerts: Array<SelectedAlert>,
-  selectedReports: Array<SelectedReport>,
-  tappedOnFeatures: Array<MapFeature>,
+  selectedAlerts: $ReadOnlyArray<SelectedAlert>,
+  selectedReports: $ReadOnlyArray<SelectedReport>,
+  tappedOnFeatures: $ReadOnlyArray<MapItemFeatureProperties>,
   userLocation: ?LocationPoint
 |};
 

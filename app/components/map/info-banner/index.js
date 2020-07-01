@@ -1,5 +1,5 @@
 // @flow
-import type { MapFeature } from 'types/common.types';
+import type { MapItemFeatureProperties } from 'types/common.types';
 import type { ViewStyle } from 'types/reactElementStyles.types';
 
 import React, { Component } from 'react';
@@ -14,7 +14,7 @@ import i18n from 'i18next';
 const rightArrow = require('assets/next.png');
 
 type Props = {
-  tappedOnFeatures: Array<MapFeature>,
+  tappedOnFeatures: $ReadOnlyArray<MapItemFeatureProperties>,
   style: ViewStyle
 };
 
@@ -61,11 +61,19 @@ export default class InfoBanner extends Component<Props> {
       return;
     }
     if (tappedOnFeatures.length === 1) {
-      const { type, name, featureId } = tappedOnFeatures[0];
-      if (type === 'route') {
-        this.openRoute(featureId, name);
-      } else if (type === 'report') {
-        this.openReport(featureId);
+      const feature = tappedOnFeatures[0];
+      switch (feature.type) {
+        case 'route': {
+          this.openRoute(feature.featureId, feature.name);
+          break;
+        }
+        case 'report': {
+          this.openReport(feature.featureId);
+          break;
+        }
+        default: {
+          break;
+        }
       }
     } else {
       Navigation.showModal({
@@ -75,7 +83,7 @@ export default class InfoBanner extends Component<Props> {
               component: {
                 name: 'ForestWatcher.MultipleItems',
                 passProps: {
-                  tappedOnFeatures
+                  tappedOnFeatures: tappedOnFeatures.filter(feature => feature.type === 'report')
                 }
               }
             }

@@ -1,4 +1,5 @@
 // @flow
+import type { MapboxFeaturePressEvent, ReportFeatureProperties } from 'types/common.types';
 import type { Report, SelectedReport } from 'types/reports.types';
 
 import React, { Component } from 'react';
@@ -9,7 +10,7 @@ import { mapboxStyles } from './styles';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import i18n from 'i18next';
 import moment from 'moment';
-import { featureCollection, point } from '@turf/helpers';
+import { type Feature, type Point, featureCollection, point } from '@turf/helpers';
 
 export type ReportLayerSettings = {
   layerIsActive: boolean,
@@ -18,11 +19,11 @@ export type ReportLayerSettings = {
 };
 
 type Props = {
-  myReports: Array<Report>,
-  importedReports: Array<Report>,
-  selectedReports: Array<SelectedReport>,
+  myReports: $ReadOnlyArray<Report>,
+  importedReports: $ReadOnlyArray<Report>,
+  selectedReports: $ReadOnlyArray<SelectedReport>,
   reportLayerSettings: ReportLayerSettings,
-  onShapeSourcePressed?: () => void
+  onShapeSourcePressed?: (MapboxFeaturePressEvent<ReportFeatureProperties>) => void
 };
 
 const getReportPosition = (report: Report): [number, number] => {
@@ -42,7 +43,7 @@ const getReportPosition = (report: Report): [number, number] => {
       throw new Error('3SC - getReportPosition was passed a report with an invalid userPosition string');
     }
 
-    return positionValues.map(a => Number(a));
+    return [Number(positionValues[0]), Number(positionValues[1])];
   }
 
   return position;
@@ -57,18 +58,18 @@ export default class Reports extends Component<Props> {
     return iconName;
   };
 
-  reportToFeature = (report: Report) => {
+  reportToFeature = (report: Report): Feature<Point, ReportFeatureProperties> => {
     const selected =
       this.props.selectedReports?.length > 0 &&
       !!this.props.selectedReports.find(rep => rep.reportName === report.reportName);
     const position = getReportPosition(report);
-    const properties = {
+    const properties: ReportFeatureProperties = {
       selected,
       icon: this.getReportIcon(!!report.isImported, selected),
       date: moment(report.date),
       type: 'report',
       name: i18n.t('map.layerSettings.report'),
-      imported: report.isImported,
+      imported: report.isImported ?? false,
       // need to pass these as strings as they are rounded in onShapeSourcePressed method.
       lat: '' + position[1],
       long: '' + position[0],
@@ -78,7 +79,7 @@ export default class Reports extends Component<Props> {
     return point(position, properties);
   };
 
-  renderReports = (reports: Array<Report>, imported: boolean) => {
+  renderReports = (reports: $ReadOnlyArray<Report>, imported: boolean) => {
     if (!reports?.length) {
       return null;
     }

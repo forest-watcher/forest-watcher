@@ -1,18 +1,19 @@
 // @flow
 
+import type { Coordinates, CoordinatesFormat } from 'types/common.types';
+import type { Alert, SelectedAlert } from 'types/alerts.types';
+import type { AlertsIndex } from 'components/map/alerts/dataset';
+
 import { COORDINATES_FORMATS } from 'config/constants';
 import UtmLatLng from 'utm-latlng';
 import formatcoords from 'formatcoords';
 import i18n from 'i18next';
-import type { Coordinates, CoordinatesFormat } from 'types/common.types';
 import { isValidLatLng } from 'helpers/validation/location';
 import { isEmpty, removeNulls } from 'helpers/utils';
-import { GeoJSONObject, point, lineString, type Feature } from '@turf/helpers';
+import { point, type Feature, type GeometryObject, type GeoJSONObject, type Properties } from '@turf/helpers';
 import distanceBetweenCoordinates from '@turf/distance';
 import pointToLineDistance from '@turf/point-to-line-distance';
 import _ from 'lodash';
-import type { Alert, SelectedAlert } from 'types/alerts.types';
-import type { AlertsIndex } from 'components/map/alerts/dataset';
 import geokdbush from 'geokdbush';
 
 // Use example
@@ -20,10 +21,10 @@ import geokdbush from 'geokdbush';
 // const points = [{ latitude: -2.337625, longitude: -46.940875 }]
 function getAllNeighbours(
   alertsIndex: AlertsIndex,
-  firstPoint: Alert | SelectedAlert,
-  points: Array<Alert | SelectedAlert>,
+  firstPoint: SelectedAlert,
+  points: Array<Alert>,
   distance: number = 0.03
-) {
+): Array<Alert> {
   // default distance 30m - alerts are about 27.5m apart on the map (39m diagonally)
   const neighbours: Array<Alert> = [];
 
@@ -127,10 +128,10 @@ export function formatCoordsByFormat(coordinates: Coordinates, format: Coordinat
 
 export function getNeighboursSelected(
   alertsIndex: AlertsIndex,
-  selectedAlerts: Array<SelectedAlert>,
+  selectedAlerts: $ReadOnlyArray<SelectedAlert>,
   allAlerts: Array<Alert>
-) {
-  let neighbours: Array<Alert | SelectedAlert> = [];
+): Array<Alert> {
+  let neighbours: Array<Alert> = [];
 
   selectedAlerts.forEach((alert: SelectedAlert) => {
     neighbours = [...neighbours, ...getAllNeighbours(alertsIndex, alert, allAlerts)];
@@ -155,7 +156,7 @@ export function getNeighboursSelected(
  * @return {number}
  *  Distance in metres
  */
-export function getDistanceOfLine(endLocation: Coordinates, startLocation: Coordinates) {
+export function getDistanceOfLine(endLocation: Coordinates, startLocation: Coordinates): number {
   return (
     geokdbush.distance(endLocation.longitude, endLocation.latitude, startLocation.longitude, startLocation.latitude) *
     1000
@@ -170,7 +171,7 @@ export function getDistanceOfLine(endLocation: Coordinates, startLocation: Coord
  * @return {number}
  *  Total distance in metres
  */
-export function getDistanceOfPolyline(locations: Array<Coordinates>) {
+export function getDistanceOfPolyline(locations: Array<Coordinates>): number {
   let cumulativeDistance = 0;
 
   if (locations.length < 2) {
@@ -195,7 +196,11 @@ export function getDistanceOfPolyline(locations: Array<Coordinates>) {
  * @param thresholdBeforeKm
  * @return {string}
  */
-export function formatDistance(distance: number, thresholdBeforeKm: number = 1, relativeToUser: boolean = true) {
+export function formatDistance(
+  distance: number,
+  thresholdBeforeKm: number = 1,
+  relativeToUser: boolean = true
+): string {
   let distanceText = `${distance.toFixed(0)}${
     relativeToUser ? i18n.t('commonText.metersAway') : i18n.t('commonText.meters')
   }`;
@@ -215,7 +220,9 @@ export function formatDistance(distance: number, thresholdBeforeKm: number = 1, 
  * @param polygon [{latitude: *, longitude: *}, ...]
  * @returns {{sw: [*, *], ne: [*, *]}}
  */
-export function getPolygonBoundingBox(polygon) {
+export function getPolygonBoundingBox(
+  polygon: $ReadOnlyArray<Coordinates>
+): ?{ ne: [number, number], sw: [number, number] } {
   if (!polygon || polygon.length === 0) {
     return undefined;
   }
@@ -234,19 +241,20 @@ export function getPolygonBoundingBox(polygon) {
  *
  * @returns Feature
  */
-export function closestFeature(features: Array<Feature>, coordinate: Coordinates) {
+export function closestFeature<G: GeometryObject, P: Properties>(
+  features: Array<Feature<G, P>>,
+  coordinate: Coordinates
+): Feature<G, P> {
   const coordinatePoint = point([coordinate.longitude, coordinate.latitude]);
-  const geometryFeatures = features.filter((feature: Feature) => !!feature.geometry);
+  const geometryFeatures = features.filter((feature: Feature<G, P>) => !!feature.geometry);
   return _.minBy(geometryFeatures, feature => {
     const geometry = feature.geometry;
     switch (geometry.type) {
       case 'Point': {
-        const geometryPoint = point(geometry.coordinates);
-        return distanceBetweenCoordinates(coordinatePoint, geometryPoint);
+        return distanceBetweenCoordinates(coordinatePoint, geometry);
       }
       case 'LineString': {
-        const geometryLineString = lineString(geometry.coordinates);
-        return pointToLineDistance(coordinatePoint, geometryLineString);
+        return pointToLineDistance(coordinatePoint, geometry);
       }
       default: {
         console.warn(`Unexpected geometry type: ${geometry.type} sent to closestFeature helper`);

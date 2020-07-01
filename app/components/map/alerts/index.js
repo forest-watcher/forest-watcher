@@ -1,18 +1,21 @@
 // @flow
+
+import type { AlertLayerSettingsType } from 'types/layerSettings.types';
+import type { SelectedAlert } from 'types/alerts.types';
+import type { AlertFeatureProperties, MapboxFeaturePressEvent } from 'types/common.types';
+
 import React, { Component } from 'react';
 
 import { View } from 'react-native';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import AlertDataset from 'components/map/alerts/dataset';
-import type { AlertLayerSettingsType } from 'types/layerSettings.types';
-import type { SelectedAlert } from 'types/alerts.types';
 
 type Props = {|
   +alertLayerSettings: AlertLayerSettingsType,
   +areaId?: ?string,
-  +reportedAlerts: Array<string>,
-  +selectedAlerts: Array<SelectedAlert>,
-  +onShapeSourcePressed?: () => void
+  +reportedAlerts: $ReadOnlyArray<string>,
+  +selectedAlerts: $ReadOnlyArray<SelectedAlert>,
+  +onShapeSourcePressed?: (MapboxFeaturePressEvent<AlertFeatureProperties>) => void
 |};
 
 export default class Alerts extends Component<Props> {

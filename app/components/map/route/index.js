@@ -1,6 +1,6 @@
 // @flow
 
-import type { Coordinates } from 'types/common.types';
+import type { Coordinates, MapboxFeaturePressEvent, RouteFeatureProperties } from 'types/common.types';
 import type { LocationPoint, Route } from 'types/routes.types';
 
 import React, { PureComponent } from 'react';
@@ -24,7 +24,7 @@ type Props = {
   userLocation: ?LocationPoint,
   route: ?Route,
   selected?: ?boolean, // if route has been tapped on - emphasise ui
-  onShapeSourcePressed?: () => void
+  onShapeSourcePressed?: (MapboxFeaturePressEvent<RouteFeatureProperties>) => void
 };
 
 type State = {
@@ -162,22 +162,23 @@ export default class RouteMarkers extends PureComponent<Props, State> {
     );
   };
 
-  getRouteProperties = () => {
-    let properties = {};
+  getRouteProperties = (): ?RouteFeatureProperties => {
     if (this.props.route) {
       // This will be false before the route has been saved
       const { name, endDate, id } = this.props.route;
-      properties = { name, date: endDate, type: 'route', featureId: id };
+      return { name, date: endDate, type: 'route', featureId: id };
     }
-    return properties;
+    return null;
   };
 
   renderRoutePath = (routeLocations: Array<LocationPoint>) => {
     const coords = routeLocations.map(coord => coordsObjectToArray(coord));
-    if (!coords || coords.length < 2) {
+    const routeProps = this.getRouteProperties();
+    if (!coords || coords.length < 2 || !routeProps) {
       return null;
     }
-    const line = lineString(coords, this.getRouteProperties());
+
+    const line = lineString(coords, routeProps);
     // Ignore first and last location markers, as those are drawn in renderRouteEnds method.
     const markers = coords.slice(1, -1);
     let markersShape = null;
