@@ -377,7 +377,6 @@ class Areas extends Component<Props, State> {
           }}
           selectionState={this.state.selectedForExport}
           sharing={this.state.inShareMode}
-          showCache={true}
         />
       </>
     );

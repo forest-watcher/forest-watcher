@@ -11,7 +11,6 @@ import DataCacher from 'components/common/download';
 
 type OwnProps = {|
   +dataType: DownloadDataType,
-  +disabled: boolean,
   +id: string,
   +showTooltip: boolean
 |};

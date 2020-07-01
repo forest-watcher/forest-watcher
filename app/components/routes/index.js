@@ -256,7 +256,7 @@ export default class Routes extends PureComponent<Props, State> {
             largerLeftPadding
             largeImage
           />
-          <DataCacher dataType={'route'} id={item.id} disabled={this.state.inShareMode} showTooltip={false} />
+          {!this.state.inShareMode && <DataCacher dataType={'route'} id={item.id} showTooltip={false} />}
         </View>
       );
     });
