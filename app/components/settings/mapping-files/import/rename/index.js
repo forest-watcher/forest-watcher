@@ -18,6 +18,7 @@ import type { Thunk } from 'types/store.types';
 import Constants from 'config/constants';
 
 import KeyboardSpacer from 'react-native-keyboard-spacer';
+import { ERROR_CODES } from 'helpers/fwError';
 
 type Props = {
   clearState: () => BasemapsAction | LayersAction,
@@ -131,6 +132,7 @@ class ImportMappingFileRename extends PureComponent<Props, State> {
             value={this.state.file.name}
             placeholder={i18n.t('commonText.fileName')}
             onChangeText={this.onFileNameChange}
+            editable={!this.props.importing}
           />
           {nameValidity.alreadyTaken && (
             <View style={styles.errorContainer}>
@@ -139,11 +141,15 @@ class ImportMappingFileRename extends PureComponent<Props, State> {
           )}
           {!!this.props.importError && (
             <View style={styles.errorContainer}>
-              <Text style={[styles.listTitle, styles.error]}>{i18n.t(this.i18nKeyFor('error'))}</Text>
+              <Text style={[styles.listTitle, styles.error]}>
+                {this.props.importError.code === ERROR_CODES.FILE_TOO_LARGE
+                  ? `${i18n.t(this.i18nKeyFor('fileSizeTooLarge'))}: ${i18n.t(this.i18nKeyFor('fileSizeTooLargeDesc'))}`
+                  : i18n.t(this.i18nKeyFor('error'))}
+              </Text>
             </View>
           )}
         </ScrollView>
-        <BottomTray requiresSafeAreaView={!this.state.keyboardVisible}>
+        <BottomTray requiresSafeAreaView={!this.state.keyboardVisible} showProgressBar={this.props.importing}>
           <ActionButton
             onPress={nameValidity.valid ? this.onImportPressed : null}
             text={i18n.t(this.i18nKeyFor('save'))}

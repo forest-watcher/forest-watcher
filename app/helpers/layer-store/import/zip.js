@@ -3,6 +3,7 @@ import type { File } from 'types/file.types';
 import type { LayerFile } from 'types/sharing.types';
 
 const RNFS = require('react-native-fs');
+import CONSTANTS from 'config/constants';
 import { unzip } from 'react-native-zip-archive';
 import shapefile from 'shpjs';
 import { feature, featureCollection } from '@turf/helpers';
@@ -29,10 +30,12 @@ export default async function importZipFile(file: File & { uri: string }, fileNa
     if (!shapeFilePath) {
       throw new Error('Zip file does not contain a file with extension .shp');
     }
-    const shapeFileData = await readBinaryFile(shapeFilePath);
+    const shapeFileData = await readBinaryFile(shapeFilePath, CONSTANTS.files.maxFileSizeForLayerImport);
 
     const projectionFilePath = shapeFileContents.find(path => path.endsWith('.prj'));
-    const projectionFileData = projectionFilePath ? await readBinaryFile(projectionFilePath) : null;
+    const projectionFileData = projectionFilePath
+      ? await readBinaryFile(projectionFilePath, CONSTANTS.files.maxFileSizeForLayerImport)
+      : null;
     // We send the file path in here without the .shp extension as the library adds this itself
     const polygons = await shapefile.parseShp(shapeFileData, projectionFileData);
     const features = featureCollection(polygons.map(polygon => feature(polygon)));
@@ -42,7 +45,11 @@ export default async function importZipFile(file: File & { uri: string }, fileNa
 
     return importedFile;
   } finally {
-    RNFS.unlink(tempZipPath.replace(/\.[^/.]+$/, ''));
-    RNFS.unlink(tempZipPath);
+    try {
+      RNFS.unlink(tempZipPath.replace(/\.[^/.]+$/, ''));
+      RNFS.unlink(tempZipPath);
+    } catch (err) {
+      console.warn('3SC', 'RNFS unlink error: ', err);
+    }
   }
 }

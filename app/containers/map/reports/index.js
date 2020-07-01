@@ -17,7 +17,7 @@ type OwnProps = {|
 
 function mapStateToProps(state: State, ownProps: OwnProps) {
   const { featureId } = ownProps;
-  const formattedReports = getReports(state.reports.list, state.areas.data, state.user.data.id);
+  const formattedReports = getReports(state.reports.list);
   const allReports: Array<Report> = [
     ...formattedReports.draft,
     ...formattedReports.complete,
