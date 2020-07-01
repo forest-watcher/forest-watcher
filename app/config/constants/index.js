@@ -145,22 +145,6 @@ export const GFW_BASEMAPS: Array<Basemap> = [
     name: 'dark',
     image: require('assets/basemap_dark.png'),
     tileUrl: null
-  },
-  {
-    isCustom: false,
-    id: 'mapbox://styles/resourcewatch/cjww89e5j08o91cmjsbrd47qt?fresh=true',
-    styleURL: 'mapbox://styles/resourcewatch/cjww89e5j08o91cmjsbrd47qt?fresh=true',
-    name: 'satellite',
-    image: require('assets/basemap_satellite.png'),
-    tileUrl: 'https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}'
-  },
-  {
-    isCustom: false,
-    id: 'mapbox://styles/resourcewatch/cjww8drml27wc1cn3mk2872h9?fresh=true',
-    styleURL: 'mapbox://styles/resourcewatch/cjww8drml27wc1cn3mk2872h9?fresh=true',
-    name: 'landsat',
-    image: require('assets/basemap_landsat.png'),
-    tileUrl: 'https://production-api.globalforestwatch.org/v2/landsat-tiles/2017/{z}/{x}/{y}'
   }
 ];
 
