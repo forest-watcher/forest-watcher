@@ -69,7 +69,6 @@
         "names": {
             "dark": "Dark",
             "default": "Default",
-            "mapboxSatellite": "Mapbox Satellite",
             "satellite": "Satellite"
         },
         "rename": {
