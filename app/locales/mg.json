@@ -14,11 +14,11 @@
             "title": "Tsy Misy Faritra Arahi-maso"
         },
         "export": {
-            "many areas": "%{count} Faritra",
+            "manyAreas": "%{count} Faritra",
             "oneArea": "%{count} Faritra"
         },
         "importedAreas": "Faritra Nampidirina Nankao",
-        "my areas": "Ny Faritro",
+        "myAreas": "Ny Faritro",
         "title": "Faritra",
         "tooltip": {
             "body": "Hijery fanairana sy tongoan-tsaritany tsy misy aterineto",
@@ -38,7 +38,7 @@
         },
         "export": {
             "many": "%{count} Sarintany fototra",
-            "many action": "Hamoaka sarintany fototra %{count} ...",
+            "manyAction": "Hamoaka sarintany fototra %{count} ...",
             "navBarButtonText": "Hamoaka",
             "noneSelected": "Tsy misy sarintany fototra nosafidiana",
             "one": "Sarintany Fototra %{count}",
@@ -105,11 +105,11 @@
         "error": "Diso",
         "fileName": "Anaran'ny raki-takila",
         "fileSizes": {
-            "by tes": "%{size} by tes",
-            "gigaBy tes": "%{size} GB",
-            "kiloBy tes": "%{size} kB",
-            "megaBy tes": "%{size} MB",
-            "teraBy tes": "%{size} TB"
+            "bytes": "%{size} bytes",
+            "gigaBytes": "%{size} GB",
+            "kiloBytes": "%{size} kB",
+            "megaBytes": "%{size} MB",
+            "teraBytes": "%{size} TB"
         },
         "finish": "Hamarana",
         "kilometers": "km",
@@ -149,7 +149,7 @@
         },
         "export": {
             "many": "Tongoa %{count}",
-            "many action": "Hamoaka tongoa %{count} ...",
+            "manyAction": "Hamoaka tongoa %{count} ...",
             "navBarButtonText": "Hamoaka",
             "noneSelected": "Tsy misy tongoa nosafidiana",
             "one": "Tongoa  %{count}",
@@ -389,7 +389,7 @@
             "fileImportOptionTitle": "Lalan-tsafidy amin’ny Fampidirana",
             "title": "Hisafidy angona momba ny Tongoa Araka ny Zava-misy"
         },
-        "empty importError": "Tsy misy angona nosafidiana hampidirina. Miverena ary safidio izay hampidirina.",
+        "emptyImportError": "Tsy misy angona nosafidiana hampidirina. Miverena ary safidio izay hampidirina.",
         "importingPrefix": "Etoam-pampidirana:",
         "incompatibleBundle": "Miala tsiny, natao ho ana endrikana \"Forest Watcher\" hafa ity fizarana fehiny ity, noho izany tsy azo ampidirina.",
         "progress": "Dingana faha- %{current} amin'ny %{total}",
@@ -419,7 +419,7 @@
         }
     },
     "layers": {
-        "biodiversity intactness": "Ala sy karazan-javaboary tsy mbola voakitika – 2016",
+        "biodiversityIntactness": "Ala sy karazan-javaboary tsy mbola voakitika – 2016",
         "biodiversitySignificance": "Lanjan’ny ala sy karazan-javaboary – 2016",
         "indonesiaForestArea": "Faritry ny ala any Indonezia",
         "landmarks": "Tanin’ny Mponina sy ny Fiarahamonina",
@@ -443,9 +443,9 @@
     "login": {
         "emailLogin": {
             "emailAddress": "Adiresy Mailaka",
-            "entery OurEmail": "Ampidiro ny adiresy mailakanao",
-            "entery OurPassword": "Ampidiro ny teny miafina",
-            "forgoty OurPassword": "Nanadino teny miafina?",
+            "enterYourEmail": "Ampidiro ny adiresy mailakanao",
+            "enterYourPassword": "Ampidiro ny teny miafina",
+            "forgotYourPassword": "Nanadino teny miafina?",
             "login": "Hiditra",
             "loginError": "Olana nandritra ny fidirana",
             "loginWithEmail": "Hiditra amin’ny alalan’ny mailaka",
@@ -472,15 +472,15 @@
                 "deforestation": "Fandripahana ala",
                 "fires": "Doro tanety",
                 "glad": "GLAD",
-                "many days": "%{count} andro",
-                "many Months": "%{count} volana",
+                "manyDays": "%{count} andro",
+                "manyMonths": "%{count} volana",
                 "noAlerts": "Tsy misy Fanairana",
                 "oneDay": "%{count} andro",
                 "oneMonth": "%{count} volana",
                 "recent": "Vao haingana",
                 "reportedOn": "Notaterina tamin’ny",
-                "showingMany days": "Aseho ny %{type} taoanatin’ny %{count} andro lasa",
-                "showingMany Months": "Aseho ny %{type} taoanatin’ny %{count} volana lasa",
+                "showingManyDays": "Aseho ny %{type} taoanatin’ny %{count} andro lasa",
+                "showingManyMonths": "Aseho ny %{type} taoanatin’ny %{count} volana lasa",
                 "showingOneDay": "Aseho ny %{type} ny andro teo aloha",
                 "showingOneMonth": "Aseho ny %{type} ny volana teo aloha",
                 "timeFrame": "Fe-potoana",
@@ -510,20 +510,20 @@
             "manageContextualLayers": "Hitantana Tongoa Mifanaraka Amin’ny Zava-misy",
             "manageReports": "Hitantana Tatitra",
             "manageRoutes": "Hitantana Làlana",
-            "my reports": "Ny Tatitro",
-            "my routes": "Ny Lalako",
-            "only availableOnline": "Tsy mety raha tsy misy aterineto",
+            "myReports": "Ny Tatitro",
+            "myRoutes": "Ny Lalako",
+            "onlyAvailableOnline": "Tsy mety raha tsy misy aterineto",
             "report": "Tatitra",
             "reportSettings": {
                 "showingAllReports": "Ny tatitra Rehetra",
                 "showingImportedReports": "Tatitra Nampidirina",
-                "showingMy reports": "Ny Tatitro",
+                "showingMyReports": "Ny Tatitro",
                 "showingNoReports": "Tsy misy Tatitra"
             },
             "reports": "Tatitra",
             "routeSettings": {
                 "showingAllRoutes": "Ny Làlana Rehetra",
-                "showingMany routes": "Làlana %{count}",
+                "showingManyRoutes": "Làlana %{count}",
                 "showingOneRoute": "Làlana %{count}"
             },
             "routes": "Làlana",
@@ -541,8 +541,8 @@
         },
         "selectedItems": {
             "location": "Toerana: %{lat}, %{long}",
-            "many alerts": "Fanairana %{count}",
-            "many reports": "Tatitra %{count}",
+            "manyAlerts": "Fanairana %{count}",
+            "manyReports": "Tatitra %{count}",
             "multipleItems": "Singa Maro Samihafa",
             "oneAlert": "Fanairana 1",
             "oneReport": "Tatitra 1"
@@ -574,7 +574,7 @@
         "emptyPicture": "Foana",
         "export": {
             "description": "Ahoana no fomba tianao hamoahana ity tatitra ity?",
-            "many reports": "Tatitra %{count}",
+            "manyReports": "Tatitra %{count}",
             "navBarButtonText": "Hamoaka",
             "noneSelected": "Tsy misy Tatitra nosafidiana",
             "oneReport": "Tatitra %{count}",
@@ -615,7 +615,7 @@
         "confirmDeleteTitle": "Hamafa làlana naleha",
         "delete": "Hamafa Làlana Naleha",
         "difficulty": "Fahasarotana",
-        "difficulty Levels": {
+        "difficultyLevels": {
             "easy": "Mora",
             "hard": "Sarotra",
             "medium": "Antono ny"
@@ -628,7 +628,7 @@
             "title": "Tsy Misy Làlana Naleha"
         },
         "export": {
-            "many routes": "Làlana naleha %{count}",
+            "manyRoutes": "Làlana naleha %{count}",
             "oneRoute": "Làlana naleha %{count}"
         },
         "importedRoutes": "Làlana nampidirina",
@@ -639,7 +639,7 @@
         "location": "Faritra",
         "locationEnd": "Mifarana:",
         "locationStart": "Manomboka:",
-        "my routes": "Ny Làlana Nalehako",
+        "myRoutes": "Ny Làlana Nalehako",
         "notification": {
             "message": "Mitahiry ny làlana arahinao mandritra ny famonjenao ny toerana halehanao ny \"Forest Watcher\"",
             "title": "Eto am-panarahana ny làlana aleha"
@@ -662,7 +662,7 @@
         "aboutPartners": "Mpiara-miasa",
         "aboutTerms": "Fepetra",
         "basemaps": "Sarintany Fototra",
-        "completey OurProfileOn": "Fenoy ny mombamomba anao ao amin’ny",
+        "completeYourProfileOn": "Fenoy ny mombamomba anao ao amin’ny",
         "contextualLayers": "Tongoa Mifanaraka amin’ny Zava-misy",
         "coordinatesDecimal": "Decimal",
         "coordinatesDegrees": "Degrees",
@@ -675,7 +675,7 @@
         "title": "Lazaova",
         "unsafeLogout": "Tsy mifanaraka ireo tatitra!",
         "unsavedDataLost": "Raha manohy miala ianao, ho very avokoany angona tsy voatahiry rehetra.",
-        "y OurRoutes": "Ny Làlana Nalehako"
+        "yourRoutes": "Ny Làlana Nalehako"
     },
     "setupCountry": {
         "firstInstruction": "Voalohany, safidio ny firenena mahaliana iasanao",
@@ -718,7 +718,7 @@
             "routes": "Làlana Naleha (maro)"
         }
     },
-    "sy nc": {
+    "sync": {
         "alertsUpdated": "Manaraka toetrandro ireo faritrao",
         "error": "Misy olana ny fampifanarahana",
         "errorCreatingArea": "Nisy olana ny famoronana ny faritrao",
@@ -736,7 +736,7 @@
             "updated": "Vita tanteraka ny fampidirana!",
             "updating": "Eto am-pampidirana ny angona..."
         },
-        "try again": "Andramo indray"
+        "tryAgain": "Andramo indray"
     },
     "termsAndConditions": {
         "agreeText": "Rehefa mampiasa ity app ity ianaodia manaiky ireto Fitsipika sy Fepetra ireto",
