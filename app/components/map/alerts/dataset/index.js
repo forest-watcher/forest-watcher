@@ -59,6 +59,14 @@ type State = {|
   +alertsFromDb: Array<Alert>
 |};
 
+const initalState = {
+  recentAlerts: featureCollection([]),
+  reportedAlerts: featureCollection([]),
+  otherAlerts: featureCollection([]),
+  alertsIndex: null,
+  alertsFromDb: []
+};
+
 /**
  * Displays the alerts corresponding to the specified dataset and other criteria
  */
@@ -73,13 +81,7 @@ export default class AlertDataset extends PureComponent<Props, State> {
 
   constructor(props: Props) {
     super(props);
-    this.state = {
-      recentAlerts: featureCollection([]),
-      reportedAlerts: featureCollection([]),
-      otherAlerts: featureCollection([]),
-      alertsIndex: null,
-      alertsFromDb: []
-    };
+    this.state = initalState;
 
     const now = moment();
     this.datasets = _.mapValues(DATASETS, config => ({
@@ -109,7 +111,7 @@ export default class AlertDataset extends PureComponent<Props, State> {
       this.props.selectedAlerts !== prevProps.selectedAlerts ||
       this.props.reportedAlerts !== prevProps.reportedAlerts
     ) {
-      if (this.state.alertsFromDb && this.state.alertsIndex && this.state.alertsIndex.nodeSize) {
+      if (this.state.alertsFromDb?.length && this.state.alertsIndex?.nodeSize) {
         if (!this.props.isActive) {
           return;
         }
@@ -133,11 +135,7 @@ export default class AlertDataset extends PureComponent<Props, State> {
     const { areaId, isActive, slug, timeframe, timeframeUnit } = this.props;
 
     // Reset the data in state before retrieving the updated data
-    this.setState({
-      recentAlerts: featureCollection([]),
-      reportedAlerts: featureCollection([]),
-      otherAlerts: featureCollection([])
-    });
+    this.setState(initalState);
 
     if (!isActive) {
       return;
