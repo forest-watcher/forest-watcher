@@ -126,7 +126,7 @@ export const GFW_BASEMAPS: Array<Basemap> = [
     isCustom: false,
     id: MapboxGL.StyleURL.SatelliteStreet,
     styleURL: MapboxGL.StyleURL.SatelliteStreet,
-    name: 'mapboxSatellite',
+    name: 'satellite',
     image: require('assets/basemap_mapbox_satellite.png'),
     tileUrl: null
   },
