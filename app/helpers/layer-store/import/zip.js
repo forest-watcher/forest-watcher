@@ -42,7 +42,11 @@ export default async function importZipFile(file: File & { uri: string }, fileNa
 
     return importedFile;
   } finally {
-    RNFS.unlink(tempZipPath.replace(/\.[^/.]+$/, ''));
-    RNFS.unlink(tempZipPath);
+    try {
+      RNFS.unlink(tempZipPath.replace(/\.[^/.]+$/, ''));
+      RNFS.unlink(tempZipPath);
+    } catch (err) {
+      console.warn('3SC', 'RNFS unlink error: ', err);
+    }
   }
 }
