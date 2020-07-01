@@ -184,11 +184,16 @@ export default class MappingFileRow extends Component<Props, State> {
 
     const image = layer.image ?? icons[layerType].placeholder;
 
+    // We should only show the image if one exists, and we're showing a basemap.
+    const shouldShowImage = image != null && layerType !== 'contextual_layer';
+
     return (
       <View style={styles.item}>
-        <View style={styles.imageContainer}>
-          {image != null && <ImageBackground resizeMode={'cover'} style={styles.image} source={image} />}
-        </View>
+        {shouldShowImage && (
+          <View style={styles.imageContainer}>
+            {<ImageBackground resizeMode={'cover'} style={styles.image} source={image} />}
+          </View>
+        )}
         <View style={styles.contentContainer}>
           <Text numberOfLines={2} style={styles.title}>
             {title}

@@ -4,6 +4,7 @@ import { StyleSheet } from 'react-native';
 export default StyleSheet.create({
   item: {
     flexGrow: 1,
+    minHeight: 92,
     paddingRight: isSmallScreen ? 12 : 16,
     borderBottomColor: Theme.borderColors.main,
     borderBottomWidth: 1,
