@@ -60,7 +60,7 @@ export default async function exportReports(
   const exportDirectory = `${dir}/Reports/${formattedDateTime}`;
 
   // For every CSV string (one per template), get the template's name & save the CSV string to a file!
-  Object.keys(csvStrings).map((key: string) => {
+  Object.keys(csvStrings).forEach((key: string) => {
     const csvString = csvStrings[key];
     const templateName: string = templates?.[key]?.['name']?.[lang] || templates?.[key]?.defaultLanguage;
 
