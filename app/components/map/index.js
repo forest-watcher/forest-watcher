@@ -960,7 +960,7 @@ class MapComponent extends Component<Props, State> {
           {renderMapCamera}
           {this.renderAreaOutline()}
           {layerSettings.routes.layerIsActive && this.renderAllRoutes()}
-          {layerSettings.contextualLayers.layerIsActive && <ContextualLayers featureId={featureId} />}
+          <ContextualLayers featureId={featureId} layerSettings={layerSettings.contextualLayers} />
           {this.renderDestinationLine()}
           <Alerts
             alertLayerSettings={this.props.layerSettings.alerts}
