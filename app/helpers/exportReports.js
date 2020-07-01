@@ -8,6 +8,7 @@ const { parse } = require('json2csv');
 import { PermissionsAndroid, Platform } from 'react-native';
 import RNFetchBlob from 'rn-fetch-blob';
 import i18n from 'i18next';
+import zipFolder from 'helpers/archive';
 
 const moment = require('moment');
 
@@ -41,7 +42,7 @@ export default async function exportReports(
   lang: string,
   dir: string = RNFetchBlob.fs.dirs.DocumentDir,
   method: number = ExportMethod.CSV
-) {
+): Promise<string> {
   // TODO: Handle non-CSV methods.
   if (method !== ExportMethod.CSV) {
     throw new Error('Only CSV exporting is handled right now!');
@@ -68,7 +69,9 @@ export default async function exportReports(
     return completeFilePath;
   });
 
-  return exportedFilePaths;
+  const zippedReportsPath = await zipFolder(exportDirectory, `${exportDirectory}-zipped.zip`);
+
+  return zippedReportsPath;
 }
 
 /**

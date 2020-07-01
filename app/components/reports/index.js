@@ -21,6 +21,7 @@ import EmptyState from 'components/common/empty-state';
 import ShareSheet from 'components/common/share';
 import displayExportReportDialog from 'helpers/sharing/displayExportReportDialog';
 
+import shareFile from 'helpers/shareFile';
 import calculateBundleSize from 'helpers/sharing/calculateBundleSize';
 import generateUniqueID from 'helpers/uniqueId';
 import { getShareButtonText } from 'helpers/sharing/utils';
@@ -269,7 +270,7 @@ class Reports extends PureComponent<Props, State> {
       .map(key => mergedReports.find(report => report.reportName === key))
       .filter(Boolean);
 
-    await exportReports(
+    const zippedReportsPath = await exportReports(
       reportsToExport,
       this.props.templates,
       this.props.appLanguage,
@@ -278,6 +279,8 @@ class Reports extends PureComponent<Props, State> {
         ios: RNFetchBlob.fs.dirs.DocumentDir
       })
     );
+
+    shareFile(zippedReportsPath);
   };
 
   onFrequentlyAskedQuestionsPress = () => {
