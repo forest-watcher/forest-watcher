@@ -60,13 +60,15 @@ export default async function exportReports(
   const exportDirectory = `${dir}/Reports/${formattedDateTime}`;
 
   // For every CSV string (one per template), get the template's name & save the CSV string to a file!
-  Object.keys(csvStrings).forEach((key: string) => {
+  const writePromises = Object.keys(csvStrings).map(async (key: string) => {
     const csvString = csvStrings[key];
     const templateName: string = templates?.[key]?.['name']?.[lang] || templates?.[key]?.defaultLanguage;
 
     const completeFilePath = `${exportDirectory}/${templateName}.csv`;
-    RNFetchBlob.fs.writeFile(completeFilePath, csvString, 'utf8');
+    return await RNFetchBlob.fs.writeFile(completeFilePath, csvString, 'utf8');
   });
+
+  await Promise.all(writePromises);
 
   const zippedReportsPath = await zipFolder(exportDirectory, `${exportDirectory}-zipped.zip`);
 
