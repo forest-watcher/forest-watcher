@@ -19,6 +19,7 @@ import styles from './styles';
 import MappingFileRow from 'components/settings/mapping-files/mapping-file-row';
 import showRenameModal from 'helpers/showRenameModal';
 import { presentInformationModal, showFAQSection } from 'screens/common';
+import fileNameIsValid from 'helpers/validation/fileNames';
 
 const plusIcon = require('assets/add.png');
 const icons = {
@@ -239,7 +240,9 @@ class MappingFiles extends Component<Props, State> {
       i18n.t('commonText.confirm'),
       Constants.layerMaxNameLength,
       newName => {
-        if (newName.length === 0 || newName.length > Constants.layerMaxNameLength) {
+        const validity = fileNameIsValid(file.id, newName, this.props.importedFiles);
+
+        if (!validity.valid) {
           return;
         }
 
