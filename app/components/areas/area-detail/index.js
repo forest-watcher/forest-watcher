@@ -19,7 +19,7 @@ import VerticalSplitRow from 'components/common/vertical-split-row';
 import RoutePath from 'components/common/route-path';
 
 import { formatDistance, getDistanceOfPolyline } from 'helpers/map';
-import { pushMapScreen } from 'screens/common';
+import { pushMapScreen } from 'screens/maps';
 
 const RoutePreviewSize = isSmallScreen ? 86 : 122;
 

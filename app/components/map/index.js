@@ -80,7 +80,7 @@ import Alerts from 'components/map/alerts';
 import Reports from 'containers/map/reports';
 import Footer from 'components/map/footer';
 import { lineString, type Feature, type Geometry, type Position } from '@turf/helpers';
-import { showMapWalkthrough } from 'screens/common';
+import { showMapWalkthrough } from 'screens/maps';
 
 const emitter = require('tiny-emitter/instance');
 
