@@ -15,7 +15,8 @@
 
 declare module 'i18next' {
   declare module.exports: {
-    t: (key: string, params?: {}) => string
+    t: ((key: string, params?: { returnObjects?: false }) => string) &
+      ((key: string, params: {| returnObjects: true |}) => any)
   };
 }
 
