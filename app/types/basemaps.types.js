@@ -1,9 +1,9 @@
 // @flow
-import type { MapContent, LayersCacheStatus } from 'types/layers.types';
+import type { Layer, LayersCacheStatus } from 'types/layers.types';
 
 export type BasemapsState = {
   downloadedBasemapProgress: { [basemapId: string]: LayersCacheStatus },
-  importedBasemaps: Array<MapContent>,
+  importedBasemaps: Array<Layer>,
   importError: ?Error,
   importing: boolean
 };
@@ -38,7 +38,7 @@ type ImportBasemapAreaCompleted = {
     failed: boolean
   }
 };
-export type ImportBasemapCommit = { type: 'basemaps/IMPORT_BASEMAP_COMMIT', payload: MapContent };
+export type ImportBasemapCommit = { type: 'basemaps/IMPORT_BASEMAP_COMMIT', payload: Layer };
 export type ImportBasemapClear = { type: 'basemaps/IMPORT_BASEMAP_CLEAR' };
 export type ImportBasemapRollback = { type: 'basemaps/IMPORT_BASEMAP_ROLLBACK', payload: ?Error };
 export type RenameBasemap = { type: 'basemaps/RENAME_BASEMAP', payload: { id: string, name: string } };

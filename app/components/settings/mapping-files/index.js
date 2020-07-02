@@ -1,6 +1,6 @@
 // @flow
 import type { LayerType } from 'types/sharing.types';
-import type { MapContent, LayersCacheStatus, LayerCacheData } from 'types/layers.types';
+import type { Layer, LayersCacheStatus, LayerCacheData } from 'types/layers.types';
 import React, { Component } from 'react';
 import { View, ScrollView, Share, Text } from 'react-native';
 import { Navigation, NavigationButtonPressedEvent } from 'react-native-navigation';
@@ -32,13 +32,13 @@ const icons = {
 
 type Props = {|
   +areaTotal: number,
-  +baseFiles: Array<MapContent>,
+  +baseFiles: Array<Layer>,
   +componentId: string,
   +deleteMappingFile: (id: string, type: LayerType) => Promise<void>,
   +downloadProgress: { [id: string]: LayersCacheStatus },
   +exportLayers: (ids: Array<string>) => Promise<void>,
-  +importGFWContent: (LayerType, MapContent, boolean) => Promise<void>,
-  +importedFiles: Array<MapContent>,
+  +importGFWContent: (LayerType, Layer, boolean) => Promise<void>,
+  +importedFiles: Array<Layer>,
   +mappingFileType: LayerType,
   +offlineMode: boolean,
   +renameMappingFile: (id: string, type: LayerType, newName: string) => Promise<void>,
@@ -211,14 +211,14 @@ class MappingFiles extends Component<Props, State> {
     }
   };
 
-  shareLayer = (file: MapContent) => {
+  shareLayer = (file: Layer) => {
     Share.share({
       message: 'Sharing file',
       url: file.url
     });
   };
 
-  confirmMappingFileDeletion = (file: MapContent) => {
+  confirmMappingFileDeletion = (file: Layer) => {
     let messageKey = this.i18nKeyFor('delete.message');
 
     if (!file.isCustom) {
@@ -239,7 +239,7 @@ class MappingFiles extends Component<Props, State> {
     );
   };
 
-  confirmMappingFileRenaming = (file: MapContent) => {
+  confirmMappingFileRenaming = (file: Layer) => {
     showRenameModal(
       i18n.t(this.i18nKeyFor('rename.title')),
       i18n.t(this.i18nKeyFor('rename.message')),
@@ -262,12 +262,12 @@ class MappingFiles extends Component<Props, State> {
   /**
    * Whether the specified layer can be shared with other users via sharing bundles
    */
-  _isShareable = (file: MapContent): boolean => {
+  _isShareable = (file: Layer): boolean => {
     if (this.props.mappingFileType === 'basemap') {
-      const basemap = ((file: any): MapContent);
+      const basemap = ((file: any): Layer);
       return !!basemap.isCustom;
     } else if (this.props.mappingFileType === 'contextual_layer') {
-      const layer = ((file: any): MapContent);
+      const layer = ((file: any): Layer);
       if (layer.isCustom) {
         return true;
       }
@@ -277,7 +277,7 @@ class MappingFiles extends Component<Props, State> {
     return true;
   };
 
-  onInfoPress = debounceUI((file: MapContent) => {
+  onInfoPress = debounceUI((file: Layer) => {
     const { name } = file;
 
     if (!name) {
@@ -290,7 +290,7 @@ class MappingFiles extends Component<Props, State> {
     });
   });
 
-  renderGFWFiles = (files: Array<MapContent>) => {
+  renderGFWFiles = (files: Array<Layer>) => {
     const { areaTotal, downloadProgress, mappingFileType, offlineMode } = this.props;
     const { inEditMode, inShareMode } = this.state;
 
@@ -351,7 +351,7 @@ class MappingFiles extends Component<Props, State> {
     );
   };
 
-  renderImportedFiles = (files: Array<MapContent>) => {
+  renderImportedFiles = (files: Array<Layer>) => {
     const { mappingFileType } = this.props;
     const { inEditMode, inShareMode } = this.state;
 
@@ -414,7 +414,7 @@ class MappingFiles extends Component<Props, State> {
     );
   };
 
-  renderFilesList = (gfwFiles: Array<MapContent>, importedFiles: Array<MapContent>) => {
+  renderFilesList = (gfwFiles: Array<Layer>, importedFiles: Array<Layer>) => {
     if (gfwFiles.length === 0 && importedFiles.length === 0) {
       return this.renderEmptyState();
     }

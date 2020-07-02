@@ -18,7 +18,7 @@ import ProgressBar from 'react-native-progress/Bar';
 import { GFW_CONTEXTUAL_LAYERS_METADATA } from 'config/constants';
 import Theme from 'config/theme';
 import styles from './styles';
-import type { MapContent } from 'types/layers.types';
+import type { Layer } from 'types/layers.types';
 import queryLayerFiles from 'helpers/layer-store/queryLayerFiles';
 import { manifestBundleSize } from 'helpers/sharing/calculateBundleSize';
 import { formatBytes } from 'helpers/data';
@@ -45,7 +45,7 @@ type Props = {
   downloaded?: boolean,
   downloading?: boolean,
   inEditMode: boolean,
-  layer: MapContent,
+  layer: Layer,
   layerType: LayerType,
   onDeletePress: () => void,
   onDownloadPress?: ?() => void | Promise<void>,

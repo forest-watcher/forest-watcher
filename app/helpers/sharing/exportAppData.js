@@ -6,7 +6,7 @@ import type { Report, ReportsState, Template } from 'types/reports.types';
 import type { ExportBundleRequest, SharingBundle } from 'types/sharing.types';
 import type { State } from 'types/store.types';
 import type { BasemapsState } from 'types/basemaps.types';
-import type { MapContent, LayersState } from 'types/layers.types';
+import type { Layer, LayersState } from 'types/layers.types';
 import type { Route, RouteState } from 'types/routes.types';
 
 import _ from 'lodash';
@@ -73,7 +73,7 @@ function exportAreas(areasState: AreasState, areaIds: Array<string>): Array<Area
 /**
  * Extracts any basemap info from state for basemaps matching the specified IDs, OR intersecting any of the given regions
  */
-export function exportBasemaps(basemapsState: BasemapsState, basemapIds: Array<string>): Array<MapContent> {
+export function exportBasemaps(basemapsState: BasemapsState, basemapIds: Array<string>): Array<Layer> {
   const allBasemaps = [...GFW_BASEMAPS, ...basemapsState.importedBasemaps];
   return allBasemaps.filter(basemap => basemapIds.includes(basemap.id));
 }
@@ -81,7 +81,7 @@ export function exportBasemaps(basemapsState: BasemapsState, basemapIds: Array<s
 /**
  * Extracts any layer info from state for layers matching the specified IDs, OR intersecting any of the given regions
  */
-export function exportLayers(layersState: LayersState, layerIds: Array<string>): Array<MapContent> {
+export function exportLayers(layersState: LayersState, layerIds: Array<string>): Array<Layer> {
   return [...layersState.data, ...layersState.imported].filter(layer => layerIds.includes(layer.id));
 }
 

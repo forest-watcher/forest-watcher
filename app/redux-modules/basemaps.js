@@ -1,7 +1,7 @@
 // @flow
 import type { BasemapsAction, BasemapsState } from 'types/basemaps.types';
 import type { File } from 'types/file.types';
-import type { MapContent } from 'types/layers.types';
+import type { Layer } from 'types/layers.types';
 import type { LayerFile } from 'types/sharing.types';
 import type { Dispatch, GetState, State, Thunk } from 'types/store.types';
 
@@ -217,7 +217,7 @@ export function importBasemap(basemapFile: File): Thunk<Promise<void>> {
 
     try {
       const importedFile: LayerFile = await importLayerFile(basemapFile);
-      const basemap: MapContent = {
+      const basemap: Layer = {
         isCustom: true,
         id: importedFile.layerId,
         name: basemapFile.name,

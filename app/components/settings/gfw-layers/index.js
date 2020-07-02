@@ -9,7 +9,7 @@ import Row from 'components/common/row';
 
 import { GFW_CONTEXTUAL_LAYERS } from 'config/constants';
 
-import type { MapContent } from 'types/layers.types';
+import type { Layer } from 'types/layers.types';
 
 import debounceUI from 'helpers/debounceUI';
 const nextIcon = require('assets/next.png');
@@ -37,7 +37,7 @@ class GFWLayers extends PureComponent<Props, State> {
     Navigation.events().bindComponent(this);
   }
 
-  onPressLayer = debounceUI((layer: MapContent) => {
+  onPressLayer = debounceUI((layer: Layer) => {
     Navigation.push(this.props.componentId, {
       component: {
         name: 'ForestWatcher.GFWLayerDownload',
@@ -59,7 +59,7 @@ class GFWLayers extends PureComponent<Props, State> {
     );
   };
 
-  renderLayer = ({ item }: { item: MapContent }) => {
+  renderLayer = ({ item }: { item: Layer }) => {
     return (
       <Row
         action={{
