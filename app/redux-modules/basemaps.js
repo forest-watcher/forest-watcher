@@ -221,7 +221,6 @@ export function importBasemap(basemapFile: File): Thunk<Promise<void>> {
         isCustom: true,
         id: importedFile.layerId,
         name: basemapFile.name,
-        path: importedFile.path,
         size: importedFile.size,
         type: 'basemap'
       };

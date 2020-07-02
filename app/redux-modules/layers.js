@@ -117,6 +117,7 @@ export default function reducer(state: LayersState = initialState, action: Layer
 
         return mutableLayer;
       });
+
       const areas = [...action.meta.areas];
       const syncDate = Date.now();
       const cacheStatus = getCacheStatusFromAreas(state.cacheStatus, areas);

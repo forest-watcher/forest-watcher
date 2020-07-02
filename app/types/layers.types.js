@@ -34,7 +34,6 @@ export type Layer = {
   isImported?: true, // Flag indicating whether or not this was imported from a sharing bundle
   isCustom?: ?boolean, // Flag indicating whether or not this is a custom one added by the user
   size?: ?number, // The size of this content on disk.
-  path?: string, // Where the file is saved within the app's documents directory.
   styleURL?: string,
   image?: number
 };
