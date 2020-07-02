@@ -224,10 +224,38 @@
                     {
                         "content": {
                             "description": {
-                                "text": "Forest Watcher was first developed by the Jane Goodall Institute (JGI), Google, Touchlab and Global Forest Watch. Village forest monitors, protected area rangers and local communities working with the Jane Goodall Institute needed to access up-to-date satellite data for forest monitoring; however, internet access is limited in the remote areas where they work. Without this information, forest monitors could miss deforestation activity occurring beyond their patrol routes. JGI, GFW, Touchlab, Vizzuality and Google created Forest Watcher to enable access to GFW data offline while in the field."
+                                "text": "Community forest monitors, park rangers, conservation organizations, protected area managers, journalists and environmental police use Forest Watcher to detect areas of forest disturbance, inform their patrol routes and collect digital information about their observations."
                             }
                         },
-                        "title": "Why did you create Forest Watcher?"
+                        "title": "Who uses Forest Watcher?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text": "In 2016, the Jane Goodall Institute (JGI), Global Forest Watch (GFW), Touchlab and Google partnered to create a test version of a mobile app to monitor protected areas in Uganda while offline. Following the successful pilot phase, GFW, JGI and Vizzuality created Forest Watcher to enable access to GFW data while offline and in the field. The app is currently maintained by GFW and 3 Sided Cube."
+                            }
+                        },
+                        "title": "Who created Forest Watcher?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text": "Forest Watcher will run on any iPhone with iOS 10 and above. The minimum and recommended specifications for Android devices are listed below."
+                            },
+                            "orderList": {
+                                "text1": "Minimum specifications for Android: OS - Android 5.0; RAM - 1.5GB; Free Disk Space - 1GB",
+                                "text2": "Minimum specifications for Android: OS - Android 7.1' RAM - 3GB; Free Disk Space - 4GB+"
+                            }
+                        },
+                        "title": "What are the device specifications for using Forest Watcher?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text": "Yes, Forest Watcher is available in Spanish, French, Portuguese, Bahasa Indonesian, Dutch and Malagasy. The language of the questionnaires and reports can be customized to any language of your choosing."
+                            }
+                        },
+                        "title": "Is Forest Watcher available in languages other than English?"
                     }
                 ],
                 "title": "About Forest Watcher"
