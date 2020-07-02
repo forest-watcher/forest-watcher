@@ -27,6 +27,7 @@
     },
     "basemaps": {
         "delete": {
+            "messageGFWContent": "Do you wish to continue?",
             "message": "This action is irreversible, do you wish to continue?",
             "title": "Delete this basemap?"
         },
@@ -136,6 +137,7 @@
     },
     "contextualLayers": {
         "delete": {
+            "messageGFWContent": "Do you wish to continue?",
             "message": "This action is irreversible, do you wish to continue?",
             "title": "Delete this layer?"
         },
