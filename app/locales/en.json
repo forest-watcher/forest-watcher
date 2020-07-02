@@ -434,7 +434,70 @@
                 "title": "Help and How to Contact Us"
             },
             "inTheField": {
-                "questions": [],
+                "questions": [
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "When navigating to an alert or an area, you can add a report by clicking the report button on the bottom right of the map. You will be able to take or choose pictures to add to the report, then fill out a form to record observations about what you find.",
+                                "text2": "If you begin a report and then exit the report, your work thus far and the GPS coordinates of the location where your report was initiated will automatically save. You can return to your draft report later on the Reports page. You can also take a photo using your device’s camera, then upload it to a report later."
+                            }
+                        },
+                        "title": "How do I add a report?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "To report on a group of alerts, you can click on the GLAD and/or VIIRS alerts that you’re investigating and click the report button on the bottom right of the map. You can report on multiple alerts by selecting each alert individually, before clicking the report button. When clicked on, the GLAD alerts will become green and the VIIRS alerts will become purple. The change in color indicates that the alerts have been reported on."
+                            }
+                        },
+                        "title": "How do I report on a group of alerts?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "To record a route, you can click on the start button on the bottom left of the map. Once you are done recording the route, you can click the stop button and choose whether to save the route or delete the route. If you save the route, you will then be able to access it on the Routes page of the mobile app."
+                            }
+                        },
+                        "title": "How do I record a route?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "When recording a route, points will be captured every 50 meters."
+                            }
+                        },
+                        "title": "How often does my route create points?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "You can share reports by navigating to the Reports section of the mobile app and clicking “Share Reports”. From here, you can select the reports that you would like to share and choose where to export the bundle on your device. You can then share the reports bundle through your chosen sharing option eg. email, bluetooth or WhatsApp.",
+                                "text2": "Similarly, you can share routes by navigating to the Routes section of the mobile app and clicking “Share Routes”. From here, you can select the routes that you would like to share and choose where to export the bundle on your device. You can then share the routes bundle through your chosen sharing option eg. email, bluetooth or WhatsApp.",
+                                "text3": "After receiving a reports or routes bundle through your preferred share option, you can import it on Forest Watcher. You can access the reports in the Reports section or the routes in the Routes section once import is complete."
+                            }
+                        },
+                        "title": "How can I share and receive reports and routes?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "To retrieve your reports and photos, log in to forestwatcher.globalforestwatch.org, navigate to the “Reports” tab and click “Download answers” to access your CSV file. Photos are available to download via URLs in the spreadsheet. ",
+                                "text2": "Reports can also be accessed through the export function on the reports page of the mobile app. Using this function, you can download your reports directly to your device and share them with another device while offline.",
+                                "text3": "If you would like to view your data on a map, navigate to mymaps.google.com and log in to your Google account (or create one for free). Then click “Create a new map.” On the left-side panel the, click “Import” and upload your CSV from Forest Watcher Web. Select “Position of report lat” and when prompted, select “Latitude.” Select “Position of report lon” and when prompted, select “Longitude.” Select “Continue” and choose a column that you want to identify your location by. Please note that the data associated with that report will be the title attached to the blue\npin(s) on the map.",
+                                "text4": "Once these steps are complete, your map will be ready and automatically save. You can click on the blue pins to see the details of your report, including photos. To change the name, click on “Untitled map” in the top left corner."
+                            }
+                        },
+                        "title": "Can I retrieve my reports and see my data on a map?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "Reports are owned by the user and are not shared publicly. For more details, visit globalforestwatch.org/terms."
+                            }
+                        },
+                        "title": "Are my reports shared or kept confidential?"
+                    }
+                ],
                 "title": "Using Forest Watcher in the Field"
             },
             "questionCountPlural": "%{count} Questions",
