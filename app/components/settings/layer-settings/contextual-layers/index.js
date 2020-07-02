@@ -9,7 +9,7 @@ import ActionButton from 'components/common/action-button';
 import BottomTray from 'components/common/bottom-tray';
 import { Navigation, NavigationButtonPressedEvent } from 'react-native-navigation';
 
-import type { ContextualLayer, LayersCacheStatus } from 'types/layers.types';
+import type { MapContent, LayersCacheStatus } from 'types/layers.types';
 import type { LayerSettingsAction } from 'types/layerSettings.types';
 import debounceUI from 'helpers/debounceUI';
 
@@ -23,13 +23,13 @@ type ContextualLayersLayerSettingsType = {
 };
 
 type Props = {
-  baseApiLayers: ?Array<ContextualLayer>,
+  baseApiLayers: ?Array<MapContent>,
   componentId: string,
   featureId: string,
   clearEnabledContextualLayers: string => LayerSettingsAction,
   contextualLayersLayerSettings: ContextualLayersLayerSettingsType,
   +downloadProgress: { [id: string]: LayersCacheStatus },
-  importedContextualLayers: Array<ContextualLayer>,
+  importedContextualLayers: Array<MapContent>,
   setContextualLayerShowing: (featureId: string, layerId: string, showing: boolean) => LayerSettingsAction
 };
 

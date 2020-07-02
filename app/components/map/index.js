@@ -2,7 +2,7 @@
 import React, { Component, type Node } from 'react';
 
 import type { SelectedAlert } from 'types/alerts.types';
-import type { Basemap } from 'types/basemaps.types';
+import type { MapContent } from 'types/layers.types';
 import type {
   AlertFeatureProperties,
   Coordinates,
@@ -113,7 +113,7 @@ type Props = {
   isTracking: boolean,
   onStartTrackingRoute: (location: Coordinates) => void,
   onCancelTrackingRoute: () => void,
-  basemap: Basemap
+  basemap: MapContent
 };
 
 type State = {
@@ -946,8 +946,8 @@ class MapComponent extends Component<Props, State> {
           onPress={this.onMapPress}
           compassViewMargins={{ x: 5, y: 50 }}
         >
-          {basemap.tileUrl && (
-            <MapboxGL.RasterSource id="basemapTiles" url={basemap.tileUrl}>
+          {basemap.url && (
+            <MapboxGL.RasterSource id="basemapTiles" url={basemap.url}>
               <MapboxGL.RasterLayer id="basemapTileLayer" />
             </MapboxGL.RasterSource>
           )}

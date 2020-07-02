@@ -1,6 +1,7 @@
 // @flow
-import type { Basemap, BasemapsAction, BasemapsState } from 'types/basemaps.types';
+import type { BasemapsAction, BasemapsState } from 'types/basemaps.types';
 import type { File } from 'types/file.types';
+import type { MapContent } from 'types/layers.types';
 import type { LayerFile } from 'types/sharing.types';
 import type { Dispatch, GetState, State, Thunk } from 'types/store.types';
 
@@ -216,12 +217,13 @@ export function importBasemap(basemapFile: File): Thunk<Promise<void>> {
 
     try {
       const importedFile: LayerFile = await importLayerFile(basemapFile);
-      const basemap: Basemap = {
+      const basemap: MapContent = {
         isCustom: true,
         id: importedFile.layerId,
         name: basemapFile.name,
         path: importedFile.path,
-        size: importedFile.size
+        size: importedFile.size,
+        type: 'basemap'
       };
 
       trackImportedContent('basemap', basemapFile.fileName, true, importedFile.size);

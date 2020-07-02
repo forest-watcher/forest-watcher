@@ -1,11 +1,10 @@
 // @flow
-import type { Basemap } from 'types/basemaps.types';
 import type { File } from 'types/file.types';
-import type { ContextualLayer } from 'types/layers.types';
+import type { MapContent } from 'types/layers.types';
 
 import Constants from 'config/constants';
 
-type GFWFile = Basemap | File | ContextualLayer;
+type GFWFile = File | MapContent;
 type ValidityResponse = {
   valid: boolean,
   alreadyTaken: boolean

@@ -2,8 +2,7 @@
 
 import type { LayerFile, ReportFile, SharingBundleManifest } from 'types/sharing.types';
 import type { Area } from 'types/areas.types';
-import type { Basemap } from 'types/basemaps.types';
-import type { ContextualLayer } from 'types/layers.types';
+import type { MapContent } from 'types/layers.types';
 import type { Report, Template } from 'types/reports.types';
 import type { Route } from 'types/routes.types';
 
@@ -20,8 +19,8 @@ import queryReportFiles from 'helpers/report-store/queryReportFiles';
  */
 export default async function exportFileManifest(bundle: {
   areas?: Array<Area>,
-  basemaps?: Array<Basemap>,
-  layers?: Array<ContextualLayer>,
+  basemaps?: Array<MapContent>,
+  layers?: Array<MapContent>,
   reports?: Array<Report>,
   routes?: Array<Route>,
   templates?: { +[string]: Template }
@@ -37,8 +36,8 @@ export default async function exportFileManifest(bundle: {
 
 async function exportLayerFiles(bundle: {
   areas?: Array<Area>,
-  basemaps?: Array<Basemap>,
-  layers?: Array<ContextualLayer>,
+  basemaps?: Array<MapContent>,
+  layers?: Array<MapContent>,
   routes?: Array<Route>
 }) {
   const basemapIds = (bundle.basemaps ?? []).map(basemap => basemap.id);

@@ -2,7 +2,7 @@
 
 import type { OfflineMeta } from 'types/offline.types';
 import type { DeleteAreaCommit, SaveAreaCommit, Area } from 'types/areas.types';
-import type { Basemap } from 'types/basemaps.types';
+import type { LayerType } from 'types/sharing.types';
 
 export type VectorMapLayer = {
   filter?: ?*,
@@ -19,7 +19,7 @@ export type ContextualLayerRenderSpec = {
   vectorMapLayers?: ?Array<VectorMapLayer>
 };
 
-export type ContextualLayer = {
+export type MapContent = {
   createdAt?: ?string,
   description?: ?string,
   enabled?: ?boolean,
@@ -29,14 +29,18 @@ export type ContextualLayer = {
   owner?: ?{
     type: string
   },
-  url: string,
-  isImported?: true,
-  isCustom?: ?boolean,
-  size?: ?number
+  type: LayerType,
+  url?: ?string,
+  isImported?: true, // Flag indicating whether or not this was imported from a sharing bundle
+  isCustom?: ?boolean, // Flag indicating whether or not this is a custom one added by the user
+  size?: ?number, // The size of this content on disk.
+  path?: string, // Where the file is saved within the app's documents directory.
+  styleURL?: string,
+  image?: number
 };
 
 export type LayersState = {
-  data: Array<ContextualLayer>,
+  data: Array<MapContent>,
   synced: boolean,
   syncing: boolean,
   syncDate: number,
@@ -45,7 +49,7 @@ export type LayersState = {
   cache: LayersCache,
   pendingCache: LayersPendingCache,
   importError: ?Error,
-  imported: Array<ContextualLayer>,
+  imported: Array<MapContent>,
   importingLayer: boolean,
   downloadedLayerProgress: { [layerId: string]: LayersCacheStatus }
 };
@@ -106,7 +110,7 @@ type GetLayersRequest = {
 };
 type GetLayersCommit = {
   type: 'layers/GET_LAYERS_COMMIT',
-  payload: Array<ContextualLayer>,
+  payload: Array<MapContent>,
   meta: { areas: Array<Area> }
 };
 type GetLayersRollback = { type: 'layers/GET_LAYERS_ROLLBACK' };
@@ -140,7 +144,7 @@ type CacheLayerRollback = {
   type: 'layers/CACHE_LAYER_ROLLBACK',
   payload: { dataId: string, layerId: string }
 };
-type DownloadData = { type: 'layers/DOWNLOAD_DATA', payload: { dataId: string, basemaps: Array<Basemap> } };
+type DownloadData = { type: 'layers/DOWNLOAD_DATA', payload: { dataId: string, basemaps: Array<MapContent> } };
 type InvalidateCache = { type: 'layers/INVALIDATE_CACHE', payload: string };
 type SetCacheStatus = {
   type: 'layers/SET_CACHE_STATUS',
@@ -160,7 +164,7 @@ type ImportLayerAreaCompleted = {
     failed: boolean
   }
 };
-type ImportLayerCommit = { type: 'layers/IMPORT_LAYER_COMMIT', payload: ContextualLayer };
+type ImportLayerCommit = { type: 'layers/IMPORT_LAYER_COMMIT', payload: MapContent };
 type ImportLayerClear = { type: 'layers/IMPORT_LAYER_CLEAR' };
 type ImportLayerRollback = {
   type: 'layers/IMPORT_LAYER_ROLLBACK',

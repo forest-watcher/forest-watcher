@@ -1,7 +1,6 @@
 // @flow
-import type { Basemap } from 'types/basemaps.types';
 import type { LayerType } from 'types/sharing.types';
-import type { ContextualLayer, LayersCacheStatus, LayerCacheData } from 'types/layers.types';
+import type { MapContent, LayersCacheStatus, LayerCacheData } from 'types/layers.types';
 import React, { Component } from 'react';
 import { View, ScrollView, Share, Text } from 'react-native';
 import { Navigation, NavigationButtonPressedEvent } from 'react-native-navigation';
@@ -33,13 +32,13 @@ const icons = {
 
 type Props = {|
   +areaTotal: number,
-  +baseFiles: Array<ContextualLayer | Basemap>,
+  +baseFiles: Array<MapContent>,
   +componentId: string,
   +deleteMappingFile: (id: string, type: LayerType) => Promise<void>,
   +downloadProgress: { [id: string]: LayersCacheStatus },
   +exportLayers: (ids: Array<string>) => Promise<void>,
-  +importGFWContent: (LayerType, Basemap | ContextualLayer, boolean) => Promise<void>,
-  +importedFiles: Array<ContextualLayer | Basemap>,
+  +importGFWContent: (LayerType, MapContent, boolean) => Promise<void>,
+  +importedFiles: Array<MapContent>,
   +mappingFileType: LayerType,
   +offlineMode: boolean,
   +renameMappingFile: (id: string, type: LayerType, newName: string) => Promise<void>,
@@ -212,14 +211,14 @@ class MappingFiles extends Component<Props, State> {
     }
   };
 
-  shareLayer = (file: ContextualLayer) => {
+  shareLayer = (file: MapContent) => {
     Share.share({
       message: 'Sharing file',
       url: file.url
     });
   };
 
-  confirmMappingFileDeletion = (file: Basemap | ContextualLayer) => {
+  confirmMappingFileDeletion = (file: MapContent) => {
     showDeleteConfirmationPrompt(
       i18n.t(this.i18nKeyFor('delete.title')),
       i18n.t(this.i18nKeyFor('delete.message')),
@@ -231,7 +230,7 @@ class MappingFiles extends Component<Props, State> {
     );
   };
 
-  confirmMappingFileRenaming = (file: Basemap | ContextualLayer) => {
+  confirmMappingFileRenaming = (file: MapContent) => {
     showRenameModal(
       i18n.t(this.i18nKeyFor('rename.title')),
       i18n.t(this.i18nKeyFor('rename.message')),
@@ -254,12 +253,12 @@ class MappingFiles extends Component<Props, State> {
   /**
    * Whether the specified layer can be shared with other users via sharing bundles
    */
-  _isShareable = (file: Basemap | ContextualLayer): boolean => {
+  _isShareable = (file: MapContent): boolean => {
     if (this.props.mappingFileType === 'basemap') {
-      const basemap = ((file: any): Basemap);
+      const basemap = ((file: any): MapContent);
       return !!basemap.isCustom;
     } else if (this.props.mappingFileType === 'contextual_layer') {
-      const layer = ((file: any): ContextualLayer);
+      const layer = ((file: any): MapContent);
       if (layer.isCustom) {
         return true;
       }
@@ -269,7 +268,7 @@ class MappingFiles extends Component<Props, State> {
     return true;
   };
 
-  onInfoPress = debounceUI((file: Basemap | ContextualLayer) => {
+  onInfoPress = debounceUI((file: MapContent) => {
     const { name } = file;
 
     if (!name) {
@@ -282,7 +281,7 @@ class MappingFiles extends Component<Props, State> {
     });
   });
 
-  renderGFWFiles = (files: Array<ContextualLayer> | Array<Basemap>) => {
+  renderGFWFiles = (files: Array<MapContent>) => {
     const { areaTotal, downloadProgress, mappingFileType, offlineMode } = this.props;
     const { inEditMode, inShareMode } = this.state;
 
@@ -343,7 +342,7 @@ class MappingFiles extends Component<Props, State> {
     );
   };
 
-  renderImportedFiles = (files: Array<ContextualLayer> | Array<Basemap>) => {
+  renderImportedFiles = (files: Array<MapContent>) => {
     const { mappingFileType } = this.props;
     const { inEditMode, inShareMode } = this.state;
 
@@ -406,10 +405,7 @@ class MappingFiles extends Component<Props, State> {
     );
   };
 
-  renderFilesList = (
-    gfwFiles: Array<ContextualLayer> | Array<Basemap>,
-    importedFiles: Array<ContextualLayer> | Array<Basemap>
-  ) => {
+  renderFilesList = (gfwFiles: Array<MapContent>, importedFiles: Array<MapContent>) => {
     if (gfwFiles.length === 0 && importedFiles.length === 0) {
       return this.renderEmptyState();
     }
