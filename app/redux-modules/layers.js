@@ -1,6 +1,6 @@
 // @flow
 import type {
-  MapContent,
+  Layer,
   LayersState,
   LayersAction,
   LayersCacheStatus,
@@ -534,7 +534,7 @@ export function importContextualLayer(layerFile: File): Thunk<Promise<void>> {
 
     try {
       const importedFile: LayerFile = await importLayerFile(layerFile);
-      const layerData: MapContent = {
+      const layerData: Layer = {
         enabled: true,
         id: layerFile.id,
         isPublic: false,
@@ -561,12 +561,12 @@ export function importContextualLayer(layerFile: File): Thunk<Promise<void>> {
 /**
  * importGFWContent - downloads tiles for the given basemap/layer, for every currently available area.
  * @param {LayerType} contentType
- * @param {MapContent} content
+ * @param {Layer} content
  * @param {boolean} onlyNonDownloadedRegions - true if we wish to only request regions that have failed / haven't yet been attempted.
  */
 export function importGFWContent(
   contentType: LayerType,
-  content: MapContent,
+  content: Layer,
   onlyNonDownloadedRegions: boolean = false,
   downloadContent: boolean = true
 ): Thunk<Promise<void>> {
@@ -687,13 +687,13 @@ export function importGFWContent(
  *
  * @param {LayerType} contentType
  * @param {string} dataId
- * @param {MapContent} layer
+ * @param {Layer} layer
  * @param {boolean} withFailure
  */
 function gfwContentImportCompleted(
   contentType: LayerType,
   dataId: string,
-  layer: MapContent,
+  layer: Layer,
   withFailure: boolean = false
 ): Thunk<Promise<void>> {
   return async (dispatch: Dispatch, getState: GetState) => {
@@ -726,7 +726,7 @@ function getAreaById(areas: Array<Area>, areaId: string): ?Area {
   return area ? { ...area } : null;
 }
 
-function getLayerById(layers: ?Array<MapContent>, layerId): ?MapContent {
+function getLayerById(layers: ?Array<Layer>, layerId): ?Layer {
   if (!layers) {
     return null;
   }

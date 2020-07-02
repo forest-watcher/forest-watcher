@@ -1,10 +1,10 @@
 // @flow
 import type { File } from 'types/file.types';
-import type { MapContent } from 'types/layers.types';
+import type { Layer } from 'types/layers.types';
 
 import Constants from 'config/constants';
 
-type GFWFile = File | MapContent;
+type GFWFile = File | Layer;
 type ValidityResponse = {
   valid: boolean,
   alreadyTaken: boolean
