@@ -69,10 +69,7 @@ export type LayersCacheStatus = {
   [string]: LayerCacheData
 };
 
-export type UpdateProgressActionType =
-  | 'basemaps/IMPORT_BASEMAP_PROGRESS'
-  | 'layers/UPDATE_PROGRESS'
-  | 'layers/IMPORT_LAYER_PROGRESS';
+export type UpdateProgressActionType = 'layers/UPDATE_PROGRESS' | 'layers/IMPORT_LAYER_PROGRESS';
 
 type LayersCache = {
   [string]: { areaId: string }

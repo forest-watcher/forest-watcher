@@ -9,7 +9,6 @@ import ActionButton from 'components/common/action-button';
 import BottomTray from 'components/common/bottom-tray';
 import InputText from 'components/common/text-input';
 import i18n from 'i18next';
-import type { BasemapsAction } from 'types/basemaps.types';
 import type { LayerType } from 'types/sharing.types';
 import type { File } from 'types/file.types';
 import type { MapContent, LayersAction } from 'types/layers.types';
@@ -20,7 +19,7 @@ import { ERROR_CODES } from 'helpers/fwError';
 import fileNameIsValid from 'helpers/validation/fileNames';
 
 type Props = {
-  clearState: () => BasemapsAction | LayersAction,
+  clearState: () => LayersAction,
   componentId: string,
   existing: Array<MapContent>,
   file: File,

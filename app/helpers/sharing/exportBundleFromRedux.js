@@ -29,8 +29,8 @@ export function exportWholeAppBundleFromRedux(): Thunk<Promise<string>> {
     const state = getState();
     return await exportBundle(state, {
       areaIds: state.areas.data.map(area => area.id),
-      basemapIds: state.basemaps.importedBasemaps.map(basemap => basemap.id),
-      layerIds: state.layers.imported.map(layer => layer.id),
+      basemapIds: state.layers.imported.filter(basemap => basemap.type === 'basemap').map(basemap => basemap.id),
+      layerIds: state.layers.imported.filter(layer => layer.type === 'contextual_layer').map(layer => layer.id),
       reportIds: Object.keys(state.reports.list)
         .map(reportName => state.reports.list[reportName])
         .map(report => report.reportName),

@@ -5,7 +5,6 @@ import type { Area, AreasState } from 'types/areas.types';
 import type { Report, ReportsState, Template } from 'types/reports.types';
 import type { ExportBundleRequest, SharingBundle } from 'types/sharing.types';
 import type { State } from 'types/store.types';
-import type { BasemapsState } from 'types/basemaps.types';
 import type { MapContent, LayersState } from 'types/layers.types';
 import type { Route, RouteState } from 'types/routes.types';
 
@@ -31,7 +30,7 @@ export const APP_DATA_FORMAT_VERSION: number = 2;
 export default function exportAppData(appState: State, request: ExportBundleRequest): SharingBundle {
   const alerts = exportAlerts(appState.alerts, request.areaIds);
   const areas = exportAreas(appState.areas, request.areaIds);
-  const basemaps = exportBasemaps(appState.basemaps, request.basemapIds);
+  const basemaps = exportBasemaps(appState.layers, request.basemapIds);
   const layers = exportLayers(appState.layers, request.layerIds);
   const [reports, templates] = exportReports(appState.reports, request.reportIds);
   const routes = exportRoutes(appState.routes, request.routeIds);
@@ -73,8 +72,8 @@ function exportAreas(areasState: AreasState, areaIds: Array<string>): Array<Area
 /**
  * Extracts any basemap info from state for basemaps matching the specified IDs, OR intersecting any of the given regions
  */
-export function exportBasemaps(basemapsState: BasemapsState, basemapIds: Array<string>): Array<MapContent> {
-  const allBasemaps = [...GFW_BASEMAPS, ...basemapsState.importedBasemaps];
+export function exportBasemaps(layersState: LayersState, basemapIds: Array<string>): Array<MapContent> {
+  const allBasemaps = [...GFW_BASEMAPS, ...layersState.imported.filter(layer => layer.type === 'basemap')];
   return allBasemaps.filter(basemap => basemapIds.includes(basemap.id));
 }
 
@@ -82,7 +81,9 @@ export function exportBasemaps(basemapsState: BasemapsState, basemapIds: Array<s
  * Extracts any layer info from state for layers matching the specified IDs, OR intersecting any of the given regions
  */
 export function exportLayers(layersState: LayersState, layerIds: Array<string>): Array<MapContent> {
-  return [...layersState.data, ...layersState.imported].filter(layer => layerIds.includes(layer.id));
+  return [...layersState.data, ...layersState.imported].filter(
+    layer => layer.type === 'contextual_layer' && layerIds.includes(layer.id)
+  );
 }
 
 /**

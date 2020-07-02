@@ -19,6 +19,7 @@ import omit from 'lodash/omit';
 import CONSTANTS, { GFW_BASEMAPS } from 'config/constants';
 import { bboxForRoute } from 'helpers/bbox';
 import {
+  deleteMapboxOfflinePack,
   downloadOfflinePack,
   getMapboxOfflinePack,
   nameForMapboxOfflinePack,
@@ -28,7 +29,6 @@ import { getActionsTodoCount } from 'helpers/sync';
 
 import { LOGOUT_REQUEST } from 'redux-modules/user';
 import { SAVE_AREA_COMMIT, DELETE_AREA_COMMIT } from 'redux-modules/areas';
-import { IMPORT_BASEMAP_REQUEST, IMPORT_BASEMAP_PROGRESS, IMPORT_BASEMAP_AREA_COMPLETED } from 'redux-modules/basemaps';
 import { DELETE_ROUTE } from 'redux-modules/routes';
 import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 
@@ -55,7 +55,7 @@ const IMPORT_LAYER_AREA_COMPLETED = 'layers/IMPORT_LAYER_AREA_COMPLETED';
 export const IMPORT_LAYER_COMMIT = 'layers/IMPORT_LAYER_COMMIT';
 
 const IMPORT_LAYER_CLEAR = 'layers/IMPORT_LAYER_CLEAR';
-const IMPORT_LAYER_ROLLBACK = 'layers/IMPORT_LAYER_ROLLBACK';
+export const IMPORT_LAYER_ROLLBACK = 'layers/IMPORT_LAYER_ROLLBACK';
 const RENAME_LAYER = 'layers/RENAME_LAYER';
 const DELETE_LAYER = 'layers/DELETE_LAYER';
 
@@ -316,7 +316,7 @@ export default function reducer(state: LayersState = initialState, action: Layer
       return { ...state, cacheStatus: newCacheStatus };
     }
     case IMPORT_LAYER_CLEAR: {
-      return { ...state, importingLayer: null, importError: null };
+      return { ...state, importingLayer: false, importError: null };
     }
     case IMPORT_LAYER_COMMIT: {
       const layerToSave = action.payload;
@@ -528,7 +528,7 @@ export function clearImportContextualLayerState(): LayersAction {
   };
 }
 
-export function importContextualLayer(layerFile: File): Thunk<Promise<void>> {
+export function importLayer(layerFile: File): Thunk<Promise<void>> {
   return async (dispatch: Dispatch, state: GetState) => {
     dispatch({ type: IMPORT_LAYER_REQUEST });
 
@@ -587,10 +587,7 @@ export function importGFWContent(
       // We should only download non-downloaded regions, rather than refresh the entire cache.
       // We may do this when a new region has been created & we wish to download that new layer,
       // or when an error has occurred. Requesting all of the tiles again would be unnecessary.
-      const layerProgress =
-        contentType === 'contextual_layer'
-          ? state.layers.downloadedLayerProgress[layerId]
-          : state.basemaps.downloadedBasemapProgress[layerId];
+      const layerProgress = state.layers.downloadedLayerProgress[layerId];
 
       const completedRegions = Object.keys(layerProgress ?? {}).filter(regionKey => {
         const region = layerProgress[regionKey];
@@ -599,8 +596,8 @@ export function importGFWContent(
       regions = regions.filter(region => !completedRegions.includes(region.id));
     }
 
-    const REQUEST_ACTION = contentType === 'contextual_layer' ? IMPORT_LAYER_REQUEST : IMPORT_BASEMAP_REQUEST;
-    const PROGRESS_ACTION = contentType === 'contextual_layer' ? IMPORT_LAYER_PROGRESS : IMPORT_BASEMAP_PROGRESS;
+    const REQUEST_ACTION = IMPORT_LAYER_REQUEST;
+    const PROGRESS_ACTION = IMPORT_LAYER_PROGRESS;
 
     const url =
       contentType === 'contextual_layer' ? vectorTileURLForMapboxURL(content.url) ?? content.url : content.styleURL;
@@ -697,8 +694,7 @@ function gfwContentImportCompleted(
   withFailure: boolean = false
 ): Thunk<Promise<void>> {
   return async (dispatch: Dispatch, getState: GetState) => {
-    const REGION_COMPLETE_ACTION =
-      contentType === 'contextual_layer' ? IMPORT_LAYER_AREA_COMPLETED : IMPORT_BASEMAP_AREA_COMPLETED;
+    const REGION_COMPLETE_ACTION = IMPORT_LAYER_AREA_COMPLETED;
     // We mark that region in the downloadedLayerProgress state as completed with 100% progress.
     // This means we can then keep track of regions that are still downloading / unpacking.
     await dispatch({
@@ -994,5 +990,19 @@ function updateDataProgress(
       ...areaCacheStatus,
       progress: newProgress
     }
+  };
+}
+
+export function deleteMapboxOfflinePacks(basemapId: string): Thunk<Promise<void>> {
+  return async (dispatch: Dispatch, getState: GetState) => {
+    const state = getState();
+
+    const regionIds = [...state.areas.data, ...state.routes.previousRoutes].map(region => region.id);
+
+    const promises = regionIds.map(async (id: string) => {
+      await deleteMapboxOfflinePack(id, basemapId);
+    });
+
+    await Promise.all(promises);
   };
 }

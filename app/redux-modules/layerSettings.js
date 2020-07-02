@@ -642,7 +642,7 @@ export function getActiveBasemap(featureId: ?string, state: State) {
   if (!activeBasemapId) {
     return DEFAULT_BASEMAP;
   }
-  const allBasemaps = [...GFW_BASEMAPS, ...state.basemaps.importedBasemaps];
+  const allBasemaps = [...GFW_BASEMAPS, ...state.layers.imported.filter(layer => layer.type === 'basemap')];
   const basemap = allBasemaps.find(item => item.id === activeBasemapId);
   return basemap ?? DEFAULT_BASEMAP;
 }
