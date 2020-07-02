@@ -287,6 +287,7 @@ class MapComponent extends Component<Props, State> {
   };
 
   handleBackPress = debounceUI(() => {
+    Navigation.dismissModal('ForestWatcher.MapWalkthrough');
     this.dismissInfoBanner();
     if (this.isRouteTracking()) {
       if (this.state.routeTrackingDialogState) {
