@@ -11,7 +11,7 @@ import InputText from 'components/common/text-input';
 import i18n from 'i18next';
 import type { LayerType } from 'types/sharing.types';
 import type { File } from 'types/file.types';
-import type { MapContent, LayersAction } from 'types/layers.types';
+import type { Layer, LayersAction } from 'types/layers.types';
 import type { Thunk } from 'types/store.types';
 
 import KeyboardSpacer from 'react-native-keyboard-spacer';
@@ -21,7 +21,7 @@ import fileNameIsValid from 'helpers/validation/fileNames';
 type Props = {
   clearState: () => LayersAction,
   componentId: string,
-  existing: Array<MapContent>,
+  existing: Array<Layer>,
   file: File,
   import: (file: File) => Thunk<Promise<void>>,
   importError: ?Error,

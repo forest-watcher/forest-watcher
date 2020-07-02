@@ -8,7 +8,7 @@ import type {
   SharingBundleManifest
 } from 'types/sharing.types';
 import type { Area } from 'types/areas.types';
-import type { MapContent } from 'types/layers.types';
+import type { Layer } from 'types/layers.types';
 import type { Report, Template } from 'types/reports.types';
 import type { Route } from 'types/routes.types';
 import exportFileManifest from 'helpers/sharing/exportFileManifest';
@@ -19,8 +19,8 @@ import { filterRelevantLayerFiles, filterRelevantReportFiles } from 'helpers/sha
  */
 export default async function calculateBundleSize(bundle: {
   areas?: Array<Area>,
-  basemaps?: Array<MapContent>,
-  layers?: Array<MapContent>,
+  basemaps?: Array<Layer>,
+  layers?: Array<Layer>,
   reports?: Array<Report>,
   routes?: Array<Route>,
   templates?: { +[string]: Template }

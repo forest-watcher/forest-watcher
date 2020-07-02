@@ -1,5 +1,5 @@
 // @flow
-import type { MapContent, LayersCacheStatus } from 'types/layers.types';
+import type { Layer, LayersCacheStatus } from 'types/layers.types';
 import type { LayerType } from 'types/sharing.types';
 import type { Thunk } from 'types/store.types';
 
@@ -23,13 +23,13 @@ const checkboxOffIcon = require('assets/checkbox_off.png');
 type Props = {
   addLayer: (
     contentType: LayerType,
-    layer: MapContent,
+    layer: Layer,
     onlyNonDownloadedAreas: boolean,
     downloadLayer: boolean
   ) => Thunk<Promise<void>>,
   componentId: string,
   downloadProgress: ?LayersCacheStatus,
-  layer: MapContent,
+  layer: Layer,
   +offlineMode: boolean,
   popToComponentId: string,
   +showNotConnectedNotification: () => Thunk<void>

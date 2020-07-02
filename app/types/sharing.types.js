@@ -3,7 +3,7 @@ import type { Area } from 'types/areas.types';
 import type { Alert } from 'types/alerts.types';
 import type { Report, Template } from 'types/reports.types';
 import type { Route } from 'types/routes.types';
-import type { MapContent } from 'types/layers.types';
+import type { Layer } from 'types/layers.types';
 
 import type { Feature, Polygon } from '@turf/helpers';
 import type { ReportAttachmentType } from 'helpers/report-store/reportFilePaths';
@@ -153,8 +153,8 @@ export type SharingBundle = {|
   timestamp: number,
   alerts: Array<Alert>,
   areas: Array<Area>,
-  basemaps: Array<MapContent>,
-  layers: Array<MapContent>,
+  basemaps: Array<Layer>,
+  layers: Array<Layer>,
   manifest: SharingBundleManifest,
   reports: Array<Report>,
   routes: Array<Route>,

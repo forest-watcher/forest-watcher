@@ -2,7 +2,7 @@
 import React, { Component, type Node } from 'react';
 
 import type { SelectedAlert } from 'types/alerts.types';
-import type { MapContent } from 'types/layers.types';
+import type { Layer } from 'types/layers.types';
 import type {
   AlertFeatureProperties,
   Coordinates,
@@ -113,7 +113,7 @@ type Props = {
   isTracking: boolean,
   onStartTrackingRoute: (location: Coordinates) => void,
   onCancelTrackingRoute: () => void,
-  basemap: MapContent
+  basemap: Layer
 };
 
 type State = {

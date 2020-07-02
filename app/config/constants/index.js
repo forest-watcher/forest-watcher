@@ -6,7 +6,7 @@ import i18n from 'i18next';
 import Theme from 'config/theme';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 
-import type { MapContent, ContextualLayerRenderSpec } from 'types/layers.types';
+import type { Layer, ContextualLayerRenderSpec } from 'types/layers.types';
 
 export const AREAS = {
   maxSize: 20000000000 // square meters
@@ -120,7 +120,7 @@ export const COORDINATES_FORMATS = {
 export const ACTIONS_SAVED_TO_REPORT = 5;
 
 // Constants
-export const GFW_BASEMAPS: Array<MapContent> = [
+export const GFW_BASEMAPS: Array<Layer> = [
   {
     isCustom: false,
     id: MapboxGL.StyleURL.SatelliteStreet,
@@ -664,7 +664,7 @@ export const GFW_CONTEXTUAL_LAYERS_METADATA: { [string]: ContextualLayerRenderSp
 
 // These are hard-coded versions of data hosted in the layers API, you can use the `id` parameter to fetch
 // the full data for each (If you suspect something is wrong/missing) using: https://api.resourcewatch.org/v1/layer/{id}
-export const GFW_CONTEXTUAL_LAYERS: Array<MapContent> = [
+export const GFW_CONTEXTUAL_LAYERS: Array<Layer> = [
   {
     id: 'bd2798d1-c771-4bff-84d9-c4d69d3b3121',
     name: 'biodiversityIntactness',

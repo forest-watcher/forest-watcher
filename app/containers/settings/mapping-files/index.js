@@ -1,6 +1,6 @@
 // @flow
 import type { LayerType } from 'types/sharing.types';
-import type { MapContent } from 'types/layers.types';
+import type { Layer } from 'types/layers.types';
 import type { ComponentProps, Dispatch, State } from 'types/store.types';
 
 import { connect } from 'react-redux';
@@ -26,13 +26,13 @@ type OwnProps = {|
 function mapStateToProps(state: State, ownProps: OwnProps) {
   const mappingFileType = ownProps.mappingFileType;
 
-  let baseFiles: Array<MapContent> = mappingFileType === 'contextual_layer' ? state.layers.data || [] : GFW_BASEMAPS;
+  let baseFiles: Array<Layer> = mappingFileType === 'contextual_layer' ? state.layers.data || [] : GFW_BASEMAPS;
   if (mappingFileType === 'contextual_layer') {
     const importedGFWLayers = state.layers.imported.filter(layer => layer.type === mappingFileType && !layer.isCustom);
     baseFiles = baseFiles.concat(importedGFWLayers);
   }
 
-  const importedFiles: Array<MapContent> = state.layers.imported.filter(
+  const importedFiles: Array<Layer> = state.layers.imported.filter(
     layer => layer.type === mappingFileType && layer.isCustom
   );
 
@@ -74,7 +74,7 @@ function mapDispatchToProps(dispatch: Dispatch, ownProps: OwnProps) {
       trackSharedContent(mappingFileType === 'basemap' ? 'basemap' : 'layer');
       await shareBundle(outputPath);
     },
-    importGFWContent: async (contentType: LayerType, content: MapContent, onlyNonDownloadedAreas: boolean = false) => {
+    importGFWContent: async (contentType: LayerType, content: Layer, onlyNonDownloadedAreas: boolean = false) => {
       await dispatch(importGFWContent(contentType, content, onlyNonDownloadedAreas));
     },
     renameMappingFile: async (id: string, type: LayerType, newName: string) => {

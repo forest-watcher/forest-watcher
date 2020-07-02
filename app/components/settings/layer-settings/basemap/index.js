@@ -1,5 +1,5 @@
 // @flow
-import type { MapContent } from 'types/layers.types';
+import type { Layer } from 'types/layers.types';
 
 import React, { PureComponent } from 'react';
 import { View, ScrollView, Text } from 'react-native';
@@ -46,7 +46,7 @@ class BasemapLayerSettings extends PureComponent<Props> {
     });
   });
 
-  selectBasemap = (basemap: MapContent) => {
+  selectBasemap = (basemap: Layer) => {
     this.props.selectActiveBasemap(this.props.featureId, basemap.id);
   };
 
