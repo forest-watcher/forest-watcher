@@ -343,10 +343,6 @@
                 ],
                 "title": "Alerts and Data in Forest Watcher"
             },
-            "customLayers": {
-                "questions": [],
-                "title": "Custom Layers"
-            },
             "features": {
                 "questions": [
                     {
@@ -419,36 +415,40 @@
                                     "text": "The app crashes"
                                 },
                                 "order3": {
-                                    "description": "The location and navigation features on Forest Watcher rely on your device’s internal GPS. First, check that the GPS (often called “location services”) is turned on in your mobile device settings. If it still doesn’t work, please send an email to mailto:forestwatcher@wri.org telling us what device model you are using.",
+                                    "description": "The location and navigation features rely on your device’s internal GPS. Check that the GPS (often called “location services”) is turned on in your device settings. The GPS signal can be weak indoors, so if you are inside or under a roof, try going outside. If it still doesn’t work, please email forestwatcher@wri.org telling us what device model you are using and which app version (found at the bottom of the Settings page). Cell phone GPS are usually not as accurate as standalone GPS devices, so you may also want to input the coordinates of the alert into a GPS device as backup if you have one available.",
                                     "text": "I can’t see the compass/my location"
                                 },
                                 "order4": {
-                                    "description": "Some devices that only have front facing cameras may not be compatible with the camera in the report form. You can instead take a photo on your camera app, and use the upload function in the report in Forest Watcher to add a photo from your library to the report.",
-                                    "text": "I cannot take a photo in the app"
-                                },
-                                "order5": {
-                                    "description": "You may not always be able to complete a report right at the scene of an alert. You can start writing a report, save it, and return to it later when you are back at your base. You can also take a picture just using your device’s camera, then fill out the report later on: you can attach the picture to your report. ",
+                                    "description": "If you begin a report and then exit the report, your work thus far and the GPS coordinates of the location where your report was initiated will automatically save. You can return to your draft report later on the Reports page. You can also take a photo using your device’s camera, then upload it to a report later.",
                                     "text": "I want to complete a report later"
                                 },
+                                "order5": {
+                                    "description": "When you first set up Forest Watcher, it can take anywhere from 5 to 30 minutes for the app to completely download relevant data depending on the speed of your Internet connection. If you have weak or slow Internet connection, the download will take longer. Keep the app open to allow the download to complete. After the initial set up, new alert data will download every time you connect to the Internet and the download time will vary depending on how many alerts have occurred. If you want to see if new alerts are available, pull the home screen downward to refresh.",
+                                    "text": "Alerts are not loading"
+                                },
                                 "order6": {
-                                    "description": "When you first set up Forest Watcher on your mobile device, the app will need to download a lot of data to work offline. You may need to wait about 5 minutes for all the data to load properly. This is normal. If you have a weak or slow internet connection, this can make the download take longer. Keep the app open to allow the download to complete. After the initial set up, new alert data will download every time you connect your device to the internet - the download time will vary depending on how many alerts have occurred. These updates would be on the scale of Kilobytes, where the initial download will likely be a few Megabytes.",
-                                    "text": "Alerts are slow to load"
+                                    "description": "If you have low bandwidth, rather than redownload app content across multiple devices, you could share app content with another device while offline (alerts, areas, routes, reports, contextual layers, basemap tiles or all app content). This process will help reduce bandwidth demands.",
+                                    "text": "My team and/or I have low bandwidth"
                                 },
                                 "order7": {
-                                    "description": "At the moment you can only view one dataset at a time for each Area of Interest. The dataset you are looking at for each Area of Interest is controlled using the settings menu. If you want to look at both fires data and forest loss data for the same place, you will need to create two Areas of Interest for the same location and set up each of them to download the different datasets.",
-                                    "text": "I want to see GLAD alerts and VIIRS for the same Area of Interest"
-                                },
-                                "order8": {
-                                    "description": "Forest Watcher contains a lot of data and could take up a lot of memory on your device, depending on how many Areas of Interest you have, how big they are and how many alerts there are in each one. We recommend having at least 16GB of internal storage on your device, so you can use your other apps as well as Forest Watcher: Forest Watcher won’t need all of this storage. The fewer, smaller areas of interest you set up in the app, the less data will need to be downloaded onto your device.",
+                                    "description": "Forest Watcher Mobile contains a lot of data and can take up significant memory on your device, depending on how many areas of interest you have, their size and the number of alerts. The fewer and smaller areas of interest you set up, the less data will need to be downloaded onto your device. We recommend having at least 1 GB of internal storage on your device so that you can use other apps in addition to Forest Watcher, though 4 GB or more is preferred.",
                                     "text": "I run out of memory on my device"
                                 },
-                                "order9": {
-                                    "description": "You can use Forest Watcher Desktop to create a custom form template for your team to use when collecting data. You can also add notes in the final section of the form if you have observations you want to make.",
-                                    "text": "I want to collect custom data"
+                                "order8": {
+                                    "description": "You can use Forest Watcher Web to create a custom report template for your team to use when collecting data. You can also add notes in the final section of the form.",
+                                    "text": "I want to customize the reports that I or my team fill out when investigating an area"
                                 }
                             }
                         },
-                        "title": "What should I do if:"
+                        "title": "Troubleshooting: What should I do if…?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text": "We are also always looking to improve the app to meet user needs. Please contact us at forestwatcher@wri.org if there are other features that would be helpful."
+                            }
+                        },
+                        "title": "I have a great idea to improve the app. What should I do?"
                     },
                     {
                         "content": {
@@ -459,7 +459,7 @@
                         "title": "How do I get support?"
                     }
                 ],
-                "title": "Help and How to Contact Us"
+                "title": "Support & Contact"
             },
             "inTheField": {
                 "questions": [
@@ -511,7 +511,7 @@
                             "description": {
                                 "text1": "To retrieve your reports and photos, log in to forestwatcher.globalforestwatch.org, navigate to the “Reports” tab and click “Download answers” to access your CSV file. Photos are available to download via URLs in the spreadsheet. ",
                                 "text2": "Reports can also be accessed through the export function on the reports page of the mobile app. Using this function, you can download your reports directly to your device and share them with another device while offline.",
-                                "text3": "If you would like to view your data on a map, navigate to mymaps.google.com and log in to your Google account (or create one for free). Then click “Create a new map.” On the left-side panel the, click “Import” and upload your CSV from Forest Watcher Web. Select “Position of report lat” and when prompted, select “Latitude.” Select “Position of report lon” and when prompted, select “Longitude.” Select “Continue” and choose a column that you want to identify your location by. Please note that the data associated with that report will be the title attached to the blue\npin(s) on the map.",
+                                "text3": "If you would like to view your data on a map, navigate to mymaps.google.com and log in to your Google account (or create one for free). Then click “Create a new map.” On the left-side panel the, click “Import” and upload your CSV from Forest Watcher Web. Select “Position of report lat” and when prompted, select “Latitude.” Select “Position of report lon” and when prompted, select “Longitude.” Select “Continue” and choose a column that you want to identify your location by. Please note that the data associated with that report will be the title attached to the blue pin(s) on the map.",
                                 "text4": "Once these steps are complete, your map will be ready and automatically save. You can click on the blue pins to see the details of your report, including photos. To change the name, click on “Untitled map” in the top left corner."
                             }
                         },
