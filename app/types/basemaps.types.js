@@ -1,33 +1,9 @@
 // @flow
-import type { LayersCacheStatus } from 'types/layers.types';
-
-export type Basemap = {
-  // The unique identifier for this basemap.
-  id: string,
-  styleURL?: string,
-  // The given name of the basemap.
-  name: string,
-  image?: number,
-  tileUrl?: ?string,
-  // Where the file is saved within the app's documents directory.
-  path?: string,
-  // The size of this basemap on disk.
-  size?: number,
-
-  /**
-   * Flag indicating whether or not this basemap is a custom one added by the user
-   */
-  isCustom?: boolean,
-
-  /**
-   * Flag indicating whether or not this basemap was imported from a sharing bundle
-   */
-  isImported?: boolean
-};
+import type { Layer, LayersCacheStatus } from 'types/layers.types';
 
 export type BasemapsState = {
   downloadedBasemapProgress: { [basemapId: string]: LayersCacheStatus },
-  importedBasemaps: Array<Basemap>,
+  importedBasemaps: Array<Layer>,
   importError: ?Error,
   importing: boolean
 };
@@ -62,7 +38,7 @@ type ImportBasemapAreaCompleted = {
     failed: boolean
   }
 };
-export type ImportBasemapCommit = { type: 'basemaps/IMPORT_BASEMAP_COMMIT', payload: Basemap };
+export type ImportBasemapCommit = { type: 'basemaps/IMPORT_BASEMAP_COMMIT', payload: Layer };
 export type ImportBasemapClear = { type: 'basemaps/IMPORT_BASEMAP_CLEAR' };
 export type ImportBasemapRollback = { type: 'basemaps/IMPORT_BASEMAP_ROLLBACK', payload: ?Error };
 export type RenameBasemap = { type: 'basemaps/RENAME_BASEMAP', payload: { id: string, name: string } };

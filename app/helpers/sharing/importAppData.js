@@ -6,8 +6,7 @@ import type { ImportBundleRequest, SharingBundle } from 'types/sharing.types';
 import type { Dispatch } from 'types/store.types';
 import type { Route } from 'types/routes.types';
 import type { Report, Template } from 'types/reports.types';
-import type { ContextualLayer } from 'types/layers.types';
-import type { Basemap } from 'types/basemaps.types';
+import type { Layer } from 'types/layers.types';
 import storeAlerts from 'helpers/alert-store/storeAlerts';
 import { SAVE_AREA_COMMIT } from 'redux-modules/areas';
 import { IMPORT_LAYER_REQUEST, IMPORT_LAYER_COMMIT } from 'redux-modules/layers';
@@ -57,7 +56,7 @@ function importAreas(areas: Array<Area>, dispatch: Dispatch) {
   });
 }
 
-function importBasemaps(basemaps: Array<Basemap>, dispatch: Dispatch) {
+function importBasemaps(basemaps: Array<Layer>, dispatch: Dispatch) {
   basemaps.forEach(basemap => {
     dispatch({
       type: IMPORT_BASEMAP_REQUEST
@@ -72,7 +71,7 @@ function importBasemaps(basemaps: Array<Basemap>, dispatch: Dispatch) {
   });
 }
 
-function importLayers(layers: Array<ContextualLayer>, dispatch: Dispatch) {
+function importLayers(layers: Array<Layer>, dispatch: Dispatch) {
   layers.forEach(layer => {
     dispatch({
       type: IMPORT_LAYER_REQUEST

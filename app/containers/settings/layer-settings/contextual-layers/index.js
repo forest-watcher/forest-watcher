@@ -11,7 +11,7 @@ import {
   setContextualLayerShowing
 } from 'redux-modules/layerSettings';
 
-import type { ContextualLayer } from 'types/layers.types';
+import type { Layer } from 'types/layers.types';
 
 type OwnProps = {|
   +componentId: string,
@@ -19,10 +19,10 @@ type OwnProps = {|
 |};
 
 function mapStateToProps(state: State, ownProps: OwnProps) {
-  let baseFiles: Array<ContextualLayer> = state.layers.data || [];
+  let baseFiles: Array<Layer> = state.layers.data || [];
   const importedGFWLayers = state.layers.imported.filter(layer => !layer.isCustom);
   baseFiles = baseFiles.concat(importedGFWLayers);
-  const importedFiles: Array<ContextualLayer> = state.layers.imported.filter(layer => layer.isCustom);
+  const importedFiles: Array<Layer> = state.layers.imported.filter(layer => layer.isCustom);
 
   return {
     baseApiLayers: baseFiles,
