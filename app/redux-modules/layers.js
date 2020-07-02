@@ -111,12 +111,17 @@ export default function reducer(state: LayersState = initialState, action: Layer
     case GET_LAYERS_REQUEST:
       return { ...state, synced: false, syncing: true };
     case GET_LAYERS_COMMIT: {
+      const typedPayload = [...action.payload].map(layer => {
+        const mutableLayer = { ...layer };
+        mutableLayer.type = 'contextual_layer';
+
+        return mutableLayer;
+      });
       const areas = [...action.meta.areas];
-      const layers = [...action.payload];
       const syncDate = Date.now();
       const cacheStatus = getCacheStatusFromAreas(state.cacheStatus, areas);
 
-      return { ...state, data: layers, cacheStatus, syncDate, synced: true, syncing: false };
+      return { ...state, data: typedPayload, cacheStatus, syncDate, synced: true, syncing: false };
     }
     case GET_LAYERS_ROLLBACK: {
       return { ...state, syncing: false };
