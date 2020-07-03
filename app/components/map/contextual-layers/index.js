@@ -8,6 +8,7 @@ import TileContextualLayer from 'components/map/contextual-layers/tile-layer';
 
 type Props = {
   +featureId: string,
+  +isOfflineMode: boolean,
   +layers: Array<Layer>,
   +layerCache: { [id: string]: LayersCacheStatus },
   +layerSettings: ContextualLayerSettingsType
@@ -16,7 +17,7 @@ type Props = {
 // Renders all active imported contextual layers in settings
 export default class ContextualLayers extends Component<Props> {
   render() {
-    const { featureId, layers, layerCache, layerSettings } = this.props;
+    const { featureId, layers, layerCache, layerSettings, isOfflineMode } = this.props;
     if (!layerSettings.layerIsActive) {
       return null;
     }
@@ -32,6 +33,7 @@ export default class ContextualLayers extends Component<Props> {
               featureId={featureId}
               layer={layer}
               layerCache={layerCache[layer.id] ?? {}}
+              isOfflineMode={isOfflineMode}
             />
           )
         )}
