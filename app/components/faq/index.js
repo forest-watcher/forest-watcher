@@ -16,7 +16,6 @@ const alertsIcon = require('assets/faqAlerts.png');
 const inTheFieldIcon = require('assets/faqUsing.png');
 const helpIcon = require('assets/faqHelp.png');
 const aboutIcon = require('assets/faqAbout.png');
-const layersIcon = require('assets/contextualLayers.png');
 const nextIcon = require('assets/next.png');
 
 import type { FAQCategory } from 'types/faq.types';
@@ -68,11 +67,6 @@ export default class FaqCategories extends Component<Props> {
         icon: aboutIcon,
         title: i18n.t('faq.categories.about.title'),
         questions: i18n.t('faq.categories.about.questions', { returnObjects: true })
-      },
-      {
-        icon: layersIcon,
-        title: i18n.t('faq.categories.customLayers.title'),
-        questions: i18n.t('faq.categories.customLayers.questions', { returnObjects: true })
       }
     ];
   }
