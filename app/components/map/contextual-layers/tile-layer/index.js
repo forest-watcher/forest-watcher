@@ -1,5 +1,5 @@
 // @flow
-import type { Layer, LayersCacheStatus, VectorMapLayer } from 'types/layers.types';
+import type { ContextualLayerRenderSpec, Layer, LayersCacheStatus } from 'types/layers.types';
 
 import React, { Component } from 'react';
 import MapboxGL from '@react-native-mapbox-gl/maps';
