@@ -289,7 +289,7 @@ class MapComponent extends Component<Props, State> {
   handleBackPress = debounceUI(() => {
     // Dismiss the map walkthrough modal in case it is showing.
     Navigation.dismissModal('ForestWatcher.MapWalkthrough').catch(err =>
-      console.log('3SC', 'Cannot dismiss map walkthrough: ', err)
+      console.info('3SC', 'Cannot dismiss map walkthrough: ', err)
     );
     this.dismissInfoBanner();
     if (this.isRouteTracking()) {
