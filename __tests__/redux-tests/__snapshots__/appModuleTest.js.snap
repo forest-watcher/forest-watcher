@@ -146,32 +146,6 @@ Array [
 ]
 `;
 
-exports[`Redux App Module Simple Actions: snapshot and reducer test saveLastActions 1`] = `
-Object {
-  "payload": undefined,
-  "type": "app/SAVE_LAST_ACTIONS",
-}
-`;
-
-exports[`Redux App Module Simple Actions: snapshot and reducer test saveLastActions 2`] = `
-Object {
-  "actions": Array [
-    undefined,
-  ],
-  "areaCountryTooltipSeen": false,
-  "areaDownloadTooltipSeen": false,
-  "coordinatesFormat": "decimal",
-  "hasSeenWelcomeScreen": false,
-  "isUpdate": false,
-  "language": "en",
-  "mapWalkthroughSeen": false,
-  "offlineMode": false,
-  "pristineCacheTooltip": true,
-  "synced": false,
-  "version": "2.0.0",
-}
-`;
-
 exports[`Redux App Module Simple Actions: snapshot and reducer test setAppSynced 1`] = `
 Object {
   "payload": true,

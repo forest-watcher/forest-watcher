@@ -23,7 +23,7 @@ describe('Redux Areas Module', () => {
       expect(areasReducer(undefined, action)).toMatchSnapshot({ syncDate: expect.any(Number) });
     }
 
-    it('saveLastActions', () => {
+    it('getAreas', () => {
       simpleActionTest(getAreas());
     });
 
