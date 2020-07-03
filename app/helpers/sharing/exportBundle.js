@@ -48,7 +48,7 @@ export default async function exportBundle(appState: State, request: ExportBundl
   const allLayerIds: Array<string> = _.uniq([...request.layerIds, ...implicitlyIncludedLayerIds]);
   const finalBundleData = {
     ...explicitBundleData,
-    basemaps: exportBasemaps(appState.basemaps, allBasemapIds),
+    basemaps: exportBasemaps(appState.layers, allBasemapIds),
     layers: exportLayers(appState.layers, allLayerIds),
     manifest: fileManifest
   };

@@ -13,8 +13,7 @@ import exportBundleFromRedux from 'helpers/sharing/exportBundleFromRedux';
 import shareBundle from 'helpers/sharing/shareBundle';
 
 import { showNotConnectedNotification } from 'redux-modules/app';
-import { deleteBasemap, deleteMapboxOfflinePacks, renameBasemap } from 'redux-modules/basemaps';
-import { deleteLayer, renameLayer, importGFWContent } from 'redux-modules/layers';
+import { deleteLayer, deleteMapboxOfflinePacks, renameLayer, importGFWContent } from 'redux-modules/layers';
 import { unselectDeletedBasemap } from 'redux-modules/layerSettings';
 
 import { GFW_BASEMAPS } from 'config/constants';
@@ -25,46 +24,45 @@ type OwnProps = {|
 |};
 
 function mapStateToProps(state: State, ownProps: OwnProps) {
-  let baseFiles: Array<Layer> =
-    ownProps.mappingFileType === 'contextual_layer' ? state.layers.data || [] : GFW_BASEMAPS;
-  if (ownProps.mappingFileType === 'contextual_layer') {
-    const importedGFWLayers = state.layers.imported.filter(layer => !layer.isCustom);
+  const mappingFileType = ownProps.mappingFileType;
+
+  let baseFiles: Array<Layer> = mappingFileType === 'contextual_layer' ? state.layers.data || [] : GFW_BASEMAPS;
+  if (mappingFileType === 'contextual_layer') {
+    const importedGFWLayers = state.layers.imported.filter(layer => layer.type === mappingFileType && !layer.isCustom);
     baseFiles = baseFiles.concat(importedGFWLayers);
   }
-  const importedFiles: Array<Layer> =
-    ownProps.mappingFileType === 'contextual_layer'
-      ? state.layers.imported.filter(layer => layer.isCustom)
-      : state.basemaps.importedBasemaps;
+
+  const importedFiles: Array<Layer> = state.layers.imported.filter(
+    layer => layer.type === mappingFileType && layer.isCustom
+  );
 
   return {
     areaTotal: state.areas.data.length,
     baseFiles,
-    downloadProgress:
-      ownProps.mappingFileType === 'contextual_layer'
-        ? state.layers.downloadedLayerProgress
-        : state.basemaps.downloadedBasemapProgress,
+    downloadProgress: state.layers.downloadedLayerProgress,
     importedFiles,
     offlineMode: state.app.offlineMode
   };
 }
 
 function mapDispatchToProps(dispatch: Dispatch, ownProps: OwnProps) {
+  const mappingFileType = ownProps.mappingFileType;
+
   return {
     deleteMappingFile: async (id: string, type: LayerType) => {
       await deleteLayerFile(id, type);
 
+      await dispatch(deleteLayer(id));
+
       if (type === 'basemap') {
-        await dispatch(deleteBasemap(id));
         await dispatch(deleteMapboxOfflinePacks(id));
         await dispatch(unselectDeletedBasemap(id));
-      } else {
-        await dispatch(deleteLayer(id));
       }
     },
     exportLayers: async (ids: Array<string>) => {
       const outputPath = await dispatch(
         exportBundleFromRedux(
-          ownProps.mappingFileType === 'basemap'
+          mappingFileType === 'basemap'
             ? {
                 basemapIds: ids
               }
@@ -73,18 +71,14 @@ function mapDispatchToProps(dispatch: Dispatch, ownProps: OwnProps) {
               }
         )
       );
-      trackSharedContent(ownProps.mappingFileType === 'basemap' ? 'basemap' : 'layer');
+      trackSharedContent(mappingFileType === 'basemap' ? 'basemap' : 'layer');
       await shareBundle(outputPath);
     },
     importGFWContent: async (contentType: LayerType, content: Layer, onlyNonDownloadedAreas: boolean = false) => {
       await dispatch(importGFWContent(contentType, content, onlyNonDownloadedAreas));
     },
     renameMappingFile: async (id: string, type: LayerType, newName: string) => {
-      if (type === 'basemap') {
-        await dispatch(renameBasemap(id, newName));
-      } else {
-        await dispatch(renameLayer(id, newName));
-      }
+      await dispatch(renameLayer(id, newName));
     },
     showNotConnectedNotification: () => {
       dispatch(showNotConnectedNotification());

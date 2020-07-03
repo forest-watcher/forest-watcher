@@ -6,8 +6,7 @@ import type { File } from 'types/file.types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { clearImportBasemapState, importBasemap } from 'redux-modules/basemaps';
-import { clearImportContextualLayerState, importContextualLayer } from 'redux-modules/layers';
+import { clearImportContextualLayerState, importLayer } from 'redux-modules/layers';
 
 import ImportMappingFileRename from 'components/settings/mapping-files/import/rename';
 
@@ -19,9 +18,9 @@ type OwnProps = {|
 |};
 
 function mapStateToProps(state: State, ownProps: OwnProps) {
-  const imported = ownProps.mappingFileType === 'basemap' ? state.basemaps.importedBasemaps : state.layers.imported;
-  const error = ownProps.mappingFileType === 'basemap' ? state.basemaps.importError : state.layers.importError;
-  const importing = ownProps.mappingFileType === 'basemap' ? state.basemaps.importing : state.layers.importingLayer;
+  const imported = state.layers.imported.filter(importedLayer => importedLayer.type === ownProps.mappingFileType);
+  const error = state.layers.importError;
+  const importing = state.layers.importingLayer;
 
   return {
     existing: imported,
@@ -33,8 +32,8 @@ function mapStateToProps(state: State, ownProps: OwnProps) {
 const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) =>
   bindActionCreators(
     {
-      clearState: ownProps.mappingFileType === 'basemap' ? clearImportBasemapState : clearImportContextualLayerState,
-      import: ownProps.mappingFileType === 'basemap' ? importBasemap : importContextualLayer
+      clearState: clearImportContextualLayerState,
+      import: importLayer
     },
     dispatch
   );
