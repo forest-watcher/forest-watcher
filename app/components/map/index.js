@@ -972,7 +972,7 @@ class MapComponent extends Component<Props, State> {
             layerIndex={MAP_LAYER_INDEXES.basemap}
           />
           {this.renderAreaOutline()}
-          {layerSettings.contextualLayers.layerIsActive && <ContextualLayers featureId={featureId} /> />}
+          {layerSettings.contextualLayers.layerIsActive && <ContextualLayers featureId={featureId} />}
           {this.renderDestinationLine()}
           <Alerts
             alertLayerSettings={this.props.layerSettings.alerts}
