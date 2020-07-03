@@ -396,9 +396,9 @@ PODS:
     - React
   - RNLocalize (1.3.3):
     - React
-  - RNSentry (1.3.2):
+  - RNSentry (1.5.0):
     - React
-    - Sentry (~> 4.4.0)
+    - Sentry (~> 5.1.4)
   - RNShare (3.3.2):
     - React
   - RNSVG (11.0.1):
@@ -410,9 +410,9 @@ PODS:
   - RNZipArchive/Core (5.0.2):
     - React
     - SSZipArchive (= 2.2.2)
-  - Sentry (4.4.3):
-    - Sentry/Core (= 4.4.3)
-  - Sentry/Core (4.4.3)
+  - Sentry (5.1.5):
+    - Sentry/Core (= 5.1.5)
+  - Sentry/Core (5.1.5)
   - SQLite.swift (0.12.2):
     - SQLite.swift/standard (= 0.12.2)
   - SQLite.swift/standard (0.12.2)
@@ -689,11 +689,11 @@ SPEC CHECKSUMS:
   RNFBApp: 09caf098f066a44cf6f7ce9ea7dbc8b980ca10ec
   RNFS: 2bd9eb49dc82fa9676382f0585b992c424cd59df
   RNLocalize: a734b53c45e77acd3ffb78b92e63bb4d6cd13257
-  RNSentry: 2ec85f3e314c6a650b1c51b30ff764b6103ed7e2
+  RNSentry: edba19169f665609fb092ba5eaf4be3c0776f50a
   RNShare: bd6518701db274b8ba282b33620885f2225a5bcf
   RNSVG: 67f1f12dae2cef6ed59a42cae74a6b8f5a9e7b46
   RNZipArchive: ab51bc004a31657f34010254a9182014c6a81217
-  Sentry: 14bdd673870e8cf64932b149fad5bbbf39a9b390
+  Sentry: e73af5462d1e7978c571aa2fdb861053938d7efd
   SQLite.swift: d2b4642190917051ce6bd1d49aab565fe794eea3
   SSZipArchive: fa16b8cc4cdeceb698e5e5d9f67e9558532fbf23
   Yoga: f2a7cd4280bfe2cca5a7aed98ba0eb3d1310f18b
