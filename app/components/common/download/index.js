@@ -34,7 +34,6 @@ type Props = {
     error: boolean,
     completed: boolean
   },
-  disabled: boolean,
   resetCacheStatus: string => Thunk<void>,
   isOfflineMode: boolean,
   showTooltip: boolean,
@@ -56,8 +55,7 @@ class DataCacher extends PureComponent<Props, State> {
       completed: false,
       requested: false,
       error: false
-    },
-    disabled: false
+    }
   };
 
   state = {
@@ -175,7 +173,7 @@ class DataCacher extends PureComponent<Props, State> {
   };
 
   render() {
-    const { cacheStatus, disabled, showTooltip } = this.props;
+    const { cacheStatus, showTooltip } = this.props;
     const { indeterminate, checkingConnectivity } = this.state;
     const cacheAreaAction = this.getCacheAreaAction();
     const cacheButtonIcon = this.getCacheAreaIcon();
@@ -189,7 +187,6 @@ class DataCacher extends PureComponent<Props, State> {
       >
         <View style={styles.cacheBtnContainer}>
           <TouchableHighlight
-            disabled={disabled}
             style={styles.cacheBtn}
             activeOpacity={1}
             underlayColor={Theme.background.secondary}

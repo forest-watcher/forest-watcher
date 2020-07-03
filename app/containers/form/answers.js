@@ -17,6 +17,7 @@ import exportReports from 'helpers/exportReports';
 import Answers from 'components/form/answers';
 import exportBundleFromRedux from 'helpers/sharing/exportBundleFromRedux';
 import shareBundle from 'helpers/sharing/shareBundle';
+import shareFile from 'helpers/shareFile';
 
 type OwnProps = {|
   reportName: string,
@@ -32,8 +33,8 @@ function mapStateToProps(state: State, ownProps: OwnProps) {
   const answers = report && report.answers;
 
   return {
-    exportReport: async () =>
-      await exportReports(
+    exportReport: async () => {
+      const zippedPath = await exportReports(
         [report],
         { [report?.area?.templateId]: template },
         templateLang,
@@ -41,7 +42,10 @@ function mapStateToProps(state: State, ownProps: OwnProps) {
           android: RNFetchBlob.fs.dirs.DownloadDir,
           ios: RNFetchBlob.fs.dirs.DocumentDir
         })
-      ),
+      );
+
+      shareFile(zippedPath);
+    },
     results: mapFormToAnsweredQuestions(answers, template, state.app.language),
     metadata: mapReportToMetadata(report, templateLang),
     isConnected: shouldBeConnected(state),

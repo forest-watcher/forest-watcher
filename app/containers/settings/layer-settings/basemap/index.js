@@ -14,7 +14,7 @@ type OwnProps = {|
 function mapStateToProps(state: State, ownProps: OwnProps) {
   return {
     featureId: ownProps.featureId,
-    basemaps: state.basemaps,
+    basemaps: state.layers.imported.filter(importedLayer => importedLayer.type === 'basemap'),
     offlineMode: state.app.offlineMode,
     activeBasemapId:
       state.layerSettings?.[ownProps.featureId]?.basemap.activeBasemapId ||

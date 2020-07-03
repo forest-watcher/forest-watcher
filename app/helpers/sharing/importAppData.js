@@ -6,14 +6,12 @@ import type { ImportBundleRequest, SharingBundle } from 'types/sharing.types';
 import type { Dispatch } from 'types/store.types';
 import type { Route } from 'types/routes.types';
 import type { Report, Template } from 'types/reports.types';
-import type { ContextualLayer } from 'types/layers.types';
-import type { Basemap } from 'types/basemaps.types';
+import type { Layer } from 'types/layers.types';
 import storeAlerts from 'helpers/alert-store/storeAlerts';
 import { SAVE_AREA_COMMIT } from 'redux-modules/areas';
 import { IMPORT_LAYER_REQUEST, IMPORT_LAYER_COMMIT } from 'redux-modules/layers';
 import { IMPORT_ROUTE } from 'redux-modules/routes';
 import { IMPORT_REPORT, IMPORT_TEMPLATE } from 'redux-modules/reports';
-import { IMPORT_BASEMAP_REQUEST, IMPORT_BASEMAP_COMMIT } from 'redux-modules/basemaps';
 import { isCustomContextualLayer, isGfwContextualLayer } from 'helpers/layerTypes';
 
 export default function importAppData(bundle: SharingBundle, request: ImportBundleRequest, dispatch: Dispatch) {
@@ -58,13 +56,13 @@ function importAreas(areas: Array<Area>, dispatch: Dispatch) {
   });
 }
 
-function importBasemaps(basemaps: Array<Basemap>, dispatch: Dispatch) {
+function importBasemaps(basemaps: Array<Layer>, dispatch: Dispatch) {
   basemaps.forEach(basemap => {
     dispatch({
-      type: IMPORT_BASEMAP_REQUEST
+      type: IMPORT_LAYER_REQUEST
     });
     dispatch({
-      type: IMPORT_BASEMAP_COMMIT,
+      type: IMPORT_LAYER_COMMIT,
       payload: {
         ...basemap,
         isImported: true
@@ -73,7 +71,7 @@ function importBasemaps(basemaps: Array<Basemap>, dispatch: Dispatch) {
   });
 }
 
-function importLayers(layers: Array<ContextualLayer>, dispatch: Dispatch) {
+function importLayers(layers: Array<Layer>, dispatch: Dispatch) {
   layers.forEach(layer => {
     dispatch({
       type: IMPORT_LAYER_REQUEST

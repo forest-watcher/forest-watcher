@@ -1,5 +1,5 @@
 // @flow
-import type { ContextualLayer, LayersCacheStatus } from 'types/layers.types';
+import type { Layer, LayersCacheStatus } from 'types/layers.types';
 
 import React, { Component } from 'react';
 import MapboxGL from '@react-native-mapbox-gl/maps';
@@ -13,7 +13,7 @@ import GFWVectorLayer from './gfw-vector-layer';
 
 type Props = {
   +featureId: string,
-  +layer: ContextualLayer,
+  +layer: Layer,
   +layerCache: LayersCacheStatus
 };
 

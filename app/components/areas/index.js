@@ -22,7 +22,7 @@ import { getShareButtonText } from 'helpers/sharing/utils';
 
 import Theme from 'config/theme';
 import { AREA_ROW_TOTAL_HEIGHT } from 'components/common/area-list/styles';
-import { pushMapScreen } from 'screens/common';
+import { pushMapScreen } from 'screens/maps';
 
 const plusIcon = require('assets/add.png');
 const emptyIcon = require('assets/areasEmpty.png');
@@ -372,7 +372,6 @@ class Areas extends Component<Props, State> {
           }}
           selectionState={this.state.selectedForExport}
           sharing={this.state.inShareMode}
-          showCache={true}
         />
       </>
     );

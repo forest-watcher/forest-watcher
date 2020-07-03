@@ -21,7 +21,9 @@ export const setI18nConfig = () => {
     es: () => ({ translation: require('./es.json') }),
     fr: () => ({ translation: require('./fr.json') }),
     id: () => ({ translation: require('./id.json') }),
-    pt: () => ({ translation: require('./pt.json') })
+    pt: () => ({ translation: require('./pt.json') }),
+    nl: () => ({ translation: require('./nl.json') }),
+    mg: () => ({ translation: require('./mg.json') })
   };
 
   // Determine the best language based on the supported locales defined in translationPaths, falling back to EN if none better are available.
@@ -45,7 +47,9 @@ export const setI18nConfig = () => {
       es: translationPaths.es(),
       fr: translationPaths.fr(),
       id: translationPaths.id(),
-      pt: translationPaths.pt()
+      pt: translationPaths.pt(),
+      nl: translationPaths.nl(),
+      mg: translationPaths.mg()
     }
   });
 };

@@ -30,12 +30,6 @@ Object {
     "synced": false,
     "syncing": false,
   },
-  "basemaps": Object {
-    "downloadedBasemapProgress": Object {},
-    "importError": null,
-    "importedBasemaps": Array [],
-    "importing": false,
-  },
   "countries": Object {
     "data": Array [
       Object {
@@ -1959,12 +1953,6 @@ Object {
     "syncError": false,
     "synced": false,
     "syncing": false,
-  },
-  "basemaps": Object {
-    "downloadedBasemapProgress": Object {},
-    "importError": null,
-    "importedBasemaps": Array [],
-    "importing": false,
   },
   "countries": Object {
     "data": Array [

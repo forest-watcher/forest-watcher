@@ -34,19 +34,13 @@ const authMiddleware = ({ getState }) => next => action =>
 const middlewareList = [thunk, authMiddleware, sagaMiddleware];
 
 function createAppStore(startApp) {
-  let storeCreator = createStore;
   const { middleware: offlineMiddleware, enhanceReducer, enhanceStore } = offline({ persistCallback: startApp });
   const middleware = applyMiddleware(...middlewareList, offlineMiddleware);
+  const storeEnhancers = [enhanceStore, middleware];
   if (__DEV__) {
-    storeCreator = Reactotron.createStore;
+    storeEnhancers.unshift(Reactotron.createEnhancer());
   }
-  return storeCreator(
-    enhanceReducer(combinedReducer),
-    compose(
-      enhanceStore,
-      middleware
-    )
-  );
+  return createStore(enhanceReducer(combinedReducer), compose(...storeEnhancers));
 }
 
 createAppStore.runSagas = () => sagaMiddleware.run(rootSaga);

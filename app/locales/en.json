@@ -27,6 +27,7 @@
     },
     "basemaps": {
         "delete": {
+            "messageGFWContent": "Do you wish to continue?",
             "message": "This action is irreversible, do you wish to continue?",
             "title": "Delete this basemap?"
         },
@@ -69,8 +70,6 @@
         "names": {
             "dark": "Dark",
             "default": "Default",
-            "landsat": "Landsat",
-            "mapboxSatellite": "Mapbox Satellite",
             "satellite": "Satellite"
         },
         "rename": {
@@ -138,6 +137,7 @@
     },
     "contextualLayers": {
         "delete": {
+            "messageGFWContent": "Do you wish to continue?",
             "message": "This action is irreversible, do you wish to continue?",
             "title": "Delete this layer?"
         },
@@ -226,10 +226,38 @@
                     {
                         "content": {
                             "description": {
-                                "text": "Forest Watcher was first developed by the Jane Goodall Institute (JGI), Google, Touchlab and Global Forest Watch. Village forest monitors, protected area rangers and local communities working with the Jane Goodall Institute needed to access up-to-date satellite data for forest monitoring; however, internet access is limited in the remote areas where they work. Without this information, forest monitors could miss deforestation activity occurring beyond their patrol routes. JGI, GFW, Touchlab, Vizzuality and Google created Forest Watcher to enable access to GFW data offline while in the field."
+                                "text": "Community forest monitors, park rangers, conservation organizations, protected area managers, journalists and environmental police use Forest Watcher to detect areas of forest disturbance, inform their patrol routes and collect digital information about their observations."
                             }
                         },
-                        "title": "Why did you create Forest Watcher?"
+                        "title": "Who uses Forest Watcher?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text": "In 2016, the Jane Goodall Institute (JGI), Global Forest Watch (GFW), Touchlab and Google partnered to create a test version of a mobile app to monitor protected areas in Uganda while offline. Following the successful pilot phase, GFW, JGI and Vizzuality created Forest Watcher to enable access to GFW data while offline and in the field. The app is currently maintained by GFW and 3 Sided Cube."
+                            }
+                        },
+                        "title": "Who created Forest Watcher?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text": "Forest Watcher will run on any iPhone with iOS 10 and above. The minimum and recommended specifications for Android devices are listed below."
+                            },
+                            "orderList": {
+                                "text1": "Minimum specifications for Android: OS - Android 5.0; RAM - 1.5GB; Free Disk Space - 1GB",
+                                "text2": "Minimum specifications for Android: OS - Android 7.1' RAM - 3GB; Free Disk Space - 4GB+"
+                            }
+                        },
+                        "title": "What are the device specifications for using Forest Watcher?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text": "Yes, Forest Watcher is available in Spanish, French, Portuguese, Bahasa Indonesian, Dutch and Malagasy. The language of the questionnaires and reports can be customized to any language of your choosing."
+                            }
+                        },
+                        "title": "Is Forest Watcher available in languages other than English?"
                     }
                 ],
                 "title": "About Forest Watcher"
@@ -239,70 +267,141 @@
                     {
                         "content": {
                             "description": {
-                                "text1": "Each forest change data set has been through rigorous scientific testing and has a unique set of limitations. For example, the GLAD alerts were evaluated in Peru to have 13.5 percent false positives (an alert appeared in the data when it wasn’t there on the ground) and 33 percent false negatives (there was change observed on the ground that did not show up as an alert in the data). This means that around 87 percent of GLAD alerts represent forest change events. The higher rate of false negatives means the alerts are a conservative estimate of the tree cover loss. This helps minimize the likelihood that users spend resources investigating alerts that do not represent actual forest change. ",
-                                "text2": "Users should also keep in mind that GLAD alerts detect all tree cover loss, regardless if it is caused by humans (such as through logging) or natural causes (such as  a landslide). In addition, the alerts do not differentiate between natural tree cover and planted tree cover. For complete information about each dataset, please visit www.globalforestwatch.org.",
-                                "text3": "An assessment of the VIIRS data found the rate of false positives to be near 0 for most regions, with a maximum of 1.2 percent in the regions assessed, mostly associated with sunglint on reflective rooftops. The rate of omission was not assessed. VIIRS cannot detect fires that are too small or too cool (generally cooler than 700 K or smaller than 100 square meters). Omissions may also occur when fires start and end between satellite overpasses, or when fires are obscured by cloud cover, heavy smoke, or tree canopy."
+                                "text1": "An area of interest is an area that you define to monitor forest change within. When you create an area of interest on Forest Watcher, GLAD deforestation alerts will populate for that area."
                             }
                         },
-                        "title": "How accurate are alerts?"
+                        "title": "What is an area of interest?"
                     },
                     {
                         "content": {
                             "description": {
-                                "text": "There are three default datasets from Global Forest Watch provided in Forest Watcher:"
+                                "text1": "The maximum size area of interest is 20,000 square kilometers (2,000,000 hectares). If you try to establish an area larger than 20,000 square kilometers, you will receive an error message indicating the size is too big."
+                            }
+                        },
+                        "title": "What is the maximum size area of interest I can create?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "You can share areas of interest by navigating to the Areas page of the mobile app and clicking “Share Areas”. From here, you can select the areas you would like to share and choose where to export the bundle on your device. You can then share the area of interest bundle through your chosen sharing option eg. email, bluetooth or WhatsApp.",
+                                "text2": "After receiving an area of interest bundle through your preferred share option, you can import it on Forest Watcher. You can access the area(s) of interest in the Areas page once import is complete."
+                            }
+                        },
+                        "title": "How can I share and receive areas of interest?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "You can share contextual layers by navigating to the Contextual Layers section on the Settings page of the mobile app and clicking “Share”. From here, you can select the contextual layers that you would like to share and choose where to export the bundle on your device. You can then share the contextual layer bundle through your chosen sharing option eg. email, bluetooth or WhatsApp.",
+                                "text2": "After receiving a contextual layer bundle through your preferred share option, you can import it on Forest Watcher. You can access the contextual layers in the Contextual Layers section on the Settings page once import is complete."
+                            }
+                        },
+                        "title": "How can I share and receive contextual layers?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text": "Global Forest Watch (GFW) provides preloaded forest change and contextual data on Forest Watcher. The preloaded data includes GLAD deforestation alerts, VIIRS active fire alerts, annual tree cover loss and protected areas. Information on the GLAD deforestation alerts, VIIRS active fire alerts and annual tree cover loss data is below."
                             },
-                            "footerText": "For more detailed information about each dataset, please visit http://data.globalforestwatch.org/.",
+                            "footerText": "You can also add additional contextual layers from GFW, including LandMark indigenous and community lands, and various concessions and biodiversity data, or you can upload your own custom contextual layers through the mobile app. Forest Watcher Mobile supports the following file types for upload: .json, .geojson, .topojson, .gpx, .zip, .kmz and .kml.\n\nWhen uploading additional contextual layers, you will have the option to either download the data for offline use or access the data online only. These options offer more flexibility over the data stored on your device.\n\nFor more information, please visit data.globalforestwatch.org.",
                             "orderList": {
                                 "text1": "VIIRS Active Fire alerts: Produced by NASA, updated daily at 375 meter resolution. This shows you the location of suspected fires in the last week.",
                                 "text2": "GLAD alerts: Produced by the University of Maryland Global Land Analysis & Discovery (GLAD) Lab, updated weekly at 30 meter resolution. This show you week-by-week where forest area may have changed.",
                                 "text3": "Annual tree cover loss: Also produced by the GLAD lab, updated annually at 30 meter resolution. This shows you year-to-year where forest area has changed. At the moment this data is only available as a contextual data layer: you will not be able to create a report related to an annual loss alert, although you can still create a report for that location by tapping the screen at the location of the forest loss or gain."
                             }
                         },
-                        "title": "What datasets are available and where do they come from?"
+                        "title": "What data is available and where do they come from?"
                     },
                     {
                         "content": {
                             "description": {
-                                "text": "Imagery featured in the satellite basemap is updated less often than the alert data. As such, you may notice forest change alerts for areas that appear as intact forest in the satellite basemap. Visiting GLAD alerts in the field is the best way to verify on-the-ground change."
+                                "text1": "Each data layer has been through rigorous scientific testing and has a unique set of limitations.",
+                                "text2": "Users should keep in mind that GLAD deforestation alerts detect all types of tree cover loss, whether it is caused by humans (such as logging) or natural causes (such as a landslide). The alerts do not differentiate between natural tree cover and planted tree cover. The alerts are also designed to be conservative given their intended end use of field patrols (false positive rate for confirmed alerts is 1%, while the false negative rate is 33%). Lastly, while the alerts are updated on a weekly basis, persistent cloud cover could mean that alerts are not detected for weeks or even months after the occurrence.",
+                                "text3": "VIIRS fire alerts cannot detect fires that are too small or too cool (generally smaller than 100 square meters or cooler than 700 Kelvin).",
+                                "text4": "For more information, please visit data.globalforestwatch.org."
                             }
                         },
-                        "title": "Why do I see a GLAD alert but no change in the satellite imagery basemap?"
+                        "title": "How accurate are deforestation and fires alerts?"
                     },
                     {
                         "content": {
                             "description": {
-                                "text": "Yes, you can upload and add your own datasets to the app using the Forest Watcher Desktop site. Using the Desktop site, you would link a web tile service to Forest Watcher through a URL. More information is available on the Desktop site."
+                                "text1": "The satellite imagery basemap provided by Global Forest Watch (GFW) is updated less often than the alert data. As such, you may notice alerts for areas that still appear undisturbed on the satellite imagery basemap. To see more recent satellite imagery, we recommend you use the Recent Satellite Imagery tool available on GFW. Visiting alerts in the field is the most accurate way to verify change, but it’s also usually the most costly. Therefore, we recommend you use the Recent Satellite Imagery tool when possible before planning your field visit to identify what the likely drivers of the disturbance are.",
+                                "text2": "Alternatively, you can also upload your own satellite imagery and basemaps by navigating to the Basemaps or Contextual Layers section on the Settings page of the mobile app and clicking the + button on the top right of the page."
                             }
                         },
-                        "title": "Can I add my own data layers into Forest Watcher? "
+                        "title": "Why do I see a deforestation alert but no change in the satellite imagery basemap?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "Yes, you can now upload your own contextual layers and basemaps directly into the mobile app, even while offline. You can add custom contextual layers and basemaps by navigating to either the Basemaps section or the Contextual Layers section of the Settings page and clicking the + button on the top right of the page.",
+                                "text2": "Supported file types for contextual layers include: .json, .geojson, .topojson, .gpx, .zip shapefiles, .kmz and .kml. ",
+                                "text3": "Supported file types for basemaps include: .mbtiles."
+                            }
+                        },
+                        "title": "Can I upload my own contextual layers and basemaps in Forest Watcher?"
                     }
                 ],
                 "title": "Alerts and Data in Forest Watcher"
-            },
-            "customLayers": {
-                "questions": [],
-                "title": "Custom Layers"
             },
             "features": {
                 "questions": [
                     {
                         "content": {
                             "description": {
-                                "text": "Forest Watcher displays data about forest change in “Areas of Interest,” or areas that you monitor. You can define Areas of Interest in the settings menu. If you’re part of a team, you may already have areas set up for you, which you can upload to the app. The app will then automatically download forest change data for those areas and refresh with the latest deforestation and fire alerts while you are connected to the Internet. Once you download the relevant data onto your mobile device, you can take the application offline into the field. Forest Watcher will direct you nearby alerts using the phone's internal GPS. Once you have arrived at an alert, you can fill out a report about what you find and add photos. "
+                                "text1": "Forest Watcher Mobile allows users to create areas of interest and monitor alerts within them. Areas of interest are designated upon initiation of the app or in the Areas page. You can view the latest deforestation and fires alerts in your area of interest and download them to take offline and into the field. Once downloaded, you can use the app to guide you to nearby alerts using the phone’s internal GPS and track your route as you go, then fill out a form and take photos to record observations about what you find.",
+                                "text2": "Forest Watcher Web enables greater customization through editable reporting templates and facilitates collaboration with options to create, review and assign reports to team members."
                             }
                         },
-                        "title": "How does Forest Watcher work?"
+                        "title": "What can I do with Forest Watcher?"
                     },
                     {
                         "content": {
                             "description": {
-                                "text": "Forest Watcher Desktop is the supplementary online desktop interface for the mobile app, which can be used to manage areas of interest, create new report templates, configure a team of users, and review and download reports submitted through the app. The desktop interface is for administrators and team managers, so they can set up the application for their team to use. For more information on Forest Watcher Desktop, click here"
+                                "text": "While Forest Watcher Mobile is designed primarily for offline use, certain key functions need to be performed with Internet connection. A typical workflow for Forest Watcher online/offline use is below"
                             }
                         },
-                        "title": "What is Forest Watcher Desktop?"
+                        "title": "What can I do online vs offline?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text": "Forest Watcher Web is the supplementary online web interface for the mobile app, which can be used to manage areas of interest, customize report templates, configure a team of users and review and download reports submitted through the mobile app. Forest Watcher Web can be used by administrators and team managers to set up the app for their team. Users should log in to Forest Watcher Web with the same login used to access the mobile app. For more information, please visit forestwatcher.globalforestwatch.org."
+                            }
+                        },
+                        "title": "What is Forest Watcher Web?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "You can upload custom layers either Forest Watcher Web or Forest Watcher Mobile. Forest Watcher Mobile supports the following file types for upload: .json, .geojson, .topojson, .gpx, .zip, .kmz, .kml, and .mbtiles.",
+                                "text2": "Forest Watcher web supports tile URLs.",
+                                "text3": "Custom file types supported in Forest Watcher Mobile are listed below."
+                            },
+                            "footerText": "The recommended maximum file size is 1 MB, anything larger may not work properly. Complex shapes can also have issues and custom styling and images may be removed. Please contact us at forestwatcher@wri.org if you have any questions about the upload process.",
+                            "orderList": {
+                                "text1": "GeoJSON (with .geojson or .json file extensions)",
+                                "text2": "TopoJSON (with .topojson or .json file extensions)",
+                                "text3": "Google Earth Keyhole Markup Language (with .kml or .kmz file extensions)",
+                                "text4": "Shapefiles (with .zip extension). Shapefiles must include .shp and .prj files within the archive.",
+                                "text5": "GPS Exchange Format (with .gpx extension)",
+                                "text6": "Mapbox Tiles (with .mbtiles extension). These must be imported as basemaps."
+                            }
+                        },
+                        "title": "What file types and sizes does Forest Watcher accept?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "Yes, Forest Watcher Mobile is designed to be used independently from Forest Watcher Web. On the mobile app, you can create areas of interest, download and navigate to alerts, track your route along the way and record your observations. You can also upload your own contextual layers and basemaps directly through the mobile app, and share app content with other devices while offline (routes, reports, areas, alerts, contextual data layers, basemap tiles or all app content).",
+                                "text2": "Forest Watcher Web simply provides opportunities for further customization of the mobile app, including report template customization, team management and data management."
+                            }
+                        },
+                        "title": "Can I use Forest Watcher Mobile without using Forest Watcher Web?"
                     }
                 ],
-                "title": "Features and Functionality"
+                "title": "What Does Forest Watcher Do?"
             },
             "help": {
                 "questions": [
@@ -318,36 +417,40 @@
                                     "text": "The app crashes"
                                 },
                                 "order3": {
-                                    "description": "The location and navigation features on Forest Watcher rely on your device’s internal GPS. First, check that the GPS (often called “location services”) is turned on in your mobile device settings. If it still doesn’t work, please send an email to mailto:forestwatcher@wri.org telling us what device model you are using.",
+                                    "description": "The location and navigation features rely on your device’s internal GPS. Check that the GPS (often called “location services”) is turned on in your device settings. The GPS signal can be weak indoors, so if you are inside or under a roof, try going outside. If it still doesn’t work, please email forestwatcher@wri.org telling us what device model you are using and which app version (found at the bottom of the Settings page). Cell phone GPS are usually not as accurate as standalone GPS devices, so you may also want to input the coordinates of the alert into a GPS device as backup if you have one available.",
                                     "text": "I can’t see the compass/my location"
                                 },
                                 "order4": {
-                                    "description": "Some devices that only have front facing cameras may not be compatible with the camera in the report form. You can instead take a photo on your camera app, and use the upload function in the report in Forest Watcher to add a photo from your library to the report.",
-                                    "text": "I cannot take a photo in the app"
-                                },
-                                "order5": {
-                                    "description": "You may not always be able to complete a report right at the scene of an alert. You can start writing a report, save it, and return to it later when you are back at your base. You can also take a picture just using your device’s camera, then fill out the report later on: you can attach the picture to your report. ",
+                                    "description": "If you begin a report and then exit the report, your work thus far and the GPS coordinates of the location where your report was initiated will automatically save. You can return to your draft report later on the Reports page. You can also take a photo using your device’s camera, then upload it to a report later.",
                                     "text": "I want to complete a report later"
                                 },
+                                "order5": {
+                                    "description": "When you first set up Forest Watcher, it can take anywhere from 5 to 30 minutes for the app to completely download relevant data depending on the speed of your Internet connection. If you have weak or slow Internet connection, the download will take longer. Keep the app open to allow the download to complete. After the initial set up, new alert data will download every time you connect to the Internet and the download time will vary depending on how many alerts have occurred. If you want to see if new alerts are available, pull the home screen downward to refresh.",
+                                    "text": "Alerts are not loading"
+                                },
                                 "order6": {
-                                    "description": "When you first set up Forest Watcher on your mobile device, the app will need to download a lot of data to work offline. You may need to wait about 5 minutes for all the data to load properly. This is normal. If you have a weak or slow internet connection, this can make the download take longer. Keep the app open to allow the download to complete. After the initial set up, new alert data will download every time you connect your device to the internet - the download time will vary depending on how many alerts have occurred. These updates would be on the scale of Kilobytes, where the initial download will likely be a few Megabytes.",
-                                    "text": "Alerts are slow to load"
+                                    "description": "If you have low bandwidth, rather than redownload app content across multiple devices, you could share app content with another device while offline (alerts, areas, routes, reports, contextual layers, basemap tiles or all app content). This process will help reduce bandwidth demands.",
+                                    "text": "My team and/or I have low bandwidth"
                                 },
                                 "order7": {
-                                    "description": "At the moment you can only view one dataset at a time for each Area of Interest. The dataset you are looking at for each Area of Interest is controlled using the settings menu. If you want to look at both fires data and forest loss data for the same place, you will need to create two Areas of Interest for the same location and set up each of them to download the different datasets.",
-                                    "text": "I want to see GLAD alerts and VIIRS for the same Area of Interest"
-                                },
-                                "order8": {
-                                    "description": "Forest Watcher contains a lot of data and could take up a lot of memory on your device, depending on how many Areas of Interest you have, how big they are and how many alerts there are in each one. We recommend having at least 16GB of internal storage on your device, so you can use your other apps as well as Forest Watcher: Forest Watcher won’t need all of this storage. The fewer, smaller areas of interest you set up in the app, the less data will need to be downloaded onto your device.",
+                                    "description": "Forest Watcher Mobile contains a lot of data and can take up significant memory on your device, depending on how many areas of interest you have, their size and the number of alerts. The fewer and smaller areas of interest you set up, the less data will need to be downloaded onto your device. We recommend having at least 1 GB of internal storage on your device so that you can use other apps in addition to Forest Watcher, though 4 GB or more is preferred.",
                                     "text": "I run out of memory on my device"
                                 },
-                                "order9": {
-                                    "description": "You can use Forest Watcher Desktop to create a custom form template for your team to use when collecting data. You can also add notes in the final section of the form if you have observations you want to make.",
-                                    "text": "I want to collect custom data"
+                                "order8": {
+                                    "description": "You can use Forest Watcher Web to create a custom report template for your team to use when collecting data. You can also add notes in the final section of the form.",
+                                    "text": "I want to customize the reports that I or my team fill out when investigating an area"
                                 }
                             }
                         },
-                        "title": "What should I do if:"
+                        "title": "Troubleshooting: What should I do if…?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text": "We are also always looking to improve the app to meet user needs. Please contact us at forestwatcher@wri.org if there are other features that would be helpful."
+                            }
+                        },
+                        "title": "I have a great idea to improve the app. What should I do?"
                     },
                     {
                         "content": {
@@ -358,10 +461,73 @@
                         "title": "How do I get support?"
                     }
                 ],
-                "title": "Help and How to Contact Us"
+                "title": "Support & Contact"
             },
             "inTheField": {
-                "questions": [],
+                "questions": [
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "When navigating to an alert or an area, you can add a report by clicking the report button on the bottom right of the map. You will be able to take or choose pictures to add to the report, then fill out a form to record observations about what you find.",
+                                "text2": "If you begin a report and then exit the report, your work thus far and the GPS coordinates of the location where your report was initiated will automatically save. You can return to your draft report later on the Reports page. You can also take a photo using your device’s camera, then upload it to a report later."
+                            }
+                        },
+                        "title": "How do I add a report?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "To report on a group of alerts, you can click on the GLAD and/or VIIRS alerts that you’re investigating and click the report button on the bottom right of the map. You can report on multiple alerts by selecting each alert individually, before clicking the report button. When clicked on, the GLAD alerts will become green and the VIIRS alerts will become purple. The change in color indicates that the alerts have been reported on."
+                            }
+                        },
+                        "title": "How do I report on a group of alerts?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "To record a route, you can click on the start button on the bottom left of the map. Once you are done recording the route, you can click the stop button and choose whether to save the route or delete the route. If you save the route, you will then be able to access it on the Routes page of the mobile app."
+                            }
+                        },
+                        "title": "How do I record a route?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "When recording a route, points will be captured every 50 meters."
+                            }
+                        },
+                        "title": "How often does my route create points?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "You can share reports by navigating to the Reports section of the mobile app and clicking “Share Reports”. From here, you can select the reports that you would like to share and choose where to export the bundle on your device. You can then share the reports bundle through your chosen sharing option eg. email, bluetooth or WhatsApp.",
+                                "text2": "Similarly, you can share routes by navigating to the Routes section of the mobile app and clicking “Share Routes”. From here, you can select the routes that you would like to share and choose where to export the bundle on your device. You can then share the routes bundle through your chosen sharing option eg. email, bluetooth or WhatsApp.",
+                                "text3": "After receiving a reports or routes bundle through your preferred share option, you can import it on Forest Watcher. You can access the reports in the Reports section or the routes in the Routes section once import is complete."
+                            }
+                        },
+                        "title": "How can I share and receive reports and routes?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "To retrieve your reports and photos, log in to forestwatcher.globalforestwatch.org, navigate to the “Reports” tab and click “Download answers” to access your CSV file. Photos are available to download via URLs in the spreadsheet. ",
+                                "text2": "Reports can also be accessed through the export function on the reports page of the mobile app. Using this function, you can download your reports directly to your device and share them with another device while offline.",
+                                "text3": "If you would like to view your data on a map, navigate to mymaps.google.com and log in to your Google account (or create one for free). Then click “Create a new map.” On the left-side panel the, click “Import” and upload your CSV from Forest Watcher Web. Select “Position of report lat” and when prompted, select “Latitude.” Select “Position of report lon” and when prompted, select “Longitude.” Select “Continue” and choose a column that you want to identify your location by. Please note that the data associated with that report will be the title attached to the blue pin(s) on the map.",
+                                "text4": "Once these steps are complete, your map will be ready and automatically save. You can click on the blue pins to see the details of your report, including photos. To change the name, click on “Untitled map” in the top left corner."
+                            }
+                        },
+                        "title": "Can I retrieve my reports and see my data on a map?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "Reports are owned by the user and are not shared publicly. For more details, visit globalforestwatch.org/terms."
+                            }
+                        },
+                        "title": "Are my reports shared or kept confidential?"
+                    }
+                ],
                 "title": "Using Forest Watcher in the Field"
             },
             "questionCountPlural": "%{count} Questions",

@@ -74,7 +74,8 @@ export default StyleSheet.create({
       ios: {
         color: Theme.fontColors.light
       }
-    })
+    }),
+    lineHeight: 23
   },
   faqTitle: {
     ...Theme.text,

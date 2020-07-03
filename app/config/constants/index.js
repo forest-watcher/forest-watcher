@@ -6,8 +6,7 @@ import i18n from 'i18next';
 import Theme from 'config/theme';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 
-import type { Basemap } from 'types/basemaps.types';
-import type { ContextualLayer, ContextualLayerRenderSpec } from 'types/layers.types';
+import type { Layer, ContextualLayerRenderSpec } from 'types/layers.types';
 
 export const AREAS = {
   maxSize: 20000000000 // square meters
@@ -121,14 +120,15 @@ export const COORDINATES_FORMATS = {
 export const ACTIONS_SAVED_TO_REPORT = 5;
 
 // Constants
-export const GFW_BASEMAPS: Array<Basemap> = [
+export const GFW_BASEMAPS: Array<Layer> = [
   {
     isCustom: false,
     id: MapboxGL.StyleURL.SatelliteStreet,
     styleURL: MapboxGL.StyleURL.SatelliteStreet,
-    name: 'mapboxSatellite',
+    name: 'satellite',
     image: require('assets/basemap_mapbox_satellite.png'),
-    tileUrl: null
+    url: null,
+    type: 'basemap'
   },
   {
     isCustom: false,
@@ -136,7 +136,8 @@ export const GFW_BASEMAPS: Array<Basemap> = [
     styleURL: 'mapbox://styles/resourcewatch/cjww7iv8i07yx1cmjtgazn3r0?fresh=true',
     name: 'default',
     image: require('assets/basemap_default.png'),
-    tileUrl: null
+    url: null,
+    type: 'basemap'
   },
   {
     isCustom: false,
@@ -144,23 +145,8 @@ export const GFW_BASEMAPS: Array<Basemap> = [
     styleURL: 'mapbox://styles/resourcewatch/cjww836hy1kep1co5xp717jek?fresh=true',
     name: 'dark',
     image: require('assets/basemap_dark.png'),
-    tileUrl: null
-  },
-  {
-    isCustom: false,
-    id: 'mapbox://styles/resourcewatch/cjww89e5j08o91cmjsbrd47qt?fresh=true',
-    styleURL: 'mapbox://styles/resourcewatch/cjww89e5j08o91cmjsbrd47qt?fresh=true',
-    name: 'satellite',
-    image: require('assets/basemap_satellite.png'),
-    tileUrl: 'https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}'
-  },
-  {
-    isCustom: false,
-    id: 'mapbox://styles/resourcewatch/cjww8drml27wc1cn3mk2872h9?fresh=true',
-    styleURL: 'mapbox://styles/resourcewatch/cjww8drml27wc1cn3mk2872h9?fresh=true',
-    name: 'landsat',
-    image: require('assets/basemap_landsat.png'),
-    tileUrl: 'https://production-api.globalforestwatch.org/v2/landsat-tiles/2017/{z}/{x}/{y}'
+    url: null,
+    type: 'basemap'
   }
 ];
 
@@ -678,16 +664,18 @@ export const GFW_CONTEXTUAL_LAYERS_METADATA: { [string]: ContextualLayerRenderSp
 
 // These are hard-coded versions of data hosted in the layers API, you can use the `id` parameter to fetch
 // the full data for each (If you suspect something is wrong/missing) using: https://api.resourcewatch.org/v1/layer/{id}
-export const GFW_CONTEXTUAL_LAYERS: Array<ContextualLayer> = [
+export const GFW_CONTEXTUAL_LAYERS: Array<Layer> = [
   {
     id: 'bd2798d1-c771-4bff-84d9-c4d69d3b3121',
     name: 'biodiversityIntactness',
-    url: 'https://api.resourcewatch.org/v1/layer/bd2798d1-c771-4bff-84d9-c4d69d3b3121/tile/gee/{z}/{x}/{y}'
+    url: 'https://api.resourcewatch.org/v1/layer/bd2798d1-c771-4bff-84d9-c4d69d3b3121/tile/gee/{z}/{x}/{y}',
+    type: 'contextual_layer'
   },
   {
     id: 'c1c306a3-31b6-409a-acf0-2a8f09e28363',
     name: 'biodiversitySignificance',
-    url: 'https://api.resourcewatch.org/v1/layer/c1c306a3-31b6-409a-acf0-2a8f09e28363/tile/gee/{z}/{x}/{y}'
+    url: 'https://api.resourcewatch.org/v1/layer/c1c306a3-31b6-409a-acf0-2a8f09e28363/tile/gee/{z}/{x}/{y}',
+    type: 'contextual_layer'
   },
   /*{
     id: 'f84af037-4e4f-41cf-a053-94a606071232',
@@ -702,7 +690,8 @@ export const GFW_CONTEXTUAL_LAYERS: Array<ContextualLayer> = [
     description:
       'Boundaries of areas over which indigenous peoples or local communities enjoy rights to the land and certain resources. Only select countries are included, and dates of data displayed vary by country.',
     name: 'landmarks',
-    url: 'https://tiles.globalforestwatch.org/landmark_land_rights/v20191111/default/{z}/{x}/{y}.pbf'
+    url: 'https://tiles.globalforestwatch.org/landmark_land_rights/v20191111/default/{z}/{x}/{y}.pbf',
+    type: 'contextual_layer'
   },
   {
     id: '51aad76b-e884-44e0-82a4-d3b2f87a052d',
@@ -710,14 +699,16 @@ export const GFW_CONTEXTUAL_LAYERS: Array<ContextualLayer> = [
       'Boundaries of forested areas allocated by governments to companies for harvesting timber and other wood products.',
     name: 'logging',
     url:
-      'https://cartocdn-gusc-a.global.ssl.fastly.net/wri-01/api/v1/map/aa3157cf3a5b0acc1f78b48899fb7a02:1548761157303/{z}/{x}/{y}.mvt'
+      'https://cartocdn-gusc-a.global.ssl.fastly.net/wri-01/api/v1/map/aa3157cf3a5b0acc1f78b48899fb7a02:1548761157303/{z}/{x}/{y}.mvt',
+    type: 'contextual_layer'
   },
   {
     id: 'fcd10026-e892-4fb8-8d79-8d76e3b94005',
     description: 'Mining Areas',
     name: 'miningConcessions',
     tileFormat: 'vector',
-    url: 'mapbox://resourcewatch.3259d78x'
+    url: 'mapbox://resourcewatch.3259d78x',
+    type: 'contextual_layer'
   },
   /*{
     id: '0911abc4-d861-4d7a-84d6-0fa07b51d7d8',
@@ -731,7 +722,8 @@ export const GFW_CONTEXTUAL_LAYERS: Array<ContextualLayer> = [
     description: 'Legally protected areas by IUCN category. Updated monthly.',
     name: 'wdpa',
     tileFormat: 'vector',
-    url: 'https://tiles.globalforestwatch.org/wdpa_protected_areas/v201909/mvt/{z}/{x}/{y}'
+    url: 'https://tiles.globalforestwatch.org/wdpa_protected_areas/v201909/mvt/{z}/{x}/{y}',
+    type: 'contextual_layer'
   },
   /*{
     id: '5ce140d9-260b-4e42-8b15-bd62193a5955',
@@ -747,7 +739,8 @@ export const GFW_CONTEXTUAL_LAYERS: Array<ContextualLayer> = [
     description: 'Wood fiber plantation areas',
     name: 'woodFiberConcessions',
     url:
-      'https://cartocdn-gusc-a.global.ssl.fastly.net/wri-01/api/v1/map/1805b7c9ae919f705548dfb470679f8a:1569405047170/{z}/{x}/{y}.mvt'
+      'https://cartocdn-gusc-a.global.ssl.fastly.net/wri-01/api/v1/map/1805b7c9ae919f705548dfb470679f8a:1569405047170/{z}/{x}/{y}.mvt',
+    type: 'contextual_layer'
   }
 ];
 

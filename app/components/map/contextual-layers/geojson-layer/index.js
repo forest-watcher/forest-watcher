@@ -1,5 +1,5 @@
 // @flow
-import type { ContextualLayer } from 'types/layers.types';
+import type { Layer } from 'types/layers.types';
 
 import React, { Component } from 'react';
 import MapboxGL from '@react-native-mapbox-gl/maps';
@@ -10,7 +10,7 @@ import { pathForLayerFile } from 'helpers/layer-store/layerFilePaths';
 import { toFileUri } from 'helpers/fileURI';
 
 type Props = {
-  +layer: ContextualLayer
+  +layer: Layer
 };
 
 type State = {

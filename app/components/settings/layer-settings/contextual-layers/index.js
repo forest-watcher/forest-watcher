@@ -9,7 +9,7 @@ import ActionButton from 'components/common/action-button';
 import BottomTray from 'components/common/bottom-tray';
 import { Navigation, NavigationButtonPressedEvent } from 'react-native-navigation';
 
-import type { ContextualLayer, LayersCacheStatus } from 'types/layers.types';
+import type { Layer, LayersCacheStatus } from 'types/layers.types';
 import type { LayerSettingsAction } from 'types/layerSettings.types';
 import debounceUI from 'helpers/debounceUI';
 
@@ -23,13 +23,13 @@ type ContextualLayersLayerSettingsType = {
 };
 
 type Props = {
-  baseApiLayers: ?Array<ContextualLayer>,
+  baseApiLayers: ?Array<Layer>,
   componentId: string,
   featureId: string,
   clearEnabledContextualLayers: string => LayerSettingsAction,
   contextualLayersLayerSettings: ContextualLayersLayerSettingsType,
   +downloadProgress: { [id: string]: LayersCacheStatus },
-  importedContextualLayers: Array<ContextualLayer>,
+  importedContextualLayers: Array<Layer>,
   setContextualLayerShowing: (featureId: string, layerId: string, showing: boolean) => LayerSettingsAction
 };
 
@@ -100,7 +100,6 @@ class ContextualLayersLayerSettings extends PureComponent<Props> {
           return (
             <ActionsRow
               style={styles.rowContent}
-              imageSrc={layerPlaceholder}
               onPress={this.setContextualLayerShowing.bind(this, layer.id, !selected)}
               key={index}
             >

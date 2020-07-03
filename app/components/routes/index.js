@@ -26,7 +26,7 @@ import Theme, { isSmallScreen } from 'config/theme';
 import calculateBundleSize from 'helpers/sharing/calculateBundleSize';
 import generateUniqueID from 'helpers/uniqueId';
 import { getShareButtonText } from 'helpers/sharing/utils';
-import { pushMapScreen } from 'screens/common';
+import { pushMapScreen } from 'screens/maps';
 
 const emptyIcon = require('assets/routesEmpty.png');
 const routeMapBackground = require('assets/routeMapBackground.png');
@@ -240,7 +240,7 @@ export default class Routes extends PureComponent<Props, State> {
             largerLeftPadding
             largeImage
           />
-          <DataCacher dataType={'route'} id={item.id} disabled={this.state.inShareMode} showTooltip={false} />
+          {!this.state.inShareMode && <DataCacher dataType={'route'} id={item.id} showTooltip={false} />}
         </View>
       );
     });

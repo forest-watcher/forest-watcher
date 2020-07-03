@@ -9,21 +9,19 @@ import ActionButton from 'components/common/action-button';
 import BottomTray from 'components/common/bottom-tray';
 import InputText from 'components/common/text-input';
 import i18n from 'i18next';
-import type { Basemap, BasemapsAction } from 'types/basemaps.types';
 import type { LayerType } from 'types/sharing.types';
 import type { File } from 'types/file.types';
-import type { ContextualLayer, LayersAction } from 'types/layers.types';
+import type { Layer, LayersAction } from 'types/layers.types';
 import type { Thunk } from 'types/store.types';
-
-import Constants from 'config/constants';
 
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 import { ERROR_CODES } from 'helpers/fwError';
+import fileNameIsValid from 'helpers/validation/fileNames';
 
 type Props = {
-  clearState: () => BasemapsAction | LayersAction,
+  clearState: () => LayersAction,
   componentId: string,
-  existing: Array<Basemap | ContextualLayer>,
+  existing: Array<Layer>,
   file: File,
   import: (file: File) => Thunk<Promise<void>>,
   importError: ?Error,
@@ -91,28 +89,9 @@ class ImportMappingFileRename extends PureComponent<Props, State> {
   };
 
   nameValidity = () => {
-    if (!this.state.file.name) {
-      return {
-        valid: false,
-        alreadyTaken: false
-      };
-    }
+    const { id, name } = this.state.file;
 
-    const matchingFile = this.props.existing.find(mappingFile => {
-      // We also make sure we're not conflicting with ourself here...
-      // Because the file is added before the screen disappears if we don't make
-      // sure the "matches" id is different to the currently adding files id
-      // then the duplicate name message is shown as the screen is dismissing on iOS
-      return mappingFile.name === this.state.file.name && mappingFile.id !== this.state.file.id;
-    });
-
-    const nameAlreadyTaken = !!matchingFile;
-
-    const nameLength = this.state.file.name?.length ?? 0;
-    return {
-      valid: !nameAlreadyTaken && nameLength > 0 && nameLength <= Constants.layerMaxNameLength,
-      alreadyTaken: nameAlreadyTaken
-    };
+    return fileNameIsValid(id, name, this.props.existing);
   };
 
   render() {

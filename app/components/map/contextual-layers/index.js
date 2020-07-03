@@ -1,6 +1,6 @@
 // @flow
-import type { ContextualLayer, LayersCacheStatus } from 'types/layers.types';
 import type { ContextualLayerSettingsType } from 'types/layerSettings.types';
+import type { Layer, LayersCacheStatus } from 'types/layers.types';
 
 import React, { Component } from 'react';
 import GeoJSONContextualLayer from 'components/map/contextual-layers/geojson-layer';
@@ -8,7 +8,7 @@ import TileContextualLayer from 'components/map/contextual-layers/tile-layer';
 
 type Props = {
   +featureId: string,
-  +layers: Array<ContextualLayer>,
+  +layers: Array<Layer>,
   +layerCache: { [id: string]: LayersCacheStatus },
   +layerSettings: ContextualLayerSettingsType
 };
@@ -17,7 +17,6 @@ type Props = {
 export default class ContextualLayers extends Component<Props> {
   render() {
     const { featureId, layers, layerCache, layerSettings } = this.props;
-
     if (!layerSettings.layerIsActive) {
       return null;
     }

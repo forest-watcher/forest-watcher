@@ -18,8 +18,7 @@ import ProgressBar from 'react-native-progress/Bar';
 import { GFW_CONTEXTUAL_LAYERS_METADATA } from 'config/constants';
 import Theme from 'config/theme';
 import styles from './styles';
-import type { ContextualLayer } from 'types/layers.types';
-import type { Basemap } from 'types/basemaps.types';
+import type { Layer } from 'types/layers.types';
 import queryLayerFiles from 'helpers/layer-store/queryLayerFiles';
 import { manifestBundleSize } from 'helpers/sharing/calculateBundleSize';
 import { formatBytes } from 'helpers/data';
@@ -46,7 +45,7 @@ type Props = {
   downloaded?: boolean,
   downloading?: boolean,
   inEditMode: boolean,
-  layer: ContextualLayer | Basemap,
+  layer: Layer,
   layerType: LayerType,
   onDeletePress: () => void,
   onDownloadPress?: ?() => void | Promise<void>,
@@ -105,7 +104,7 @@ export default class MappingFileRow extends Component<Props, State> {
       layer.isCustom ||
       (layerType === 'contextual_layer' && !!GFW_CONTEXTUAL_LAYERS_METADATA[layer.id]);
     const isRefreshable = this.props.downloaded && layerType === 'contextual_layer';
-    const isDownloadable = layerType === 'contextual_layer' || (layerType === 'basemap' && !layer.tileUrl);
+    const isDownloadable = layerType === 'contextual_layer' || (layerType === 'basemap' && !layer.url);
 
     if (inEditMode) {
       return (
@@ -173,7 +172,7 @@ export default class MappingFileRow extends Component<Props, State> {
 
     const subtitle =
       layerType === 'basemap' && !layer.isCustom
-        ? layer.tileUrl != null
+        ? layer.url != null
           ? i18n.t('importLayer.gfw.onlineTitle')
           : downloaded
           ? i18n.t('importLayer.gfw.downloaded')
@@ -184,11 +183,16 @@ export default class MappingFileRow extends Component<Props, State> {
 
     const image = layer.image ?? icons[layerType].placeholder;
 
+    // We should only show the image if one exists, and we're showing a basemap.
+    const shouldShowImage = image != null && layerType !== 'contextual_layer';
+
     return (
       <View style={styles.item}>
-        <View style={styles.imageContainer}>
-          {image != null && <ImageBackground resizeMode={'cover'} style={styles.image} source={image} />}
-        </View>
+        {shouldShowImage && (
+          <View style={styles.imageContainer}>
+            {<ImageBackground resizeMode={'cover'} style={styles.image} source={image} />}
+          </View>
+        )}
         <View style={styles.contentContainer}>
           <Text numberOfLines={2} style={styles.title}>
             {title}

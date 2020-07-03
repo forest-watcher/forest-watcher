@@ -12,7 +12,8 @@ import i18n from 'i18next';
 import { trackAreaCreationFlowStarted, trackScreenView } from 'helpers/analytics';
 import debounceUI from 'helpers/debounceUI';
 import styles from './styles';
-import { launchAppRoot, pushMapSetupScreen, showWelcomeScreen } from 'screens/common';
+import { launchAppRoot, showWelcomeScreen } from 'screens/common';
+import { pushMapSetupScreen } from 'screens/maps';
 
 const SafeAreaView = withSafeArea(View, 'margin', 'bottom');
 const backIcon = require('assets/previous.png');

@@ -2,7 +2,7 @@
 import React, { Component, type Node } from 'react';
 
 import type { SelectedAlert } from 'types/alerts.types';
-import type { Basemap } from 'types/basemaps.types';
+import type { Layer } from 'types/layers.types';
 import type {
   AlertFeatureProperties,
   Coordinates,
@@ -80,7 +80,7 @@ import Alerts from 'components/map/alerts';
 import Reports from 'containers/map/reports';
 import Footer from 'components/map/footer';
 import { lineString, type Feature, type Geometry, type Position } from '@turf/helpers';
-import { showMapWalkthrough } from 'screens/common';
+import { showMapWalkthrough } from 'screens/maps';
 
 const emitter = require('tiny-emitter/instance');
 
@@ -113,7 +113,7 @@ type Props = {
   isTracking: boolean,
   onStartTrackingRoute: (location: Coordinates) => void,
   onCancelTrackingRoute: () => void,
-  basemap: Basemap
+  basemap: Layer
 };
 
 type State = {
@@ -946,8 +946,8 @@ class MapComponent extends Component<Props, State> {
           onPress={this.onMapPress}
           compassViewMargins={{ x: 5, y: 50 }}
         >
-          {basemap.tileUrl && (
-            <MapboxGL.RasterSource id="basemapTiles" url={basemap.tileUrl}>
+          {basemap.url && (
+            <MapboxGL.RasterSource id="basemapTiles" url={basemap.url}>
               <MapboxGL.RasterLayer id="basemapTileLayer" />
             </MapboxGL.RasterSource>
           )}

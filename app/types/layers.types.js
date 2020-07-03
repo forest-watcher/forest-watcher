@@ -2,7 +2,7 @@
 
 import type { OfflineMeta } from 'types/offline.types';
 import type { DeleteAreaCommit, SaveAreaCommit, Area } from 'types/areas.types';
-import type { Basemap } from 'types/basemaps.types';
+import type { LayerType } from 'types/sharing.types';
 
 export type VectorMapLayer = {
   filter?: ?*,
@@ -22,7 +22,7 @@ export type ContextualLayerRenderSpec = {
 /**
  * This model is returned by the API but we also use it for local-only layers
  */
-export type ContextualLayer = {
+export type Layer = {
   createdAt?: ?string,
   description?: ?string,
   enabled?: ?boolean,
@@ -32,26 +32,17 @@ export type ContextualLayer = {
   owner?: ?{
     type: string
   },
-  url: ?string, // A remote tile URL pattern from which the layer can be downloaded
-
-  /**
-   * If the layer has been imported from another user via a sharing bundle
-   */
-  isImported?: true,
-
-  /**
-   * If the layer is a custom file the user has imported from their local device
-   */
-  isCustom?: ?boolean,
-
-  /**
-   * The size of the layer's files on disk
-   */
-  size?: ?number
+  type: LayerType,
+  url?: ?string, // A remote tile URL pattern from which the layer can be downloaded
+  isImported?: true, // Flag indicating whether or not this was imported from a sharing bundle
+  isCustom?: ?boolean, // Flag indicating whether or not this is a custom one added by the user
+  size?: ?number, // The size of this content on disk.
+  styleURL?: string,
+  image?: number
 };
 
 export type LayersState = {
-  data: Array<ContextualLayer>,
+  data: Array<Layer>,
   synced: boolean,
   syncing: boolean,
   syncDate: number,
@@ -60,7 +51,7 @@ export type LayersState = {
   cache: LayersCache,
   pendingCache: LayersPendingCache,
   importError: ?Error,
-  imported: Array<ContextualLayer>,
+  imported: Array<Layer>,
   importingLayer: boolean,
   downloadedLayerProgress: { [layerId: string]: LayersCacheStatus }
 };
@@ -80,10 +71,7 @@ export type LayersCacheStatus = {
   [string]: LayerCacheData
 };
 
-export type UpdateProgressActionType =
-  | 'basemaps/IMPORT_BASEMAP_PROGRESS'
-  | 'layers/UPDATE_PROGRESS'
-  | 'layers/IMPORT_LAYER_PROGRESS';
+export type UpdateProgressActionType = 'layers/UPDATE_PROGRESS' | 'layers/IMPORT_LAYER_PROGRESS';
 
 type LayersCache = {
   [string]: { areaId: string }
@@ -121,7 +109,7 @@ type GetLayersRequest = {
 };
 type GetLayersCommit = {
   type: 'layers/GET_LAYERS_COMMIT',
-  payload: Array<ContextualLayer>,
+  payload: Array<Layer>,
   meta: { areas: Array<Area> }
 };
 type GetLayersRollback = { type: 'layers/GET_LAYERS_ROLLBACK' };
@@ -155,7 +143,7 @@ type CacheLayerRollback = {
   type: 'layers/CACHE_LAYER_ROLLBACK',
   payload: { dataId: string, layerId: string }
 };
-type DownloadData = { type: 'layers/DOWNLOAD_DATA', payload: { dataId: string, basemaps: Array<Basemap> } };
+type DownloadData = { type: 'layers/DOWNLOAD_DATA', payload: { dataId: string, basemaps: Array<Layer> } };
 type InvalidateCache = { type: 'layers/INVALIDATE_CACHE', payload: string };
 type SetCacheStatus = {
   type: 'layers/SET_CACHE_STATUS',
@@ -175,7 +163,7 @@ type ImportLayerAreaCompleted = {
     failed: boolean
   }
 };
-type ImportLayerCommit = { type: 'layers/IMPORT_LAYER_COMMIT', payload: ContextualLayer };
+type ImportLayerCommit = { type: 'layers/IMPORT_LAYER_COMMIT', payload: Layer };
 type ImportLayerClear = { type: 'layers/IMPORT_LAYER_CLEAR' };
 type ImportLayerRollback = {
   type: 'layers/IMPORT_LAYER_ROLLBACK',

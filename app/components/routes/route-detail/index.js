@@ -16,7 +16,7 @@ import ActionButton from 'components/common/action-button';
 import debounceUI from 'helpers/debounceUI';
 import { formatCoordsByFormat, formatDistance, getDistanceOfPolyline } from 'helpers/map';
 import RoutePreviewImage from '../preview-image';
-import { pushMapScreen } from 'screens/common';
+import { pushMapScreen } from 'screens/maps';
 
 const closeIcon = require('assets/close.png');
 const screenDimensions = Dimensions.get('screen');
