@@ -13,7 +13,9 @@ type OwnProps = {|
 
 function mapStateToProps(state: State, ownProps: OwnProps) {
   const activeLayerIds = ownProps.layerSettings.activeContextualLayerIds;
-  const importedContextualLayers = state.layers.imported.filter(layer => activeLayerIds.includes(layer.id));
+  const importedContextualLayers = [...state.layers.data, ...state.layers.imported].filter(
+    layer => layer.type === 'contextual_layer' && activeLayerIds.includes(layer.id)
+  );
 
   return {
     layers: importedContextualLayers,

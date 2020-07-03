@@ -1,5 +1,5 @@
 // @flow
-import type { Layer, LayersCacheStatus } from 'types/layers.types';
+import type { Layer, LayersCacheStatus, VectorMapLayer } from 'types/layers.types';
 
 import React, { Component } from 'react';
 import MapboxGL from '@react-native-mapbox-gl/maps';
@@ -22,10 +22,10 @@ export default class TileContextualLayer extends Component<Props> {
   render = () => {
     const { featureId, layer, layerCache } = this.props;
 
-    const layerMetadata = GFW_CONTEXTUAL_LAYERS_METADATA[layer.id];
-    if (!layerMetadata) {
-      return null;
-    }
+    const layerMetadata: ContextualLayerRenderSpec = GFW_CONTEXTUAL_LAYERS_METADATA[layer.id] ?? {
+      isShareable: false,
+      tileFormat: 'raster'
+    };
 
     const layerURL = vectorTileURLForMapboxURL(layer.url) ?? layer.url;
     const tileURLTemplates = layerURL.startsWith('mapbox://') ? null : [layerURL];
@@ -44,7 +44,6 @@ export default class TileContextualLayer extends Component<Props> {
       case 'vector':
         return (
           <MapboxGL.VectorSource
-            key={layer.id}
             id={sourceID}
             maxZoomLevel={layerMetadata.maxZoom}
             minZoomLevel={layerMetadata.minZoom}
@@ -67,7 +66,6 @@ export default class TileContextualLayer extends Component<Props> {
       default:
         return (
           <MapboxGL.RasterSource
-            key={layer.id}
             id={sourceID}
             maxZoomLevel={layerMetadata.maxZoom}
             minZoomLevel={layerMetadata.minZoom}
