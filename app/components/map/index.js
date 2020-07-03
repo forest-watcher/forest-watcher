@@ -29,7 +29,7 @@ import {
 } from 'react-native';
 import * as Sentry from '@sentry/react-native';
 
-import { DATASETS, REPORTS, MAPS } from 'config/constants';
+import { DATASETS, REPORTS, MAPS, MAP_LAYER_INDEXES } from 'config/constants';
 import throttle from 'lodash/throttle';
 import toUpper from 'lodash/toUpper';
 import kebabCase from 'lodash/kebabCase';
@@ -689,7 +689,7 @@ class MapComponent extends Component<Props, State> {
         onUpdate={location => this.updateHeading(location?.coords?.heading, true)}
         renderMode="custom"
       >
-        <MapboxGL.SymbolLayer id="userLocation" style={userLocationStyle} />
+        <MapboxGL.SymbolLayer id="userLocation" style={userLocationStyle} layerIndex={MAP_LAYER_INDEXES.userLocation} />
       </MapboxGL.UserLocation>
     );
   };
@@ -708,7 +708,11 @@ class MapComponent extends Component<Props, State> {
     }
     return (
       <MapboxGL.ShapeSource id="destLine" shape={line}>
-        <MapboxGL.LineLayer id="destLineLayer" style={mapboxStyles.destinationLine} />
+        <MapboxGL.LineLayer
+          id="destLineLayer"
+          style={mapboxStyles.destinationLine}
+          layerIndex={MAP_LAYER_INDEXES.routeDestinationLine}
+        />
       </MapboxGL.ShapeSource>
     );
   };
@@ -722,7 +726,11 @@ class MapComponent extends Component<Props, State> {
     const line = lineString(coords);
     return (
       <MapboxGL.ShapeSource id="areaOutline" shape={line}>
-        <MapboxGL.LineLayer id="areaOutlineLayer" style={mapboxStyles.areaOutline} />
+        <MapboxGL.LineLayer
+          id="areaOutlineLayer"
+          style={mapboxStyles.areaOutline}
+          layerIndex={MAP_LAYER_INDEXES.areaOutline}
+        />
       </MapboxGL.ShapeSource>
     );
   };
@@ -950,9 +958,10 @@ class MapComponent extends Component<Props, State> {
           onPress={this.onMapPress}
           compassViewMargins={{ x: 5, y: 50 }}
         >
+          {renderMapCamera}
           {basemap.url && (
             <MapboxGL.RasterSource id="basemapTiles" url={basemap.url}>
-              <MapboxGL.RasterLayer id="basemapTileLayer" />
+              <MapboxGL.RasterLayer id="basemapTileLayer" layerIndex={MAP_LAYER_INDEXES.basemap} />
             </MapboxGL.RasterSource>
           )}
           <MBTilesSource
@@ -960,11 +969,10 @@ class MapComponent extends Component<Props, State> {
             basemapPath={basemap.isCustom ? pathForMBTilesFile(basemap) : null}
             belowLayerID={'areaOutlineLayer'}
             port={MapComponent.offlinePortNumber}
+            layerIndex={MAP_LAYER_INDEXES.basemap}
           />
-          {renderMapCamera}
           {this.renderAreaOutline()}
-          {layerSettings.routes.layerIsActive && this.renderAllRoutes()}
-          {layerSettings.contextualLayers.layerIsActive && <ContextualLayers featureId={featureId} />}
+          {layerSettings.contextualLayers.layerIsActive && <ContextualLayers featureId={featureId} /> />}
           {this.renderDestinationLine()}
           <Alerts
             alertLayerSettings={this.props.layerSettings.alerts}
@@ -978,6 +986,7 @@ class MapComponent extends Component<Props, State> {
             onShapeSourcePressed={this.onReportFeaturesPressed}
             selectedReports={this.state.selectedReports}
           />
+          {layerSettings.routes.layerIsActive && this.renderAllRoutes()}
           <RouteMarkers
             isTracking={this.isRouteTracking()}
             userLocation={userLocation}

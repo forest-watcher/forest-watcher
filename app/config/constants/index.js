@@ -27,6 +27,18 @@ export const MAPS = {
   ]
 };
 
+// Forces mapbox layers to be in the correct order by specifying the index to add the layer.
+// If a layer is added conditionally (during runtime), it is usually added above all other layers.
+export const MAP_LAYER_INDEXES = {
+  basemap: 1,
+  areaOutline: 5,
+  contextualLayer: 10,
+  routes: 100,
+  alerts: 150,
+  reports: 180,
+  userLocation: 200
+};
+
 // Defines the configuration for the BackgroundGeolocation module.
 // Detailed documentation & library defaults are available here: https://github.com/mauron85/react-native-background-geolocation#configureoptions-success-fail
 export const LOCATION_TRACKING = {

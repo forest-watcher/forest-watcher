@@ -4,7 +4,7 @@ import type { Layer, LayersCacheStatus } from 'types/layers.types';
 import React, { Component } from 'react';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 
-import { GFW_CONTEXTUAL_LAYERS_METADATA } from 'config/constants';
+import { GFW_CONTEXTUAL_LAYERS_METADATA, MAP_LAYER_INDEXES } from 'config/constants';
 
 import { toFileUri } from 'helpers/fileURI';
 import { pathForLayer } from 'helpers/layer-store/layerFilePaths';
@@ -73,7 +73,11 @@ export default class ContextualLayers extends Component<Props> {
             minZoomLevel={layerMetadata.minZoom}
             tileUrlTemplates={tileURLTemplates}
           >
-            <MapboxGL.RasterLayer id={'imported_layer_layer_' + layer.id} sourceId={sourceID} />
+            <MapboxGL.RasterLayer
+              id={'imported_layer_layer_' + layer.id}
+              sourceId={sourceID}
+              layerIndex={MAP_LAYER_INDEXES.contextualLayer}
+            />
           </MapboxGL.RasterSource>
         );
     }
@@ -87,12 +91,18 @@ export default class ContextualLayers extends Component<Props> {
           id={'imported_layer_symbol_' + layer.id}
           sourceID={'imported_layer_' + layer.id}
           style={mapboxStyles.icon}
+          layerIndex={MAP_LAYER_INDEXES.contextualLayer}
         />
-        <MapboxGL.LineLayer id={'imported_layer_line_' + layer.id} style={mapboxStyles.geoJsonStyleSpec} />
+        <MapboxGL.LineLayer
+          id={'imported_layer_line_' + layer.id}
+          style={mapboxStyles.geoJsonStyleSpec}
+          layerIndex={MAP_LAYER_INDEXES.contextualLayer}
+        />
         <MapboxGL.FillLayer
           filter={['match', ['geometry-type'], ['LineString', 'MultiLineString'], false, true]}
           id={'imported_layer_fill_' + layer.id}
           style={mapboxStyles.geoJsonStyleSpec}
+          layerIndex={MAP_LAYER_INDEXES.contextualLayer}
         />
       </MapboxGL.ShapeSource>
     );
