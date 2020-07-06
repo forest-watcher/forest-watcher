@@ -263,15 +263,21 @@ export function saveReport(name: string, data: Report): ReportsAction {
 export function uploadReport(reportName: string) {
   return async (dispatch: Dispatch, getState: GetState) => {
     const state = getState();
+    const { user = {}, reports, app } = state;
+    const report = reports.list[reportName];
 
     const isConnected = shouldBeConnected(state);
     if (!isConnected) {
       console.warn('3SC', 'Not attempting to upload report while offline');
+      dispatch(
+        saveReport(reportName, {
+          ...report,
+          status: CONSTANTS.status.complete
+        })
+      );
       return;
     }
 
-    const { user = {}, reports, app } = state;
-    const report = reports.list[reportName];
     const userName = (user.data && user.data.fullName) || '';
     const organization = (user.data && user.data.organization) || '';
     const language = app.language || '';
