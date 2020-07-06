@@ -212,7 +212,6 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
-    implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation "com.facebook.react:react-native:+"  // From node_modules
 
     // React Native upgrade >0.60
@@ -224,13 +223,18 @@ dependencies {
         implementation jscFlavor
     }
 
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+
     implementation "com.google.android.gms:play-services-base:17.1.0"
+
+    api 'com.mapbox.mapboxsdk:mapbox-android-sdk:9.0.0'
+    api "com.squareup.okhttp3:okhttp:3.12.1"
 
     implementation project(':@mauron85_react-native-background-geolocation')
     implementation project(':react-native-safe-area-context')
     // react-native-svg - No need to add package to MainApplication.java : https://github.com/oblador/react-native-vector-icons/issues/387
     implementation project(':react-native-svg')
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation project(':react-native-mbtiles')
 }
 
