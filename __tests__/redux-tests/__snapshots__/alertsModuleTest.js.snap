@@ -54,18 +54,3 @@ Object {
   "syncError": false,
 }
 `;
-
-exports[`Redux Alerts Module Simple Actions: snapshot and reducer test setActiveAlerts 1`] = `
-Object {
-  "type": "alerts/SET_ACTIVE_ALERTS",
-}
-`;
-
-exports[`Redux Alerts Module Simple Actions: snapshot and reducer test setActiveAlerts 2`] = `
-Object {
-  "cache": Object {},
-  "queue": Array [],
-  "reported": Array [],
-  "syncError": false,
-}
-`;
