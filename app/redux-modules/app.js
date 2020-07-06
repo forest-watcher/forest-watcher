@@ -1,10 +1,10 @@
 // @flow
-import type { Dispatch, GetState, Action, Thunk } from 'types/store.types';
+import type { Dispatch, GetState, Thunk } from 'types/store.types';
 import type { AppState, AppAction, CoordinatesValue } from 'types/app.types';
 
 // $FlowFixMe
 import { version } from 'package.json'; // eslint-disable-line
-import { COORDINATES_FORMATS, ACTIONS_SAVED_TO_REPORT } from 'config/constants/index';
+import { COORDINATES_FORMATS } from 'config/constants/index';
 import { syncAreas } from 'redux-modules/areas';
 import { getLanguage } from 'helpers/language';
 import { syncCountries } from 'redux-modules/countries';
@@ -12,7 +12,6 @@ import { syncUser, LOGOUT_REQUEST } from 'redux-modules/user';
 import { syncLayers } from 'redux-modules/layers';
 import { syncReports } from 'redux-modules/reports';
 import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
-import takeRight from 'lodash/takeRight';
 
 import { RETRY_SYNC } from 'redux-modules/shared';
 
@@ -25,7 +24,6 @@ const SET_COORDINATES_FORMAT = 'app/SET_COORDINATES_FORMAT';
 const SET_MAP_WALKTHROUGH_SEEN = 'app/SET_MAP_WALKTHROUGH_SEEN';
 const SET_PRISTINE_CACHE_TOOLTIP = 'app/SET_PRISTINE_CACHE_TOOLTIP';
 const SET_WELCOME_SEEN = 'app/SET_WELCOME_SEEN';
-export const SAVE_LAST_ACTIONS = 'app/SAVE_LAST_ACTIONS';
 export const SHOW_OFFLINE_MODE_IS_ON = 'app/SHOW_OFFLINE_MODE_IS_ON';
 export const SHOW_CONNECTION_REQUIRED = 'app/SHOW_CONNECTION_REQUIRED';
 export const UPDATE_APP = 'app/UPDATE_APP';
@@ -36,7 +34,6 @@ export const SHARING_BUNDLE_IMPORTED = 'app/SHARING_BUNDLE_IMPORT_SUCCESSFUL';
 const initialState = {
   version,
   isUpdate: false,
-  actions: [],
   areaCountryTooltipSeen: false,
   areaDownloadTooltipSeen: false,
   mapWalkthroughSeen: false,
@@ -73,11 +70,6 @@ export default function reducer(state: AppState = initialState, action: AppActio
       return { ...state, pristineCacheTooltip: action.payload };
     case SET_WELCOME_SEEN:
       return { ...state, hasSeenWelcomeScreen: action.payload };
-    case SAVE_LAST_ACTIONS: {
-      // Save the last actions to send to the report
-      const actions = [...takeRight(state.actions, ACTIONS_SAVED_TO_REPORT), action.payload];
-      return { ...state, actions };
-    }
     case LOGOUT_REQUEST:
       return {
         ...initialState,
@@ -130,13 +122,6 @@ export function retrySync() {
   return (dispatch: Dispatch) => {
     dispatch({ type: RETRY_SYNC });
     dispatch(syncApp());
-  };
-}
-
-export function saveLastActions(payload: Action) {
-  return {
-    type: SAVE_LAST_ACTIONS,
-    payload
   };
 }
 

@@ -160,6 +160,36 @@ Array [
 ]
 `;
 
+exports[`Redux Areas Module Simple Actions: snapshot and reducer test getAreas 1`] = `
+Object {
+  "meta": Object {
+    "offline": Object {
+      "commit": Object {
+        "type": "areas/GET_AREAS_COMMIT",
+      },
+      "effect": Object {
+        "url": "<API_URL_MOCK>/forest-watcher/area",
+      },
+      "rollback": Object {
+        "type": "areas/GET_AREAS_ROLLBACK",
+      },
+    },
+  },
+  "type": "areas/GET_AREAS_REQUEST",
+}
+`;
+
+exports[`Redux Areas Module Simple Actions: snapshot and reducer test getAreas 2`] = `
+Object {
+  "data": Array [],
+  "refreshing": false,
+  "syncDate": Any<Number>,
+  "syncError": false,
+  "synced": false,
+  "syncing": true,
+}
+`;
+
 exports[`Redux Areas Module Simple Actions: snapshot and reducer test saveArea 1`] = `
 Object {
   "meta": Object {
@@ -317,36 +347,6 @@ exports[`Redux Areas Module Simple Actions: snapshot and reducer test saveArea 4
 Object {
   "data": Array [],
   "refreshing": true,
-  "syncDate": Any<Number>,
-  "syncError": false,
-  "synced": false,
-  "syncing": true,
-}
-`;
-
-exports[`Redux Areas Module Simple Actions: snapshot and reducer test saveLastActions 1`] = `
-Object {
-  "meta": Object {
-    "offline": Object {
-      "commit": Object {
-        "type": "areas/GET_AREAS_COMMIT",
-      },
-      "effect": Object {
-        "url": "<API_URL_MOCK>/forest-watcher/area",
-      },
-      "rollback": Object {
-        "type": "areas/GET_AREAS_ROLLBACK",
-      },
-    },
-  },
-  "type": "areas/GET_AREAS_REQUEST",
-}
-`;
-
-exports[`Redux Areas Module Simple Actions: snapshot and reducer test saveLastActions 2`] = `
-Object {
-  "data": Array [],
-  "refreshing": false,
   "syncDate": Any<Number>,
   "syncError": false,
   "synced": false,

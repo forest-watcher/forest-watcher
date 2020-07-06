@@ -81,10 +81,6 @@ export default StyleSheet.create({
     resizeMode: 'stretch',
     position: 'absolute',
     top: 0
-  },
-  forceRefresh: {
-    marginTop: -1,
-    paddingTop: 1
   }
 });
 

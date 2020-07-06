@@ -117,8 +117,6 @@ export const COORDINATES_FORMATS = {
   }
 };
 
-export const ACTIONS_SAVED_TO_REPORT = 5;
-
 // Constants
 export const GFW_BASEMAPS: Array<Layer> = [
   {
@@ -758,6 +756,5 @@ export default {
   reports: REPORTS,
   status: STATUS,
   datasets: DATASETS,
-  actionsSavedToReport: ACTIONS_SAVED_TO_REPORT,
   layerMaxNameLength: LAYER_MAX_NAME_LENGTH
 };
