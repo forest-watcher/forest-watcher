@@ -51,7 +51,6 @@ const getReportedCoordinates = memoizeOne(
       // Check we've got an array back from JSON.parse
       return Array.isArray(clickedPositions) ? clickedPositions : [];
     });
-    console.log("3SC", "getReportedCoordinates")
     return flatten(locations)
       .map(item =>
         item && item.lat !== undefined && item.lon !== undefined

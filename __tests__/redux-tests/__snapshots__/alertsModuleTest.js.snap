@@ -4,7 +4,6 @@ exports[`Redux Alerts Module Initial reducer state 1`] = `
 Object {
   "cache": Object {},
   "queue": Array [],
-  "reported": Array [],
   "syncError": false,
 }
 `;
@@ -50,7 +49,6 @@ Object {
   "queue": Array [
     "areaID_datasetSlugMock",
   ],
-  "reported": Array [],
   "syncError": false,
 }
 `;

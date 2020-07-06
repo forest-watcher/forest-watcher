@@ -1,5 +1,4 @@
 // @flow
-import type { SelectedAlert } from 'types/alerts.types';
 import type { Dataset, GetAreasCommit } from 'types/areas.types';
 import type { LogoutRequest } from 'types/user.types';
 import type { OfflineMeta } from 'types/offline.types';
