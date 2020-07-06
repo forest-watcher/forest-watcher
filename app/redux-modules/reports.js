@@ -9,15 +9,16 @@ import CONSTANTS from 'config/constants';
 import { LOGOUT_REQUEST } from 'redux-modules/user';
 import { getTemplate, mapFormToAnsweredQuestions } from 'helpers/forms';
 import { GET_AREAS_COMMIT } from 'redux-modules/areas';
+import { CREATE_REPORT } from 'redux-modules/shared';
 import queryReportFiles from 'helpers/report-store/queryReportFiles';
 import deleteReportFiles from 'helpers/report-store/deleteReportFiles';
 import { toFileUri } from 'helpers/fileURI';
+import { shouldBeConnected } from 'helpers/app';
 
 // Actions
 const GET_DEFAULT_TEMPLATE_REQUEST = 'report/GET_DEFAULT_TEMPLATE_REQUEST';
 const GET_DEFAULT_TEMPLATE_COMMIT = 'report/GET_DEFAULT_TEMPLATE_COMMIT';
 const GET_DEFAULT_TEMPLATE_ROLLBACK = 'report/GET_DEFAULT_TEMPLATE_ROLLBACK';
-export const CREATE_REPORT = 'report/CREATE_REPORT';
 const UPDATE_REPORT = 'report/UPDATE_REPORT';
 const DELETE_REPORT = 'report/DELETE_REPORT';
 const UPLOAD_REPORT_REQUEST = 'report/UPLOAD_REPORT_REQUEST';
@@ -261,10 +262,24 @@ export function saveReport(name: string, data: Report): ReportsAction {
 
 export function uploadReport(reportName: string) {
   return async (dispatch: Dispatch, getState: GetState) => {
-    const { user = {}, reports, app } = getState();
+    const state = getState();
+    const { user = {}, reports, app } = state;
+    const report = reports.list[reportName];
+
+    const isConnected = shouldBeConnected(state);
+    if (!isConnected) {
+      console.warn('3SC', 'Not attempting to upload report while offline');
+      dispatch(
+        saveReport(reportName, {
+          ...report,
+          status: CONSTANTS.status.complete
+        })
+      );
+      return;
+    }
+
     const userName = (user.data && user.data.fullName) || '';
     const organization = (user.data && user.data.organization) || '';
-    const report = reports.list[reportName];
     const language = app.language || '';
     const area = report.area;
     const dataset = area.dataset || {};
