@@ -219,17 +219,21 @@ class MappingFiles extends Component<Props, State> {
   };
 
   confirmMappingFileDeletion = (file: Layer) => {
-    let messageKey = this.i18nKeyFor('delete.message');
+    let messageKey;
+    let titleKey = this.i18nKeyFor('delete.title');
 
-    if (!file.isCustom) {
-      // We should show a different message if this is not custom content.
-      // This is because deletion of GFW content is not irreversible, whilst
-      // deletion of custom content is.
+    if (!file.isCustom && !file.isImported) {
       messageKey = this.i18nKeyFor('delete.messageGFWContent');
+    } else if (!file.isCustom && file.isImported) {
+      // contextual Layer only
+      messageKey = this.i18nKeyFor('delete.messageGFWImportedContent');
+    } else {
+      titleKey = this.i18nKeyFor('delete.titleCustom');
+      messageKey = this.i18nKeyFor('delete.messageImportedContent');
     }
 
     showDeleteConfirmationPrompt(
-      i18n.t(this.i18nKeyFor('delete.title')),
+      i18n.t(titleKey),
       i18n.t(messageKey),
       i18n.t('commonText.cancel'),
       i18n.t('commonText.continue'),
