@@ -43,7 +43,6 @@ export type AlertsState = {
       [areaId: string]: string
     }
   },
-  reported: Array<string>,
   syncError: boolean,
   queue: Array<string>
 };

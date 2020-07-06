@@ -102,7 +102,7 @@ type Props = {
   areaCoordinates: ?$ReadOnlyArray<Coordinates>,
   isConnected: boolean,
   isOfflineMode: boolean,
-  reportedAlerts: $ReadOnlyArray<string>,
+  reportedAlerts: $ReadOnlyArray<Coordinates>,
   featureId: ?string,
   area: ?ReportArea,
   coordinatesFormat: CoordinatesFormat,
@@ -524,12 +524,7 @@ class MapComponent extends Component<Props, State> {
 
   reportSelection = debounceUI(() => {
     this.dismissInfoBanner();
-    this.createReport(this.state.selectedAlerts, this.state.selectedReports?.[0]);
-  });
-
-  reportArea = debounceUI(() => {
-    this.dismissInfoBanner();
-    this.createReport([...this.state.selectedAlerts]);
+    this.createReport();
   });
 
   determineReportingSource = (
@@ -563,9 +558,9 @@ class MapComponent extends Component<Props, State> {
       .join('|');
   };
 
-  createReport = (selectedAlerts: $ReadOnlyArray<SelectedAlert>, selectedReport: ?SelectedReport) => {
+  createReport = () => {
     const { area } = this.props;
-    const { userLocation, customReporting, mapCenterCoords } = this.state;
+    const { userLocation, customReporting, mapCenterCoords, selectedAlerts, selectedReports } = this.state;
 
     if (!area) {
       console.warn('3SC', 'Cannot create a report without an area');
@@ -590,11 +585,11 @@ class MapComponent extends Component<Props, State> {
         lat: alert.lat,
         lon: alert.long
       }));
-    } else if (selectedReport) {
+    } else if (selectedReports && selectedReports.length > 0) {
       latLng = [
         {
-          lat: selectedReport.lat,
-          lon: selectedReport.long
+          lat: selectedReports[0].lat,
+          lon: selectedReports[0].long
         }
       ];
     } else if (this.isRouteTracking() && userLocation) {
@@ -618,7 +613,6 @@ class MapComponent extends Component<Props, State> {
       {
         area,
         reportName,
-        selectedAlerts,
         userPosition: userLatLng || REPORTS.noGpsPosition,
         clickedPosition: JSON.stringify(latLng)
       },
