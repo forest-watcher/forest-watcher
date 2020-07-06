@@ -124,28 +124,25 @@ export const GFW_BASEMAPS: Array<Layer> = [
   {
     isCustom: false,
     id: MapboxGL.StyleURL.SatelliteStreet,
-    styleURL: MapboxGL.StyleURL.SatelliteStreet,
     name: 'satellite',
     image: require('assets/basemap_mapbox_satellite.png'),
-    url: null,
+    url: MapboxGL.StyleURL.SatelliteStreet,
     type: 'basemap'
   },
   {
     isCustom: false,
     id: 'mapbox://styles/resourcewatch/cjww7iv8i07yx1cmjtgazn3r0?fresh=true',
-    styleURL: 'mapbox://styles/resourcewatch/cjww7iv8i07yx1cmjtgazn3r0?fresh=true',
     name: 'default',
     image: require('assets/basemap_default.png'),
-    url: null,
+    url: 'mapbox://styles/resourcewatch/cjww7iv8i07yx1cmjtgazn3r0?fresh=true',
     type: 'basemap'
   },
   {
     isCustom: false,
     id: 'mapbox://styles/resourcewatch/cjww836hy1kep1co5xp717jek?fresh=true',
-    styleURL: 'mapbox://styles/resourcewatch/cjww836hy1kep1co5xp717jek?fresh=true',
     name: 'dark',
     image: require('assets/basemap_dark.png'),
-    url: null,
+    url: 'mapbox://styles/resourcewatch/cjww836hy1kep1co5xp717jek?fresh=true',
     type: 'basemap'
   }
 ];

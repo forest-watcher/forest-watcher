@@ -32,7 +32,7 @@ export default class TileContextualLayer extends Component<Props> {
 
     // Find and append the remote tile URL if we're not offline
     if (!isOfflineMode) {
-      const layerURL = vectorTileURLForMapboxURL(layer.url) ?? layer.url;
+      const layerURL = (layer.url ? vectorTileURLForMapboxURL(layer.url) : null) ?? layer.url;
       if (layerURL) {
         tileURLTemplates.push(layerURL);
       }

@@ -606,7 +606,7 @@ export function importGFWContent(
     const PROGRESS_ACTION = IMPORT_LAYER_PROGRESS;
 
     const url =
-      contentType === 'contextual_layer' ? vectorTileURLForMapboxURL(content.url) ?? content.url : content.styleURL;
+      contentType === 'contextual_layer' ? vectorTileURLForMapboxURL(content.url) ?? content.url : content.url;
 
     if (!url) {
       return;

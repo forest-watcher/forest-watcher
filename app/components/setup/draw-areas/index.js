@@ -242,7 +242,7 @@ class DrawAreas extends Component {
             this.map = ref;
           }}
           style={styles.mapView}
-          styleURL={this.props.basemap.styleURL}
+          styleURL={this.props.basemap.url}
           onPress={this.onMapPress}
           onRegionDidChange={this.onRegionDidChange}
           scrollEnabled={!nextPress /* Disable map moving while taking area snapshot image */}
