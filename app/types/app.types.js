@@ -15,7 +15,6 @@ export type AppState = {
   hasSeenWelcomeScreen: boolean,
   pristineCacheTooltip: boolean,
   version: string,
-  actions: Array<AnyAction>,
   areaCountryTooltipSeen: boolean,
   areaDownloadTooltipSeen: boolean,
   mapWalkthroughSeen: boolean,
@@ -32,7 +31,6 @@ export type AppAction =
   | SetCoordinatesFormat
   | SetPristineCacheTooltip
   | SetMapWalkthroughSeen
-  | SaveLastActions
   | ShowConnectionRequired
   | ShowOfflineModeIsOn
   | LogoutRequest
@@ -49,7 +47,6 @@ export type SetHasSeenWelcomeScreen = { type: 'app/SET_WELCOME_SEEN', payload: b
 export type SetCoordinatesFormat = { type: 'app/SET_COORDINATES_FORMAT', payload: CoordinatesValue };
 export type SetPristineCacheTooltip = { type: 'app/SET_PRISTINE_CACHE_TOOLTIP', payload: boolean };
 export type SetMapWalkthroughSeen = { type: 'app/SET_MAP_WALKTHROUGH_SEEN', payload: boolean };
-export type SaveLastActions = { type: 'app/SAVE_LAST_ACTIONS', payload: AnyAction };
 export type RetrySync = { type: 'app/RETRY_SYNC' };
 export type ShowConnectionRequired = { type: 'app/SHOW_CONNECTION_REQUIRED' };
 export type ShowOfflineModeIsOn = { type: 'app/SHOW_OFFLINE_MODE_IS_ON' };
