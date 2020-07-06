@@ -8,7 +8,6 @@ import RNFetchBlob from 'rn-fetch-blob';
 
 import { showNotConnectedNotification, showExportReportsSuccessfulNotification } from 'redux-modules/app';
 import { saveReport, uploadReport, deleteReport, setReportAnswer } from 'redux-modules/reports';
-import { setActiveAlerts } from 'redux-modules/alerts';
 
 import { shouldBeConnected } from 'helpers/app';
 import { trackSharedContent } from 'helpers/analytics';
@@ -69,9 +68,6 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
     },
     saveReport: (name: string, data: Report) => {
       dispatch(saveReport(name, data));
-    },
-    setActiveAlerts: () => {
-      dispatch(setActiveAlerts());
     },
     setReportAnswer: (answer: Answer, updateOnly: boolean) => {
       dispatch(setReportAnswer(ownProps.reportName, answer, updateOnly));

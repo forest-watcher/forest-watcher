@@ -13,7 +13,6 @@ import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 import storeAlertsFromCsv from 'helpers/alert-store/storeAlertsFromCsv';
 import deleteAlerts from 'helpers/alert-store/deleteAlerts';
 
-const SET_ACTIVE_ALERTS = 'alerts/SET_ACTIVE_ALERTS';
 const GET_ALERTS_REQUEST = 'alerts/GET_ALERTS_REQUEST';
 export const GET_ALERTS_COMMIT = 'alerts/GET_ALERTS_COMMIT';
 const GET_ALERTS_ROLLBACK = 'alerts/GET_ALERTS_ROLLBACK';
@@ -82,10 +81,6 @@ export default function reducer(state: AlertsState = initialState, action: Alert
 }
 
 // Action Creators
-export function setActiveAlerts() {
-  return { type: SET_ACTIVE_ALERTS };
-}
-
 export function getAreaAlerts(area: Area, datasetSlug: string, range: number) {
   const url = `${Config.API_URL}/fw-alerts/${datasetSlug}/${area.geostore.id}?range=${range}&output=csv`;
   const alertId = `${area.id}_${datasetSlug}`;
