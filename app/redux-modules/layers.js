@@ -548,7 +548,7 @@ export function importLayer(layerFile: File): Thunk<Promise<void>> {
         url: null,
         size: importedFile.size,
         isCustom: true,
-        type: 'contextual_layer'
+        type: importedFile.type
       };
       trackImportedContent('layer', layerFile.fileName, true, importedFile.size);
       dispatch({

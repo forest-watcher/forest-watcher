@@ -124,7 +124,6 @@ type State = {
   selectedReports: $ReadOnlyArray<SelectedReport>,
   customReporting: boolean,
   dragging: boolean,
-  layoutHasForceRefreshed: boolean,
   routeTrackingDialogState: number,
   locationError: ?number,
   mapCameraBounds: any,
@@ -170,7 +169,6 @@ class MapComponent extends Component<Props, State> {
       selectedReports: [],
       customReporting: false,
       dragging: false,
-      layoutHasForceRefreshed: false,
       routeTrackingDialogState: ROUTE_TRACKING_BOTTOM_DIALOG_STATE_HIDDEN,
       locationError: null,
       mapCameraBounds: this.getMapCameraBounds(),
@@ -287,6 +285,10 @@ class MapComponent extends Component<Props, State> {
   };
 
   handleBackPress = debounceUI(() => {
+    // Dismiss the map walkthrough modal in case it is showing.
+    Navigation.dismissModal('ForestWatcher.MapWalkthrough').catch(err =>
+      console.info('3SC', 'Cannot dismiss map walkthrough: ', err)
+    );
     this.dismissInfoBanner();
     if (this.isRouteTracking()) {
       if (this.state.routeTrackingDialogState) {
@@ -919,12 +921,8 @@ class MapComponent extends Component<Props, State> {
       />
     );
 
-    const containerStyle = this.state.layoutHasForceRefreshed
-      ? [styles.container, styles.forceRefresh]
-      : styles.container;
-
     return (
-      <View style={containerStyle}>
+      <View style={styles.container}>
         <View pointerEvents="none" style={styles.header}>
           <Image style={styles.headerBg} source={backgroundImage} />
           <SafeAreaView>

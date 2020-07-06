@@ -9,7 +9,6 @@ Object {
     "syncError": false,
   },
   "app": Object {
-    "actions": Array [],
     "areaCountryTooltipSeen": false,
     "areaDownloadTooltipSeen": false,
     "coordinatesFormat": "decimal",
@@ -1933,7 +1932,6 @@ Object {
     "syncError": false,
   },
   "app": Object {
-    "actions": Array [],
     "areaCountryTooltipSeen": false,
     "areaDownloadTooltipSeen": false,
     "coordinatesFormat": "decimal",
