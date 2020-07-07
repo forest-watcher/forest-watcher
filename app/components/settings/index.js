@@ -161,9 +161,16 @@ export default class Settings extends Component<Props, State> {
       launchAppRoot('ForestWatcher.Login');
     };
     const onPressMoreInfo = () => {
+      // Looking for "How does the Forest Watcher app store my data?" FAQ
+      const questions = i18n.t('faq.categories.alertsAndData.questions', { returnObjects: true });
+      const question = questions[questions.length - 1];
       Navigation.push(this.props.componentId, {
         component: {
-          name: 'ForestWatcher.FaqCategories'
+          name: 'ForestWatcher.FaqDetail',
+          passProps: {
+            contentFaq: question.content,
+            title: question.title
+          }
         }
       });
     };
