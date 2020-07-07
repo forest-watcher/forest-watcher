@@ -62,8 +62,6 @@ export type LayersCacheStatus = {
   [string]: LayerCacheData
 };
 
-export type UpdateProgressActionType = 'layers/IMPORT_LAYER_PROGRESS';
-
 export type LayersAction =
   | GetLayersRequest
   | GetLayersCommit

@@ -1,6 +1,6 @@
 // @flow
 import type { Area } from 'types/areas.types';
-import type { Layer, LayerCacheData, LayerDownloadProgress, UpdateProgressActionType } from 'types/layers.types';
+import type { Layer, LayerCacheData, LayerDownloadProgress } from 'types/layers.types';
 import type { Route } from 'types/routes.types';
 import type { DownloadDataType, LayerType } from 'types/sharing.types';
 import type { Dispatch, GetState, Thunk } from 'types/store.types';
@@ -150,12 +150,7 @@ export function calculateOverallDownloadProgressForRegion(
   };
 }
 
-async function downloadLayer(
-  layerType: LayerType,
-  config,
-  dispatch: Dispatch,
-  updateActionName: UpdateProgressActionType = IMPORT_LAYER_PROGRESS
-): Promise<string> {
+async function downloadLayer(layerType: LayerType, config, dispatch: Dispatch): Promise<string> {
   const { data, layerId, layerUrl, zoom } = config;
   return await storeTilesFromUrl(
     layerType,
@@ -164,8 +159,8 @@ async function downloadLayer(
     data.geostore?.id ?? data.geostoreId,
     [zoom.start, zoom.end],
     (received, total) => {
-      const progress = received / total;
-      dispatch({ type: updateActionName, payload: { id: data.id, progress, layerId } });
+      const progress = (received / total) * 100;
+      dispatch({ type: IMPORT_LAYER_PROGRESS, payload: { id: data.id, progress, layerId } });
     }
   );
 }
@@ -173,8 +168,7 @@ async function downloadLayer(
 function downloadAllLayers(
   layerType: LayerType,
   config: { data: Area | Route, layerId: string, layerUrl: string },
-  dispatch: Dispatch,
-  updateActionName: UpdateProgressActionType = IMPORT_LAYER_PROGRESS
+  dispatch: Dispatch
 ) {
   const { cacheZoom } = CONSTANTS.maps;
   return Promise.all(
@@ -310,7 +304,7 @@ async function downloadLayerForRegion(
   } else {
     trackContentDownloadStarted('layer');
     dispatch({ type: IMPORT_LAYER_REQUEST, payload: { dataId, layerId, remote: true } });
-    await downloadAllLayers(contentType, { data: region, layerId, layerUrl: url }, dispatch, IMPORT_LAYER_PROGRESS)
+    await downloadAllLayers(contentType, { data: region, layerId, layerUrl: url }, dispatch)
       .then(path => {
         trackDownloadedContent('layer', layerId, true);
         return dispatch(gfwContentImportCompleted(contentType, region.id, layer));
