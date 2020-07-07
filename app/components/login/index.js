@@ -98,6 +98,7 @@ class Login extends PureComponent<Props, State> {
   }
 
   webView: any;
+  scrollView: ?any;
 
   constructor(props: Props) {
     super(props);
@@ -110,6 +111,8 @@ class Login extends PureComponent<Props, State> {
       socialNetwork: null,
       versionName: getVersionName()
     };
+
+    this.scrollView = null;
   }
 
   componentDidMount() {
@@ -123,6 +126,8 @@ class Login extends PureComponent<Props, State> {
         topSafeAreaInset: result.safeAreaInsets.top
       }));
     });
+
+    this.scrollView.flashScrollIndicators();
   }
 
   componentDidUpdate(prevProps: Props) {
@@ -269,9 +274,13 @@ class Login extends PureComponent<Props, State> {
           <Image source={logoIcon} />
         </ImageBackground>
         <ScrollView
+          ref={ref => {
+            this.scrollView = ref;
+          }}
           style={styles.scrollView}
           alwaysBounceVertical={false}
           contentContainerStyle={{ paddingVertical: 8 }}
+          persistentScrollbar={true}
         >
           <Text style={styles.buttonsLabel}>{i18n.t('login.introductionText')}</Text>
           <TouchableHighlight

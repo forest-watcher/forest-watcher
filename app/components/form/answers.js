@@ -30,7 +30,6 @@ type Props = {
   exportReportAsBundle: () => Promise<void>,
   setReportAnswer: (Answer, boolean) => void,
   readOnly: boolean,
-  setActiveAlerts: boolean => void,
   isConnected: boolean,
   showNotConnectedNotification: () => void,
   showExportReportsSuccessfulNotification: () => void,
@@ -126,9 +125,8 @@ class Answers extends PureComponent<Props> {
   };
 
   onPressSend = () => {
-    const { uploadReport, componentId, setActiveAlerts } = this.props;
+    const { uploadReport, componentId } = this.props;
     uploadReport();
-    setActiveAlerts(true);
 
     trackReportingConcluded('completed', 'overview');
     Navigation.dismissModal(componentId);

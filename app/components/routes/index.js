@@ -320,6 +320,7 @@ export default class Routes extends PureComponent<Props, State> {
       /* View necessary to fix the swipe back on wix navigation */
       <View style={styles.container}>
         <ShareSheet
+          disabled={totalRoutes === 0}
           componentId={this.props.componentId}
           isSharing={this.state.creatingArchive}
           onShare={() => {

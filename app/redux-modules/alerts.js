@@ -7,13 +7,11 @@ import Config from 'react-native-config';
 
 // Actions
 import { LOGOUT_REQUEST } from 'redux-modules/user';
-import { CREATE_REPORT } from 'redux-modules/reports';
 import { RETRY_SYNC } from 'redux-modules/shared';
 import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 import storeAlertsFromCsv from 'helpers/alert-store/storeAlertsFromCsv';
 import deleteAlerts from 'helpers/alert-store/deleteAlerts';
 
-const SET_ACTIVE_ALERTS = 'alerts/SET_ACTIVE_ALERTS';
 const GET_ALERTS_REQUEST = 'alerts/GET_ALERTS_REQUEST';
 export const GET_ALERTS_COMMIT = 'alerts/GET_ALERTS_COMMIT';
 const GET_ALERTS_ROLLBACK = 'alerts/GET_ALERTS_ROLLBACK';
@@ -21,7 +19,6 @@ const GET_ALERTS_ROLLBACK = 'alerts/GET_ALERTS_ROLLBACK';
 // Reducer
 const initialState = {
   cache: {},
-  reported: [],
   syncError: false,
   queue: []
 };
@@ -35,17 +32,6 @@ export default function reducer(state: AlertsState = initialState, action: Alert
     }
     case RETRY_SYNC: {
       return { ...state, syncError: false };
-    }
-    case CREATE_REPORT: {
-      const { selectedAlerts } = action.payload;
-      let reported = [...state.reported];
-
-      if (selectedAlerts?.length) {
-        selectedAlerts.forEach(alert => {
-          reported = [...reported, `${alert.long}${alert.lat}`];
-        }, this);
-      }
-      return { ...state, reported };
     }
     case GET_ALERTS_REQUEST: {
       const queue = [...state.queue, action.payload];
@@ -82,10 +68,6 @@ export default function reducer(state: AlertsState = initialState, action: Alert
 }
 
 // Action Creators
-export function setActiveAlerts() {
-  return { type: SET_ACTIVE_ALERTS };
-}
-
 export function getAreaAlerts(area: Area, datasetSlug: string, range: number) {
   const url = `${Config.API_URL}/fw-alerts/${datasetSlug}/${area.geostore.id}?range=${range}&output=csv`;
   const alertId = `${area.id}_${datasetSlug}`;

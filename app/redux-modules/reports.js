@@ -12,6 +12,7 @@ import { GET_AREAS_COMMIT } from 'redux-modules/areas';
 import queryReportFiles from 'helpers/report-store/queryReportFiles';
 import deleteReportFiles from 'helpers/report-store/deleteReportFiles';
 import { toFileUri } from 'helpers/fileURI';
+import { shouldBeConnected } from 'helpers/app';
 
 // Actions
 const GET_DEFAULT_TEMPLATE_REQUEST = 'report/GET_DEFAULT_TEMPLATE_REQUEST';
@@ -212,11 +213,10 @@ function getDefaultReport(): ReportsAction {
 }
 
 export function createReport(report: BasicReport): ReportsAction {
-  const { reportName, userPosition, clickedPosition, area, selectedAlerts } = report;
+  const { reportName, userPosition, clickedPosition, area } = report;
   return {
     type: CREATE_REPORT,
     payload: {
-      selectedAlerts,
       report: {
         area,
         reportName,
@@ -261,10 +261,24 @@ export function saveReport(name: string, data: Report): ReportsAction {
 
 export function uploadReport(reportName: string) {
   return async (dispatch: Dispatch, getState: GetState) => {
-    const { user = {}, reports, app } = getState();
+    const state = getState();
+    const { user = {}, reports, app } = state;
+    const report = reports.list[reportName];
+
+    const isConnected = shouldBeConnected(state);
+    if (!isConnected) {
+      console.warn('3SC', 'Not attempting to upload report while offline');
+      dispatch(
+        saveReport(reportName, {
+          ...report,
+          status: CONSTANTS.status.complete
+        })
+      );
+      return;
+    }
+
     const userName = (user.data && user.data.fullName) || '';
     const organization = (user.data && user.data.organization) || '';
-    const report = reports.list[reportName];
     const language = app.language || '';
     const area = report.area;
     const dataset = area.dataset || {};

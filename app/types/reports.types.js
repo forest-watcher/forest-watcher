@@ -1,5 +1,4 @@
 // @flow
-import type { SelectedAlert } from 'types/alerts.types';
 import type { Dataset, GetAreasCommit } from 'types/areas.types';
 import type { LogoutRequest } from 'types/user.types';
 import type { OfflineMeta } from 'types/offline.types';
@@ -70,8 +69,7 @@ export type BasicReport = {
   reportName: string,
   userPosition: string, // "x,x"
   clickedPosition: string, // JSON representation of an array of objects with lat and lon props
-  area: ReportArea,
-  selectedAlerts: $ReadOnlyArray<SelectedAlert>
+  area: ReportArea
 };
 
 export type ReportArea = {
@@ -102,7 +100,6 @@ export type GetDefaultTemplateRollback = { type: 'report/GET_DEFAULT_TEMPLATE_RO
 export type CreateReport = {
   type: 'report/CREATE_REPORT',
   payload: {
-    selectedAlerts: Array<{ lat: number, long: number }>,
     report: Report
   }
 };

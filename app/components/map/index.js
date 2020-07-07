@@ -102,7 +102,7 @@ type Props = {
   areaCoordinates: ?$ReadOnlyArray<Coordinates>,
   isConnected: boolean,
   isOfflineMode: boolean,
-  reportedAlerts: $ReadOnlyArray<string>,
+  reportedAlerts: $ReadOnlyArray<Coordinates>,
   featureId: ?string,
   area: ?ReportArea,
   coordinatesFormat: CoordinatesFormat,
@@ -124,7 +124,6 @@ type State = {
   selectedReports: $ReadOnlyArray<SelectedReport>,
   customReporting: boolean,
   dragging: boolean,
-  layoutHasForceRefreshed: boolean,
   routeTrackingDialogState: number,
   locationError: ?number,
   mapCameraBounds: any,
@@ -170,7 +169,6 @@ class MapComponent extends Component<Props, State> {
       selectedReports: [],
       customReporting: false,
       dragging: false,
-      layoutHasForceRefreshed: false,
       routeTrackingDialogState: ROUTE_TRACKING_BOTTOM_DIALOG_STATE_HIDDEN,
       locationError: null,
       mapCameraBounds: this.getMapCameraBounds(),
@@ -287,6 +285,10 @@ class MapComponent extends Component<Props, State> {
   };
 
   handleBackPress = debounceUI(() => {
+    // Dismiss the map walkthrough modal in case it is showing.
+    Navigation.dismissModal('ForestWatcher.MapWalkthrough').catch(err =>
+      console.info('3SC', 'Cannot dismiss map walkthrough: ', err)
+    );
     this.dismissInfoBanner();
     if (this.isRouteTracking()) {
       if (this.state.routeTrackingDialogState) {
@@ -522,12 +524,7 @@ class MapComponent extends Component<Props, State> {
 
   reportSelection = debounceUI(() => {
     this.dismissInfoBanner();
-    this.createReport(this.state.selectedAlerts, this.state.selectedReports?.[0]);
-  });
-
-  reportArea = debounceUI(() => {
-    this.dismissInfoBanner();
-    this.createReport([...this.state.selectedAlerts]);
+    this.createReport();
   });
 
   determineReportingSource = (
@@ -561,9 +558,9 @@ class MapComponent extends Component<Props, State> {
       .join('|');
   };
 
-  createReport = (selectedAlerts: $ReadOnlyArray<SelectedAlert>, selectedReport: ?SelectedReport) => {
+  createReport = () => {
     const { area } = this.props;
-    const { userLocation, customReporting, mapCenterCoords } = this.state;
+    const { userLocation, customReporting, mapCenterCoords, selectedAlerts, selectedReports } = this.state;
 
     if (!area) {
       console.warn('3SC', 'Cannot create a report without an area');
@@ -588,11 +585,11 @@ class MapComponent extends Component<Props, State> {
         lat: alert.lat,
         lon: alert.long
       }));
-    } else if (selectedReport) {
+    } else if (selectedReports && selectedReports.length > 0) {
       latLng = [
         {
-          lat: selectedReport.lat,
-          lon: selectedReport.long
+          lat: selectedReports[0].lat,
+          lon: selectedReports[0].long
         }
       ];
     } else if (this.isRouteTracking() && userLocation) {
@@ -616,7 +613,6 @@ class MapComponent extends Component<Props, State> {
       {
         area,
         reportName,
-        selectedAlerts,
         userPosition: userLatLng || REPORTS.noGpsPosition,
         clickedPosition: JSON.stringify(latLng)
       },
@@ -919,12 +915,8 @@ class MapComponent extends Component<Props, State> {
       />
     );
 
-    const containerStyle = this.state.layoutHasForceRefreshed
-      ? [styles.container, styles.forceRefresh]
-      : styles.container;
-
     return (
-      <View style={containerStyle}>
+      <View style={styles.container}>
         <View pointerEvents="none" style={styles.header}>
           <Image style={styles.headerBg} source={backgroundImage} />
           <SafeAreaView>

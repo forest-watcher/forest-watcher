@@ -5,11 +5,9 @@ Object {
   "alerts": Object {
     "cache": Object {},
     "queue": Array [],
-    "reported": Array [],
     "syncError": false,
   },
   "app": Object {
-    "actions": Array [],
     "areaCountryTooltipSeen": false,
     "areaDownloadTooltipSeen": false,
     "coordinatesFormat": "decimal",
@@ -1925,11 +1923,9 @@ Object {
   "alerts": Object {
     "cache": Object {},
     "queue": Array [],
-    "reported": Array [],
     "syncError": false,
   },
   "app": Object {
-    "actions": Array [],
     "areaCountryTooltipSeen": false,
     "areaDownloadTooltipSeen": false,
     "coordinatesFormat": "decimal",
