@@ -160,13 +160,17 @@ export default class Settings extends Component<Props, State> {
       logout();
       launchAppRoot('ForestWatcher.Login');
     };
+    const onPressMoreInfo = () => {
+      Navigation.push(this.props.componentId, {
+        component: {
+          name: 'ForestWatcher.FaqCategories'
+        }
+      });
+    };
     if (isUnsafeLogout) {
       Alert.alert(i18n.t('settings.unsafeLogout'), i18n.t('settings.unsavedDataLost'), [
-        { text: 'OK', onPress: proceedWithLogout },
-        {
-          text: 'Cancel',
-          style: 'cancel'
-        }
+        { text: i18n.t('settings.moreInfo'), onPress: onPressMoreInfo },
+        { text: i18n.t('settings.logOut'), onPress: proceedWithLogout }
       ]);
     } else {
       proceedWithLogout();
