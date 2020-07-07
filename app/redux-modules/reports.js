@@ -4,7 +4,6 @@ import type { BasicReport, ReportsState, ReportsAction, Report, Answer } from 't
 
 import _ from 'lodash';
 import Config from 'react-native-config';
-import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 import CONSTANTS from 'config/constants';
 import { LOGOUT_REQUEST } from 'redux-modules/user';
 import { getTemplate, mapFormToAnsweredQuestions } from 'helpers/forms';
@@ -45,26 +44,6 @@ function orderQuestions(questions) {
 
 export default function reducer(state: ReportsState = initialState, action: ReportsAction) {
   switch (action.type) {
-    case PERSIST_REHYDRATE: {
-      // $FlowFixMe
-      const { reports = state, form } = action.payload;
-      if (form && !form.migrated) {
-        const formatAnswers = values =>
-          Object.entries(values).map(([questionName, value]) => ({ questionName, value, child: null }));
-        const answers = Object.entries(form || {}).reduce(
-          (acc, [reportName, formEntry]) => ({
-            ...acc,
-            [reportName]: {
-              reportName,
-              answers: formatAnswers(formEntry.values || {})
-            }
-          }),
-          {}
-        );
-        return { ...reports, list: _.merge(answers, reports.list) };
-      }
-      return reports;
-    }
     case GET_DEFAULT_TEMPLATE_REQUEST:
       return { ...state, synced: false, syncing: true };
     case GET_DEFAULT_TEMPLATE_COMMIT: {
