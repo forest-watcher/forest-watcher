@@ -285,7 +285,7 @@ async function downloadLayerForRegion(
         (progress: number) => {
           dispatch({
             type: IMPORT_LAYER_PROGRESS,
-            payload: { id: dataId, progress, layerId }
+            payload: { id: dataId, progress: progress * 100, layerId }
           });
         },
         (error: Error) => {
