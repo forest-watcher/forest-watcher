@@ -51,10 +51,6 @@ export type LayersState = {
   downloadedLayerProgress: LayerDownloadProgress
 };
 
-export type LayersProgress = {
-  [string]: { layerId: number }
-};
-
 export type LayerCacheData = {
   progress: number,
   completed: boolean,
@@ -67,10 +63,6 @@ export type LayersCacheStatus = {
 };
 
 export type UpdateProgressActionType = 'layers/IMPORT_LAYER_PROGRESS';
-
-export type LayersPendingCache = {
-  [string]: { areaId: boolean }
-};
 
 export type LayersAction =
   | GetLayersRequest
