@@ -44,7 +44,7 @@ const initialProgressState = { progress: 0, requested: false, completed: false, 
  * @returns {LayerDownloadProgress}
  */
 export function invalidateIncompleteLayerDownloads(downloadProgress: LayerDownloadProgress): LayerDownloadProgress {
-  const mutableProgress = downloadProgress;
+  const mutableProgress = { ...downloadProgress };
 
   const layerKeys = Object.keys(mutableProgress ?? {});
 
@@ -88,7 +88,7 @@ export function deleteRegionFromProgress(
     return downloadProgress;
   }
 
-  const mutableProgress = downloadProgress;
+  const mutableProgress = { ...downloadProgress };
 
   Object.keys(mutableProgress).forEach(layerId => {
     const layerProgress = mutableProgress[layerId];

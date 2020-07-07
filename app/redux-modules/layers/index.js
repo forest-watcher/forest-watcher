@@ -57,7 +57,7 @@ export default function reducer(state: LayersState = initialState, action: Layer
       const { layers }: State = action.payload;
 
       // Reset the status for any layers that failed to complete fully.
-      const updatedProgress = invalidateIncompleteLayerDownloads({ ...state.downloadedLayerProgress });
+      const updatedProgress = invalidateIncompleteLayerDownloads(state.downloadedLayerProgress);
 
       return {
         ...state,
@@ -89,8 +89,7 @@ export default function reducer(state: LayersState = initialState, action: Layer
       const areaId = area.id;
 
       // Delete the download progress for the given area, for every downloaded layer.
-      const downloadedLayerProgress = { ...state.downloadedLayerProgress };
-      const updatedProgress = deleteRegionFromProgress(areaId, downloadedLayerProgress);
+      const updatedProgress = deleteRegionFromProgress(areaId, state.downloadedLayerProgress);
 
       return { ...state, downloadedLayerProgress: updatedProgress };
     }
@@ -98,8 +97,7 @@ export default function reducer(state: LayersState = initialState, action: Layer
       const routeId = action.payload.id ?? action.payload.areaId;
 
       // Delete the download progress for the given route, for every downloaded layer.
-      const downloadedLayerProgress = { ...state.downloadedLayerProgress };
-      const updatedProgress = deleteRegionFromProgress(routeId, downloadedLayerProgress);
+      const updatedProgress = deleteRegionFromProgress(routeId, state.downloadedLayerProgress);
 
       return { ...state, downloadedLayerProgress: updatedProgress };
     }
