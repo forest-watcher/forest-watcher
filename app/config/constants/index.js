@@ -31,9 +31,9 @@ export const MAPS = {
 // If a layer is added conditionally (during runtime), it is usually added above all other layers.
 export const MAP_LAYER_INDEXES = {
   basemap: 1,
-  areaOutline: 5,
-  contextualLayer: 10,
-  routes: 100,
+  contextualLayer: 5,
+  areaOutline: 100,
+  routes: 105,
   alerts: 150,
   reports: 180,
   userLocation: 200

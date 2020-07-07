@@ -971,8 +971,8 @@ class MapComponent extends Component<Props, State> {
             port={MapComponent.offlinePortNumber}
             layerIndex={MAP_LAYER_INDEXES.basemap}
           />
-          {this.renderAreaOutline()}
           {layerSettings.contextualLayers.layerIsActive && <ContextualLayers featureId={featureId} />}
+          {this.renderAreaOutline()}
           {this.renderDestinationLine()}
           <Alerts
             alertLayerSettings={this.props.layerSettings.alerts}
