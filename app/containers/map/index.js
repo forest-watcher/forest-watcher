@@ -2,8 +2,10 @@
 import type { Coordinates } from 'types/common.types';
 import type { ComponentProps, Dispatch, State } from 'types/store.types';
 import type { Route } from 'types/routes.types';
-import type { BasicReport, ReportArea } from 'types/reports.types';
+import type { BasicReport, Report, ReportList, ReportArea } from 'types/reports.types';
 
+import { flatten } from 'lodash';
+import memoizeOne from 'memoize-one';
 import { connect } from 'react-redux';
 import { createReport } from 'redux-modules/reports';
 import { discardActiveRoute, setRouteDestination } from 'redux-modules/routes';
@@ -35,6 +37,32 @@ function getAreaCoordinates(areaFeature): Array<Coordinates> {
     }
   }
 }
+
+/**
+ * Return an array of coordinates that have been reported on.
+ *
+ * Memoize the result so we don't create a new array every time mapStateToProps is called below.
+ */
+const getReportedCoordinates = memoizeOne(
+  (reportsMap: ReportList): $ReadOnlyArray<Coordinates> => {
+    const reports: Array<Report> = Object.keys(reportsMap).map(key => reportsMap[key]);
+    const locations: Array<Array<{ lat?: number, long?: number }>> = reports.map(report => {
+      const clickedPositions = report.clickedPosition ? JSON.parse(report.clickedPosition) : [];
+      // Check we've got an array back from JSON.parse
+      return Array.isArray(clickedPositions) ? clickedPositions : [];
+    });
+    return flatten(locations)
+      .map(item =>
+        item && item.lat !== undefined && item.lon !== undefined
+          ? {
+              latitude: item.lat ?? 0,
+              longitude: item.lon ?? 0
+            }
+          : null
+      )
+      .filter(Boolean);
+  }
+);
 
 function reconcileRoutes(activeRoute: ?Route, previousRoute: ?Route): ?Route {
   if (activeRoute) {
@@ -70,6 +98,8 @@ function mapStateToProps(state: State, ownProps: OwnProps) {
   const route = reconcileRoutes(state.routes.activeRoute, previousRoute);
   const layerSettings = state.layerSettings?.[featureId] || DEFAULT_LAYER_SETTINGS;
 
+  const reportedCoordinates = getReportedCoordinates(state.reports.list);
+
   return {
     areaCoordinates,
     isTracking: !!state.routes.activeRoute,
@@ -81,7 +111,7 @@ function mapStateToProps(state: State, ownProps: OwnProps) {
     isConnected: shouldBeConnected(state),
     isOfflineMode: state.app.offlineMode,
     coordinatesFormat: state.app.coordinatesFormat,
-    reportedAlerts: state.alerts.reported,
+    reportedAlerts: reportedCoordinates,
     basemapLocalTilePath: (area && area.id && cache.basemap && cache.basemap[area.id]) || '',
     mapWalkthroughSeen: state.app.mapWalkthroughSeen
   };

@@ -7,7 +7,7 @@ import Config from 'react-native-config';
 
 // Actions
 import { LOGOUT_REQUEST } from 'redux-modules/user';
-import { CREATE_REPORT, RETRY_SYNC } from 'redux-modules/shared';
+import { RETRY_SYNC } from 'redux-modules/shared';
 import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 import storeAlertsFromCsv from 'helpers/alert-store/storeAlertsFromCsv';
 import deleteAlerts from 'helpers/alert-store/deleteAlerts';
@@ -19,7 +19,6 @@ const GET_ALERTS_ROLLBACK = 'alerts/GET_ALERTS_ROLLBACK';
 // Reducer
 const initialState = {
   cache: {},
-  reported: [],
   syncError: false,
   queue: []
 };
@@ -33,17 +32,6 @@ export default function reducer(state: AlertsState = initialState, action: Alert
     }
     case RETRY_SYNC: {
       return { ...state, syncError: false };
-    }
-    case CREATE_REPORT: {
-      const { selectedAlerts } = action.payload;
-      let reported = [...state.reported];
-
-      if (selectedAlerts?.length) {
-        selectedAlerts.forEach(alert => {
-          reported = [...reported, `${alert.long}${alert.lat}`];
-        }, this);
-      }
-      return { ...state, reported };
     }
     case GET_ALERTS_REQUEST: {
       const queue = [...state.queue, action.payload];

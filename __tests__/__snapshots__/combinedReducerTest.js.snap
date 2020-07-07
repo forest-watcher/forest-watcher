@@ -5,7 +5,6 @@ Object {
   "alerts": Object {
     "cache": Object {},
     "queue": Array [],
-    "reported": Array [],
     "syncError": false,
   },
   "app": Object {
@@ -1928,7 +1927,6 @@ Object {
   "alerts": Object {
     "cache": Object {},
     "queue": Array [],
-    "reported": Array [],
     "syncError": false,
   },
   "app": Object {
