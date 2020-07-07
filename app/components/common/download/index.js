@@ -186,7 +186,8 @@ class DataCacher extends PureComponent<Props, State> {
     const progressBar = (
       <View style={styles.progressBarContainer}>
         <ProgressBar
-          indeterminate={true}
+          indeterminate={downloadProgress.progress === 0}
+          progress={downloadProgress.progress / 100}
           width={Theme.screen.width}
           height={4}
           color={Theme.colors.turtleGreen}
