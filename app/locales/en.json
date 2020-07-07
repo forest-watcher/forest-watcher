@@ -344,6 +344,27 @@
                             }
                         },
                         "title": "Can I upload my own contextual layers and basemaps in Forest Watcher?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "Currently, only certain types of data are synced to your Forest Watcher account, which is also connected to the Forest Watcher Web Application. This data includes areas and reports you have uploaded. This means that when you log out and log back in to the app, this data will remain visible. ",
+                                "text2": "For other types of data, these are stored independently of your Forest Watcher account and will NOT be visible when you log out and log back in to the app. This data includes:"
+                            },
+                            "footerText": "Logging out will permanently remove these items (with the exception of custom basemaps and custom contextual layers). It’s therefore recommended that you bundle any data that you wish to retain before logging out. For your convenience in doing this, we recommend using the ‘share all app data’ option and storing the resulting bundle. This can then be re-imported when required by opening the bundle with the Forest Watcher app when logged in.",
+                            "orderList": {
+                                "text1": "Alerts",
+                                "text2": "Imported Areas",
+                                "text3": "Routes",
+                                "text4": "Non-uploaded Reports",
+                                "text5": "Downloaded Basemap Tiles",
+                                "text6": "Downloaded GFW Layer Tiles",
+                                "text7": "Custom Basemaps",
+                                "text8": "Custom Contextual Layers",
+                                "text9": "Imported GFW Contextual layers"
+                            }
+                        },
+                        "title": "How does the Forest Watcher app store my data?"
                     }
                 ],
                 "title": "Alerts and Data in Forest Watcher"
