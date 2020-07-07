@@ -1,6 +1,6 @@
 // @flow
 import 'react-native';
-import { migrateV1RoutesToV2RoutesStructure } from 'redux-modules/routes';
+import { migrateV1RoutesToV2RoutesStructure } from '../../app/migrate';
 
 function getMockUUID() {
   return `487a2312-7600-4c9f-a7ff-d6ad69a721a0`;

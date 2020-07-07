@@ -14,6 +14,7 @@ export type AppState = {
   coordinatesFormat: CoordinatesValue,
   hasSeenWelcomeScreen: boolean,
   pristineCacheTooltip: boolean,
+  reduxVersion: number, // Used to control Redux state migrations
   version: string,
   areaCountryTooltipSeen: boolean,
   areaDownloadTooltipSeen: boolean,

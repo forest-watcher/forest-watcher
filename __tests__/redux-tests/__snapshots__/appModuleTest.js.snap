@@ -11,6 +11,7 @@ Object {
   "mapWalkthroughSeen": false,
   "offlineMode": false,
   "pristineCacheTooltip": true,
+  "reduxVersion": 2,
   "synced": false,
   "version": "2.0.0",
 }
@@ -67,6 +68,7 @@ Object {
   "mapWalkthroughSeen": false,
   "offlineMode": false,
   "pristineCacheTooltip": true,
+  "reduxVersion": 2,
   "synced": false,
   "version": "2.0.0",
 }
@@ -92,6 +94,7 @@ Object {
   "mapWalkthroughSeen": false,
   "offlineMode": true,
   "pristineCacheTooltip": true,
+  "reduxVersion": 2,
   "synced": false,
   "version": "2.0.0",
 }
@@ -116,6 +119,7 @@ Object {
   "mapWalkthroughSeen": false,
   "offlineMode": true,
   "pristineCacheTooltip": true,
+  "reduxVersion": 2,
   "synced": false,
   "version": "2.0.0",
 }
@@ -160,6 +164,7 @@ Object {
   "mapWalkthroughSeen": false,
   "offlineMode": false,
   "pristineCacheTooltip": true,
+  "reduxVersion": 2,
   "synced": true,
   "version": "2.0.0",
 }
@@ -183,6 +188,7 @@ Object {
   "mapWalkthroughSeen": false,
   "offlineMode": false,
   "pristineCacheTooltip": true,
+  "reduxVersion": 2,
   "synced": false,
   "version": "2.0.0",
 }
@@ -206,6 +212,7 @@ Object {
   "mapWalkthroughSeen": false,
   "offlineMode": false,
   "pristineCacheTooltip": true,
+  "reduxVersion": 2,
   "synced": false,
   "version": "2.0.0",
 }
@@ -229,6 +236,7 @@ Object {
   "mapWalkthroughSeen": false,
   "offlineMode": false,
   "pristineCacheTooltip": true,
+  "reduxVersion": 2,
   "synced": false,
   "version": "2.0.0",
 }
@@ -252,6 +260,7 @@ Object {
   "mapWalkthroughSeen": false,
   "offlineMode": true,
   "pristineCacheTooltip": true,
+  "reduxVersion": 2,
   "synced": false,
   "version": "2.0.0",
 }
@@ -275,6 +284,7 @@ Object {
   "mapWalkthroughSeen": false,
   "offlineMode": false,
   "pristineCacheTooltip": true,
+  "reduxVersion": 2,
   "synced": false,
   "version": "2.0.0",
 }
@@ -298,6 +308,7 @@ Object {
   "mapWalkthroughSeen": false,
   "offlineMode": false,
   "pristineCacheTooltip": true,
+  "reduxVersion": 2,
   "synced": false,
   "version": "2.0.0",
 }
@@ -321,6 +332,7 @@ Object {
   "mapWalkthroughSeen": false,
   "offlineMode": false,
   "pristineCacheTooltip": false,
+  "reduxVersion": 2,
   "synced": false,
   "version": "2.0.0",
 }
@@ -343,6 +355,7 @@ Object {
   "mapWalkthroughSeen": false,
   "offlineMode": false,
   "pristineCacheTooltip": true,
+  "reduxVersion": 2,
   "synced": false,
   "version": "2.0.0",
 }
