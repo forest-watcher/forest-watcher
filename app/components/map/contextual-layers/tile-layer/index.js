@@ -13,6 +13,7 @@ import GFWVectorLayer from './gfw-vector-layer';
 
 type Props = {
   +featureId: string,
+  +isOfflineMode: boolean,
   +layer: Layer,
   +layerCache: LayersCacheStatus
 };
@@ -20,23 +21,34 @@ type Props = {
 // Renders all active imported contextual layers in settings
 export default class TileContextualLayer extends Component<Props> {
   render = () => {
-    const { featureId, layer, layerCache } = this.props;
+    const { featureId, layer, layerCache, isOfflineMode } = this.props;
 
     const layerMetadata: ContextualLayerRenderSpec = GFW_CONTEXTUAL_LAYERS_METADATA[layer.id] ?? {
       isShareable: false,
       tileFormat: 'raster'
     };
 
-    const layerURL = vectorTileURLForMapboxURL(layer.url) ?? layer.url;
-    const tileURLTemplates = layerURL.startsWith('mapbox://') ? null : [layerURL];
+    const tileURLTemplates = [];
 
-    if (!layerURL.startsWith('mapbox://') && featureId) {
+    // Find and append the remote tile URL if we're not offline
+    if (!isOfflineMode) {
+      const layerURL = vectorTileURLForMapboxURL(layer.url) ?? layer.url;
+      if (layerURL) {
+        tileURLTemplates.push(layerURL);
+      }
+    }
+
+    // Find and append the local tile path if there is one
+    if (featureId) {
       const layerDownloadProgress = layerCache[featureId];
 
       if (layerDownloadProgress?.completed && !layerDownloadProgress?.error) {
-        // $FlowFixMe
-        tileURLTemplates?.push(`file:/${pathForLayer('contextual_layer', layer.id)}/{z}x{x}x{y}`);
+        tileURLTemplates.push(`file:/${pathForLayer('contextual_layer', layer.id)}/{z}x{x}x{y}`);
       }
+    }
+
+    if (tileURLTemplates.length === 0) {
+      return null;
     }
 
     const sourceID = 'imported_layer_' + layer.id;
@@ -47,7 +59,6 @@ export default class TileContextualLayer extends Component<Props> {
             id={sourceID}
             maxZoomLevel={layerMetadata.maxZoom}
             minZoomLevel={layerMetadata.minZoom}
-            url={layerURL.startsWith('mapbox://') ? layerURL : null}
             tileUrlTemplates={tileURLTemplates}
           >
             {/* $FlowFixMe */}

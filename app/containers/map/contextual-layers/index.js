@@ -18,6 +18,7 @@ function mapStateToProps(state: State, ownProps: OwnProps) {
   );
 
   return {
+    isOfflineMode: state.app.offlineMode,
     layers: importedContextualLayers,
     layerCache: state.layers.downloadedLayerProgress
   };
