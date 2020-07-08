@@ -16,6 +16,7 @@ import { storeReportFiles } from 'helpers/report-store/storeReportFiles';
 import deleteReportFiles from 'helpers/report-store/deleteReportFiles';
 import { pathForReportQuestionAttachment } from 'helpers/report-store/reportFilePaths';
 import { toFileUri } from 'helpers/fileURI';
+import { REPORT_BLOB_IMAGE_ATTACHMENT_PRESENT } from 'helpers/forms';
 
 const cameraAddIcon = require('assets/camera_add.png');
 const deleteIcon = require('assets/delete_red.png');
@@ -65,7 +66,9 @@ class ImageBlobInput extends Component<Props, State> {
       if (response.error) {
         Alert.alert(i18n.t('commonText.error'), response.error, [{ text: 'OK' }]);
       } else if (response.uri) {
-        this.handlePress('image/jpeg');
+        // Don't store the exact URI against the answer because this breaks when we share the report.
+        // Instead just store a value to indicate that there is an attachment present
+        this.handlePress(REPORT_BLOB_IMAGE_ATTACHMENT_PRESENT);
         await storeReportFiles([
           {
             reportName: this.props.reportName,

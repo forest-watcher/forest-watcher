@@ -8,6 +8,12 @@ import { REPORTS } from 'config/constants';
 import i18n from 'i18next';
 import flatMap from 'lodash/flatMap';
 
+/**
+ * Don't store the exact URI against the answer because this breaks when we share the report.
+ * Instead just store a value to indicate that there is an attachment present
+ */
+export const REPORT_BLOB_IMAGE_ATTACHMENT_PRESENT = 'image/jpeg';
+
 export const getBtnTextByType = (type: string): string => {
   switch (type) {
     case 'text':
@@ -103,6 +109,13 @@ function getAnswerValues(question: Question, answer: ?Answer) {
     value = question.values?.filter(item => value.includes(item.value)).map(item => item.label);
   }
   return { ...answer, value };
+}
+
+/**
+ * Indicates whether or not the specified question-answer pair is for a completed blob question
+ */
+export function isBlobResponse({ question, answer }: { question: Question, answer: Answer }): boolean {
+  return question.type === 'blob' && Array.isArray(answer.value) && !!answer.value?.[0];
 }
 
 /**

@@ -1,17 +1,23 @@
 // @flow
-import type { Dispatch, GetState } from 'types/store.types';
+import type { Dispatch, GetState, Thunk } from 'types/store.types';
 import type { BasicReport, ReportsState, ReportsAction, Report, Answer } from 'types/reports.types';
 
 import _ from 'lodash';
 import Config from 'react-native-config';
 import CONSTANTS from 'config/constants';
 import { LOGOUT_REQUEST } from 'redux-modules/user';
-import { getTemplate, mapFormToAnsweredQuestions } from 'helpers/forms';
+import {
+  getTemplate,
+  isBlobResponse,
+  mapFormToAnsweredQuestions,
+  REPORT_BLOB_IMAGE_ATTACHMENT_PRESENT
+} from 'helpers/forms';
 import { GET_AREAS_COMMIT } from 'redux-modules/areas';
 import queryReportFiles from 'helpers/report-store/queryReportFiles';
 import deleteReportFiles from 'helpers/report-store/deleteReportFiles';
 import { toFileUri } from 'helpers/fileURI';
 import { shouldBeConnected } from 'helpers/app';
+import { storeReportFiles } from 'helpers/report-store/storeReportFiles';
 
 // Actions
 const GET_DEFAULT_TEMPLATE_REQUEST = 'report/GET_DEFAULT_TEMPLATE_REQUEST';
@@ -205,6 +211,53 @@ export function createReport(report: BasicReport): ReportsAction {
         answers: [],
         date: new Date().toISOString(),
         status: CONSTANTS.status.draft
+      }
+    }
+  };
+}
+
+/**
+ * In v1 report attachments were referenced as a URI to a file that the app did not directly manage.
+ *
+ * in v2 we copy report attachments to a particular structure local storage. This helps with app-to-app sharing
+ */
+export function migrateReportAttachmentsFromV1ToV2(): Thunk<Promise<void>> {
+  return async (dispatch: Dispatch, getState: GetState): Promise<void> => {
+    const state = getState();
+    const appLanguage = state.app.language;
+    const reports = Object.keys(state.reports.list).map(key => state.reports.list[key]);
+    const templates = state.reports.templates;
+
+    // eslint-disable-next-line no-unused-vars
+    for (const report of reports) {
+      const template = getTemplate(report, templates);
+      const answers = mapFormToAnsweredQuestions(report.answers, template, appLanguage).filter(isBlobResponse);
+
+      // eslint-disable-next-line no-unused-vars
+      for (const { question, answer } of answers) {
+        const sourceUri = answer.value[0];
+        // Check if attachment has already been migrated
+        if (!sourceUri || sourceUri === REPORT_BLOB_IMAGE_ATTACHMENT_PRESENT) {
+          continue;
+        }
+        const updatedAnswer = { ...answer };
+        try {
+          await storeReportFiles([
+            {
+              reportName: report.reportName,
+              questionName: answer.questionName,
+              type: 'image/jpeg',
+              path: decodeURI(sourceUri),
+              size: 0
+            }
+          ]);
+          updatedAnswer.value = REPORT_BLOB_IMAGE_ATTACHMENT_PRESENT;
+        } catch (err) {
+          updatedAnswer.value = null;
+          console.warn('3SC', `Could not migrate report attachment from ${sourceUri}`);
+        } finally {
+          dispatch(setReportAnswer(report.reportName, updatedAnswer, true));
+        }
       }
     }
   };
