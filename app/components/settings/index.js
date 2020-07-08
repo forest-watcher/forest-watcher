@@ -160,25 +160,32 @@ export default class Settings extends Component<Props, State> {
       logout();
       launchAppRoot('ForestWatcher.Login');
     };
+    const questions = i18n.t('faq.categories.alertsAndData.questions', { returnObjects: true });
+    const faqExists = Array.isArray(questions) && questions.length > 0;
     const onPressMoreInfo = () => {
       // Looking for "How does the Forest Watcher app store my data?" FAQ
-      const questions = i18n.t('faq.categories.alertsAndData.questions', { returnObjects: true });
-      const question = questions[questions.length - 1];
-      Navigation.push(this.props.componentId, {
-        component: {
-          name: 'ForestWatcher.FaqDetail',
-          passProps: {
-            contentFaq: question.content,
-            title: question.title
+      if (faqExists) {
+        const question = questions[questions.length - 1];
+        Navigation.push(this.props.componentId, {
+          component: {
+            name: 'ForestWatcher.FaqDetail',
+            passProps: {
+              contentFaq: question.content,
+              title: question.title
+            }
           }
-        }
-      });
+        });
+      }
     };
+    // Only show more info button if FAQ exists.
+    const alertButtons = faqExists
+      ? [
+          { text: i18n.t('settings.moreInfo'), onPress: onPressMoreInfo },
+          { text: i18n.t('settings.logOut'), onPress: proceedWithLogout }
+        ]
+      : [{ text: i18n.t('settings.logOut'), onPress: proceedWithLogout }];
     if (isUnsafeLogout) {
-      Alert.alert(i18n.t('settings.unsafeLogout'), i18n.t('settings.unsavedDataLost'), [
-        { text: i18n.t('settings.moreInfo'), onPress: onPressMoreInfo },
-        { text: i18n.t('settings.logOut'), onPress: proceedWithLogout }
-      ]);
+      Alert.alert(i18n.t('settings.unsafeLogout'), i18n.t('settings.unsavedDataLost'), alertButtons);
     } else {
       proceedWithLogout();
     }
