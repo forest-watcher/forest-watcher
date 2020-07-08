@@ -8,6 +8,7 @@ import { mapboxStyles } from './styles';
 import queryLayerFiles from 'helpers/layer-store/queryLayerFiles';
 import { pathForLayerFile } from 'helpers/layer-store/layerFilePaths';
 import { toFileUri } from 'helpers/fileURI';
+import { MAP_LAYER_INDEXES } from 'config/constants';
 
 type Props = {
   +layer: Layer
@@ -86,17 +87,20 @@ export default class GeoJSONContextualLayer extends Component<Props, State> {
           id={'imported_layer_symbol_' + layer.id}
           sourceID={'imported_layer_' + layer.id}
           style={mapboxStyles.icon}
+          layerIndex={MAP_LAYER_INDEXES.contextualLayer}
         />
         <MapboxGL.LineLayer
           id={'imported_layer_line_' + layer.id}
           sourceID={'imported_layer_' + layer.id}
           style={mapboxStyles.geoJsonStyleSpec}
+          layerIndex={MAP_LAYER_INDEXES.contextualLayer}
         />
         <MapboxGL.FillLayer
           filter={['match', ['geometry-type'], ['LineString', 'MultiLineString'], false, true]}
           id={'imported_layer_fill_' + layer.id}
           sourceID={'imported_layer_' + layer.id}
           style={mapboxStyles.geoJsonStyleSpec}
+          layerIndex={MAP_LAYER_INDEXES.contextualLayer}
         />
       </MapboxGL.ShapeSource>
     );

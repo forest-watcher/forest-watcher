@@ -4,7 +4,7 @@ import type { ContextualLayerRenderSpec, Layer, LayersCacheStatus } from 'types/
 import React, { Component } from 'react';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 
-import { GFW_CONTEXTUAL_LAYERS_METADATA } from 'config/constants';
+import { GFW_CONTEXTUAL_LAYERS_METADATA, MAP_LAYER_INDEXES } from 'config/constants';
 
 import { pathForLayer } from 'helpers/layer-store/layerFilePaths';
 import { vectorTileURLForMapboxURL } from 'helpers/mapbox';
@@ -71,7 +71,11 @@ export default class TileContextualLayer extends Component<Props> {
             minZoomLevel={layerMetadata.minZoom}
             tileUrlTemplates={tileURLTemplates}
           >
-            <MapboxGL.RasterLayer id={'imported_layer_layer_' + layer.id} sourceId={sourceID} />
+            <MapboxGL.RasterLayer
+              id={'imported_layer_layer_' + layer.id}
+              sourceId={sourceID}
+              layerIndex={MAP_LAYER_INDEXES.contextualLayer}
+            />
           </MapboxGL.RasterSource>
         );
     }
