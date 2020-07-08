@@ -918,6 +918,10 @@
         "errorCreatingArea": "There was an error creating your area",
         "errorDesc": "Something went wrong",
         "gettingLatestAlerts": "Getting the latest alerts",
+        "outOfSpace": {
+            "title": "Your device storage is running low",
+            "message": "To have alerts and content available offline, you must clear some unused files from your phone"
+        },
         "reportUploadRollback": "Report failed to upload",
         "reportUploaded": "Report sent",
         "subtitle": {
