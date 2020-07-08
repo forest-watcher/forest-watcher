@@ -1,21 +1,20 @@
 package com.forestwatcher;
 
 import android.content.Context;
-
 import cl.json.ShareApplication;
-
+import com.cube.rnmbtiles.ReactNativeMBTilesPackage;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.modules.core.PermissionListener;
 import com.facebook.soloader.SoLoader;
 import com.forestwatcher.intents.IntentsPackage;
+import com.forestwatcher.mapbox.FWMapboxPackage;
 import com.imagepicker.permissions.OnImagePickerPermissionsCallback;
 import com.marianhello.bgloc.react.BackgroundGeolocationPackage;
 import com.reactnativenavigation.NavigationApplication;
 import com.reactnativenavigation.react.NavigationReactNativeHost;
 import com.th3rdwave.safeareacontext.SafeAreaContextPackage;
-import com.cube.rnmbtiles.ReactNativeMBTilesPackage;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
@@ -41,6 +40,7 @@ public class MainApplication extends NavigationApplication implements ShareAppli
 			packages.addAll(Arrays.<ReactPackage>asList(
 				new BackgroundGeolocationPackage(),
 				new SafeAreaContextPackage(),
+				new FWMapboxPackage(),
 				new IntentsPackage(),
 				new ReactNativeMBTilesPackage()
 			));
@@ -69,7 +69,6 @@ public class MainApplication extends NavigationApplication implements ShareAppli
 		SoLoader.init(this, /* native exopackage */ false);
 		initializeFlipper(this); // Remove this line if you don't want Flipper enabled
 	}
-
 
 	/**
 	 * Loads Flipper in React Native templates.
