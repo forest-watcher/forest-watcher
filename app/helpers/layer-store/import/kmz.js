@@ -5,7 +5,8 @@ import type { LayerFile } from 'types/sharing.types';
 import { unzip } from 'react-native-zip-archive';
 const RNFS = require('react-native-fs');
 
-import { listRecursive } from 'helpers/fileManagement';
+import CONSTANTS from 'config/constants';
+import { assertMaximumFileSize, listRecursive } from 'helpers/fileManagement';
 import { storeGeoJson } from 'helpers/layer-store/storeLayerFiles';
 
 import convertToGeoJSON from './convertToGeoJSON';
@@ -22,6 +23,7 @@ export default async function importKMZFile(file: File & { uri: string }, fileNa
     if (!mainFile) {
       throw new Error('Invalid KMZ bundle, missing a root .kml file');
     }
+    await assertMaximumFileSize(mainFile, CONSTANTS.files.maxFileSizeForLayerImport);
     const geoJSON = await convertToGeoJSON(mainFile, 'kml');
 
     const importedFile = await storeGeoJson(file.id, geoJSON);
