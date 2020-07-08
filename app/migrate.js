@@ -59,10 +59,16 @@ export const migrateV1RoutesToV2RoutesStructure = (
 };
 
 const manifest = {
+  // $FlowFixMe
   2: (state: State): State => {
     console.warn('3SC', 'Migrate Redux state to v2');
     return {
       ...state,
+      alerts: {
+        ...state.alerts,
+        canDisplayAlerts: undefined,
+        reported: undefined
+      },
       app: {
         ...state.app,
         actions: undefined, // Removed key
