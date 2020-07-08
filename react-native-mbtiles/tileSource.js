@@ -10,6 +10,7 @@ type Props = {
   basemapId: string,
   basemapPath: ?string,
   belowLayerID: string,
+  layerIndex?: number,
   port: number
 };
 
@@ -108,7 +109,11 @@ export default class MBTilesSource extends PureComponent<Props, State> {
           tms={metadata.tms}
           tileUrlTemplates={[`http://localhost:${port}/gfwmbtiles/${basemapId}?z={z}&x={x}&y={y}`]}
         >
-          <MapboxGL.RasterLayer belowLayerID={belowLayerID} id="basemapTileLayer" />
+          <MapboxGL.RasterLayer
+            belowLayerID={belowLayerID}
+            id="basemapTileLayer"
+            layerIndex={this.props.layerIndex ?? undefined}
+          />
         </MapboxGL.RasterSource>
       );
     }

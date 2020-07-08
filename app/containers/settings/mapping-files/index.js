@@ -13,7 +13,8 @@ import exportBundleFromRedux from 'helpers/sharing/exportBundleFromRedux';
 import shareBundle from 'helpers/sharing/shareBundle';
 
 import { showNotConnectedNotification } from 'redux-modules/app';
-import { deleteLayer, deleteMapboxOfflinePacks, renameLayer, importGFWContent } from 'redux-modules/layers';
+import { deleteLayer, renameLayer } from 'redux-modules/layers';
+import { deleteMapboxOfflinePacks, importGFWContent } from 'redux-modules/layers/downloadLayer';
 import { unselectDeletedBasemap } from 'redux-modules/layerSettings';
 
 import { GFW_BASEMAPS } from 'config/constants';
