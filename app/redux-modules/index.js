@@ -8,4 +8,3 @@ export { default as reports } from './reports';
 export { default as routes } from './routes';
 export { default as layers } from './layers';
 export { default as layerSettings } from './layerSettings';
-export { default as form } from './form';
