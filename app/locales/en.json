@@ -860,11 +860,12 @@
         "coordinatesFormat": "Coordinates Format",
         "coordinatesUtm": "UTM",
         "logOut": "Log Out",
+        "moreInfo": "More Info",
         "offlineMode": "Offline Mode",
         "shareData": "Share All App Data",
         "title": "Settings",
-        "unsafeLogout": "Your reports are not synced!",
-        "unsavedDataLost": "If you proceed with the logout all your unsaved data will be lost.",
+        "unsafeLogout": "Some data may be lost",
+        "unsavedDataLost": "Some data is not synced to your account and may be lost if you log out.\nThis includes some types of areas and reports and all routes, basemaps and contextual layers.\nFor more info and steps to access this data again, please view our FAQ page on this subject.",
         "yourRoutes": "Your routes"
     },
     "setupCountry": {
