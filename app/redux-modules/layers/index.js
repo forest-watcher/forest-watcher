@@ -57,7 +57,7 @@ export default function reducer(state: LayersState = initialState, action: Layer
       const { layers }: State = action.payload;
 
       // Reset the status for any layers that failed to complete fully.
-      const updatedProgress = invalidateIncompleteLayerDownloads(layers.downloadedLayerProgress);
+      const updatedProgress = invalidateIncompleteLayerDownloads(layers?.downloadedLayerProgress ?? {});
 
       return {
         ...state,
