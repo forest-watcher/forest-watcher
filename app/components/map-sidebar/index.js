@@ -1,4 +1,6 @@
 // @flow
+import type { Layer } from 'types/layers.types';
+import type { LayerSettings, LayerSettingsAction } from 'types/layerSettings.types';
 
 import React, { PureComponent } from 'react';
 import { Platform, View, Text, ScrollView } from 'react-native';
@@ -6,11 +8,10 @@ import styles from './styles';
 import VerticalSplitRow from 'components/common/vertical-split-row';
 import SettingsButton from 'components/common/settings-button';
 import i18n from 'i18next';
-import type { LayerSettings, LayerSettingsAction } from 'types/layerSettings.types';
 import debounceUI from 'helpers/debounceUI';
 import { Navigation } from 'react-native-navigation';
 import { withSafeArea } from 'react-native-safe-area';
-import type { Basemap } from 'types/basemaps.types';
+
 const SafeAreaView = withSafeArea(View, 'padding', 'bottom');
 
 type Props = {
@@ -18,7 +19,7 @@ type Props = {
   featureId: string,
   allLayerSettings: { [featureId: string]: LayerSettings },
   defaultLayerSettings: LayerSettings,
-  getActiveBasemap: (featureId: string) => Basemap,
+  getActiveBasemap: (featureId: string) => Layer,
   toggleAlertsLayer: string => LayerSettingsAction,
   toggleRoutesLayer: string => LayerSettingsAction,
   toggleReportsLayer: string => LayerSettingsAction,
@@ -188,7 +189,7 @@ class MapSidebar extends PureComponent<Props, null> {
     if (!this.props.featureId) {
       return '';
     }
-    const basemap: Basemap = this.props.getActiveBasemap(this.props.featureId);
+    const basemap: Layer = this.props.getActiveBasemap(this.props.featureId);
     const basemapName = basemap.isCustom ? basemap.name : i18n.t(`basemaps.names.` + basemap.name);
     return i18n.t('map.layerSettings.basemapSettings.showingBasemap', { basemap: basemapName });
   };

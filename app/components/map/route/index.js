@@ -18,6 +18,7 @@ import { isValidLatLng } from 'helpers/validation/location';
 import throttle from 'lodash/throttle';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import { feature, lineString, point } from '@turf/helpers';
+import { MAP_LAYER_INDEXES } from 'config/constants';
 
 type Props = {
   isTracking: boolean,
@@ -150,12 +151,20 @@ export default class RouteMarkers extends PureComponent<Props, State> {
       <React.Fragment>
         {bothValidLocations && (
           <MapboxGL.ShapeSource id={this.key('routeDestLine')} shape={line}>
-            <MapboxGL.LineLayer id={this.key('routeDestLineLayer')} style={mapboxStyles.destinationLine} />
+            <MapboxGL.LineLayer
+              id={this.key('routeDestLineLayer')}
+              style={mapboxStyles.destinationLine}
+              layerIndex={MAP_LAYER_INDEXES.routes}
+            />
           </MapboxGL.ShapeSource>
         )}
         {validDestLocation && (
           <MapboxGL.ShapeSource id={this.key('routeDest')} shape={routeDestination}>
-            <MapboxGL.SymbolLayer id={this.key('routeDestMarker')} style={mapboxStyles.routeDestinationMarker} />
+            <MapboxGL.SymbolLayer
+              id={this.key('routeDestMarker')}
+              style={mapboxStyles.routeDestinationMarker}
+              layerIndex={MAP_LAYER_INDEXES.routes}
+            />
           </MapboxGL.ShapeSource>
         )}
       </React.Fragment>
@@ -199,8 +208,16 @@ export default class RouteMarkers extends PureComponent<Props, State> {
     return (
       <React.Fragment>
         <MapboxGL.ShapeSource onPress={onPress} id={this.key('routeLine')} shape={line}>
-          <MapboxGL.LineLayer id={this.key('routeLineShadow')} style={shadowStyle} />
-          <MapboxGL.LineLayer id={this.key('routeLineLayer')} style={routeLineStyle} />
+          <MapboxGL.LineLayer
+            id={this.key('routeLineShadow')}
+            style={shadowStyle}
+            layerIndex={MAP_LAYER_INDEXES.routes}
+          />
+          <MapboxGL.LineLayer
+            id={this.key('routeLineLayer')}
+            style={routeLineStyle}
+            layerIndex={MAP_LAYER_INDEXES.routes}
+          />
         </MapboxGL.ShapeSource>
         {/* Mapbox doesnt like to use the same ShapeSource with different shape types supplied*/}
         {markers.length === 1 && (
@@ -209,11 +226,13 @@ export default class RouteMarkers extends PureComponent<Props, State> {
               key={this.key('routeCircleOuter')}
               id={this.key('routeCircleOuter')}
               style={mapboxStyles.routeOuterCircle}
+              layerIndex={MAP_LAYER_INDEXES.routes}
             />
             <MapboxGL.CircleLayer
               key={this.key('routeCircleInner')}
               id={this.key('routeCircleInner')}
               style={mapboxStyles.routeInnerCircle}
+              layerIndex={MAP_LAYER_INDEXES.routes}
             />
           </MapboxGL.ShapeSource>
         )}
@@ -223,11 +242,13 @@ export default class RouteMarkers extends PureComponent<Props, State> {
               key={this.key('routeCircleOuter')}
               id={this.key('routeCircleOuter')}
               style={mapboxStyles.routeOuterCircle}
+              layerIndex={MAP_LAYER_INDEXES.routes}
             />
             <MapboxGL.CircleLayer
               key={this.key('routeCircleInner')}
               id={this.key('routeCircleInner')}
               style={mapboxStyles.routeInnerCircle}
+              layerIndex={MAP_LAYER_INDEXES.routes}
             />
           </MapboxGL.ShapeSource>
         )}
@@ -256,16 +277,19 @@ export default class RouteMarkers extends PureComponent<Props, State> {
               id={this.key('routeStartShadow')}
               style={shadowStyle}
               belowLayerID={this.key('routeLineShadow')}
+              layerIndex={MAP_LAYER_INDEXES.routes}
             />
             <MapboxGL.CircleLayer
               key={this.key('routeStartOuter')}
               id={this.key('routeStartOuter')}
               style={routeEndsOuterStyle}
+              layerIndex={MAP_LAYER_INDEXES.routes}
             />
             <MapboxGL.CircleLayer
               key={this.key('routeStartInner')}
               id={this.key('routeStartInner')}
               style={routeEndsInnerStyle}
+              layerIndex={MAP_LAYER_INDEXES.routes}
             />
           </MapboxGL.ShapeSource>
         )}
@@ -276,16 +300,19 @@ export default class RouteMarkers extends PureComponent<Props, State> {
               id={this.key('routeEndShadow')}
               style={shadowStyle}
               belowLayerID={this.key('routeLineShadow')}
+              layerIndex={MAP_LAYER_INDEXES.routes}
             />
             <MapboxGL.CircleLayer
               key={this.key('routeEndOuter')}
               id={this.key('routeEndOuter')}
               style={routeEndsOuterStyle}
+              layerIndex={MAP_LAYER_INDEXES.routes}
             />
             <MapboxGL.CircleLayer
               key={this.key('routeEndInner')}
               id={this.key('routeEndInner')}
               style={routeEndsInnerStyle}
+              layerIndex={MAP_LAYER_INDEXES.routes}
             />
           </MapboxGL.ShapeSource>
         )}

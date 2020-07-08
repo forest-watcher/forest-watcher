@@ -9,10 +9,9 @@ import ActionButton from 'components/common/action-button';
 import BottomTray from 'components/common/bottom-tray';
 import InputText from 'components/common/text-input';
 import i18n from 'i18next';
-import type { Basemap, BasemapsAction } from 'types/basemaps.types';
 import type { LayerType } from 'types/sharing.types';
 import type { File } from 'types/file.types';
-import type { ContextualLayer, LayersAction } from 'types/layers.types';
+import type { Layer, LayersAction } from 'types/layers.types';
 import type { Thunk } from 'types/store.types';
 
 import KeyboardSpacer from 'react-native-keyboard-spacer';
@@ -20,9 +19,9 @@ import { ERROR_CODES } from 'helpers/fwError';
 import fileNameIsValid from 'helpers/validation/fileNames';
 
 type Props = {
-  clearState: () => BasemapsAction | LayersAction,
+  clearState: () => LayersAction,
   componentId: string,
-  existing: Array<Basemap | ContextualLayer>,
+  existing: Array<Layer>,
   file: File,
   import: (file: File) => Thunk<Promise<void>>,
   importError: ?Error,

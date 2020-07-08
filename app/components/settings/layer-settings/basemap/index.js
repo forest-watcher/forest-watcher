@@ -1,5 +1,5 @@
 // @flow
-import type { Basemap, BasemapsState } from 'types/basemaps.types';
+import type { Layer } from 'types/layers.types';
 
 import React, { PureComponent } from 'react';
 import { View, ScrollView, Text } from 'react-native';
@@ -18,7 +18,7 @@ const basemapPlaceholder = require('assets/basemap_placeholder.png');
 type Props = {
   componentId: string,
   featureId: string,
-  basemaps: BasemapsState,
+  basemaps: Array<MapContent>,
   activeBasemapId: string,
   offlineMode: boolean,
   selectActiveBasemap: (string, string) => {}
@@ -46,7 +46,7 @@ class BasemapLayerSettings extends PureComponent<Props> {
     });
   });
 
-  selectBasemap = (basemap: Basemap) => {
+  selectBasemap = (basemap: Layer) => {
     this.props.selectActiveBasemap(this.props.featureId, basemap.id);
   };
 
@@ -61,7 +61,7 @@ class BasemapLayerSettings extends PureComponent<Props> {
         >
           <Text style={styles.heading}>{i18n.t('map.layerSettings.gfwBasemaps')}</Text>
           {GFW_BASEMAPS.map(basemap => {
-            const disabled = this.props.offlineMode && !!basemap.tileUrl;
+            const disabled = this.props.offlineMode && !!basemap.url;
             return (
               <VerticalSplitRow
                 key={basemap.id}
@@ -78,10 +78,10 @@ class BasemapLayerSettings extends PureComponent<Props> {
               />
             );
           })}
-          {this.props.basemaps.importedBasemaps.length > 0 && (
+          {this.props.basemaps.length > 0 && (
             <Text style={styles.heading}>{i18n.t('map.layerSettings.customBasemaps')}</Text>
           )}
-          {this.props.basemaps.importedBasemaps.map(basemap => {
+          {this.props.basemaps.map(basemap => {
             return (
               <VerticalSplitRow
                 key={basemap.id}

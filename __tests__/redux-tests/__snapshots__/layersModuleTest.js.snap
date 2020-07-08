@@ -2,130 +2,16 @@
 
 exports[`Redux Layers Module Initial reducer state 1`] = `
 Object {
-  "cache": Object {},
-  "cacheStatus": Object {},
   "data": Array [],
   "downloadedLayerProgress": Object {},
   "importError": null,
   "imported": Array [],
   "importingLayer": false,
-  "layersProgress": Object {},
-  "pendingCache": Object {},
   "syncDate": Any<Number>,
   "synced": false,
   "syncing": false,
 }
 `;
-
-exports[`Redux Layers Module Redux Snapshot Thunk Actions cacheAreaBasemap with area 1`] = `Array []`;
-
-exports[`Redux Layers Module Redux Snapshot Thunk Actions cacheAreaBasemap with area 2`] = `Array []`;
-
-exports[`Redux Layers Module Redux Snapshot Thunk Actions cacheAreaBasemap with route 1`] = `Array []`;
-
-exports[`Redux Layers Module Redux Snapshot Thunk Actions cacheAreaBasemap with route 2`] = `Array []`;
-
-exports[`Redux Layers Module Redux Snapshot Thunk Actions cacheAreaLayer with area 1`] = `Array []`;
-
-exports[`Redux Layers Module Redux Snapshot Thunk Actions cacheAreaLayer with area 2`] = `
-Array [
-  Object {
-    "payload": Object {
-      "dataId": "areaIDMock",
-      "layerId": "layerIDMock",
-    },
-    "type": "layers/CACHE_LAYER_REQUEST",
-  },
-]
-`;
-
-exports[`Redux Layers Module Redux Snapshot Thunk Actions cacheAreaLayer with route 1`] = `Array []`;
-
-exports[`Redux Layers Module Redux Snapshot Thunk Actions cacheAreaLayer with route 2`] = `
-Array [
-  Object {
-    "payload": Object {
-      "dataId": "routeIDMock",
-      "layerId": "layerIDMock",
-    },
-    "type": "layers/CACHE_LAYER_REQUEST",
-  },
-]
-`;
-
-exports[`Redux Layers Module Redux Snapshot Thunk Actions cacheLayers with area 1`] = `Array []`;
-
-exports[`Redux Layers Module Redux Snapshot Thunk Actions cacheLayers with area 2`] = `
-Array [
-  Object {
-    "payload": Object {
-      "dataId": "areaIDMock",
-      "layerId": "layerIDMock",
-    },
-    "type": "layers/CACHE_LAYER_REQUEST",
-  },
-]
-`;
-
-exports[`Redux Layers Module Redux Snapshot Thunk Actions cacheLayers with route 1`] = `Array []`;
-
-exports[`Redux Layers Module Redux Snapshot Thunk Actions cacheLayers with route 2`] = `Array []`;
-
-exports[`Redux Layers Module Redux Snapshot Thunk Actions downloadAreaById 1`] = `Array []`;
-
-exports[`Redux Layers Module Redux Snapshot Thunk Actions downloadAreaById 2`] = `
-Array [
-  Object {
-    "payload": Object {
-      "basemaps": Array [
-        Object {
-          "id": "mapbox://styles/mapbox/satellite-streets-v11",
-          "image": Object {
-            "testUri": "../../../app/assets/basemap_mapbox_satellite.png",
-          },
-          "isCustom": false,
-          "name": "satellite",
-          "styleURL": "mapbox://styles/mapbox/satellite-streets-v11",
-          "tileUrl": null,
-        },
-        Object {
-          "id": "mapbox://styles/resourcewatch/cjww7iv8i07yx1cmjtgazn3r0?fresh=true",
-          "image": Object {
-            "testUri": "../../../app/assets/basemap_default.png",
-          },
-          "isCustom": false,
-          "name": "default",
-          "styleURL": "mapbox://styles/resourcewatch/cjww7iv8i07yx1cmjtgazn3r0?fresh=true",
-          "tileUrl": null,
-        },
-        Object {
-          "id": "mapbox://styles/resourcewatch/cjww836hy1kep1co5xp717jek?fresh=true",
-          "image": Object {
-            "testUri": "../../../app/assets/basemap_dark.png",
-          },
-          "isCustom": false,
-          "name": "dark",
-          "styleURL": "mapbox://styles/resourcewatch/cjww836hy1kep1co5xp717jek?fresh=true",
-          "tileUrl": null,
-        },
-      ],
-      "dataId": "areaIDMock",
-    },
-    "type": "layers/DOWNLOAD_DATA",
-  },
-  Object {
-    "payload": Object {
-      "dataId": "areaIDMock",
-      "layerId": "layerIDMock",
-    },
-    "type": "layers/CACHE_LAYER_REQUEST",
-  },
-]
-`;
-
-exports[`Redux Layers Module Redux Snapshot Thunk Actions downloadRouteById 1`] = `Array []`;
-
-exports[`Redux Layers Module Redux Snapshot Thunk Actions downloadRouteById 2`] = `Array []`;
 
 exports[`Redux Layers Module Redux Snapshot Thunk Actions getUserLayers 1`] = `
 Array [
@@ -149,339 +35,6 @@ Array [
     "type": "layers/GET_LAYERS_REQUEST",
   },
 ]
-`;
-
-exports[`Redux Layers Module Redux Snapshot Thunk Actions refreshCacheById for area 1`] = `
-Array [
-  Object {
-    "payload": "areaIDMock",
-    "type": "layers/INVALIDATE_CACHE",
-  },
-]
-`;
-
-exports[`Redux Layers Module Redux Snapshot Thunk Actions refreshCacheById for area 2`] = `
-Array [
-  Object {
-    "payload": "areaIDMock",
-    "type": "layers/INVALIDATE_CACHE",
-  },
-  Object {
-    "payload": Object {
-      "basemaps": Array [
-        Object {
-          "id": "mapbox://styles/mapbox/satellite-streets-v11",
-          "image": Object {
-            "testUri": "../../../app/assets/basemap_mapbox_satellite.png",
-          },
-          "isCustom": false,
-          "name": "satellite",
-          "styleURL": "mapbox://styles/mapbox/satellite-streets-v11",
-          "tileUrl": null,
-        },
-        Object {
-          "id": "mapbox://styles/resourcewatch/cjww7iv8i07yx1cmjtgazn3r0?fresh=true",
-          "image": Object {
-            "testUri": "../../../app/assets/basemap_default.png",
-          },
-          "isCustom": false,
-          "name": "default",
-          "styleURL": "mapbox://styles/resourcewatch/cjww7iv8i07yx1cmjtgazn3r0?fresh=true",
-          "tileUrl": null,
-        },
-        Object {
-          "id": "mapbox://styles/resourcewatch/cjww836hy1kep1co5xp717jek?fresh=true",
-          "image": Object {
-            "testUri": "../../../app/assets/basemap_dark.png",
-          },
-          "isCustom": false,
-          "name": "dark",
-          "styleURL": "mapbox://styles/resourcewatch/cjww836hy1kep1co5xp717jek?fresh=true",
-          "tileUrl": null,
-        },
-      ],
-      "dataId": "areaIDMock",
-    },
-    "type": "layers/DOWNLOAD_DATA",
-  },
-  Object {
-    "payload": Object {
-      "dataId": "areaIDMock",
-      "layerId": "layerIDMock",
-    },
-    "type": "layers/CACHE_LAYER_REQUEST",
-  },
-  Object {
-    "payload": "areaIDMock1",
-    "type": "layers/INVALIDATE_CACHE",
-  },
-]
-`;
-
-exports[`Redux Layers Module Redux Snapshot Thunk Actions refreshCacheById for route 1`] = `
-Array [
-  Object {
-    "payload": "routeIDMock",
-    "type": "layers/INVALIDATE_CACHE",
-  },
-]
-`;
-
-exports[`Redux Layers Module Redux Snapshot Thunk Actions refreshCacheById for route 2`] = `
-Array [
-  Object {
-    "payload": "routeIDMock",
-    "type": "layers/INVALIDATE_CACHE",
-  },
-  Object {
-    "payload": Object {
-      "basemaps": Array [
-        Object {
-          "id": "mapbox://styles/mapbox/satellite-streets-v11",
-          "image": Object {
-            "testUri": "../../../app/assets/basemap_mapbox_satellite.png",
-          },
-          "isCustom": false,
-          "name": "satellite",
-          "styleURL": "mapbox://styles/mapbox/satellite-streets-v11",
-          "tileUrl": null,
-        },
-        Object {
-          "id": "mapbox://styles/resourcewatch/cjww7iv8i07yx1cmjtgazn3r0?fresh=true",
-          "image": Object {
-            "testUri": "../../../app/assets/basemap_default.png",
-          },
-          "isCustom": false,
-          "name": "default",
-          "styleURL": "mapbox://styles/resourcewatch/cjww7iv8i07yx1cmjtgazn3r0?fresh=true",
-          "tileUrl": null,
-        },
-        Object {
-          "id": "mapbox://styles/resourcewatch/cjww836hy1kep1co5xp717jek?fresh=true",
-          "image": Object {
-            "testUri": "../../../app/assets/basemap_dark.png",
-          },
-          "isCustom": false,
-          "name": "dark",
-          "styleURL": "mapbox://styles/resourcewatch/cjww836hy1kep1co5xp717jek?fresh=true",
-          "tileUrl": null,
-        },
-      ],
-      "dataId": "routeIDMock",
-    },
-    "type": "layers/DOWNLOAD_DATA",
-  },
-  Object {
-    "payload": "routeIDMock1",
-    "type": "layers/INVALIDATE_CACHE",
-  },
-]
-`;
-
-exports[`Redux Layers Module Redux Snapshot Thunk Actions resetCacheStatus 1`] = `
-Array [
-  Object {
-    "payload": Object {
-      "areaIDMock": Object {
-        "completed": false,
-        "error": false,
-        "progress": 0,
-        "requested": false,
-      },
-    },
-    "type": "layers/SET_CACHE_STATUS",
-  },
-  Object {
-    "payload": Object {
-      "areaIDMock1": Object {
-        "completed": false,
-        "error": false,
-        "progress": 0,
-        "requested": false,
-      },
-    },
-    "type": "layers/SET_CACHE_STATUS",
-  },
-]
-`;
-
-exports[`Redux Layers Module Redux Snapshot Thunk Actions resetCacheStatus full test 1`] = `
-Array [
-  Object {
-    "payload": Object {
-      "areaIDMock": Object {
-        "completed": false,
-        "error": false,
-        "progress": 0,
-        "requested": false,
-      },
-    },
-    "type": "layers/SET_CACHE_STATUS",
-  },
-]
-`;
-
-exports[`Redux Layers Module Redux Snapshot Thunk Actions resetCacheStatus full test 2`] = `
-Object {
-  "cache": Object {},
-  "cacheStatus": Object {
-    "areaIDMock": Object {
-      "completed": false,
-      "error": false,
-      "progress": 0,
-      "requested": false,
-    },
-  },
-  "data": Array [],
-  "downloadedLayerProgress": Object {},
-  "importError": null,
-  "imported": Array [],
-  "importingLayer": false,
-  "layersProgress": Object {},
-  "pendingCache": Object {},
-  "syncDate": Any<Number>,
-  "synced": false,
-  "syncing": false,
-}
-`;
-
-exports[`Redux Layers Module Redux Snapshot Thunk Actions resetCacheStatus full test 3`] = `
-Array [
-  Object {
-    "payload": Object {
-      "basemaps": Array [
-        Object {
-          "id": "mapbox://styles/mapbox/satellite-streets-v11",
-          "image": Object {
-            "testUri": "../../../app/assets/basemap_mapbox_satellite.png",
-          },
-          "isCustom": false,
-          "name": "satellite",
-          "styleURL": "mapbox://styles/mapbox/satellite-streets-v11",
-          "tileUrl": null,
-        },
-        Object {
-          "id": "mapbox://styles/resourcewatch/cjww7iv8i07yx1cmjtgazn3r0?fresh=true",
-          "image": Object {
-            "testUri": "../../../app/assets/basemap_default.png",
-          },
-          "isCustom": false,
-          "name": "default",
-          "styleURL": "mapbox://styles/resourcewatch/cjww7iv8i07yx1cmjtgazn3r0?fresh=true",
-          "tileUrl": null,
-        },
-        Object {
-          "id": "mapbox://styles/resourcewatch/cjww836hy1kep1co5xp717jek?fresh=true",
-          "image": Object {
-            "testUri": "../../../app/assets/basemap_dark.png",
-          },
-          "isCustom": false,
-          "name": "dark",
-          "styleURL": "mapbox://styles/resourcewatch/cjww836hy1kep1co5xp717jek?fresh=true",
-          "tileUrl": null,
-        },
-      ],
-      "dataId": "areaIDMock",
-    },
-    "type": "layers/DOWNLOAD_DATA",
-  },
-]
-`;
-
-exports[`Redux Layers Module Redux Snapshot Thunk Actions resetCacheStatus full test 4`] = `
-Object {
-  "cache": Object {},
-  "cacheStatus": Object {
-    "areaIDMock": Object {
-      "completed": false,
-      "error": false,
-      "progress": 0,
-      "requested": true,
-    },
-  },
-  "data": Array [],
-  "downloadedLayerProgress": Object {},
-  "importError": null,
-  "imported": Array [],
-  "importingLayer": false,
-  "layersProgress": Object {},
-  "pendingCache": Object {
-    "mapbox://styles/mapbox/satellite-streets-v11": Object {
-      "areaIDMock": false,
-    },
-    "mapbox://styles/resourcewatch/cjww7iv8i07yx1cmjtgazn3r0?fresh=true": Object {
-      "areaIDMock": false,
-    },
-    "mapbox://styles/resourcewatch/cjww836hy1kep1co5xp717jek?fresh=true": Object {
-      "areaIDMock": false,
-    },
-  },
-  "syncDate": Any<Number>,
-  "synced": false,
-  "syncing": false,
-}
-`;
-
-exports[`Redux Layers Module Redux Snapshot Thunk Actions resetCacheStatus full test 5`] = `
-Array [
-  Object {
-    "payload": Object {
-      "areaIDMock": Object {
-        "completed": false,
-        "error": false,
-        "progress": 0,
-        "requested": true,
-      },
-      "areaIDMock2": Object {
-        "completed": false,
-        "error": false,
-        "progress": 0,
-        "requested": false,
-      },
-    },
-    "type": "layers/SET_CACHE_STATUS",
-  },
-]
-`;
-
-exports[`Redux Layers Module Redux Snapshot Thunk Actions resetCacheStatus full test 6`] = `
-Object {
-  "cache": Object {},
-  "cacheStatus": Object {
-    "areaIDMock": Object {
-      "completed": false,
-      "error": false,
-      "progress": 0,
-      "requested": true,
-    },
-    "areaIDMock2": Object {
-      "completed": false,
-      "error": false,
-      "progress": 0,
-      "requested": false,
-    },
-  },
-  "data": Array [],
-  "downloadedLayerProgress": Object {},
-  "importError": null,
-  "imported": Array [],
-  "importingLayer": false,
-  "layersProgress": Object {},
-  "pendingCache": Object {
-    "mapbox://styles/mapbox/satellite-streets-v11": Object {
-      "areaIDMock": false,
-    },
-    "mapbox://styles/resourcewatch/cjww7iv8i07yx1cmjtgazn3r0?fresh=true": Object {
-      "areaIDMock": false,
-    },
-    "mapbox://styles/resourcewatch/cjww836hy1kep1co5xp717jek?fresh=true": Object {
-      "areaIDMock": false,
-    },
-  },
-  "syncDate": Any<Number>,
-  "synced": false,
-  "syncing": false,
-}
 `;
 
 exports[`Redux Layers Module Redux Snapshot Thunk Actions syncLayers 1`] = `
@@ -509,3 +62,527 @@ Array [
 `;
 
 exports[`Redux Layers Module Redux Snapshot Thunk Actions syncLayers 2`] = `Array []`;
+
+exports[`Redux Layers Module func calculateOverallDownloadProgressForRegion returns expected state when given an empty progress state 1`] = `
+Object {
+  "completed": false,
+  "error": false,
+  "progress": 0,
+  "requested": false,
+}
+`;
+
+exports[`Redux Layers Module func calculateOverallDownloadProgressForRegion when one layer is expected returns expected state when one layer has errorred 1`] = `
+Object {
+  "completed": true,
+  "error": true,
+  "progress": 100,
+  "requested": false,
+}
+`;
+
+exports[`Redux Layers Module func calculateOverallDownloadProgressForRegion when one layer is expected returns expected state when one layer is complete 1`] = `
+Object {
+  "completed": true,
+  "error": false,
+  "progress": 100,
+  "requested": false,
+}
+`;
+
+exports[`Redux Layers Module func calculateOverallDownloadProgressForRegion when one layer is expected returns expected state when one layer is in progress 1`] = `
+Object {
+  "completed": false,
+  "error": false,
+  "progress": 50,
+  "requested": true,
+}
+`;
+
+exports[`Redux Layers Module func calculateOverallDownloadProgressForRegion when two layers are expected returns expected state when one layer has errorred & one layer has errorred 1`] = `
+Object {
+  "completed": true,
+  "error": true,
+  "progress": 100,
+  "requested": false,
+}
+`;
+
+exports[`Redux Layers Module func calculateOverallDownloadProgressForRegion when two layers are expected returns expected state when one layer has errorred & one layer is complete 1`] = `
+Object {
+  "completed": true,
+  "error": true,
+  "progress": 100,
+  "requested": false,
+}
+`;
+
+exports[`Redux Layers Module func calculateOverallDownloadProgressForRegion when two layers are expected returns expected state when one layer is complete & one layer does not exist 1`] = `
+Object {
+  "completed": false,
+  "error": false,
+  "progress": 50,
+  "requested": false,
+}
+`;
+
+exports[`Redux Layers Module func calculateOverallDownloadProgressForRegion when two layers are expected returns expected state when one layer is complete & one layer is complete 1`] = `
+Object {
+  "completed": true,
+  "error": false,
+  "progress": 100,
+  "requested": false,
+}
+`;
+
+exports[`Redux Layers Module func calculateOverallDownloadProgressForRegion when two layers are expected returns expected state when one layer is in progress & one layer does not exist 1`] = `
+Object {
+  "completed": false,
+  "error": false,
+  "progress": 25,
+  "requested": true,
+}
+`;
+
+exports[`Redux Layers Module func calculateOverallDownloadProgressForRegion when two layers are expected returns expected state when one layer is in progress & one layer has errorred 1`] = `
+Object {
+  "completed": false,
+  "error": true,
+  "progress": 75,
+  "requested": true,
+}
+`;
+
+exports[`Redux Layers Module func calculateOverallDownloadProgressForRegion when two layers are expected returns expected state when one layer is in progress & one layer is complete 1`] = `
+Object {
+  "completed": false,
+  "error": false,
+  "progress": 75,
+  "requested": true,
+}
+`;
+
+exports[`Redux Layers Module func calculateOverallDownloadProgressForRegion when two layers are expected returns expected state when one layer is in progress & one layer is in progress 1`] = `
+Object {
+  "completed": false,
+  "error": false,
+  "progress": 50,
+  "requested": true,
+}
+`;
+
+exports[`Redux Layers Module func deleteRegionFromProgress returns expected state when given an empty progress state 1`] = `Object {}`;
+
+exports[`Redux Layers Module func deleteRegionFromProgress when given a region that does exist returns expected state when one layer exists 1`] = `
+Object {
+  "layer1": Object {},
+}
+`;
+
+exports[`Redux Layers Module func deleteRegionFromProgress when given a region that does exist returns expected state when two layers exists 1`] = `
+Object {
+  "layer1": Object {},
+  "layer2": Object {},
+}
+`;
+
+exports[`Redux Layers Module func deleteRegionFromProgress when given a region that does exist returns expected state when two layers exists alongside other regions 1`] = `
+Object {
+  "layer1": Object {
+    "area2": Object {
+      "completed": true,
+      "error": false,
+      "progress": 100,
+      "requested": false,
+    },
+  },
+  "layer2": Object {
+    "area2": Object {
+      "completed": true,
+      "error": false,
+      "progress": 100,
+      "requested": false,
+    },
+  },
+}
+`;
+
+exports[`Redux Layers Module func deleteRegionFromProgress when given a region that does not exist returns expected state when one layer exists 1`] = `
+Object {
+  "layer1": Object {
+    "area2": Object {
+      "completed": true,
+      "error": false,
+      "progress": 100,
+      "requested": false,
+    },
+  },
+}
+`;
+
+exports[`Redux Layers Module func deleteRegionFromProgress when given a region that does not exist returns expected state when two layers exists 1`] = `
+Object {
+  "layer1": Object {
+    "area2": Object {
+      "completed": true,
+      "error": false,
+      "progress": 100,
+      "requested": false,
+    },
+  },
+  "layer2": Object {
+    "area2": Object {
+      "completed": true,
+      "error": false,
+      "progress": 100,
+      "requested": false,
+    },
+  },
+}
+`;
+
+exports[`Redux Layers Module func invalidateIncompleteLayerDownloads returns expected state when given an empty progress state 1`] = `Object {}`;
+
+exports[`Redux Layers Module func invalidateIncompleteLayerDownloads with only one region per layer returns expected state when given one 90% completed layer & one completed state 1`] = `
+Object {
+  "layer1": Object {
+    "area1": Object {
+      "completed": true,
+      "error": false,
+      "progress": 100,
+      "requested": false,
+    },
+  },
+  "layer2": Object {
+    "area1": Object {
+      "completed": false,
+      "error": false,
+      "progress": 0,
+      "requested": false,
+    },
+  },
+}
+`;
+
+exports[`Redux Layers Module func invalidateIncompleteLayerDownloads with only one region per layer returns expected state when given one 90% completed layer state 1`] = `
+Object {
+  "layer1": Object {
+    "area1": Object {
+      "completed": false,
+      "error": false,
+      "progress": 0,
+      "requested": false,
+    },
+  },
+}
+`;
+
+exports[`Redux Layers Module func invalidateIncompleteLayerDownloads with only one region per layer returns expected state when given one completed layer state 1`] = `
+Object {
+  "layer1": Object {
+    "area1": Object {
+      "completed": true,
+      "error": false,
+      "progress": 100,
+      "requested": false,
+    },
+  },
+}
+`;
+
+exports[`Redux Layers Module func invalidateIncompleteLayerDownloads with only one region per layer returns expected state when given one errorred layer & one completed state 1`] = `
+Object {
+  "layer1": Object {
+    "area1": Object {
+      "completed": true,
+      "error": false,
+      "progress": 100,
+      "requested": false,
+    },
+  },
+  "layer2": Object {
+    "area1": Object {
+      "completed": false,
+      "error": false,
+      "progress": 0,
+      "requested": false,
+    },
+  },
+}
+`;
+
+exports[`Redux Layers Module func invalidateIncompleteLayerDownloads with only one region per layer returns expected state when given one errorred layer state 1`] = `
+Object {
+  "layer1": Object {
+    "area1": Object {
+      "completed": false,
+      "error": false,
+      "progress": 0,
+      "requested": false,
+    },
+  },
+}
+`;
+
+exports[`Redux Layers Module func invalidateIncompleteLayerDownloads with only one region per layer returns expected state when given one requested but not completed & one completed layer state 1`] = `
+Object {
+  "layer1": Object {
+    "area1": Object {
+      "completed": true,
+      "error": false,
+      "progress": 100,
+      "requested": false,
+    },
+  },
+  "layer2": Object {
+    "area1": Object {
+      "completed": false,
+      "error": false,
+      "progress": 0,
+      "requested": false,
+    },
+  },
+}
+`;
+
+exports[`Redux Layers Module func invalidateIncompleteLayerDownloads with only one region per layer returns expected state when given one requested but not completed layer state 1`] = `
+Object {
+  "layer1": Object {
+    "area1": Object {
+      "completed": false,
+      "error": false,
+      "progress": 0,
+      "requested": false,
+    },
+  },
+}
+`;
+
+exports[`Redux Layers Module func invalidateIncompleteLayerDownloads with only one region per layer returns expected state when given two completed layer state 1`] = `
+Object {
+  "layer1": Object {
+    "area1": Object {
+      "completed": true,
+      "error": false,
+      "progress": 100,
+      "requested": false,
+    },
+  },
+  "layer2": Object {
+    "area1": Object {
+      "completed": true,
+      "error": false,
+      "progress": 100,
+      "requested": false,
+    },
+  },
+}
+`;
+
+exports[`Redux Layers Module func invalidateIncompleteLayerDownloads with two regions per layer returns expected state when given one 90% completed layer & one completed state 1`] = `
+Object {
+  "layer1": Object {
+    "area1": Object {
+      "completed": true,
+      "error": false,
+      "progress": 100,
+      "requested": false,
+    },
+    "area2": Object {
+      "completed": true,
+      "error": false,
+      "progress": 100,
+      "requested": false,
+    },
+  },
+  "layer2": Object {
+    "area1": Object {
+      "completed": false,
+      "error": false,
+      "progress": 0,
+      "requested": false,
+    },
+    "area2": Object {
+      "completed": false,
+      "error": false,
+      "progress": 0,
+      "requested": false,
+    },
+  },
+}
+`;
+
+exports[`Redux Layers Module func invalidateIncompleteLayerDownloads with two regions per layer returns expected state when given one 90% completed layer state 1`] = `
+Object {
+  "layer1": Object {
+    "area1": Object {
+      "completed": false,
+      "error": false,
+      "progress": 0,
+      "requested": false,
+    },
+    "area2": Object {
+      "completed": false,
+      "error": false,
+      "progress": 0,
+      "requested": false,
+    },
+  },
+}
+`;
+
+exports[`Redux Layers Module func invalidateIncompleteLayerDownloads with two regions per layer returns expected state when given one completed layer state 1`] = `
+Object {
+  "layer1": Object {
+    "area1": Object {
+      "completed": true,
+      "error": false,
+      "progress": 100,
+      "requested": false,
+    },
+    "area2": Object {
+      "completed": true,
+      "error": false,
+      "progress": 100,
+      "requested": false,
+    },
+  },
+}
+`;
+
+exports[`Redux Layers Module func invalidateIncompleteLayerDownloads with two regions per layer returns expected state when given one errorred layer & one completed state 1`] = `
+Object {
+  "layer1": Object {
+    "area1": Object {
+      "completed": true,
+      "error": false,
+      "progress": 100,
+      "requested": false,
+    },
+    "area2": Object {
+      "completed": true,
+      "error": false,
+      "progress": 100,
+      "requested": false,
+    },
+  },
+  "layer2": Object {
+    "area1": Object {
+      "completed": false,
+      "error": false,
+      "progress": 0,
+      "requested": false,
+    },
+    "area2": Object {
+      "completed": false,
+      "error": false,
+      "progress": 0,
+      "requested": false,
+    },
+  },
+}
+`;
+
+exports[`Redux Layers Module func invalidateIncompleteLayerDownloads with two regions per layer returns expected state when given one errorred layer state 1`] = `
+Object {
+  "layer1": Object {
+    "area1": Object {
+      "completed": false,
+      "error": false,
+      "progress": 0,
+      "requested": false,
+    },
+    "area2": Object {
+      "completed": false,
+      "error": false,
+      "progress": 0,
+      "requested": false,
+    },
+  },
+}
+`;
+
+exports[`Redux Layers Module func invalidateIncompleteLayerDownloads with two regions per layer returns expected state when given one requested but not completed & one completed layer state 1`] = `
+Object {
+  "layer1": Object {
+    "area1": Object {
+      "completed": true,
+      "error": false,
+      "progress": 100,
+      "requested": false,
+    },
+    "area2": Object {
+      "completed": true,
+      "error": false,
+      "progress": 100,
+      "requested": false,
+    },
+  },
+  "layer2": Object {
+    "area1": Object {
+      "completed": false,
+      "error": false,
+      "progress": 0,
+      "requested": false,
+    },
+    "area2": Object {
+      "completed": false,
+      "error": false,
+      "progress": 0,
+      "requested": false,
+    },
+  },
+}
+`;
+
+exports[`Redux Layers Module func invalidateIncompleteLayerDownloads with two regions per layer returns expected state when given one requested but not completed layer state 1`] = `
+Object {
+  "layer1": Object {
+    "area1": Object {
+      "completed": false,
+      "error": false,
+      "progress": 0,
+      "requested": false,
+    },
+    "area2": Object {
+      "completed": false,
+      "error": false,
+      "progress": 0,
+      "requested": false,
+    },
+  },
+}
+`;
+
+exports[`Redux Layers Module func invalidateIncompleteLayerDownloads with two regions per layer returns expected state when given two completed layer state 1`] = `
+Object {
+  "layer1": Object {
+    "area1": Object {
+      "completed": true,
+      "error": false,
+      "progress": 100,
+      "requested": false,
+    },
+    "area2": Object {
+      "completed": true,
+      "error": false,
+      "progress": 100,
+      "requested": false,
+    },
+  },
+  "layer2": Object {
+    "area1": Object {
+      "completed": true,
+      "error": false,
+      "progress": 100,
+      "requested": false,
+    },
+    "area2": Object {
+      "completed": true,
+      "error": false,
+      "progress": 100,
+      "requested": false,
+    },
+  },
+}
+`;

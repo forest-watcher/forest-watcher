@@ -96,6 +96,7 @@ export function showMapWalkthrough() {
       children: [
         {
           component: {
+            id: 'ForestWatcher.MapWalkthrough',
             name: 'ForestWatcher.MapWalkthrough',
             options: {
               animations: Theme.navigationAnimations.fadeModal,

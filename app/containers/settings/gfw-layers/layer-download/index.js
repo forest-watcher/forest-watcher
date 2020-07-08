@@ -5,14 +5,14 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import LayerDownload from 'components/settings/gfw-layers/layer-download';
 import { showNotConnectedNotification } from 'redux-modules/app';
-import { importGFWContent } from 'redux-modules/layers';
+import { importGFWContent } from 'redux-modules/layers/downloadLayer';
 
-import type { ContextualLayer, LayersCacheStatus } from 'types/layers.types';
+import type { Layer, LayersCacheStatus } from 'types/layers.types';
 
 type OwnProps = {|
   +componentId: string,
   downloadProgress: ?LayersCacheStatus,
-  layer: ContextualLayer,
+  layer: Layer,
   popToComponentId: string
 |};
 

@@ -1,6 +1,6 @@
 // @flow
 import type { Alert, AlertDatasetConfig, SelectedAlert } from 'types/alerts.types';
-import type { AlertFeatureProperties, MapboxFeaturePressEvent } from 'types/common.types';
+import type { AlertFeatureProperties, Coordinates, MapboxFeaturePressEvent } from 'types/common.types';
 
 import React, { PureComponent } from 'react';
 
@@ -12,7 +12,7 @@ import _ from 'lodash';
 import moment from 'moment';
 import queryAlerts from 'helpers/alert-store/queryAlerts';
 import generateUniqueID from 'helpers/uniqueId';
-import { DATASETS } from 'config/constants';
+import { DATASETS, MAP_LAYER_INDEXES } from 'config/constants';
 import { getNeighboursSelected } from 'helpers/map';
 import kdbush from 'kdbush';
 
@@ -29,7 +29,7 @@ type Props = {|
   +isActive: boolean,
   +onPress?: ?(MapboxFeaturePressEvent<AlertFeatureProperties>) => any,
   +slug: 'umd_as_it_happens' | 'viirs',
-  +reportedAlerts: $ReadOnlyArray<string>,
+  +reportedAlerts: $ReadOnlyArray<Coordinates>,
   +selectedAlerts: $ReadOnlyArray<SelectedAlert>,
   +timeframe: number,
   +timeframeUnit: 'days' | 'months'
@@ -157,7 +157,9 @@ export default class AlertDataset extends PureComponent<Props, State> {
 
   _getAlertProperties = (alert: Alert, selectedNeighbours: $ReadOnlyArray<Alert>): AlertFeatureProperties => {
     const { name, recencyTimestamp, iconPrefix } = this.datasets[alert.slug];
-    const reported = this.props.reportedAlerts.includes(`${alert.long}${alert.lat}`);
+    const reported = this.props.reportedAlerts.some(
+      coordinates => coordinates.latitude === alert.lat && coordinates.longitude === alert.long
+    );
     const isRecent = alert.date > recencyTimestamp;
     const selected = this._isAlertSelected(alert);
     const alertInClusterSelected = selectedNeighbours.includes(alert);
@@ -262,17 +264,23 @@ export default class AlertDataset extends PureComponent<Props, State> {
         shape={alerts}
         onPress={this.props.onPress}
       >
-        <MapboxGL.SymbolLayer id={idClusterCountSymbolLayer} style={clusterCountStyle} />
+        <MapboxGL.SymbolLayer
+          id={idClusterCountSymbolLayer}
+          style={clusterCountStyle}
+          layerIndex={MAP_LAYER_INDEXES.alerts}
+        />
         <MapboxGL.CircleLayer
           id={idClusterCircleLayer}
           belowLayerID={idClusterCountSymbolLayer}
           filter={['has', 'point_count']}
           style={{ ...mapboxStyles.clusteredPoints, circleColor: clusterColor }}
+          layerIndex={MAP_LAYER_INDEXES.alerts}
         />
         <MapboxGL.SymbolLayer
           id={idAlertSymbolLayer}
           filter={['!', ['has', 'point_count']]}
           style={mapboxStyles.alert}
+          layerIndex={MAP_LAYER_INDEXES.alerts}
         />
       </MapboxGL.ShapeSource>
     );

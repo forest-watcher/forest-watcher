@@ -1,13 +1,19 @@
 // @flow
 import type { DownloadDataType } from 'types/sharing.types';
 import type { ComponentProps, Dispatch, State } from 'types/store.types';
-import type { LayersPendingCache } from 'types/layers.types';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { downloadAreaById, resetCacheStatus, refreshCacheById, downloadRouteById } from 'redux-modules/layers';
+import {
+  downloadAreaById,
+  resetCacheStatus,
+  refreshCacheById,
+  downloadRouteById,
+  calculateOverallDownloadProgressForRegion
+} from 'redux-modules/layers/downloadLayer';
 import { showNotConnectedNotification } from 'redux-modules/app';
 import DataCacher from 'components/common/download';
+import { GFW_BASEMAPS } from 'config/constants';
 
 type OwnProps = {|
   +dataType: DownloadDataType,
@@ -15,19 +21,17 @@ type OwnProps = {|
   +showTooltip: boolean
 |};
 
-const getPendingCache = (id: string, pendingCache: LayersPendingCache) =>
-  Object.values(pendingCache)
-    // $FlowFixMe
-    .map(caches => (typeof caches[id] !== 'undefined' ? 1 : 0))
-    .reduce((acc, next) => acc + next, 0);
-
 function mapStateToProps(state: State, ownProps: OwnProps) {
   const { id } = ownProps;
 
+  const downloadProgress = state.layers.downloadedLayerProgress;
+  const expectedLayerTotal = state.layers.data.length + state.layers.imported.length + GFW_BASEMAPS.length;
+
+  const overallCacheStatus = calculateOverallDownloadProgressForRegion(id, downloadProgress, expectedLayerTotal);
+
   return {
-    cacheStatus: state.layers.cacheStatus[id],
-    isOfflineMode: state.app.offlineMode,
-    pendingCache: getPendingCache(id, state.layers.pendingCache)
+    downloadProgress: overallCacheStatus,
+    isOfflineMode: state.app.offlineMode
   };
 }
 

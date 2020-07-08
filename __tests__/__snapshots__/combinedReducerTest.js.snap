@@ -5,11 +5,9 @@ Object {
   "alerts": Object {
     "cache": Object {},
     "queue": Array [],
-    "reported": Array [],
     "syncError": false,
   },
   "app": Object {
-    "actions": Array [],
     "areaCountryTooltipSeen": false,
     "areaDownloadTooltipSeen": false,
     "coordinatesFormat": "decimal",
@@ -29,12 +27,6 @@ Object {
     "syncError": false,
     "synced": false,
     "syncing": false,
-  },
-  "basemaps": Object {
-    "downloadedBasemapProgress": Object {},
-    "importError": null,
-    "importedBasemaps": Array [],
-    "importing": false,
   },
   "countries": Object {
     "data": Array [
@@ -1880,15 +1872,11 @@ Object {
   },
   "layerSettings": Object {},
   "layers": Object {
-    "cache": Object {},
-    "cacheStatus": Object {},
     "data": Array [],
     "downloadedLayerProgress": Object {},
     "importError": null,
     "imported": Array [],
     "importingLayer": false,
-    "layersProgress": Object {},
-    "pendingCache": Object {},
     "syncDate": Any<Number>,
     "synced": false,
     "syncing": false,
@@ -1935,11 +1923,9 @@ Object {
   "alerts": Object {
     "cache": Object {},
     "queue": Array [],
-    "reported": Array [],
     "syncError": false,
   },
   "app": Object {
-    "actions": Array [],
     "areaCountryTooltipSeen": false,
     "areaDownloadTooltipSeen": false,
     "coordinatesFormat": "decimal",
@@ -1959,12 +1945,6 @@ Object {
     "syncError": false,
     "synced": false,
     "syncing": false,
-  },
-  "basemaps": Object {
-    "downloadedBasemapProgress": Object {},
-    "importError": null,
-    "importedBasemaps": Array [],
-    "importing": false,
   },
   "countries": Object {
     "data": Array [
@@ -3810,15 +3790,11 @@ Object {
   },
   "layerSettings": Object {},
   "layers": Object {
-    "cache": Object {},
-    "cacheStatus": Object {},
     "data": Array [],
     "downloadedLayerProgress": Object {},
     "importError": null,
     "imported": Array [],
     "importingLayer": false,
-    "layersProgress": Object {},
-    "pendingCache": Object {},
     "syncDate": Any<Number>,
     "synced": false,
     "syncing": false,

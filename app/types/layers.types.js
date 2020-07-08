@@ -1,8 +1,8 @@
 // @flow
 
 import type { OfflineMeta } from 'types/offline.types';
-import type { DeleteAreaCommit, SaveAreaCommit, Area } from 'types/areas.types';
-import type { Basemap } from 'types/basemaps.types';
+import type { DeleteAreaCommit, SaveAreaCommit } from 'types/areas.types';
+import type { LayerType } from 'types/sharing.types';
 
 export type VectorMapLayer = {
   filter?: ?*,
@@ -19,7 +19,7 @@ export type ContextualLayerRenderSpec = {
   vectorMapLayers?: ?Array<VectorMapLayer>
 };
 
-export type ContextualLayer = {
+export type Layer = {
   createdAt?: ?string,
   description?: ?string,
   enabled?: ?boolean,
@@ -29,29 +29,26 @@ export type ContextualLayer = {
   owner?: ?{
     type: string
   },
-  url: string,
-  isImported?: true,
-  isCustom?: ?boolean,
-  size?: ?number
+  type: LayerType,
+  url?: ?string,
+  isImported?: true, // Flag indicating whether or not this was imported from a sharing bundle
+  isCustom?: ?boolean, // Flag indicating whether or not this is a custom one added by the user
+  size?: ?number, // The size of this content on disk.
+  styleURL?: string,
+  image?: number
 };
 
+export type LayerDownloadProgress = { [layerId: string]: LayersCacheStatus };
+
 export type LayersState = {
-  data: Array<ContextualLayer>,
+  data: Array<Layer>,
   synced: boolean,
   syncing: boolean,
   syncDate: number,
-  layersProgress: LayersProgress,
-  cacheStatus: LayersCacheStatus,
-  cache: LayersCache,
-  pendingCache: LayersPendingCache,
   importError: ?Error,
-  imported: Array<ContextualLayer>,
+  imported: Array<Layer>,
   importingLayer: boolean,
-  downloadedLayerProgress: { [layerId: string]: LayersCacheStatus }
-};
-
-export type LayersProgress = {
-  [string]: { layerId: number }
+  downloadedLayerProgress: LayerDownloadProgress
 };
 
 export type LayerCacheData = {
@@ -65,29 +62,10 @@ export type LayersCacheStatus = {
   [string]: LayerCacheData
 };
 
-export type UpdateProgressActionType =
-  | 'basemaps/IMPORT_BASEMAP_PROGRESS'
-  | 'layers/UPDATE_PROGRESS'
-  | 'layers/IMPORT_LAYER_PROGRESS';
-
-type LayersCache = {
-  [string]: { areaId: string }
-};
-
-export type LayersPendingCache = {
-  [string]: { areaId: boolean }
-};
-
 export type LayersAction =
   | GetLayersRequest
   | GetLayersCommit
   | GetLayersRollback
-  | UpdateProgress
-  | CacheLayerRequest
-  | CacheLayerCommit
-  | CacheLayerRollback
-  | DownloadData
-  | InvalidateCache
   | SetCacheStatus
   | DeleteAreaCommit
   | ImportLayerRequest
@@ -106,20 +84,10 @@ type GetLayersRequest = {
 };
 type GetLayersCommit = {
   type: 'layers/GET_LAYERS_COMMIT',
-  payload: Array<ContextualLayer>,
-  meta: { areas: Array<Area> }
+  payload: Array<Layer>
 };
 type GetLayersRollback = { type: 'layers/GET_LAYERS_ROLLBACK' };
 
-// For consistency & reuse, the update progress actions use the same payload structure.
-type UpdateProgress = {
-  type: 'layers/UPDATE_PROGRESS',
-  payload: {
-    id: string,
-    layerId: string,
-    progress: number
-  }
-};
 type ImportLayerProgress = {
   type: 'layers/IMPORT_LAYER_PROGRESS',
   payload: {
@@ -128,23 +96,9 @@ type ImportLayerProgress = {
     progress: number
   }
 };
-type CacheLayerRequest = {
-  type: 'layers/CACHE_LAYER_REQUEST',
-  payload: { dataId: string, layerId: string }
-};
-type CacheLayerCommit = {
-  type: 'layers/CACHE_LAYER_COMMIT',
-  payload: { dataId: string, layerId: string, path?: string }
-};
-type CacheLayerRollback = {
-  type: 'layers/CACHE_LAYER_ROLLBACK',
-  payload: { dataId: string, layerId: string }
-};
-type DownloadData = { type: 'layers/DOWNLOAD_DATA', payload: { dataId: string, basemaps: Array<Basemap> } };
-type InvalidateCache = { type: 'layers/INVALIDATE_CACHE', payload: string };
 type SetCacheStatus = {
-  type: 'layers/SET_CACHE_STATUS',
-  payload: LayersCacheStatus
+  type: 'layers/RESET_REGION_PROGRESS',
+  payload: { [layerId: string]: LayersCacheStatus }
 };
 
 type ImportLayerRequest = {
@@ -160,7 +114,7 @@ type ImportLayerAreaCompleted = {
     failed: boolean
   }
 };
-type ImportLayerCommit = { type: 'layers/IMPORT_LAYER_COMMIT', payload: ContextualLayer };
+type ImportLayerCommit = { type: 'layers/IMPORT_LAYER_COMMIT', payload: Layer };
 type ImportLayerClear = { type: 'layers/IMPORT_LAYER_CLEAR' };
 type ImportLayerRollback = {
   type: 'layers/IMPORT_LAYER_ROLLBACK',
