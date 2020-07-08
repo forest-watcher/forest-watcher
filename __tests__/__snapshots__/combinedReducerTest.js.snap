@@ -5,7 +5,6 @@ Object {
   "alerts": Object {
     "cache": Object {},
     "queue": Array [],
-    "reported": Array [],
     "syncError": false,
   },
   "app": Object {
@@ -1873,15 +1872,11 @@ Object {
   },
   "layerSettings": Object {},
   "layers": Object {
-    "cache": Object {},
-    "cacheStatus": Object {},
     "data": Array [],
     "downloadedLayerProgress": Object {},
     "importError": null,
     "imported": Array [],
     "importingLayer": false,
-    "layersProgress": Object {},
-    "pendingCache": Object {},
     "syncDate": Any<Number>,
     "synced": false,
     "syncing": false,
@@ -1928,7 +1923,6 @@ Object {
   "alerts": Object {
     "cache": Object {},
     "queue": Array [],
-    "reported": Array [],
     "syncError": false,
   },
   "app": Object {
@@ -3796,15 +3790,11 @@ Object {
   },
   "layerSettings": Object {},
   "layers": Object {
-    "cache": Object {},
-    "cacheStatus": Object {},
     "data": Array [],
     "downloadedLayerProgress": Object {},
     "importError": null,
     "imported": Array [],
     "importingLayer": false,
-    "layersProgress": Object {},
-    "pendingCache": Object {},
     "syncDate": Any<Number>,
     "synced": false,
     "syncing": false,

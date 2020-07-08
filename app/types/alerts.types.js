@@ -43,14 +43,12 @@ export type AlertsState = {
       [areaId: string]: string
     }
   },
-  reported: Array<string>,
   syncError: boolean,
   queue: Array<string>
 };
 
 export type AlertsAction =
   | RetrySync
-  | SetActiveAlerts
   | GetAreaAlertsRequest
   | GetAreaAlertsCommit
   | GetAreaAlertsRollback
@@ -58,7 +56,6 @@ export type AlertsAction =
   | PersistRehydrate
   | LogoutRequest;
 
-type SetActiveAlerts = { type: 'alerts/SET_ACTIVE_ALERTS' };
 type GetAreaAlertsRequest = {
   type: 'alerts/GET_ALERTS_REQUEST',
   payload: string,

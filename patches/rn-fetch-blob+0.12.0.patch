@@ -1,0 +1,29 @@
+diff --git a/node_modules/rn-fetch-blob/android/src/main/java/com/RNFetchBlob/RNFetchBlobReq.java b/node_modules/rn-fetch-blob/android/src/main/java/com/RNFetchBlob/RNFetchBlobReq.java
+index a8abd71..9d43c47 100644
+--- a/node_modules/rn-fetch-blob/android/src/main/java/com/RNFetchBlob/RNFetchBlobReq.java
++++ b/node_modules/rn-fetch-blob/android/src/main/java/com/RNFetchBlob/RNFetchBlobReq.java
+@@ -421,20 +416,16 @@ public class RNFetchBlobReq extends BroadcastReceiver implements Runnable {
+                         }
+                         return originalResponse.newBuilder().body(extended).build();
+                     }
+-                    catch(SocketException e) {
++                    catch(SocketException | SocketTimeoutException e) {
+                         timeout = true;
++                        throw e;
+                     }
+-                    catch (SocketTimeoutException e ){
+-                        timeout = true;
+-                        //RNFetchBlobUtils.emitWarningEvent("RNFetchBlob error when sending request : " + e.getLocalizedMessage());
+-                    } catch(Exception ex) {
+-
++                    catch(Exception ex) {
++                        throw ex;
+                     }
+-                    return chain.proceed(chain.request());
+                 }
+             });
+ 
+-
+             if(options.timeout >= 0) {
+                 clientBuilder.connectTimeout(options.timeout, TimeUnit.MILLISECONDS);
+                 clientBuilder.readTimeout(options.timeout, TimeUnit.MILLISECONDS);
