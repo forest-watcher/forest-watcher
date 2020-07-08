@@ -291,10 +291,10 @@ export function importLayer(layerFile: File): Thunk<Promise<void>> {
       const importedFile: LayerFile = await importLayerFile(layerFile);
       const layerData: Layer = {
         enabled: true,
-        id: layerFile.id,
+        id: importedFile.layerId,
         isPublic: false,
         name: layerFile.name || '',
-        url: `${importedFile.path}/${importedFile.subFiles[0]}`,
+        url: null,
         size: importedFile.size,
         isCustom: true,
         type: importedFile.type
