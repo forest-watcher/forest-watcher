@@ -54,9 +54,10 @@ export async function importLayerFile(layerFile: File): Promise<LayerFile> {
 
 function getFormattedFile(layerFile: File) {
   // We have to decode the file URI because iOS file manager doesn't like encoded uris!
+  // On iOS, we also need to remove `file:///` from the uri string.
   const file = {
     ...layerFile,
-    uri: Platform.OS === 'android' ? layerFile.uri : decodeURI(layerFile.uri)
+    uri: Platform.OS === 'android' ? layerFile.uri : decodeURI(layerFile.uri).replace('file:///', '')
   };
 
   const fileName = Platform.select({
