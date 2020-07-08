@@ -19,6 +19,9 @@ export type ContextualLayerRenderSpec = {
   vectorMapLayers?: ?Array<VectorMapLayer>
 };
 
+/**
+ * This model is returned by the API but we also use it for local-only layers
+ */
 export type Layer = {
   createdAt?: ?string,
   description?: ?string,
@@ -30,7 +33,7 @@ export type Layer = {
     type: string
   },
   type: LayerType,
-  url?: ?string,
+  url?: ?string, // A remote tile URL pattern from which the layer can be downloaded
   isImported?: true, // Flag indicating whether or not this was imported from a sharing bundle
   isCustom?: ?boolean, // Flag indicating whether or not this is a custom one added by the user
   size?: ?number, // The size of this content on disk.

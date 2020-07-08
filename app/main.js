@@ -1,4 +1,4 @@
-import { Alert, AppState, Platform } from 'react-native';
+import { Alert, AppState, NativeModules, Platform } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import { Provider } from 'react-redux';
 import Theme from 'config/theme';
@@ -47,6 +47,10 @@ export default class App {
     let screen = 'ForestWatcher.Home';
     if (state.user.loggedIn && state.app.synced) {
       screen = 'ForestWatcher.Dashboard';
+    }
+
+    if (Platform.OS === 'android') {
+      NativeModules.FWMapbox.installOfflineModeInterceptor(state.app.offlineMode);
     }
 
     await launchAppRoot(screen);
