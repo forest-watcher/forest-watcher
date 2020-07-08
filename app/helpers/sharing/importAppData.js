@@ -9,7 +9,7 @@ import type { Report, Template } from 'types/reports.types';
 import type { Layer } from 'types/layers.types';
 import storeAlerts from 'helpers/alert-store/storeAlerts';
 import { SAVE_AREA_COMMIT } from 'redux-modules/areas';
-import { IMPORT_LAYER_REQUEST, IMPORT_LAYER_COMMIT } from 'redux-modules/layers';
+import { IMPORT_LAYER_REQUEST, IMPORT_LAYER_COMMIT } from 'redux-modules/shared';
 import { IMPORT_ROUTE } from 'redux-modules/routes';
 import { IMPORT_REPORT, IMPORT_TEMPLATE } from 'redux-modules/reports';
 import { isCustomContextualLayer, isGfwContextualLayer } from 'helpers/layerTypes';

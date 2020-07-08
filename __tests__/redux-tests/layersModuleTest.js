@@ -2,16 +2,12 @@ import 'react-native';
 import thunk from 'redux-thunk';
 import configureStore from 'redux-mock-store';
 import { combinedReducer } from 'combinedReducer';
-import layerReducer, {
-  cacheAreaLayer,
-  cacheAreaBasemap,
-  cacheLayers,
-  downloadAreaById,
-  getUserLayers,
-  refreshCacheById,
-  resetCacheStatus,
-  syncLayers
-} from 'redux-modules/layers';
+import layerReducer, { getUserLayers, syncLayers } from 'redux-modules/layers';
+import {
+  calculateOverallDownloadProgressForRegion,
+  deleteRegionFromProgress,
+  invalidateIncompleteLayerDownloads
+} from 'redux-modules/layers/downloadLayer';
 
 describe('Redux Layers Module', () => {
   // Mock Objects:
@@ -51,6 +47,780 @@ describe('Redux Layers Module', () => {
 
   it('Initial reducer state', () => {
     expect(layerReducer(undefined, { type: 'NONE' })).toMatchSnapshot({ syncDate: expect.any(Number) });
+  });
+
+  describe('func calculateOverallDownloadProgressForRegion', () => {
+    it('returns expected state when given an empty progress state', () => {
+      expect(calculateOverallDownloadProgressForRegion('area1', {}, 1)).toMatchSnapshot();
+    });
+
+    describe('when one layer is expected', () => {
+      it('returns expected state when one layer is in progress', () => {
+        expect(
+          calculateOverallDownloadProgressForRegion(
+            'area1',
+            {
+              layer1: {
+                area1: {
+                  progress: 50,
+                  requested: true,
+                  completed: false,
+                  error: false
+                }
+              }
+            },
+            1
+          )
+        ).toMatchSnapshot();
+      });
+
+      it('returns expected state when one layer has errorred', () => {
+        expect(
+          calculateOverallDownloadProgressForRegion(
+            'area1',
+            {
+              layer1: {
+                area1: {
+                  progress: 100,
+                  requested: false,
+                  completed: true,
+                  error: true
+                }
+              }
+            },
+            1
+          )
+        ).toMatchSnapshot();
+      });
+
+      it('returns expected state when one layer is complete', () => {
+        expect(
+          calculateOverallDownloadProgressForRegion(
+            'area1',
+            {
+              layer1: {
+                area1: {
+                  progress: 100,
+                  requested: false,
+                  completed: true,
+                  error: false
+                }
+              }
+            },
+            1
+          )
+        ).toMatchSnapshot();
+      });
+    });
+
+    describe('when two layers are expected', () => {
+      it('returns expected state when one layer is in progress & one layer is in progress', () => {
+        expect(
+          calculateOverallDownloadProgressForRegion(
+            'area1',
+            {
+              layer1: {
+                area1: {
+                  progress: 50,
+                  requested: true,
+                  completed: false,
+                  error: false
+                }
+              },
+              layer2: {
+                area1: {
+                  progress: 50,
+                  requested: true,
+                  completed: false,
+                  error: false
+                }
+              }
+            },
+            2
+          )
+        ).toMatchSnapshot();
+      });
+
+      it('returns expected state when one layer is in progress & one layer has errorred', () => {
+        expect(
+          calculateOverallDownloadProgressForRegion(
+            'area1',
+            {
+              layer1: {
+                area1: {
+                  progress: 50,
+                  requested: true,
+                  completed: false,
+                  error: false
+                }
+              },
+              layer2: {
+                area1: {
+                  progress: 100,
+                  requested: false,
+                  completed: true,
+                  error: true
+                }
+              }
+            },
+            2
+          )
+        ).toMatchSnapshot();
+      });
+
+      it('returns expected state when one layer is in progress & one layer is complete', () => {
+        expect(
+          calculateOverallDownloadProgressForRegion(
+            'area1',
+            {
+              layer1: {
+                area1: {
+                  progress: 50,
+                  requested: true,
+                  completed: false,
+                  error: false
+                }
+              },
+              layer2: {
+                area1: {
+                  progress: 100,
+                  requested: false,
+                  completed: true,
+                  error: false
+                }
+              }
+            },
+            2
+          )
+        ).toMatchSnapshot();
+      });
+
+      it('returns expected state when one layer is in progress & one layer does not exist', () => {
+        expect(
+          calculateOverallDownloadProgressForRegion(
+            'area1',
+            {
+              layer1: {
+                area1: {
+                  progress: 50,
+                  requested: true,
+                  completed: false,
+                  error: false
+                }
+              }
+            },
+            2
+          )
+        ).toMatchSnapshot();
+      });
+
+      it('returns expected state when one layer is complete & one layer does not exist', () => {
+        expect(
+          calculateOverallDownloadProgressForRegion(
+            'area1',
+            {
+              layer1: {
+                area1: {
+                  progress: 100,
+                  requested: false,
+                  completed: true,
+                  error: false
+                }
+              }
+            },
+            2
+          )
+        ).toMatchSnapshot();
+      });
+
+      it('returns expected state when one layer has errorred & one layer has errorred', () => {
+        expect(
+          calculateOverallDownloadProgressForRegion(
+            'area1',
+            {
+              layer1: {
+                area1: {
+                  progress: 100,
+                  requested: false,
+                  completed: true,
+                  error: true
+                }
+              },
+              layer2: {
+                area1: {
+                  progress: 100,
+                  requested: false,
+                  completed: true,
+                  error: true
+                }
+              }
+            },
+            2
+          )
+        ).toMatchSnapshot();
+      });
+
+      it('returns expected state when one layer has errorred & one layer is complete', () => {
+        expect(
+          calculateOverallDownloadProgressForRegion(
+            'area1',
+            {
+              layer1: {
+                area1: {
+                  progress: 100,
+                  requested: false,
+                  completed: true,
+                  error: true
+                }
+              },
+              layer2: {
+                area1: {
+                  progress: 100,
+                  requested: false,
+                  completed: true,
+                  error: false
+                }
+              }
+            },
+            2
+          )
+        ).toMatchSnapshot();
+      });
+
+      it('returns expected state when one layer is complete & one layer is complete', () => {
+        expect(
+          calculateOverallDownloadProgressForRegion(
+            'area1',
+            {
+              layer1: {
+                area1: {
+                  progress: 100,
+                  requested: false,
+                  completed: true,
+                  error: false
+                }
+              },
+              layer2: {
+                area1: {
+                  progress: 100,
+                  requested: false,
+                  completed: true,
+                  error: false
+                }
+              }
+            },
+            2
+          )
+        ).toMatchSnapshot();
+      });
+    });
+  });
+
+  describe('func deleteRegionFromProgress', () => {
+    it('returns expected state when given an empty progress state', () => {
+      expect(deleteRegionFromProgress('area1', {})).toMatchSnapshot();
+    });
+
+    describe('when given a region that does not exist', () => {
+      it('returns expected state when one layer exists', () => {
+        expect(
+          deleteRegionFromProgress('area1', {
+            layer1: {
+              area2: {
+                progress: 100,
+                requested: false,
+                completed: true,
+                error: false
+              }
+            }
+          })
+        ).toMatchSnapshot();
+      });
+
+      it('returns expected state when two layers exists', () => {
+        expect(
+          deleteRegionFromProgress('area1', {
+            layer1: {
+              area2: {
+                progress: 100,
+                requested: false,
+                completed: true,
+                error: false
+              }
+            },
+            layer2: {
+              area2: {
+                progress: 100,
+                requested: false,
+                completed: true,
+                error: false
+              }
+            }
+          })
+        ).toMatchSnapshot();
+      });
+    });
+
+    describe('when given a region that does exist', () => {
+      it('returns expected state when one layer exists', () => {
+        expect(
+          deleteRegionFromProgress('area1', {
+            layer1: {
+              area1: {
+                progress: 100,
+                requested: false,
+                completed: true,
+                error: false
+              }
+            }
+          })
+        ).toMatchSnapshot();
+      });
+
+      it('returns expected state when two layers exists', () => {
+        expect(
+          deleteRegionFromProgress('area1', {
+            layer1: {
+              area1: {
+                progress: 100,
+                requested: false,
+                completed: true,
+                error: false
+              }
+            },
+            layer2: {
+              area1: {
+                progress: 100,
+                requested: false,
+                completed: true,
+                error: false
+              }
+            }
+          })
+        ).toMatchSnapshot();
+      });
+
+      it('returns expected state when two layers exists alongside other regions', () => {
+        expect(
+          deleteRegionFromProgress('area1', {
+            layer1: {
+              area1: {
+                progress: 100,
+                requested: false,
+                completed: true,
+                error: false
+              },
+              area2: {
+                progress: 100,
+                requested: false,
+                completed: true,
+                error: false
+              }
+            },
+            layer2: {
+              area1: {
+                progress: 100,
+                requested: false,
+                completed: true,
+                error: false
+              },
+              area2: {
+                progress: 100,
+                requested: false,
+                completed: true,
+                error: false
+              }
+            }
+          })
+        ).toMatchSnapshot();
+      });
+    });
+  });
+
+  describe('func invalidateIncompleteLayerDownloads', () => {
+    it('returns expected state when given an empty progress state', () => {
+      expect(invalidateIncompleteLayerDownloads({})).toMatchSnapshot();
+    });
+
+    describe('with only one region per layer', () => {
+      it('returns expected state when given one completed layer state', () => {
+        expect(
+          invalidateIncompleteLayerDownloads({
+            layer1: {
+              area1: {
+                progress: 100,
+                requested: false,
+                completed: true,
+                error: false
+              }
+            }
+          })
+        ).toMatchSnapshot();
+      });
+
+      it('returns expected state when given two completed layer state', () => {
+        expect(
+          invalidateIncompleteLayerDownloads({
+            layer1: {
+              area1: {
+                progress: 100,
+                requested: false,
+                completed: true,
+                error: false
+              }
+            },
+            layer2: {
+              area1: {
+                progress: 100,
+                requested: false,
+                completed: true,
+                error: false
+              }
+            }
+          })
+        ).toMatchSnapshot();
+      });
+
+      it('returns expected state when given one 90% completed layer state', () => {
+        expect(
+          invalidateIncompleteLayerDownloads({
+            layer1: {
+              area1: {
+                progress: 90,
+                requested: false,
+                completed: false,
+                error: false
+              }
+            }
+          })
+        ).toMatchSnapshot();
+      });
+
+      it('returns expected state when given one errorred layer state', () => {
+        expect(
+          invalidateIncompleteLayerDownloads({
+            layer1: {
+              area1: {
+                progress: 100,
+                requested: false,
+                completed: false,
+                error: true
+              }
+            }
+          })
+        ).toMatchSnapshot();
+      });
+
+      it('returns expected state when given one requested but not completed layer state', () => {
+        expect(
+          invalidateIncompleteLayerDownloads({
+            layer1: {
+              area1: {
+                progress: 100,
+                requested: true,
+                completed: false,
+                error: false
+              }
+            }
+          })
+        ).toMatchSnapshot();
+      });
+
+      it('returns expected state when given one 90% completed layer & one completed state', () => {
+        expect(
+          invalidateIncompleteLayerDownloads({
+            layer1: {
+              area1: {
+                progress: 100,
+                requested: false,
+                completed: true,
+                error: false
+              }
+            },
+            layer2: {
+              area1: {
+                progress: 90,
+                requested: false,
+                completed: false,
+                error: false
+              }
+            }
+          })
+        ).toMatchSnapshot();
+      });
+
+      it('returns expected state when given one errorred layer & one completed state', () => {
+        expect(
+          invalidateIncompleteLayerDownloads({
+            layer1: {
+              area1: {
+                progress: 100,
+                requested: false,
+                completed: true,
+                error: false
+              }
+            },
+            layer2: {
+              area1: {
+                progress: 100,
+                requested: false,
+                completed: true,
+                error: true
+              }
+            }
+          })
+        ).toMatchSnapshot();
+      });
+
+      it('returns expected state when given one requested but not completed & one completed layer state', () => {
+        expect(
+          invalidateIncompleteLayerDownloads({
+            layer1: {
+              area1: {
+                progress: 100,
+                requested: false,
+                completed: true,
+                error: false
+              }
+            },
+            layer2: {
+              area1: {
+                progress: 100,
+                requested: true,
+                completed: false,
+                error: true
+              }
+            }
+          })
+        ).toMatchSnapshot();
+      });
+    });
+
+    describe('with two regions per layer', () => {
+      it('returns expected state when given one completed layer state', () => {
+        expect(
+          invalidateIncompleteLayerDownloads({
+            layer1: {
+              area1: {
+                progress: 100,
+                requested: false,
+                completed: true,
+                error: false
+              },
+              area2: {
+                progress: 100,
+                requested: false,
+                completed: true,
+                error: false
+              }
+            }
+          })
+        ).toMatchSnapshot();
+      });
+
+      it('returns expected state when given two completed layer state', () => {
+        expect(
+          invalidateIncompleteLayerDownloads({
+            layer1: {
+              area1: {
+                progress: 100,
+                requested: false,
+                completed: true,
+                error: false
+              },
+              area2: {
+                progress: 100,
+                requested: false,
+                completed: true,
+                error: false
+              }
+            },
+            layer2: {
+              area1: {
+                progress: 100,
+                requested: false,
+                completed: true,
+                error: false
+              },
+              area2: {
+                progress: 100,
+                requested: false,
+                completed: true,
+                error: false
+              }
+            }
+          })
+        ).toMatchSnapshot();
+      });
+
+      it('returns expected state when given one 90% completed layer state', () => {
+        expect(
+          invalidateIncompleteLayerDownloads({
+            layer1: {
+              area1: {
+                progress: 90,
+                requested: false,
+                completed: false,
+                error: false
+              },
+              area2: {
+                progress: 90,
+                requested: false,
+                completed: false,
+                error: false
+              }
+            }
+          })
+        ).toMatchSnapshot();
+      });
+
+      it('returns expected state when given one errorred layer state', () => {
+        expect(
+          invalidateIncompleteLayerDownloads({
+            layer1: {
+              area1: {
+                progress: 100,
+                requested: false,
+                completed: true,
+                error: true
+              },
+              area2: {
+                progress: 100,
+                requested: false,
+                completed: true,
+                error: true
+              }
+            }
+          })
+        ).toMatchSnapshot();
+      });
+
+      it('returns expected state when given one requested but not completed layer state', () => {
+        expect(
+          invalidateIncompleteLayerDownloads({
+            layer1: {
+              area1: {
+                progress: 100,
+                requested: true,
+                completed: false,
+                error: false
+              },
+              area2: {
+                progress: 100,
+                requested: true,
+                completed: false,
+                error: false
+              }
+            }
+          })
+        ).toMatchSnapshot();
+      });
+
+      it('returns expected state when given one 90% completed layer & one completed state', () => {
+        expect(
+          invalidateIncompleteLayerDownloads({
+            layer1: {
+              area1: {
+                progress: 100,
+                requested: false,
+                completed: true,
+                error: false
+              },
+              area2: {
+                progress: 100,
+                requested: false,
+                completed: true,
+                error: false
+              }
+            },
+            layer2: {
+              area1: {
+                progress: 90,
+                requested: false,
+                completed: false,
+                error: false
+              },
+              area2: {
+                progress: 90,
+                requested: false,
+                completed: false,
+                error: false
+              }
+            }
+          })
+        ).toMatchSnapshot();
+      });
+
+      it('returns expected state when given one errorred layer & one completed state', () => {
+        expect(
+          invalidateIncompleteLayerDownloads({
+            layer1: {
+              area1: {
+                progress: 100,
+                requested: false,
+                completed: true,
+                error: false
+              },
+              area2: {
+                progress: 100,
+                requested: false,
+                completed: true,
+                error: false
+              }
+            },
+            layer2: {
+              area1: {
+                progress: 100,
+                requested: false,
+                completed: true,
+                error: true
+              },
+              area2: {
+                progress: 100,
+                requested: false,
+                completed: true,
+                error: true
+              }
+            }
+          })
+        ).toMatchSnapshot();
+      });
+
+      it('returns expected state when given one requested but not completed & one completed layer state', () => {
+        expect(
+          invalidateIncompleteLayerDownloads({
+            layer1: {
+              area1: {
+                progress: 100,
+                requested: false,
+                completed: true,
+                error: false
+              },
+              area2: {
+                progress: 100,
+                requested: false,
+                completed: true,
+                error: false
+              }
+            },
+            layer2: {
+              area1: {
+                progress: 100,
+                requested: true,
+                completed: false,
+                error: false
+              },
+              area2: {
+                progress: 100,
+                requested: true,
+                completed: false,
+                error: false
+              }
+            }
+          })
+        ).toMatchSnapshot();
+      });
+    });
   });
 
   describe('Redux Snapshot Thunk Actions', () => {
@@ -111,138 +881,9 @@ describe('Redux Layers Module', () => {
       return returnState;
     }
 
-    it('cacheAreaLayer with area', () => {
-      store.dispatch(cacheAreaLayer('area', 'areaIDMock', 'layerIDMock'));
-      expect(store.getActions()).toMatchSnapshot();
-
-      store = configuredStore(populatedStoreState);
-
-      store.dispatch(cacheAreaLayer('area', 'areaIDMock', 'layerIDMock'));
-      store.dispatch(cacheAreaLayer('area', 'areaIDMock1', 'layerIDMock1'));
-      expect(store.getActions()).toMatchSnapshot();
-    });
-
-    it('cacheAreaLayer with route', () => {
-      store.dispatch(cacheAreaLayer('route', 'routeIDMock', 'layerIDMock'));
-      expect(store.getActions()).toMatchSnapshot();
-
-      store = configuredStore(populatedStoreState);
-
-      store.dispatch(cacheAreaLayer('route', 'routeIDMock', 'layerIDMock'));
-      store.dispatch(cacheAreaLayer('route', 'routeIDMock1', 'layerIDMock1'));
-      expect(store.getActions()).toMatchSnapshot();
-    });
-
-    it('cacheAreaBasemap with area', () => {
-      store.dispatch(cacheAreaBasemap('area', 'areaIDMock'));
-      expect(store.getActions()).toMatchSnapshot();
-
-      store = configuredStore(populatedStoreState);
-
-      store.dispatch(cacheAreaBasemap('area', 'areaIDMock'));
-      store.dispatch(cacheAreaBasemap('area', 'areaIDMock1'));
-      expect(store.getActions()).toMatchSnapshot();
-    });
-
-    it('cacheAreaBasemap with route', () => {
-      store.dispatch(cacheAreaBasemap('route', 'routeIDMock'));
-      expect(store.getActions()).toMatchSnapshot();
-
-      store = configuredStore(populatedStoreState);
-
-      store.dispatch(cacheAreaBasemap('route', 'routeIDMock'));
-      store.dispatch(cacheAreaBasemap('route', 'routeIDMock1'));
-      expect(store.getActions()).toMatchSnapshot();
-    });
-
-    it('cacheLayers with area', () => {
-      store.dispatch(cacheLayers('area'));
-      expect(store.getActions()).toMatchSnapshot();
-
-      store = configuredStore(populatedStoreState);
-
-      store.dispatch(cacheLayers('area'));
-      expect(store.getActions()).toMatchSnapshot();
-    });
-
-    it('cacheLayers with route', () => {
-      store.dispatch(cacheLayers('route'));
-      expect(store.getActions()).toMatchSnapshot();
-
-      store = configuredStore(populatedStoreState);
-
-      store.dispatch(cacheLayers('route'));
-      expect(store.getActions()).toMatchSnapshot();
-    });
-
-    it('downloadAreaById', () => {
-      store.dispatch(downloadAreaById('areaIDMock'));
-      expect(store.getActions()).toMatchSnapshot();
-
-      store = configuredStore(populatedStoreState);
-
-      store.dispatch(downloadAreaById('areaIDMock'));
-      store.dispatch(downloadAreaById('areaIDMock1'));
-      expect(store.getActions()).toMatchSnapshot();
-    });
-
-    it('downloadRouteById', () => {
-      store.dispatch(downloadAreaById('routeIDMock'));
-      expect(store.getActions()).toMatchSnapshot();
-
-      store = configuredStore(populatedStoreState);
-
-      store.dispatch(downloadAreaById('routeIDMock'));
-      store.dispatch(downloadAreaById('routeIDMock1'));
-      expect(store.getActions()).toMatchSnapshot();
-    });
-
     it('getUserLayers', () => {
       store.dispatch(getUserLayers());
       expect(store.getActions()).toMatchSnapshot();
-    });
-
-    it('refreshCacheById for area', () => {
-      store.dispatch(refreshCacheById('areaIDMock', 'area'));
-      expect(store.getActions()).toMatchSnapshot();
-
-      store = configuredStore(populatedStoreState);
-
-      store.dispatch(refreshCacheById('areaIDMock', 'area'));
-      store.dispatch(refreshCacheById('areaIDMock1', 'area'));
-      expect(store.getActions()).toMatchSnapshot();
-    });
-
-    it('refreshCacheById for route', () => {
-      store.dispatch(refreshCacheById('routeIDMock', 'route'));
-      expect(store.getActions()).toMatchSnapshot();
-
-      store = configuredStore(populatedStoreState);
-
-      store.dispatch(refreshCacheById('routeIDMock', 'route'));
-      store.dispatch(refreshCacheById('routeIDMock1', 'route'));
-      expect(store.getActions()).toMatchSnapshot();
-    });
-
-    it('resetCacheStatus', () => {
-      store.dispatch(resetCacheStatus('areaIDMock'));
-      store.dispatch(resetCacheStatus('areaIDMock1'));
-      expect(store.getActions()).toMatchSnapshot();
-    });
-
-    it('resetCacheStatus full test', () => {
-      const propertyMatcher = { syncDate: expect.any(Number) };
-      let newState = {
-        layers: layerReducer(undefined, { type: 'NONE' }),
-        areas: {
-          ...initialStoreState.areas,
-          data: [mockArea]
-        }
-      };
-
-      newState = mockDispatchAction(newState, resetCacheStatus('areaIDMock'), propertyMatcher);
-      newState = mockDispatchAction(newState, downloadAreaById('areaIDMock'), propertyMatcher);
-      mockDispatchAction(newState, resetCacheStatus('areaIDMock2'), propertyMatcher);
     });
 
     it('syncLayers', () => {

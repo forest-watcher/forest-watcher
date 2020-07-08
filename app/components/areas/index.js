@@ -283,7 +283,7 @@ class Areas extends Component<Props, State> {
         style={styles.container}
       >
         <ShareSheet
-          disabled={!this.props.areaDownloadTooltipSeen}
+          disabled={!this.props.areaDownloadTooltipSeen || !hasAreas}
           isSharing={this.state.creatingArchive}
           componentId={this.props.componentId}
           onStartShouldSetResponder={event => {
