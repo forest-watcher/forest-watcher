@@ -259,7 +259,7 @@ class MappingFiles extends Component<Props, State> {
       messageKey = this.i18nKeyFor('delete.messageGFWImportedContent');
     } else {
       titleKey = this.i18nKeyFor('delete.titleCustom');
-      messageKey = this.i18nKeyFor('delete.messageImportedContent');
+      messageKey = this.i18nKeyFor('delete.messageCustomContent');
     }
 
     showDeleteConfirmationPrompt(
