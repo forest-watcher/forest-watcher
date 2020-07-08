@@ -2,11 +2,15 @@
 
 exports[`Redux Layers Module Initial reducer state 1`] = `
 Object {
+  "cache": Object {},
+  "cacheStatus": Object {},
   "data": Array [],
   "downloadedLayerProgress": Object {},
   "importError": null,
   "imported": Array [],
   "importingLayer": false,
+  "layersProgress": Object {},
+  "pendingCache": Object {},
   "syncDate": Any<Number>,
   "synced": false,
   "syncing": false,
