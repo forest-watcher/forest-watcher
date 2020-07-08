@@ -2,7 +2,7 @@
 
 import type { AlertLayerSettingsType } from 'types/layerSettings.types';
 import type { SelectedAlert } from 'types/alerts.types';
-import type { AlertFeatureProperties, MapboxFeaturePressEvent } from 'types/common.types';
+import type { AlertFeatureProperties, Coordinates, MapboxFeaturePressEvent } from 'types/common.types';
 
 import React, { Component } from 'react';
 
@@ -13,7 +13,7 @@ import AlertDataset from 'components/map/alerts/dataset';
 type Props = {|
   +alertLayerSettings: AlertLayerSettingsType,
   +areaId?: ?string,
-  +reportedAlerts: $ReadOnlyArray<string>,
+  +reportedAlerts: $ReadOnlyArray<Coordinates>,
   +selectedAlerts: $ReadOnlyArray<SelectedAlert>,
   +onShapeSourcePressed?: (MapboxFeaturePressEvent<AlertFeatureProperties>) => void
 |};

@@ -1,5 +1,5 @@
 import 'react-native';
-import alertsReducer, { getAreaAlerts, setActiveAlerts } from 'redux-modules/alerts';
+import alertsReducer, { getAreaAlerts } from 'redux-modules/alerts';
 // todo test realm actions: resetAlertsDb & saveAlertsToDb ?
 
 describe('Redux Alerts Module', () => {
@@ -13,10 +13,6 @@ describe('Redux Alerts Module', () => {
       expect(action).toMatchSnapshot();
       expect(alertsReducer(undefined, action)).toMatchSnapshot();
     }
-
-    it('setActiveAlerts', () => {
-      simpleActionTest(setActiveAlerts());
-    });
 
     it('getAreaAlerts', () => {
       const mockArea = { id: 'areaID', geostore: { id: 'geostoreID' } };

@@ -19,6 +19,9 @@ import MappingFileRow from 'components/settings/mapping-files/mapping-file-row';
 import showRenameModal from 'helpers/showRenameModal';
 import { presentInformationModal, showFAQSection } from 'screens/common';
 import fileNameIsValid from 'helpers/validation/fileNames';
+import { getShareButtonText } from 'helpers/sharing/utils';
+import generateUniqueID from 'helpers/uniqueId';
+import calculateBundleSize from 'helpers/sharing/calculateBundleSize';
 
 const plusIcon = require('assets/add.png');
 const icons = {
@@ -136,19 +139,46 @@ class MappingFiles extends Component<Props, State> {
    * Will swap the state for the specified row, to show in the UI if it has been selected or not.
    */
   onFileSelectedForExport = (fileId: string) => {
-    this.setState(state => {
-      if (state.selectedForExport.includes(fileId)) {
-        return {
-          selectedForExport: [...state.selectedForExport].filter(id => fileId !== id)
-        };
-      } else {
-        const selected = [...state.selectedForExport];
-        selected.push(fileId);
-        return {
-          selectedForExport: selected
-        };
+    this.setState(
+      state => {
+        if (state.selectedForExport.includes(fileId)) {
+          return {
+            selectedForExport: [...state.selectedForExport].filter(id => fileId !== id)
+          };
+        } else {
+          const selected = [...state.selectedForExport];
+          selected.push(fileId);
+          return {
+            selectedForExport: selected
+          };
+        }
+      },
+      () => {
+        this.fetchExportSize(this.state.selectedForExport);
       }
+    );
+  };
+
+  fetchExportSize = async (layerIds: Array<string>) => {
+    const currentFetchId = generateUniqueID();
+    this.fetchId = currentFetchId;
+    this.setState({
+      bundleSize: undefined
     });
+    const files = [
+      ...this.props.baseFiles.filter(file => layerIds.includes(file.id)),
+      ...this.props.importedFiles.filter(file => layerIds.includes(file.id))
+    ];
+    const basemapType = this.props.mappingFileType === 'basemap';
+    const fileSize = await calculateBundleSize({
+      basemaps: basemapType ? files : undefined,
+      layers: basemapType ? undefined : files
+    });
+    if (this.fetchId === currentFetchId) {
+      this.setState({
+        bundleSize: fileSize
+      });
+    }
   };
 
   /**
@@ -219,17 +249,21 @@ class MappingFiles extends Component<Props, State> {
   };
 
   confirmMappingFileDeletion = (file: Layer) => {
-    let messageKey = this.i18nKeyFor('delete.message');
+    let messageKey;
+    let titleKey = this.i18nKeyFor('delete.title');
 
-    if (!file.isCustom) {
-      // We should show a different message if this is not custom content.
-      // This is because deletion of GFW content is not irreversible, whilst
-      // deletion of custom content is.
+    if (!file.isCustom && !file.isImported) {
       messageKey = this.i18nKeyFor('delete.messageGFWContent');
+    } else if (!file.isCustom && file.isImported) {
+      // contextual Layer only
+      messageKey = this.i18nKeyFor('delete.messageGFWImportedContent');
+    } else {
+      titleKey = this.i18nKeyFor('delete.titleCustom');
+      messageKey = this.i18nKeyFor('delete.messageImportedContent');
     }
 
     showDeleteConfirmationPrompt(
-      i18n.t(this.i18nKeyFor('delete.title')),
+      i18n.t(titleKey),
       i18n.t(messageKey),
       i18n.t('commonText.cancel'),
       i18n.t('commonText.continue'),
@@ -447,6 +481,12 @@ class MappingFiles extends Component<Props, State> {
     const numFiles = sortedBaseFiles.length + sortedImportedFiles.length;
     const hasFiles = numFiles > 0;
 
+    const sharingType = i18n.t(
+      mappingFileType === 'basemap' ? 'sharing.type.basemaps' : 'sharing.type.contextualLayers'
+    );
+    const disabledSharingTitle = i18n.t('sharing.title', {
+      type: mappingFileType === 'basemap' ? sharingType : i18n.t('sharing.type.layers')
+    });
     const shareableBaseFiles = sortedBaseFiles.filter(this._isShareable);
     const shareableImportedFiles = sortedImportedFiles.filter(this._isShareable);
     const numShareableFiles = shareableBaseFiles.length + shareableImportedFiles.length;
@@ -469,7 +509,6 @@ class MappingFiles extends Component<Props, State> {
           disabled={!hasShareableFiles}
           editButtonDisabledTitle={i18n.t(this.i18nKeyFor('edit'))}
           editButtonEnabledTitle={i18n.t(this.i18nKeyFor('edit'))}
-          shareButtonDisabledTitle={i18n.t(this.i18nKeyFor('share'))}
           onEditingToggled={this.setEditing}
           onSharingToggled={this.setSharing}
           onToggleAllSelected={this.setAllSelected}
@@ -480,14 +519,10 @@ class MappingFiles extends Component<Props, State> {
               ? i18n.t(this.i18nKeyFor('export.many'), { count: numShareableFiles })
               : i18n.t(this.i18nKeyFor('export.one'), { count: 1 })
           }
-          shareButtonEnabledTitle={
-            totalToExport > 0
-              ? totalToExport === 1
-                ? i18n.t(this.i18nKeyFor('export.oneAction'), { count: 1 })
-                : i18n.t(this.i18nKeyFor('export.manyAction'), { count: totalToExport })
-              : i18n.t(this.i18nKeyFor('export.noneSelected'))
-          }
           showEditButton={hasFiles}
+          shareButtonInProgressTitle={i18n.t('sharing.inProgress', { type: sharingType })}
+          shareButtonDisabledTitle={disabledSharingTitle}
+          shareButtonEnabledTitle={getShareButtonText(sharingType, totalToExport, this.state.bundleSize)}
         >
           {this.renderFilesList(visibleBaseFiles, visibleImportedFiles)}
         </ShareSheet>
