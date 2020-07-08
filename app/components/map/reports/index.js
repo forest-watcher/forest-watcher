@@ -11,6 +11,7 @@ import MapboxGL from '@react-native-mapbox-gl/maps';
 import i18n from 'i18next';
 import moment from 'moment';
 import { type Feature, type Point, featureCollection, point } from '@turf/helpers';
+import { MAP_LAYER_INDEXES } from 'config/constants';
 
 export type ReportLayerSettings = {
   layerIsActive: boolean,
@@ -96,17 +97,23 @@ export default class Reports extends Component<Props> {
           shape={reportFeatureCollection}
           onPress={onPress}
         >
-          <MapboxGL.SymbolLayer id={key + 'PointCount'} style={mapboxStyles.clusterCount} />
+          <MapboxGL.SymbolLayer
+            id={key + 'PointCount'}
+            style={mapboxStyles.clusterCount}
+            layerIndex={MAP_LAYER_INDEXES.reports}
+          />
           <MapboxGL.CircleLayer
             id={key + 'ClusteredPoints'}
             belowLayerID={key + 'PointCount'}
             filter={['has', 'point_count']}
             style={{ ...mapboxStyles.clusteredPoints, circleColor }}
+            layerIndex={MAP_LAYER_INDEXES.reports}
           />
           <MapboxGL.SymbolLayer
             id={key + 'Layer'}
             filter={['!', ['has', 'point_count']]}
             style={imported ? mapboxStyles.importedReportIcon : mapboxStyles.reportIcon}
+            layerIndex={MAP_LAYER_INDEXES.reports}
           />
         </MapboxGL.ShapeSource>
       </View>

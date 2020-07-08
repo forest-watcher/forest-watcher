@@ -12,7 +12,7 @@ import _ from 'lodash';
 import moment from 'moment';
 import queryAlerts from 'helpers/alert-store/queryAlerts';
 import generateUniqueID from 'helpers/uniqueId';
-import { DATASETS } from 'config/constants';
+import { DATASETS, MAP_LAYER_INDEXES } from 'config/constants';
 import { getNeighboursSelected } from 'helpers/map';
 import kdbush from 'kdbush';
 
@@ -264,17 +264,23 @@ export default class AlertDataset extends PureComponent<Props, State> {
         shape={alerts}
         onPress={this.props.onPress}
       >
-        <MapboxGL.SymbolLayer id={idClusterCountSymbolLayer} style={clusterCountStyle} />
+        <MapboxGL.SymbolLayer
+          id={idClusterCountSymbolLayer}
+          style={clusterCountStyle}
+          layerIndex={MAP_LAYER_INDEXES.alerts}
+        />
         <MapboxGL.CircleLayer
           id={idClusterCircleLayer}
           belowLayerID={idClusterCountSymbolLayer}
           filter={['has', 'point_count']}
           style={{ ...mapboxStyles.clusteredPoints, circleColor: clusterColor }}
+          layerIndex={MAP_LAYER_INDEXES.alerts}
         />
         <MapboxGL.SymbolLayer
           id={idAlertSymbolLayer}
           filter={['!', ['has', 'point_count']]}
           style={mapboxStyles.alert}
+          layerIndex={MAP_LAYER_INDEXES.alerts}
         />
       </MapboxGL.ShapeSource>
     );
