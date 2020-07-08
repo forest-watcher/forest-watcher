@@ -294,7 +294,7 @@ export function importLayer(layerFile: File): Thunk<Promise<void>> {
         id: layerFile.id,
         isPublic: false,
         name: layerFile.name || '',
-        url: importedFile.subFiles ? `${importedFile.path}/${importedFile.subFiles[0]}` : importedFile.path,
+        url: null,
         size: importedFile.size,
         isCustom: true,
         type: importedFile.type
