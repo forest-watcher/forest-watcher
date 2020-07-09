@@ -20,9 +20,11 @@ type OwnProps = {|
 
 function mapStateToProps(state: State, ownProps: OwnProps) {
   let baseFiles: Array<Layer> = state.layers.data || [];
-  const importedGFWLayers = state.layers.imported.filter(layer => !layer.isCustom);
+  const importedGFWLayers = state.layers.imported.filter(layer => !layer.isCustom && layer.type === 'contextual_layer');
   baseFiles = baseFiles.concat(importedGFWLayers);
-  const importedFiles: Array<Layer> = state.layers.imported.filter(layer => layer.isCustom);
+  const importedFiles: Array<Layer> = state.layers.imported.filter(
+    layer => layer.isCustom && layer.type === 'contextual_layer'
+  );
 
   return {
     baseApiLayers: baseFiles,
