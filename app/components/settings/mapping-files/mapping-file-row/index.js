@@ -103,7 +103,7 @@ export default class MappingFileRow extends Component<Props, State> {
     const isDeletable =
       isPresentOnDisk || isCustom || (layerType === 'contextual_layer' && !!GFW_CONTEXTUAL_LAYERS_METADATA[layer.id]);
     const isRefreshable = this.props.downloaded && layerType === 'contextual_layer';
-    const isDownloadable = (layerType === 'contextual_layer' || (layerType === 'basemap' && !layer.url)) && !isCustom;
+    const isDownloadable = (layerType === 'contextual_layer' || (layerType === 'basemap' && layer.url)) && !isCustom;
 
     if (inEditMode) {
       return (
@@ -171,9 +171,7 @@ export default class MappingFileRow extends Component<Props, State> {
 
     const subtitle =
       layerType === 'basemap' && !layer.isCustom
-        ? layer.url != null
-          ? i18n.t('importLayer.gfw.onlineTitle')
-          : downloaded
+        ? downloaded
           ? i18n.t('importLayer.gfw.downloaded')
           : i18n.t('importLayer.gfw.notYetDownloaded')
         : this.state.sizeInBytes != null
