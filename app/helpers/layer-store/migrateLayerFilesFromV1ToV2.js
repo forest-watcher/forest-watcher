@@ -12,8 +12,8 @@ const RNFS = require('react-native-fs');
 export default async function migrateLayerFilesFromV1ToV2() {
   const v1AreaDirs = await findV1AreaDirectories();
   const v1TileFiles = await findV1TileFiles(v1AreaDirs);
-  console.warn("3SC", "store layer files", v1TileFiles);
-  await storeLayerFiles(v1TileFiles);
+  console.warn('3SC', 'Migrate layer files from v1', v1TileFiles.length);
+  await storeLayerFiles(v1TileFiles, 'move');
   deleteV1AreaDirectories(v1AreaDirs);
 }
 
@@ -33,11 +33,11 @@ const findV1AreaDirectories = async (): Promise<Array<string>> => {
   const children = await RNFS.readDir(rootDir);
   return children
     .filter(child => child.isDirectory() && child.name !== 'contextual_layer' && child.name !== 'basemap')
-    .map(child => child.name);
+    .map(child => child.path);
 };
 
 const findV1TileFiles = async (v1AreaDirs: Array<string>): Promise<Array<LayerFile>> => {
-  const tileFiles: Array<LayerFile> = [];
+  const allTileFiles: Array<LayerFile> = [];
 
   // eslint-disable-next-line no-unused-vars
   for (const areaDir of v1AreaDirs) {
@@ -55,14 +55,14 @@ const findV1TileFiles = async (v1AreaDirs: Array<string>): Promise<Array<LayerFi
         .map(tileFile => ({
           path: tileFile.path,
           type: 'contextual_layer',
-          layerId: layerDir,
+          layerId: layerDir.name,
           tileXYZ: tileForFileName(tileFile.name),
           size: tileFile.size
         }));
 
-      tileFiles.push(...tilesInDir);
+      allTileFiles.push(...tilesInDir);
     }
   }
 
-  return tileFiles;
+  return allTileFiles;
 };

@@ -54,14 +54,14 @@ export default class App {
       NativeModules.FWMapbox.installOfflineModeInterceptor(state.app.offlineMode);
     }
 
+    await launchAppRoot(screen);
+    await this._handleAppStateChange('active');
+
     try {
       await migrateFilesFromV1ToV2(this.store.dispatch);
     } catch (err) {
       console.warn('3SC', 'Could not migrate files', err);
     }
-
-    await launchAppRoot(screen);
-    await this._handleAppStateChange('active');
   }
 
   _handleAppStateChange = async nextAppState => {

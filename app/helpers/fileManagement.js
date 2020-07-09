@@ -38,21 +38,7 @@ export async function assertMaximumFileSize(uri: string, maxSizeInBytes: number)
  * On Android this function will work with both content:// and file:// URIs
  */
 export async function copyFileWithReplacement(sourceUri: string, destinationUri: string) {
-  const destinationPath = destinationUri
-    .split('/')
-    .slice(0, -1)
-    .join('/');
-
-  const dirExists = await RNFS.exists(destinationPath);
-  if (!dirExists) {
-    await RNFS.mkdir(destinationPath);
-  }
-
-  const fileExists = await RNFS.exists(destinationUri);
-  if (fileExists) {
-    await RNFS.unlink(destinationUri);
-  }
-  await RNFS.copyFile(sourceUri, destinationUri);
+  await writeFileWithReplacement(sourceUri, destinationUri, 'copy');
 }
 
 /**
@@ -131,6 +117,36 @@ async function readFile(path: string, encoding: 'base64' | 'utf8'): Promise<Buff
 export async function readTextFile(path: string): Promise<string> {
   const buffer = await readFile(path, 'utf8');
   return buffer.toString();
+}
+
+/**
+ * Helper function that copies or moves a file existing at sourceUri to destinationUri
+ *
+ * This helper function will create any missing directories in the destination path, and will overwrite any existing file
+ *
+ * On Android this function will work with both content:// and file:// URIs
+ */
+export async function writeFileWithReplacement(sourceUri: string, destinationUri: string, method: 'copy' | 'move') {
+  const destinationPath = destinationUri
+    .split('/')
+    .slice(0, -1)
+    .join('/');
+
+  const dirExists = await RNFS.exists(destinationPath);
+  if (!dirExists) {
+    await RNFS.mkdir(destinationPath);
+  }
+
+  const fileExists = await RNFS.exists(destinationUri);
+  if (fileExists) {
+    await RNFS.unlink(destinationUri);
+  }
+
+  if (method === 'copy') {
+    await RNFS.copyFile(sourceUri, destinationUri);
+  } else if (method === 'move') {
+    await RNFS.moveFile(sourceUri, destinationUri);
+  }
 }
 
 /**
