@@ -1,4 +1,4 @@
-import { Alert, AppState, Platform } from 'react-native';
+import { Alert, AppState, NativeModules, Platform } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import { Provider } from 'react-redux';
 import Theme from 'config/theme';
@@ -50,11 +50,16 @@ export default class App {
       screen = 'ForestWatcher.Dashboard';
     }
 
+    if (Platform.OS === 'android') {
+      NativeModules.FWMapbox.installOfflineModeInterceptor(state.app.offlineMode);
+    }
+
     try {
       await migrateFilesFromV1ToV2(this.store.dispatch);
     } catch (err) {
       console.warn('3SC', 'Could not migrate files', err);
     }
+
     await launchAppRoot(screen);
     await this._handleAppStateChange('active');
   }

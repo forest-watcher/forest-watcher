@@ -8,7 +8,7 @@ import { unzip } from 'react-native-zip-archive';
 import shapefile from 'shpjs';
 import { feature, featureCollection } from '@turf/helpers';
 
-import { listRecursive, readBinaryFile } from 'helpers/fileManagement';
+import { assertMaximumFileSize, listRecursive, readBinaryFile } from 'helpers/fileManagement';
 import { storeGeoJson } from 'helpers/layer-store/storeLayerFiles';
 
 export default async function importZipFile(file: File & { uri: string }, fileName: string): Promise<LayerFile> {
@@ -30,12 +30,16 @@ export default async function importZipFile(file: File & { uri: string }, fileNa
     if (!shapeFilePath) {
       throw new Error('Zip file does not contain a file with extension .shp');
     }
-    const shapeFileData = await readBinaryFile(shapeFilePath, CONSTANTS.files.maxFileSizeForLayerImport);
+    await assertMaximumFileSize(shapeFilePath, CONSTANTS.files.maxFileSizeForLayerImport);
+    const shapeFileData = await readBinaryFile(shapeFilePath);
 
     const projectionFilePath = shapeFileContents.find(path => path.endsWith('.prj'));
-    const projectionFileData = projectionFilePath
-      ? await readBinaryFile(projectionFilePath, CONSTANTS.files.maxFileSizeForLayerImport)
-      : null;
+
+    if (projectionFilePath) {
+      await assertMaximumFileSize(projectionFilePath, CONSTANTS.files.maxFileSizeForLayerImport);
+    }
+
+    const projectionFileData = projectionFilePath ? await readBinaryFile(projectionFilePath) : null;
     // We send the file path in here without the .shp extension as the library adds this itself
     const polygons = await shapefile.parseShp(shapeFileData, projectionFileData);
     const features = featureCollection(polygons.map(polygon => feature(polygon)));

@@ -4,7 +4,6 @@ import { readTextFile } from 'helpers/fileManagement';
 
 const DOMParser = require('xmldom').DOMParser;
 import togeojson from 'helpers/toGeoJSON';
-import CONSTANTS from 'config/constants';
 
 /**
  * Converts a file to GeoJSON
@@ -16,7 +15,7 @@ import CONSTANTS from 'config/constants';
  */
 export default async function convertToGeoJSON(uri: string, extension: string) {
   // Read from file so we can convert to GeoJSON
-  const fileContents = await readTextFile(uri, CONSTANTS.files.maxFileSizeForLayerImport);
+  const fileContents = await readTextFile(uri);
   // Parse XML from file string
   const parser = new DOMParser();
   const xmlDoc = parser.parseFromString(fileContents);

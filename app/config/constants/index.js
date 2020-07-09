@@ -29,6 +29,18 @@ export const MAPS = {
   ]
 };
 
+// Forces mapbox layers to be in the correct order by specifying the index to add the layer.
+// If a layer is added conditionally (during runtime), it is usually added above all other layers.
+export const MAP_LAYER_INDEXES = {
+  basemap: 1,
+  contextualLayer: 5,
+  areaOutline: 100,
+  routes: 105,
+  alerts: 150,
+  reports: 180,
+  userLocation: 200
+};
+
 // Defines the configuration for the BackgroundGeolocation module.
 // Detailed documentation & library defaults are available here: https://github.com/mauron85/react-native-background-geolocation#configureoptions-success-fail
 export const LOCATION_TRACKING = {
@@ -704,7 +716,6 @@ export const GFW_CONTEXTUAL_LAYERS: Array<Layer> = [
     id: 'fcd10026-e892-4fb8-8d79-8d76e3b94005',
     description: 'Mining Areas',
     name: 'miningConcessions',
-    tileFormat: 'vector',
     url: 'mapbox://resourcewatch.3259d78x',
     type: 'contextual_layer'
   },
@@ -719,7 +730,6 @@ export const GFW_CONTEXTUAL_LAYERS: Array<Layer> = [
     id: 'e37f881b-ed2e-485b-b194-6a6829aaff2e',
     description: 'Legally protected areas by IUCN category. Updated monthly.',
     name: 'wdpa',
-    tileFormat: 'vector',
     url: 'https://tiles.globalforestwatch.org/wdpa_protected_areas/v201909/mvt/{z}/{x}/{y}',
     type: 'contextual_layer'
   },

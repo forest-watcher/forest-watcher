@@ -5,6 +5,7 @@ import type { VectorMapLayer } from 'types/layers.types';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 
 import _ from 'lodash';
+import { MAP_LAYER_INDEXES } from 'config/constants';
 
 type Props = {
   id: string,
@@ -51,6 +52,7 @@ class GFWVectorLayer extends Component<Props, {}> {
         sourceLayerID={this.props.layer['source-layer']}
         filter={this.props.layer.filter}
         style={this.convertPaintToCamelCase(this.props.layer.paint)}
+        layerIndex={MAP_LAYER_INDEXES.contextualLayer}
       />
     ) : null;
   }

@@ -26,9 +26,9 @@ const downloadedIcon = require('assets/downloaded.png');
 
 type Props = {
   dataType: DownloadDataType,
-  id: string,
+  id: string, // the region's identifier
   downloadById: string => Thunk<void>,
-  cacheStatus: {
+  downloadProgress: {
     requested: boolean,
     progress: number,
     error: boolean,
@@ -38,19 +38,17 @@ type Props = {
   isOfflineMode: boolean,
   showTooltip: boolean,
   refreshCacheById: (id: string, type: DownloadDataType) => Thunk<void>,
-  pendingCache: number,
   showNotConnectedNotification: () => Thunk<void>
 };
 
 type State = {
   checkingConnectivity: boolean,
-  indeterminate: boolean,
   canRefresh: boolean
 };
 
 class DataCacher extends PureComponent<Props, State> {
   static defaultProps = {
-    cacheStatus: {
+    downloadProgress: {
       progress: 0,
       completed: false,
       requested: false,
@@ -60,27 +58,18 @@ class DataCacher extends PureComponent<Props, State> {
 
   state = {
     checkingConnectivity: false,
-    indeterminate: this.props.cacheStatus.progress === 0,
-    canRefresh: this.props.cacheStatus.completed
+    canRefresh: this.props.downloadProgress.completed
   };
 
   componentDidUpdate(prevProps: Props) {
-    if (prevProps.cacheStatus.progress > 0 && this.props.cacheStatus.progress === 0) {
-      this.setIndeterminate(true);
-    }
-
-    if (prevProps.cacheStatus.progress === 0 && this.props.cacheStatus.progress > 0) {
-      this.setIndeterminate(false);
-    }
-
-    if (this.props.cacheStatus.error && prevProps.pendingCache > 0 && this.props.pendingCache === 0) {
+    if (this.props.downloadProgress.error && this.props.downloadProgress.completed) {
       Alert.alert(i18n.t('commonText.error'), i18n.t('dashboard.downloadFailed'), [
         { text: 'OK', onPress: this.resetCacheStatus },
         { text: i18n.t('commonText.retry'), onPress: this.onRetry }
       ]);
     }
 
-    if (prevProps.cacheStatus.progress === 0 && this.props.cacheStatus.progress > 0) {
+    if (prevProps.downloadProgress.requested === false && this.props.downloadProgress.requested === true) {
       if (this.props.dataType === 'route') {
         trackRouteDownloadFlowStarted(this.props.id);
       } else {
@@ -88,11 +77,11 @@ class DataCacher extends PureComponent<Props, State> {
       }
     }
 
-    if (this.props.pendingCache === 0 && prevProps.pendingCache > 0) {
+    if (prevProps.downloadProgress.completed === false && this.props.downloadProgress.completed === true) {
       if (this.props.dataType === 'route') {
-        trackRouteDownloadFlowEnded(this.props.id, !this.props.cacheStatus.error);
+        trackRouteDownloadFlowEnded(this.props.id, !this.props.downloadProgress.error);
       } else {
-        trackAreaDownloadFlowEnded(this.props.id, !this.props.cacheStatus.error);
+        trackAreaDownloadFlowEnded(this.props.id, !this.props.downloadProgress.error);
       }
     }
   }
@@ -137,24 +126,25 @@ class DataCacher extends PureComponent<Props, State> {
   onOfflinePress = () => this.props.showNotConnectedNotification();
 
   getCacheAreaAction = () => {
-    const { cacheStatus, isOfflineMode } = this.props;
+    const { downloadProgress, isOfflineMode } = this.props;
     const { canRefresh } = this.state;
     if (isOfflineMode) {
       return this.onOfflinePress;
     }
-    if (!cacheStatus.completed) {
+    if (!downloadProgress.completed) {
       return this.onDownload;
     }
-    if (canRefresh && cacheStatus.completed) {
+    if (canRefresh && downloadProgress.completed) {
       return this.onRefresh;
     }
     return null;
   };
 
   getCacheAreaIcon = () => {
-    const { cacheStatus } = this.props;
+    const { downloadProgress } = this.props;
     const { canRefresh } = this.state;
-    if (!cacheStatus.completed) {
+
+    if (!downloadProgress.completed) {
       return downloadIcon;
     }
     if (!canRefresh) {
@@ -163,18 +153,14 @@ class DataCacher extends PureComponent<Props, State> {
     return refreshIcon;
   };
 
-  setIndeterminate = (indeterminate: boolean) => {
-    this.setState(() => ({ indeterminate }));
-  };
-
   resetCacheStatus = () => {
     const { id, resetCacheStatus } = this.props;
     resetCacheStatus(id);
   };
 
   render() {
-    const { cacheStatus, showTooltip } = this.props;
-    const { indeterminate, checkingConnectivity } = this.state;
+    const { downloadProgress, showTooltip } = this.props;
+    const { checkingConnectivity } = this.state;
     const cacheAreaAction = this.getCacheAreaAction();
     const cacheButtonIcon = this.getCacheAreaIcon();
 
@@ -200,8 +186,8 @@ class DataCacher extends PureComponent<Props, State> {
     const progressBar = (
       <View style={styles.progressBarContainer}>
         <ProgressBar
-          indeterminate={indeterminate}
-          progress={cacheStatus.progress}
+          indeterminate={downloadProgress.progress === 0}
+          progress={downloadProgress.progress / 100}
           width={Theme.screen.width}
           height={4}
           color={Theme.colors.turtleGreen}
@@ -210,7 +196,7 @@ class DataCacher extends PureComponent<Props, State> {
         />
       </View>
     );
-    if ((cacheStatus.requested && !cacheStatus.completed) || checkingConnectivity) {
+    if ((downloadProgress.requested && !downloadProgress.completed) || checkingConnectivity) {
       return progressBar;
     }
     return cacheButton;

@@ -94,7 +94,6 @@ function mapStateToProps(state: State, ownProps: OwnProps) {
       templateId: area.templateId || 'default'
     };
   }
-  const { cache } = state.layers;
   const route = reconcileRoutes(state.routes.activeRoute, previousRoute);
   const layerSettings = state.layerSettings?.[featureId] || DEFAULT_LAYER_SETTINGS;
 
@@ -112,7 +111,6 @@ function mapStateToProps(state: State, ownProps: OwnProps) {
     isOfflineMode: state.app.offlineMode,
     coordinatesFormat: state.app.coordinatesFormat,
     reportedAlerts: reportedCoordinates,
-    basemapLocalTilePath: (area && area.id && cache.basemap && cache.basemap[area.id]) || '',
     mapWalkthroughSeen: state.app.mapWalkthroughSeen
   };
 }
