@@ -941,17 +941,12 @@ class MapComponent extends Component<Props, State> {
             this.map = ref;
           }}
           style={styles.mapView}
-          styleURL={basemap.styleURL}
+          styleURL={basemap.isCustom ? null : basemap.url}
           onRegionDidChange={this.onRegionDidChange}
           onPress={this.onMapPress}
           compassViewMargins={{ x: 5, y: 50 }}
         >
           {renderMapCamera}
-          {basemap.url && (
-            <MapboxGL.RasterSource id="basemapTiles" url={basemap.url}>
-              <MapboxGL.RasterLayer id="basemapTileLayer" layerIndex={MAP_LAYER_INDEXES.basemap} />
-            </MapboxGL.RasterSource>
-          )}
           <MBTilesSource
             basemapId={basemap.id}
             basemapPath={basemap.isCustom ? pathForMBTilesFile(basemap) : null}

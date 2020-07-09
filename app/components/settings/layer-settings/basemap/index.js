@@ -20,7 +20,6 @@ type Props = {
   featureId: string,
   basemaps: Array<MapContent>,
   activeBasemapId: string,
-  offlineMode: boolean,
   selectActiveBasemap: (string, string) => {}
 };
 
@@ -61,17 +60,15 @@ class BasemapLayerSettings extends PureComponent<Props> {
         >
           <Text style={styles.heading}>{i18n.t('map.layerSettings.gfwBasemaps')}</Text>
           {GFW_BASEMAPS.map(basemap => {
-            const disabled = this.props.offlineMode && !!basemap.url;
             return (
               <VerticalSplitRow
                 key={basemap.id}
                 style={styles.rowContainer}
-                disabled={disabled}
+                disabled={false}
                 onPress={() => {
                   this.selectBasemap(basemap);
                 }}
                 title={i18n.t(`basemaps.names.` + basemap.name)}
-                subtitle={disabled ? i18n.t(`map.layerSettings.onlyAvailableOnline`) : null}
                 selected={this.props.activeBasemapId === basemap.id}
                 imageSrc={basemap.image || basemapPlaceholder}
                 useRadioIcon

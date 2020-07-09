@@ -231,7 +231,7 @@ async function downloadLayerForRegion(
   contentType: LayerType,
   dispatch: Dispatch
 ): Promise<void> {
-  const url = contentType === 'contextual_layer' ? vectorTileURLForMapboxURL(layer.url) ?? layer.url : layer.styleURL;
+  const url = contentType === 'contextual_layer' ? vectorTileURLForMapboxURL(layer.url) ?? layer.url : layer.url;
 
   if (!url) {
     return;
