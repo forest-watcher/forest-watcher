@@ -68,6 +68,6 @@ export type GetAreaAlertsCommit = {
 };
 type GetAreaAlertsRollback = {
   type: 'alerts/GET_ALERTS_ROLLBACK',
-  payload: ?string,
+  payload: ?Error,
   meta: { alertId: string }
 };

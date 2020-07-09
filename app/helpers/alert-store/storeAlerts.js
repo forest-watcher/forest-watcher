@@ -2,9 +2,10 @@
 
 import type { Alert } from 'types/alerts.types';
 
-import { Alert as RNAlert } from 'react-native';
 import i18n from 'i18next';
 import { generateAlertId, initDb } from 'helpers/alert-store/database';
+
+import { showNotification } from 'components/toast-notification';
 
 /**
  * Synchronously store the specified alerts
@@ -23,13 +24,10 @@ export default function storeAlerts(alerts: Array<Alert>): void {
       });
     });
   } catch (error) {
-    if (error.code === 13) {
-      RNAlert.alert(i18n.t('sync.outOfSpace.title'), i18n.t('sync.outOfSpace.message'), [
-        {
-          title: i18n.t('commonText.ok'),
-          style: 'default'
-        }
-      ]);
-    }
+    showNotification({
+      type: 'error',
+      text: i18n.t('sync.failed.title'),
+      description: error.code === 13 ? i18n.t('sync.failed.outOfSpaceMessage') : null
+    });
   }
 }
