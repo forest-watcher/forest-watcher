@@ -264,6 +264,7 @@ class DrawAreas extends Component {
           scrollEnabled={!nextPress /* Disable map moving while taking area snapshot image */}
           zoomEnabled={!nextPress}
           rotateEnabled={!nextPress}
+          compassViewMargins={{ x: 5, y: 50 }}
         >
           {renderMapCamera}
           {this.renderNewAreaOutline(markerLocations)}
