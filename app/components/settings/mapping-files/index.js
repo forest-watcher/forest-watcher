@@ -49,6 +49,7 @@ type Props = {|
 |};
 
 type State = {|
+  +creatingArchive: boolean,
   +selectedForExport: Array<string>,
   +inEditMode: boolean,
   +inShareMode: boolean
@@ -87,6 +88,7 @@ class MappingFiles extends Component<Props, State> {
     Navigation.events().bindComponent(this);
     // Set an empty starting state for this object. If empty, we're not in export mode. If there's items in here, export mode is active.
     this.state = {
+      creatingArchive: false,
       selectedForExport: [],
       inEditMode: false,
       inShareMode: false
@@ -186,12 +188,22 @@ class MappingFiles extends Component<Props, State> {
    *
    * @param  {Array} selectedFiles An array of layer identifiers that have been selected for export.
    */
-  onExportFilesTapped = debounceUI(selectedFiles => {
-    // TODO: Loading screen while the async function below executed
-    this.props.exportLayers(selectedFiles);
-    // $FlowFixMe
-    this.shareSheet?.setSharing?.(false);
-    this.setSharing(false);
+  onExportFilesTapped = debounceUI(async selectedFiles => {
+    this.setState({
+      creatingArchive: true
+    });
+
+    try {
+      await this.props.exportLayers(selectedFiles);
+    } finally {
+      this.setState({
+        creatingArchive: false
+      });
+
+      // $FlowFixMe
+      this.shareSheet?.setSharing?.(false);
+      this.setSharing(false);
+    }
   });
 
   setAllSelected = (selected: boolean) => {
@@ -519,7 +531,6 @@ class MappingFiles extends Component<Props, State> {
 
     return (
       <View style={styles.container}>
-        {/* $FlowFixMe add share in progress title */}
         <ShareSheet
           ref={(ref: ?ShareSheet) => {
             this.shareSheet = ref;
@@ -529,6 +540,7 @@ class MappingFiles extends Component<Props, State> {
           disableEditButton={this.shouldDisableEditButton()}
           editButtonDisabledTitle={i18n.t(this.i18nKeyFor('edit'))}
           editButtonEnabledTitle={i18n.t(this.i18nKeyFor('edit'))}
+          isSharing={this.state.creatingArchive}
           onEditingToggled={this.setEditing}
           onSharingToggled={this.setSharing}
           onToggleAllSelected={this.setAllSelected}
