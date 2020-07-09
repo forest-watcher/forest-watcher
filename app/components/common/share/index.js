@@ -17,6 +17,7 @@ type Props = {
   ...ElementConfig<typeof View>,
   componentId?: string,
   disabled?: ?boolean,
+  disableEditButton?: ?boolean,
   editButtonDisabledTitle?: string,
   editButtonEnabledTitle?: string,
   isSharing?: boolean,
@@ -151,10 +152,10 @@ export default class ShareSelector extends Component<Props, State> {
           >
             {showEditButton && !sharing && (
               <ActionButton
-                disabled={isSharing || (!hasItemsSelected && editing)}
+                disabled={this.props.disableEditButton || isSharing || (!hasItemsSelected && editing)}
                 noIcon
-                onPress={editing ? this.props.onEdit : this.onClickEdit}
-                secondary={!editing}
+                onPress={this.props.disableEditButton ? null : editing ? this.props.onEdit : this.onClickEdit}
+                secondary={!editing && !this.props.disableEditButton}
                 text={editing ? this.props.editButtonEnabledTitle : this.props.editButtonDisabledTitle}
               />
             )}

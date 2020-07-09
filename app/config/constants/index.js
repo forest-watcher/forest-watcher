@@ -716,7 +716,6 @@ export const GFW_CONTEXTUAL_LAYERS: Array<Layer> = [
     id: 'fcd10026-e892-4fb8-8d79-8d76e3b94005',
     description: 'Mining Areas',
     name: 'miningConcessions',
-    tileFormat: 'vector',
     url: 'mapbox://resourcewatch.3259d78x',
     type: 'contextual_layer'
   },
@@ -731,7 +730,6 @@ export const GFW_CONTEXTUAL_LAYERS: Array<Layer> = [
     id: 'e37f881b-ed2e-485b-b194-6a6829aaff2e',
     description: 'Legally protected areas by IUCN category. Updated monthly.',
     name: 'wdpa',
-    tileFormat: 'vector',
     url: 'https://tiles.globalforestwatch.org/wdpa_protected_areas/v201909/mvt/{z}/{x}/{y}',
     type: 'contextual_layer'
   },

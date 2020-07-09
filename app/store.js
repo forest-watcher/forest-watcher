@@ -42,7 +42,7 @@ function createAppStore(startApp) {
   const middleware = applyMiddleware(...middlewareList, offlineMiddleware);
   const storeEnhancers = [enhanceStore, migrationEnhancer, middleware];
   if (__DEV__) {
-    storeEnhancers.unshift(Reactotron.createEnhancer());
+    storeEnhancers.push(Reactotron.createEnhancer());
   }
   return createStore(enhanceReducer(combinedReducer), compose(...storeEnhancers));
 }

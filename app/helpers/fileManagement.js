@@ -18,6 +18,19 @@ if (typeof atob === 'undefined') {
 }
 
 /**
+ * Throws an error if the size of a file is greater than the specified threshold.
+ *
+ * Will also error if the file cannot be read (either because it doesn't exist or maybe because it's an Android content:
+ * URI that isn't backed by a file)
+ */
+export async function assertMaximumFileSize(uri: string, maxSizeInBytes: number) {
+  const result = await RNFS.stat(uri);
+  if (result.size > maxSizeInBytes) {
+    throw new FWError({ message: `File too large: ${uri}`, code: ERROR_CODES.FILE_TOO_LARGE });
+  }
+}
+
+/**
  * Helper function that copies a file existing at sourceUri to destinationUri
  *
  * This helper function will create any missing directories in the destination path, and will overwrite any existing file
@@ -81,8 +94,8 @@ export function pathWithoutRoot(path: string, rootDir: string): string {
  * Avoid doing this unless necessary as the loaded file contents are sent over the bridge as base64. Process the binary
  * data natively where possible.
  */
-export async function readBinaryFile(path: string, maxSizeBytes: ?number = null): Promise<Buffer> {
-  return await readFile(path, 'base64', maxSizeBytes);
+export async function readBinaryFile(path: string): Promise<Buffer> {
+  return await readFile(path, 'base64');
 }
 
 /**
@@ -91,14 +104,7 @@ export async function readBinaryFile(path: string, maxSizeBytes: ?number = null)
  * Avoid doing this unless necessary as the loaded file contents are sent over the bridge. Process the
  * data natively where possible.
  */
-async function readFile(path: string, encoding: 'base64' | 'utf8', maxSizeBytes: ?number = null): Promise<Buffer> {
-  if (maxSizeBytes) {
-    const result = await RNFetchBlob.fs.stat(path);
-    if (result.size > maxSizeBytes) {
-      throw new FWError({ message: 'Avoid loading large file across bridge', code: ERROR_CODES.FILE_TOO_LARGE });
-    }
-  }
-
+async function readFile(path: string, encoding: 'base64' | 'utf8'): Promise<Buffer> {
   const stream = await RNFetchBlob.fs.readStream(path, encoding);
   return new Promise((resolve, reject) => {
     stream.open();
@@ -122,8 +128,8 @@ async function readFile(path: string, encoding: 'base64' | 'utf8', maxSizeBytes:
  * Avoid doing this unless necessary as the loaded file contents are sent over the bridge. Process the
  * data natively where possible.
  */
-export async function readTextFile(path: string, maxSizeBytes: ?number = null): Promise<string> {
-  const buffer = await readFile(path, 'utf8', maxSizeBytes);
+export async function readTextFile(path: string): Promise<string> {
+  const buffer = await readFile(path, 'utf8');
   return buffer.toString();
 }
 

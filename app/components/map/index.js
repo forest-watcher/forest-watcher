@@ -959,7 +959,7 @@ class MapComponent extends Component<Props, State> {
             port={MapComponent.offlinePortNumber}
             layerIndex={MAP_LAYER_INDEXES.basemap}
           />
-          {layerSettings.contextualLayers.layerIsActive && <ContextualLayers featureId={featureId} />}
+          <ContextualLayers featureId={featureId} layerSettings={layerSettings.contextualLayers} />
           {this.renderAreaOutline()}
           {this.renderDestinationLine()}
           <Alerts

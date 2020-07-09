@@ -16,7 +16,7 @@ export function isCustomContextualLayer(layer: Layer) {
 }
 
 export function isGfwContextualLayerFile(layerFile: LayerFile) {
-  return layerFile.type === 'contextual_layer' && !layerFile.subFiles;
+  return layerFile.type === 'contextual_layer' && !layerFile.subFiles?.length;
 }
 
 export function isGfwContextualLayer(layer: Layer) {

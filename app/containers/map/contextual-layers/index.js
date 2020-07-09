@@ -1,26 +1,27 @@
 // @flow
 import type { ComponentProps, Dispatch, State } from 'types/store.types';
+import type { ContextualLayerSettingsType } from 'types/layerSettings.types';
 
 import { connect } from 'react-redux';
 
-import { DEFAULT_LAYER_SETTINGS } from 'redux-modules/layerSettings';
-
 import ContextualLayers from 'components/map/contextual-layers';
+import { shouldBeConnected } from 'helpers/app';
 
 type OwnProps = {|
-  +featureId: ?string
+  +featureId: ?string,
+  +layerSettings: ContextualLayerSettingsType
 |};
 
 function mapStateToProps(state: State, ownProps: OwnProps) {
-  const featureId = ownProps.featureId;
-  const layerSettings = state.layerSettings?.[featureId] || DEFAULT_LAYER_SETTINGS;
-  const activeLayerIds = layerSettings.contextualLayers.activeContextualLayerIds;
-  const importedContextualLayers = [...state.layers.imported].filter(layer => activeLayerIds.includes(layer.id));
+  const activeLayerIds = ownProps.layerSettings.activeContextualLayerIds;
+  const importedContextualLayers = [...state.layers.data, ...state.layers.imported].filter(
+    layer => layer.type === 'contextual_layer' && activeLayerIds.includes(layer.id)
+  );
 
   return {
-    downloadedLayerCache: state.layers.downloadedLayerProgress,
-    featureId,
-    importedContextualLayers
+    isOfflineMode: !shouldBeConnected(state),
+    layers: importedContextualLayers,
+    layerCache: state.layers.downloadedLayerProgress
   };
 }
 

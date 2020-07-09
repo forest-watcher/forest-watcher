@@ -259,7 +259,7 @@ class MappingFiles extends Component<Props, State> {
       messageKey = this.i18nKeyFor('delete.messageGFWImportedContent');
     } else {
       titleKey = this.i18nKeyFor('delete.titleCustom');
-      messageKey = this.i18nKeyFor('delete.messageImportedContent');
+      messageKey = this.i18nKeyFor('delete.messageCustomContent');
     }
 
     showDeleteConfirmationPrompt(
@@ -491,6 +491,7 @@ class MappingFiles extends Component<Props, State> {
     const shareableImportedFiles = sortedImportedFiles.filter(this._isShareable);
     const numShareableFiles = shareableBaseFiles.length + shareableImportedFiles.length;
     const hasShareableFiles = numShareableFiles > 0;
+    const hasEditableFiles = sortedImportedFiles.filter(file => file.isCustom).length > 0;
 
     const visibleBaseFiles = inShareMode ? shareableBaseFiles : sortedBaseFiles;
     const visibleImportedFiles = inShareMode ? shareableImportedFiles : sortedImportedFiles;
@@ -507,6 +508,7 @@ class MappingFiles extends Component<Props, State> {
           }}
           componentId={this.props.componentId}
           disabled={!hasShareableFiles}
+          disableEditButton={!hasEditableFiles}
           editButtonDisabledTitle={i18n.t(this.i18nKeyFor('edit'))}
           editButtonEnabledTitle={i18n.t(this.i18nKeyFor('edit'))}
           onEditingToggled={this.setEditing}

@@ -30,6 +30,11 @@ export type AlertLayerSettingsType = {
   }
 };
 
+export type ContextualLayerSettingsType = {
+  layerIsActive: boolean,
+  activeContextualLayerIds: Array<string>
+};
+
 export type RoutesLayerSettingsType = {
   showAll: boolean,
   layerIsActive: boolean,
@@ -48,10 +53,7 @@ export type LayerSettings = {
   },
   routes: RoutesLayerSettingsType,
   alerts: AlertLayerSettingsType,
-  contextualLayers: {
-    layerIsActive: boolean,
-    activeContextualLayerIds: Array<string>
-  }
+  contextualLayers: ContextualLayerSettingsType
 };
 
 export type LayerSettingsAction =
