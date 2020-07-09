@@ -73,7 +73,7 @@ const migrateLayerCacheStateFromV1ToV2 = (v1Cache: { [string]: { [string]: strin
  * attempts to reconcile routes against areas to find the relevant geostoreIds, so the routes
  * are downloadable later on. This will also migrate any of the old route IDs to use a UUID.
  *
- * If the route state doesn't exist / is invalid, the initialState will be returned.
+ * If the route state doesn't exist / is invalid, undefined will be returned, leading to the initial state being used.
  * If the route state has already been migrated, the existing state will be returned.
  * @param {RouteState} routeState
  * @param {Array<Area>} areas
