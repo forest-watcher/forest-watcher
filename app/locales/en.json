@@ -384,6 +384,11 @@
                         "content": {
                             "description": {
                                 "text": "While Forest Watcher Mobile is designed primarily for offline use, certain key functions need to be performed with Internet connection. A typical workflow for Forest Watcher online/offline use is below"
+                            },
+                            "footerText": "When you are offline, we recommend you put the app in “offline mode” in settings to increase the app’s stability.",
+                            "orderList": {
+                                "text1": "Online:\nDownload Forest Watcher Mobile and log in.\nCreate an area of interest.\nSet a time period for alerts and refresh alerts.",
+                                "text2": "Offline:\nSelect and navigate to alerts.\nCreate a report at your location or on an alert.\nTrack your route.\nDocument observations and take photos.\nShare app content with another device (alerts, areas, routes, reports, contextual layers, basemap tiles or all app content)."
                             }
                         },
                         "title": "What can I do online vs offline?"
