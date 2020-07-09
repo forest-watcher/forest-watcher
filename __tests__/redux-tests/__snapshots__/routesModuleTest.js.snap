@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`redux-modules/routes func migrateV1RoutesToV2RoutesStructure returns existing state when provided route state already using v2 structure 1`] = `
+exports[`redux-modules/routes func migrateRouteStateFromV1ToV2 returns existing state when provided route state already using v2 structure 1`] = `
 Object {
   "activeRoute": undefined,
   "previousRoutes": Array [
@@ -15,22 +15,22 @@ Object {
 }
 `;
 
-exports[`redux-modules/routes func migrateV1RoutesToV2RoutesStructure returns fresh state when provided invalid params 1`] = `undefined`;
+exports[`redux-modules/routes func migrateRouteStateFromV1ToV2 returns fresh state when provided invalid params 1`] = `undefined`;
 
-exports[`redux-modules/routes func migrateV1RoutesToV2RoutesStructure returns fresh state when provided no params 1`] = `undefined`;
+exports[`redux-modules/routes func migrateRouteStateFromV1ToV2 returns fresh state when provided no params 1`] = `undefined`;
 
-exports[`redux-modules/routes func migrateV1RoutesToV2RoutesStructure returns fresh state when provided null params 1`] = `undefined`;
+exports[`redux-modules/routes func migrateRouteStateFromV1ToV2 returns fresh state when provided null params 1`] = `undefined`;
 
-exports[`redux-modules/routes func migrateV1RoutesToV2RoutesStructure returns fresh state when provided undefined params 1`] = `undefined`;
+exports[`redux-modules/routes func migrateRouteStateFromV1ToV2 returns fresh state when provided undefined params 1`] = `undefined`;
 
-exports[`redux-modules/routes func migrateV1RoutesToV2RoutesStructure returns updated state when provided route state with no routes 1`] = `
+exports[`redux-modules/routes func migrateRouteStateFromV1ToV2 returns updated state when provided route state with no routes 1`] = `
 Object {
   "activeRoute": undefined,
   "previousRoutes": Array [],
 }
 `;
 
-exports[`redux-modules/routes func migrateV1RoutesToV2RoutesStructure with active route returns updated state when provided area with matching ID 1`] = `
+exports[`redux-modules/routes func migrateRouteStateFromV1ToV2 with active route returns updated state when provided area with matching ID 1`] = `
 Object {
   "activeRoute": Object {
     "areaId": "testAreaId1",
@@ -42,7 +42,7 @@ Object {
 }
 `;
 
-exports[`redux-modules/routes func migrateV1RoutesToV2RoutesStructure with active route returns updated state when provided area with non-matching ID 1`] = `
+exports[`redux-modules/routes func migrateRouteStateFromV1ToV2 with active route returns updated state when provided area with non-matching ID 1`] = `
 Object {
   "activeRoute": Object {
     "areaId": "testAreaId1",
@@ -54,7 +54,7 @@ Object {
 }
 `;
 
-exports[`redux-modules/routes func migrateV1RoutesToV2RoutesStructure with active route returns updated state when provided areas where one area matches 1`] = `
+exports[`redux-modules/routes func migrateRouteStateFromV1ToV2 with active route returns updated state when provided areas where one area matches 1`] = `
 Object {
   "activeRoute": Object {
     "areaId": "testAreaId1",
@@ -66,7 +66,7 @@ Object {
 }
 `;
 
-exports[`redux-modules/routes func migrateV1RoutesToV2RoutesStructure with active route returns updated state when provided areas with non-matching ID 1`] = `
+exports[`redux-modules/routes func migrateRouteStateFromV1ToV2 with active route returns updated state when provided areas with non-matching ID 1`] = `
 Object {
   "activeRoute": Object {
     "areaId": "testAreaId1",
@@ -78,7 +78,7 @@ Object {
 }
 `;
 
-exports[`redux-modules/routes func migrateV1RoutesToV2RoutesStructure with active route returns updated state when provided empty areas 1`] = `
+exports[`redux-modules/routes func migrateRouteStateFromV1ToV2 with active route returns updated state when provided empty areas 1`] = `
 Object {
   "activeRoute": Object {
     "areaId": "testAreaId1",
@@ -90,7 +90,7 @@ Object {
 }
 `;
 
-exports[`redux-modules/routes func migrateV1RoutesToV2RoutesStructure with active route returns updated state when provided null areas 1`] = `
+exports[`redux-modules/routes func migrateRouteStateFromV1ToV2 with active route returns updated state when provided null areas 1`] = `
 Object {
   "activeRoute": Object {
     "areaId": "testAreaId1",
@@ -102,7 +102,7 @@ Object {
 }
 `;
 
-exports[`redux-modules/routes func migrateV1RoutesToV2RoutesStructure with one route returns updated state when provided area with matching ID 1`] = `
+exports[`redux-modules/routes func migrateRouteStateFromV1ToV2 with one route returns updated state when provided area with matching ID 1`] = `
 Object {
   "activeRoute": undefined,
   "previousRoutes": Array [
@@ -116,7 +116,7 @@ Object {
 }
 `;
 
-exports[`redux-modules/routes func migrateV1RoutesToV2RoutesStructure with one route returns updated state when provided area with non-matching ID 1`] = `
+exports[`redux-modules/routes func migrateRouteStateFromV1ToV2 with one route returns updated state when provided area with non-matching ID 1`] = `
 Object {
   "activeRoute": undefined,
   "previousRoutes": Array [
@@ -130,7 +130,7 @@ Object {
 }
 `;
 
-exports[`redux-modules/routes func migrateV1RoutesToV2RoutesStructure with one route returns updated state when provided areas where one area matches 1`] = `
+exports[`redux-modules/routes func migrateRouteStateFromV1ToV2 with one route returns updated state when provided areas where one area matches 1`] = `
 Object {
   "activeRoute": undefined,
   "previousRoutes": Array [
@@ -144,7 +144,7 @@ Object {
 }
 `;
 
-exports[`redux-modules/routes func migrateV1RoutesToV2RoutesStructure with one route returns updated state when provided areas with non-matching ID 1`] = `
+exports[`redux-modules/routes func migrateRouteStateFromV1ToV2 with one route returns updated state when provided areas with non-matching ID 1`] = `
 Object {
   "activeRoute": undefined,
   "previousRoutes": Array [
@@ -158,7 +158,7 @@ Object {
 }
 `;
 
-exports[`redux-modules/routes func migrateV1RoutesToV2RoutesStructure with one route returns updated state when provided empty areas 1`] = `
+exports[`redux-modules/routes func migrateRouteStateFromV1ToV2 with one route returns updated state when provided empty areas 1`] = `
 Object {
   "activeRoute": undefined,
   "previousRoutes": Array [
@@ -172,7 +172,7 @@ Object {
 }
 `;
 
-exports[`redux-modules/routes func migrateV1RoutesToV2RoutesStructure with one route returns updated state when provided null areas 1`] = `
+exports[`redux-modules/routes func migrateRouteStateFromV1ToV2 with one route returns updated state when provided null areas 1`] = `
 Object {
   "activeRoute": undefined,
   "previousRoutes": Array [
@@ -186,47 +186,7 @@ Object {
 }
 `;
 
-exports[`redux-modules/routes func migrateV1RoutesToV2RoutesStructure with two routes returns updated state when provided area with matching ID 1`] = `
-Object {
-  "activeRoute": undefined,
-  "previousRoutes": Array [
-    Object {
-      "areaId": "testAreaId1",
-      "geostoreId": "testGeostoreId1",
-      "id": "487a2312-7600-4c9f-a7ff-d6ad69a721a0",
-      "name": "routeNameMock",
-    },
-    Object {
-      "areaId": "testAreaId1",
-      "geostoreId": "testGeostoreId1",
-      "id": "487a2312-7600-4c9f-a7ff-d6ad69a721a0",
-      "name": "routeNameMock",
-    },
-  ],
-}
-`;
-
-exports[`redux-modules/routes func migrateV1RoutesToV2RoutesStructure with two routes returns updated state when provided area with non-matching ID 1`] = `
-Object {
-  "activeRoute": undefined,
-  "previousRoutes": Array [
-    Object {
-      "areaId": "testAreaId1",
-      "geostoreId": undefined,
-      "id": "487a2312-7600-4c9f-a7ff-d6ad69a721a0",
-      "name": "routeNameMock",
-    },
-    Object {
-      "areaId": "testAreaId1",
-      "geostoreId": undefined,
-      "id": "487a2312-7600-4c9f-a7ff-d6ad69a721a0",
-      "name": "routeNameMock",
-    },
-  ],
-}
-`;
-
-exports[`redux-modules/routes func migrateV1RoutesToV2RoutesStructure with two routes returns updated state when provided areas where one area matches 1`] = `
+exports[`redux-modules/routes func migrateRouteStateFromV1ToV2 with two routes returns updated state when provided area with matching ID 1`] = `
 Object {
   "activeRoute": undefined,
   "previousRoutes": Array [
@@ -246,7 +206,7 @@ Object {
 }
 `;
 
-exports[`redux-modules/routes func migrateV1RoutesToV2RoutesStructure with two routes returns updated state when provided areas with non-matching ID 1`] = `
+exports[`redux-modules/routes func migrateRouteStateFromV1ToV2 with two routes returns updated state when provided area with non-matching ID 1`] = `
 Object {
   "activeRoute": undefined,
   "previousRoutes": Array [
@@ -266,7 +226,27 @@ Object {
 }
 `;
 
-exports[`redux-modules/routes func migrateV1RoutesToV2RoutesStructure with two routes returns updated state when provided empty areas 1`] = `
+exports[`redux-modules/routes func migrateRouteStateFromV1ToV2 with two routes returns updated state when provided areas where one area matches 1`] = `
+Object {
+  "activeRoute": undefined,
+  "previousRoutes": Array [
+    Object {
+      "areaId": "testAreaId1",
+      "geostoreId": "testGeostoreId1",
+      "id": "487a2312-7600-4c9f-a7ff-d6ad69a721a0",
+      "name": "routeNameMock",
+    },
+    Object {
+      "areaId": "testAreaId1",
+      "geostoreId": "testGeostoreId1",
+      "id": "487a2312-7600-4c9f-a7ff-d6ad69a721a0",
+      "name": "routeNameMock",
+    },
+  ],
+}
+`;
+
+exports[`redux-modules/routes func migrateRouteStateFromV1ToV2 with two routes returns updated state when provided areas with non-matching ID 1`] = `
 Object {
   "activeRoute": undefined,
   "previousRoutes": Array [
@@ -286,7 +266,7 @@ Object {
 }
 `;
 
-exports[`redux-modules/routes func migrateV1RoutesToV2RoutesStructure with two routes returns updated state when provided null areas 1`] = `
+exports[`redux-modules/routes func migrateRouteStateFromV1ToV2 with two routes returns updated state when provided empty areas 1`] = `
 Object {
   "activeRoute": undefined,
   "previousRoutes": Array [
@@ -306,7 +286,27 @@ Object {
 }
 `;
 
-exports[`redux-modules/routes func migrateV1RoutesToV2RoutesStructure with two routes returns updated state when provided routes for different areas & both match 1`] = `
+exports[`redux-modules/routes func migrateRouteStateFromV1ToV2 with two routes returns updated state when provided null areas 1`] = `
+Object {
+  "activeRoute": undefined,
+  "previousRoutes": Array [
+    Object {
+      "areaId": "testAreaId1",
+      "geostoreId": undefined,
+      "id": "487a2312-7600-4c9f-a7ff-d6ad69a721a0",
+      "name": "routeNameMock",
+    },
+    Object {
+      "areaId": "testAreaId1",
+      "geostoreId": undefined,
+      "id": "487a2312-7600-4c9f-a7ff-d6ad69a721a0",
+      "name": "routeNameMock",
+    },
+  ],
+}
+`;
+
+exports[`redux-modules/routes func migrateRouteStateFromV1ToV2 with two routes returns updated state when provided routes for different areas & both match 1`] = `
 Object {
   "activeRoute": undefined,
   "previousRoutes": Array [
@@ -326,7 +326,7 @@ Object {
 }
 `;
 
-exports[`redux-modules/routes func migrateV1RoutesToV2RoutesStructure with two routes returns updated state when provided routes for different areas & neither match 1`] = `
+exports[`redux-modules/routes func migrateRouteStateFromV1ToV2 with two routes returns updated state when provided routes for different areas & neither match 1`] = `
 Object {
   "activeRoute": undefined,
   "previousRoutes": Array [
@@ -346,7 +346,7 @@ Object {
 }
 `;
 
-exports[`redux-modules/routes func migrateV1RoutesToV2RoutesStructure with two routes returns updated state when provided routes for different areas & only one matches 1`] = `
+exports[`redux-modules/routes func migrateRouteStateFromV1ToV2 with two routes returns updated state when provided routes for different areas & only one matches 1`] = `
 Object {
   "activeRoute": undefined,
   "previousRoutes": Array [

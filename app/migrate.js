@@ -1,5 +1,6 @@
 // @flow
 import type { Area } from 'types/areas.types';
+import type { LayerDownloadProgress } from 'types/layers.types';
 import type { Route, RouteState } from 'types/routes.types';
 import type { State } from 'types/store.types';
 
@@ -7,6 +8,35 @@ import createMigration from 'redux-persist-migrate';
 import generateUniqueID from 'helpers/uniqueId';
 
 export const CURRENT_REDUX_STATE_VERSION = 2;
+
+/**
+ * v2 layer progress state is simplified and uses a different hierarchy, so port across the relevant parts from v1
+ */
+const migrateLayerCacheStateFromV1ToV2 = (v1Cache: { [string]: { [string]: string } }): LayerDownloadProgress => {
+  const v2Cache: LayerDownloadProgress = {};
+
+  if (!v1Cache) {
+    return v2Cache;
+  }
+
+  Object.entries(v1Cache)
+    .filter(item => item[0] !== 'basemap')
+    .forEach(([layerId, v1LayerCache]) => {
+      Object.entries(v1LayerCache).forEach(([areaId, path]) => {
+        if (!v2Cache[layerId]) {
+          v2Cache[layerId] = {};
+        }
+        v2Cache[layerId][areaId] = {
+          progress: 100,
+          completed: true,
+          requested: false,
+          error: false
+        };
+      });
+    });
+
+  return v2Cache;
+};
 
 /**
  * migrateV1RoutesToV2RoutesStructure - given the existing route state & the available areas,
@@ -20,7 +50,7 @@ export const CURRENT_REDUX_STATE_VERSION = 2;
  * @param {() => string} getUniqueID - unless testing, use the default param provided to get unique uuids
  */
 // eslint-disable-next-line import/no-unused-modules
-export const migrateV1RoutesToV2RoutesStructure = (
+export const migrateRouteStateFromV1ToV2 = (
   routeState: ?RouteState,
   areas: ?Array<Area>,
   getUniqueID: () => string = generateUniqueID
@@ -82,13 +112,18 @@ const manifest = {
       layers: {
         ...state.layers,
         activeLayer: undefined, // Removed key
+        cache: undefined, // Removed key
+        cacheStatus: undefined, // Removed key
         // Different types of layers can now be held in state.layers.data, but everything migrated from v1 will be contextual layer
         data: state.layers.data.map(layer => ({
           ...layer,
           type: 'contextual_layer'
-        }))
+        })),
+        downloadedLayerProgress: migrateLayerCacheStateFromV1ToV2(state.layers.cache),
+        layersProgress: undefined, // Removed key
+        pendingCache: undefined // Removed key
       },
-      routes: migrateV1RoutesToV2RoutesStructure(state.routes, state.areas.data)
+      routes: migrateRouteStateFromV1ToV2(state.routes, state.areas.data)
     };
   }
 };
