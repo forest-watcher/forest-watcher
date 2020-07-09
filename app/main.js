@@ -21,6 +21,7 @@ import Config from 'react-native-config';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import { trackRouteFlowEvent } from 'helpers/analytics';
 import { launchAppRoot } from 'screens/common';
+import { migrateFilesFromV1ToV2 } from './migrate';
 
 // Disable ios warnings
 // console.disableYellowBox = true;
@@ -51,6 +52,12 @@ export default class App {
 
     if (Platform.OS === 'android') {
       NativeModules.FWMapbox.installOfflineModeInterceptor(state.app.offlineMode);
+    }
+
+    try {
+      await migrateFilesFromV1ToV2(this.store.dispatch);
+    } catch (err) {
+      console.warn('3SC', 'Could not migrate files', err);
     }
 
     await launchAppRoot(screen);

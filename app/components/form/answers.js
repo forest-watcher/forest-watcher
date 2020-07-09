@@ -15,6 +15,7 @@ import displayExportReportDialog from 'helpers/sharing/displayExportReportDialog
 import { pathForReportQuestionAttachment } from 'helpers/report-store/reportFilePaths';
 import { toFileUri } from 'helpers/fileURI';
 import { trackReportingConcluded } from 'helpers/analytics';
+import { isBlobResponse } from 'helpers/forms';
 
 const deleteIcon = require('assets/delete_red.png');
 const exportIcon = require('assets/upload.png');
@@ -180,15 +181,13 @@ class Answers extends PureComponent<Props> {
     const { results, readOnly, metadata } = this.props;
     const regularAnswers = results.filter(({ question }) => question.type !== 'blob');
 
-    const images = results
-      .filter(({ question, answer }) => question.type === 'blob' && !!answer.value?.[0])
-      .map((image, index) => ({
-        id: image.question.Id,
-        uri: toFileUri(pathForReportQuestionAttachment(this.props.reportName, image.question.name, 'image/jpeg')),
-        name: image.question.name,
-        order: image.question.order,
-        required: image.question.required
-      }));
+    const images = results.filter(isBlobResponse).map((image, index) => ({
+      id: image.question.Id,
+      uri: toFileUri(pathForReportQuestionAttachment(this.props.reportName, image.question.name, 'image/jpeg')),
+      name: image.question.name,
+      order: image.question.order,
+      required: image.question.required
+    }));
     const imageActions = !readOnly
       ? [
           {

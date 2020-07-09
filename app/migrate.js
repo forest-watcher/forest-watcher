@@ -1,12 +1,20 @@
 // @flow
 import type { Area } from 'types/areas.types';
 import type { Route, RouteState } from 'types/routes.types';
-import type { State } from 'types/store.types';
+import type { Dispatch, State } from 'types/store.types';
 
 import createMigration from 'redux-persist-migrate';
 import generateUniqueID from 'helpers/uniqueId';
+import { migrateReportAttachmentsFromV1ToV2 } from 'redux-modules/reports';
 
 export const CURRENT_REDUX_STATE_VERSION = 2;
+
+/**
+ * Migrate files from their locations in v1 to their new locations in v2
+ */
+export async function migrateFilesFromV1ToV2(dispatch: Dispatch) {
+  await dispatch(migrateReportAttachmentsFromV1ToV2());
+}
 
 /**
  * migrateV1RoutesToV2RoutesStructure - given the existing route state & the available areas,
