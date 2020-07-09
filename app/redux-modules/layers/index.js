@@ -181,7 +181,7 @@ export default function reducer(state: LayersState = initialState, action: Layer
       return updatedStateWithProgress;
     }
     case IMPORT_LAYER_AREA_COMPLETED: {
-      const { id, layerId, failed } = action.payload;
+      const { id, layerId, error } = action.payload;
 
       // Mark the download as completed, with an error if one occurred.
       // We can then check for every request being completed, and if so the layer download can be concluded.
@@ -195,7 +195,7 @@ export default function reducer(state: LayersState = initialState, action: Layer
               requested: false,
               progress: 100,
               completed: true,
-              error: failed
+              error
             }
           }
         }

@@ -63,10 +63,11 @@ class DataCacher extends PureComponent<Props, State> {
 
   componentDidUpdate(prevProps: Props) {
     if (this.props.downloadProgress.error && this.props.downloadProgress.completed) {
-      Alert.alert(i18n.t('commonText.error'), i18n.t('dashboard.downloadFailed'), [
-        { text: 'OK', onPress: this.resetCacheStatus },
-        { text: i18n.t('commonText.retry'), onPress: this.onRetry }
-      ]);
+      Alert.alert(
+        i18n.t('commonText.error'),
+        i18n.t('dashboard.downloadFailed') + ': ' + this.props.downloadProgress.error,
+        [{ text: 'OK', onPress: this.resetCacheStatus }, { text: i18n.t('commonText.retry'), onPress: this.onRetry }]
+      );
     }
 
     if (prevProps.downloadProgress.requested === false && this.props.downloadProgress.requested === true) {

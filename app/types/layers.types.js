@@ -113,7 +113,7 @@ type ImportLayerAreaCompleted = {
   payload: {
     id: string,
     layerId: string,
-    failed: boolean
+    error: ?string
   }
 };
 type ImportLayerCommit = { type: 'layers/IMPORT_LAYER_COMMIT', payload: Layer };
