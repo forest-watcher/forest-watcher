@@ -22,6 +22,8 @@ import MapboxGL from '@react-native-mapbox-gl/maps';
 import { trackRouteFlowEvent } from 'helpers/analytics';
 import { launchAppRoot } from 'screens/common';
 import { migrateFilesFromV1ToV2 } from './migrate';
+import { SET_HAS_MIGRATED_V1_FILES } from 'redux-modules/app';
+import Sentry from "@sentry/react-native";
 
 // Disable ios warnings
 // console.disableYellowBox = true;
@@ -58,9 +60,16 @@ export default class App {
     await this._handleAppStateChange('active');
 
     try {
-      await migrateFilesFromV1ToV2(this.store.dispatch);
+      const hasMigratedFiles = state.app.hasMigratedV1Files;
+      if (!hasMigratedFiles) {
+        await migrateFilesFromV1ToV2(this.store.dispatch);
+        this.store.dispatch({
+          type: SET_HAS_MIGRATED_V1_FILES
+        });
+      }
     } catch (err) {
       console.warn('3SC', 'Could not migrate files', err);
+      Sentry.captureException(err);
     }
   }
 
