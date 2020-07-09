@@ -78,7 +78,7 @@ async function stageBundle(bundle: SharingBundle): Promise<UnpackedSharingBundle
   const outputPath = await createTemporaryStagingDirectory();
 
   // Stage files contained in the manifest
-  await storeLayerFiles(bundle.manifest.layerFiles, outputPath);
+  await storeLayerFiles(bundle.manifest.layerFiles, 'copy', outputPath);
   await storeReportFiles(bundle.manifest.reportFiles, outputPath);
 
   // Write the bundle data file

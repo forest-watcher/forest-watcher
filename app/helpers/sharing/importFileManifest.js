@@ -55,7 +55,7 @@ async function importLayerFiles(bundle: UnpackedSharingBundle, request: ImportBu
     ...layerFile,
     path: `${bundle.path}${layerFile.path}`
   }));
-  await storeLayerFiles(unpackedReportFiles);
+  await storeLayerFiles(unpackedReportFiles, 'move');
 }
 
 async function importReportFiles(bundle: UnpackedSharingBundle, request: ImportBundleRequest) {

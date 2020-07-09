@@ -22,6 +22,8 @@ import MapboxGL from '@react-native-mapbox-gl/maps';
 import { trackRouteFlowEvent } from 'helpers/analytics';
 import { launchAppRoot } from 'screens/common';
 import { migrateFilesFromV1ToV2 } from './migrate';
+import { SET_HAS_MIGRATED_V1_FILES } from 'redux-modules/app';
+import * as Sentry from '@sentry/react-native';
 
 // Disable ios warnings
 // console.disableYellowBox = true;
@@ -54,14 +56,21 @@ export default class App {
       NativeModules.FWMapbox.installOfflineModeInterceptor(state.app.offlineMode);
     }
 
-    try {
-      await migrateFilesFromV1ToV2(this.store.dispatch);
-    } catch (err) {
-      console.warn('3SC', 'Could not migrate files', err);
-    }
-
     await launchAppRoot(screen);
     await this._handleAppStateChange('active');
+
+    try {
+      const hasMigratedFiles = state.app.hasMigratedV1Files;
+      if (!hasMigratedFiles) {
+        await migrateFilesFromV1ToV2(this.store.dispatch);
+        this.store.dispatch({
+          type: SET_HAS_MIGRATED_V1_FILES
+        });
+      }
+    } catch (err) {
+      console.warn('3SC', 'Could not migrate files', err);
+      Sentry.captureException(err);
+    }
   }
 
   _handleAppStateChange = async nextAppState => {
