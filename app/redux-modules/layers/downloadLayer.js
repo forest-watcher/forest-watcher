@@ -366,7 +366,7 @@ export function downloadAreaById(areaId: string) {
     }
 
     // we can't download basemaps with tile urls
-    const downloadableDefaultBasemaps = GFW_BASEMAPS.filter(basemap => !basemap.url);
+    const downloadableDefaultBasemaps = GFW_BASEMAPS.filter(basemap => basemap.url);
 
     const layers = [...state.layers.data, ...state.layers.imported, ...downloadableDefaultBasemaps];
 
@@ -389,7 +389,7 @@ export function downloadRouteById(routeId: string) {
     }
 
     // we can't download basemaps with tile urls
-    const downloadableDefaultBasemaps = GFW_BASEMAPS.filter(basemap => !basemap.url);
+    const downloadableDefaultBasemaps = GFW_BASEMAPS.filter(basemap => basemap.url);
 
     const layers = [...state.layers.data, ...state.layers.imported, ...downloadableDefaultBasemaps];
 
