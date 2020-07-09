@@ -469,6 +469,25 @@ class MappingFiles extends Component<Props, State> {
     );
   };
 
+  shouldDisableEditButton = () => {
+    // eslint-disable-next-line no-unused-vars
+    for (const file of [...this.props.baseFiles, ...this.props.importedFiles]) {
+      if (file.isCustom) {
+        return false;
+      }
+      const fileDownloadProgress: Array<LayerCacheData> = Object.values(this.props.downloadProgress[file.id] ?? {});
+      const fileIsFullyDownloaded =
+        fileDownloadProgress.filter(area => area.completed && !area.error).length >= this.props.areaTotal;
+      if (fileIsFullyDownloaded) {
+        return false;
+      }
+      if (this.props.mappingFileType === 'contextual_layer' && !!GFW_CONTEXTUAL_LAYERS_METADATA[file.id]) {
+        return false;
+      }
+    }
+    return true;
+  };
+
   render() {
     const { baseFiles, importedFiles, mappingFileType } = this.props;
     const { inShareMode } = this.state;
@@ -491,7 +510,6 @@ class MappingFiles extends Component<Props, State> {
     const shareableImportedFiles = sortedImportedFiles.filter(this._isShareable);
     const numShareableFiles = shareableBaseFiles.length + shareableImportedFiles.length;
     const hasShareableFiles = numShareableFiles > 0;
-    const hasEditableFiles = sortedImportedFiles.filter(file => file.isCustom).length > 0;
 
     const visibleBaseFiles = inShareMode ? shareableBaseFiles : sortedBaseFiles;
     const visibleImportedFiles = inShareMode ? shareableImportedFiles : sortedImportedFiles;
@@ -508,7 +526,7 @@ class MappingFiles extends Component<Props, State> {
           }}
           componentId={this.props.componentId}
           disabled={!hasShareableFiles}
-          disableEditButton={!hasEditableFiles}
+          disableEditButton={this.shouldDisableEditButton()}
           editButtonDisabledTitle={i18n.t(this.i18nKeyFor('edit'))}
           editButtonEnabledTitle={i18n.t(this.i18nKeyFor('edit'))}
           onEditingToggled={this.setEditing}
