@@ -4,7 +4,7 @@ import type { SharingBundleImported } from 'types/app.types';
 
 import { UPLOAD_REPORT_COMMIT, UPLOAD_REPORT_ROLLBACK } from 'redux-modules/reports';
 import { SAVE_AREA_ROLLBACK } from 'redux-modules/areas';
-import { GET_ALERTS_COMMIT } from 'redux-modules/alerts';
+import { GET_ALERTS_COMMIT, GET_ALERTS_ROLLBACK } from 'redux-modules/alerts';
 import {
   SHOW_CONNECTION_REQUIRED,
   UPDATE_APP,
@@ -33,6 +33,10 @@ export default {
     type: Types.success,
     textKey: 'sync.alertsUpdated',
     check: (state: State) => state.areas.synced && state.layers.synced && state.alerts.queue.length === 0
+  },
+  [GET_ALERTS_ROLLBACK]: {
+    type: Types.error,
+    textKey: 'sync.failed.title'
   },
   [SHOW_CONNECTION_REQUIRED]: {
     type: Types.error,

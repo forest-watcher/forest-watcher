@@ -922,6 +922,10 @@
         "error": "Sync error",
         "errorCreatingArea": "There was an error creating your area",
         "errorDesc": "Something went wrong",
+        "failed": {
+            "title": "There was an error syncing alerts",
+            "outOfSpaceMessage": "To have alerts available offline, you must clear some unused files from your phone"
+        },
         "gettingLatestAlerts": "Getting the latest alerts",
         "reportUploadRollback": "Report failed to upload",
         "reportUploaded": "Report sent",
