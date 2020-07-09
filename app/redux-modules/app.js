@@ -15,6 +15,7 @@ import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 
 import { RETRY_SYNC } from 'redux-modules/shared';
 import { CURRENT_REDUX_STATE_VERSION } from '../migrate';
+import { NativeModules, Platform } from 'react-native';
 
 // Actions
 const SET_OFFLINE_MODE = 'app/SET_OFFLINE_MODE';
@@ -87,6 +88,9 @@ export default function reducer(state: AppState = initialState, action: AppActio
 }
 
 export function setOfflineMode(offlineMode: boolean): AppAction {
+  if (Platform.OS === 'android') {
+    NativeModules.FWMapbox.setOfflineModeEnabled(offlineMode);
+  }
   return {
     type: SET_OFFLINE_MODE,
     payload: offlineMode

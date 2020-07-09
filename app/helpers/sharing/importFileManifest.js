@@ -51,9 +51,9 @@ export function filterRelevantReportFiles(bundle: SharingBundle, request: Import
  */
 async function importLayerFiles(bundle: UnpackedSharingBundle, request: ImportBundleRequest) {
   const relevantLayerFiles = filterRelevantLayerFiles(bundle.data, request);
-  const unpackedReportFiles = relevantLayerFiles.map(reportFile => ({
-    ...reportFile,
-    path: `${bundle.path}${reportFile.path}`
+  const unpackedReportFiles = relevantLayerFiles.map(layerFile => ({
+    ...layerFile,
+    path: `${bundle.path}${layerFile.path}`
   }));
   await storeLayerFiles(unpackedReportFiles);
 }

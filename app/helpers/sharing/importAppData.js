@@ -12,6 +12,7 @@ import { SAVE_AREA_COMMIT } from 'redux-modules/areas';
 import { IMPORT_LAYER_REQUEST, IMPORT_LAYER_COMMIT } from 'redux-modules/shared';
 import { IMPORT_ROUTE } from 'redux-modules/routes';
 import { IMPORT_REPORT, IMPORT_TEMPLATE } from 'redux-modules/reports';
+import { isCustomContextualLayer, isGfwContextualLayer } from 'helpers/layerTypes';
 
 export default function importAppData(bundle: SharingBundle, request: ImportBundleRequest, dispatch: Dispatch) {
   if (request.areas) {
@@ -34,11 +35,11 @@ export default function importAppData(bundle: SharingBundle, request: ImportBund
   }
 
   if (request.customContextualLayers.metadata) {
-    importLayers(bundle.layers, dispatch);
+    importLayers(bundle.layers.filter(isCustomContextualLayer), dispatch);
   }
 
   if (request.gfwContextualLayers.metadata) {
-    // TODO
+    importLayers(bundle.layers.filter(isGfwContextualLayer), dispatch);
   }
 }
 

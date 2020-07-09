@@ -96,15 +96,14 @@ export default class MappingFileRow extends Component<Props, State> {
 
   renderIcons = () => {
     const { inEditMode, layer, layerType, selected } = this.props;
-    const isRenamable = layer.isCustom;
+    const isCustom = !!layer.isCustom;
+    const isRenamable = isCustom;
     const isPresentOnDisk = (this.state.sizeInBytes ?? 0) > 0 || this.props.downloaded;
 
     const isDeletable =
-      isPresentOnDisk ||
-      layer.isCustom ||
-      (layerType === 'contextual_layer' && !!GFW_CONTEXTUAL_LAYERS_METADATA[layer.id]);
+      isPresentOnDisk || isCustom || (layerType === 'contextual_layer' && !!GFW_CONTEXTUAL_LAYERS_METADATA[layer.id]);
     const isRefreshable = this.props.downloaded && layerType === 'contextual_layer';
-    const isDownloadable = layerType === 'contextual_layer' || (layerType === 'basemap' && !layer.url);
+    const isDownloadable = (layerType === 'contextual_layer' || (layerType === 'basemap' && !layer.url)) && !isCustom;
 
     if (inEditMode) {
       return (

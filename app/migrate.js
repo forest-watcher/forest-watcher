@@ -2,12 +2,22 @@
 import type { Area } from 'types/areas.types';
 import type { LayerDownloadProgress } from 'types/layers.types';
 import type { Route, RouteState } from 'types/routes.types';
-import type { State } from 'types/store.types';
+import type { Dispatch, State } from 'types/store.types';
 
 import createMigration from 'redux-persist-migrate';
 import generateUniqueID from 'helpers/uniqueId';
+import { migrateReportAttachmentsFromV1ToV2 } from 'redux-modules/reports';
+import migrateLayerFilesFromV1ToV2 from 'helpers/layer-store/migrateLayerFilesFromV1ToV2';
 
 export const CURRENT_REDUX_STATE_VERSION = 2;
+
+/**
+ * Migrate files from their locations in v1 to their new locations in v2
+ */
+export async function migrateFilesFromV1ToV2(dispatch: Dispatch) {
+  await dispatch(migrateReportAttachmentsFromV1ToV2());
+  await migrateLayerFilesFromV1ToV2();
+}
 
 /**
  * v2 layer progress state is simplified and uses a different hierarchy, so port across the relevant parts from v1

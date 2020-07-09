@@ -9,9 +9,10 @@ const RNFS = require('react-native-fs');
  * In v1 tiles are stored in this structure: tiles/<area_id>/<layer_id>/{z}x{x}x{y}
  * In v2 tiles are stored in this structure: tiles/<layer_type>/<layer_id>/{z}x{x}x{y}
  */
-export default async function migrateLayersFromV1ToV2() {
+export default async function migrateLayerFilesFromV1ToV2() {
   const v1AreaDirs = await findV1AreaDirectories();
   const v1TileFiles = await findV1TileFiles(v1AreaDirs);
+  console.warn("3SC", "store layer files", v1TileFiles);
   await storeLayerFiles(v1TileFiles);
   deleteV1AreaDirectories(v1AreaDirs);
 }
