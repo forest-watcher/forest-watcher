@@ -14,7 +14,7 @@ import deleteAlerts from 'helpers/alert-store/deleteAlerts';
 
 const GET_ALERTS_REQUEST = 'alerts/GET_ALERTS_REQUEST';
 export const GET_ALERTS_COMMIT = 'alerts/GET_ALERTS_COMMIT';
-const GET_ALERTS_ROLLBACK = 'alerts/GET_ALERTS_ROLLBACK';
+export const GET_ALERTS_ROLLBACK = 'alerts/GET_ALERTS_ROLLBACK';
 
 // Reducer
 const initialState = {
