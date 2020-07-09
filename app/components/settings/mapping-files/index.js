@@ -193,15 +193,17 @@ class MappingFiles extends Component<Props, State> {
       creatingArchive: true
     });
 
-    await this.props.exportLayers(selectedFiles);
+    try {
+      await this.props.exportLayers(selectedFiles);
+    } finally {
+      this.setState({
+        creatingArchive: false
+      });
 
-    this.setState({
-      creatingArchive: false
-    });
-
-    // $FlowFixMe
-    this.shareSheet?.setSharing?.(false);
-    this.setSharing(false);
+      // $FlowFixMe
+      this.shareSheet?.setSharing?.(false);
+      this.setSharing(false);
+    }
   });
 
   setAllSelected = (selected: boolean) => {
