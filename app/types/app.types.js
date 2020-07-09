@@ -19,7 +19,8 @@ export type AppState = {
   areaCountryTooltipSeen: boolean,
   areaDownloadTooltipSeen: boolean,
   mapWalkthroughSeen: boolean,
-  offlineMode: boolean
+  offlineMode: boolean,
+  hasMigratedV1Files: boolean
 };
 
 export type AppAction =
@@ -31,6 +32,7 @@ export type AppAction =
   | SetHasSeenWelcomeScreen
   | SetCoordinatesFormat
   | SetPristineCacheTooltip
+  | SetHasMigratedV1Files
   | SetMapWalkthroughSeen
   | ShowConnectionRequired
   | ShowOfflineModeIsOn
@@ -48,6 +50,7 @@ export type SetHasSeenWelcomeScreen = { type: 'app/SET_WELCOME_SEEN', payload: b
 export type SetCoordinatesFormat = { type: 'app/SET_COORDINATES_FORMAT', payload: CoordinatesValue };
 export type SetPristineCacheTooltip = { type: 'app/SET_PRISTINE_CACHE_TOOLTIP', payload: boolean };
 export type SetMapWalkthroughSeen = { type: 'app/SET_MAP_WALKTHROUGH_SEEN', payload: boolean };
+export type SetHasMigratedV1Files = { type: 'app/SET_HAS_MIGRATED_V1_FILES' };
 export type RetrySync = { type: 'app/RETRY_SYNC' };
 export type ShowConnectionRequired = { type: 'app/SHOW_CONNECTION_REQUIRED' };
 export type ShowOfflineModeIsOn = { type: 'app/SHOW_OFFLINE_MODE_IS_ON' };

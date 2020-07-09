@@ -15,8 +15,28 @@ export const CURRENT_REDUX_STATE_VERSION = 2;
  * Migrate files from their locations in v1 to their new locations in v2
  */
 export async function migrateFilesFromV1ToV2(dispatch: Dispatch) {
-  await dispatch(migrateReportAttachmentsFromV1ToV2());
-  await migrateLayerFilesFromV1ToV2();
+  // Even if one migration fails, we will attempt the other, so keep track of any errors
+  let error = null;
+
+  console.warn('3SC', 'Migrate files to v2');
+  try {
+    await dispatch(migrateReportAttachmentsFromV1ToV2());
+  } catch (err) {
+    console.warn('3SC', 'Could not migrate report attachments', err);
+    error = err;
+  }
+
+  try {
+    await migrateLayerFilesFromV1ToV2();
+  } catch (err) {
+    console.warn('3SC', 'Could not migrate layer files', err);
+    error = err;
+  }
+
+  if (error) {
+    throw error;
+  }
+  console.warn('3SC', 'Migrated files to v2');
 }
 
 /**
@@ -53,7 +73,7 @@ const migrateLayerCacheStateFromV1ToV2 = (v1Cache: { [string]: { [string]: strin
  * attempts to reconcile routes against areas to find the relevant geostoreIds, so the routes
  * are downloadable later on. This will also migrate any of the old route IDs to use a UUID.
  *
- * If the route state doesn't exist / is invalid, the initialState will be returned.
+ * If the route state doesn't exist / is invalid, undefined will be returned, leading to the initial state being used.
  * If the route state has already been migrated, the existing state will be returned.
  * @param {RouteState} routeState
  * @param {Array<Area>} areas
@@ -112,6 +132,7 @@ const manifest = {
       app: {
         ...state.app,
         actions: undefined, // Removed key
+        hasMigratedV1Files: false,
         // Set the isUpdate flag so we can show different onboarding to returning vs new users
         isUpdate: true
       },

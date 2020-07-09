@@ -24,6 +24,7 @@ const SET_AREA_COUNTRY_TOOLTIP_SEEN = 'app/SET_AREA_COUNTRY_TOOLTIP_SEEN';
 const SET_AREA_DOWNLOAD_TOOLTIP_SEEN = 'app/SET_AREA_DOWNLOAD_TOOLTIP_SEEN';
 const SET_COORDINATES_FORMAT = 'app/SET_COORDINATES_FORMAT';
 const SET_MAP_WALKTHROUGH_SEEN = 'app/SET_MAP_WALKTHROUGH_SEEN';
+export const SET_HAS_MIGRATED_V1_FILES = 'app/SET_HAS_MIGRATED_V1_FILES';
 const SET_PRISTINE_CACHE_TOOLTIP = 'app/SET_PRISTINE_CACHE_TOOLTIP';
 const SET_WELCOME_SEEN = 'app/SET_WELCOME_SEEN';
 export const SHOW_OFFLINE_MODE_IS_ON = 'app/SHOW_OFFLINE_MODE_IS_ON';
@@ -45,7 +46,8 @@ const initialState = {
   offlineMode: false,
   pristineCacheTooltip: true,
   coordinatesFormat: COORDINATES_FORMATS.decimal.value,
-  hasSeenWelcomeScreen: false
+  hasSeenWelcomeScreen: false,
+  hasMigratedV1Files: true // This will only be set to false in migrate.js if we migrate from v1
 };
 
 export default function reducer(state: AppState = initialState, action: AppAction) {
@@ -72,6 +74,8 @@ export default function reducer(state: AppState = initialState, action: AppActio
       return { ...state, pristineCacheTooltip: action.payload };
     case SET_WELCOME_SEEN:
       return { ...state, hasSeenWelcomeScreen: action.payload };
+    case SET_HAS_MIGRATED_V1_FILES:
+      return { ...state, hasMigratedV1Files: true };
     case LOGOUT_REQUEST:
       return {
         ...initialState,
