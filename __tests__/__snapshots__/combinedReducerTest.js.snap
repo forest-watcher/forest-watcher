@@ -17,6 +17,7 @@ Object {
     "mapWalkthroughSeen": false,
     "offlineMode": false,
     "pristineCacheTooltip": true,
+    "reduxVersion": 2,
     "synced": false,
     "version": "2.0.0",
   },
@@ -1866,10 +1867,6 @@ Object {
     "synced": false,
     "syncing": false,
   },
-  "form": Object {
-    "migrated": true,
-    "oldData": Object {},
-  },
   "layerSettings": Object {},
   "layers": Object {
     "data": Array [],
@@ -1890,7 +1887,6 @@ Object {
   "routes": Object {
     "activeRoute": undefined,
     "previousRoutes": Array [],
-    "routeStructureVersion": "v2",
   },
   "setup": Object {
     "area": Object {
@@ -1935,6 +1931,7 @@ Object {
     "mapWalkthroughSeen": false,
     "offlineMode": false,
     "pristineCacheTooltip": true,
+    "reduxVersion": 2,
     "synced": false,
     "version": "2.0.0",
   },
@@ -3784,10 +3781,6 @@ Object {
     "synced": false,
     "syncing": false,
   },
-  "form": Object {
-    "migrated": true,
-    "oldData": Object {},
-  },
   "layerSettings": Object {},
   "layers": Object {
     "data": Array [],
@@ -3808,7 +3801,6 @@ Object {
   "routes": Object {
     "activeRoute": undefined,
     "previousRoutes": Array [],
-    "routeStructureVersion": "v2",
   },
   "setup": Object {
     "area": Object {
