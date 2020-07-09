@@ -27,9 +27,10 @@
     },
     "basemaps": {
         "delete": {
-            "messageGFWContent": "Do you wish to continue?",
-            "message": "This action is irreversible, do you wish to continue?",
-            "title": "Delete this basemap?"
+            "messageGFWContent": "Data for this Basemap will only be available online. Do you wish to continue?",
+            "messageCustomContent": "This Custom Basemap can be imported again if required. Do you wish to continue?",
+            "title": "Delete Basemap data?",
+            "titleCustom": "Delete Custom Basemap?"
         },
         "edit": "Edit",
         "empty": {
@@ -39,11 +40,11 @@
         },
         "export": {
             "many": "%{count} Basemaps",
-            "manyAction": "Export %{count} basemaps...",
+            "manyAction": "Share %{count} basemaps...",
             "navBarButtonText": "Export",
             "noneSelected": "No basemaps selected",
             "one": "%{count} Basemap",
-            "oneAction": "Export %{count} basemap...",
+            "oneAction": "Share %{count} basemap...",
             "successful": "Exporting basemaps succeeded!"
         },
         "gfw": "Default Basemaps",
@@ -137,9 +138,11 @@
     },
     "contextualLayers": {
         "delete": {
-            "messageGFWContent": "Do you wish to continue?",
-            "message": "This action is irreversible, do you wish to continue?",
-            "title": "Delete this layer?"
+            "messageGFWContent": "Data for this Contextual Layer will only be available online. Do you wish to continue?",
+            "messageGFWImportedContent": "Contextual Layer data can be downloaded again when connected to internet. Do you wish to continue with deletion?",
+            "messageCustomContent": "This Custom Contextual Layer can be imported again if required. Do you wish to continue?",
+            "title": "Delete Contextual Layer data?",
+            "titleCustom": "Delete Custom Contextual Layer?"
         },
         "edit": "Edit",
         "empty": {
@@ -149,11 +152,11 @@
         },
         "export": {
             "many": "%{count} Layers",
-            "manyAction": "Export %{count} layers...",
+            "manyAction": "Share %{count} layers...",
             "navBarButtonText": "Export",
             "noneSelected": "No layers selected",
             "one": "%{count} Layers",
-            "oneAction": "Export %{count} layers...",
+            "oneAction": "Share %{count} layers...",
             "successful": "Exporting layers succeeded!"
         },
         "gfw": "GFW Layers",
@@ -341,6 +344,27 @@
                             }
                         },
                         "title": "Can I upload my own contextual layers and basemaps in Forest Watcher?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "Currently, only certain types of data are synced to your Forest Watcher account, which is also connected to the Forest Watcher Web Application. This data includes areas and reports you have uploaded. This means that when you log out and log back in to the app, this data will remain visible. ",
+                                "text2": "For other types of data, these are stored independently of your Forest Watcher account and will NOT be visible when you log out and log back in to the app. This data includes:"
+                            },
+                            "footerText": "Logging out will permanently remove these items (with the exception of custom basemaps and custom contextual layers). It’s therefore recommended that you bundle any data that you wish to retain before logging out. For your convenience in doing this, we recommend using the ‘share all app data’ option and storing the resulting bundle. This can then be re-imported when required by opening the bundle with the Forest Watcher app when logged in.",
+                            "orderList": {
+                                "text1": "Alerts",
+                                "text2": "Imported Areas",
+                                "text3": "Routes",
+                                "text4": "Non-uploaded Reports",
+                                "text5": "Downloaded Basemap Tiles",
+                                "text6": "Downloaded GFW Layer Tiles",
+                                "text7": "Custom Basemaps",
+                                "text8": "Custom Contextual Layers",
+                                "text9": "Imported GFW Contextual layers"
+                            }
+                        },
+                        "title": "How does the Forest Watcher app store my data?"
                     }
                 ],
                 "title": "Alerts and Data in Forest Watcher"
@@ -360,6 +384,11 @@
                         "content": {
                             "description": {
                                 "text": "While Forest Watcher Mobile is designed primarily for offline use, certain key functions need to be performed with Internet connection. A typical workflow for Forest Watcher online/offline use is below"
+                            },
+                            "footerText": "When you are offline, we recommend you put the app in “offline mode” in settings to increase the app’s stability.",
+                            "orderList": {
+                                "text1": "Online:\nDownload Forest Watcher Mobile and log in.\nCreate an area of interest.\nSet a time period for alerts and refresh alerts.",
+                                "text2": "Offline:\nSelect and navigate to alerts.\nCreate a report at your location or on an alert.\nTrack your route.\nDocument observations and take photos.\nShare app content with another device (alerts, areas, routes, reports, contextual layers, basemap tiles or all app content)."
                             }
                         },
                         "title": "What can I do online vs offline?"
@@ -836,11 +865,12 @@
         "coordinatesFormat": "Coordinates Format",
         "coordinatesUtm": "UTM",
         "logOut": "Log Out",
+        "moreInfo": "More Info",
         "offlineMode": "Offline Mode",
         "shareData": "Share All App Data",
         "title": "Settings",
-        "unsafeLogout": "Your reports are not synced!",
-        "unsavedDataLost": "If you proceed with the logout all your unsaved data will be lost.",
+        "unsafeLogout": "Some data may be lost",
+        "unsavedDataLost": "Some data is not synced to your account and may be lost if you log out.\nThis includes some types of areas and reports and all routes, basemaps and contextual layers.\nFor more info and steps to access this data again, please view our FAQ page on this subject.",
         "yourRoutes": "Your routes"
     },
     "setupCountry": {
@@ -872,12 +902,15 @@
             "alerts": "Alerts",
             "area": "Area",
             "areas": "Areas",
+            "basemaps": "Basemaps",
+            "contextualLayers": "Contextual Layers",
             "customBasemap": "Custom Basemap",
             "customBasemaps": "Custom Basemaps",
             "customLayer": "Custom Contextual Layer",
             "customLayers": "Custom Contextual Layers",
             "gfwLayer": "Global Forest Watch Contextual Layer",
             "gfwLayers": "Global Forest Watch Contextual Layers",
+            "layers": "Layers",
             "report": "Report",
             "reports": "Reports",
             "route": "Route",

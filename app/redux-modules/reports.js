@@ -1,17 +1,23 @@
 // @flow
-import type { Dispatch, GetState } from 'types/store.types';
+import type { Dispatch, GetState, Thunk } from 'types/store.types';
 import type { BasicReport, ReportsState, ReportsAction, Report, Answer } from 'types/reports.types';
 
 import _ from 'lodash';
 import Config from 'react-native-config';
-import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 import CONSTANTS from 'config/constants';
 import { LOGOUT_REQUEST } from 'redux-modules/user';
-import { getTemplate, mapFormToAnsweredQuestions } from 'helpers/forms';
+import {
+  getTemplate,
+  isBlobResponse,
+  mapFormToAnsweredQuestions,
+  REPORT_BLOB_IMAGE_ATTACHMENT_PRESENT
+} from 'helpers/forms';
 import { GET_AREAS_COMMIT } from 'redux-modules/areas';
 import queryReportFiles from 'helpers/report-store/queryReportFiles';
 import deleteReportFiles from 'helpers/report-store/deleteReportFiles';
 import { toFileUri } from 'helpers/fileURI';
+import { shouldBeConnected } from 'helpers/app';
+import { storeReportFiles } from 'helpers/report-store/storeReportFiles';
 
 // Actions
 const GET_DEFAULT_TEMPLATE_REQUEST = 'report/GET_DEFAULT_TEMPLATE_REQUEST';
@@ -44,26 +50,6 @@ function orderQuestions(questions) {
 
 export default function reducer(state: ReportsState = initialState, action: ReportsAction) {
   switch (action.type) {
-    case PERSIST_REHYDRATE: {
-      // $FlowFixMe
-      const { reports = state, form } = action.payload;
-      if (form && !form.migrated) {
-        const formatAnswers = values =>
-          Object.entries(values).map(([questionName, value]) => ({ questionName, value, child: null }));
-        const answers = Object.entries(form || {}).reduce(
-          (acc, [reportName, formEntry]) => ({
-            ...acc,
-            [reportName]: {
-              reportName,
-              answers: formatAnswers(formEntry.values || {})
-            }
-          }),
-          {}
-        );
-        return { ...reports, list: _.merge(answers, reports.list) };
-      }
-      return reports;
-    }
     case GET_DEFAULT_TEMPLATE_REQUEST:
       return { ...state, synced: false, syncing: true };
     case GET_DEFAULT_TEMPLATE_COMMIT: {
@@ -212,11 +198,10 @@ function getDefaultReport(): ReportsAction {
 }
 
 export function createReport(report: BasicReport): ReportsAction {
-  const { reportName, userPosition, clickedPosition, area, selectedAlerts } = report;
+  const { reportName, userPosition, clickedPosition, area } = report;
   return {
     type: CREATE_REPORT,
     payload: {
-      selectedAlerts,
       report: {
         area,
         reportName,
@@ -226,6 +211,53 @@ export function createReport(report: BasicReport): ReportsAction {
         answers: [],
         date: new Date().toISOString(),
         status: CONSTANTS.status.draft
+      }
+    }
+  };
+}
+
+/**
+ * In v1 report attachments were referenced as a URI to a file that the app did not directly manage.
+ *
+ * in v2 we copy report attachments to a particular structure local storage. This helps with app-to-app sharing
+ */
+export function migrateReportAttachmentsFromV1ToV2(): Thunk<Promise<void>> {
+  return async (dispatch: Dispatch, getState: GetState): Promise<void> => {
+    const state = getState();
+    const appLanguage = state.app.language;
+    const reports = Object.keys(state.reports.list).map(key => state.reports.list[key]);
+    const templates = state.reports.templates;
+
+    // eslint-disable-next-line no-unused-vars
+    for (const report of reports) {
+      const template = getTemplate(report, templates);
+      const answers = mapFormToAnsweredQuestions(report.answers, template, appLanguage).filter(isBlobResponse);
+
+      // eslint-disable-next-line no-unused-vars
+      for (const { question, answer } of answers) {
+        const sourceUri = answer.value[0];
+        // Check if attachment has already been migrated
+        if (!sourceUri || sourceUri === REPORT_BLOB_IMAGE_ATTACHMENT_PRESENT) {
+          continue;
+        }
+        const updatedAnswer = { ...answer };
+        try {
+          await storeReportFiles([
+            {
+              reportName: report.reportName,
+              questionName: answer.questionName,
+              type: 'image/jpeg',
+              path: decodeURI(sourceUri),
+              size: 0
+            }
+          ]);
+          updatedAnswer.value = REPORT_BLOB_IMAGE_ATTACHMENT_PRESENT;
+        } catch (err) {
+          updatedAnswer.value = null;
+          console.warn('3SC', `Could not migrate report attachment from ${sourceUri}`);
+        } finally {
+          dispatch(setReportAnswer(report.reportName, updatedAnswer, true));
+        }
       }
     }
   };
@@ -261,10 +293,24 @@ export function saveReport(name: string, data: Report): ReportsAction {
 
 export function uploadReport(reportName: string) {
   return async (dispatch: Dispatch, getState: GetState) => {
-    const { user = {}, reports, app } = getState();
+    const state = getState();
+    const { user = {}, reports, app } = state;
+    const report = reports.list[reportName];
+
+    const isConnected = shouldBeConnected(state);
+    if (!isConnected) {
+      console.warn('3SC', 'Not attempting to upload report while offline');
+      dispatch(
+        saveReport(reportName, {
+          ...report,
+          status: CONSTANTS.status.complete
+        })
+      );
+      return;
+    }
+
     const userName = (user.data && user.data.fullName) || '';
     const organization = (user.data && user.data.organization) || '';
-    const report = reports.list[reportName];
     const language = app.language || '';
     const area = report.area;
     const dataset = area.dataset || {};

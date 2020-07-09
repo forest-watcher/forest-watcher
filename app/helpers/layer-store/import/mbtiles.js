@@ -15,5 +15,12 @@ export default async function importMBTilesFile(file: File & { uri: string }, fi
   await RNFS.mkdir(baseDirectory);
   await RNFS.copyFile(file.uri, path);
 
-  return { path: path, type: 'basemap', layerId: file.id, tileXYZ: [0, 0, 0], size };
+  return {
+    path: baseDirectory,
+    type: 'basemap',
+    layerId: file.id,
+    tileXYZ: [0, 0, 0],
+    size,
+    subFiles: [`${file.id}.mbtiles`]
+  };
 }

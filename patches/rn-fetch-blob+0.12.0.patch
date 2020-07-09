@@ -1,0 +1,42 @@
+diff --git a/node_modules/rn-fetch-blob/android/src/main/java/com/RNFetchBlob/RNFetchBlobFS.java b/node_modules/rn-fetch-blob/android/src/main/java/com/RNFetchBlob/RNFetchBlobFS.java
+index a4d7015..4747d53 100644
+--- a/node_modules/rn-fetch-blob/android/src/main/java/com/RNFetchBlob/RNFetchBlobFS.java
++++ b/node_modules/rn-fetch-blob/android/src/main/java/com/RNFetchBlob/RNFetchBlobFS.java
+@@ -314,7 +314,7 @@ class RNFetchBlobFS {
+      * @param bufferSize    Buffer size of read stream, default to 4096 (4095 when encode is `base64`)
+      */
+     void readStream(String path, String encoding, int bufferSize, int tick, final String streamId) {
+-        String resolved = normalizePath(path);
++        String resolved = path != null && path.startsWith("content:") ? null : normalizePath(path);
+         if(resolved != null)
+             path = resolved;
+ 
+diff --git a/node_modules/rn-fetch-blob/android/src/main/java/com/RNFetchBlob/RNFetchBlobReq.java b/node_modules/rn-fetch-blob/android/src/main/java/com/RNFetchBlob/RNFetchBlobReq.java
+index a8abd71..32f6609 100644
+--- a/node_modules/rn-fetch-blob/android/src/main/java/com/RNFetchBlob/RNFetchBlobReq.java
++++ b/node_modules/rn-fetch-blob/android/src/main/java/com/RNFetchBlob/RNFetchBlobReq.java
+@@ -421,20 +421,16 @@ public class RNFetchBlobReq extends BroadcastReceiver implements Runnable {
+                         }
+                         return originalResponse.newBuilder().body(extended).build();
+                     }
+-                    catch(SocketException e) {
++                    catch(SocketException | SocketTimeoutException e) {
+                         timeout = true;
++                        throw e;
+                     }
+-                    catch (SocketTimeoutException e ){
+-                        timeout = true;
+-                        //RNFetchBlobUtils.emitWarningEvent("RNFetchBlob error when sending request : " + e.getLocalizedMessage());
+-                    } catch(Exception ex) {
+-
++                    catch(Exception ex) {
++                        throw ex;
+                     }
+-                    return chain.proceed(chain.request());
+                 }
+             });
+ 
+-
+             if(options.timeout >= 0) {
+                 clientBuilder.connectTimeout(options.timeout, TimeUnit.MILLISECONDS);
+                 clientBuilder.readTimeout(options.timeout, TimeUnit.MILLISECONDS);

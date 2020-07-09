@@ -5,6 +5,7 @@ import type { ContextualLayerSettingsType } from 'types/layerSettings.types';
 import { connect } from 'react-redux';
 
 import ContextualLayers from 'components/map/contextual-layers';
+import { shouldBeConnected } from 'helpers/app';
 
 type OwnProps = {|
   +featureId: ?string,
@@ -18,7 +19,7 @@ function mapStateToProps(state: State, ownProps: OwnProps) {
   );
 
   return {
-    isOfflineMode: state.app.offlineMode,
+    isOfflineMode: !shouldBeConnected(state),
     layers: importedContextualLayers,
     layerCache: state.layers.downloadedLayerProgress
   };

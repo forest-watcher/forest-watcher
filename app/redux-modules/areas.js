@@ -6,7 +6,7 @@ import type { Dispatch, GetState } from 'types/store.types';
 import Config from 'react-native-config';
 // Actions
 import { LOGOUT_REQUEST } from 'redux-modules/user';
-import { RETRY_SYNC } from 'redux-modules/shared';
+import { RETRY_SYNC, getAreaById } from 'redux-modules/shared';
 import { GET_ALERTS_COMMIT } from 'redux-modules/alerts';
 import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 
@@ -25,12 +25,6 @@ const UPDATE_AREA_ROLLBACK = 'areas/UPDATE_AREA_ROLLBACK';
 const DELETE_AREA_REQUEST = 'areas/DELETE_AREA_REQUEST';
 export const DELETE_AREA_COMMIT = 'areas/DELETE_AREA_COMMIT';
 const DELETE_AREA_ROLLBACK = 'areas/DELETE_AREA_ROLLBACK';
-
-// Helpers
-function getAreaById(areas: Array<Area>, areaId: ?string): ?Area {
-  const area = areas.find(areaData => areaData.id === areaId);
-  return area ? { ...area } : null;
-}
 
 // Reducer
 const initialState = {

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Dimensions, View, Image, Text, TouchableHighlight } from 'react-native';
 
-import { AREAS, MAPS } from 'config/constants';
+import { AREAS, MAP_LAYER_INDEXES, MAPS } from 'config/constants';
 import kinks from '@turf/kinks';
 import { lineString, point, polygon } from '@turf/helpers';
 
@@ -194,12 +194,24 @@ class DrawAreas extends Component {
     return (
       <React.Fragment>
         <MapboxGL.ShapeSource id="newAreaMarkers" shape={markersShape}>
-          <MapboxGL.CircleLayer id="newAreaMarkerOuter" style={mapboxStyles.pointOuterCircle} />
-          <MapboxGL.CircleLayer id="newAreaMarkerInner" style={mapboxStyles.pointInnerCircle} />
+          <MapboxGL.CircleLayer
+            id="newAreaMarkerOuter"
+            style={mapboxStyles.pointOuterCircle}
+            layerIndex={MAP_LAYER_INDEXES.areaOutline}
+          />
+          <MapboxGL.CircleLayer
+            id="newAreaMarkerInner"
+            style={mapboxStyles.pointInnerCircle}
+            layerIndex={MAP_LAYER_INDEXES.areaOutline}
+          />
         </MapboxGL.ShapeSource>
         {coords.length > 1 && (
           <MapboxGL.ShapeSource id="newAreaOutline" shape={outlineShape}>
-            <MapboxGL.LineLayer id="outlineLineLayer" style={mapboxStyles.areaOutlineLayer} />
+            <MapboxGL.LineLayer
+              id="outlineLineLayer"
+              style={mapboxStyles.areaOutlineLayer}
+              layerIndex={MAP_LAYER_INDEXES.areaOutline}
+            />
           </MapboxGL.ShapeSource>
         )}
       </React.Fragment>
@@ -215,7 +227,11 @@ class DrawAreas extends Component {
     return (
       <React.Fragment>
         <MapboxGL.ShapeSource id="newAreaPolygon" shape={polygonShape}>
-          <MapboxGL.FillLayer id="newAreaPolygonFill" style={mapboxStyles.areaFill} />
+          <MapboxGL.FillLayer
+            id="newAreaPolygonFill"
+            style={mapboxStyles.areaFill}
+            layerIndex={MAP_LAYER_INDEXES.areaOutline}
+          />
         </MapboxGL.ShapeSource>
       </React.Fragment>
     );

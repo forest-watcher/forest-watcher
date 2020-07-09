@@ -6039,6 +6039,11 @@ mem@^4.0.0:
     mimic-fn "^2.0.0"
     p-is-promise "^2.0.0"
 
+memoize-one@5.1.1:
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/memoize-one/-/memoize-one-5.1.1.tgz#047b6e3199b508eaec03504de71229b8eb1d75c0"
+  integrity sha512-HKeeBpWvqiVJD57ZUAsJNm71eHTykffzcLZVYWiVfQeI1rJtuEaS7hQiEpWfVVk18donPwJEcFKIkCmPJNOhHA==
+
 merge-stream@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/merge-stream/-/merge-stream-1.0.1.tgz#4041202d508a342ba00174008df0c251b8c135e1"
@@ -7866,6 +7871,11 @@ redux-mock-store@1.5.3:
   integrity sha512-ryhkkb/4D4CUGpAV2ln1GOY/uh51aczjcRz9k2L2bPx/Xja3c5pSGJJPyR25GNVRXtKIExScdAgFdiXp68GmJA==
   dependencies:
     lodash.isplainobject "^4.0.6"
+
+redux-persist-migrate@5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/redux-persist-migrate/-/redux-persist-migrate-5.0.0.tgz#0c8fa7285791796be92de968aea6de64cf24b73e"
+  integrity sha512-UyzsYIZTLa6ZYIwuyyWnG4V7Y6ESHrMCM+xkDEtSDvTPRlVKckaZKdXQr8kaILaZKqctySccR99+ktCoKtq2UQ==
 
 redux-persist@^4.6.0:
   version "4.10.2"

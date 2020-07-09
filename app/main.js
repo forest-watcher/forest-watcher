@@ -1,4 +1,4 @@
-import { Alert, AppState, Platform } from 'react-native';
+import { Alert, AppState, NativeModules, Platform } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import { Provider } from 'react-redux';
 import Theme from 'config/theme';
@@ -21,6 +21,7 @@ import Config from 'react-native-config';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import { trackRouteFlowEvent } from 'helpers/analytics';
 import { launchAppRoot } from 'screens/common';
+import { migrateFilesFromV1ToV2 } from './migrate';
 
 // Disable ios warnings
 // console.disableYellowBox = true;
@@ -47,6 +48,16 @@ export default class App {
     let screen = 'ForestWatcher.Home';
     if (state.user.loggedIn && state.app.synced) {
       screen = 'ForestWatcher.Dashboard';
+    }
+
+    if (Platform.OS === 'android') {
+      NativeModules.FWMapbox.installOfflineModeInterceptor(state.app.offlineMode);
+    }
+
+    try {
+      await migrateFilesFromV1ToV2(this.store.dispatch);
+    } catch (err) {
+      console.warn('3SC', 'Could not migrate files', err);
     }
 
     await launchAppRoot(screen);

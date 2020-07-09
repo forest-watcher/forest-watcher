@@ -15,6 +15,7 @@ import displayExportReportDialog from 'helpers/sharing/displayExportReportDialog
 import { pathForReportQuestionAttachment } from 'helpers/report-store/reportFilePaths';
 import { toFileUri } from 'helpers/fileURI';
 import { trackReportingConcluded } from 'helpers/analytics';
+import { isBlobResponse } from 'helpers/forms';
 
 const deleteIcon = require('assets/delete_red.png');
 const exportIcon = require('assets/upload.png');
@@ -30,7 +31,6 @@ type Props = {
   exportReportAsBundle: () => Promise<void>,
   setReportAnswer: (Answer, boolean) => void,
   readOnly: boolean,
-  setActiveAlerts: boolean => void,
   isConnected: boolean,
   showNotConnectedNotification: () => void,
   showExportReportsSuccessfulNotification: () => void,
@@ -126,9 +126,8 @@ class Answers extends PureComponent<Props> {
   };
 
   onPressSend = () => {
-    const { uploadReport, componentId, setActiveAlerts } = this.props;
+    const { uploadReport, componentId } = this.props;
     uploadReport();
-    setActiveAlerts(true);
 
     trackReportingConcluded('completed', 'overview');
     Navigation.dismissModal(componentId);
@@ -182,15 +181,13 @@ class Answers extends PureComponent<Props> {
     const { results, readOnly, metadata } = this.props;
     const regularAnswers = results.filter(({ question }) => question.type !== 'blob');
 
-    const images = results
-      .filter(({ question, answer }) => question.type === 'blob' && !!answer.value?.[0])
-      .map((image, index) => ({
-        id: image.question.Id,
-        uri: toFileUri(pathForReportQuestionAttachment(this.props.reportName, image.question.name, 'image/jpeg')),
-        name: image.question.name,
-        order: image.question.order,
-        required: image.question.required
-      }));
+    const images = results.filter(isBlobResponse).map((image, index) => ({
+      id: image.question.Id,
+      uri: toFileUri(pathForReportQuestionAttachment(this.props.reportName, image.question.name, 'image/jpeg')),
+      name: image.question.name,
+      order: image.question.order,
+      required: image.question.required
+    }));
     const imageActions = !readOnly
       ? [
           {

@@ -29,7 +29,7 @@ import {
 } from 'react-native';
 import * as Sentry from '@sentry/react-native';
 
-import { DATASETS, REPORTS, MAPS } from 'config/constants';
+import { DATASETS, REPORTS, MAPS, MAP_LAYER_INDEXES } from 'config/constants';
 import throttle from 'lodash/throttle';
 import toUpper from 'lodash/toUpper';
 import kebabCase from 'lodash/kebabCase';
@@ -102,7 +102,7 @@ type Props = {
   areaCoordinates: ?$ReadOnlyArray<Coordinates>,
   isConnected: boolean,
   isOfflineMode: boolean,
-  reportedAlerts: $ReadOnlyArray<string>,
+  reportedAlerts: $ReadOnlyArray<Coordinates>,
   featureId: ?string,
   area: ?ReportArea,
   coordinatesFormat: CoordinatesFormat,
@@ -524,12 +524,7 @@ class MapComponent extends Component<Props, State> {
 
   reportSelection = debounceUI(() => {
     this.dismissInfoBanner();
-    this.createReport(this.state.selectedAlerts, this.state.selectedReports?.[0]);
-  });
-
-  reportArea = debounceUI(() => {
-    this.dismissInfoBanner();
-    this.createReport([...this.state.selectedAlerts]);
+    this.createReport();
   });
 
   determineReportingSource = (
@@ -563,9 +558,9 @@ class MapComponent extends Component<Props, State> {
       .join('|');
   };
 
-  createReport = (selectedAlerts: $ReadOnlyArray<SelectedAlert>, selectedReport: ?SelectedReport) => {
+  createReport = () => {
     const { area } = this.props;
-    const { userLocation, customReporting, mapCenterCoords } = this.state;
+    const { userLocation, customReporting, mapCenterCoords, selectedAlerts, selectedReports } = this.state;
 
     if (!area) {
       console.warn('3SC', 'Cannot create a report without an area');
@@ -590,11 +585,11 @@ class MapComponent extends Component<Props, State> {
         lat: alert.lat,
         lon: alert.long
       }));
-    } else if (selectedReport) {
+    } else if (selectedReports && selectedReports.length > 0) {
       latLng = [
         {
-          lat: selectedReport.lat,
-          lon: selectedReport.long
+          lat: selectedReports[0].lat,
+          lon: selectedReports[0].long
         }
       ];
     } else if (this.isRouteTracking() && userLocation) {
@@ -618,7 +613,6 @@ class MapComponent extends Component<Props, State> {
       {
         area,
         reportName,
-        selectedAlerts,
         userPosition: userLatLng || REPORTS.noGpsPosition,
         clickedPosition: JSON.stringify(latLng)
       },
@@ -687,7 +681,7 @@ class MapComponent extends Component<Props, State> {
         onUpdate={location => this.updateHeading(location?.coords?.heading, true)}
         renderMode="custom"
       >
-        <MapboxGL.SymbolLayer id="userLocation" style={userLocationStyle} />
+        <MapboxGL.SymbolLayer id="userLocation" style={userLocationStyle} layerIndex={MAP_LAYER_INDEXES.userLocation} />
       </MapboxGL.UserLocation>
     );
   };
@@ -706,7 +700,11 @@ class MapComponent extends Component<Props, State> {
     }
     return (
       <MapboxGL.ShapeSource id="destLine" shape={line}>
-        <MapboxGL.LineLayer id="destLineLayer" style={mapboxStyles.destinationLine} />
+        <MapboxGL.LineLayer
+          id="destLineLayer"
+          style={mapboxStyles.destinationLine}
+          layerIndex={MAP_LAYER_INDEXES.routeDestinationLine}
+        />
       </MapboxGL.ShapeSource>
     );
   };
@@ -720,7 +718,11 @@ class MapComponent extends Component<Props, State> {
     const line = lineString(coords);
     return (
       <MapboxGL.ShapeSource id="areaOutline" shape={line}>
-        <MapboxGL.LineLayer id="areaOutlineLayer" style={mapboxStyles.areaOutline} />
+        <MapboxGL.LineLayer
+          id="areaOutlineLayer"
+          style={mapboxStyles.areaOutline}
+          layerIndex={MAP_LAYER_INDEXES.areaOutline}
+        />
       </MapboxGL.ShapeSource>
     );
   };
@@ -944,16 +946,16 @@ class MapComponent extends Component<Props, State> {
           onPress={this.onMapPress}
           compassViewMargins={{ x: 5, y: 50 }}
         >
+          {renderMapCamera}
           <MBTilesSource
             basemapId={basemap.id}
             basemapPath={basemap.isCustom ? pathForMBTilesFile(basemap) : null}
             belowLayerID={'areaOutlineLayer'}
             port={MapComponent.offlinePortNumber}
+            layerIndex={MAP_LAYER_INDEXES.basemap}
           />
-          {renderMapCamera}
-          {this.renderAreaOutline()}
-          {layerSettings.routes.layerIsActive && this.renderAllRoutes()}
           <ContextualLayers featureId={featureId} layerSettings={layerSettings.contextualLayers} />
+          {this.renderAreaOutline()}
           {this.renderDestinationLine()}
           <Alerts
             alertLayerSettings={this.props.layerSettings.alerts}
@@ -967,6 +969,7 @@ class MapComponent extends Component<Props, State> {
             onShapeSourcePressed={this.onReportFeaturesPressed}
             selectedReports={this.state.selectedReports}
           />
+          {layerSettings.routes.layerIsActive && this.renderAllRoutes()}
           <RouteMarkers
             isTracking={this.isRouteTracking()}
             userLocation={userLocation}

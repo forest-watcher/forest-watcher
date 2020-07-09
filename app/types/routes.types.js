@@ -3,8 +3,7 @@ import type { Coordinates } from 'types/common.types';
 
 export type RouteState = {
   activeRoute: ?Route,
-  previousRoutes: Array<Route>,
-  routeStructureVersion?: string
+  previousRoutes: Array<Route>
 };
 
 // eslint-disable-next-line import/no-unused-modules

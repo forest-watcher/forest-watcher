@@ -4,7 +4,7 @@ import type { AppState, AppAction, CoordinatesValue } from 'types/app.types';
 
 // $FlowFixMe
 import { version } from 'package.json'; // eslint-disable-line
-import { COORDINATES_FORMATS } from 'config/constants/index';
+import { COORDINATES_FORMATS } from 'config/constants';
 import { syncAreas } from 'redux-modules/areas';
 import { getLanguage } from 'helpers/language';
 import { syncCountries } from 'redux-modules/countries';
@@ -14,6 +14,8 @@ import { syncReports } from 'redux-modules/reports';
 import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 
 import { RETRY_SYNC } from 'redux-modules/shared';
+import { CURRENT_REDUX_STATE_VERSION } from '../migrate';
+import { NativeModules, Platform } from 'react-native';
 
 // Actions
 const SET_OFFLINE_MODE = 'app/SET_OFFLINE_MODE';
@@ -33,6 +35,7 @@ export const SHARING_BUNDLE_IMPORTED = 'app/SHARING_BUNDLE_IMPORT_SUCCESSFUL';
 // Reducer
 const initialState = {
   version,
+  reduxVersion: CURRENT_REDUX_STATE_VERSION,
   isUpdate: false,
   areaCountryTooltipSeen: false,
   areaDownloadTooltipSeen: false,
@@ -51,8 +54,7 @@ export default function reducer(state: AppState = initialState, action: AppActio
       // $FlowFixMe
       const { app } = action.payload;
       const language = getLanguage();
-      const isUpdate = app?.version !== undefined && app?.version !== null && app?.version !== version;
-      return { ...state, ...app, language, version, isUpdate };
+      return { ...state, ...app, language };
     }
     case SET_OFFLINE_MODE:
       return { ...state, offlineMode: action.payload };
@@ -86,6 +88,9 @@ export default function reducer(state: AppState = initialState, action: AppActio
 }
 
 export function setOfflineMode(offlineMode: boolean): AppAction {
+  if (Platform.OS === 'android') {
+    NativeModules.FWMapbox.setOfflineModeEnabled(offlineMode);
+  }
   return {
     type: SET_OFFLINE_MODE,
     payload: offlineMode
