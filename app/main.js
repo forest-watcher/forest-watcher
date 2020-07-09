@@ -23,7 +23,7 @@ import { trackRouteFlowEvent } from 'helpers/analytics';
 import { launchAppRoot } from 'screens/common';
 import { migrateFilesFromV1ToV2 } from './migrate';
 import { SET_HAS_MIGRATED_V1_FILES } from 'redux-modules/app';
-import Sentry from "@sentry/react-native";
+import * as Sentry from '@sentry/react-native';
 
 // Disable ios warnings
 // console.disableYellowBox = true;
