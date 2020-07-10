@@ -66,7 +66,7 @@ exports[`Redux Layers Module Redux Snapshot Thunk Actions syncLayers 2`] = `Arra
 exports[`Redux Layers Module func calculateOverallDownloadProgressForRegion returns expected state when given an empty progress state 1`] = `
 Object {
   "completed": false,
-  "error": false,
+  "error": null,
   "progress": 0,
   "requested": false,
 }
@@ -75,7 +75,7 @@ Object {
 exports[`Redux Layers Module func calculateOverallDownloadProgressForRegion when one layer is expected returns expected state when one layer has errorred 1`] = `
 Object {
   "completed": true,
-  "error": true,
+  "error": "Test mock error",
   "progress": 100,
   "requested": false,
 }
@@ -84,7 +84,7 @@ Object {
 exports[`Redux Layers Module func calculateOverallDownloadProgressForRegion when one layer is expected returns expected state when one layer is complete 1`] = `
 Object {
   "completed": true,
-  "error": false,
+  "error": null,
   "progress": 100,
   "requested": false,
 }
@@ -93,7 +93,7 @@ Object {
 exports[`Redux Layers Module func calculateOverallDownloadProgressForRegion when one layer is expected returns expected state when one layer is in progress 1`] = `
 Object {
   "completed": false,
-  "error": false,
+  "error": null,
   "progress": 50,
   "requested": true,
 }
@@ -102,7 +102,7 @@ Object {
 exports[`Redux Layers Module func calculateOverallDownloadProgressForRegion when two layers are expected returns expected state when one layer has errorred & one layer has errorred 1`] = `
 Object {
   "completed": true,
-  "error": true,
+  "error": "Test mock error",
   "progress": 100,
   "requested": false,
 }
@@ -111,7 +111,7 @@ Object {
 exports[`Redux Layers Module func calculateOverallDownloadProgressForRegion when two layers are expected returns expected state when one layer has errorred & one layer is complete 1`] = `
 Object {
   "completed": true,
-  "error": true,
+  "error": "Test mock error",
   "progress": 100,
   "requested": false,
 }
@@ -120,7 +120,7 @@ Object {
 exports[`Redux Layers Module func calculateOverallDownloadProgressForRegion when two layers are expected returns expected state when one layer is complete & one layer does not exist 1`] = `
 Object {
   "completed": false,
-  "error": false,
+  "error": null,
   "progress": 50,
   "requested": false,
 }
@@ -129,7 +129,7 @@ Object {
 exports[`Redux Layers Module func calculateOverallDownloadProgressForRegion when two layers are expected returns expected state when one layer is complete & one layer is complete 1`] = `
 Object {
   "completed": true,
-  "error": false,
+  "error": null,
   "progress": 100,
   "requested": false,
 }
@@ -138,7 +138,7 @@ Object {
 exports[`Redux Layers Module func calculateOverallDownloadProgressForRegion when two layers are expected returns expected state when one layer is in progress & one layer does not exist 1`] = `
 Object {
   "completed": false,
-  "error": false,
+  "error": null,
   "progress": 25,
   "requested": true,
 }
@@ -147,7 +147,7 @@ Object {
 exports[`Redux Layers Module func calculateOverallDownloadProgressForRegion when two layers are expected returns expected state when one layer is in progress & one layer has errorred 1`] = `
 Object {
   "completed": false,
-  "error": true,
+  "error": "Test mock error",
   "progress": 75,
   "requested": true,
 }
@@ -156,7 +156,7 @@ Object {
 exports[`Redux Layers Module func calculateOverallDownloadProgressForRegion when two layers are expected returns expected state when one layer is in progress & one layer is complete 1`] = `
 Object {
   "completed": false,
-  "error": false,
+  "error": null,
   "progress": 75,
   "requested": true,
 }
@@ -165,7 +165,7 @@ Object {
 exports[`Redux Layers Module func calculateOverallDownloadProgressForRegion when two layers are expected returns expected state when one layer is in progress & one layer is in progress 1`] = `
 Object {
   "completed": false,
-  "error": false,
+  "error": null,
   "progress": 50,
   "requested": true,
 }
@@ -191,7 +191,7 @@ Object {
   "layer1": Object {
     "area2": Object {
       "completed": true,
-      "error": false,
+      "error": null,
       "progress": 100,
       "requested": false,
     },
@@ -199,7 +199,7 @@ Object {
   "layer2": Object {
     "area2": Object {
       "completed": true,
-      "error": false,
+      "error": null,
       "progress": 100,
       "requested": false,
     },
@@ -212,7 +212,7 @@ Object {
   "layer1": Object {
     "area2": Object {
       "completed": true,
-      "error": false,
+      "error": null,
       "progress": 100,
       "requested": false,
     },
@@ -225,7 +225,7 @@ Object {
   "layer1": Object {
     "area2": Object {
       "completed": true,
-      "error": false,
+      "error": null,
       "progress": 100,
       "requested": false,
     },
@@ -233,7 +233,7 @@ Object {
   "layer2": Object {
     "area2": Object {
       "completed": true,
-      "error": false,
+      "error": null,
       "progress": 100,
       "requested": false,
     },
@@ -248,7 +248,7 @@ Object {
   "layer1": Object {
     "area1": Object {
       "completed": true,
-      "error": false,
+      "error": null,
       "progress": 100,
       "requested": false,
     },
@@ -256,7 +256,7 @@ Object {
   "layer2": Object {
     "area1": Object {
       "completed": false,
-      "error": false,
+      "error": null,
       "progress": 0,
       "requested": false,
     },
@@ -269,7 +269,7 @@ Object {
   "layer1": Object {
     "area1": Object {
       "completed": false,
-      "error": false,
+      "error": null,
       "progress": 0,
       "requested": false,
     },
@@ -282,7 +282,7 @@ Object {
   "layer1": Object {
     "area1": Object {
       "completed": true,
-      "error": false,
+      "error": null,
       "progress": 100,
       "requested": false,
     },
@@ -295,16 +295,16 @@ Object {
   "layer1": Object {
     "area1": Object {
       "completed": true,
-      "error": false,
+      "error": null,
       "progress": 100,
       "requested": false,
     },
   },
   "layer2": Object {
     "area1": Object {
-      "completed": false,
-      "error": false,
-      "progress": 0,
+      "completed": true,
+      "error": "Test mock error",
+      "progress": 100,
       "requested": false,
     },
   },
@@ -316,8 +316,8 @@ Object {
   "layer1": Object {
     "area1": Object {
       "completed": false,
-      "error": false,
-      "progress": 0,
+      "error": "Test mock error",
+      "progress": 100,
       "requested": false,
     },
   },
@@ -329,7 +329,7 @@ Object {
   "layer1": Object {
     "area1": Object {
       "completed": true,
-      "error": false,
+      "error": null,
       "progress": 100,
       "requested": false,
     },
@@ -337,7 +337,7 @@ Object {
   "layer2": Object {
     "area1": Object {
       "completed": false,
-      "error": false,
+      "error": null,
       "progress": 0,
       "requested": false,
     },
@@ -350,7 +350,7 @@ Object {
   "layer1": Object {
     "area1": Object {
       "completed": false,
-      "error": false,
+      "error": null,
       "progress": 0,
       "requested": false,
     },
@@ -363,7 +363,7 @@ Object {
   "layer1": Object {
     "area1": Object {
       "completed": true,
-      "error": false,
+      "error": null,
       "progress": 100,
       "requested": false,
     },
@@ -371,7 +371,7 @@ Object {
   "layer2": Object {
     "area1": Object {
       "completed": true,
-      "error": false,
+      "error": null,
       "progress": 100,
       "requested": false,
     },
@@ -384,13 +384,13 @@ Object {
   "layer1": Object {
     "area1": Object {
       "completed": true,
-      "error": false,
+      "error": null,
       "progress": 100,
       "requested": false,
     },
     "area2": Object {
       "completed": true,
-      "error": false,
+      "error": null,
       "progress": 100,
       "requested": false,
     },
@@ -398,13 +398,13 @@ Object {
   "layer2": Object {
     "area1": Object {
       "completed": false,
-      "error": false,
+      "error": null,
       "progress": 0,
       "requested": false,
     },
     "area2": Object {
       "completed": false,
-      "error": false,
+      "error": null,
       "progress": 0,
       "requested": false,
     },
@@ -417,13 +417,13 @@ Object {
   "layer1": Object {
     "area1": Object {
       "completed": false,
-      "error": false,
+      "error": null,
       "progress": 0,
       "requested": false,
     },
     "area2": Object {
       "completed": false,
-      "error": false,
+      "error": null,
       "progress": 0,
       "requested": false,
     },
@@ -436,13 +436,13 @@ Object {
   "layer1": Object {
     "area1": Object {
       "completed": true,
-      "error": false,
+      "error": null,
       "progress": 100,
       "requested": false,
     },
     "area2": Object {
       "completed": true,
-      "error": false,
+      "error": null,
       "progress": 100,
       "requested": false,
     },
@@ -455,28 +455,28 @@ Object {
   "layer1": Object {
     "area1": Object {
       "completed": true,
-      "error": false,
+      "error": null,
       "progress": 100,
       "requested": false,
     },
     "area2": Object {
       "completed": true,
-      "error": false,
+      "error": null,
       "progress": 100,
       "requested": false,
     },
   },
   "layer2": Object {
     "area1": Object {
-      "completed": false,
-      "error": false,
-      "progress": 0,
+      "completed": true,
+      "error": "Test mock error",
+      "progress": 100,
       "requested": false,
     },
     "area2": Object {
-      "completed": false,
-      "error": false,
-      "progress": 0,
+      "completed": true,
+      "error": "Test mock error",
+      "progress": 100,
       "requested": false,
     },
   },
@@ -487,15 +487,15 @@ exports[`Redux Layers Module func invalidateIncompleteLayerDownloads with two re
 Object {
   "layer1": Object {
     "area1": Object {
-      "completed": false,
-      "error": false,
-      "progress": 0,
+      "completed": true,
+      "error": "Test mock error",
+      "progress": 100,
       "requested": false,
     },
     "area2": Object {
-      "completed": false,
-      "error": false,
-      "progress": 0,
+      "completed": true,
+      "error": "Test mock error",
+      "progress": 100,
       "requested": false,
     },
   },
@@ -507,13 +507,13 @@ Object {
   "layer1": Object {
     "area1": Object {
       "completed": true,
-      "error": false,
+      "error": null,
       "progress": 100,
       "requested": false,
     },
     "area2": Object {
       "completed": true,
-      "error": false,
+      "error": null,
       "progress": 100,
       "requested": false,
     },
@@ -521,13 +521,13 @@ Object {
   "layer2": Object {
     "area1": Object {
       "completed": false,
-      "error": false,
+      "error": null,
       "progress": 0,
       "requested": false,
     },
     "area2": Object {
       "completed": false,
-      "error": false,
+      "error": null,
       "progress": 0,
       "requested": false,
     },
@@ -540,13 +540,13 @@ Object {
   "layer1": Object {
     "area1": Object {
       "completed": false,
-      "error": false,
+      "error": null,
       "progress": 0,
       "requested": false,
     },
     "area2": Object {
       "completed": false,
-      "error": false,
+      "error": null,
       "progress": 0,
       "requested": false,
     },
@@ -559,13 +559,13 @@ Object {
   "layer1": Object {
     "area1": Object {
       "completed": true,
-      "error": false,
+      "error": null,
       "progress": 100,
       "requested": false,
     },
     "area2": Object {
       "completed": true,
-      "error": false,
+      "error": null,
       "progress": 100,
       "requested": false,
     },
@@ -573,13 +573,13 @@ Object {
   "layer2": Object {
     "area1": Object {
       "completed": true,
-      "error": false,
+      "error": null,
       "progress": 100,
       "requested": false,
     },
     "area2": Object {
       "completed": true,
-      "error": false,
+      "error": null,
       "progress": 100,
       "requested": false,
     },
