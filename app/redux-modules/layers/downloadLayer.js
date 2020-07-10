@@ -276,7 +276,7 @@ async function downloadLayerForRegion(
 
     if (!bbox) {
       const error = 'No bounding box for region';
-      Sentry.captureException(error);
+      Sentry.captureException(new Error(error));
       dispatch(gfwContentImportCompleted(contentType, dataId, layer, error));
       return;
     }
