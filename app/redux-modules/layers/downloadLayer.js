@@ -27,7 +27,7 @@ import {
   getAreaById,
   getRouteById
 } from 'redux-modules/shared';
-import Sentry from "@sentry/react-native";
+import * as Sentry from '@sentry/react-native';
 
 const initialProgressState = { progress: 0, requested: false, completed: false, error: false };
 
