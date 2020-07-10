@@ -217,9 +217,14 @@ class MappingFiles extends Component<Props, State> {
     const allFiles = [...this.props.baseFiles, ...this.props.importedFiles];
     const selectedForExport: Array<string> = allFiles.filter(this._isShareable).map(file => file.id);
 
-    this.setState({
-      selectedForExport: selectedForExport
-    });
+    this.setState(
+      {
+        selectedForExport: selectedForExport
+      },
+      () => {
+        this.fetchExportSize(this.state.selectedForExport);
+      }
+    );
   };
 
   setSharing = (sharing: boolean) => {
