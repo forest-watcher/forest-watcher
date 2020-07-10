@@ -27,6 +27,7 @@ import {
   getAreaById,
   getRouteById
 } from 'redux-modules/shared';
+import Sentry from "@sentry/react-native";
 
 const initialProgressState = { progress: 0, requested: false, completed: false, error: false };
 
@@ -267,13 +268,16 @@ async function downloadLayerForRegion(
       } catch {
         const error = '3SC - Could not generate Bounding Box for route - does it have two or more points?';
         console.warn(error);
+        Sentry.captureException(error);
         dispatch(gfwContentImportCompleted(contentType, dataId, layer, error));
         return;
       }
     }
 
     if (!bbox) {
-      dispatch(gfwContentImportCompleted(contentType, dataId, layer, 'No bounding box for region'));
+      const error = 'No bounding box for region';
+      Sentry.captureException(error);
+      dispatch(gfwContentImportCompleted(contentType, dataId, layer, error));
       return;
     }
 
@@ -291,6 +295,7 @@ async function downloadLayerForRegion(
         },
         (error: Error) => {
           trackDownloadedContent('basemap', layerId, false);
+          Sentry.captureException(error);
           dispatch(gfwContentImportCompleted(contentType, dataId, layer, String(error)));
         },
         () => {
@@ -299,8 +304,9 @@ async function downloadLayerForRegion(
         }
       );
     } catch (error) {
-      console.error('3SC layer download error: ', error);
-      dispatch(gfwContentImportCompleted(contentType, dataId, layer, '3SC layer download error: ' + String(error)));
+      console.error('Layer download error: ', error);
+      Sentry.captureException(error);
+      dispatch(gfwContentImportCompleted(contentType, dataId, layer, 'Layer download error: ' + String(error)));
     }
   } else {
     trackContentDownloadStarted('layer');
@@ -310,9 +316,12 @@ async function downloadLayerForRegion(
         trackDownloadedContent('layer', layerId, true);
         return dispatch(gfwContentImportCompleted(contentType, region.id, layer));
       })
-      .catch(() => {
+      .catch(error => {
         trackDownloadedContent('layer', layerId, false);
-        dispatch(gfwContentImportCompleted(contentType, region.id, layer, 'Error downloading layer: ' + layer.name));
+        Sentry.captureException(error);
+        const errorString = 'Error downloading layer: ' + layer.name + '. ' + String(error);
+        console.warn(errorString);
+        dispatch(gfwContentImportCompleted(contentType, region.id, layer, errorString));
       });
   }
 }
