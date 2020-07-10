@@ -18,6 +18,7 @@ import deleteReportFiles from 'helpers/report-store/deleteReportFiles';
 import { toFileUri } from 'helpers/fileURI';
 import { shouldBeConnected } from 'helpers/app';
 import { storeReportFiles } from 'helpers/report-store/storeReportFiles';
+import { Platform } from 'react-native';
 
 // Actions
 const GET_DEFAULT_TEMPLATE_REQUEST = 'report/GET_DEFAULT_TEMPLATE_REQUEST';
@@ -247,7 +248,7 @@ export function migrateReportAttachmentsFromV1ToV2(): Thunk<Promise<void>> {
               reportName: report.reportName,
               questionName: answer.questionName,
               type: 'image/jpeg',
-              path: decodeURI(sourceUri),
+              path: Platform.OS === 'android' ? decodeURI(sourceUri) : decodeURI(sourceUri).replace('file:///', ''),
               size: 0
             }
           ]);
