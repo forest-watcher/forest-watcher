@@ -265,11 +265,11 @@ async function downloadLayerForRegion(
     } else {
       try {
         bbox = bboxForRoute(region);
-      } catch {
-        const error = '3SC - Could not generate Bounding Box for route - does it have two or more points?';
+      } catch (error) {
+        const errorString = '3SC - Could not generate Bounding Box for route - does it have two or more points?';
         console.warn(error);
         Sentry.captureException(error);
-        dispatch(gfwContentImportCompleted(contentType, dataId, layer, error));
+        dispatch(gfwContentImportCompleted(contentType, dataId, layer, errorString + ': ' + String(error)));
         return;
       }
     }
