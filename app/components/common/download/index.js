@@ -31,7 +31,7 @@ type Props = {
   downloadProgress: {
     requested: boolean,
     progress: number,
-    error: boolean,
+    error: ?string,
     completed: boolean
   },
   resetCacheStatus: string => Thunk<void>,
@@ -52,7 +52,7 @@ class DataCacher extends PureComponent<Props, State> {
       progress: 0,
       completed: false,
       requested: false,
-      error: false
+      error: null
     }
   };
 

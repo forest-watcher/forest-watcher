@@ -150,7 +150,7 @@ export default function reducer(state: LayersState = initialState, action: Layer
                 requested: true,
                 progress: 0,
                 completed: false,
-                error: false
+                error: null
               }
             }
           }

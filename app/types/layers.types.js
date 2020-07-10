@@ -57,7 +57,7 @@ export type LayerCacheData = {
   progress: number,
   completed: boolean,
   requested: boolean,
-  error: boolean
+  error: ?string
 };
 
 export type LayersCacheStatus = {

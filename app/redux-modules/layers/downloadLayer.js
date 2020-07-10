@@ -29,7 +29,7 @@ import {
 } from 'redux-modules/shared';
 import * as Sentry from '@sentry/react-native';
 
-const initialProgressState = { progress: 0, requested: false, completed: false, error: false };
+const initialProgressState = { progress: 0, requested: false, completed: false, error: null };
 
 /**
  * invalidateIncompleteLayerDownloads - given the layer download progress state,
@@ -142,7 +142,7 @@ export function calculateOverallDownloadProgressForRegion(
         error: acc.error || currentValue.error
       };
     },
-    { progress: 0, completed: true, requested: false, error: false }
+    { progress: 0, completed: true, requested: false, error: null }
   );
 
   return {
@@ -428,7 +428,7 @@ export function resetCacheStatus(regionId: string) {
     const layerKeys = Object.keys(downloadProgress ?? {});
 
     layerKeys.forEach(key => {
-      downloadProgress[key][regionId] = { requested: false, completed: false, progress: 0, error: false };
+      downloadProgress[key][regionId] = { requested: false, completed: false, progress: 0, error: null };
     });
 
     dispatch({

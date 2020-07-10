@@ -60,7 +60,7 @@ const migrateLayerCacheStateFromV1ToV2 = (v1Cache: { [string]: { [string]: strin
           progress: 100,
           completed: true,
           requested: false,
-          error: false
+          error: null
         };
       });
     });
