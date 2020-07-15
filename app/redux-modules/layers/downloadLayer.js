@@ -27,8 +27,9 @@ import {
   getAreaById,
   getRouteById
 } from 'redux-modules/shared';
+import * as Sentry from '@sentry/react-native';
 
-const initialProgressState = { progress: 0, requested: false, completed: false, error: false };
+const initialProgressState = { progress: 0, requested: false, completed: false, error: null };
 
 /**
  * invalidateIncompleteLayerDownloads - given the layer download progress state,
@@ -141,7 +142,7 @@ export function calculateOverallDownloadProgressForRegion(
         error: acc.error || currentValue.error
       };
     },
-    { progress: 0, completed: true, requested: false, error: false }
+    { progress: 0, completed: true, requested: false, error: null }
   );
 
   return {
@@ -264,15 +265,19 @@ async function downloadLayerForRegion(
     } else {
       try {
         bbox = bboxForRoute(region);
-      } catch {
-        console.warn('3SC - Could not generate BBox for route - does it have two or more points?');
-        dispatch(gfwContentImportCompleted(contentType, dataId, layer, true));
+      } catch (error) {
+        const errorString = '3SC - Could not generate Bounding Box for route - does it have two or more points?';
+        console.warn(error);
+        Sentry.captureException(error);
+        dispatch(gfwContentImportCompleted(contentType, dataId, layer, errorString + ': ' + String(error)));
         return;
       }
     }
 
     if (!bbox) {
-      dispatch(gfwContentImportCompleted(contentType, dataId, layer, true));
+      const error = 'No bounding box for region';
+      Sentry.captureException(new Error(error));
+      dispatch(gfwContentImportCompleted(contentType, dataId, layer, error));
       return;
     }
 
@@ -290,7 +295,8 @@ async function downloadLayerForRegion(
         },
         (error: Error) => {
           trackDownloadedContent('basemap', layerId, false);
-          dispatch(gfwContentImportCompleted(contentType, dataId, layer, true));
+          Sentry.captureException(error);
+          dispatch(gfwContentImportCompleted(contentType, dataId, layer, String(error)));
         },
         () => {
           trackDownloadedContent('basemap', layerId, true);
@@ -298,8 +304,9 @@ async function downloadLayerForRegion(
         }
       );
     } catch (error) {
-      console.error('3SC layer download error: ', error);
-      dispatch(gfwContentImportCompleted(contentType, dataId, layer, true));
+      console.error('Layer download error: ', error);
+      Sentry.captureException(error);
+      dispatch(gfwContentImportCompleted(contentType, dataId, layer, 'Layer download error: ' + String(error)));
     }
   } else {
     trackContentDownloadStarted('layer');
@@ -309,9 +316,12 @@ async function downloadLayerForRegion(
         trackDownloadedContent('layer', layerId, true);
         return dispatch(gfwContentImportCompleted(contentType, region.id, layer));
       })
-      .catch(() => {
+      .catch(error => {
         trackDownloadedContent('layer', layerId, false);
-        dispatch(gfwContentImportCompleted(contentType, region.id, layer, true));
+        Sentry.captureException(error);
+        const errorString = 'Error downloading layer: ' + layer.name + '. ' + String(error);
+        console.warn(errorString);
+        dispatch(gfwContentImportCompleted(contentType, region.id, layer, errorString));
       });
   }
 }
@@ -323,21 +333,20 @@ async function downloadLayerForRegion(
  * @param {LayerType} contentType
  * @param {string} dataId
  * @param {Layer} layer
- * @param {boolean} withFailure
+ * @param {string} error
  */
 function gfwContentImportCompleted(
   contentType: LayerType,
   dataId: string,
   layer: Layer,
-  withFailure: boolean = false
+  error: string = null
 ): Thunk<Promise<void>> {
   return async (dispatch: Dispatch, getState: GetState) => {
-    const REGION_COMPLETE_ACTION = IMPORT_LAYER_AREA_COMPLETED;
     // We mark that region in the downloadedLayerProgress state as completed with 100% progress.
     // This means we can then keep track of regions that are still downloading / unpacking.
     await dispatch({
-      type: REGION_COMPLETE_ACTION,
-      payload: { id: dataId, layerId: layer.id, failed: withFailure }
+      type: IMPORT_LAYER_AREA_COMPLETED,
+      payload: { id: dataId, layerId: layer.id, error }
     });
 
     if (contentType !== 'contextual_layer') {
@@ -419,7 +428,7 @@ export function resetCacheStatus(regionId: string) {
     const layerKeys = Object.keys(downloadProgress ?? {});
 
     layerKeys.forEach(key => {
-      downloadProgress[key][regionId] = { requested: false, completed: false, progress: 0, error: false };
+      downloadProgress[key][regionId] = { requested: false, completed: false, progress: 0, error: null };
     });
 
     dispatch({

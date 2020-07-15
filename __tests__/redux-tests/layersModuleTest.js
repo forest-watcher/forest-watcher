@@ -65,7 +65,7 @@ describe('Redux Layers Module', () => {
                   progress: 50,
                   requested: true,
                   completed: false,
-                  error: false
+                  error: null
                 }
               }
             },
@@ -84,7 +84,7 @@ describe('Redux Layers Module', () => {
                   progress: 100,
                   requested: false,
                   completed: true,
-                  error: true
+                  error: 'Test mock error'
                 }
               }
             },
@@ -103,7 +103,7 @@ describe('Redux Layers Module', () => {
                   progress: 100,
                   requested: false,
                   completed: true,
-                  error: false
+                  error: null
                 }
               }
             },
@@ -124,7 +124,7 @@ describe('Redux Layers Module', () => {
                   progress: 50,
                   requested: true,
                   completed: false,
-                  error: false
+                  error: null
                 }
               },
               layer2: {
@@ -132,7 +132,7 @@ describe('Redux Layers Module', () => {
                   progress: 50,
                   requested: true,
                   completed: false,
-                  error: false
+                  error: null
                 }
               }
             },
@@ -151,7 +151,7 @@ describe('Redux Layers Module', () => {
                   progress: 50,
                   requested: true,
                   completed: false,
-                  error: false
+                  error: null
                 }
               },
               layer2: {
@@ -159,7 +159,7 @@ describe('Redux Layers Module', () => {
                   progress: 100,
                   requested: false,
                   completed: true,
-                  error: true
+                  error: 'Test mock error'
                 }
               }
             },
@@ -178,7 +178,7 @@ describe('Redux Layers Module', () => {
                   progress: 50,
                   requested: true,
                   completed: false,
-                  error: false
+                  error: null
                 }
               },
               layer2: {
@@ -186,7 +186,7 @@ describe('Redux Layers Module', () => {
                   progress: 100,
                   requested: false,
                   completed: true,
-                  error: false
+                  error: null
                 }
               }
             },
@@ -205,7 +205,7 @@ describe('Redux Layers Module', () => {
                   progress: 50,
                   requested: true,
                   completed: false,
-                  error: false
+                  error: null
                 }
               }
             },
@@ -224,7 +224,7 @@ describe('Redux Layers Module', () => {
                   progress: 100,
                   requested: false,
                   completed: true,
-                  error: false
+                  error: null
                 }
               }
             },
@@ -243,7 +243,7 @@ describe('Redux Layers Module', () => {
                   progress: 100,
                   requested: false,
                   completed: true,
-                  error: true
+                  error: 'Test mock error'
                 }
               },
               layer2: {
@@ -251,7 +251,7 @@ describe('Redux Layers Module', () => {
                   progress: 100,
                   requested: false,
                   completed: true,
-                  error: true
+                  error: 'Test mock error'
                 }
               }
             },
@@ -270,7 +270,7 @@ describe('Redux Layers Module', () => {
                   progress: 100,
                   requested: false,
                   completed: true,
-                  error: true
+                  error: 'Test mock error'
                 }
               },
               layer2: {
@@ -278,7 +278,7 @@ describe('Redux Layers Module', () => {
                   progress: 100,
                   requested: false,
                   completed: true,
-                  error: false
+                  error: null
                 }
               }
             },
@@ -297,7 +297,7 @@ describe('Redux Layers Module', () => {
                   progress: 100,
                   requested: false,
                   completed: true,
-                  error: false
+                  error: null
                 }
               },
               layer2: {
@@ -305,7 +305,7 @@ describe('Redux Layers Module', () => {
                   progress: 100,
                   requested: false,
                   completed: true,
-                  error: false
+                  error: null
                 }
               }
             },
@@ -330,7 +330,7 @@ describe('Redux Layers Module', () => {
                 progress: 100,
                 requested: false,
                 completed: true,
-                error: false
+                error: null
               }
             }
           })
@@ -345,7 +345,7 @@ describe('Redux Layers Module', () => {
                 progress: 100,
                 requested: false,
                 completed: true,
-                error: false
+                error: null
               }
             },
             layer2: {
@@ -353,7 +353,7 @@ describe('Redux Layers Module', () => {
                 progress: 100,
                 requested: false,
                 completed: true,
-                error: false
+                error: null
               }
             }
           })
@@ -370,7 +370,7 @@ describe('Redux Layers Module', () => {
                 progress: 100,
                 requested: false,
                 completed: true,
-                error: false
+                error: null
               }
             }
           })
@@ -385,7 +385,7 @@ describe('Redux Layers Module', () => {
                 progress: 100,
                 requested: false,
                 completed: true,
-                error: false
+                error: null
               }
             },
             layer2: {
@@ -393,7 +393,7 @@ describe('Redux Layers Module', () => {
                 progress: 100,
                 requested: false,
                 completed: true,
-                error: false
+                error: null
               }
             }
           })
@@ -408,13 +408,13 @@ describe('Redux Layers Module', () => {
                 progress: 100,
                 requested: false,
                 completed: true,
-                error: false
+                error: null
               },
               area2: {
                 progress: 100,
                 requested: false,
                 completed: true,
-                error: false
+                error: null
               }
             },
             layer2: {
@@ -422,13 +422,13 @@ describe('Redux Layers Module', () => {
                 progress: 100,
                 requested: false,
                 completed: true,
-                error: false
+                error: null
               },
               area2: {
                 progress: 100,
                 requested: false,
                 completed: true,
-                error: false
+                error: null
               }
             }
           })
@@ -451,7 +451,7 @@ describe('Redux Layers Module', () => {
                 progress: 100,
                 requested: false,
                 completed: true,
-                error: false
+                error: null
               }
             }
           })
@@ -466,7 +466,7 @@ describe('Redux Layers Module', () => {
                 progress: 100,
                 requested: false,
                 completed: true,
-                error: false
+                error: null
               }
             },
             layer2: {
@@ -474,7 +474,7 @@ describe('Redux Layers Module', () => {
                 progress: 100,
                 requested: false,
                 completed: true,
-                error: false
+                error: null
               }
             }
           })
@@ -489,7 +489,7 @@ describe('Redux Layers Module', () => {
                 progress: 90,
                 requested: false,
                 completed: false,
-                error: false
+                error: null
               }
             }
           })
@@ -504,7 +504,7 @@ describe('Redux Layers Module', () => {
                 progress: 100,
                 requested: false,
                 completed: false,
-                error: true
+                error: 'Test mock error'
               }
             }
           })
@@ -519,7 +519,7 @@ describe('Redux Layers Module', () => {
                 progress: 100,
                 requested: true,
                 completed: false,
-                error: false
+                error: null
               }
             }
           })
@@ -534,7 +534,7 @@ describe('Redux Layers Module', () => {
                 progress: 100,
                 requested: false,
                 completed: true,
-                error: false
+                error: null
               }
             },
             layer2: {
@@ -542,7 +542,7 @@ describe('Redux Layers Module', () => {
                 progress: 90,
                 requested: false,
                 completed: false,
-                error: false
+                error: null
               }
             }
           })
@@ -557,7 +557,7 @@ describe('Redux Layers Module', () => {
                 progress: 100,
                 requested: false,
                 completed: true,
-                error: false
+                error: null
               }
             },
             layer2: {
@@ -565,7 +565,7 @@ describe('Redux Layers Module', () => {
                 progress: 100,
                 requested: false,
                 completed: true,
-                error: true
+                error: 'Test mock error'
               }
             }
           })
@@ -580,7 +580,7 @@ describe('Redux Layers Module', () => {
                 progress: 100,
                 requested: false,
                 completed: true,
-                error: false
+                error: null
               }
             },
             layer2: {
@@ -588,7 +588,7 @@ describe('Redux Layers Module', () => {
                 progress: 100,
                 requested: true,
                 completed: false,
-                error: true
+                error: 'Test mock error'
               }
             }
           })
@@ -605,13 +605,13 @@ describe('Redux Layers Module', () => {
                 progress: 100,
                 requested: false,
                 completed: true,
-                error: false
+                error: null
               },
               area2: {
                 progress: 100,
                 requested: false,
                 completed: true,
-                error: false
+                error: null
               }
             }
           })
@@ -626,13 +626,13 @@ describe('Redux Layers Module', () => {
                 progress: 100,
                 requested: false,
                 completed: true,
-                error: false
+                error: null
               },
               area2: {
                 progress: 100,
                 requested: false,
                 completed: true,
-                error: false
+                error: null
               }
             },
             layer2: {
@@ -640,13 +640,13 @@ describe('Redux Layers Module', () => {
                 progress: 100,
                 requested: false,
                 completed: true,
-                error: false
+                error: null
               },
               area2: {
                 progress: 100,
                 requested: false,
                 completed: true,
-                error: false
+                error: null
               }
             }
           })
@@ -661,13 +661,13 @@ describe('Redux Layers Module', () => {
                 progress: 90,
                 requested: false,
                 completed: false,
-                error: false
+                error: null
               },
               area2: {
                 progress: 90,
                 requested: false,
                 completed: false,
-                error: false
+                error: null
               }
             }
           })
@@ -682,13 +682,13 @@ describe('Redux Layers Module', () => {
                 progress: 100,
                 requested: false,
                 completed: true,
-                error: true
+                error: 'Test mock error'
               },
               area2: {
                 progress: 100,
                 requested: false,
                 completed: true,
-                error: true
+                error: 'Test mock error'
               }
             }
           })
@@ -703,13 +703,13 @@ describe('Redux Layers Module', () => {
                 progress: 100,
                 requested: true,
                 completed: false,
-                error: false
+                error: null
               },
               area2: {
                 progress: 100,
                 requested: true,
                 completed: false,
-                error: false
+                error: null
               }
             }
           })
@@ -724,13 +724,13 @@ describe('Redux Layers Module', () => {
                 progress: 100,
                 requested: false,
                 completed: true,
-                error: false
+                error: null
               },
               area2: {
                 progress: 100,
                 requested: false,
                 completed: true,
-                error: false
+                error: null
               }
             },
             layer2: {
@@ -738,13 +738,13 @@ describe('Redux Layers Module', () => {
                 progress: 90,
                 requested: false,
                 completed: false,
-                error: false
+                error: null
               },
               area2: {
                 progress: 90,
                 requested: false,
                 completed: false,
-                error: false
+                error: null
               }
             }
           })
@@ -759,13 +759,13 @@ describe('Redux Layers Module', () => {
                 progress: 100,
                 requested: false,
                 completed: true,
-                error: false
+                error: null
               },
               area2: {
                 progress: 100,
                 requested: false,
                 completed: true,
-                error: false
+                error: null
               }
             },
             layer2: {
@@ -773,13 +773,13 @@ describe('Redux Layers Module', () => {
                 progress: 100,
                 requested: false,
                 completed: true,
-                error: true
+                error: 'Test mock error'
               },
               area2: {
                 progress: 100,
                 requested: false,
                 completed: true,
-                error: true
+                error: 'Test mock error'
               }
             }
           })
@@ -794,13 +794,13 @@ describe('Redux Layers Module', () => {
                 progress: 100,
                 requested: false,
                 completed: true,
-                error: false
+                error: null
               },
               area2: {
                 progress: 100,
                 requested: false,
                 completed: true,
-                error: false
+                error: null
               }
             },
             layer2: {
@@ -808,13 +808,13 @@ describe('Redux Layers Module', () => {
                 progress: 100,
                 requested: true,
                 completed: false,
-                error: false
+                error: null
               },
               area2: {
                 progress: 100,
                 requested: true,
                 completed: false,
-                error: false
+                error: null
               }
             }
           })
