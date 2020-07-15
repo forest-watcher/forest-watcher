@@ -246,11 +246,12 @@ export function migrateReportAttachmentsFromV1ToV2(): Thunk<Promise<void>> {
         try {
           let sourceDir = decodeURI(sourceUri);
 
-          if (Platform.OS === 'ios') {
+          if (Platform.OS === 'ios' && sourceDir.includes('/Documents')) {
             // On iOS, we need to bin anything prior to and including the `/Documents` segment.
             // This is because the app container UUID may have changed, and if we refer to the full
             // path we may not be using the right UUID.
             // We instead need to use the `appDocumentsRootDir` which'll provide the active container UUID.
+
             const appRelativePath = sourceDir.split('/Documents')[1];
             sourceDir = decodeURI(`${appDocumentsRootDir()}${appRelativePath}`);
           }
