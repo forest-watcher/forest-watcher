@@ -111,8 +111,8 @@ class ImportMappingFileType extends PureComponent<Props, State> {
         name: 'ForestWatcher.FaqCategory',
         passProps: {
           category: {
-            title: i18n.t('faq.categories.customLayers.title'),
-            questions: i18n.t('faq.categories.customLayers.questions', { returnObjects: true })
+            title: i18n.t('faq.categories.alertsAndData.title'),
+            questions: i18n.t('faq.categories.alertsAndData.questions', { returnObjects: true })
           }
         }
       }
