@@ -9,75 +9,75 @@
     },
     "areas": {
         "empty": {
-            "action": "App FAQs",
-            "body": "Tap the ‘+’ icon to set up an area where you want to access alerts. You can also import an area.",
-            "title": "No Areas Monitored"
+            "action": "Pertanyaan Populer Aplikasi",
+            "body": "Ketuk ikon '+' untuk menata area yang ingin Anda akses peringatannya. Anda juga dapat mengimpor suatu area.",
+            "title": "Tidak Ada Area yang Dipantau"
         },
         "export": {
-            "manyAreas": "%{count} Areas",
+            "manyAreas": "%{count} Area",
             "oneArea": "%{count} Area"
         },
-        "importedAreas": "Imported Areas",
-        "myAreas": "My Areas",
+        "importedAreas": "Area Impor",
+        "myAreas": "Area Saya",
         "title": "Area",
         "tooltip": {
-            "body": "View alerts and map layers without internet",
-            "title": "Make Areas Available Offline"
+            "body": "Lihat peringatan dan lapisan peta tanpa internet",
+            "title": "Jadikan Area Tersedia Offline"
         }
     },
     "basemaps": {
         "delete": {
-            "messageGFWContent": "Data for this Basemap will only be available online. Do you wish to continue?",
-            "messageCustomContent": "This Custom Basemap can be imported again if required. Do you wish to continue?",
-            "title": "Delete Basemap data?",
-            "titleCustom": "Delete Custom Basemap?"
+            "messageGFWContent": "Data untuk Peta Dasar ini hanya akan tersedia online. Ingin lanjutkan?",
+            "messageCustomContent": "Peta Dasar Kustom ini dapat diimpor lagi bila perlu. Ingin lanjutkan?",
+            "title": "Hapus data Peta Dasar?",
+            "titleCustom": "Hapus Peta Dasar Kustom?"
         },
         "edit": "Edit",
         "empty": {
-            "action": "App FAQs",
-            "body": "Tap the '+' icon to set up a custom basemap",
-            "title": "No Custom Basemaps"
+            "action": "Pertanyaan Populer Aplikasi",
+            "body": "Ketuk ikon \"+\" untuk menyiapkan peta dasar kustom",
+            "title": "Tidak Ada Peta Dasar Kustom"
         },
         "export": {
-            "many": "%{count} Basemaps",
-            "manyAction": "Share %{count} basemaps...",
+            "many": "%{count} Peta Dasar",
+            "manyAction": "Bagikan %{count} peta dasar...",
             "navBarButtonText": "Ekspor",
-            "noneSelected": "No basemaps selected",
-            "one": "%{count} Basemap",
-            "oneAction": "Share %{count} basemap...",
-            "successful": "Exporting basemaps succeeded!"
+            "noneSelected": "Tidak ada peta dasar yang dipilih",
+            "one": "%{count} Peta Dasar",
+            "oneAction": "Bagikan %{count} peta dasar...",
+            "successful": "Berhasil mengekspor peta dasar!"
         },
-        "gfw": "Default Basemaps",
+        "gfw": "Peta Dasar Default",
         "import": {
-            "cannotContainVectorTiles": "* files may contain raster elements only",
-            "choose": "Choose basemap type",
-            "chooseAnother": "Choose Another",
-            "custom": "Custom Basemap",
-            "error": "Failed to import basemap, please make sure you are selecting the correct file type and the contents of the file matches the specification then try again.",
-            "faq": "Custom Basemap FAQs",
-            "fileContainsVectorTiles": "contains vector elements and is not supported.",
-            "fileSizeTooLarge": "File Too Large",
-            "fileSizeTooLargeDesc": "Please try with a file smaller than 10MB",
-            "fileTypeNotSupported": "File Type Not Supported",
-            "fileTypeNotSupportedDesc": "is not a supported file type for basemaps.",
-            "save": "Import Basemap",
-            "supportedFileTypesInclude": "Supported file types include:",
-            "title": "Basemap Name",
-            "uniqueNameError": "You have already given a basemap this name, please choose a different name or delete the existing basemap.",
-            "vectorTilesNotSupported": "File Contains Vector Tiles"
+            "cannotContainVectorTiles": "* berkas mungkin mengandung hanya elemen raster",
+            "choose": "Pilih jenis peta dasar",
+            "chooseAnother": "Pilih Lainnya",
+            "custom": "Peta Dasar Kustom",
+            "error": "Gagal mengimpor peta dasar, harap pastikan Anda memilih jenis berkas yang benar dan konten berkas sesuai dengan spesifikasi lalu cobalah lagi.",
+            "faq": "Pertanyaan Populer Peta Dasar Kustom",
+            "fileContainsVectorTiles": "mengandung elemen vektor dan tidak didukung.",
+            "fileSizeTooLarge": "Berkas Terlalu Besar",
+            "fileSizeTooLargeDesc": "Harap coba dengan berkas di bawah 10 MB",
+            "fileTypeNotSupported": "Jenis Berkas Tidak Didukung",
+            "fileTypeNotSupportedDesc": "bukan jenis berkas yang didukung untuk peta dasar.",
+            "save": "Impor Peta Dasar",
+            "supportedFileTypesInclude": "Jenis berkas yang didukung antara lain:",
+            "title": "Nama Peta Dasar",
+            "uniqueNameError": "Anda sudah memberi nama ini untuk peta dasar, pilihlah nama berbeda atau hapus peta dasar yang ada.",
+            "vectorTilesNotSupported": "Berkas Mengandung Ubin Vektor"
         },
-        "imported": "Custom Basemaps",
+        "imported": "Peta Dasar Kustom",
         "names": {
-            "dark": "Dark",
+            "dark": "Gelap",
             "default": "Default",
-            "satellite": "Satellite"
+            "satellite": "Satelit"
         },
         "rename": {
-            "message": "Enter your new name",
-            "title": "Rename Basemap"
+            "message": "Masukkan nama baru Anda",
+            "title": "Namai Ulang Peta Dasar"
         },
-        "share": "Share",
-        "title": "Manage Basemaps"
+        "share": "Bagikan",
+        "title": "Kelola Peta Dasar"
     },
     "chooseImage": {
         "cancel": "Batal",
@@ -90,21 +90,21 @@
         "appName": "Forest Watcher",
         "area": "Area",
         "boundaries": "Batas",
-        "calculating": "Calculating",
+        "calculating": "Mengalkulasi",
         "cancel": "Batalkan",
-        "clear": "Clear",
+        "clear": "Kosongkan",
         "confirm": "Konfirmasi",
         "connectionRequired": "Anda memerlukan koneksi internet",
         "connectionRequiredTitle": "Tidak ada koneksi",
-        "continue": "Continue",
+        "continue": "Lanjutkan",
         "crashFeedback": "Ada yang salah. Kami sedang mengusahakan untuk memperbaiki hal ini secepat mungkin.",
         "date": "Tanggal",
-        "deselectAll": "Deselect All",
+        "deselectAll": "Batalkan Semua",
         "done": "Selesai",
         "error": "Eror",
-        "fileName": "File name",
+        "fileName": "Nama berkas",
         "fileSizes": {
-            "bytes": "%{size} bytes",
+            "bytes": "%{size} byte",
             "gigaBytes": "%{size} GB",
             "kiloBytes": "%{size} kB",
             "megaBytes": "%{size} MB",
@@ -126,7 +126,7 @@
         "reportedPosition": "Posisi Terlapor",
         "retry": "Coba lagi",
         "saving": "Penghematan",
-        "selectAll": "Select All",
+        "selectAll": "Pilih Semua",
         "send": "Kirim",
         "settings": "Pengaturan",
         "setup": "Pengaturan",
@@ -137,52 +137,52 @@
     },
     "contextualLayers": {
         "delete": {
-            "messageGFWContent": "Data for this Contextual Layer will only be available online. Do you wish to continue?",
-            "messageGFWImportedContent": "Contextual Layer data can be downloaded again when connected to internet. Do you wish to continue with deletion?",
-            "messageCustomContent": "This Custom Contextual Layer can be imported again if required. Do you wish to continue?",
-            "title": "Delete Contextual Layer data?",
-            "titleCustom": "Delete Custom Contextual Layer?"
+            "messageGFWContent": "Data untuk Lapisan Kontekstual ini hanya akan tersedia online. Ingin lanjutkan?",
+            "messageGFWImportedContent": "Data Lapisan Kontekstual dapat diunduh lagi ketika tersambung ke internet. Anda ingin melanjutkan penghapusan?",
+            "messageCustomContent": "Lapisan Kontekstual Kustom ini dapat diimpor lagi jika perlu. Ingin lanjutkan?",
+            "title": "Hapus data Lapisan Kontekstual?",
+            "titleCustom": "Hapus Lapisan Kontekstual Kustom?"
         },
         "edit": "Edit",
         "empty": {
-            "action": "App FAQs",
-            "body": "Contextual layers you add will appear here",
-            "title": "No Contextual Layers"
+            "action": "Pertanyaan Populer Aplikasi",
+            "body": "Lapisan kontekstual yang Anda tambahkan akan muncul di sini",
+            "title": "Tidak Ada Lapisan Kontekstual"
         },
         "export": {
-            "many": "%{count} Layers",
-            "manyAction": "Share %{count} layers...",
+            "many": "%{count} Lapisan",
+            "manyAction": "Bagikan %{count} lapisan...",
             "navBarButtonText": "Ekspor",
-            "noneSelected": "No layers selected",
-            "one": "%{count} Layers",
-            "oneAction": "Share %{count} layers...",
-            "successful": "Exporting layers succeeded!"
+            "noneSelected": "Tidak ada lapisan dipilih",
+            "one": "%{count} Lapisan",
+            "oneAction": "Bagikan %{count} lapisan...",
+            "successful": "Berhasil mengekspor lapisan!"
         },
-        "gfw": "GFW Layers",
+        "gfw": "Lapisan GFW",
         "import": {
-            "addGFW": "Add Global Forest Watch Layer",
-            "choose": "Choose contextual layer type",
-            "chooseAnother": "Choose Another",
-            "custom": "Custom Contextual Layer",
-            "error": "Failed to import layer, please make sure you are selecting the correct file type and the contents of the file matches the specification then try again.",
-            "faq": "Custom Layer FAQs",
-            "fileSizeTooLarge": "File Too Large",
-            "fileSizeTooLargeDesc": "Please try with a file smaller than 10MB",
-            "fileTypeNotSupported": "File Type Not Supported",
-            "fileTypeNotSupportedDesc": "is not a supported file type for contextual layers.",
-            "offlineWarning": "Only available online",
-            "save": "Import Layer",
-            "supportedFileTypesInclude": "Supported file types include:",
-            "title": "Layer Name",
-            "uniqueNameError": "You have already given a layer this name, please choose a different name or delete the existing layer."
+            "addGFW": "Tambahkan Lapisan Global Forest Watch",
+            "choose": "Pilih jenis lapisan kontekstual",
+            "chooseAnother": "Pilih Lainnya",
+            "custom": "Lapisan Kontekstual Kustom",
+            "error": "Gagal mengimpor lapisan, harap pastikan Anda memilih jenis berkas yang benar dan konten berkas sesuai dengan spesifikasi lalu cobalah kembali.",
+            "faq": "Pertanyaan Populer Lapisan Kustom",
+            "fileSizeTooLarge": "Berkas Terlalu Besar",
+            "fileSizeTooLargeDesc": "Harap coba dengan berkas berukuran di bawah 10 MB",
+            "fileTypeNotSupported": "Jenis Berkas Tidak Didukung",
+            "fileTypeNotSupportedDesc": "bukan jenis berkas yang didukung untuk lapisan kontekstual.",
+            "offlineWarning": "Hanya tersedia online",
+            "save": "Impor Lapisan",
+            "supportedFileTypesInclude": "Jenis berkas yang didukung adalah:",
+            "title": "Nama Lapisan",
+            "uniqueNameError": "Anda telah memberi nama ini ke lapisan lain, silakan pilih nama lain atau hapus lapisan yang sudah ada sebelumnya."
         },
-        "imported": "Custom Layers",
+        "imported": "Lapisan Kustom",
         "rename": {
-            "message": "Enter your new name",
-            "title": "Rename Contextual Layer"
+            "message": "Masukkan nama baru Anda",
+            "title": "Namai Ulang Lapisan Kontekstual"
         },
-        "share": "Share",
-        "title": "Manage Contextual Layers"
+        "share": "Bagikan",
+        "title": "Kelola Lapisan Kontekstual"
     },
     "countries": {
         "searchPlaceholder": "Cari negara"
@@ -192,7 +192,7 @@
         "downloadFailed": "Unduhan gagal",
         "map": "Peta",
         "reports": "Laporan",
-        "routes": "Routes",
+        "routes": "Rute",
         "settings": "Pengaturan"
     },
     "datasets": {
@@ -228,208 +228,208 @@
                     {
                         "content": {
                             "description": {
-                                "text": "Community forest monitors, park rangers, conservation organizations, protected area managers, journalists and environmental police use Forest Watcher to detect areas of forest disturbance, inform their patrol routes and collect digital information about their observations."
+                                "text": "Pemantau hutan komunitas, pengawas taman, organisasi konservasi, manajer area yang dilindungi, jurnalis dan polisi lingkungan menggunakan Forest Watcher untuk mendeteksi area gangguan hutan, menginfokan rute patrolinya serta mengumpulkan informasi digital seputar observasinya."
                             }
                         },
-                        "title": "Who uses Forest Watcher?"
+                        "title": "Siapa saja yang menggunakan Forest Watcher? "
                     },
                     {
                         "content": {
                             "description": {
-                                "text": "In 2016, the Jane Goodall Institute (JGI), Global Forest Watch (GFW), Touchlab and Google partnered to create a test version of a mobile app to monitor protected areas in Uganda while offline. Following the successful pilot phase, GFW, JGI and Vizzuality created Forest Watcher to enable access to GFW data while offline and in the field. The app is currently maintained by GFW and 3 Sided Cube."
+                                "text": "Di 2016, Jane Goodall Institute (JGI), Global Forest Watch (GFW), Touchlab dan Google bermitra untuk menciptakan versi uji coba dari aplikasi seluler guna memantau area dilindungi di Uganda selagi offline. Mengikuti fase pilot yang berhasil, GFW, JGI dan Vizzuality menciptakan Forest Watcher untuk mengizinkan akses ke data GFW selagi offline dan di lapangan. Aplikasi ini saat ini dipelihara oleh GFW dan 3 Sided Cube."
                             }
                         },
-                        "title": "Who created Forest Watcher?"
+                        "title": "Siapa pencipta Forest Watcher?"
                     },
                     {
                         "content": {
                             "description": {
-                                "text": "Forest Watcher will run on any iPhone with iOS 10 and above. The minimum and recommended specifications for Android devices are listed below."
+                                "text": "Forest Watcher akan berjalan di semua iPhone dengan iOS 10 ke atas. Spesifikasi minimal dan direkomendasikan untuk perangkat Android adalah sebagai berikut."
                             },
                             "orderList": {
-                                "text1": "Minimum specifications for Android: OS - Android 5.0; RAM - 1.5GB; Free Disk Space - 1GB",
-                                "text2": "Minimum specifications for Android: OS - Android 7.1' RAM - 3GB; Free Disk Space - 4GB+"
+                                "text1": "Spesifikasi minimal untuk Android: OS - Android 5.0; RAM - 1.5GB; Ruang Disk Bebas - 1GB",
+                                "text2": "Spesifikasi minimum untuk Android: OS - Android 7.1' RAM - 3GB; Ruang Penyimpanan Kosong - 4GB+"
                             }
                         },
-                        "title": "What are the device specifications for using Forest Watcher?"
+                        "title": "Apa spesifikasi perangkat agar dapat menggunakan Forest Watcher?"
                     },
                     {
                         "content": {
                             "description": {
-                                "text": "Yes, Forest Watcher is available in Spanish, French, Portuguese, Bahasa Indonesian, Dutch and Malagasy. The language of the questionnaires and reports can be customized to any language of your choosing."
+                                "text": "Ya, Forest Watcher tersedia dalam bahasa Spanyol, Prancis, Portugis, Indonesia, Belanda dan Malagasi. bahasa kuesioner dan laporan dapat dikustomisasi ke bahasa apa pun yang Anda pilih."
                             }
                         },
-                        "title": "Is Forest Watcher available in languages other than English?"
+                        "title": "Apakah Forest Watcher tersedia dalam bahasa selain Inggris?"
                     }
                 ],
-                "title": "About Forest Watcher"
+                "title": "Tentang Forest Watcher"
             },
             "alertsAndData": {
                 "questions": [
                     {
                         "content": {
                             "description": {
-                                "text1": "An area of interest is an area that you define to monitor forest change within. When you create an area of interest on Forest Watcher, GLAD deforestation alerts will populate for that area."
+                                "text1": "Sebuah area menarik adalah area yang Anda tetapkan untuk memantau perubahan hutan di dalamnya. Saat membuat area menarik di Forest Watcher, peringatan deforestasi GLAD akan mengisi untuk area tersebut."
                             }
                         },
-                        "title": "What is an area of interest?"
+                        "title": "Apa itu area menarik?"
                     },
                     {
                         "content": {
                             "description": {
-                                "text1": "The maximum size area of interest is 20,000 square kilometers (2,000,000 hectares). If you try to establish an area larger than 20,000 square kilometers, you will receive an error message indicating the size is too big."
+                                "text1": "Ukuran maksimal area menarik adalah 20.000 kilometer persegi (2.000.000 hektar). Jika mencoba menetapkan area di atas 20.000 kilometer persegi, Anda akan menerima pesan eror yang menginfokan bahwa ukurannya terlalu besar."
                             }
                         },
-                        "title": "What is the maximum size area of interest I can create?"
+                        "title": "Berapa ukuran maksimal area menarik yang bisa saya buat?"
                     },
                     {
                         "content": {
                             "description": {
-                                "text1": "You can share areas of interest by navigating to the Areas page of the mobile app and clicking “Share Areas”. From here, you can select the areas you would like to share and choose where to export the bundle on your device. You can then share the area of interest bundle through your chosen sharing option eg. email, bluetooth or WhatsApp.",
-                                "text2": "After receiving an area of interest bundle through your preferred share option, you can import it on Forest Watcher. You can access the area(s) of interest in the Areas page once import is complete."
+                                "text1": "Anda dapat membagikan area menarik dengan menuju laman Area pada aplikasi seluler dan mengklik \"Bagikan Area\". Dari sini, Anda dapat memilih area yang ingin dibagikan dan pilih tujuan ekspor bundel pada perangkat. Kemudian Anda dapat membagikan bundel area menarik melalui opsi berbagi yang diinginkan seperti email, bluetooth atau WhatsApp.",
+                                "text2": "Setelah menerima bundel area menarik melalui opsi pembagian yang dipilih, Anda dapat mengimpornya di Forest Watcher. Anda dapat mengakses area menarik di laman Area setelah impor selesai."
                             }
                         },
-                        "title": "How can I share and receive areas of interest?"
+                        "title": "Bagaimana cara untuk berbagi dan menerima "
                     },
                     {
                         "content": {
                             "description": {
-                                "text1": "You can share contextual layers by navigating to the Contextual Layers section on the Settings page of the mobile app and clicking “Share”. From here, you can select the contextual layers that you would like to share and choose where to export the bundle on your device. You can then share the contextual layer bundle through your chosen sharing option eg. email, bluetooth or WhatsApp.",
-                                "text2": "After receiving a contextual layer bundle through your preferred share option, you can import it on Forest Watcher. You can access the contextual layers in the Contextual Layers section on the Settings page once import is complete."
+                                "text1": "Anda dapat berbagi lapisan kontekstual dengan bernavigasi ke bagian Lapisan Kontekstual di laman Pengaturan dalam aplikasi seluler dan mengklik \"Bagikan\". Dari sini Anda dapat memilih lapisan kontekstual yang ingin dibagikan dan pilih ke mana harus mengekspor bundelnya di perangkat. Kemudian Anda dapat membagikan bundel lapisan kontekstual melalui opsi berbagi pilihan seperti email, bluetooth atau WhatsApp.",
+                                "text2": "Setelah menerima bundel lapisan kontekstual melalui opsi berbagi pilihan, Anda dapat mengimpornya di Forest Watcher. Anda dapat mengakses lapisan kontekstual di bagian Lapisan Kontekstual di laman Pengaturan setelah impor selesai."
                             }
                         },
-                        "title": "How can I share and receive contextual layers?"
+                        "title": "Bagaimana cara membagikan dan menerima lapisan kontekstual?"
                     },
                     {
                         "content": {
                             "description": {
-                                "text": "Global Forest Watch (GFW) provides preloaded forest change and contextual data on Forest Watcher. The preloaded data includes GLAD deforestation alerts, VIIRS active fire alerts, annual tree cover loss and protected areas. Information on the GLAD deforestation alerts, VIIRS active fire alerts and annual tree cover loss data is below."
+                                "text": "Global Forest Watch (GFW) memberikan data perubahan hutan pramuat dan kontekstual di Forest Watcher. Data pramuat termasuk peringatan deforestasi GLAD, peringatan kebakaran aktif VIIRS, kehilangan tutupan pohon tahunan serta area yang dilindungi. Informasi seputar peringatan deforestasi GLAD, peringatan kebakaran aktif VIIRS serta data kehilangan tutupan pohon adalah sebagai berikut."
                             },
-                            "footerText": "You can also add additional contextual layers from GFW, including LandMark indigenous and community lands, and various concessions and biodiversity data, or you can upload your own custom contextual layers through the mobile app. Forest Watcher Mobile supports the following file types for upload: .json, .geojson, .topojson, .gpx, .zip, .kmz and .kml.\n\nWhen uploading additional contextual layers, you will have the option to either download the data for offline use or access the data online only. These options offer more flexibility over the data stored on your device.\n\nFor more information, please visit data.globalforestwatch.org.",
+                            "footerText": "Anda juga dapat menambahkan lapisan kontekstual tambahan dari GFW, termasuk lahan adat dan masyarakat LandMark, serta berbagai data konsesi dan biodiversitas, atau Anda dapat mengunggah lapisan kontekstual kustom lewat aplikasi seluler. Forest Watcher Mobile mendukung jenis berikut untuk unggahan: .json, .geojson, .topojson, .gpx, .zip, .kmz dan .kml.\n\nSaat mengunggah lapisan kontekstual tambahan, Anda akan punya opsi mengunduh data untuk pemakaian offline atau mengakses data saat di online saja. Opsi-opsi ini menawarkan fleksibilitas lebih besar untuk data yang tersimpan di perangkat Anda.\n\nUntuk informasi lebih lanjut, kunjungi data.globalforestwatch.org.",
                             "orderList": {
                                 "text1": "Lansiran Kebakaran Aktif VIIRS: Diproduksi oleh NASA, diperbaharui setiap hari dengan resolusi 375 meter. Ini menunjukkan lokasi dugaan kebakaran seminggu terakhir.",
                                 "text2": "Lansiran GLAD: Diproduksi oleh Laboratorium Global Land Analysis & Discovery (GLAD) Universitas Maryland, diperbaharui tiap minggu dengan resolusi 30 meter. Ini menunjukkan Anda dimana kawasan hutan mungkin telah berubah minggu demi minggu.",
                                 "text3": "Cakupan Kehilangan Pohon Tahunan: Juga diproduksi oleh lab GLAD, diperbaharui tiap tahun dengan resolusi 30 meter. Ini menunjukkan Anda tahun ke tahun di mana kawasan hutan telah berubah. Saat ini data hanya tersedia sebagai lapisan data kontekstual: Anda tidak akan dapat membuat laporan yang terkait dengan lansiran kehilangan tahunan, walaupun Anda masih dapat membuat laporan untuk lokasi tersebut dengan menekan layar di lokasi kehilangan atau penambahan hutan."
                             }
                         },
-                        "title": "What data is available and where do they come from?"
+                        "title": "Data apa yang tersedia dan dari mana asalnya?"
                     },
                     {
                         "content": {
                             "description": {
-                                "text1": "Each data layer has been through rigorous scientific testing and has a unique set of limitations.",
-                                "text2": "Users should keep in mind that GLAD deforestation alerts detect all types of tree cover loss, whether it is caused by humans (such as logging) or natural causes (such as a landslide). The alerts do not differentiate between natural tree cover and planted tree cover. The alerts are also designed to be conservative given their intended end use of field patrols (false positive rate for confirmed alerts is 1%, while the false negative rate is 33%). Lastly, while the alerts are updated on a weekly basis, persistent cloud cover could mean that alerts are not detected for weeks or even months after the occurrence.",
-                                "text3": "VIIRS fire alerts cannot detect fires that are too small or too cool (generally smaller than 100 square meters or cooler than 700 Kelvin).",
-                                "text4": "For more information, please visit data.globalforestwatch.org."
+                                "text1": "Setiap lapisan data telah melalui pengujian ilmiah yang ketat dan memiliki set limitasi unik.",
+                                "text2": "Pengguna patut mengingat bahwa peringatan deforestasi GLAD mendeteksi semua jenis kehilangan tutupan pohon, baik yang disebabkan oleh manusia (cth: pembalakan) atau alam (cth: tanah longsor). Peringatan tidak membedakan antara tutupan pohon alami dan tutupan pohon tanam. Peringatan juga dirancang agar konservatif dengan pertimbangan patroli lapangan sebagai kegunaan akhirnya (tingkat positif palsu 1%, dengan tingkat negatif palsu 33%). Terakhir, meski peringatan diperbarui setiap minggu, tutupan awan persisten dapat berarti bahwa peringatan tidak terdeteksi selama beberapa minggu atau bahkan bulan setelah kejadian.",
+                                "text3": "Peringatan kebakaran VIIRS tidak dapat mendeteksi kebakaran yang terlalu kecil atau terlalu dingin (umumnya di bawah 100 meter persegi atau lebih dingin dari 700 Kelvin).",
+                                "text4": "Untuk informasi lebih lanjut, silakan kunjungi data.globalforestwatch.org."
                             }
                         },
-                        "title": "How accurate are deforestation and fires alerts?"
+                        "title": "Seberapa akuratkah peringatan deforestasi dan kebakaran?"
                     },
                     {
                         "content": {
                             "description": {
-                                "text1": "The satellite imagery basemap provided by Global Forest Watch (GFW) is updated less often than the alert data. As such, you may notice alerts for areas that still appear undisturbed on the satellite imagery basemap. To see more recent satellite imagery, we recommend you use the Recent Satellite Imagery tool available on GFW. Visiting alerts in the field is the most accurate way to verify change, but it’s also usually the most costly. Therefore, we recommend you use the Recent Satellite Imagery tool when possible before planning your field visit to identify what the likely drivers of the disturbance are.",
-                                "text2": "Alternatively, you can also upload your own satellite imagery and basemaps by navigating to the Basemaps or Contextual Layers section on the Settings page of the mobile app and clicking the + button on the top right of the page."
+                                "text1": "Pembaruan peta dasar citra satelit yang disediakan oleh Global Forest Watch (GFW) dilakukan lebih jarang daripada pembaruan data peringatan. Oleh karena itu, Anda mungkin akan melihat adanya peringatan untuk area-area yang masih tampak tidak terganggu pada peta dasar citra satelit. Untuk melihat citra satelit terkini, Anda kami sarankan menggunakan alat Recent Satellite Imagery yang tersedia di GFW. Mengunjungi peringatan di lapangan adalah cara terakurat untuk memverifikasi perubahan, namun cara ini biasanya juga yang paling berisiko. Oleh karena itu, Anda kami sarankan untuk menggunakan alat Recent Satellite Imagery jika memungkinkan sebelum merencanakan kunjungan lapangan untuk mengidentifikasi apa yang mungkin menjadi pemicu terjadinya gangguan tersebut.",
+                                "text2": "Atau, Anda juga dapat mengunggah citra satelit dan peta dasar sendiri dengan pergi ke bagian Peta Dasar atau Lapisan Kontekstual di halaman Pengaturan pada aplikasi seluler lalu mengklik tombol + di kanan atas laman."
                             }
                         },
-                        "title": "Why do I see a deforestation alert but no change in the satellite imagery basemap?"
+                        "title": "Kenapa saya melihat peringatan deforestasi namun tidak ada perubahan dalam peta dasar citra satelit?"
                     },
                     {
                         "content": {
                             "description": {
-                                "text1": "Yes, you can now upload your own contextual layers and basemaps directly into the mobile app, even while offline. You can add custom contextual layers and basemaps by navigating to either the Basemaps section or the Contextual Layers section of the Settings page and clicking the + button on the top right of the page.",
-                                "text2": "Supported file types for contextual layers include: .json, .geojson, .topojson, .gpx, .zip shapefiles, .kmz and .kml. ",
-                                "text3": "Supported file types for basemaps include: .mbtiles."
+                                "text1": "Ya, Anda dapat langsung mengunduh lapisan kontekstual dan peta dasar Anda sendiri ke aplikasi seluler, bahkan ketika berada di luring. Anda dapat menambahkan lapisan kontekstual dan peta dasar dengan menavigasi salah satu antara bagian Peta Dasar atau bagian Lapisan Kontekstual pada laman Pengaturan dan mengeklik tombol + pada kanan atas laman. ",
+                                "text2": "Jenis berkas yang didukung untuk lapisan kontekstual antara lain: .json, .geojson, .topojson, .gpx, .zip shapefiles, .kmz, dan .kml.",
+                                "text3": "Mendukung jenis-jenis berkas untuk peta dasar antara lain: .mbtiles."
                             }
                         },
-                        "title": "Can I upload my own contextual layers and basemaps in Forest Watcher?"
+                        "title": "Bisakah saya mengunggah lapisan kontekstual dan peta dasar sendiri di Forest Watcher?"
                     },
                     {
                         "content": {
                             "description": {
-                                "text1": "Currently, only certain types of data are synced to your Forest Watcher account, which is also connected to the Forest Watcher Web Application. This data includes areas and reports you have uploaded. This means that when you log out and log back in to the app, this data will remain visible. ",
-                                "text2": "For other types of data, these are stored independently of your Forest Watcher account and will NOT be visible when you log out and log back in to the app. This data includes:"
+                                "text1": "Saat ini, hanya jenis data tertentu yang disinkronkan dengan akun Forest Watcher Anda, yang juga terhubung ke Aplikasi Forest Watcher Web. Data ini termasuk area dan laporan yang sudah Anda unggah. Ini berarti bahwa saat Anda keluar dan masuk kembali ke aplikasi, data ini akan tetap terlihat.",
+                                "text2": "Untuk jenis data lainnya, ini disimpan secara terpisah dari akun Forest Watcher dan TIDAK akan terlihat saat Anda keluar dan masuk kembali dalam aplikasi. Data ini termasuk:"
                             },
-                            "footerText": "Logging out will permanently remove these items (with the exception of custom basemaps and custom contextual layers). It’s therefore recommended that you bundle any data that you wish to retain before logging out. For your convenience in doing this, we recommend using the ‘share all app data’ option and storing the resulting bundle. This can then be re-imported when required by opening the bundle with the Forest Watcher app when logged in.",
+                            "footerText": "Keluar akan secara permanen menghapus item-item ini (kecuali peta dasar kustom dan lapisan kontekstual kustom). Karenanya disarankan Anda membundel semua data yang ingin dipertahankan sebelum keluar. Demi kenyamanan Anda melakukan ini, kami sarankan menggunakan opsi 'bagikan semua data aplikasi' lalu simpan bundel hasilnya. Ini lalu dapat diimpor ulang saat perlu dengan membuka bundel dengan aplikasi Forest Watcher saat Anda masuk.",
                             "orderList": {
                                 "text1": "Sistem Peringatan",
-                                "text2": "Imported Areas",
-                                "text3": "Routes",
-                                "text4": "Non-uploaded Reports",
-                                "text5": "Downloaded Basemap Tiles",
-                                "text6": "Downloaded GFW Layer Tiles",
-                                "text7": "Custom Basemaps",
-                                "text8": "Custom Contextual Layers",
-                                "text9": "Imported GFW Contextual layers"
+                                "text2": "Area Terimpor",
+                                "text3": "Rute",
+                                "text4": "Laporan yang Tidak Diunggah",
+                                "text5": "Ubin Peta Dasar Unduhan",
+                                "text6": "Ubin Lapisan GFW Unduhan",
+                                "text7": "Peta Dasar Kustom",
+                                "text8": "Lapisan Kontekstual Kustom",
+                                "text9": "Lapisan Kontekstual GFW Impor"
                             }
                         },
-                        "title": "How does the Forest Watcher app store my data?"
+                        "title": "Bagaimana cara aplikasi Forest Watcher menyimpan data saya?"
                     }
                 ],
-                "title": "Alerts and Data in Forest Watcher"
+                "title": "Peringatan dan Data di Forest Watcher"
             },
             "features": {
                 "questions": [
                     {
                         "content": {
                             "description": {
-                                "text1": "Forest Watcher Mobile allows users to create areas of interest and monitor alerts within them. Areas of interest are designated upon initiation of the app or in the Areas page. You can view the latest deforestation and fires alerts in your area of interest and download them to take offline and into the field. Once downloaded, you can use the app to guide you to nearby alerts using the phone’s internal GPS and track your route as you go, then fill out a form and take photos to record observations about what you find.",
-                                "text2": "Forest Watcher Web enables greater customization through editable reporting templates and facilitates collaboration with options to create, review and assign reports to team members."
+                                "text1": "Forest Watcher Mobile mengizinkan pengguna membuat area menarik dan memantau peringatan di dalamnya. Area menarik ditetapkan saat menginisiasi aplikasi atau di laman Area. Anda dapat melihat peringatan deforestasi dan kebakaran terkini di area menarik Anda lalu mengunduhnya untuk saat offline dan berada di lapangan. Setelah diunduh, Anda dapat menggunakan aplikasi guna memandu Anda ke peringatan di sekitar menggunakan GPS bawaan ponsel dan melacak rute seiring perjalanan Anda, kemudian mengisi formulir dan mengambil foto untuk merekam observasi tentang hal yang Anda temukan.",
+                                "text2": "Forest Watcher Web mengizinkan kustomisasi lebih luas melalui template pelaporan yang dapat diedit dan memfasilitasi kolaborasi beserta opsi untuk membuat, meninjau dan menetapkan laporan kepada anggota tim."
                             }
                         },
-                        "title": "What can I do with Forest Watcher?"
+                        "title": "Apa yang bisa saya lakukan dengan Forest Watcher?"
                     },
                     {
                         "content": {
                             "description": {
-                                "text": "While Forest Watcher Mobile is designed primarily for offline use, certain key functions need to be performed with Internet connection. A typical workflow for Forest Watcher online/offline use is below"
+                                "text": "Meski Forest Watcher Mobile dirancang utamanya untuk pemakaian offline, sejumlah fungsi kunci perlu dilakukan dengan koneksi internet. Alur kerja tipikal untuk pemakaian online/offline Forest Watcher adalah sebagai berikut"
                             },
-                            "footerText": "When you are offline, we recommend you put the app in “offline mode” in settings to increase the app’s stability.",
+                            "footerText": "Saat offline, kami sarankan Anda mengalihkan aplikasi ke \"modus offline\" lewat pengaturan guna meningkatkan kestabilan aplikasi.",
                             "orderList": {
-                                "text1": "Online:\nDownload Forest Watcher Mobile and log in.\nCreate an area of interest.\nSet a time period for alerts and refresh alerts.",
-                                "text2": "Offline:\nSelect and navigate to alerts.\nCreate a report at your location or on an alert.\nTrack your route.\nDocument observations and take photos.\nShare app content with another device (alerts, areas, routes, reports, contextual layers, basemap tiles or all app content)."
+                                "text1": "Online:\nUnduh Forest Watcher Mobile lalu masuk.\nBuat area menarik.\nPasang periode waktu untuk peringatan lalu segarkan.",
+                                "text2": "Offline:\nPilih dan bernavigasi ke peringatan.\nBuat laporan di lokasi Anda atau di peringatan.\nLacak rute Anda.\nDokumentasikan observasi dan ambil foto.\nBagikan konten aplikasi dengan perangkat lainnya (peringatan, area, rute, laporan, lapisan kontekstual, ubin peta dasar atau semua konten aplikasi)."
                             }
                         },
-                        "title": "What can I do online vs offline?"
+                        "title": "Apa yang dapat saya lakukan daring vs luring?"
                     },
                     {
                         "content": {
                             "description": {
-                                "text": "Forest Watcher Web is the supplementary online web interface for the mobile app, which can be used to manage areas of interest, customize report templates, configure a team of users and review and download reports submitted through the mobile app. Forest Watcher Web can be used by administrators and team managers to set up the app for their team. Users should log in to Forest Watcher Web with the same login used to access the mobile app. For more information, please visit forestwatcher.globalforestwatch.org."
+                                "text": "Forest Watcher Web adalah antarmuka web online pendukung bagi aplikasi seluler, yang dapat digunakan untuk mengelola area menarik, mengustomisasi template laporan, mengonfigurasi tim pengguna dan meninjau serta mengunduh laporan yang dikirim melalui aplikasi seluler. Forest Watcher Web dapat digunakan oleh administrator dan manajer tim untuk menata aplikasi bagi timnya. Pengguna harus masuk ke Forest Watcher Web dengan info masuk yang sama dengan aplikasi seluler. Untuk informasi lebih lanjut, kunjungi forestwatcher.globalforestwatch.org."
                             }
                         },
-                        "title": "What is Forest Watcher Web?"
+                        "title": "Apa itu Forest Watcher Web?"
                     },
                     {
                         "content": {
                             "description": {
-                                "text1": "You can upload custom layers either Forest Watcher Web or Forest Watcher Mobile. Forest Watcher Mobile supports the following file types for upload: .json, .geojson, .topojson, .gpx, .zip, .kmz, .kml, and .mbtiles.",
-                                "text2": "Forest Watcher web supports tile URLs.",
-                                "text3": "Custom file types supported in Forest Watcher Mobile are listed below."
+                                "text1": "Anda dapat mengunggah lapisan kustom baik di Forest Watcher Web atau Forest Watcher Mobile. Forest Watcher Mobile mendukung jenis berkas berikut untuk unggahan: .json, .geojson, .topojson, .gpx, .zip, .kmz, .kml, dan .mbtiles.",
+                                "text2": "Forest Watcher web mendukung URL ubin.",
+                                "text3": "Berikut jenis-jenis berkas kustom yang didukung di Forest Watcher Mobile."
                             },
-                            "footerText": "The recommended maximum file size is 1 MB, anything larger may not work properly. Complex shapes can also have issues and custom styling and images may be removed. Please contact us at forestwatcher@wri.org if you have any questions about the upload process.",
+                            "footerText": "Ukuran berkas maksimal yang disarankan adalah 1 MB, ukuran di atas itu mungkin menyebabkan aplikasi tidak berfungsi dengan benar. Bentuk-bentuk kompleks juga dapat bermasalah dan gaya serta gambar kustom dapat hilang. Harap hubungi kami di forestwatcher@wri.org jika Anda punya pertanyaan seputar proses unggah.",
                             "orderList": {
-                                "text1": "GeoJSON (with .geojson or .json file extensions)",
-                                "text2": "TopoJSON (with .topojson or .json file extensions)",
-                                "text3": "Google Earth Keyhole Markup Language (with .kml or .kmz file extensions)",
-                                "text4": "Shapefiles (with .zip extension). Shapefiles must include .shp and .prj files within the archive.",
-                                "text5": "GPS Exchange Format (with .gpx extension)",
-                                "text6": "Mapbox Tiles (with .mbtiles extension). These must be imported as basemaps."
+                                "text1": "GeoJSON (dengan ekstensi berkas .geojson atau .json)",
+                                "text2": "TopoJSON (dengan ekstensi berkas .topojson atau .json)",
+                                "text3": "Bahasa Markup Keyhole Google Earth (dengan ekstensi berkas .kml atau .kmz)",
+                                "text4": "Shapefile (dengan ekstensi .zip). Shapefile harus menyertakan berkas .shp dan .prj dalam arsip.",
+                                "text5": "Format Pertukaran GPS (dengan ekstensi .gpx)",
+                                "text6": "Ubin Mapbox (dengan ekstensi .mbtiles). Ini harus diimpor sebagai peta dasar."
                             }
                         },
-                        "title": "What file types and sizes does Forest Watcher accept?"
+                        "title": "Jenis dan ukuran berkas apa yang diterima Forest Watcher?"
                     },
                     {
                         "content": {
                             "description": {
-                                "text1": "Yes, Forest Watcher Mobile is designed to be used independently from Forest Watcher Web. On the mobile app, you can create areas of interest, download and navigate to alerts, track your route along the way and record your observations. You can also upload your own contextual layers and basemaps directly through the mobile app, and share app content with other devices while offline (routes, reports, areas, alerts, contextual data layers, basemap tiles or all app content).",
-                                "text2": "Forest Watcher Web simply provides opportunities for further customization of the mobile app, including report template customization, team management and data management."
+                                "text1": "Ya, Forest Watcher Mobile dirancang untuk digunakan secara terpisah dari Forest Watcher Web. Di aplikasi seluler, Anda dapat membuat area menarik, mengunduh dan bernavigasi ke peringatan, melacak rute sepanjang perjalanan serta merekam observasi. Anda juga dapat mengunggah lapisan kontekstual sendiri dan peta dasar langsung melalui aplikasi seluler, dan membagikan konten aplikasi dengan perangkat lainnya saat offline (rute, laporan, area, peringatan, lapisan data kontekstual, ubin peta dasar atau semua konten aplikasi).",
+                                "text2": "Forest Watcher Web memberikan peluang kustomisasi lebih jauh untuk aplikasi seluler, termasuk kustomisasi template laporan, manajemen tim dan manajemen data."
                             }
                         },
-                        "title": "Can I use Forest Watcher Mobile without using Forest Watcher Web?"
+                        "title": "Bisakah saya menggunakan Forest Watcher Mobile tanpa menggunakan Forest Watcher Web?"
                     }
                 ],
-                "title": "What Does Forest Watcher Do?"
+                "title": "Apa Saja yang Forest Watcher Lakukan?"
             },
             "help": {
                 "questions": [
@@ -445,40 +445,40 @@
                                     "text": "Aplikasi bertabrakan"
                                 },
                                 "order3": {
-                                    "description": "The location and navigation features rely on your device’s internal GPS. Check that the GPS (often called “location services”) is turned on in your device settings. The GPS signal can be weak indoors, so if you are inside or under a roof, try going outside. If it still doesn’t work, please email forestwatcher@wri.org telling us what device model you are using and which app version (found at the bottom of the Settings page). Cell phone GPS are usually not as accurate as standalone GPS devices, so you may also want to input the coordinates of the alert into a GPS device as backup if you have one available.",
+                                    "description": "Fitur lokasi dan navigasi bergantung pada GPS internal perangkat Anda. Periksa apakah GPS (sering disebut \"layanan lokasi\") sudah dinyalakan di pengaturan perangkat Anda. Sinyal GPS mungkin lemah di dalam ruang, jadi jika Anda berada di dalam ruang atau di bawah atap, cobalah keluar. Jika masih belum bekerja, silakan kirim surel ke forestwatcher@wri.org untuk memberi tahu kami model perangkat dan versi aplikasi (terdapat pada bagian bawah laman Pengaturan) yang Anda gunakan. GPS ponsel biasanya tidak seakurat GPS mandiri, sehingga Anda mungkin perlu memasukkan koordinat peringatan ke perangkat GPS sebagai cadangan jika punya.",
                                     "text": "Saya tidak bisa melihat kompas/lokasi saya"
                                 },
                                 "order4": {
-                                    "description": "If you begin a report and then exit the report, your work thus far and the GPS coordinates of the location where your report was initiated will automatically save. You can return to your draft report later on the Reports page. You can also take a photo using your device’s camera, then upload it to a report later.",
+                                    "description": "Jika Anda memulai laporan kemudian meninggalkannya, hasil kerja Anda sejauh ini dan koordinat GPS dari lokasi di mana laporan Anda diinisiasi akan tersimpan otomatis. Anda dapat kembali kemudian ke laporan draft di laman Laporan. Anda juga dapat mengambil foto menggunakan kamera perangkat, lalu mengunggahnya untuk laporan nanti.",
                                     "text": "Saya ingin melengkapi laporan nanti"
                                 },
                                 "order5": {
-                                    "description": "When you first set up Forest Watcher, it can take anywhere from 5 to 30 minutes for the app to completely download relevant data depending on the speed of your Internet connection. If you have weak or slow Internet connection, the download will take longer. Keep the app open to allow the download to complete. After the initial set up, new alert data will download every time you connect to the Internet and the download time will vary depending on how many alerts have occurred. If you want to see if new alerts are available, pull the home screen downward to refresh.",
-                                    "text": "Alerts are not loading"
+                                    "description": "Saat Anda pertama kali menata Forest Watcher, dapat butuh antara 5 hingga 30 menit sampai aplikasi sepenuhnya mengunduh data yang relevan tergantung dari kecepatan internet. Jika koneksi Anda lemah atau lambat, unduhan akan lebih lama. Tetaplah membuka aplikasi guna mengizinkan unduhan selesai. Setelah penataan pertama, data peringatan baru akan diunduh setiap kali Anda terhubung ke internet dan waktu unduh berbeda tergantung dari berapa banyak peringatan yang terjadi. Jika Anda ingin melihat adakah peringatan baru yang tersedia, tarik layar beranda ke bawah untuk menyegarkan.",
+                                    "text": "Peringatan tidak dimuat"
                                 },
                                 "order6": {
-                                    "description": "If you have low bandwidth, rather than redownload app content across multiple devices, you could share app content with another device while offline (alerts, areas, routes, reports, contextual layers, basemap tiles or all app content). This process will help reduce bandwidth demands.",
-                                    "text": "My team and/or I have low bandwidth"
+                                    "description": "Jika bandwidth Anda rendah, alih-alih mengunduh ulang konten aplikasi di beberapa perangkat, Anda dapat membagikan konten aplikasi dengan perangkat lainnya saat offline (peringatan, area, rute, laporan, lapisan kontekstual, ubin peta dasar atau semua konten aplikasi). Proses ini akan membantu mengurangi konsumsi bandwidth.",
+                                    "text": "Lebar pita tim saya dan/atau saya rendah"
                                 },
                                 "order7": {
-                                    "description": "Forest Watcher Mobile contains a lot of data and can take up significant memory on your device, depending on how many areas of interest you have, their size and the number of alerts. The fewer and smaller areas of interest you set up, the less data will need to be downloaded onto your device. We recommend having at least 1 GB of internal storage on your device so that you can use other apps in addition to Forest Watcher, though 4 GB or more is preferred.",
+                                    "description": "Forest Watcher Mobile mengandung banyak data dan dapat mengonsumsi banyak memori dalam perangkat Anda, tergantung berapa banyak area menarik yang Anda miliki, ukurannya serta jumlah peringatan. Semakin sedikit dan kecil area menarik yang Anda tentukan, semakin kecil data yang perlu diunduh ke perangkat. Kami sarankan memiliki penyimpanan internal sedikitnya 1 GB agar Anda bisa menggunakan aplikasi lainnya selain Forest Watcher, dan akan lebih baik jika ada ruang 4 GB atau lebih.",
                                     "text": "Saya kehabisan memori di perangkat saya"
                                 },
                                 "order8": {
-                                    "description": "You can use Forest Watcher Web to create a custom report template for your team to use when collecting data. You can also add notes in the final section of the form.",
-                                    "text": "I want to customize the reports that I or my team fill out when investigating an area"
+                                    "description": "Anda dapat menggunakan Forest Watcher Web untuk membuat template laporan kustom untuk digunakan tim Anda saat mengumpulkan data. Anda juga dapat menambahkan catatan di bagian final pada formulir.",
+                                    "text": "Saya ingin mengkustomisasi laporan yang saya atau tim saya isi ketika menyelidiki suatu area"
                                 }
                             }
                         },
-                        "title": "Troubleshooting: What should I do if…?"
+                        "title": "Pemecahan Masalah: Apa yang harus saya lakukan jika...?"
                     },
                     {
                         "content": {
                             "description": {
-                                "text": "We are also always looking to improve the app to meet user needs. Please contact us at forestwatcher@wri.org if there are other features that would be helpful."
+                                "text": "Kami selalu berupaya meningkatkan aplikasi ini agar dapat memenuhi kebutuhan pengguna. Silakan hubungi kami di forestwatcher@wri.org jika ada fitur-fitur lain yang mungkin dapat membantu."
                             }
                         },
-                        "title": "I have a great idea to improve the app. What should I do?"
+                        "title": "Saya punya ide bagus untuk memutakhirkan aplikasi. Apa yang sebaiknya saya lakukan?"
                     },
                     {
                         "content": {
@@ -489,263 +489,263 @@
                         "title": "Bagaimana saya mendapatkan bantuan?"
                     }
                 ],
-                "title": "Support & Contact"
+                "title": "Dukungan & Kontak"
             },
             "inTheField": {
                 "questions": [
                     {
                         "content": {
                             "description": {
-                                "text1": "When navigating to an alert or an area, you can add a report by clicking the report button on the bottom right of the map. You will be able to take or choose pictures to add to the report, then fill out a form to record observations about what you find.",
-                                "text2": "If you begin a report and then exit the report, your work thus far and the GPS coordinates of the location where your report was initiated will automatically save. You can return to your draft report later on the Reports page. You can also take a photo using your device’s camera, then upload it to a report later."
+                                "text1": "Saat bernavigasi ke suatu peringatan atau area, Anda dapat menambahkan laporan dengan mengklik tombol laporan di kanan bawah peta. Anda dapat mengambil atau memilih gambar untuk ditambahkan ke dalam laporan, lalu mengisi formulir guna merekam observasi seputar hal yang Anda temukan.",
+                                "text2": "Jika Anda memulai laporan kemudian meninggalkannya, hasil kerja Anda sejauh ini dan koordinat GPS dari lokasi di mana laporan Anda diinisiasi akan tersimpan otomatis. Anda dapat kembali kemudian ke laporan draft di laman Laporan. Anda juga dapat mengambil foto menggunakan kamera perangkat, lalu mengunggahnya untuk laporan nanti."
                             }
                         },
-                        "title": "How do I add a report?"
+                        "title": "Bagaimana cara menambahkan laporan?"
                     },
                     {
                         "content": {
                             "description": {
-                                "text1": "To report on a group of alerts, you can click on the GLAD and/or VIIRS alerts that you’re investigating and click the report button on the bottom right of the map. You can report on multiple alerts by selecting each alert individually, before clicking the report button. When clicked on, the GLAD alerts will become green and the VIIRS alerts will become purple. The change in color indicates that the alerts have been reported on."
+                                "text1": "Untuk melaporkan kelompok peringatan, Anda dapat mengeklik peringatan GLAD dan/atau VIIRS yang Anda selidiki dan mengeklik tombol laporan yang terdapat di kanan bawah peta. Anda dapat melaporkan banyak peringatan dengan memilih sendiri setiap peringatan sebelum mengeklik tombol lapor kemudian. Ketika diklik, laporan GLAD akan menjadi hijau dan laporan VIIRS akan menjadi ungu. Perubahan warna itu menunjukkan bahwa peringatan telah dilaporkan. "
                             }
                         },
-                        "title": "How do I report on a group of alerts?"
+                        "title": "Bagaimana cara melaporkan sekelompok peringatan?"
                     },
                     {
                         "content": {
                             "description": {
-                                "text1": "To record a route, you can click on the start button on the bottom left of the map. Once you are done recording the route, you can click the stop button and choose whether to save the route or delete the route. If you save the route, you will then be able to access it on the Routes page of the mobile app."
+                                "text1": "Untuk mencatat rute, Anda dapat mengeklik tombol start pada kiri bawah peta. Setelah selesai merekam rute, Anda dapat mengeklik tombol stop dan memilih apakah ingin menyimpan rute atau menghapusnya. Jika rute disimpan, Anda akan dapat mengaksesnya pada laman Rute di aplikasi seluler. "
                             }
                         },
-                        "title": "How do I record a route?"
+                        "title": "Bagaimana cara merekam rute?"
                     },
                     {
                         "content": {
                             "description": {
-                                "text1": "When recording a route, points will be captured every 50 meters."
+                                "text1": "Saat merekam rute, titik akan diabadikan setiap 50 meter."
                             }
                         },
-                        "title": "How often does my route create points?"
+                        "title": "Seberapa sering rute saya membuat titik?"
                     },
                     {
                         "content": {
                             "description": {
-                                "text1": "You can share reports by navigating to the Reports section of the mobile app and clicking “Share Reports”. From here, you can select the reports that you would like to share and choose where to export the bundle on your device. You can then share the reports bundle through your chosen sharing option eg. email, bluetooth or WhatsApp.",
-                                "text2": "Similarly, you can share routes by navigating to the Routes section of the mobile app and clicking “Share Routes”. From here, you can select the routes that you would like to share and choose where to export the bundle on your device. You can then share the routes bundle through your chosen sharing option eg. email, bluetooth or WhatsApp.",
-                                "text3": "After receiving a reports or routes bundle through your preferred share option, you can import it on Forest Watcher. You can access the reports in the Reports section or the routes in the Routes section once import is complete."
+                                "text1": "Anda dapat membagikan laporan dengan bernavigasi ke bagian Laporan pada aplikasi seluler lalu mengklik \"Bagikan Laporan\". Dari sini, Anda dapat memilih laporan yang ingin dibagikan lalu pilih tujuan ekspor bundel dalam perangkat. Kemudian Anda dapat membagikan bundel melalui opsi berbagi pilihan seperti email, bluetooth atau WhatsApp.",
+                                "text2": "Sama halnya, Anda dapat membagikan rute dengan bernavigasi ke bagian Rute di aplikasi seluler lalu mengklik \"Bagikan Rute\". Dari sini, Anda dapat memilih rute yang ingin dibagikan lalu pilih tujuan ekspor bundel dalam perangkat. Kemudian Anda dapat membagikan bundel melalui opsi berbagi pilihan seperti email, bluetooth atau WhatsApp.",
+                                "text3": "Setelah menerima laporan atau bundel rute melalui opsi berbagi pilihan Anda, Anda dapat mengimpornya pada Forest Watcher. Laporan atau rute tersebut dapat diakses di bagian Laporan atau Rute setelah pengimporan selesai."
                             }
                         },
-                        "title": "How can I share and receive reports and routes?"
+                        "title": "Bagaimana cara membagikan dan menerima laporan dan rute?"
                     },
                     {
                         "content": {
                             "description": {
-                                "text1": "To retrieve your reports and photos, log in to forestwatcher.globalforestwatch.org, navigate to the “Reports” tab and click “Download answers” to access your CSV file. Photos are available to download via URLs in the spreadsheet. ",
-                                "text2": "Reports can also be accessed through the export function on the reports page of the mobile app. Using this function, you can download your reports directly to your device and share them with another device while offline.",
-                                "text3": "If you would like to view your data on a map, navigate to mymaps.google.com and log in to your Google account (or create one for free). Then click “Create a new map.” On the left-side panel the, click “Import” and upload your CSV from Forest Watcher Web. Select “Position of report lat” and when prompted, select “Latitude.” Select “Position of report lon” and when prompted, select “Longitude.” Select “Continue” and choose a column that you want to identify your location by. Please note that the data associated with that report will be the title attached to the blue pin(s) on the map.",
-                                "text4": "Once these steps are complete, your map will be ready and automatically save. You can click on the blue pins to see the details of your report, including photos. To change the name, click on “Untitled map” in the top left corner."
+                                "text1": "Untuk mengambil laporan dan foto Anda, masuklah ke forestwatcher.globalforestwatch.org, pilih tab \"Laporan\" lalu klik \"Unduh jawaban\" untuk mengakses berkas CSV Anda. Foto tersedia untuk diunduh lewat URL dalam spreadsheet.",
+                                "text2": "Laporan juga dapat diakses melalui fungsi ekspor di laman laporan pada aplikasi seluler. Dengan fungsi ini, Anda dapat mengunduh laporan langsung ke perangkat dan membagikannya ke perangkat lain selagi offline.",
+                                "text3": "Jika ingin melihat data Anda pada peta, silakan melakukan navigasi ke mymaps.google.com dan masuk ke akun Google Anda (atau membuat akun baru secara gratis). Kemudian klik “Buat peta baru.” Pada panel yang terdapat di sisi kiri, klik \"impor\" lalu unggah CSV Anda dari Forest Watcher Web. Pilih “Posisi garis lintang laporan” dan saat diminta, pilih “Garis Lintang”. Pilih “Posisi garis bujur laporan” dan saat diminta, pilih “Garis Bujur”. Pilih “Lanjutkan” lalu pilih kolom yang ingin Anda identifikasikan. Harap diperhatikan bahwa data yang berhubungan dengan laporan tersebut akan menjadi judul yang dilampirkan pada pin biru di peta.",
+                                "text4": "Setelah langkah ini selesai, peta akan siap dan tersimpan secara otomatis. Anda dapat mengeklik pada pin biru untuk melihat detail laporan termasuk foto-fotonya. Untuk mengganti nama, klik pada \"Peta tanpa judul\" yang terdapat di pojok kiri atas."
                             }
                         },
-                        "title": "Can I retrieve my reports and see my data on a map?"
+                        "title": "Bisakah saya mengambil laporan dan melihat data saya di peta?"
                     },
                     {
                         "content": {
                             "description": {
-                                "text1": "Reports are owned by the user and are not shared publicly. For more details, visit globalforestwatch.org/terms."
+                                "text1": "Laporan dimiliki oleh pengguna dan tidak akan dibagikan secara umum. Untuk detail selengkapnya, kunjungi globalforestwatch.org/terms."
                             }
                         },
-                        "title": "Are my reports shared or kept confidential?"
+                        "title": "Apakah laporan saya disebarkan atau dijaga kerahasiaannya?"
                     }
                 ],
-                "title": "Using Forest Watcher in the Field"
+                "title": "Menggunakan Forest Watcher di Lapangan"
             },
-            "questionCountPlural": "%{count} Questions",
-            "questionCountSingular": "1 Question",
-            "sectionHeader": "Categories",
-            "title": "FAQs"
+            "questionCountPlural": "%{count} Pertanyaan",
+            "questionCountSingular": "1 Pertanyaan",
+            "sectionHeader": "Kategori",
+            "title": "Pertanyaan Populer"
         }
     },
     "importBundle": {
         "confirm": {
-            "buttonTitle": "Import Data Bundle",
-            "title": "Confirm Import"
+            "buttonTitle": "Impor Bundel Data",
+            "title": "Konfirmasikan Impor"
         },
-        "containingPrefix": "Containing:",
+        "containingPrefix": "Mengandung:",
         "customBasemaps": {
-            "title": "Select Basemap Data"
+            "title": "Pilih Data Peta Dasar"
         },
         "customItems": {
-            "title": "Select Items To Import"
+            "title": "Pilih Item Untuk Diimpor"
         },
         "customLayers": {
-            "fileImportOptionAll": "Import All",
-            "fileImportOptionDescription": "Select the data you would like to import",
-            "fileImportOptionSelected": "Import For Selected Items Only",
-            "fileImportOptionTitle": "Import Option",
-            "title": "Select Contextual Layer Data"
+            "fileImportOptionAll": "Impor Semua",
+            "fileImportOptionDescription": "Pilih data yang ingin Anda impor",
+            "fileImportOptionSelected": "Impor Untuk Item Terpilih Saja",
+            "fileImportOptionTitle": "Opsi Impor",
+            "title": "Pilih Data Lapisan Kontekstual"
         },
-        "emptyImportError": "There is no data selected for import. Please go back and select items to be imported.",
-        "importingPrefix": "Importing:",
-        "incompatibleBundle": "Sorry, this sharing bundle was created with a different version of Forest Watcher, and cannot be imported.",
-        "progress": "Step %{current} of %{total}",
+        "emptyImportError": "Tidak ada data dipilih untuk impor. Kembalilah dan pilih item untuk diimpor.",
+        "importingPrefix": "Mengimpor:",
+        "incompatibleBundle": "Maaf, bundel sebaran ini dibuat dengan versi Forest Watcher yang berbeda, dan karenanya tidak dapat diimpor.",
+        "progress": "Langkah %{current} dari %{total}",
         "start": {
-            "customImport": "Custom Import",
-            "customImportDescription": "Select specific items to import",
-            "importAll": "Import All Data",
-            "title": "Import App Bundle"
+            "customImport": "Impor Kustom",
+            "customImportDescription": "Pilih item tertentu untuk diimpor",
+            "importAll": "Impor Semua Data",
+            "title": "Impor Bundel Aplikasi"
         },
-        "success": "Data Bundle imported",
-        "successContentsSuffix": "now available"
+        "success": "Bundel Data diimpor",
+        "successContentsSuffix": "kini tersedia"
     },
     "importLayer": {
         "gfw": {
-            "add": "Add Layer",
-            "allLayers": "All GFW Layers (%{count})",
-            "description": "View Description",
-            "downloadSubtitle": "Layer data will be downloaded for offline use",
-            "downloadTitle": "Download",
-            "downloaded": "Downloaded",
-            "downloading": "Downloading Layer...",
-            "error": "The layer could not be downloaded, check your device storage capacity and internet connection and try again.",
-            "notYetDownloaded": "Not downloaded",
-            "onlineSubtitle": "Layer data will only be available when online",
-            "onlineTitle": "Online Access Only",
-            "title": "Add GFW Layers"
+            "add": "Tambah Lapisan",
+            "allLayers": "Semua Lapisan GFW (%{count})",
+            "description": "Lihat Deskripsi",
+            "downloadSubtitle": "Data lapisan akan diunduh untuk pemakaian offline",
+            "downloadTitle": "Unduh",
+            "downloaded": "Terunduh",
+            "downloading": "Mengunduh Lapisan...",
+            "error": "Lapisan tidak dapat diunduh, periksa kapasitas penyimpanan perangkat dan koneksi internet lalu coba kembali.",
+            "notYetDownloaded": "Tidak diunduh",
+            "onlineSubtitle": "Data lapisan hanya akan tersedia saat online",
+            "onlineTitle": "Akses Daring Saja",
+            "title": "Tambah Lapisan GFW"
         }
     },
     "layers": {
-        "biodiversityIntactness": "Biodiversity intactness - 2016",
-        "biodiversitySignificance": "Biodiversity significance - 2016",
-        "indonesiaForestArea": "Indonesia forest area",
-        "landmarks": "Indigenous and Community Lands",
-        "logging": "Managed Forest Concessions",
+        "biodiversityIntactness": "Keutuhan keanekaragaman hayati - 2016",
+        "biodiversitySignificance": "Signifikansi biodiversitas - 2016",
+        "indonesiaForestArea": "Area hutan Indonesia",
+        "landmarks": "Lahan Adat dan Masyarakat",
+        "logging": "Konsesi Hutan yang Dikelola",
         "managedForests": "Hutan Terkelola",
         "mining": "Pertambangan\n",
-        "miningConcessions": "Mining concessions",
+        "miningConcessions": "Konsesi pertambangan",
         "oilPalm": "Kelapa sawit",
-        "oilPalmConcessions": "Oil palm concessions",
+        "oilPalmConcessions": "Konsesi minyak sawit",
         "protectedAreas": "Wilayah Terlindung",
-        "rspo": "RSPO oil palm concessions - 2017",
+        "rspo": "Konsesi minyak kelapa sawit RSPO - 2017",
         "treeCoverLoss2014": "Kehilangan Tutupan Pohon (2014)",
         "treeCoverLoss2015": "Kehilangan Tutupan Pohon (2015)",
         "treeCoverLoss2016": "Kehilangan Tutupan Pohon (2016)",
         "treeCoverLoss2017": "Kehilangan Tutupan Pohon (2017)",
         "treeCoverLoss2018": "Kehilangan Tutupan Pohon (2018)",
-        "wdpa": "Protected Areas (Vector Tiles)",
+        "wdpa": "Area Dilindungi (Ubin Vektor)",
         "woodFiber": "Serat kayu",
-        "woodFiberConcessions": "Wood fiber concessions by type - 2019"
+        "woodFiberConcessions": "Konsesi serat kayu berdasarkan jenis - 2019"
     },
     "login": {
         "emailLogin": {
-            "emailAddress": "Email Address",
-            "enterYourEmail": "Enter Your Email",
-            "enterYourPassword": "Enter Your Password",
-            "forgotYourPassword": "Forgot Your Password?",
+            "emailAddress": "Alamat Email",
+            "enterYourEmail": "Masukkan Email Anda",
+            "enterYourPassword": "Masukkan Sandi Anda",
+            "forgotYourPassword": "Lupa Sandi?",
             "login": "Masuk",
-            "loginError": "Error during login",
-            "loginWithEmail": "Login With Email",
-            "password": "Password"
+            "loginError": "Eror saat masuk",
+            "loginWithEmail": "Masuk Dengan Email",
+            "password": "Sandi"
         },
-        "emailTitle": "Login with Email",
+        "emailTitle": "Masuk dengan Email",
         "facebookTitle": "Facebook",
         "failed": "Terjadi eror selama masuk/keluar",
         "googleTitle": "Google",
         "introductionText": "Masuk menggunakan akun MyGFW",
-        "mustBeOnline": "You must be online to login",
-        "signUp": "Sign Up",
+        "mustBeOnline": "Anda harus online untuk masuk",
+        "signUp": "Daftar",
         "twitterTitle": "Twitter"
     },
     "map": {
-        "createdDate": "Created %{date}",
+        "createdDate": "Dibuat %{date}",
         "destination": "Destinasi:",
         "distance": "Jarak:",
-        "gladAlert": "GLAD alert",
-        "issuedDate": "Issued %{date}",
+        "gladAlert": "Peringatan GLAD",
+        "issuedDate": "Terbit %{date}",
         "layerSettings": {
             "alertSettings": {
                 "alert": "Peringatan",
-                "deforestation": "Deforestation",
-                "fires": "Fires",
+                "deforestation": "Deforestasi",
+                "fires": "Kebakaran",
                 "glad": "GLAD",
-                "manyDays": "%{count} days",
-                "manyMonths": "%{count} months",
-                "noAlerts": "No Alerts",
-                "oneDay": "%{count} day",
-                "oneMonth": "%{count} month",
+                "manyDays": "%{count} hari",
+                "manyMonths": "%{count} bulan",
+                "noAlerts": "Tidak Ada Peringatan",
+                "oneDay": "%{count} hari",
+                "oneMonth": "%{count} bulan",
                 "recent": "Terbaru",
-                "reportedOn": "Reported On",
-                "showingManyDays": "Showing %{type} from the past %{count} days",
-                "showingManyMonths": "Showing %{type} from the past %{count} months",
-                "showingOneDay": "Showing %{type} from the past day",
-                "showingOneMonth": "Showing %{type} from the past month",
+                "reportedOn": "Dilaporkan Pada",
+                "showingManyDays": "Menampilkan %{type} dari %{count} hari terakhir",
+                "showingManyMonths": "Menampilkan %{type} dari %{count} bulan terakhir",
+                "showingOneDay": "Menampilkan %{type} dari hari sebelumnya",
+                "showingOneMonth": "Menampilkan %{type} dari bulan lalu",
                 "timeFrame": "Jangka waktu",
-                "timeFrameDescDays": "Select the amount of days",
-                "timeFrameDescMonths": "Select the amount of months",
+                "timeFrameDescDays": "Pilih jumlah hari",
+                "timeFrameDescMonths": "Pilh jumlah bulan",
                 "viirs": "VIIRS"
             },
             "alerts": "Sistem Peringatan",
-            "basemap": "Basemap",
+            "basemap": "Peta dasar",
             "basemapSettings": {
-                "showingBasemap": "Basemap: %{basemap}"
+                "showingBasemap": "Peta Dasar: %{basemap}"
             },
-            "basemaps": "Basemaps",
-            "contextualLayers": "Contextual Layers",
+            "basemaps": "Peta Dasar",
+            "contextualLayers": "Lapisan Kontekstual",
             "contextualLayersSettings": {
-                "showingManyContextualLayers": "%{count} Contextual Layers",
-                "showingOneContextualLayer": "%{count} Contextual Layer"
+                "showingManyContextualLayers": "%{count} Lapisan Kontekstual",
+                "showingOneContextualLayer": "%{count} Lapisan Kontekstual"
             },
-            "customBasemaps": "Custom Basemaps",
-            "customLayers": "Custom Layers",
-            "gfwBasemaps": "GFW Basemaps",
-            "gfwLayers": "GFW Layers",
-            "importedReports": "Imported Reports",
-            "importedRoutes": "Imported Routes",
+            "customBasemaps": "Peta Dasar Kustom",
+            "customLayers": "Lapisan Kustom",
+            "gfwBasemaps": "Peta Dasar GFW",
+            "gfwLayers": "Lapisan GFW",
+            "importedReports": "Laporan Impor",
+            "importedRoutes": "Rute Impor",
             "layersHeading": "Lapisan",
-            "manageBasemaps": "Manage Basemaps",
-            "manageContextualLayers": "Manage Contextual Layers",
-            "manageReports": "Manage Reports",
-            "manageRoutes": "Manage Routes",
-            "myReports": "My Reports",
-            "myRoutes": "My Routes",
-            "onlyAvailableOnline": "Only Available Online",
+            "manageBasemaps": "Kelola Peta Dasar",
+            "manageContextualLayers": "Kelola Lapisan Kontekstual",
+            "manageReports": "Kelola Laporan",
+            "manageRoutes": "Kelola Rute",
+            "myReports": "Laporan Saya",
+            "myRoutes": "Rute Saya",
+            "onlyAvailableOnline": "Hanya Tersedia Online",
             "report": "Lapor",
             "reportSettings": {
-                "showingAllReports": "All Reports",
-                "showingImportedReports": "Imported Reports",
-                "showingMyReports": "My Reports",
-                "showingNoReports": "No Reports"
+                "showingAllReports": "Semua Laporan",
+                "showingImportedReports": "Laporan Impor",
+                "showingMyReports": "Laporan Saya",
+                "showingNoReports": "Tidak Ada Laporan"
             },
             "reports": "Laporan",
             "routeSettings": {
-                "showingAllRoutes": "All Routes",
-                "showingManyRoutes": "%{count} Routes",
-                "showingOneRoute": "%{count} Route"
+                "showingAllRoutes": "Semua Rute",
+                "showingManyRoutes": "%{count} Rute",
+                "showingOneRoute": "%{count} Rute"
             },
-            "routes": "Routes",
-            "showing": "Showing: %{description}"
+            "routes": "Rute",
+            "showing": "Menampilkan: %{description}"
         },
         "recent": "Terbaru",
         "reported": "Dilaporkan",
         "reportsAndRoutes": {
-            "body": "Routes and Reports can also be created by tapping any alerts on the map",
-            "title": "Reports and Routes"
+            "body": "Rute dan Laporan juga dapat dibuat dengan mengetuk peringatan apa pun pada peta",
+            "title": "Laporan dan Rute"
         },
         "reportsTooltip": {
-            "body": "Routes and Reports can be created by dropping a pin",
-            "title": "Reports and Routes"
+            "body": "Rute dan Laporan dapat dibuat dengan menjatuhkan pin",
+            "title": "Laporan dan Rute"
         },
         "selectedItems": {
-            "location": "Location: %{lat}, %{long}",
-            "manyAlerts": "%{count} Alerts",
-            "manyReports": "%{count} Reports",
-            "multipleItems": "Multiple Items",
-            "oneAlert": "1 Alert",
-            "oneReport": "1 Report"
+            "location": "Lokasi: %{lat}, %{long}",
+            "manyAlerts": "%{count} Peringatan",
+            "manyReports": "%{count} Laporan",
+            "multipleItems": "Multi Item",
+            "oneAlert": "1 Peringatan",
+            "oneReport": "1 Laporan"
         },
         "settingsTooltip": {
-            "body": "Show the layers and data relevant to you",
-            "title": "Customise Map Display"
+            "body": "Tampilkan lapisan dan data yang relevan bagi Anda",
+            "title": "Kustomisasikan Tampilan Peta"
         },
-        "viirsAlert": "VIIRS alert"
+        "viirsAlert": "Peringatan VIIRS"
     },
     "partners": {
         "description": "Forest Watcher dibuat dengan kolaborasi antara Program Global Forest Watch dari World Resources Institute, Vizzuality, dan Jane Goodall Institute.",
@@ -756,34 +756,34 @@
         "answers": "Jawaban",
         "choosePicture": "Silakan ambil atau pilih gambar",
         "completed": "Lengkap",
-        "custom": "Custom Report",
+        "custom": "Laporan Kustom",
         "datePlaceholder": "Pilih tanggal",
         "delete": "Hapus laporan ini",
         "drafts": "Draf",
         "empty": {
-            "action": "App FAQs",
-            "body": "Reports you create and imported reports will appear here",
-            "title": "No Reports"
+            "action": "Pertanyaan Populer Aplikasi",
+            "body": "Laporan yang Anda buat dan laporan impor akan tampil di sini",
+            "title": "Tidak Ada Laporan"
         },
         "emptyPicture": "Kosong",
         "export": {
             "description": "Bagaimana Anda ingin mengekspor laporan ini?",
-            "manyReports": "%{count} Reports",
+            "manyReports": "%{count} Laporan",
             "navBarButtonText": "Ekspor",
             "noneSelected": "Tak ada laporan yang dipilih",
-            "oneReport": "%{count} Report",
+            "oneReport": "%{count} Laporan",
             "option": {
                 "asCSV": "Ekspor sebagai CSV ...",
-                "asSharingBundle": "Export as sharing bundle..."
+                "asSharingBundle": "Ekspor sebagai bundel sebaran..."
             },
-            "reportSizeAction": "Export Reports (%{bundleSize})",
+            "reportSizeAction": "Ekspor Laporan (%{bundleSize})",
             "successful": "Ekspor laporan berhasil!",
             "title": "Ekspor laporan"
         },
-        "glad": "Deforestation Report",
-        "gladAndViirs": "Deforestation and Fires Report",
+        "glad": "Laporan Deforestasi",
+        "gladAndViirs": "Laporan Deforestasi dan Kebakaran",
         "here": "Laporkan di sini",
-        "imported": "Imported",
+        "imported": "Terimpor",
         "input": "Silakan jawab pertanyaannya",
         "inputRadio": "Pilih satu opsi untuk melanjutkan",
         "inputSelect": "Pilih setidaknya satu opsi untuk melanjutkan",
@@ -795,12 +795,12 @@
         "saveLaterDescription": "Ini akan muncul sebagai draf di bagian Laporan",
         "saveLaterTitle": "Simpan untuk nanti",
         "selected": "Laporan dipilih",
-        "share": "Share Reports",
+        "share": "Bagikan Laporan",
         "title": "Lapor",
         "toReport": "Lapor",
         "upload": "Unggah",
         "uploaded": "Terunggah",
-        "viirs": "Fire Report"
+        "viirs": "Laporan Kebakaran"
     },
     "routes": {
         "backgroundErrorDialogMessage": "Silakan periksa pengaturan lokasi dan izin aplikasi untuk melanjutkan pelacakan rute.",
@@ -817,15 +817,15 @@
         "distance": "Jarak",
         "duration": "Waktu Terpakai",
         "empty": {
-            "action": "App FAQs",
-            "body": "Routes you record and imported routes will appear here",
-            "title": "No Routes"
+            "action": "TJU Aplikasi",
+            "body": "Rute yang Anda rekam dan rute impor akan muncul di sini",
+            "title": "Tidak Ada Rute"
         },
         "export": {
-            "manyRoutes": "%{count} Routes",
-            "oneRoute": "%{count} Route"
+            "manyRoutes": "%{count} Rute",
+            "oneRoute": "%{count} Rute"
         },
-        "importedRoutes": "Imported Routes",
+        "importedRoutes": "Rute Terimpor",
         "insufficientPermissionsDialogMessage": "Kami membutuhkan izin lokasi di latar belakang agar dapat melacak rute Anda.",
         "insufficientPermissionsDialogOpenAppSettings": "Periksa izin",
         "insufficientPermissionsDialogOpenDeviceSettings": "Periksa pengaturan lokasi",
@@ -833,7 +833,7 @@
         "location": "Lokasi",
         "locationEnd": "Selesai:",
         "locationStart": "Mulai:",
-        "myRoutes": "My Routes",
+        "myRoutes": "Rute Saya",
         "notification": {
             "message": "Forest Watcher sedang merekam rute yang Anda ambil menuju destinasi Anda",
             "title": "Rute sedang dilacak"
@@ -852,32 +852,32 @@
     "settings": {
         "aboutApp": "Tentang aplikasi ini",
         "aboutContactUs": "Hubungi kami",
-        "aboutFAQ": "FAQs",
+        "aboutFAQ": "Pertanyaan Populer",
         "aboutPartners": "Mitra",
         "aboutTerms": "Syarat dan Ketentuan",
-        "basemaps": "Basemaps",
+        "basemaps": "Peta Dasar",
         "completeYourProfileOn": "Selesaikan profil Anda di",
-        "contextualLayers": "Contextual Layers",
+        "contextualLayers": "Lapisan Kontekstual",
         "coordinatesDecimal": "Desimal",
         "coordinatesDegrees": "Derajat",
-        "coordinatesDescription": "Select a format you would like to display",
+        "coordinatesDescription": "Pilih format yang ingin Anda tampilkan",
         "coordinatesFormat": "Format Koordinat",
         "coordinatesUtm": "UTM",
-        "logOut": "Log Out",
-        "moreInfo": "More Info",
+        "logOut": "Keluar",
+        "moreInfo": "Info Lainnya",
         "offlineMode": "Mode Luring",
-        "shareData": "Share All App Data",
+        "shareData": "Bagikan Semua Data Aplikasi",
         "title": "Pengaturan",
-        "unsafeLogout": "Some data may be lost",
-        "unsavedDataLost": "Some data is not synced to your account and may be lost if you log out.\nThis includes some types of areas and reports and all routes, basemaps and contextual layers.\nFor more info and steps to access this data again, please view our FAQ page on this subject.",
+        "unsafeLogout": "Sebagian data mungkin hilang",
+        "unsavedDataLost": "Sebagian data tidak tersinkron ke akun Anda dan mungkin akan hilang jika Anda keluar.\nData tersebut meliputi beberapa jenis area dan laporan serta semua rute, peta dasar, dan lapisan kontekstual.\nMengenai informasi dan langkah selanjutnya untuk mengakses data ini lagi, silakan lihat subjek ini di laman TJU kami.",
         "yourRoutes": "Rute Anda"
     },
     "setupCountry": {
         "firstInstruction": "Pertama, pilih negara yang diinginkan",
         "secondWelcomeText": "Silakan pilih area",
         "tooltip": {
-            "body": "Add an area that you would like to receive alerts for",
-            "title": "Get Started"
+            "body": "Tambahkan area yang ingin Anda terima peringatannya",
+            "title": "Memulai"
         },
         "welcomeText": "Halo"
     },
@@ -891,29 +891,29 @@
         "placeholder": "Masukkan nama"
     },
     "sharing": {
-        "inProgress": "Sharing %{type}...",
-        "multiple": "Share %{type} (%{bundleSize})",
-        "noneSelected": "No %{type} Selected",
-        "one": "Share %{type} (%{bundleSize})",
-        "title": "Share %{type}",
+        "inProgress": "Membagikan %{type}...",
+        "multiple": "Bagikan %{type} (%{bundleSize})",
+        "noneSelected": "Tidak Ada %{type} yang Dipilih",
+        "one": "Bagikan %{type} (%{bundleSize})",
+        "title": "Bagikan %{type}",
         "type": {
             "alert": "Peringatan",
             "alerts": "Sistem Peringatan",
             "area": "Area",
             "areas": "Area",
-            "basemaps": "Basemaps",
-            "contextualLayers": "Contextual Layers",
-            "customBasemap": "Custom Basemap",
-            "customBasemaps": "Custom Basemaps",
-            "customLayer": "Custom Contextual Layer",
-            "customLayers": "Custom Contextual Layers",
-            "gfwLayer": "Global Forest Watch Contextual Layer",
-            "gfwLayers": "Global Forest Watch Contextual Layers",
+            "basemaps": "Peta Dasar",
+            "contextualLayers": "Lapisan Kontekstual",
+            "customBasemap": "Peta ",
+            "customBasemaps": "Peta Dasar Kustom",
+            "customLayer": "Lapisan Kontekstual Kustom",
+            "customLayers": "Lapisan Kontekstual Kustom",
+            "gfwLayer": "Lapisan Kontekstual Global Forest Watch",
+            "gfwLayers": "Lapisan Kontekstual Global Forest Watch",
             "layers": "Lapisan",
             "report": "Lapor",
             "reports": "Laporan",
-            "route": "Route",
-            "routes": "Routes"
+            "route": "Rute",
+            "routes": "Rute"
         }
     },
     "sync": {
@@ -922,8 +922,8 @@
         "errorCreatingArea": "Ada kesalahan saat membuat wilayah Anda",
         "errorDesc": "Ada yang salah",
         "failed": {
-            "title": "There was an error syncing alerts",
-            "outOfSpaceMessage": "To have alerts available offline, you must clear some unused files from your phone"
+            "title": "Terjadi eror saat menyinkronkan peringatan",
+            "outOfSpaceMessage": "Agar peringatan tersedia offline, Anda harus mengosongkan sebagian berkas tak terpakai dari ponsel"
         },
         "gettingLatestAlerts": "Mengambil peringatan terbaru",
         "reportUploadRollback": "Laporan gagal diunggah",
@@ -946,44 +946,44 @@
     },
     "welcome": {
         "deforestationAlerts": {
-            "body": "See GLAD deforestation and VIIRS fire alerts for locations worldwide",
-            "title": "View Deforestation Alerts"
+            "body": "Lihat peringatan deforestasi GLAD dan kebakaran VIIRS untuk berbagai lokasi di seluruh dunia",
+            "title": "Tampilkan Peringatan Deforestasi"
         },
         "layers": {
-            "body": "Display custom layers or base maps for more effective monitoring",
-            "title": "Customise Map Layers"
+            "body": "Tampilkan lapisan kustom atau peta dasar untuk pemonitoran yang lebih efektif",
+            "title": "Kustomisasikan Lapisan Peta"
         },
         "reports": {
-            "body": "Report on what you find on the ground through text and voice recording",
-            "title": "Create Reports"
+            "body": "Laporkan apa yang Anda temukan di lapangan melalui rekaman teks dan suara",
+            "title": "Buat Laporan"
         },
         "routes": {
-            "body": "Easier navigation to alert areas to be investigated",
-            "title": "Record Routes"
+            "body": "Navigasi lebih mudah ke area peringatan untuk diinvestigasi",
+            "title": "Rute Pencatatan"
         },
         "share": {
-            "body": "Share areas, routes, layers and more for improved team coordination",
-            "title": "Share Content"
+            "body": "Bagikan area, rute, lapisan dan sebagainya untuk koordinasi tim lebih baik",
+            "title": "Bagikan Konten"
         },
         "title": "Selamat datang di Forest Watcher"
     },
     "whatsNew": {
         "areaSize": {
-            "body": "The maximum area size has increased to 20,000 square kilometers",
-            "title": "Monitor Larger Areas"
+            "body": "Ukuran area maksimal telah meningkat hingga 20.000 kilometer persegi",
+            "title": "Pantau Area Lebih Besar"
         },
         "basemaps": {
-            "body": "Add your own or view more from Global Forest Watch to better understand terrain",
-            "title": "Improved Basemaps"
+            "body": "Tambahkan dari Anda sendiri atau tampilkan lainnya dari Global Forest Watch guna memahami medan lebih baik",
+            "title": "Peta Dasar yang Disempurnakan"
         },
         "layers": {
-            "body": "Add layers from Global Forest Watch or your own for more effective monitoring",
-            "title": "Improved Contextual Layers"
+            "body": "Tambahkan lapisan dari Global Forest Watch atau lapisan Anda sendiri untuk pemantauan yang lebih efektif",
+            "title": "Lapisan Kontekstual yang Ditingkatkan"
         },
         "share": {
-            "body": "Share areas, routes, layers and more for improved team coordination",
-            "title": "Share Content"
+            "body": "Bagikan area, rute, lapisan dan sebagainya untuk koordinasi tim yang lebih baik",
+            "title": "Bagikan Konten"
         },
-        "title": "New in This Version"
+        "title": "Baru Di Versi Ini"
     }
 }

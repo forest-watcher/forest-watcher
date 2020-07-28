@@ -9,75 +9,75 @@
     },
     "areas": {
         "empty": {
-            "action": "App FAQs",
-            "body": "Tap the ‘+’ icon to set up an area where you want to access alerts. You can also import an area.",
-            "title": "No Areas Monitored"
+            "action": "Perguntas frequentes sobre a aplicação",
+            "body": "Toque no ícone \"+\" para configurar uma área para a qual pretenda aceder aos alertas. Pode também importar uma área.",
+            "title": "Nenhuma Área Monitorizada"
         },
         "export": {
-            "manyAreas": "%{count} Areas",
-            "oneArea": "%{count} Area"
+            "manyAreas": "%{count} Áreas",
+            "oneArea": "%{count} área"
         },
-        "importedAreas": "Imported Areas",
-        "myAreas": "My Areas",
+        "importedAreas": "Áreas Importadas",
+        "myAreas": "As minhas áreas",
         "title": "Áreas",
         "tooltip": {
-            "body": "View alerts and map layers without internet",
-            "title": "Make Areas Available Offline"
+            "body": "Ver alertas e camadas de mapas sem Internet",
+            "title": "Disponibilizar áreas offline"
         }
     },
     "basemaps": {
         "delete": {
-            "messageGFWContent": "Data for this Basemap will only be available online. Do you wish to continue?",
-            "messageCustomContent": "This Custom Basemap can be imported again if required. Do you wish to continue?",
-            "title": "Delete Basemap data?",
-            "titleCustom": "Delete Custom Basemap?"
+            "messageGFWContent": "Os dados para este Mapa de base só estarão disponíveis online. Pretende continuar?",
+            "messageCustomContent": "Se necessário, este Mapa de base personalizado pode voltar a ser importado. Pretende continuar?",
+            "title": "Eliminar dados de Mapa-base?",
+            "titleCustom": "Eliminar Mapa-Base Personalizado?"
         },
         "edit": "Editar",
         "empty": {
-            "action": "App FAQs",
-            "body": "Tap the '+' icon to set up a custom basemap",
-            "title": "No Custom Basemaps"
+            "action": "Perguntas Frequentes da Aplicação",
+            "body": "Toque no ícone \"+\" para configurar um mapa de base personalizado",
+            "title": "Nenhum Mapa de Base Personalizado"
         },
         "export": {
-            "many": "%{count} Basemaps",
-            "manyAction": "Share %{count} basemaps...",
+            "many": "%{count} Mapas-base",
+            "manyAction": "Partilhar %{count} mapas-base...",
             "navBarButtonText": "Exportar",
-            "noneSelected": "No basemaps selected",
-            "one": "%{count} Basemap",
-            "oneAction": "Share %{count} basemap...",
-            "successful": "Exporting basemaps succeeded!"
+            "noneSelected": "Nenhum mapa-base selecionado",
+            "one": "%{count} Mapa(s) de base",
+            "oneAction": "Partilhar %{count} mapas de base...",
+            "successful": "Exportação de mapas-base bem-sucedida!"
         },
-        "gfw": "Default Basemaps",
+        "gfw": "Mapas-Base Padrão",
         "import": {
-            "cannotContainVectorTiles": "* files may contain raster elements only",
-            "choose": "Choose basemap type",
-            "chooseAnother": "Choose Another",
-            "custom": "Custom Basemap",
-            "error": "Failed to import basemap, please make sure you are selecting the correct file type and the contents of the file matches the specification then try again.",
-            "faq": "Custom Basemap FAQs",
-            "fileContainsVectorTiles": "contains vector elements and is not supported.",
-            "fileSizeTooLarge": "File Too Large",
-            "fileSizeTooLargeDesc": "Please try with a file smaller than 10MB",
-            "fileTypeNotSupported": "File Type Not Supported",
-            "fileTypeNotSupportedDesc": "is not a supported file type for basemaps.",
-            "save": "Import Basemap",
-            "supportedFileTypesInclude": "Supported file types include:",
-            "title": "Basemap Name",
-            "uniqueNameError": "You have already given a basemap this name, please choose a different name or delete the existing basemap.",
-            "vectorTilesNotSupported": "File Contains Vector Tiles"
+            "cannotContainVectorTiles": "* os ficheiros só podem conter elementos rasterizados",
+            "choose": "Escolha o tipo de mapa-base",
+            "chooseAnother": "Escolher Outro(a)",
+            "custom": "Mapa de base personalizado",
+            "error": "Falha ao importar o mapa-base. Certifique-se de que está a selecionar o tipo correto de ficheiro e que o conteúdo do ficheiro corresponde à especificação e tente novamente.",
+            "faq": "Perguntas frequentes sobre os mapas de base personalizados",
+            "fileContainsVectorTiles": "contém elementos vetoriais e não é suportado",
+            "fileSizeTooLarge": "Ficheiro Demasiado Grande",
+            "fileSizeTooLargeDesc": "Experimente com um ficheiro de tamanho inferior a 10 MB",
+            "fileTypeNotSupported": "Tipo de Ficheiro Não Suportado",
+            "fileTypeNotSupportedDesc": "não é um tipo de ficheiro suportado para mapas de base.",
+            "save": "Importar Mapa de Base",
+            "supportedFileTypesInclude": "Os tipos de ficheiro suportados incluem:",
+            "title": "Nome do mapa de base",
+            "uniqueNameError": "Já atribuiu este nome a um mapa de base. Escolha um nome diferente ou apague o mapa de base já existente.",
+            "vectorTilesNotSupported": "O Ficheiro Contém Mosaicos de Vetor"
         },
-        "imported": "Custom Basemaps",
+        "imported": "Mapas de Base Personalizados",
         "names": {
-            "dark": "Dark",
-            "default": "Default",
-            "satellite": "Satellite"
+            "dark": "Escuro",
+            "default": "Padrão",
+            "satellite": "Satélite"
         },
         "rename": {
-            "message": "Enter your new name",
-            "title": "Rename Basemap"
+            "message": "Introduza o seu novo nome",
+            "title": "Dar Novo Nome ao Mapa de Base"
         },
-        "share": "Share",
-        "title": "Manage Basemaps"
+        "share": "Partilhar",
+        "title": "Gerir Mapas-Base"
     },
     "chooseImage": {
         "cancel": "Cancelar",
@@ -90,19 +90,19 @@
         "appName": "Forest Watcher",
         "area": "Área",
         "boundaries": "Limites",
-        "calculating": "Calculating",
+        "calculating": "A calcular",
         "cancel": "Cancelar",
-        "clear": "Clear",
+        "clear": "Eliminar",
         "confirm": "Confirmar",
         "connectionRequired": "Você precisa de uma conexão com a internet para completar esta ação",
         "connectionRequiredTitle": "Sem conexão",
-        "continue": "Continue",
+        "continue": "Continuar",
         "crashFeedback": "Ocorreu um problema. Estamos a trabalhar para o corrigir assim que possível.",
         "date": "Data",
-        "deselectAll": "Deselect All",
+        "deselectAll": "Desmarcar Todos",
         "done": "Concluído",
         "error": "Erro",
-        "fileName": "File name",
+        "fileName": "Nome do ficheiro",
         "fileSizes": {
             "bytes": "%{size} bytes",
             "gigaBytes": "%{size} GB",
@@ -126,7 +126,7 @@
         "reportedPosition": "Localização reportada",
         "retry": "Tentar novamente",
         "saving": "Salvando",
-        "selectAll": "Select All",
+        "selectAll": "Selecionar tudo",
         "send": "Enviar",
         "settings": "Definições",
         "setup": "Configuração",
@@ -137,52 +137,52 @@
     },
     "contextualLayers": {
         "delete": {
-            "messageGFWContent": "Data for this Contextual Layer will only be available online. Do you wish to continue?",
-            "messageGFWImportedContent": "Contextual Layer data can be downloaded again when connected to internet. Do you wish to continue with deletion?",
-            "messageCustomContent": "This Custom Contextual Layer can be imported again if required. Do you wish to continue?",
-            "title": "Delete Contextual Layer data?",
-            "titleCustom": "Delete Custom Contextual Layer?"
+            "messageGFWContent": "Os dados para esta Camada adicional só estarão disponíveis online. Pretende continuar?",
+            "messageGFWImportedContent": "É possível fazer novamente o download dos dados da camada adicional quando estiver ligado à Internet. Pretende continuar com a eliminação?",
+            "messageCustomContent": "Esta Camada Adicional Personalizada pode ser importada novamente, caso necessário. Pretende continuar?",
+            "title": "Eliminar os dados da camada adicional?",
+            "titleCustom": "Apagar a Camada Adicional Personalizada?"
         },
         "edit": "Editar",
         "empty": {
-            "action": "App FAQs",
-            "body": "Contextual layers you add will appear here",
-            "title": "No Contextual Layers"
+            "action": "Perguntas frequentes sobre a aplicação",
+            "body": "As camadas adicionais que acrescentar aparecerão aqui",
+            "title": "Sem camadas adicionais"
         },
         "export": {
-            "many": "%{count} Layers",
-            "manyAction": "Share %{count} layers...",
+            "many": "%{count} camadas",
+            "manyAction": "Partilhar %{count} camadas...",
             "navBarButtonText": "Exportar",
-            "noneSelected": "No layers selected",
-            "one": "%{count} Layers",
-            "oneAction": "Share %{count} layers...",
-            "successful": "Exporting layers succeeded!"
+            "noneSelected": "Nenhuma camada selecionada",
+            "one": "%{count} Camadas",
+            "oneAction": "Partilhar %{count} camadas...",
+            "successful": "Exportação de camadas bem-sucedida!"
         },
-        "gfw": "GFW Layers",
+        "gfw": "Camadas do GFW",
         "import": {
-            "addGFW": "Add Global Forest Watch Layer",
-            "choose": "Choose contextual layer type",
-            "chooseAnother": "Choose Another",
-            "custom": "Custom Contextual Layer",
-            "error": "Failed to import layer, please make sure you are selecting the correct file type and the contents of the file matches the specification then try again.",
-            "faq": "Custom Layer FAQs",
-            "fileSizeTooLarge": "File Too Large",
-            "fileSizeTooLargeDesc": "Please try with a file smaller than 10MB",
-            "fileTypeNotSupported": "File Type Not Supported",
-            "fileTypeNotSupportedDesc": "is not a supported file type for contextual layers.",
-            "offlineWarning": "Only available online",
-            "save": "Import Layer",
-            "supportedFileTypesInclude": "Supported file types include:",
-            "title": "Layer Name",
-            "uniqueNameError": "You have already given a layer this name, please choose a different name or delete the existing layer."
+            "addGFW": "Adicionar Camada Global Forest Watch",
+            "choose": "Escolher o tipo de camada adicional",
+            "chooseAnother": "Escolher Outro",
+            "custom": "Camada Contextual Personalizada",
+            "error": "Falha ao importar a camada. Certifique-se de que está a selecionar o tipo correto de ficheiro e que o conteúdo do ficheiro corresponde à especificação e tente novamente.",
+            "faq": "Perguntas Frequentes sobre Camadas Personalizadas",
+            "fileSizeTooLarge": "Ficheiro Demasiado Grande",
+            "fileSizeTooLargeDesc": "Experimente com um ficheiro de tamanho inferior a 10 MB",
+            "fileTypeNotSupported": "Tipo de Ficheiro Não Suportado",
+            "fileTypeNotSupportedDesc": "não é um ficheiro suportado para camadas adicionais.",
+            "offlineWarning": "Disponível apenas online",
+            "save": "Importar camada",
+            "supportedFileTypesInclude": "Os tipos de ficheiro suportados incluem:",
+            "title": "Nome da Camada",
+            "uniqueNameError": "Você já deu este nome a uma camada, escolha um nome diferente ou elimine a camada existente."
         },
-        "imported": "Custom Layers",
+        "imported": "Camadas Personalizadas",
         "rename": {
-            "message": "Enter your new name",
-            "title": "Rename Contextual Layer"
+            "message": "Introduza o seu novo nome",
+            "title": "Renomear a Camada Contextual"
         },
-        "share": "Share",
-        "title": "Manage Contextual Layers"
+        "share": "Partilhar",
+        "title": "Gerir camadas adicionais"
     },
     "countries": {
         "searchPlaceholder": "Procurar um país"
@@ -192,7 +192,7 @@
         "downloadFailed": "Falha no download",
         "map": "Mapa",
         "reports": "Relatórios",
-        "routes": "Routes",
+        "routes": "Itinerários",
         "settings": "Definições"
     },
     "datasets": {
@@ -228,208 +228,208 @@
                     {
                         "content": {
                             "description": {
-                                "text": "Community forest monitors, park rangers, conservation organizations, protected area managers, journalists and environmental police use Forest Watcher to detect areas of forest disturbance, inform their patrol routes and collect digital information about their observations."
+                                "text": "Monitores da floresta, guardas florestais, organizações de conservação, coordenadores de áreas protegidas, jornalistas e polícia ambiental da comunidade usam o Forest Watcher para detetar áreas de perturbação florestal, informar os seus percursos de patrulha e recolher informação digital sobre as suas observações."
                             }
                         },
-                        "title": "Who uses Forest Watcher?"
+                        "title": "Quem usa a Forest Watcher?"
                     },
                     {
                         "content": {
                             "description": {
-                                "text": "In 2016, the Jane Goodall Institute (JGI), Global Forest Watch (GFW), Touchlab and Google partnered to create a test version of a mobile app to monitor protected areas in Uganda while offline. Following the successful pilot phase, GFW, JGI and Vizzuality created Forest Watcher to enable access to GFW data while offline and in the field. The app is currently maintained by GFW and 3 Sided Cube."
+                                "text": "Em 2016, o Jane Goodall Institute (JGI), a Global Forest Watch (GFW), a Touchlab e a Google formaram uma parceria para criar uma versão experimental de um aplicativo móvel para monitorizar áreas protegidas no Uganda em modo offline. Após uma fase piloto completada com sucesso, a GFW, o JGI e a VIzzuality criaram o Forest Watcher para permitir acesso aos dados da GFW em modo offline e no terreno. O aplicativo é neste momento mantida pela GFW e pela 3 Sided Cube."
                             }
                         },
-                        "title": "Who created Forest Watcher?"
+                        "title": "Quem criou o Forest Watcher?"
                     },
                     {
                         "content": {
                             "description": {
-                                "text": "Forest Watcher will run on any iPhone with iOS 10 and above. The minimum and recommended specifications for Android devices are listed below."
+                                "text": "A Forest Watcher funcionará em qualquer iPhone com o iOS 10 ou superior. As especificações mínimas e recomendadas para os dispositivos Android estão listadas abaixo."
                             },
                             "orderList": {
-                                "text1": "Minimum specifications for Android: OS - Android 5.0; RAM - 1.5GB; Free Disk Space - 1GB",
-                                "text2": "Minimum specifications for Android: OS - Android 7.1' RAM - 3GB; Free Disk Space - 4GB+"
+                                "text1": "Especificações mínimas para Android: OS - Android 5.0;RAM - 1,5GB; Espaço Livre em Disco - 1GB",
+                                "text2": "Especificações mínimas para Android: OS - Android 7.1; RAM - 3 GB; Espaço livre em disco - 4 GB (mín.)"
                             }
                         },
-                        "title": "What are the device specifications for using Forest Watcher?"
+                        "title": "Quais são as especificações de dispositivo para usar o Forest Watcher?"
                     },
                     {
                         "content": {
                             "description": {
-                                "text": "Yes, Forest Watcher is available in Spanish, French, Portuguese, Bahasa Indonesian, Dutch and Malagasy. The language of the questionnaires and reports can be customized to any language of your choosing."
+                                "text": "Sim, o Forest Watcher está disponível em espanhol, francês, português, indonésio, holandês e malgaxe. O idioma dos questionários e relatórios pode ser personalizado para qualquer idioma à sua escolha."
                             }
                         },
-                        "title": "Is Forest Watcher available in languages other than English?"
+                        "title": "O Forest Watcher está disponível em outros idiomas para além do inglês?"
                     }
                 ],
-                "title": "About Forest Watcher"
+                "title": "Sobre o Forest Watcher"
             },
             "alertsAndData": {
                 "questions": [
                     {
                         "content": {
                             "description": {
-                                "text1": "An area of interest is an area that you define to monitor forest change within. When you create an area of interest on Forest Watcher, GLAD deforestation alerts will populate for that area."
+                                "text1": "Uma área de interesse é uma área que você define para monitorizar alterações florestais dentro dela. Quando cria uma área de interesse no Forest Watcher, serão preenchidos os alertas de desflorestação GLAD para essa área."
                             }
                         },
-                        "title": "What is an area of interest?"
+                        "title": "O que é uma área de interesse?"
                     },
                     {
                         "content": {
                             "description": {
-                                "text1": "The maximum size area of interest is 20,000 square kilometers (2,000,000 hectares). If you try to establish an area larger than 20,000 square kilometers, you will receive an error message indicating the size is too big."
+                                "text1": "A dimensão máxima da zona de interesse é de 20.000 quilómetros quadrados (2.000.000 hectares). Caso tente estabelecer uma zona maior que 20.000 quilómetros quadrados, receberá uma mensagem de erro a indicar que a dimensão é demasiado grande."
                             }
                         },
-                        "title": "What is the maximum size area of interest I can create?"
+                        "title": "Qual é o tamanho máximo de área de interesse que posso criar?"
                     },
                     {
                         "content": {
                             "description": {
-                                "text1": "You can share areas of interest by navigating to the Areas page of the mobile app and clicking “Share Areas”. From here, you can select the areas you would like to share and choose where to export the bundle on your device. You can then share the area of interest bundle through your chosen sharing option eg. email, bluetooth or WhatsApp.",
-                                "text2": "After receiving an area of interest bundle through your preferred share option, you can import it on Forest Watcher. You can access the area(s) of interest in the Areas page once import is complete."
+                                "text1": "Pode partilhar áreas de interesse, navegando até à página \"Áreas\", na aplicação móvel, e clicando em \"Partilhar áreas\". A partir daí, pode selecionar as áreas que gostaria de partilhar e escolher o local, no seu dispositivo, para onde exportar o pacote. Pode depois partilhar o pacote de áreas de interesse através de uma das opções de partilha disponíveis (p. ex., email, Bluetooth ou WhatsApp).",
+                                "text2": "Após receber um pacote de área de interesse através da sua opção de partilha de eleição, pode importá-la no Forest Watcher. Pode aceder à(s) área(s) de interesse na página \"Áreas\" assim que a importação estiver concluída."
                             }
                         },
-                        "title": "How can I share and receive areas of interest?"
+                        "title": "Como é que posso partilhar e receber áreas de interesse?"
                     },
                     {
                         "content": {
                             "description": {
-                                "text1": "You can share contextual layers by navigating to the Contextual Layers section on the Settings page of the mobile app and clicking “Share”. From here, you can select the contextual layers that you would like to share and choose where to export the bundle on your device. You can then share the contextual layer bundle through your chosen sharing option eg. email, bluetooth or WhatsApp.",
-                                "text2": "After receiving a contextual layer bundle through your preferred share option, you can import it on Forest Watcher. You can access the contextual layers in the Contextual Layers section on the Settings page once import is complete."
+                                "text1": "Pode partilhar camadas contextuais ao navegar para a secção de Camadas Contextuais na página de Definições da aplicação móvel e clicar em \"Partilhar\". A partir de aqui, pode selecionar as camadas contextuais que gostaria de partilhar e escolher para onde exportar o pacote no seu dispositivo. Pode depois partilhar o pacote de camadas contextuais através da sua opção de partilha de eleição, por exemplo: e-mail, bluetooth ou WhatsApp.",
+                                "text2": "Após receber um pacote de camadas adicionais através da sua opção preferencial de partilha, pode importá-lo para a Forest Watcher. Depois de a importação estar concluída, pode aceder às camadas adicionais na secção \"Camadas adicionais\", na página \"Definições\"."
                             }
                         },
-                        "title": "How can I share and receive contextual layers?"
+                        "title": "Como é que posso partilhar e receber camadas adicionais?"
                     },
                     {
                         "content": {
                             "description": {
-                                "text": "Global Forest Watch (GFW) provides preloaded forest change and contextual data on Forest Watcher. The preloaded data includes GLAD deforestation alerts, VIIRS active fire alerts, annual tree cover loss and protected areas. Information on the GLAD deforestation alerts, VIIRS active fire alerts and annual tree cover loss data is below."
+                                "text": "A Global Forest Watch (GFW) proporciona dados pré-carregados de alterações florestais e contextuais no Forest Watcher. Os dados pré-carregados incluem alertas de desflorestação GLAD, alertas de incêndios ativos VIIRS, perda anual de cobertura de árvores e áreas protegidas. A informação sobre os alertas de desflorestação GLAD, alertas de incêndios ativos VIIRS e perda de cobertura de árvores encontra-se abaixo."
                             },
-                            "footerText": "You can also add additional contextual layers from GFW, including LandMark indigenous and community lands, and various concessions and biodiversity data, or you can upload your own custom contextual layers through the mobile app. Forest Watcher Mobile supports the following file types for upload: .json, .geojson, .topojson, .gpx, .zip, .kmz and .kml.\n\nWhen uploading additional contextual layers, you will have the option to either download the data for offline use or access the data online only. These options offer more flexibility over the data stored on your device.\n\nFor more information, please visit data.globalforestwatch.org.",
+                            "footerText": "Pode também adicionar camadas contextuais adicionais do GFW, incluindo terras indígenas e comunitárias LandMark e dados de várias concessões e biodiversidade ou pode carregar as suas camadas contextuais personalizadas através da aplicação móvel. O Forest Watcher Mobile suporta os seguintes tipos de ficheiros para carregamento: .json, .geojson, .topojson, .gpx, .zip, .kmz e .kml.\n\nQuando carrega camadas contextuais adicionais, terá a opção de descarregar os dados para uso offline ou aceder aos dados apenas quando online. Estas opções proporcionam maior flexibilidade sobre os dados armazenados no seu dispositivo.\n\nPara mais informações, visite data.globalforestwatch.org.",
                             "orderList": {
                                 "text1": "Alertas de Incêndio Ativo VIIRS: Produzidos pela NASA e atualizados todos os dias a uma resolução de 375 metros. Isto mostra a localização de suspeitas de incêndios na semana passada.",
                                 "text2": "Alertas GLAD: produzidos pelo Laboratório Global Land Analysis & Discovery (GLAD) da Universidade de Maryland e atualizados semanalmente numa resolução de 30 metros. Estes alertas mostram-lhe, semana a semana, onde pode ter havido alterações na área de floresta.",
                                 "text3": "Perda anual da cobertura arbórea: informação que também é produzida pelo laboratório GLAD e atualizada anualmente numa resolução de 30 metros. Estes dados revelam, de ano para ano, onde é que existiram alterações na área florestal. De momento os dados só estão disponíveis como uma camada contextual de dados: não poderá criar um relatório relacionado com um alerta de perdas anuais, embora seja possível criar um relatório para uma determinada localização se tocar, sobre o ecrã, no local onde existiram ganhos ou perdas de floresta."
                             }
                         },
-                        "title": "What data is available and where do they come from?"
+                        "title": "Que dados estão disponíveis e de onde provêm?"
                     },
                     {
                         "content": {
                             "description": {
-                                "text1": "Each data layer has been through rigorous scientific testing and has a unique set of limitations.",
-                                "text2": "Users should keep in mind that GLAD deforestation alerts detect all types of tree cover loss, whether it is caused by humans (such as logging) or natural causes (such as a landslide). The alerts do not differentiate between natural tree cover and planted tree cover. The alerts are also designed to be conservative given their intended end use of field patrols (false positive rate for confirmed alerts is 1%, while the false negative rate is 33%). Lastly, while the alerts are updated on a weekly basis, persistent cloud cover could mean that alerts are not detected for weeks or even months after the occurrence.",
-                                "text3": "VIIRS fire alerts cannot detect fires that are too small or too cool (generally smaller than 100 square meters or cooler than 700 Kelvin).",
-                                "text4": "For more information, please visit data.globalforestwatch.org."
+                                "text1": "Cada camada de dados foi sujeita a rigorosos testes científicos e possui um conjunto único de limitações.",
+                                "text2": "Os utilizadores devem ter em atenção que os alertas de desmatamento do GLAD detetam todos os tipos de perda de cobertura arbórea, quer esta seja causada pelo ser humano (p. ex., na colheita de madeira) ou por causas naturais (p. ex., em deslizamentos de terras). Os alertas não diferenciam entre cobertura arbórea natural e cobertura arbórea plantada. Tendo em conta que se destinam a ser usados por patrulhas no terreno, os alertas foram também concebidos adotando uma abordagem assente na prudência (a taxa de falsos positivos, para os alertas confirmados, é de 1%, enquanto a taxa de falsos negativos é de 33%). Por último, apesar de os alertas serem atualizados semanalmente, as situações de nebulosidade persistente podem impedir a deteção de alertas durante várias semanas (ou até meses) após uma ocorrência.",
+                                "text3": "Os alertas de incêndio do VIIRS não conseguem detetar incêndios de dimensão reduzida ou com uma temperatura demasiado baixa (normalmente, incêndios numa área inferior a 100 metros quadrados, ou com temperaturas inferiores a 700 Kelvin).",
+                                "text4": "Para mais informações, visite data.globalforestwatch.org."
                             }
                         },
-                        "title": "How accurate are deforestation and fires alerts?"
+                        "title": "Quão precisos são os alertas de desflorestação e incêndio?"
                     },
                     {
                         "content": {
                             "description": {
-                                "text1": "The satellite imagery basemap provided by Global Forest Watch (GFW) is updated less often than the alert data. As such, you may notice alerts for areas that still appear undisturbed on the satellite imagery basemap. To see more recent satellite imagery, we recommend you use the Recent Satellite Imagery tool available on GFW. Visiting alerts in the field is the most accurate way to verify change, but it’s also usually the most costly. Therefore, we recommend you use the Recent Satellite Imagery tool when possible before planning your field visit to identify what the likely drivers of the disturbance are.",
-                                "text2": "Alternatively, you can also upload your own satellite imagery and basemaps by navigating to the Basemaps or Contextual Layers section on the Settings page of the mobile app and clicking the + button on the top right of the page."
+                                "text1": "O mapa de base com imagem de satélite fornecido pela Global Forest Watch (GFW) é atualizado com menos frequência que os dados dos alertas. Portanto, poderá notar alertas para áreas que ainda aparecem inalteradas no mapa de base com imagem de satélite. Para visualizar a imagem de satélite mais recentes, recomendamos que use a ferramenta Recent Satellite Imagery disponível no GFW. A forma mais fidedigna de confirmar uma alteração é visitar os alertas no terreno, mas essa é também normalmente a mais dispendiosa. Assim, recomendamos que use a ferramenta Recent Satellite Imagery sempre que possível, antes de planear a sua visita ao terreno, para identificar quais as possíveis causas da perturbação.",
+                                "text2": "Em alternativa, pode também carregar os seus mapas-base e imagens de satélite ao navegar para a secção \"Mapas-Base\" ou \"Camadas Contextuais\" na página de Definições da aplicação móvel e clicar no botão + no canto superior direito."
                             }
                         },
-                        "title": "Why do I see a deforestation alert but no change in the satellite imagery basemap?"
+                        "title": "Por que vejo um alerta de desflorestação mas nenhuma alteração no mapa-base de imagens de satélite?"
                     },
                     {
                         "content": {
                             "description": {
-                                "text1": "Yes, you can now upload your own contextual layers and basemaps directly into the mobile app, even while offline. You can add custom contextual layers and basemaps by navigating to either the Basemaps section or the Contextual Layers section of the Settings page and clicking the + button on the top right of the page.",
-                                "text2": "Supported file types for contextual layers include: .json, .geojson, .topojson, .gpx, .zip shapefiles, .kmz and .kml. ",
-                                "text3": "Supported file types for basemaps include: .mbtiles."
+                                "text1": "Sim, pode agora carregar as camadas contextuais e os mapas-base diretamente para a aplicação móvel, mesmo quando estiver offline. Pode adicionar camadas contextuais e mapas-base personalizados ao navegar para a secção \"Mapas-base\" ou a secção \"Camadas Contextuais\" da página de Definições e clicar no botão + no canto superior direito.",
+                                "text2": "Os tipos de ficheiro suportados para camadas adicionais incluem: .json, .geojson, .topojson, .gpx, .zip shapefiles, .kmz e .kml.",
+                                "text3": "Os tipos de ficheiro suportados para mapas-base incluem: .mbtiles."
                             }
                         },
-                        "title": "Can I upload my own contextual layers and basemaps in Forest Watcher?"
+                        "title": "Posso fazer o upload, para a Forest Watcher, das minhas próprias camadas adicionais e mapas de base?"
                     },
                     {
                         "content": {
                             "description": {
-                                "text1": "Currently, only certain types of data are synced to your Forest Watcher account, which is also connected to the Forest Watcher Web Application. This data includes areas and reports you have uploaded. This means that when you log out and log back in to the app, this data will remain visible. ",
-                                "text2": "For other types of data, these are stored independently of your Forest Watcher account and will NOT be visible when you log out and log back in to the app. This data includes:"
+                                "text1": "De momento, apenas certos tipos de dados são sincronizados com a sua conta Forest Watcher, que está também associada ao Aplicativo Web Forest Watcher. Estes dados incluem áreas e relatórios de que tenha feito upload. Isto significa que quanto terminar e voltar a iniciar sessão no aplicativo, os seus dados permanecerão visíveis.",
+                                "text2": "Quanto a outros tipos de dados, são armazenados independentemente da sua conta Forest Watcher e NÃO ficarão visíveis quando terminar e voltar a iniciar sessão no aplicativo. Esses dados incluem:"
                             },
-                            "footerText": "Logging out will permanently remove these items (with the exception of custom basemaps and custom contextual layers). It’s therefore recommended that you bundle any data that you wish to retain before logging out. For your convenience in doing this, we recommend using the ‘share all app data’ option and storing the resulting bundle. This can then be re-imported when required by opening the bundle with the Forest Watcher app when logged in.",
+                            "footerText": "Terminar a sessão irá remover permanentemente estes itens (com exceção de mapas-base personalizados e camadas contextuais personalizadas). Como tal, é recomendado que agregue os dados que deseja reter antes de terminar sessão. Para sua conveniência, recomendamos que use a opção \"partilhar todos os dados da aplicação\" e guarde o pacote resultante. Este pode depois ser novamente importado quando for necessário ao abrir o pacote na aplicação Forest Watcher quando estiver autenticado.",
                             "orderList": {
                                 "text1": "Alertas",
-                                "text2": "Imported Areas",
-                                "text3": "Routes",
-                                "text4": "Non-uploaded Reports",
-                                "text5": "Downloaded Basemap Tiles",
-                                "text6": "Downloaded GFW Layer Tiles",
-                                "text7": "Custom Basemaps",
-                                "text8": "Custom Contextual Layers",
-                                "text9": "Imported GFW Contextual layers"
+                                "text2": "Áreas Importadas",
+                                "text3": "Itinerários",
+                                "text4": "Relatórios não carregados",
+                                "text5": "Mosaicos do Mapa de Base Baixados",
+                                "text6": "Mosaicos de Camadas GFW Descarregados",
+                                "text7": "Mapas de base personalizados",
+                                "text8": "Camadas Contextuais Personalizadas",
+                                "text9": "Camadas contextuais GFW importadas"
                             }
                         },
-                        "title": "How does the Forest Watcher app store my data?"
+                        "title": "Como é que a aplicação Forest Watcher armazena os meus dados?"
                     }
                 ],
-                "title": "Alerts and Data in Forest Watcher"
+                "title": "Alertas e dados na Forest Watcher"
             },
             "features": {
                 "questions": [
                     {
                         "content": {
                             "description": {
-                                "text1": "Forest Watcher Mobile allows users to create areas of interest and monitor alerts within them. Areas of interest are designated upon initiation of the app or in the Areas page. You can view the latest deforestation and fires alerts in your area of interest and download them to take offline and into the field. Once downloaded, you can use the app to guide you to nearby alerts using the phone’s internal GPS and track your route as you go, then fill out a form and take photos to record observations about what you find.",
-                                "text2": "Forest Watcher Web enables greater customization through editable reporting templates and facilitates collaboration with options to create, review and assign reports to team members."
+                                "text1": "O Forest Watcher Mobile permite aos utilizadores criarem áreas de interesse e monitorizar alertas nelas. As áreas de interesse são designadas mediante a inicialização da aplicação ou na página \"Áreas\". Pode consultar os alertas de desflorestação e incêndio mais recentes na sua área de interesse e descarregá-los para ter offline e levá-los para fora. Uma vez descarregados, pode usar a aplicação para guiá-lo para alertas próximos usando o GPS interno do telemóvel e para acompanhar o seu percurso enquanto o percorre e depois para preencher um formulário e tirar fotos para registar observações sobre o que encontrar.",
+                                "text2": "A aplicação Web da Forest Watcher permite uma maior personalização, através dos modelos de relatório editáveis, e facilita a colaboração, facultando opções para criar, rever e atribuir relatórios aos membros da equipa."
                             }
                         },
-                        "title": "What can I do with Forest Watcher?"
+                        "title": "O que posso fazer com o Forest Watcher?"
                     },
                     {
                         "content": {
                             "description": {
-                                "text": "While Forest Watcher Mobile is designed primarily for offline use, certain key functions need to be performed with Internet connection. A typical workflow for Forest Watcher online/offline use is below"
+                                "text": "Apesar de o Forest Watcher ter sido concebido principalmente para o uso offline, algumas funcionalidades-chave têm de ser desempenhadas com ligação à Internet. Abaixo encontra-se um fluxo de trabalho típico do uso online/offline do Forest Watcher"
                             },
-                            "footerText": "When you are offline, we recommend you put the app in “offline mode” in settings to increase the app’s stability.",
+                            "footerText": "Quando estiver offline, recomendamos que vá até às definições e ative o \"modo offline\" da aplicação para aumentar a estabilidade desta.",
                             "orderList": {
-                                "text1": "Online:\nDownload Forest Watcher Mobile and log in.\nCreate an area of interest.\nSet a time period for alerts and refresh alerts.",
-                                "text2": "Offline:\nSelect and navigate to alerts.\nCreate a report at your location or on an alert.\nTrack your route.\nDocument observations and take photos.\nShare app content with another device (alerts, areas, routes, reports, contextual layers, basemap tiles or all app content)."
+                                "text1": "Online:\nDescarregue o Forest Watcher Mobile e inicie sessão.\nCrie uma área de interesse.\nDefina um período de tempo para alertas e atualize alertas.",
+                                "text2": "Offline:\nSelecione e navegue para alertas.\nCrie um relatório na sua localização ou num alerta.\nAcompanhe o seu percurso.\nDocumente observações e tire fotos.\nPartilhe conteúdo da aplicação com outro dispositivo (alertas, áreas, percursos, relatórios, camadas contextuais, mosaicos de mapa-base ou todo o conteúdo da aplicação)."
                             }
                         },
-                        "title": "What can I do online vs offline?"
+                        "title": "Quais são as diferenças entre o que posso fazer online e offline?"
                     },
                     {
                         "content": {
                             "description": {
-                                "text": "Forest Watcher Web is the supplementary online web interface for the mobile app, which can be used to manage areas of interest, customize report templates, configure a team of users and review and download reports submitted through the mobile app. Forest Watcher Web can be used by administrators and team managers to set up the app for their team. Users should log in to Forest Watcher Web with the same login used to access the mobile app. For more information, please visit forestwatcher.globalforestwatch.org."
+                                "text": "O Forest Watcher Web é a interface web online suplementar da aplicação móvel, que pode ser usada para gerir áreas de interesse, personalizar modelos de relatórios, configurar uma equipa de utilizadores e analisar e descarregar relatórios submetidos através da aplicação móvel. O Forest Watcher Web pode ser usado por administradores e gestores de equipa para configurar a aplicação para a sua equipa. Os utilizadores devem iniciar sessão no Forest Watcher Web com os mesmos dados de autenticação usados para aceder à aplicação móvel. Para mais informações, visite data.globalforestwatch.org."
                             }
                         },
-                        "title": "What is Forest Watcher Web?"
+                        "title": "O que é o Forest Watcher Web?"
                     },
                     {
                         "content": {
                             "description": {
-                                "text1": "You can upload custom layers either Forest Watcher Web or Forest Watcher Mobile. Forest Watcher Mobile supports the following file types for upload: .json, .geojson, .topojson, .gpx, .zip, .kmz, .kml, and .mbtiles.",
-                                "text2": "Forest Watcher web supports tile URLs.",
-                                "text3": "Custom file types supported in Forest Watcher Mobile are listed below."
+                                "text1": "Pode fazer o upload de camadas personalizadas tanto para a aplicação Web da Forest Watcher como para a aplicação móvel da Forest Watcher. A aplicação móvel da Forest Watcher suporta o upload dos seguintes tipos de ficheiro: .json, .geojson, .topojson, .gpx, .zip, .kmz, .kml e .mbtiles.",
+                                "text2": "O Forest Watcher web suporta URLs de mosaicos.",
+                                "text3": "Os tipos de ficheiros personalizados suportados no Forest Watch Mobile estão elencados abaixo."
                             },
-                            "footerText": "The recommended maximum file size is 1 MB, anything larger may not work properly. Complex shapes can also have issues and custom styling and images may be removed. Please contact us at forestwatcher@wri.org if you have any questions about the upload process.",
+                            "footerText": "O tamanho máximo recomendado de ficheiro é 1 MB, tudo o que for maior pode não funcionar devidamente. Formas complexas podem também ter problemas e os estilos e imagens personalizados podem ser removidos. Contacte-nos para forestwatcher@wri.org se tiver alguma dúvida sobre o processo de carregamento.",
                             "orderList": {
-                                "text1": "GeoJSON (with .geojson or .json file extensions)",
-                                "text2": "TopoJSON (with .topojson or .json file extensions)",
-                                "text3": "Google Earth Keyhole Markup Language (with .kml or .kmz file extensions)",
-                                "text4": "Shapefiles (with .zip extension). Shapefiles must include .shp and .prj files within the archive.",
-                                "text5": "GPS Exchange Format (with .gpx extension)",
-                                "text6": "Mapbox Tiles (with .mbtiles extension). These must be imported as basemaps."
+                                "text1": "GeoJSON (com extensões de ficheiro .geojson ou .json)",
+                                "text2": "TopoJSON (com extensões de ficheiro .topojson ou .json)",
+                                "text3": "Keyhole Markup Language do Google Earth (com extensão de arquivo .kml ou .kmz)",
+                                "text4": "Shapefiles (com extensão .zip). Os shapefiles têm de incluir ficheiros .shp e .prj dentro da pasta.",
+                                "text5": "GPS Exchange Format (com extensão .gpx)",
+                                "text6": "Mosaicos de Mapbox (com extensão .mbtiles). Estes têm de ser importados como mapas-base."
                             }
                         },
-                        "title": "What file types and sizes does Forest Watcher accept?"
+                        "title": "Quais são os tipos e tamanhos de ficheiro aceites pela Forest Watcher?"
                     },
                     {
                         "content": {
                             "description": {
-                                "text1": "Yes, Forest Watcher Mobile is designed to be used independently from Forest Watcher Web. On the mobile app, you can create areas of interest, download and navigate to alerts, track your route along the way and record your observations. You can also upload your own contextual layers and basemaps directly through the mobile app, and share app content with other devices while offline (routes, reports, areas, alerts, contextual data layers, basemap tiles or all app content).",
-                                "text2": "Forest Watcher Web simply provides opportunities for further customization of the mobile app, including report template customization, team management and data management."
+                                "text1": "Sim, o Forest Watcher Mobile foi concebido para ser usado independentemente do Forest Watcher Web. Na aplicação móvel, pode criar áreas de interesse, descarregar e navegar para alertas, acompanhar o seu percurso ao longo do caminho e registar as suas observações. Pode também carregar as suas camadas contextuais e os seus mapas-base diretamente através da aplicação móvel e partilhar conteúdo da aplicação com outros dispositivos enquanto está offline (percursos, relatórios, áreas, alertas, camadas de dados contextuais, mosaicos de mapa-base ou todo o conteúdo da aplicação).",
+                                "text2": "A aplicação Web da Forest Watcher dá-lhe a oportunidade de personalizar ainda mais a aplicação móvel, permitindo, por exemplo, a personalização de modelos de relatórios, a gestão de equipas e a gestão de dados."
                             }
                         },
-                        "title": "Can I use Forest Watcher Mobile without using Forest Watcher Web?"
+                        "title": "Posso usar a aplicação móvel da Forest Watcher sem usar a aplicação Web da "
                     }
                 ],
-                "title": "What Does Forest Watcher Do?"
+                "title": "Para que serve o Forest Watcher?"
             },
             "help": {
                 "questions": [
@@ -445,40 +445,40 @@
                                     "text": "A aplicação falha"
                                 },
                                 "order3": {
-                                    "description": "The location and navigation features rely on your device’s internal GPS. Check that the GPS (often called “location services”) is turned on in your device settings. The GPS signal can be weak indoors, so if you are inside or under a roof, try going outside. If it still doesn’t work, please email forestwatcher@wri.org telling us what device model you are using and which app version (found at the bottom of the Settings page). Cell phone GPS are usually not as accurate as standalone GPS devices, so you may also want to input the coordinates of the alert into a GPS device as backup if you have one available.",
+                                    "description": "As funcionalidades de localização e de navegação dependem do GPS interno do seu dispositivo. Verifique se o GPS (muitas vezes designado por \"serviços de localização\") está ligado nas configurações do seu dispositivo. O sinal do GPS poderá ser fraco em espaços interiores, pelo que caso esteja num espaço interior ou num espaço coberto, deverá tentar sair para o exterior. Caso ainda não esteja a funcionar, envie um email para forestwatcher@wri.org indicando-nos qual o modelo de dispositivo que está a usar e qual a versão do aplictivo (que pode encontrar ao fundo da página de configurações). O GPS de telefone móvel é normalmente menos preciso que um dispositivo GPS dedicado, pelo que poderá optar, como método alternativo, por introduzir as coordenados do alerta num dispositivo de GPS, caso disponha de um.",
                                     "text": "Não consigo ver a bússola/a minha localização"
                                 },
                                 "order4": {
-                                    "description": "If you begin a report and then exit the report, your work thus far and the GPS coordinates of the location where your report was initiated will automatically save. You can return to your draft report later on the Reports page. You can also take a photo using your device’s camera, then upload it to a report later.",
+                                    "description": "Se iniciar um relatório e, entretanto, abandonar o relatório, o trabalho realizado até esse momento e as coordenadas GPS do local onde o relatório foi iniciado serão guardados automaticamente. Pode voltar mais tarde ao rascunho do seu relatório, visitando a página \"Relatórios\". Pode também tirar uma foto, usando a câmara do seu dispositivo, e, mais tarde, fazer o upload da mesma para um relatório.",
                                     "text": "Desejo concluir um relatório mais tarde"
                                 },
                                 "order5": {
-                                    "description": "When you first set up Forest Watcher, it can take anywhere from 5 to 30 minutes for the app to completely download relevant data depending on the speed of your Internet connection. If you have weak or slow Internet connection, the download will take longer. Keep the app open to allow the download to complete. After the initial set up, new alert data will download every time you connect to the Internet and the download time will vary depending on how many alerts have occurred. If you want to see if new alerts are available, pull the home screen downward to refresh.",
-                                    "text": "Alerts are not loading"
+                                    "description": "Quando configura o Forest Watcher pela primeira vez, pode demorar entre 5 a 30 minutos para a aplicação descarregar totalmente os dados relevantes dependendo da velocidade da sua ligação à Internet. Se tem uma ligação fraca ou lenta à Internet, a descarga irá demorar mais tempo. Mantenha a aplicação aberta para permitir que a descarga conclua. Após a configuração inicial, serão descarregados novos dados de alertas sempre que se ligar à Internet e o tempo de descarga irá variar dependendo do número de alertas que ocorreram. Se deseja ver se estão disponíveis novos alertas, arraste o botão de início para baixo para atualizar.",
+                                    "text": "Os alertas não estão a carregar"
                                 },
                                 "order6": {
-                                    "description": "If you have low bandwidth, rather than redownload app content across multiple devices, you could share app content with another device while offline (alerts, areas, routes, reports, contextual layers, basemap tiles or all app content). This process will help reduce bandwidth demands.",
-                                    "text": "My team and/or I have low bandwidth"
+                                    "description": "Se tem uma largura de banda reduzida, em vez de descarregar novamente o conteúdo da aplicação em vários dispositivos, pode partilhar conteúdo da aplicação com outro dispositivo enquanto está offline (alertas, áreas, percursos, relatórios, camadas contextuais, mosaicos de mapas-base ou todo o conteúdo da aplicação). Este processo irá ajudar a reduzir a necessidade de largura de banda.",
+                                    "text": "Eu e/ou a minha equipa temos largura de banda reduzida"
                                 },
                                 "order7": {
-                                    "description": "Forest Watcher Mobile contains a lot of data and can take up significant memory on your device, depending on how many areas of interest you have, their size and the number of alerts. The fewer and smaller areas of interest you set up, the less data will need to be downloaded onto your device. We recommend having at least 1 GB of internal storage on your device so that you can use other apps in addition to Forest Watcher, though 4 GB or more is preferred.",
+                                    "description": "A Forest Watcher Mobile inclui muitos dados e pode ocupar uma parte significativa da memória do seu dispositivo, dependendo de quantas áreas de interesse tem, das suas dimensões e do número de alertas. Quantas menos e menores áreas de interesse configurar, tantos menos dados será necessário baixar para o seu dispositivo. Recomendamos pelo menos 1GB de armazenamento interno no seu dispositivo para que possa utilizar outros aplicativs para além do Forest Watcher, embore seja preferível ter 4 GB ou mais.",
                                     "text": "Fiquei sem memória no meu dispositivo"
                                 },
                                 "order8": {
-                                    "description": "You can use Forest Watcher Web to create a custom report template for your team to use when collecting data. You can also add notes in the final section of the form.",
-                                    "text": "I want to customize the reports that I or my team fill out when investigating an area"
+                                    "description": "Pode usar o Forest Watcher Web para criar um modelo de relatório personalizado para a sua equipa usar quando recolhe dados. Pode também adicionar notas na secção final do formulário.",
+                                    "text": "Quero personalizar os relatórios que eu ou a minha equipa preenchemos quando investigamos uma área"
                                 }
                             }
                         },
-                        "title": "Troubleshooting: What should I do if…?"
+                        "title": "Resolução de problemas: O que fazer se...?"
                     },
                     {
                         "content": {
                             "description": {
-                                "text": "We are also always looking to improve the app to meet user needs. Please contact us at forestwatcher@wri.org if there are other features that would be helpful."
+                                "text": "Estamos sempre a tentar melhorar a aplicação para corresponder às necessidades dos utilizadores. Por favor, contacte-nos através do email forestwatcher@wri.org se considerar que existem outras funcionalidades que seriam úteis."
                             }
                         },
-                        "title": "I have a great idea to improve the app. What should I do?"
+                        "title": "Tenho uma ótima ideia para melhorar este aplicativo. O que devo fazer?"
                     },
                     {
                         "content": {
@@ -489,263 +489,263 @@
                         "title": "Como é que posso obter ajuda?"
                     }
                 ],
-                "title": "Support & Contact"
+                "title": "Suporte e Contactos"
             },
             "inTheField": {
                 "questions": [
                     {
                         "content": {
                             "description": {
-                                "text1": "When navigating to an alert or an area, you can add a report by clicking the report button on the bottom right of the map. You will be able to take or choose pictures to add to the report, then fill out a form to record observations about what you find.",
-                                "text2": "If you begin a report and then exit the report, your work thus far and the GPS coordinates of the location where your report was initiated will automatically save. You can return to your draft report later on the Reports page. You can also take a photo using your device’s camera, then upload it to a report later."
+                                "text1": "Ao navegar até a um alerta ou até a uma área, pode adicionar um relatório clicando no botão de relatório no canto inferior direito do mapa. Terá a possibilidade de tirar ou escolher fotografias para adicionar ao relatório e, em seguida, preencher um formulário para registar as suas observações sobre o que encontrou.",
+                                "text2": "Se iniciar um relatório e, entretanto, abandonar o relatório, o trabalho realizado até esse momento e as coordenadas GPS do local onde o relatório foi iniciado serão guardados automaticamente. Pode voltar mais tarde ao rascunho do seu relatório, visitando a página \"Relatórios\". Pode também tirar uma foto, usando a câmara do seu dispositivo, e, mais tarde, fazer o upload da mesma para um relatório."
                             }
                         },
-                        "title": "How do I add a report?"
+                        "title": "Como adiciono um relatório?"
                     },
                     {
                         "content": {
                             "description": {
-                                "text1": "To report on a group of alerts, you can click on the GLAD and/or VIIRS alerts that you’re investigating and click the report button on the bottom right of the map. You can report on multiple alerts by selecting each alert individually, before clicking the report button. When clicked on, the GLAD alerts will become green and the VIIRS alerts will become purple. The change in color indicates that the alerts have been reported on."
+                                "text1": "Para reportar um grupo de alertas, pode clicar nos alertas GLAD e/ou VIIRS que está a investigar e clicar no botão \"reportar\" no canto inferior direito. Pode reportar vários alertas ao selecionar cada alerta individualmente antes de clicar no botão \"reportar\". Quando forem clicados, os alertas GLAD ficarão verdes e os alertas VIIRS ficarão roxos. A alteração de cor indica que os alertas foram reportados."
                             }
                         },
-                        "title": "How do I report on a group of alerts?"
+                        "title": "Como reporto um grupo e alertas?"
                     },
                     {
                         "content": {
                             "description": {
-                                "text1": "To record a route, you can click on the start button on the bottom left of the map. Once you are done recording the route, you can click the stop button and choose whether to save the route or delete the route. If you save the route, you will then be able to access it on the Routes page of the mobile app."
+                                "text1": "Para registar um itinerário, pode clicar no botão \"Iniciar\" no canto inferior esquerdo do mapa. Quando tiver concluído o registo do itinerário, pode clicar no botão \"Parar\" e optar por guardar ou eliminar o itinerário. Se guardar o itinerário, poderá posteriormente aceder ao mesmo na página \"Itinerários\" da aplicação móvel."
                             }
                         },
-                        "title": "How do I record a route?"
+                        "title": "Como é que registo um itinerário?"
                     },
                     {
                         "content": {
                             "description": {
-                                "text1": "When recording a route, points will be captured every 50 meters."
+                                "text1": "Quando regista um percurso, serão capturados pontos a cada 50 metros."
                             }
                         },
-                        "title": "How often does my route create points?"
+                        "title": "Com que frequência é que o meu percurso cria pontos?"
                     },
                     {
                         "content": {
                             "description": {
-                                "text1": "You can share reports by navigating to the Reports section of the mobile app and clicking “Share Reports”. From here, you can select the reports that you would like to share and choose where to export the bundle on your device. You can then share the reports bundle through your chosen sharing option eg. email, bluetooth or WhatsApp.",
-                                "text2": "Similarly, you can share routes by navigating to the Routes section of the mobile app and clicking “Share Routes”. From here, you can select the routes that you would like to share and choose where to export the bundle on your device. You can then share the routes bundle through your chosen sharing option eg. email, bluetooth or WhatsApp.",
-                                "text3": "After receiving a reports or routes bundle through your preferred share option, you can import it on Forest Watcher. You can access the reports in the Reports section or the routes in the Routes section once import is complete."
+                                "text1": "Pode partilhar relatórios navegando até à secção de Relatórios do aplicativo móvel e clicando em \"Partilhar Itinerários\". Aí poderá selecionar os itinerários que pretende partilhar e escolher para onde no seu dispositivo pretende exportar o pacote de itinerários. Poderá depois partilhar o pacote de itinerários através da modalidade de partilha escolhida, p.ex. por email, Bluetooth ou WhatsApp.",
+                                "text2": "Do mesmo modo, pode partilhar itinerários navegando até à secção Itinerários do aplicativo móvel e clicando em \"Partilhar Itinerários\". Aí poderá selecionar os itinerários que pretende partilhar e escolher para onde no seu dispositivo pretende exportar o pacote de itinerários. Poderá depois partilhar o pacote de itinerários através da modalidade de partilha escolhida, p.ex. por email, Bluetooth ou WhatsApp.",
+                                "text3": "Após receber um pacote de relatórios ou percursos através da sua opção de partilha de eleição, pode importá-lo no Forest Watcher. Pode aceder aos relatórios na secção \"Relatórios\" ou aos percursos na secção \"Percursos\" assim que a importação estiver concluída."
                             }
                         },
-                        "title": "How can I share and receive reports and routes?"
+                        "title": "Como posso partilhar e receber relatórios e percursos?"
                     },
                     {
                         "content": {
                             "description": {
-                                "text1": "To retrieve your reports and photos, log in to forestwatcher.globalforestwatch.org, navigate to the “Reports” tab and click “Download answers” to access your CSV file. Photos are available to download via URLs in the spreadsheet. ",
-                                "text2": "Reports can also be accessed through the export function on the reports page of the mobile app. Using this function, you can download your reports directly to your device and share them with another device while offline.",
-                                "text3": "If you would like to view your data on a map, navigate to mymaps.google.com and log in to your Google account (or create one for free). Then click “Create a new map.” On the left-side panel the, click “Import” and upload your CSV from Forest Watcher Web. Select “Position of report lat” and when prompted, select “Latitude.” Select “Position of report lon” and when prompted, select “Longitude.” Select “Continue” and choose a column that you want to identify your location by. Please note that the data associated with that report will be the title attached to the blue pin(s) on the map.",
-                                "text4": "Once these steps are complete, your map will be ready and automatically save. You can click on the blue pins to see the details of your report, including photos. To change the name, click on “Untitled map” in the top left corner."
+                                "text1": "Para recuperar os seus relatórios e fotos, inicie a sua sessão em forestwatcher.globalforestwatch.org, navegue até ao separador \"Relatórios\" e clique em \"Fazer o download das respostas\" para aceder ao seu ficheiro CSV. As fotos estão acessíveis para download através dos URL inseridos na folha de cálculo.",
+                                "text2": "Os relatórios podem também ser acedidos através da função de exportação na página de relatórios da aplicação móvel. Usando esta função, pode descarregar os seus relatórios diretamente para o seu dispositivo e partilhá-los com outro dispositivo enquanto está offline.",
+                                "text3": "Se quiser visualizar os seus dados num mapa, navegue para mymaps.google.com e inicie sessão na sua conta Google (ou crie uma gratuitamente). Depois clique em \"Criar um novo mapa\". No painel esquerdo, clique \"Importar\" e carregue o seu CSV do Forest Watcher Web. Selecione \"Posição de relatório lat\" e, quando lhe for pedido, selecione \"Latitude\". Selecione \"Posição de relatório lon\" e, quando lhe for pedido, selecione \"Longitude\". Selecione \"Continuar\" e escolha uma coluna pela qual deseja identificar a sua localização. Tenha em atenção que os dados associados a esse relatório serão o título anexado ao(s) pino(s) azul/azuis no mapa.",
+                                "text4": "Assim que estes passos estiverem concluídos, o seu mapa estará pronto e será guardado automaticamente. Pode clicar nos pinos azuis para consultar detalhes do seu relatório, incluindo fotos. Para alterar o nome, clique em \"Mapa sem título\" no canto superior esquerdo."
                             }
                         },
-                        "title": "Can I retrieve my reports and see my data on a map?"
+                        "title": "Posso recuperar os meus relatórios e ver os meus dados num mapa?"
                     },
                     {
                         "content": {
                             "description": {
-                                "text1": "Reports are owned by the user and are not shared publicly. For more details, visit globalforestwatch.org/terms."
+                                "text1": "Os relatórios são propriedade do utilizador e não são partilhados publicamente. Para obter mais detalhes, visite globalforestwatch.org/terms."
                             }
                         },
-                        "title": "Are my reports shared or kept confidential?"
+                        "title": "Os meus relatórios são partilhados ou mantêm-se confidenciais?"
                     }
                 ],
-                "title": "Using Forest Watcher in the Field"
+                "title": "Usar a Forest Watcher no terreno"
             },
-            "questionCountPlural": "%{count} Questions",
-            "questionCountSingular": "1 Question",
-            "sectionHeader": "Categories",
-            "title": "FAQs"
+            "questionCountPlural": "%{count} Perguntas",
+            "questionCountSingular": "1 Pergunta",
+            "sectionHeader": "Categorias",
+            "title": "Perguntas Frequentes"
         }
     },
     "importBundle": {
         "confirm": {
-            "buttonTitle": "Import Data Bundle",
-            "title": "Confirm Import"
+            "buttonTitle": "Importar pacote de dados",
+            "title": "Confirmar importação"
         },
-        "containingPrefix": "Containing:",
+        "containingPrefix": "Contendo:",
         "customBasemaps": {
-            "title": "Select Basemap Data"
+            "title": "Selecionar dados do mapa de base"
         },
         "customItems": {
-            "title": "Select Items To Import"
+            "title": "Selecione os Itens a Importar"
         },
         "customLayers": {
-            "fileImportOptionAll": "Import All",
-            "fileImportOptionDescription": "Select the data you would like to import",
-            "fileImportOptionSelected": "Import For Selected Items Only",
-            "fileImportOptionTitle": "Import Option",
-            "title": "Select Contextual Layer Data"
+            "fileImportOptionAll": "Importar Todos",
+            "fileImportOptionDescription": "Selecione os dados que gostaria de importar",
+            "fileImportOptionSelected": "Importar apenas para os itens selecionados",
+            "fileImportOptionTitle": "Opção de importação",
+            "title": "Selecione Dados de Camadas Contextuais"
         },
-        "emptyImportError": "There is no data selected for import. Please go back and select items to be imported.",
-        "importingPrefix": "Importing:",
-        "incompatibleBundle": "Sorry, this sharing bundle was created with a different version of Forest Watcher, and cannot be imported.",
-        "progress": "Step %{current} of %{total}",
+        "emptyImportError": "Não existem dados selecionados para importação. Volte atrás e selecione os itens a importar.",
+        "importingPrefix": "A importar:",
+        "incompatibleBundle": "Pedimos desculpa, este pacote de partilha foi criado com uma versão diferente do Forest Watcher e não pode ser importado.",
+        "progress": "Passo %{current} de %{total}",
         "start": {
-            "customImport": "Custom Import",
-            "customImportDescription": "Select specific items to import",
-            "importAll": "Import All Data",
-            "title": "Import App Bundle"
+            "customImport": "Importação Personalizada",
+            "customImportDescription": "Selecionar itens específicos para importar",
+            "importAll": "Importar Todos os Dados",
+            "title": "Importar Pacote da Aplicação"
         },
-        "success": "Data Bundle imported",
-        "successContentsSuffix": "now available"
+        "success": "Pacote de dados importado",
+        "successContentsSuffix": "já está disponível"
     },
     "importLayer": {
         "gfw": {
-            "add": "Add Layer",
-            "allLayers": "All GFW Layers (%{count})",
-            "description": "View Description",
-            "downloadSubtitle": "Layer data will be downloaded for offline use",
-            "downloadTitle": "Download",
-            "downloaded": "Downloaded",
-            "downloading": "Downloading Layer...",
-            "error": "The layer could not be downloaded, check your device storage capacity and internet connection and try again.",
-            "notYetDownloaded": "Not downloaded",
-            "onlineSubtitle": "Layer data will only be available when online",
-            "onlineTitle": "Online Access Only",
-            "title": "Add GFW Layers"
+            "add": "Adicionar Camada",
+            "allLayers": "Todas as camadas do GFW (%{count})",
+            "description": "Ver Descrição",
+            "downloadSubtitle": "Dados de camadas serão descarregados para uso offline",
+            "downloadTitle": "Baixar",
+            "downloaded": "Descarregado",
+            "downloading": "A fazer o download da camada...",
+            "error": "Não foi possível baixar esta camada. Verifique a capacidade de armazenamento do seu dispositivo e a sua ligação à internet e tente novamente.",
+            "notYetDownloaded": "Não descarregado",
+            "onlineSubtitle": "Os dados de camadas apenas ficarão disponíveis quando estiver online",
+            "onlineTitle": "Acessível apenas online",
+            "title": "Adicionar Camadas GFW"
         }
     },
     "layers": {
-        "biodiversityIntactness": "Biodiversity intactness - 2016",
-        "biodiversitySignificance": "Biodiversity significance - 2016",
-        "indonesiaForestArea": "Indonesia forest area",
-        "landmarks": "Indigenous and Community Lands",
-        "logging": "Managed Forest Concessions",
+        "biodiversityIntactness": "Integridade da biodiversidade - 2016",
+        "biodiversitySignificance": "Significância de biodiversidade - 2016",
+        "indonesiaForestArea": "Área florestal da Indonésia",
+        "landmarks": "Terras Indígenas e Comunitárias",
+        "logging": "Concessões Florestais Geridas",
         "managedForests": "Floresta gerenciada",
         "mining": "Mineração",
-        "miningConcessions": "Mining concessions",
+        "miningConcessions": "Concessões de Mineração",
         "oilPalm": "Óleo de palma",
-        "oilPalmConcessions": "Oil palm concessions",
+        "oilPalmConcessions": "Concessões de óleo de palma",
         "protectedAreas": "Áreas protegidas",
-        "rspo": "RSPO oil palm concessions - 2017",
+        "rspo": "Concessões de dendê RSPO - 2017",
         "treeCoverLoss2014": "Perda de cobertura arbórea (2014)",
         "treeCoverLoss2015": "Perda de cobertura arbórea (2015)",
         "treeCoverLoss2016": "Perda de cobertura arbórea (2016)",
         "treeCoverLoss2017": "Perda de cobertura arbórea (2017)",
         "treeCoverLoss2018": "Perda de cobertura arbórea (2018)",
-        "wdpa": "Protected Areas (Vector Tiles)",
+        "wdpa": "Áreas Protegidas (Mosaicos de Vetor)",
         "woodFiber": "Fibra de Madeira",
-        "woodFiberConcessions": "Wood fiber concessions by type - 2019"
+        "woodFiberConcessions": "Concessões de fibra de madeira por tipo - 2019"
     },
     "login": {
         "emailLogin": {
-            "emailAddress": "Email Address",
-            "enterYourEmail": "Enter Your Email",
-            "enterYourPassword": "Enter Your Password",
-            "forgotYourPassword": "Forgot Your Password?",
+            "emailAddress": "Endereço de email",
+            "enterYourEmail": "Introduza o seu email",
+            "enterYourPassword": "Introduza a sua palavra-passe",
+            "forgotYourPassword": "Esqueceu-se da sua palavra-passe?",
             "login": "Entrar",
-            "loginError": "Error during login",
-            "loginWithEmail": "Login With Email",
-            "password": "Password"
+            "loginError": "Erro ao iniciar a sessão",
+            "loginWithEmail": "Iniciar Sessão com E-mail",
+            "password": "Palavra-passe"
         },
-        "emailTitle": "Login with Email",
+        "emailTitle": "Iniciar a sessão com o email",
         "facebookTitle": "Facebook",
         "failed": "Ocorreu um erro a entrar/sair",
         "googleTitle": "Google",
         "introductionText": "Entrar com uma conta MyGFW",
-        "mustBeOnline": "You must be online to login",
-        "signUp": "Sign Up",
+        "mustBeOnline": "Tem de estar online para iniciar a sessão",
+        "signUp": "Inscrever-se",
         "twitterTitle": "Twitter"
     },
     "map": {
-        "createdDate": "Created %{date}",
+        "createdDate": "Criado em %{date}",
         "destination": "Destino:",
         "distance": "Distância:",
-        "gladAlert": "GLAD alert",
-        "issuedDate": "Issued %{date}",
+        "gladAlert": "Alerta GLAD",
+        "issuedDate": "Emitido em %{date}",
         "layerSettings": {
             "alertSettings": {
                 "alert": "Alerta",
-                "deforestation": "Deforestation",
-                "fires": "Fires",
+                "deforestation": "Desmatamento",
+                "fires": "Incêndios",
                 "glad": "GLAD",
-                "manyDays": "%{count} days",
-                "manyMonths": "%{count} months",
-                "noAlerts": "No Alerts",
-                "oneDay": "%{count} day",
-                "oneMonth": "%{count} month",
+                "manyDays": "%{count} dias",
+                "manyMonths": "%{count} meses",
+                "noAlerts": "Nenhum Alerta",
+                "oneDay": "%{count} dia",
+                "oneMonth": "%{count} mês",
                 "recent": "Recentes",
-                "reportedOn": "Reported On",
-                "showingManyDays": "Showing %{type} from the past %{count} days",
-                "showingManyMonths": "Showing %{type} from the past %{count} months",
-                "showingOneDay": "Showing %{type} from the past day",
-                "showingOneMonth": "Showing %{type} from the past month",
+                "reportedOn": "Relatado Em",
+                "showingManyDays": "A exibir %{type} dos últimos %{count} dias",
+                "showingManyMonths": "A exibir %{type} dos últimos %{count} meses",
+                "showingOneDay": "A exibir %{type} do último dia",
+                "showingOneMonth": "A exibir %{type} do mês passado",
                 "timeFrame": "Prazo",
-                "timeFrameDescDays": "Select the amount of days",
-                "timeFrameDescMonths": "Select the amount of months",
+                "timeFrameDescDays": "Selecionar a quantidade de dias",
+                "timeFrameDescMonths": "Selecione o número de meses",
                 "viirs": "VIIRS"
             },
             "alerts": "Alertas",
-            "basemap": "Basemap",
+            "basemap": "Mapa-base",
             "basemapSettings": {
-                "showingBasemap": "Basemap: %{basemap}"
+                "showingBasemap": "Mapa-base: %{basemap}"
             },
-            "basemaps": "Basemaps",
-            "contextualLayers": "Contextual Layers",
+            "basemaps": "Mapas de base",
+            "contextualLayers": "Camadas adicionais",
             "contextualLayersSettings": {
-                "showingManyContextualLayers": "%{count} Contextual Layers",
-                "showingOneContextualLayer": "%{count} Contextual Layer"
+                "showingManyContextualLayers": "%{count} camadas adicionais",
+                "showingOneContextualLayer": "%{count} Camada Contextual"
             },
-            "customBasemaps": "Custom Basemaps",
-            "customLayers": "Custom Layers",
-            "gfwBasemaps": "GFW Basemaps",
-            "gfwLayers": "GFW Layers",
-            "importedReports": "Imported Reports",
-            "importedRoutes": "Imported Routes",
+            "customBasemaps": "Mapas-Base Personalizados",
+            "customLayers": "Camadas personalizadas",
+            "gfwBasemaps": "Mapas-Base GFW",
+            "gfwLayers": "Camadas GFW",
+            "importedReports": "Relatórios importados",
+            "importedRoutes": "Percursos Importados",
             "layersHeading": "Camadas",
-            "manageBasemaps": "Manage Basemaps",
-            "manageContextualLayers": "Manage Contextual Layers",
-            "manageReports": "Manage Reports",
-            "manageRoutes": "Manage Routes",
-            "myReports": "My Reports",
-            "myRoutes": "My Routes",
-            "onlyAvailableOnline": "Only Available Online",
+            "manageBasemaps": "Gerir Mapas de Base",
+            "manageContextualLayers": "Gerir Camadas Adicionais",
+            "manageReports": "Gerir relatórios",
+            "manageRoutes": "Gerir Itinerários",
+            "myReports": "Os meus relatórios",
+            "myRoutes": "Os meus itinerários",
+            "onlyAvailableOnline": "Apenas Disponível Online",
             "report": "Relatório",
             "reportSettings": {
-                "showingAllReports": "All Reports",
-                "showingImportedReports": "Imported Reports",
-                "showingMyReports": "My Reports",
-                "showingNoReports": "No Reports"
+                "showingAllReports": "Todos os relatórios",
+                "showingImportedReports": "Relatórios Importados",
+                "showingMyReports": "Os Meus Relatórios",
+                "showingNoReports": "Nenhum Relatório"
             },
             "reports": "Relatórios",
             "routeSettings": {
-                "showingAllRoutes": "All Routes",
-                "showingManyRoutes": "%{count} Routes",
-                "showingOneRoute": "%{count} Route"
+                "showingAllRoutes": "Todos os Percursos",
+                "showingManyRoutes": "%{count} itinerários",
+                "showingOneRoute": "%{count} itinerário"
             },
-            "routes": "Routes",
-            "showing": "Showing: %{description}"
+            "routes": "Percursos",
+            "showing": "A exibir: %{description}"
         },
         "recent": "Recentes",
         "reported": "Relatados",
         "reportsAndRoutes": {
-            "body": "Routes and Reports can also be created by tapping any alerts on the map",
-            "title": "Reports and Routes"
+            "body": "Percursos e Relatórios podem também ser criados ao tocar em qualquer alerta do mapa",
+            "title": "Relatórios e itinerários"
         },
         "reportsTooltip": {
-            "body": "Routes and Reports can be created by dropping a pin",
-            "title": "Reports and Routes"
+            "body": "Os Itinerários e os Relatórios podem ser criados afixando um marcador",
+            "title": "Relatórios e Percursos"
         },
         "selectedItems": {
-            "location": "Location: %{lat}, %{long}",
-            "manyAlerts": "%{count} Alerts",
-            "manyReports": "%{count} Reports",
-            "multipleItems": "Multiple Items",
-            "oneAlert": "1 Alert",
-            "oneReport": "1 Report"
+            "location": "Localização: %{lat}, %{long}",
+            "manyAlerts": "%{count} alertas",
+            "manyReports": "%{count} relatórios",
+            "multipleItems": "Vários itens",
+            "oneAlert": "1 Alerta",
+            "oneReport": "1 Relatório"
         },
         "settingsTooltip": {
-            "body": "Show the layers and data relevant to you",
-            "title": "Customise Map Display"
+            "body": "Mostrar as camadas e os dados relevantes para si",
+            "title": "Personalizar a exibição do mapa"
         },
-        "viirsAlert": "VIIRS alert"
+        "viirsAlert": "Alerta VIIRS"
     },
     "partners": {
         "description": "A Forest Watcher é criada numa colaboração entre o Programa Global Forest Watch do World Resources Institute, a Vizzuality e o Jane Goodall Institute.",
@@ -756,34 +756,34 @@
         "answers": "Respostas",
         "choosePicture": "Tire ou escolha uma foto",
         "completed": "Terminado",
-        "custom": "Custom Report",
+        "custom": "Relatório Personalizado",
         "datePlaceholder": "Escolha uma data",
         "delete": "Apagar esse relatório",
         "drafts": "Rascunhos",
         "empty": {
-            "action": "App FAQs",
-            "body": "Reports you create and imported reports will appear here",
-            "title": "No Reports"
+            "action": "Perguntas Frequentes da Aplicação",
+            "body": "Os relatórios que criar e os relatórios importados serão exibidos aqui",
+            "title": "Nenhum Relatório"
         },
         "emptyPicture": "Vazio",
         "export": {
             "description": "Como gostaria de exportar este relatório?",
-            "manyReports": "%{count} Reports",
+            "manyReports": "%{count} Relatórios",
             "navBarButtonText": "Exportar",
             "noneSelected": "Não foi selecionado nenhum relatório",
-            "oneReport": "%{count} Report",
+            "oneReport": "%{count} relatório",
             "option": {
                 "asCSV": "Exportar como CSV...",
-                "asSharingBundle": "Export as sharing bundle..."
+                "asSharingBundle": "Exportar como pacote para partilhar..."
             },
-            "reportSizeAction": "Export Reports (%{bundleSize})",
+            "reportSizeAction": "Exportar relatórios (%{bundleSize})",
             "successful": "Os relatórios foram exportados com sucesso!",
             "title": "Exportar relatório"
         },
-        "glad": "Deforestation Report",
-        "gladAndViirs": "Deforestation and Fires Report",
+        "glad": "Relatório de Desmatamento",
+        "gladAndViirs": "Relatório de Desmatamento e de Queimadas",
         "here": "Reporte aqui",
-        "imported": "Imported",
+        "imported": "Importado",
         "input": "Por favor, responda à questão",
         "inputRadio": "Escolha uma opção para continuar",
         "inputSelect": "Escolha pelo menos uma opção para continuar",
@@ -795,12 +795,12 @@
         "saveLaterDescription": "Aparecerá como um rascunho na secção de relatórios",
         "saveLaterTitle": "Guardar para mais tarde",
         "selected": "Relatar selecionado",
-        "share": "Share Reports",
+        "share": "Partilhar Relatórios",
         "title": "Relatório",
         "toReport": "Relatório",
         "upload": "Carregar",
         "uploaded": "Carregado",
-        "viirs": "Fire Report"
+        "viirs": "Relatório de Incêndio"
     },
     "routes": {
         "backgroundErrorDialogMessage": "Por favor, verifique as suas definições de localização e permissões da aplicação para retomar a monitorização da rota.",
@@ -817,15 +817,15 @@
         "distance": "Distância",
         "duration": "Tempo gasto",
         "empty": {
-            "action": "App FAQs",
-            "body": "Routes you record and imported routes will appear here",
-            "title": "No Routes"
+            "action": "Perguntas Frequentes sobre a Aplicação",
+            "body": "Os itinerários que registar e os itinerários importados serão exibidos aqui",
+            "title": "Nenhum Itinerário"
         },
         "export": {
-            "manyRoutes": "%{count} Routes",
-            "oneRoute": "%{count} Route"
+            "manyRoutes": "%{count} itinerários",
+            "oneRoute": "%{count} Percurso"
         },
-        "importedRoutes": "Imported Routes",
+        "importedRoutes": "Itinerários importados",
         "insufficientPermissionsDialogMessage": "Para conseguirmos monitorizar a sua rota, necessitamos de permissões para aceder à sua localização em segundo plano.",
         "insufficientPermissionsDialogOpenAppSettings": "Verificar permissões",
         "insufficientPermissionsDialogOpenDeviceSettings": "Verificar as definições de localização",
@@ -833,7 +833,7 @@
         "location": "Localização",
         "locationEnd": "Fim:",
         "locationStart": "Início:",
-        "myRoutes": "My Routes",
+        "myRoutes": "Os Meus Itinerários",
         "notification": {
             "message": "A Forest Watcher está a gravar a rota que está a seguir até ao seu destino",
             "title": "A rota está a ser monitorizada"
@@ -852,32 +852,32 @@
     "settings": {
         "aboutApp": "Sobre desta app",
         "aboutContactUs": "Contacte-nos",
-        "aboutFAQ": "FAQs",
+        "aboutFAQ": "Perguntas Frequentes",
         "aboutPartners": "Parceiros",
         "aboutTerms": "Termos e Condições",
-        "basemaps": "Basemaps",
+        "basemaps": "Mapas de base",
         "completeYourProfileOn": "Complete seu perfil",
-        "contextualLayers": "Contextual Layers",
+        "contextualLayers": "Camadas Contextuais",
         "coordinatesDecimal": "Decimal",
         "coordinatesDegrees": "Graus",
-        "coordinatesDescription": "Select a format you would like to display",
+        "coordinatesDescription": "Selecione um formato que gostaria de exibir",
         "coordinatesFormat": "Formato das Coordenadas",
         "coordinatesUtm": "UTM",
-        "logOut": "Log Out",
-        "moreInfo": "More Info",
+        "logOut": "Terminar Sessão",
+        "moreInfo": "Mais informações",
         "offlineMode": "Modo offline",
-        "shareData": "Share All App Data",
+        "shareData": "Partilhar Todos os Dados da Aplicação",
         "title": "Configurações",
-        "unsafeLogout": "Some data may be lost",
-        "unsavedDataLost": "Some data is not synced to your account and may be lost if you log out.\nThis includes some types of areas and reports and all routes, basemaps and contextual layers.\nFor more info and steps to access this data again, please view our FAQ page on this subject.",
+        "unsafeLogout": "Alguns dados podem ser perdidos",
+        "unsavedDataLost": "Alguns dados não estão sincronizados com a sua conta e podem perder-se se sair da sessão.\nEstes incluem alguns tipos de áreas e relatórios, e todos os itinerários, mapas de base e camadas adicionais.\nPara obter mais informações sobre a forma e os passos para aceder novamente a estes dados, consulte a nossa página de Perguntas Frequentes sobre este assunto.",
         "yourRoutes": "As suas rotas"
     },
     "setupCountry": {
         "firstInstruction": "Primeiro, escolha o seu país de interesse",
         "secondWelcomeText": "por favor configure uma área",
         "tooltip": {
-            "body": "Add an area that you would like to receive alerts for",
-            "title": "Get Started"
+            "body": "Adicione uma área para a qual gostaria de receber alertas",
+            "title": "Começar"
         },
         "welcomeText": "Olá"
     },
@@ -891,29 +891,29 @@
         "placeholder": "Introduza um nome"
     },
     "sharing": {
-        "inProgress": "Sharing %{type}...",
-        "multiple": "Share %{type} (%{bundleSize})",
-        "noneSelected": "No %{type} Selected",
-        "one": "Share %{type} (%{bundleSize})",
-        "title": "Share %{type}",
+        "inProgress": "A partilhar %{type}...",
+        "multiple": "Partilhar %{type} (%{bundleSize})",
+        "noneSelected": "Nenhum(a) %{type} Selecionado",
+        "one": "Partilhar %{type} (%{bundleSize})",
+        "title": "Partilhar %{type}",
         "type": {
             "alert": "Alerta",
             "alerts": "Alertas",
             "area": "Área",
             "areas": "Áreas",
-            "basemaps": "Basemaps",
-            "contextualLayers": "Contextual Layers",
-            "customBasemap": "Custom Basemap",
-            "customBasemaps": "Custom Basemaps",
-            "customLayer": "Custom Contextual Layer",
-            "customLayers": "Custom Contextual Layers",
-            "gfwLayer": "Global Forest Watch Contextual Layer",
-            "gfwLayers": "Global Forest Watch Contextual Layers",
+            "basemaps": "Mapas-base",
+            "contextualLayers": "Camadas Contextuais",
+            "customBasemap": "Mapa-Base Personalizado",
+            "customBasemaps": "Mapas de base personalizados",
+            "customLayer": "Camada adicional personalizada",
+            "customLayers": "Camadas adicionais personalizadas",
+            "gfwLayer": "Camada Adicional da Global Forest Watch",
+            "gfwLayers": "Camadas Contextuais do Global Forest Watch",
             "layers": "Camadas",
             "report": "Relatório",
             "reports": "Relatórios",
-            "route": "Route",
-            "routes": "Routes"
+            "route": "Itinerário",
+            "routes": "Itinerários"
         }
     },
     "sync": {
@@ -922,8 +922,8 @@
         "errorCreatingArea": "Ocorreu um erro ao criar a sua área",
         "errorDesc": "Algo correu mal",
         "failed": {
-            "title": "There was an error syncing alerts",
-            "outOfSpaceMessage": "To have alerts available offline, you must clear some unused files from your phone"
+            "title": "Ocorreu um erro ao sincronizar os alertas",
+            "outOfSpaceMessage": "Para ter os alertas disponíveis offline, terá de eliminar alguns ficheiros não utilizados do seu telefone"
         },
         "gettingLatestAlerts": "Obtenção dos últimos alertas",
         "reportUploadRollback": "Erro ao fazer o upload do relatório",
@@ -946,44 +946,44 @@
     },
     "welcome": {
         "deforestationAlerts": {
-            "body": "See GLAD deforestation and VIIRS fire alerts for locations worldwide",
-            "title": "View Deforestation Alerts"
+            "body": "Ver os alertas de desmatamento do GLAD e os alertas de incêndio do VIIRS para o mundo inteiro",
+            "title": "Ver Alertas de Desflorestação"
         },
         "layers": {
-            "body": "Display custom layers or base maps for more effective monitoring",
-            "title": "Customise Map Layers"
+            "body": "Mostrar camadas personalizadas ou mapas de base para um monitoramento mais eficaz",
+            "title": "Personalizar Camadas do Mapa"
         },
         "reports": {
-            "body": "Report on what you find on the ground through text and voice recording",
-            "title": "Create Reports"
+            "body": "Relate o que encontrou no terreno por escrito e por gravação de voz",
+            "title": "Criar Relatórios"
         },
         "routes": {
-            "body": "Easier navigation to alert areas to be investigated",
-            "title": "Record Routes"
+            "body": "Navegação mais simples para áreas de alertas a serem investigados",
+            "title": "Registar Percursos"
         },
         "share": {
-            "body": "Share areas, routes, layers and more for improved team coordination",
-            "title": "Share Content"
+            "body": "Partilhe áreas, percursos, camadas e mais para uma melhor coordenação de equipas",
+            "title": "Partilhar conteúdo"
         },
         "title": "Bem-vindo à Forest Watcher"
     },
     "whatsNew": {
         "areaSize": {
-            "body": "The maximum area size has increased to 20,000 square kilometers",
-            "title": "Monitor Larger Areas"
+            "body": "O tamanho máximo da área aumentou para 20 000 quilómetros quadrados",
+            "title": "Monitorar Áreas Maiores"
         },
         "basemaps": {
-            "body": "Add your own or view more from Global Forest Watch to better understand terrain",
-            "title": "Improved Basemaps"
+            "body": "Adicione o seu próprio ou veja outros do Global Forest Watch para compreender melhor o terreno",
+            "title": "Mapas de Base Melhorados"
         },
         "layers": {
-            "body": "Add layers from Global Forest Watch or your own for more effective monitoring",
-            "title": "Improved Contextual Layers"
+            "body": "Adicione camadas da Global Forest Watch ou suas para monitoramento mais eficaz.",
+            "title": "Camadas Contextuais Melhoradas"
         },
         "share": {
-            "body": "Share areas, routes, layers and more for improved team coordination",
-            "title": "Share Content"
+            "body": "Partilhar áreas, itinerários e camadas para melhor coordenação da equipa",
+            "title": "Partilhar Conteúdo"
         },
-        "title": "New in This Version"
+        "title": "Novo nesta Versão"
     }
 }
