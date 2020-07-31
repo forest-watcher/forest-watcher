@@ -289,9 +289,11 @@ class MapSidebar extends PureComponent<Props, null> {
             largerLeftPadding
           />
         </ScrollView>
-        <SafeAreaView style={styles.basemapContainer}>
-          <SettingsButton title={this.getBasemapsTitle()} onPress={this.openBasemapLayerSettings} />
-        </SafeAreaView>
+        {!this.props.isNewArea && (
+          <SafeAreaView style={styles.basemapContainer}>
+            <SettingsButton title={this.getBasemapsTitle()} onPress={this.openBasemapLayerSettings} />
+          </SafeAreaView>
+        )}
       </View>
     );
   }
