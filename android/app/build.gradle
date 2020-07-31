@@ -146,7 +146,7 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 30
-        versionName "2.0.0"
+        versionName "2.0.1"
         resValue "string", "build_config_package", "com.forestwatcher"
         archivesBaseName = "$applicationId-v$versionName-$versionCode"
         manifestPlaceholders = [
