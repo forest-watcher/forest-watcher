@@ -14,6 +14,10 @@ import styles, { mapboxStyles } from './styles';
 import { coordsArrayToObject } from 'helpers/location';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import { getPolygonBoundingBox } from 'helpers/map';
+import ContextualLayers from 'containers/map/contextual-layers';
+import { pathForMBTilesFile } from 'helpers/layer-store/layerFilePaths';
+import { MBTilesSource } from '../../../../react-native-mbtiles';
+import type { LayerSettings } from 'types/layerSettings.types';
 
 const geojsonArea = require('@mapbox/geojson-area');
 
@@ -24,6 +28,8 @@ const windowSize = Dimensions.get('window');
 const screenshotPadding = 100;
 
 class DrawAreas extends Component {
+  static offlinePortNumber = 49334;
+
   constructor(props) {
     super(props);
     this.state = {
@@ -267,6 +273,16 @@ class DrawAreas extends Component {
           compassViewMargins={{ x: 5, y: 50 }}
         >
           {renderMapCamera}
+          <MBTilesSource
+            basemapId={this.props.basemap.id}
+            basemapPath={this.props.basemap.isCustom ? pathForMBTilesFile(this.props.basemap) : null}
+            port={DrawAreas.offlinePortNumber}
+            layerIndex={MAP_LAYER_INDEXES.basemap}
+          />
+          <ContextualLayers
+            featureId={this.props.featureId}
+            layerSettings={this.props.layerSettings.contextualLayers}
+          />
           {this.renderNewAreaOutline(markerLocations)}
           {this.renderPolygon(markerLocations)}
         </MapboxGL.MapView>
@@ -293,11 +309,13 @@ class DrawAreas extends Component {
 
 DrawAreas.propTypes = {
   basemap: PropTypes.object.isRequired,
+  featureId: PropTypes.object.isRequired,
   country: PropTypes.shape({
     iso: PropTypes.string.isRequired,
     bbox: PropTypes.object,
     centroid: PropTypes.object
   }).isRequired,
+  layerSettings: PropTypes.object.isRequired,
   onDrawAreaFinish: PropTypes.func.isRequired
 };
 
