@@ -13,7 +13,7 @@ export function pushMapScreen(
   passProps: { areaId?: ?string, featureId?: ?string, routeId?: ?string },
   title: ?string = null,
   mapScreenName: string = 'ForestWatcher.Map',
-  hideLayerSettingsIcon = false
+  isNewArea = false // GFW-772: only show contextual layers and basemap options when creating a new area
 ) {
   const featureId = passProps.featureId ?? passProps.areaId ?? passProps.routeId ?? '';
   Navigation.push(componentId, {
@@ -52,14 +52,12 @@ export function pushMapScreen(
                         color: Theme.fontColors.white
                       }
                     ],
-                    rightButtons: hideLayerSettingsIcon
-                      ? []
-                      : [
-                          {
-                            id: 'settings',
-                            icon: mapSettingsIcon
-                          }
-                        ]
+                    rightButtons: [
+                      {
+                        id: 'settings',
+                        icon: mapSettingsIcon
+                      }
+                    ]
                   }
                 },
                 passProps: {
@@ -76,6 +74,7 @@ export function pushMapScreen(
           name: 'ForestWatcher.MapLayersDrawer',
           passProps: {
             ...passProps,
+            isNewArea,
             featureId
           }
         }
