@@ -16,6 +16,7 @@ const SafeAreaView = withSafeArea(View, 'padding', 'bottom');
 
 type Props = {
   areaId: ?string,
+  isNewArea: boolean,
   featureId: string,
   allLayerSettings: { [featureId: string]: LayerSettings },
   defaultLayerSettings: LayerSettings,
@@ -206,64 +207,68 @@ class MapSidebar extends PureComponent<Props, null> {
           showsHorizontalScrollIndicator={false}
         >
           <Text style={styles.heading}>{i18n.t('map.layerSettings.layersHeading')}</Text>
-          <VerticalSplitRow
-            onIconPress={() => {
-              if (!featureId) {
-                return;
-              }
+          {!this.props.isNewArea && (
+            <React.Fragment>
+              <VerticalSplitRow
+                onIconPress={() => {
+                  if (!featureId) {
+                    return;
+                  }
 
-              this.props.toggleAlertsLayer(featureId);
-            }}
-            onSettingsPress={this.openAlertLayerSettings}
-            title={i18n.t('map.layerSettings.alerts')}
-            settingsTitle={this.getAlertsSettingsTitle(layerSettings)}
-            selected={layerSettings.alerts.layerIsActive}
-            disableSettingsButton={!this.props.areaId}
-            disableStyleSettingsButton={!this.props.areaId || !layerSettings.alerts.layerIsActive}
-            style={styles.rowContainer}
-            hideDivider
-            hideImage
-            smallerVerticalPadding
-            largerLeftPadding
-          />
-          <VerticalSplitRow
-            onIconPress={() => {
-              if (!featureId) {
-                return;
-              }
+                  this.props.toggleAlertsLayer(featureId);
+                }}
+                onSettingsPress={this.openAlertLayerSettings}
+                title={i18n.t('map.layerSettings.alerts')}
+                settingsTitle={this.getAlertsSettingsTitle(layerSettings)}
+                selected={layerSettings.alerts.layerIsActive}
+                disableSettingsButton={!this.props.areaId}
+                disableStyleSettingsButton={!this.props.areaId || !layerSettings.alerts.layerIsActive}
+                style={styles.rowContainer}
+                hideDivider
+                hideImage
+                smallerVerticalPadding
+                largerLeftPadding
+              />
+              <VerticalSplitRow
+                onIconPress={() => {
+                  if (!featureId) {
+                    return;
+                  }
 
-              this.props.toggleRoutesLayer(featureId);
-            }}
-            onSettingsPress={this.openRoutesLayerSettings}
-            title={i18n.t('map.layerSettings.routes')}
-            settingsTitle={this.getRoutesSettingsTitle(layerSettings)}
-            selected={layerSettings.routes.layerIsActive}
-            disableStyleSettingsButton={!layerSettings.routes.layerIsActive}
-            style={styles.rowContainer}
-            hideDivider
-            hideImage
-            smallerVerticalPadding
-            largerLeftPadding
-          />
-          <VerticalSplitRow
-            onIconPress={() => {
-              if (!featureId) {
-                return;
-              }
+                  this.props.toggleRoutesLayer(featureId);
+                }}
+                onSettingsPress={this.openRoutesLayerSettings}
+                title={i18n.t('map.layerSettings.routes')}
+                settingsTitle={this.getRoutesSettingsTitle(layerSettings)}
+                selected={layerSettings.routes.layerIsActive}
+                disableStyleSettingsButton={!layerSettings.routes.layerIsActive}
+                style={styles.rowContainer}
+                hideDivider
+                hideImage
+                smallerVerticalPadding
+                largerLeftPadding
+              />
+              <VerticalSplitRow
+                onIconPress={() => {
+                  if (!featureId) {
+                    return;
+                  }
 
-              this.props.toggleReportsLayer(featureId);
-            }}
-            onSettingsPress={this.openReportsLayerSettings}
-            title={i18n.t('map.layerSettings.reports')}
-            settingsTitle={this.getReportSettingsTitle(layerSettings)}
-            selected={layerSettings.reports.layerIsActive}
-            disableStyleSettingsButton={!layerSettings.reports.layerIsActive}
-            style={styles.rowContainer}
-            hideDivider
-            hideImage
-            smallerVerticalPadding
-            largerLeftPadding
-          />
+                  this.props.toggleReportsLayer(featureId);
+                }}
+                onSettingsPress={this.openReportsLayerSettings}
+                title={i18n.t('map.layerSettings.reports')}
+                settingsTitle={this.getReportSettingsTitle(layerSettings)}
+                selected={layerSettings.reports.layerIsActive}
+                disableStyleSettingsButton={!layerSettings.reports.layerIsActive}
+                style={styles.rowContainer}
+                hideDivider
+                hideImage
+                smallerVerticalPadding
+                largerLeftPadding
+              />
+            </React.Fragment>
+          )}
           <VerticalSplitRow
             onIconPress={() => {
               if (!featureId) {
@@ -284,9 +289,11 @@ class MapSidebar extends PureComponent<Props, null> {
             largerLeftPadding
           />
         </ScrollView>
-        <SafeAreaView style={styles.basemapContainer}>
-          <SettingsButton title={this.getBasemapsTitle()} onPress={this.openBasemapLayerSettings} />
-        </SafeAreaView>
+        {!this.props.isNewArea && (
+          <SafeAreaView style={styles.basemapContainer}>
+            <SettingsButton title={this.getBasemapsTitle()} onPress={this.openBasemapLayerSettings} />
+          </SafeAreaView>
+        )}
       </View>
     );
   }
