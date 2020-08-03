@@ -15,8 +15,6 @@ import { coordsArrayToObject } from 'helpers/location';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import { getPolygonBoundingBox } from 'helpers/map';
 import ContextualLayers from 'containers/map/contextual-layers';
-import { pathForMBTilesFile } from 'helpers/layer-store/layerFilePaths';
-import { MBTilesSource } from '../../../../react-native-mbtiles';
 import type { LayerSettings } from 'types/layerSettings.types';
 import type { Layer } from 'types/layers.types';
 import type { Country } from 'types/countries.types';
@@ -55,8 +53,6 @@ type State = {
 };
 
 export default class DrawAreas extends Component<Props, State> {
-  static offlinePortNumber = 49334;
-
   constructor(props) {
     super(props);
     this.state = {
@@ -300,12 +296,6 @@ export default class DrawAreas extends Component<Props, State> {
           compassViewMargins={{ x: 5, y: 50 }}
         >
           {renderMapCamera}
-          <MBTilesSource
-            basemapId={this.props.basemap.id}
-            basemapPath={this.props.basemap.isCustom ? pathForMBTilesFile(this.props.basemap) : null}
-            port={DrawAreas.offlinePortNumber}
-            layerIndex={MAP_LAYER_INDEXES.basemap}
-          />
           <ContextualLayers
             featureId={this.props.featureId}
             layerSettings={this.props.layerSettings.contextualLayers}
