@@ -1,0 +1,41 @@
+diff --git a/node_modules/@react-native-mapbox-gl/maps/.DS_Store b/node_modules/@react-native-mapbox-gl/maps/.DS_Store
+new file mode 100644
+index 0000000..924b09d
+Binary files /dev/null and b/node_modules/@react-native-mapbox-gl/maps/.DS_Store differ
+diff --git a/node_modules/@react-native-mapbox-gl/maps/ios/.DS_Store b/node_modules/@react-native-mapbox-gl/maps/ios/.DS_Store
+new file mode 100644
+index 0000000..f113c27
+Binary files /dev/null and b/node_modules/@react-native-mapbox-gl/maps/ios/.DS_Store differ
+diff --git a/node_modules/@react-native-mapbox-gl/maps/ios/RCTMGL.xcodeproj/project.xcworkspace/contents.xcworkspacedata b/node_modules/@react-native-mapbox-gl/maps/ios/RCTMGL.xcodeproj/project.xcworkspace/contents.xcworkspacedata
+new file mode 100644
+index 0000000..94b2795
+--- /dev/null
++++ b/node_modules/@react-native-mapbox-gl/maps/ios/RCTMGL.xcodeproj/project.xcworkspace/contents.xcworkspacedata
+@@ -0,0 +1,4 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<Workspace
++   version = "1.0">
++</Workspace>
+diff --git a/node_modules/@react-native-mapbox-gl/maps/ios/RCTMGL/RCTMGLLocationManager.m b/node_modules/@react-native-mapbox-gl/maps/ios/RCTMGL/RCTMGLLocationManager.m
+index c68a1f4..97a93d8 100644
+--- a/node_modules/@react-native-mapbox-gl/maps/ios/RCTMGL/RCTMGLLocationManager.m
++++ b/node_modules/@react-native-mapbox-gl/maps/ios/RCTMGL/RCTMGLLocationManager.m
+@@ -56,7 +56,17 @@ - (void)start:(CLLocationDistance)minDisplacement
+     }
+ 
+     dispatch_async(dispatch_get_main_queue(), ^{
+-        [self->locationManager requestWhenInUseAuthorization];
++        
++        if (@available(iOS 13, *)) {
++            // When on iOS 13 or above, we request always as otherwise the permission
++            // given will not allow background tracking, and we cannot explicitly request
++            // the elevated permission later on.
++            [self->locationManager requestAlwaysAuthorization];
++        } else {
++            // On iOS 12 and below, we can request when in use first. We'll then request
++            // always authorization when required later on.
++            [self->locationManager requestWhenInUseAuthorization];
++        }        
+         [self->locationManager startUpdatingLocation];
+         [self->locationManager startUpdatingHeading];
+         [self->locationManager setDistanceFilter:(minDisplacement)];
