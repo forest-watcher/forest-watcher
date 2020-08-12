@@ -312,19 +312,19 @@ PODS:
     - React
   - react-native-image-picker (2.3.1):
     - React
-  - react-native-mapbox-gl (8.0.0):
-    - "@react-native-mapbox-gl-mapbox-static (~> 5.7)"
-    - Mapbox-iOS-SDK (~> 5.7)
+  - react-native-mapbox-gl (8.1.0-rc.2):
+    - "@react-native-mapbox-gl-mapbox-static (~> 5.8)"
+    - Mapbox-iOS-SDK (~> 5.8)
     - React
-    - react-native-mapbox-gl/DynamicLibrary (= 8.0.0)
-    - react-native-mapbox-gl/StaticLibraryFixer (= 8.0.0)
-  - react-native-mapbox-gl/DynamicLibrary (8.0.0):
-    - "@react-native-mapbox-gl-mapbox-static (~> 5.7)"
-    - Mapbox-iOS-SDK (~> 5.7)
+    - react-native-mapbox-gl/DynamicLibrary (= 8.1.0-rc.2)
+    - react-native-mapbox-gl/StaticLibraryFixer (= 8.1.0-rc.2)
+  - react-native-mapbox-gl/DynamicLibrary (8.1.0-rc.2):
+    - "@react-native-mapbox-gl-mapbox-static (~> 5.8)"
+    - Mapbox-iOS-SDK (~> 5.8)
     - React
-  - react-native-mapbox-gl/StaticLibraryFixer (8.0.0):
-    - "@react-native-mapbox-gl-mapbox-static (~> 5.7)"
-    - Mapbox-iOS-SDK (~> 5.7)
+  - react-native-mapbox-gl/StaticLibraryFixer (8.1.0-rc.2):
+    - "@react-native-mapbox-gl-mapbox-static (~> 5.8)"
+    - Mapbox-iOS-SDK (~> 5.8)
     - React
   - react-native-mbtiles (0.0.1):
     - GCDWebServer (~> 3.0)
@@ -665,7 +665,7 @@ SPEC CHECKSUMS:
   react-native-fbsdk: 00c15d138bba6d4efa628670886fc58cec858c19
   react-native-get-random-values: 148a42f97f2ce180a52d219144e83c278d4fe24b
   react-native-image-picker: 6a850c41f57f0848d918c2a77aedd7aa272ffa30
-  react-native-mapbox-gl: 77b87a1dd2d7b41b6b77018c0f3bed5f8ee55c81
+  react-native-mapbox-gl: 18785637738ca8b25c3633db431d6614ec7fc9bf
   react-native-mbtiles: 3e4de21a8cd52d76f69fab6e302b381f30658138
   react-native-netinfo: 3bf235d94cc291cf0673ad9fd9eaae82f84ed8a9
   react-native-safe-area: e8230b0017d76c00de6b01e2412dcf86b127c6a3
@@ -700,4 +700,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 22709a7b614425d1df5a5dce98492e3b30e75112
 
-COCOAPODS: 1.9.3
+COCOAPODS: 1.9.1
