@@ -1,21 +1,3 @@
-diff --git a/node_modules/@react-native-mapbox-gl/maps/.DS_Store b/node_modules/@react-native-mapbox-gl/maps/.DS_Store
-new file mode 100644
-index 0000000..924b09d
-Binary files /dev/null and b/node_modules/@react-native-mapbox-gl/maps/.DS_Store differ
-diff --git a/node_modules/@react-native-mapbox-gl/maps/ios/.DS_Store b/node_modules/@react-native-mapbox-gl/maps/ios/.DS_Store
-new file mode 100644
-index 0000000..f113c27
-Binary files /dev/null and b/node_modules/@react-native-mapbox-gl/maps/ios/.DS_Store differ
-diff --git a/node_modules/@react-native-mapbox-gl/maps/ios/RCTMGL.xcodeproj/project.xcworkspace/contents.xcworkspacedata b/node_modules/@react-native-mapbox-gl/maps/ios/RCTMGL.xcodeproj/project.xcworkspace/contents.xcworkspacedata
-new file mode 100644
-index 0000000..94b2795
---- /dev/null
-+++ b/node_modules/@react-native-mapbox-gl/maps/ios/RCTMGL.xcodeproj/project.xcworkspace/contents.xcworkspacedata
-@@ -0,0 +1,4 @@
-+<?xml version="1.0" encoding="UTF-8"?>
-+<Workspace
-+   version = "1.0">
-+</Workspace>
 diff --git a/node_modules/@react-native-mapbox-gl/maps/ios/RCTMGL/RCTMGLLocationManager.m b/node_modules/@react-native-mapbox-gl/maps/ios/RCTMGL/RCTMGLLocationManager.m
 index c68a1f4..97a93d8 100644
 --- a/node_modules/@react-native-mapbox-gl/maps/ios/RCTMGL/RCTMGLLocationManager.m
