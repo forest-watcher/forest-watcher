@@ -2,7 +2,7 @@
 import type { Coordinates } from 'types/common.types';
 import type { ComponentProps, Dispatch, State } from 'types/store.types';
 import type { Route } from 'types/routes.types';
-import type { BasicReport, Report, ReportList, ReportArea } from 'types/reports.types';
+import type { BasicReport, Report, ReportsList, ReportArea } from 'types/reports.types';
 
 import { flatten } from 'lodash';
 import memoizeOne from 'memoize-one';
@@ -23,7 +23,10 @@ type OwnProps = {|
   +routeId: ?string
 |};
 
-function getAreaCoordinates(areaFeature): Array<Coordinates> {
+function getAreaCoordinates(areaFeature): ?Array<Coordinates> {
+  if (!areaFeature?.geometry?.coordinates?.length) {
+    return null;
+  }
   switch (areaFeature.geometry.type) {
     case 'MultiPolygon': {
       // When KML files are uploaded in the webapp they are always turned into MultiPolygons even if that multi polygon
@@ -44,7 +47,7 @@ function getAreaCoordinates(areaFeature): Array<Coordinates> {
  * Memoize the result so we don't create a new array every time mapStateToProps is called below.
  */
 const getReportedCoordinates = memoizeOne(
-  (reportsMap: ReportList): $ReadOnlyArray<Coordinates> => {
+  (reportsMap: ReportsList): $ReadOnlyArray<Coordinates> => {
     const reports: Array<Report> = Object.keys(reportsMap).map(key => reportsMap[key]);
     const locations: Array<Array<{ lat?: number, long?: number }>> = reports.map(report => {
       const clickedPositions = report.clickedPosition ? JSON.parse(report.clickedPosition) : [];
@@ -82,8 +85,7 @@ function mapStateToProps(state: State, ownProps: OwnProps) {
   let areaProps: ?ReportArea = null;
   if (area) {
     const dataset = activeDataset(area);
-    const geostore = area.geostore;
-    const areaFeatures = (geostore && geostore.geojson && geostore.geojson.features[0]) || false;
+    const areaFeatures = area.geostore?.geojson?.features?.[0] ?? null;
     if (areaFeatures) {
       areaCoordinates = getAreaCoordinates(areaFeatures);
     }
