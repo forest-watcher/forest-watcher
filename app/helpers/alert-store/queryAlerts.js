@@ -33,7 +33,7 @@ export default function queryAlerts(query: AlertsQuery): Array<Alert> {
 /**
  * Synchronous method of the above, because Realm works synchronously
  */
-export function queryAlertsLazy(query: AlertsQuery) {
+export function queryAlertsLazy(query: AlertsQuery, noLimit: boolean = false) {
   const { areaId, dataset, timeAgo, distinctLocations } = query;
   const db = initDb();
 
@@ -68,5 +68,11 @@ export function queryAlertsLazy(query: AlertsQuery) {
   }
 
   const queryString = queryParts.join(' ');
-  return db.objects('Alert').filtered(queryString);
+
+  return noLimit
+    ? db.objects('Alert').filtered(queryString)
+    : db
+        .objects('Alert')
+        .filtered(queryString)
+        .slice(0, 10000); // Limit to 10,000 alerts
 }
