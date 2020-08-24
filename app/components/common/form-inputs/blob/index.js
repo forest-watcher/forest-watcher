@@ -109,7 +109,7 @@ class ImageBlobInput extends Component<Props, State> {
       this.props.answer.questionName,
       'image/jpeg'
     );
-    const imagePathCacheBusted = this.state.cachebuster ? `${imagePath}#${this.state.cachebuster}` : null;
+    const imagePathCacheBusted = this.state.cachebuster ? `${imagePath}#${this.state.cachebuster}` : imagePath;
     return (
       <View style={styles.container}>
         <View style={styles.preview}>
