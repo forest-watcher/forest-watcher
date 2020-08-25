@@ -20,7 +20,7 @@ export default function deleteAlerts(query?: AlertsQuery = Object.freeze({})) {
     return;
   }
 
-  const alerts = queryAlertsLazy(query, true);
+  const alerts = queryAlertsLazy(query);
   realm.write(() => {
     realm.delete(alerts);
   });

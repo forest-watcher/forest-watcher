@@ -136,6 +136,7 @@ export default class AlertDataset extends PureComponent<Props, State> {
         areaId: areaId ?? undefined,
         dataset: slug,
         timeAgo: { max: timeframe, unit: timeframeUnit },
+        limitAlerts: true,
         distinctLocations: true
       });
 
