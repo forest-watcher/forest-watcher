@@ -42,7 +42,7 @@ const getReportPosition = (report: Report): [number, number] => {
   if (!position) {
     const positionValues = report.userPosition.split(',').reverse();
 
-    if (positionValues.length > 2) {
+    if (positionValues.length < 2) {
       throw new Error('3SC - getReportPosition was passed a report with an invalid userPosition string');
     }
 

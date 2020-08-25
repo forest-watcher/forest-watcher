@@ -593,6 +593,10 @@ class MapComponent extends Component<Props, State> {
         }
       ];
     } else if (this.isRouteTracking() && userLocation) {
+      if (!mapCenterCoords) {
+        console.warn('3SC', 'Cannot create a route tracking report without user location');
+        return;
+      }
       latLng = [
         {
           lat: userLocation.latitude,
