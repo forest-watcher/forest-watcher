@@ -8,6 +8,11 @@ export type AlertsQuery = {|
   +areaId?: string,
   +dataset?: string,
   +timeAgo?: { min?: number, max?: number, unit: string },
+  /**
+   * GFW-770: We limit the amount of alerts to 10,000 by default (unless deleting alerts).
+   * To prevent slowing down old devices with too many alerts in state.
+   */
+  +limitAlerts?: boolean,
 
   /**
    * Flag indicating whether we should remove alerts corresponding to the same location
@@ -34,7 +39,7 @@ export default function queryAlerts(query: AlertsQuery): Array<Alert> {
  * Synchronous method of the above, because Realm works synchronously
  */
 export function queryAlertsLazy(query: AlertsQuery) {
-  const { areaId, dataset, timeAgo, distinctLocations } = query;
+  const { areaId, dataset, timeAgo, distinctLocations, limitAlerts } = query;
   const db = initDb();
 
   const predicateParts = [];
@@ -65,6 +70,10 @@ export function queryAlertsLazy(query: AlertsQuery) {
 
   if (distinctLocations) {
     queryParts.push('DISTINCT(slug,lat,long)');
+  }
+
+  if (limitAlerts) {
+    queryParts.push('LIMIT(10000)');
   }
 
   const queryString = queryParts.join(' ');
