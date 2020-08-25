@@ -104,16 +104,17 @@ class ImageBlobInput extends Component<Props, State> {
   };
 
   render() {
-    const imagePath = pathForReportQuestionAttachment(
-      this.props.reportName,
-      this.props.answer.questionName,
-      'image/jpeg'
-    );
-    const imagePathCacheBusted = this.state.cachebuster ? `${imagePath}#${this.state.cachebuster}` : null;
+    const hasAnswer = this.props.answer?.value === REPORT_BLOB_IMAGE_ATTACHMENT_PRESENT;
+    let imagePath = null;
+    if (hasAnswer) {
+      imagePath = pathForReportQuestionAttachment(this.props.reportName, this.props.answer.questionName, 'image/jpeg');
+    }
+
+    const imagePathCacheBusted = this.state.cachebuster ? `${imagePath}#${this.state.cachebuster}` : imagePath;
     return (
       <View style={styles.container}>
         <View style={styles.preview}>
-          {imagePathCacheBusted ? (
+          {imagePath ? (
             <ImageCard
               id={'imagePreview'}
               key={1}
