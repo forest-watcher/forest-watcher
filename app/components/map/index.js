@@ -592,8 +592,8 @@ class MapComponent extends Component<Props, State> {
           lon: selectedReports[0].long
         }
       ];
-    } else if (this.isRouteTracking() && userLocation) {
-      if (!mapCenterCoords) {
+    } else if (this.isRouteTracking()) {
+      if (!userLocation) {
         console.warn('3SC', 'Cannot create a route tracking report without user location');
         return;
       }
