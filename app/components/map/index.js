@@ -603,6 +603,9 @@ class MapComponent extends Component<Props, State> {
           lon: userLocation.longitude
         }
       ];
+    } else {
+      console.warn('3SC', 'Cannot create a report without a report location');
+      return;
     }
 
     const source = this.determineReportingSource(selectedAlerts, this.isRouteTracking(), customReporting);
