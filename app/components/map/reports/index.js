@@ -29,18 +29,20 @@ type Props = {
 
 const getReportPosition = (report: Report): [number, number] => {
   let position;
-  const clickedPosition = JSON.parse(report.clickedPosition);
-  if (clickedPosition?.length) {
-    const lastClickedPosition = clickedPosition[clickedPosition.length - 1];
-    if (lastClickedPosition.lon && lastClickedPosition.lat) {
-      position = [lastClickedPosition.lon, lastClickedPosition.lat];
+  if (report.clickedPosition) {
+    const clickedPosition = JSON.parse(report.clickedPosition);
+    if (clickedPosition?.length) {
+      const lastClickedPosition = clickedPosition[clickedPosition.length - 1];
+      if (lastClickedPosition.lon && lastClickedPosition.lat) {
+        position = [lastClickedPosition.lon, lastClickedPosition.lat];
+      }
     }
   }
 
   if (!position) {
     const positionValues = report.userPosition.split(',').reverse();
 
-    if (positionValues.length > 2) {
+    if (positionValues.length < 2) {
       throw new Error('3SC - getReportPosition was passed a report with an invalid userPosition string');
     }
 
