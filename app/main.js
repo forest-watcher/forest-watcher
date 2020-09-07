@@ -167,7 +167,6 @@ export default class App {
       this.store = store;
       registerScreens(store, Provider);
       initialiseLocationFramework();
-      this.setupMapbox();
       createStore.runSagas();
       await this.launchRoot();
     });
