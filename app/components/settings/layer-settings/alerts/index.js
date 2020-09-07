@@ -99,20 +99,19 @@ class AlertLayerSettings extends PureComponent<Props> {
     const showViirs = areaDatasets.includes(DATASETS.viirs.id);
     const showGlad = areaDatasets.includes(DATASETS.umd_as_it_happens.id);
 
-    const alertsString = i18n.t('map.layerSettings.alerts');
     const gladTimeFrame = this.props.alertLayerSettings.glad.timeFrame;
     const gladShowingDescription = i18n.t(
       gladTimeFrame === 1
         ? 'map.layerSettings.alertSettings.showingOneMonth'
         : 'map.layerSettings.alertSettings.showingManyMonths',
-      { count: gladTimeFrame, type: alertsString }
+      { count: gladTimeFrame }
     );
     const viirsTimeFrame = this.props.alertLayerSettings.viirs.timeFrame;
     const viirsShowingDescription = i18n.t(
       viirsTimeFrame === 1
         ? 'map.layerSettings.alertSettings.showingOneDay'
         : 'map.layerSettings.alertSettings.showingManyDays',
-      { count: viirsTimeFrame, type: alertsString }
+      { count: viirsTimeFrame }
     );
     const gladActive = this.props.alertLayerSettings.glad.active;
     const viirsActive = this.props.alertLayerSettings.viirs.active;
