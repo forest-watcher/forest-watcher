@@ -52,6 +52,7 @@ export default class App {
       screen = 'ForestWatcher.Dashboard';
     }
 
+    this.setupMapbox();
     await launchAppRoot(screen);
     await this._handleAppStateChange('active');
 
