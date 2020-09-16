@@ -3,6 +3,7 @@
 ## [v2.0.3]
 - Limit number of alerts displayed at one time to 10k
 - Modified startup logic to ensure Mapbox SDK is always initialised even when resuming the app from the background
+- Fixed app not using Malagasy language for Android users with a language preference list defined
 
 ## [v2.0.2]
 - Fixed how Map Settings is used in Setup Area flow
