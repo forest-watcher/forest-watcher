@@ -52,10 +52,7 @@ export default class App {
       screen = 'ForestWatcher.Dashboard';
     }
 
-    if (Platform.OS === 'android') {
-      NativeModules.FWMapbox.installOfflineModeInterceptor(state.app.offlineMode);
-    }
-
+    this.setupMapbox();
     await launchAppRoot(screen);
     await this._handleAppStateChange('active');
 
@@ -170,9 +167,15 @@ export default class App {
       this.store = store;
       registerScreens(store, Provider);
       initialiseLocationFramework();
-      MapboxGL.setAccessToken(Config.MAPBOX_TOKEN);
       createStore.runSagas();
       await this.launchRoot();
     });
   }
+
+  setupMapbox = () => {
+    MapboxGL.setAccessToken(Config.MAPBOX_TOKEN);
+    if (Platform.OS === 'android') {
+      NativeModules.FWMapbox.installOfflineModeInterceptor(this.store.getState().app.offlineMode);
+    }
+  };
 }
