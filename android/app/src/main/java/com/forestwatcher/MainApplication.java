@@ -1,6 +1,8 @@
 package com.forestwatcher;
 
 import android.content.Context;
+import android.os.Build;
+import android.os.LocaleList;
 import cl.json.ShareApplication;
 import com.cube.rnmbtiles.ReactNativeMBTilesPackage;
 import com.facebook.react.PackageList;
@@ -68,6 +70,22 @@ public class MainApplication extends NavigationApplication implements ShareAppli
 		super.onCreate();
 		SoLoader.init(this, /* native exopackage */ false);
 		initializeFlipper(this); // Remove this line if you don't want Flipper enabled
+
+		/*
+		 * This code fixes GFW-791 where the Malagasy language would not display if configured alongside other languages
+		 * in a priority list.
+		 *
+		 * For instance, if the app settings were set with the following list: 1) Malagasy, 2) English
+		 * ....then LocaleList.getAdjustedDefault() would return 1) English, 2) Malagasy
+		 * ....but LocaleList.getDefault() would return the correct order.
+		 * However, it is LocaleList.getAdjustedDefault that appears to be what is used!
+		 *
+		 * To fix this, we instead explicitly set the app locale to LocaleList.getDefault on startup
+		 */
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+		{
+			getResources().getConfiguration().setLocales(LocaleList.getDefault());
+		}
 	}
 
 	/**
