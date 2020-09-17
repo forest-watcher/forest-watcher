@@ -92,9 +92,6 @@
     <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
 
     <meta-data
-      android:name="com.google.android.geo.API_KEY"
-      android:value="@string/GOOGLE_MAPS_API_KEY" />
-    <meta-data
       android:name="com.facebook.sdk.ApplicationId"
       android:value="@string/LOGIN_FACEBOOK_APP_ID" />
 
