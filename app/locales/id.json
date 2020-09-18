@@ -1,14 +1,83 @@
 {
     "alerts": {
-        "alertSystems": "Sistem peringatan",
-        "locationDisabled": "Lokasi dinonaktifkan",
-        "noGPS": "Tidak GPS"
+        "locationDisabled": "Lokasi dinonaktifkan"
     },
     "areaDetail": {
-        "confirmDeleteWithRoutesTitle": "Hapus wilayah dengan rute",
         "confirmDeleteWithRoutesMessage": "Jika Anda menghapus wilayah ini, Anda takkan dapat mengakses rute yang telah disimpan untuknya. Hapus?",
-        "delete": "Hapus area ini",
-        "noAlerts": "Tidak ada peringatan untuk area ini"
+        "confirmDeleteWithRoutesTitle": "Hapus wilayah dengan rute",
+        "delete": "Hapus area ini"
+    },
+    "areas": {
+        "empty": {
+            "action": "Pertanyaan Populer Aplikasi",
+            "body": "Ketuk ikon '+' untuk menata area yang ingin Anda akses peringatannya. Anda juga dapat mengimpor suatu area.",
+            "title": "Tidak Ada Area yang Dipantau"
+        },
+        "export": {
+            "manyAreas": "%{count} Area",
+            "oneArea": "%{count} Area"
+        },
+        "importedAreas": "Area Impor",
+        "myAreas": "Area Saya",
+        "title": "Area",
+        "tooltip": {
+            "body": "Lihat peringatan dan lapisan peta tanpa internet",
+            "title": "Jadikan Area Tersedia Offline"
+        }
+    },
+    "basemaps": {
+        "delete": {
+            "messageGFWContent": "Data untuk Peta Dasar ini hanya akan tersedia online. Ingin lanjutkan?",
+            "messageCustomContent": "Peta Dasar Kustom ini dapat diimpor lagi bila perlu. Ingin lanjutkan?",
+            "title": "Hapus data Peta Dasar?",
+            "titleCustom": "Hapus Peta Dasar Kustom?"
+        },
+        "edit": "Edit",
+        "empty": {
+            "action": "Pertanyaan Populer Aplikasi",
+            "body": "Ketuk ikon \"+\" untuk menyiapkan peta dasar kustom",
+            "title": "Tidak Ada Peta Dasar Kustom"
+        },
+        "export": {
+            "many": "%{count} Peta Dasar",
+            "manyAction": "Bagikan %{count} peta dasar...",
+            "navBarButtonText": "Ekspor",
+            "noneSelected": "Tidak ada peta dasar yang dipilih",
+            "one": "%{count} Peta Dasar",
+            "oneAction": "Bagikan %{count} peta dasar...",
+            "successful": "Berhasil mengekspor peta dasar!"
+        },
+        "gfw": "Peta Dasar Default",
+        "import": {
+            "cannotContainVectorTiles": "* berkas mungkin mengandung hanya elemen raster",
+            "choose": "Pilih jenis peta dasar",
+            "chooseAnother": "Pilih Lainnya",
+            "custom": "Peta Dasar Kustom",
+            "error": "Gagal mengimpor peta dasar, harap pastikan Anda memilih jenis berkas yang benar dan konten berkas sesuai dengan spesifikasi lalu cobalah lagi.",
+            "faq": "Pertanyaan Populer Peta Dasar Kustom",
+            "fileContainsVectorTiles": "mengandung elemen vektor dan tidak didukung.",
+            "fileSizeTooLarge": "Berkas Terlalu Besar",
+            "fileSizeTooLargeDesc": "Harap coba dengan berkas di bawah 10 MB",
+            "fileTypeNotSupported": "Jenis Berkas Tidak Didukung",
+            "fileTypeNotSupportedDesc": "bukan jenis berkas yang didukung untuk peta dasar.",
+            "save": "Impor Peta Dasar",
+            "supportedFileTypesInclude": "Jenis berkas yang didukung antara lain:",
+            "title": "Nama Peta Dasar",
+            "uniqueNameError": "Anda sudah memberi nama ini untuk peta dasar, pilihlah nama berbeda atau hapus peta dasar yang ada.",
+            "vectorTilesNotSupported": "Berkas Mengandung Ubin Vektor"
+        },
+        "imported": "Peta Dasar Kustom",
+        "names": {
+            "dark": "Gelap",
+            "default": "Default",
+            "satellite": "Satelit"
+        },
+        "rename": {
+            "message": "Masukkan nama baru Anda",
+            "title": "Namai Ulang Peta Dasar"
+        },
+        "share": "Bagikan",
+        "title": "Kelola Peta Dasar"
     },
     "chooseImage": {
         "cancel": "Batal",
@@ -21,13 +90,26 @@
         "appName": "Forest Watcher",
         "area": "Area",
         "boundaries": "Batas",
+        "calculating": "Mengalkulasi",
         "cancel": "Batalkan",
+        "clear": "Kosongkan",
         "confirm": "Konfirmasi",
         "connectionRequired": "Anda memerlukan koneksi internet",
         "connectionRequiredTitle": "Tidak ada koneksi",
+        "continue": "Lanjutkan",
         "crashFeedback": "Ada yang salah. Kami sedang mengusahakan untuk memperbaiki hal ini secepat mungkin.",
         "date": "Tanggal",
+        "deselectAll": "Batalkan Semua",
+        "done": "Selesai",
         "error": "Eror",
+        "fileName": "Nama berkas",
+        "fileSizes": {
+            "bytes": "%{size} byte",
+            "gigaBytes": "%{size} GB",
+            "kiloBytes": "%{size} kB",
+            "megaBytes": "%{size} MB",
+            "teraBytes": "%{size} TB"
+        },
         "finish": "Selesai",
         "kilometers": "km",
         "kmAway": "km jauhnya",
@@ -44,30 +126,85 @@
         "reportedPosition": "Posisi Terlapor",
         "retry": "Coba lagi",
         "saving": "Penghematan",
+        "selectAll": "Pilih Semua",
         "send": "Kirim",
+        "settings": "Pengaturan",
         "setup": "Pengaturan",
         "userPosition": "Posisi Pengguna"
     },
     "contactUs": {
         "description": "Pertanyaan atau masukan? Surel mailto: forestwatcher@wri.org"
     },
+    "contextualLayers": {
+        "delete": {
+            "messageGFWContent": "Data untuk Lapisan Kontekstual ini hanya akan tersedia online. Ingin lanjutkan?",
+            "messageGFWImportedContent": "Data Lapisan Kontekstual dapat diunduh lagi ketika tersambung ke internet. Anda ingin melanjutkan penghapusan?",
+            "messageCustomContent": "Lapisan Kontekstual Kustom ini dapat diimpor lagi jika perlu. Ingin lanjutkan?",
+            "title": "Hapus data Lapisan Kontekstual?",
+            "titleCustom": "Hapus Lapisan Kontekstual Kustom?"
+        },
+        "edit": "Edit",
+        "empty": {
+            "action": "Pertanyaan Populer Aplikasi",
+            "body": "Lapisan kontekstual yang Anda tambahkan akan muncul di sini",
+            "title": "Tidak Ada Lapisan Kontekstual"
+        },
+        "export": {
+            "many": "%{count} Lapisan",
+            "manyAction": "Bagikan %{count} lapisan...",
+            "navBarButtonText": "Ekspor",
+            "noneSelected": "Tidak ada lapisan dipilih",
+            "one": "%{count} Lapisan",
+            "oneAction": "Bagikan %{count} lapisan...",
+            "successful": "Berhasil mengekspor lapisan!"
+        },
+        "gfw": "Lapisan GFW",
+        "import": {
+            "addGFW": "Tambahkan Lapisan Global Forest Watch",
+            "choose": "Pilih jenis lapisan kontekstual",
+            "chooseAnother": "Pilih Lainnya",
+            "custom": "Lapisan Kontekstual Kustom",
+            "error": "Gagal mengimpor lapisan, harap pastikan Anda memilih jenis berkas yang benar dan konten berkas sesuai dengan spesifikasi lalu cobalah kembali.",
+            "faq": "Pertanyaan Populer Lapisan Kustom",
+            "fileSizeTooLarge": "Berkas Terlalu Besar",
+            "fileSizeTooLargeDesc": "Harap coba dengan berkas berukuran di bawah 10 MB",
+            "fileTypeNotSupported": "Jenis Berkas Tidak Didukung",
+            "fileTypeNotSupportedDesc": "bukan jenis berkas yang didukung untuk lapisan kontekstual.",
+            "offlineWarning": "Hanya tersedia online",
+            "save": "Impor Lapisan",
+            "supportedFileTypesInclude": "Jenis berkas yang didukung adalah:",
+            "title": "Nama Lapisan",
+            "uniqueNameError": "Anda telah memberi nama ini ke lapisan lain, silakan pilih nama lain atau hapus lapisan yang sudah ada sebelumnya."
+        },
+        "imported": "Lapisan Kustom",
+        "rename": {
+            "message": "Masukkan nama baru Anda",
+            "title": "Namai Ulang Lapisan Kontekstual"
+        },
+        "share": "Bagikan",
+        "title": "Kelola Lapisan Kontekstual"
+    },
     "countries": {
         "searchPlaceholder": "Cari negara"
     },
     "dashboard": {
+        "areas": "Area",
         "downloadFailed": "Unduhan gagal",
-        "makeAvailableOffline": "Sediakan luring",
         "map": "Peta",
-        "myReports": "Laporan Saya"
+        "reports": "Laporan",
+        "routes": "Rute",
+        "settings": "Pengaturan"
     },
     "datasets": {
         "umd_as_it_happens": "Deforestasi (GLAD)",
         "viirs": "Kebakaran (VIIRS)"
     },
+    "dropdown": {
+        "done": "Selesai"
+    },
     "faq": {
         "categories": {
             "about": {
-                "title": "About Forest Watcher",
                 "questions": [
                     {
                         "content": {
@@ -91,81 +228,210 @@
                     {
                         "content": {
                             "description": {
-                                "text": "Forest Watcher pertama kali dikembangkan oleh Jane Goodall Institute (JGI), Google, Touchlab dan Global Forest Watch. Pemantau hutan desa, penjaga hutan kawasan lindung dan masyarakat lokal yang bekerja dengan Jane Goodall Institute memerlukan akses data satelit terkini untuk pemantauan hutan; Namun, akses internet terbatas di daerah terpencil tempat mereka bekerja. Tanpa informasi ini, pemantau hutan bisa kehilangan aktivitas deforestasi yang terjadi di luar rute patroli mereka. JGI, GFW, Touchlab, Vizzualitas dan Google membuat Forest Watcher untuk mengaktifkan akses ke data GFW secara luring saat berada di lapangan."
+                                "text": "Pemantau hutan komunitas, pengawas taman, organisasi konservasi, manajer area yang dilindungi, jurnalis dan polisi lingkungan menggunakan Forest Watcher untuk mendeteksi area gangguan hutan, menginfokan rute patrolinya serta mengumpulkan informasi digital seputar observasinya."
                             }
                         },
-                        "title": "Mengapa Anda membuat Forest Watcher?"
-                    }
-                ]
-            },
-            "alertsAndData": {
-                "title": "Alerts and Data in Forest Watcher",
-                "questions": [
-                    {
-                        "content": {
-                            "description": {
-                                "text1": "Setiap kumpulan data perubahan hutan telah melalui pengujian ilmiah yang ketat dan memiliki batasan yang unik. Misalnya, lansiran GLAD dievaluasi di Peru memiliki 13,5 persen kesalahan positif (sebuah lansiran muncul dalam data yang tidak ada di lapangan) dan 33 persen kesalahan negatif (ada perubahan yang diobservasipada lapangan yang tidak muncul sebagai lansiran dalam data). Ini berarti bahwa sekitar 87 persen lansiran GLAD mewakili peristiwa perubahan hutan. Tingkat kesalahan negatif yang lebih tinggi berarti lansiran tersebut merupakan perkiraan konservatif cakupan kehilangan pohon. Ini membantu meminimalkan kemungkinan pengguna menghabiskan sumber daya dalam menyelidiki lansiran yang tidak mewakili perubahan hutan yang sebenarnya.",
-                                "text2": "Pengguna juga harus ingat bahwa lansiran GLAD mendeteksi semua cakupan kehilangan pohon, terlepas dari apakah itu disebabkan oleh manusia (seperti melalui penebangan) atau kejadian alami (seperti tanah longsor). Selain itu, lansiran tidak membedakan antara cakupan pohon alami dan tutupan pohon yang ditanami. Untuk informasi lengkap tentang setiap kumpulan data, kunjungi www.globalforestwatch.org.",
-                                "text3": "Penilaian data VIIRS menemukan tingkat kesalahan positif mendekati 0 untuk sebagian besar wilayah, dengan maksimum 1,2 persen di wilayah yang dinilai, sebagian besar terkait dengan sunglint di atas atap reflektif. Tingkat kelalaian tidak dinilai. VIIRS tidak bisa mendeteksi kebakaran yang terlalu kecil atau terlalu dingin (umumnya lebih dingin dari 700 K atau lebih kecil dari 100 meter persegi). Kelalaian dapat juga terjadi saat kebakaran dimulai dan berakhir di antara jalur layang satelit, atau saat kebakaran dikaburkan oleh awan, asap tebal, atau kanopi pohon."
-                            }
-                        },
-                        "title": "Seberapa akuratnya lansiran?"
+                        "title": "Siapa saja yang menggunakan Forest Watcher? "
                     },
                     {
                         "content": {
                             "description": {
-                                "text": "Ada tiga kumpulan data standar dari Global Forest Watch yang disediakan di Forest Watcher:"
+                                "text": "Di 2016, Jane Goodall Institute (JGI), Global Forest Watch (GFW), Touchlab dan Google bermitra untuk menciptakan versi uji coba dari aplikasi seluler guna memantau area dilindungi di Uganda selagi offline. Mengikuti fase pilot yang berhasil, GFW, JGI dan Vizzuality menciptakan Forest Watcher untuk mengizinkan akses ke data GFW selagi offline dan di lapangan. Aplikasi ini saat ini dipelihara oleh GFW dan 3 Sided Cube."
+                            }
+                        },
+                        "title": "Siapa pencipta Forest Watcher?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text": "Forest Watcher akan berjalan di semua iPhone dengan iOS 10 ke atas. Spesifikasi minimal dan direkomendasikan untuk perangkat Android adalah sebagai berikut."
                             },
-                            "footerText": "Untuk informasi lebih rinci tentang setiap kumpulan data, kunjungi http://data.globalforestwatch.org/.",
+                            "orderList": {
+                                "text1": "Spesifikasi minimal untuk Android: OS - Android 5.0; RAM - 1.5GB; Ruang Disk Bebas - 1GB",
+                                "text2": "Spesifikasi minimum untuk Android: OS - Android 7.1' RAM - 3GB; Ruang Penyimpanan Kosong - 4GB+"
+                            }
+                        },
+                        "title": "Apa spesifikasi perangkat agar dapat menggunakan Forest Watcher?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text": "Ya, Forest Watcher tersedia dalam bahasa Spanyol, Prancis, Portugis, Indonesia, Belanda dan Malagasi. bahasa kuesioner dan laporan dapat dikustomisasi ke bahasa apa pun yang Anda pilih."
+                            }
+                        },
+                        "title": "Apakah Forest Watcher tersedia dalam bahasa selain Inggris?"
+                    }
+                ],
+                "title": "Tentang Forest Watcher"
+            },
+            "alertsAndData": {
+                "questions": [
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "Sebuah area menarik adalah area yang Anda tetapkan untuk memantau perubahan hutan di dalamnya. Saat membuat area menarik di Forest Watcher, peringatan deforestasi GLAD akan mengisi untuk area tersebut."
+                            }
+                        },
+                        "title": "Apa itu area menarik?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "Ukuran maksimal area menarik adalah 20.000 kilometer persegi (2.000.000 hektar). Jika mencoba menetapkan area di atas 20.000 kilometer persegi, Anda akan menerima pesan eror yang menginfokan bahwa ukurannya terlalu besar."
+                            }
+                        },
+                        "title": "Berapa ukuran maksimal area menarik yang bisa saya buat?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "Anda dapat membagikan area menarik dengan menuju laman Area pada aplikasi seluler dan mengklik \"Bagikan Area\". Dari sini, Anda dapat memilih area yang ingin dibagikan dan pilih tujuan ekspor bundel pada perangkat. Kemudian Anda dapat membagikan bundel area menarik melalui opsi berbagi yang diinginkan seperti email, bluetooth atau WhatsApp.",
+                                "text2": "Setelah menerima bundel area menarik melalui opsi pembagian yang dipilih, Anda dapat mengimpornya di Forest Watcher. Anda dapat mengakses area menarik di laman Area setelah impor selesai."
+                            }
+                        },
+                        "title": "Bagaimana cara untuk berbagi dan menerima "
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "Anda dapat berbagi lapisan kontekstual dengan bernavigasi ke bagian Lapisan Kontekstual di laman Pengaturan dalam aplikasi seluler dan mengklik \"Bagikan\". Dari sini Anda dapat memilih lapisan kontekstual yang ingin dibagikan dan pilih ke mana harus mengekspor bundelnya di perangkat. Kemudian Anda dapat membagikan bundel lapisan kontekstual melalui opsi berbagi pilihan seperti email, bluetooth atau WhatsApp.",
+                                "text2": "Setelah menerima bundel lapisan kontekstual melalui opsi berbagi pilihan, Anda dapat mengimpornya di Forest Watcher. Anda dapat mengakses lapisan kontekstual di bagian Lapisan Kontekstual di laman Pengaturan setelah impor selesai."
+                            }
+                        },
+                        "title": "Bagaimana cara membagikan dan menerima lapisan kontekstual?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text": "Global Forest Watch (GFW) memberikan data perubahan hutan pramuat dan kontekstual di Forest Watcher. Data pramuat termasuk peringatan deforestasi GLAD, peringatan kebakaran aktif VIIRS, kehilangan tutupan pohon tahunan serta area yang dilindungi. Informasi seputar peringatan deforestasi GLAD, peringatan kebakaran aktif VIIRS serta data kehilangan tutupan pohon adalah sebagai berikut."
+                            },
+                            "footerText": "Anda juga dapat menambahkan lapisan kontekstual tambahan dari GFW, termasuk lahan adat dan masyarakat LandMark, serta berbagai data konsesi dan biodiversitas, atau Anda dapat mengunggah lapisan kontekstual kustom lewat aplikasi seluler. Forest Watcher Mobile mendukung jenis berikut untuk unggahan: .json, .geojson, .topojson, .gpx, .zip, .kmz dan .kml.\n\nSaat mengunggah lapisan kontekstual tambahan, Anda akan punya opsi mengunduh data untuk pemakaian offline atau mengakses data saat di online saja. Opsi-opsi ini menawarkan fleksibilitas lebih besar untuk data yang tersimpan di perangkat Anda.\n\nUntuk informasi lebih lanjut, kunjungi data.globalforestwatch.org.",
                             "orderList": {
                                 "text1": "Lansiran Kebakaran Aktif VIIRS: Diproduksi oleh NASA, diperbaharui setiap hari dengan resolusi 375 meter. Ini menunjukkan lokasi dugaan kebakaran seminggu terakhir.",
                                 "text2": "Lansiran GLAD: Diproduksi oleh Laboratorium Global Land Analysis & Discovery (GLAD) Universitas Maryland, diperbaharui tiap minggu dengan resolusi 30 meter. Ini menunjukkan Anda dimana kawasan hutan mungkin telah berubah minggu demi minggu.",
                                 "text3": "Cakupan Kehilangan Pohon Tahunan: Juga diproduksi oleh lab GLAD, diperbaharui tiap tahun dengan resolusi 30 meter. Ini menunjukkan Anda tahun ke tahun di mana kawasan hutan telah berubah. Saat ini data hanya tersedia sebagai lapisan data kontekstual: Anda tidak akan dapat membuat laporan yang terkait dengan lansiran kehilangan tahunan, walaupun Anda masih dapat membuat laporan untuk lokasi tersebut dengan menekan layar di lokasi kehilangan atau penambahan hutan."
                             }
                         },
-                        "title": "Kumpulan data apa saja yang tersedia dan dari mana asalnya?"
+                        "title": "Data apa yang tersedia dan dari mana asalnya?"
                     },
                     {
                         "content": {
                             "description": {
-                                "text": "Citra yang ditampilkan di peta basis satelit diperbarui lebih jarang daripada data lansiran. Dengan demikian, Anda mungkin melihat lansiran perubahan hutan untuk area yang tampak utuh seperti hutan di peta satelit. Mengunjungi lansiran GLAD di lapangan adalah cara terbaik untuk memverifikasi perubahan di lapangan."
+                                "text1": "Setiap lapisan data telah melalui pengujian ilmiah yang ketat dan memiliki set limitasi unik.",
+                                "text2": "Pengguna patut mengingat bahwa peringatan deforestasi GLAD mendeteksi semua jenis kehilangan tutupan pohon, baik yang disebabkan oleh manusia (cth: pembalakan) atau alam (cth: tanah longsor). Peringatan tidak membedakan antara tutupan pohon alami dan tutupan pohon tanam. Peringatan juga dirancang agar konservatif dengan pertimbangan patroli lapangan sebagai kegunaan akhirnya (tingkat positif palsu 1%, dengan tingkat negatif palsu 33%). Terakhir, meski peringatan diperbarui setiap minggu, tutupan awan persisten dapat berarti bahwa peringatan tidak terdeteksi selama beberapa minggu atau bahkan bulan setelah kejadian.",
+                                "text3": "Peringatan kebakaran VIIRS tidak dapat mendeteksi kebakaran yang terlalu kecil atau terlalu dingin (umumnya di bawah 100 meter persegi atau lebih dingin dari 700 Kelvin).",
+                                "text4": "Untuk informasi lebih lanjut, silakan kunjungi data.globalforestwatch.org."
                             }
                         },
-                        "title": "Mengapa saya melihat lansiran GLAD tapi tidak ada perubahan pada peta citra satelit?"
+                        "title": "Seberapa akuratkah peringatan deforestasi dan kebakaran?"
                     },
                     {
                         "content": {
                             "description": {
-                                "text": "Ya, Anda dapat mengunggah dan menambahkan kumpulan data Anda ke aplikasi menggunakan situs Desktop Forest Watcher. Dengan menggunakan situs Desktop, Anda akan menghubungkan layanan ubin web ke Forest Watcher melalui URL. Informasi lebih lanjut tersedia di situs Desktop."
+                                "text1": "Pembaruan peta dasar citra satelit yang disediakan oleh Global Forest Watch (GFW) dilakukan lebih jarang daripada pembaruan data peringatan. Oleh karena itu, Anda mungkin akan melihat adanya peringatan untuk area-area yang masih tampak tidak terganggu pada peta dasar citra satelit. Untuk melihat citra satelit terkini, Anda kami sarankan menggunakan alat Recent Satellite Imagery yang tersedia di GFW. Mengunjungi peringatan di lapangan adalah cara terakurat untuk memverifikasi perubahan, namun cara ini biasanya juga yang paling berisiko. Oleh karena itu, Anda kami sarankan untuk menggunakan alat Recent Satellite Imagery jika memungkinkan sebelum merencanakan kunjungan lapangan untuk mengidentifikasi apa yang mungkin menjadi pemicu terjadinya gangguan tersebut.",
+                                "text2": "Atau, Anda juga dapat mengunggah citra satelit dan peta dasar sendiri dengan pergi ke bagian Peta Dasar atau Lapisan Kontekstual di halaman Pengaturan pada aplikasi seluler lalu mengklik tombol + di kanan atas laman."
                             }
                         },
-                        "title": "Dapatkah saya menambahkan lapisan data saya sendiri ke dalam Forest Watcher?"
+                        "title": "Kenapa saya melihat peringatan deforestasi namun tidak ada perubahan dalam peta dasar citra satelit?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "Ya, Anda dapat langsung mengunduh lapisan kontekstual dan peta dasar Anda sendiri ke aplikasi seluler, bahkan ketika berada di luring. Anda dapat menambahkan lapisan kontekstual dan peta dasar dengan menavigasi salah satu antara bagian Peta Dasar atau bagian Lapisan Kontekstual pada laman Pengaturan dan mengeklik tombol + pada kanan atas laman. ",
+                                "text2": "Jenis berkas yang didukung untuk lapisan kontekstual antara lain: .json, .geojson, .topojson, .gpx, .zip shapefiles, .kmz, dan .kml.",
+                                "text3": "Mendukung jenis-jenis berkas untuk peta dasar antara lain: .mbtiles."
+                            }
+                        },
+                        "title": "Bisakah saya mengunggah lapisan kontekstual dan peta dasar sendiri di Forest Watcher?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "Saat ini, hanya jenis data tertentu yang disinkronkan dengan akun Forest Watcher Anda, yang juga terhubung ke Aplikasi Forest Watcher Web. Data ini termasuk area dan laporan yang sudah Anda unggah. Ini berarti bahwa saat Anda keluar dan masuk kembali ke aplikasi, data ini akan tetap terlihat.",
+                                "text2": "Untuk jenis data lainnya, ini disimpan secara terpisah dari akun Forest Watcher dan TIDAK akan terlihat saat Anda keluar dan masuk kembali dalam aplikasi. Data ini termasuk:"
+                            },
+                            "footerText": "Keluar akan secara permanen menghapus item-item ini (kecuali peta dasar kustom dan lapisan kontekstual kustom). Karenanya disarankan Anda membundel semua data yang ingin dipertahankan sebelum keluar. Demi kenyamanan Anda melakukan ini, kami sarankan menggunakan opsi 'bagikan semua data aplikasi' lalu simpan bundel hasilnya. Ini lalu dapat diimpor ulang saat perlu dengan membuka bundel dengan aplikasi Forest Watcher saat Anda masuk.",
+                            "orderList": {
+                                "text1": "Sistem Peringatan",
+                                "text2": "Area Terimpor",
+                                "text3": "Rute",
+                                "text4": "Laporan yang Tidak Diunggah",
+                                "text5": "Ubin Peta Dasar Unduhan",
+                                "text6": "Ubin Lapisan GFW Unduhan",
+                                "text7": "Peta Dasar Kustom",
+                                "text8": "Lapisan Kontekstual Kustom",
+                                "text9": "Lapisan Kontekstual GFW Impor"
+                            }
+                        },
+                        "title": "Bagaimana cara aplikasi Forest Watcher menyimpan data saya?"
                     }
-                ]
+                ],
+                "title": "Peringatan dan Data di Forest Watcher"
             },
             "features": {
-                "title": "Features and Functionality",
                 "questions": [
-                     {
+                    {
                         "content": {
                             "description": {
-                                "text": "Forest Watcher menampilkan data mengenai perubahan hutan di \"Area Minat\", atau area yang Anda monitor. Anda dapat menentukan Area Minat di menu pengaturan. Jika Anda adalah anggota dari tim, Anda mungkin sudah memiliki area yang disiapkan untuk Anda, yang dapat Anda unggah ke aplikasi. Aplikasi ini kemudian akan secara otomatis mengunduh data perubahan hutan untuk area tersebut dan memperbarui lansiran penggundulan hutan dan peringatan kebakaran terbaru saat Anda terhubung ke Internet. Setelah Anda mengunduh data relevan ke perangkat seluler Anda, Anda dapat membawa aplikasi secara luring ke lapangan. Forest Watcher akan mengarahkan lansiran terdekat dengan menggunakan GPS internal telepon. Setelah sampai pada lansiran, Anda dapat mengisi laporan tentang apa yang Anda temukan dan menambahkan foto."
+                                "text1": "Forest Watcher Mobile mengizinkan pengguna membuat area menarik dan memantau peringatan di dalamnya. Area menarik ditetapkan saat menginisiasi aplikasi atau di laman Area. Anda dapat melihat peringatan deforestasi dan kebakaran terkini di area menarik Anda lalu mengunduhnya untuk saat offline dan berada di lapangan. Setelah diunduh, Anda dapat menggunakan aplikasi guna memandu Anda ke peringatan di sekitar menggunakan GPS bawaan ponsel dan melacak rute seiring perjalanan Anda, kemudian mengisi formulir dan mengambil foto untuk merekam observasi tentang hal yang Anda temukan.",
+                                "text2": "Forest Watcher Web mengizinkan kustomisasi lebih luas melalui template pelaporan yang dapat diedit dan memfasilitasi kolaborasi beserta opsi untuk membuat, meninjau dan menetapkan laporan kepada anggota tim."
                             }
                         },
-                        "title": "Bagaimana cara kerja Forest Watcher?"
+                        "title": "Apa yang bisa saya lakukan dengan Forest Watcher?"
                     },
                     {
                         "content": {
                             "description": {
-                                "text": "Forest Watcher Desktop adalah antarmuka desktop daring tambahan untuk aplikasi seluler, yang dapat digunakan untuk mengelola area minat, membuat kerangka laporan baru, mengkonfigurasi tim pengguna, dan meninjau dan mengunduh laporan yang dikirimkan melalui aplikasi. Antarmuka desktop ditujukan untuk administrator dan pengelola tim, sehingga mereka dapat menyiapkan aplikasi untuk digunakan tim mereka. Untuk informasi lebih lanjut tentang Forest Watcher Desktop, klik di sini"
+                                "text": "Meski Forest Watcher Mobile dirancang utamanya untuk pemakaian offline, sejumlah fungsi kunci perlu dilakukan dengan koneksi internet. Alur kerja tipikal untuk pemakaian online/offline Forest Watcher adalah sebagai berikut"
+                            },
+                            "footerText": "Saat offline, kami sarankan Anda mengalihkan aplikasi ke \"modus offline\" lewat pengaturan guna meningkatkan kestabilan aplikasi.",
+                            "orderList": {
+                                "text1": "Online:\nUnduh Forest Watcher Mobile lalu masuk.\nBuat area menarik.\nPasang periode waktu untuk peringatan lalu segarkan.",
+                                "text2": "Offline:\nPilih dan bernavigasi ke peringatan.\nBuat laporan di lokasi Anda atau di peringatan.\nLacak rute Anda.\nDokumentasikan observasi dan ambil foto.\nBagikan konten aplikasi dengan perangkat lainnya (peringatan, area, rute, laporan, lapisan kontekstual, ubin peta dasar atau semua konten aplikasi)."
                             }
                         },
-                        "title": "Apa itu Forest Watcher Desktop?"
+                        "title": "Apa yang dapat saya lakukan daring vs luring?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text": "Forest Watcher Web adalah antarmuka web online pendukung bagi aplikasi seluler, yang dapat digunakan untuk mengelola area menarik, mengustomisasi template laporan, mengonfigurasi tim pengguna dan meninjau serta mengunduh laporan yang dikirim melalui aplikasi seluler. Forest Watcher Web dapat digunakan oleh administrator dan manajer tim untuk menata aplikasi bagi timnya. Pengguna harus masuk ke Forest Watcher Web dengan info masuk yang sama dengan aplikasi seluler. Untuk informasi lebih lanjut, kunjungi forestwatcher.globalforestwatch.org."
+                            }
+                        },
+                        "title": "Apa itu Forest Watcher Web?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "Anda dapat mengunggah lapisan kustom baik di Forest Watcher Web atau Forest Watcher Mobile. Forest Watcher Mobile mendukung jenis berkas berikut untuk unggahan: .json, .geojson, .topojson, .gpx, .zip, .kmz, .kml, dan .mbtiles.",
+                                "text2": "Forest Watcher web mendukung URL ubin.",
+                                "text3": "Berikut jenis-jenis berkas kustom yang didukung di Forest Watcher Mobile."
+                            },
+                            "footerText": "Ukuran berkas maksimal yang disarankan adalah 1 MB, ukuran di atas itu mungkin menyebabkan aplikasi tidak berfungsi dengan benar. Bentuk-bentuk kompleks juga dapat bermasalah dan gaya serta gambar kustom dapat hilang. Harap hubungi kami di forestwatcher@wri.org jika Anda punya pertanyaan seputar proses unggah.",
+                            "orderList": {
+                                "text1": "GeoJSON (dengan ekstensi berkas .geojson atau .json)",
+                                "text2": "TopoJSON (dengan ekstensi berkas .topojson atau .json)",
+                                "text3": "Bahasa Markup Keyhole Google Earth (dengan ekstensi berkas .kml atau .kmz)",
+                                "text4": "Shapefile (dengan ekstensi .zip). Shapefile harus menyertakan berkas .shp dan .prj dalam arsip.",
+                                "text5": "Format Pertukaran GPS (dengan ekstensi .gpx)",
+                                "text6": "Ubin Mapbox (dengan ekstensi .mbtiles). Ini harus diimpor sebagai peta dasar."
+                            }
+                        },
+                        "title": "Jenis dan ukuran berkas apa yang diterima Forest Watcher?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "Ya, Forest Watcher Mobile dirancang untuk digunakan secara terpisah dari Forest Watcher Web. Di aplikasi seluler, Anda dapat membuat area menarik, mengunduh dan bernavigasi ke peringatan, melacak rute sepanjang perjalanan serta merekam observasi. Anda juga dapat mengunggah lapisan kontekstual sendiri dan peta dasar langsung melalui aplikasi seluler, dan membagikan konten aplikasi dengan perangkat lainnya saat offline (rute, laporan, area, peringatan, lapisan data kontekstual, ubin peta dasar atau semua konten aplikasi).",
+                                "text2": "Forest Watcher Web memberikan peluang kustomisasi lebih jauh untuk aplikasi seluler, termasuk kustomisasi template laporan, manajemen tim dan manajemen data."
+                            }
+                        },
+                        "title": "Bisakah saya menggunakan Forest Watcher Mobile tanpa menggunakan Forest Watcher Web?"
                     }
-                ]
+                ],
+                "title": "Apa Saja yang Forest Watcher Lakukan?"
             },
             "help": {
-                "title": "Help and How to Contact Us",
                 "questions": [
                     {
                         "content": {
@@ -179,36 +445,40 @@
                                     "text": "Aplikasi bertabrakan"
                                 },
                                 "order3": {
-                                    "description": "Fitur lokasi dan navigasi di Forest Watcher bergantung pada GPS internal perangkat Anda. Pertama, periksa apakah GPS (sering disebut \"layanan lokasi\") diaktifkan di pengaturan perangkat seluler Anda. Jika masih tidak berhasil, kirim surel ke mailto:forestwatcher@wri.org memberi tahu kami model perangkat apa yang Anda gunakan.",
+                                    "description": "Fitur lokasi dan navigasi bergantung pada GPS internal perangkat Anda. Periksa apakah GPS (sering disebut \"layanan lokasi\") sudah dinyalakan di pengaturan perangkat Anda. Sinyal GPS mungkin lemah di dalam ruang, jadi jika Anda berada di dalam ruang atau di bawah atap, cobalah keluar. Jika masih belum bekerja, silakan kirim surel ke forestwatcher@wri.org untuk memberi tahu kami model perangkat dan versi aplikasi (terdapat pada bagian bawah laman Pengaturan) yang Anda gunakan. GPS ponsel biasanya tidak seakurat GPS mandiri, sehingga Anda mungkin perlu memasukkan koordinat peringatan ke perangkat GPS sebagai cadangan jika punya.",
                                     "text": "Saya tidak bisa melihat kompas/lokasi saya"
                                 },
                                 "order4": {
-                                    "description": "Beberapa perangkat yang hanya memiliki kamera depan mungkin tidak kompatibel dengan kamera dalam formulir laporan. Sebagai gantinya Anda dapat mengambil foto di aplikasi kamera Anda, dan menggunakan fungsi unggah dalam laporan di Forest Watcher untuk menambahkan foto dari perpustakaan Anda ke laporan.",
-                                    "text": "Saya tidak dapat mengambil foto di aplikasi"
-                                },
-                                "order5": {
-                                    "description": "Anda mungkin tidak dapat selalu menyelesaikan laporan tepat pada terjadinya lansiran. Anda bisa mulai menulis laporan, menyimpannya, dan kembali lagi nanti saat Anda kembali ke markas Anda. Anda juga dapat mengambil gambar hanya dengan menggunakan kamera perangkat Anda, lalu isi laporannya nanti: Anda dapat melampirkan gambar ke laporan Anda.",
+                                    "description": "Jika Anda memulai laporan kemudian meninggalkannya, hasil kerja Anda sejauh ini dan koordinat GPS dari lokasi di mana laporan Anda diinisiasi akan tersimpan otomatis. Anda dapat kembali kemudian ke laporan draft di laman Laporan. Anda juga dapat mengambil foto menggunakan kamera perangkat, lalu mengunggahnya untuk laporan nanti.",
                                     "text": "Saya ingin melengkapi laporan nanti"
                                 },
+                                "order5": {
+                                    "description": "Saat Anda pertama kali menata Forest Watcher, dapat butuh antara 5 hingga 30 menit sampai aplikasi sepenuhnya mengunduh data yang relevan tergantung dari kecepatan internet. Jika koneksi Anda lemah atau lambat, unduhan akan lebih lama. Tetaplah membuka aplikasi guna mengizinkan unduhan selesai. Setelah penataan pertama, data peringatan baru akan diunduh setiap kali Anda terhubung ke internet dan waktu unduh berbeda tergantung dari berapa banyak peringatan yang terjadi. Jika Anda ingin melihat adakah peringatan baru yang tersedia, tarik layar beranda ke bawah untuk menyegarkan.",
+                                    "text": "Peringatan tidak dimuat"
+                                },
                                 "order6": {
-                                    "description": "Saat pertama kali menyiapkan Forest Watcher di perangkat seluler Anda, aplikasi perlu mengunduh banyak data agar berfungsi secara luring. Anda mungkin perlu menunggu sekitar 5 menit agar semua data bisa dimuat dengan benar. Hal ini normal. Jika Anda memiliki koneksi internet yang lemah atau lambat, ini bisa membuat unduhan memakan waktu lebih lama. Jaga agar aplikasi tetap terbuka agar unduhan selesai. Setelah persiapan awal, data lansiran baru akan diunduh setiap kali Anda menghubungkan perangkat Anda ke internet - waktu pengunduhan akan bervariasi tergantung pada berapa banyak lansiran yang telah terjadi. Pembaruan ini akan berada pada skala Kilobyte, di mana unduhan awal kemungkinan akan menjadi beberapa Megabyte.",
-                                    "text": "Lansiran lambat dimuat"
+                                    "description": "Jika bandwidth Anda rendah, alih-alih mengunduh ulang konten aplikasi di beberapa perangkat, Anda dapat membagikan konten aplikasi dengan perangkat lainnya saat offline (peringatan, area, rute, laporan, lapisan kontekstual, ubin peta dasar atau semua konten aplikasi). Proses ini akan membantu mengurangi konsumsi bandwidth.",
+                                    "text": "Lebar pita tim saya dan/atau saya rendah"
                                 },
                                 "order7": {
-                                    "description": "Saat ini Anda hanya dapat melihat satu kumpulan data sekaligus untuk setiap Area Minat. Kumpulan data yang Anda cari untuk setiap Area Minat dikontrol menggunakan menu pengaturan. Jika Anda ingin melihat semua data kebakaran dan kehilangan hutan untuk tempat yang sama, Anda perlu membuat dua Area Minat untuk lokasi yang sama dan mengatur masing-masing untuk mengunduh kumpulan yang berbeda.",
-                                    "text": "Saya ingin melihat lansiran GLAD dan VIIRS untuk Area Minat yang sama"
-                                },
-                                "order8": {
-                                    "description": "Forest Watcher memiliki banyak data dan dapat menghabiskan banyak memori di perangkat Anda, tergantung pada seberapa banyak Area yang Anda minati, seberapa besar jumlahnya dan berapa banyak lansiran yang ada di setiap perangkat. Kami merekomendasikan penyimpanan internal yang dimiliki minimal 16GB di perangkat Anda, sehingga Anda dapat menggunakan aplikasi Anda yang lain dan juga Forest Watcher: Forest Watcher tidak memerlukan semua penyimpanan ini. Semakin sedikit, semakin kecil area minat yang Anda siapkan di aplikasi, semakin sedikit data yang perlu diunduh ke perangkat Anda.",
+                                    "description": "Forest Watcher Mobile mengandung banyak data dan dapat mengonsumsi banyak memori dalam perangkat Anda, tergantung berapa banyak area menarik yang Anda miliki, ukurannya serta jumlah peringatan. Semakin sedikit dan kecil area menarik yang Anda tentukan, semakin kecil data yang perlu diunduh ke perangkat. Kami sarankan memiliki penyimpanan internal sedikitnya 1 GB agar Anda bisa menggunakan aplikasi lainnya selain Forest Watcher, dan akan lebih baik jika ada ruang 4 GB atau lebih.",
                                     "text": "Saya kehabisan memori di perangkat saya"
                                 },
-                                "order9": {
-                                    "description": "Anda dapat menggunakan Forest Watcher Desktop untuk membuat template formulir khusus yang dapat digunakan tim Anda saat mengumpulkan data. Anda juga dapat menambahkan catatan di bagian akhir formulir jika Anda memiliki observasi yang ingin Anda buat.",
-                                    "text": "Saya ingin mengumpulkan data khusus"
+                                "order8": {
+                                    "description": "Anda dapat menggunakan Forest Watcher Web untuk membuat template laporan kustom untuk digunakan tim Anda saat mengumpulkan data. Anda juga dapat menambahkan catatan di bagian final pada formulir.",
+                                    "text": "Saya ingin mengkustomisasi laporan yang saya atau tim saya isi ketika menyelidiki suatu area"
                                 }
                             }
                         },
-                        "title": "Apa yang harus saya lakukan jika:"
+                        "title": "Pemecahan Masalah: Apa yang harus saya lakukan jika...?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text": "Kami selalu berupaya meningkatkan aplikasi ini agar dapat memenuhi kebutuhan pengguna. Silakan hubungi kami di forestwatcher@wri.org jika ada fitur-fitur lain yang mungkin dapat membantu."
+                            }
+                        },
+                        "title": "Saya punya ide bagus untuk memutakhirkan aplikasi. Apa yang sebaiknya saya lakukan?"
                     },
                     {
                         "content": {
@@ -218,45 +488,264 @@
                         },
                         "title": "Bagaimana saya mendapatkan bantuan?"
                     }
-                ]
+                ],
+                "title": "Dukungan & Kontak"
             },
             "inTheField": {
-                "title": "Using Forest Watcher in the Field",
-                "questions": []
+                "questions": [
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "Saat bernavigasi ke suatu peringatan atau area, Anda dapat menambahkan laporan dengan mengklik tombol laporan di kanan bawah peta. Anda dapat mengambil atau memilih gambar untuk ditambahkan ke dalam laporan, lalu mengisi formulir guna merekam observasi seputar hal yang Anda temukan.",
+                                "text2": "Jika Anda memulai laporan kemudian meninggalkannya, hasil kerja Anda sejauh ini dan koordinat GPS dari lokasi di mana laporan Anda diinisiasi akan tersimpan otomatis. Anda dapat kembali kemudian ke laporan draft di laman Laporan. Anda juga dapat mengambil foto menggunakan kamera perangkat, lalu mengunggahnya untuk laporan nanti."
+                            }
+                        },
+                        "title": "Bagaimana cara menambahkan laporan?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "Untuk melaporkan kelompok peringatan, Anda dapat mengeklik peringatan GLAD dan/atau VIIRS yang Anda selidiki dan mengeklik tombol laporan yang terdapat di kanan bawah peta. Anda dapat melaporkan banyak peringatan dengan memilih sendiri setiap peringatan sebelum mengeklik tombol lapor kemudian. Ketika diklik, laporan GLAD akan menjadi hijau dan laporan VIIRS akan menjadi ungu. Perubahan warna itu menunjukkan bahwa peringatan telah dilaporkan. "
+                            }
+                        },
+                        "title": "Bagaimana cara melaporkan sekelompok peringatan?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "Untuk mencatat rute, Anda dapat mengeklik tombol start pada kiri bawah peta. Setelah selesai merekam rute, Anda dapat mengeklik tombol stop dan memilih apakah ingin menyimpan rute atau menghapusnya. Jika rute disimpan, Anda akan dapat mengaksesnya pada laman Rute di aplikasi seluler. "
+                            }
+                        },
+                        "title": "Bagaimana cara merekam rute?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "Saat merekam rute, titik akan diabadikan setiap 50 meter."
+                            }
+                        },
+                        "title": "Seberapa sering rute saya membuat titik?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "Anda dapat membagikan laporan dengan bernavigasi ke bagian Laporan pada aplikasi seluler lalu mengklik \"Bagikan Laporan\". Dari sini, Anda dapat memilih laporan yang ingin dibagikan lalu pilih tujuan ekspor bundel dalam perangkat. Kemudian Anda dapat membagikan bundel melalui opsi berbagi pilihan seperti email, bluetooth atau WhatsApp.",
+                                "text2": "Sama halnya, Anda dapat membagikan rute dengan bernavigasi ke bagian Rute di aplikasi seluler lalu mengklik \"Bagikan Rute\". Dari sini, Anda dapat memilih rute yang ingin dibagikan lalu pilih tujuan ekspor bundel dalam perangkat. Kemudian Anda dapat membagikan bundel melalui opsi berbagi pilihan seperti email, bluetooth atau WhatsApp.",
+                                "text3": "Setelah menerima laporan atau bundel rute melalui opsi berbagi pilihan Anda, Anda dapat mengimpornya pada Forest Watcher. Laporan atau rute tersebut dapat diakses di bagian Laporan atau Rute setelah pengimporan selesai."
+                            }
+                        },
+                        "title": "Bagaimana cara membagikan dan menerima laporan dan rute?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "Untuk mengambil laporan dan foto Anda, masuklah ke forestwatcher.globalforestwatch.org, pilih tab \"Laporan\" lalu klik \"Unduh jawaban\" untuk mengakses berkas CSV Anda. Foto tersedia untuk diunduh lewat URL dalam spreadsheet.",
+                                "text2": "Laporan juga dapat diakses melalui fungsi ekspor di laman laporan pada aplikasi seluler. Dengan fungsi ini, Anda dapat mengunduh laporan langsung ke perangkat dan membagikannya ke perangkat lain selagi offline.",
+                                "text3": "Jika ingin melihat data Anda pada peta, silakan melakukan navigasi ke mymaps.google.com dan masuk ke akun Google Anda (atau membuat akun baru secara gratis). Kemudian klik “Buat peta baru.” Pada panel yang terdapat di sisi kiri, klik \"impor\" lalu unggah CSV Anda dari Forest Watcher Web. Pilih “Posisi garis lintang laporan” dan saat diminta, pilih “Garis Lintang”. Pilih “Posisi garis bujur laporan” dan saat diminta, pilih “Garis Bujur”. Pilih “Lanjutkan” lalu pilih kolom yang ingin Anda identifikasikan. Harap diperhatikan bahwa data yang berhubungan dengan laporan tersebut akan menjadi judul yang dilampirkan pada pin biru di peta.",
+                                "text4": "Setelah langkah ini selesai, peta akan siap dan tersimpan secara otomatis. Anda dapat mengeklik pada pin biru untuk melihat detail laporan termasuk foto-fotonya. Untuk mengganti nama, klik pada \"Peta tanpa judul\" yang terdapat di pojok kiri atas."
+                            }
+                        },
+                        "title": "Bisakah saya mengambil laporan dan melihat data saya di peta?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "Laporan dimiliki oleh pengguna dan tidak akan dibagikan secara umum. Untuk detail selengkapnya, kunjungi globalforestwatch.org/terms."
+                            }
+                        },
+                        "title": "Apakah laporan saya disebarkan atau dijaga kerahasiaannya?"
+                    }
+                ],
+                "title": "Menggunakan Forest Watcher di Lapangan"
             },
-            "sectionHeader": "Categories",
-            "questionCountPlural": "%{count} Questions",
-            "questionCountSingular": "1 Question"
+            "questionCountPlural": "%{count} Pertanyaan",
+            "questionCountSingular": "1 Pertanyaan",
+            "sectionHeader": "Kategori",
+            "title": "Pertanyaan Populer"
+        }
+    },
+    "importBundle": {
+        "confirm": {
+            "buttonTitle": "Impor Bundel Data",
+            "title": "Konfirmasikan Impor"
+        },
+        "containingPrefix": "Mengandung:",
+        "customBasemaps": {
+            "title": "Pilih Data Peta Dasar"
+        },
+        "customItems": {
+            "title": "Pilih Item Untuk Diimpor"
+        },
+        "customLayers": {
+            "fileImportOptionAll": "Impor Semua",
+            "fileImportOptionDescription": "Pilih data yang ingin Anda impor",
+            "fileImportOptionSelected": "Impor Untuk Item Terpilih Saja",
+            "fileImportOptionTitle": "Opsi Impor",
+            "title": "Pilih Data Lapisan Kontekstual"
+        },
+        "emptyImportError": "Tidak ada data dipilih untuk impor. Kembalilah dan pilih item untuk diimpor.",
+        "importingPrefix": "Mengimpor:",
+        "incompatibleBundle": "Maaf, bundel sebaran ini dibuat dengan versi Forest Watcher yang berbeda, dan karenanya tidak dapat diimpor.",
+        "progress": "Langkah %{current} dari %{total}",
+        "start": {
+            "customImport": "Impor Kustom",
+            "customImportDescription": "Pilih item tertentu untuk diimpor",
+            "importAll": "Impor Semua Data",
+            "title": "Impor Bundel Aplikasi"
+        },
+        "success": "Bundel Data diimpor",
+        "successContentsSuffix": "kini tersedia"
+    },
+    "importLayer": {
+        "gfw": {
+            "add": "Tambah Lapisan",
+            "allLayers": "Semua Lapisan GFW (%{count})",
+            "description": "Lihat Deskripsi",
+            "downloadSubtitle": "Data lapisan akan diunduh untuk pemakaian offline",
+            "downloadTitle": "Unduh",
+            "downloaded": "Terunduh",
+            "downloading": "Mengunduh Lapisan...",
+            "error": "Lapisan tidak dapat diunduh, periksa kapasitas penyimpanan perangkat dan koneksi internet lalu coba kembali.",
+            "notYetDownloaded": "Tidak diunduh",
+            "onlineSubtitle": "Data lapisan hanya akan tersedia saat online",
+            "onlineTitle": "Akses Daring Saja",
+            "title": "Tambah Lapisan GFW"
         }
     },
     "layers": {
+        "biodiversityIntactness": "Keutuhan keanekaragaman hayati - 2016",
+        "biodiversitySignificance": "Signifikansi biodiversitas - 2016",
+        "indonesiaForestArea": "Area hutan Indonesia",
+        "landmarks": "Lahan Adat dan Masyarakat",
+        "logging": "Konsesi Hutan yang Dikelola",
         "managedForests": "Hutan Terkelola",
         "mining": "Pertambangan\n",
+        "miningConcessions": "Konsesi pertambangan",
         "oilPalm": "Kelapa sawit",
+        "oilPalmConcessions": "Konsesi minyak sawit",
         "protectedAreas": "Wilayah Terlindung",
+        "rspo": "Konsesi minyak kelapa sawit RSPO - 2017",
         "treeCoverLoss2014": "Kehilangan Tutupan Pohon (2014)",
         "treeCoverLoss2015": "Kehilangan Tutupan Pohon (2015)",
         "treeCoverLoss2016": "Kehilangan Tutupan Pohon (2016)",
         "treeCoverLoss2017": "Kehilangan Tutupan Pohon (2017)",
         "treeCoverLoss2018": "Kehilangan Tutupan Pohon (2018)",
-        "woodFiber": "Serat kayu"
+        "wdpa": "Area Dilindungi (Ubin Vektor)",
+        "woodFiber": "Serat kayu",
+        "woodFiberConcessions": "Konsesi serat kayu berdasarkan jenis - 2019"
     },
     "login": {
-        "connectionRequired": "Anda memerlukan koneksi internet",
+        "emailLogin": {
+            "emailAddress": "Alamat Email",
+            "enterYourEmail": "Masukkan Email Anda",
+            "enterYourPassword": "Masukkan Sandi Anda",
+            "forgotYourPassword": "Lupa Sandi?",
+            "login": "Masuk",
+            "loginError": "Eror saat masuk",
+            "loginWithEmail": "Masuk Dengan Email",
+            "password": "Sandi"
+        },
+        "emailTitle": "Masuk dengan Email",
         "facebookTitle": "Facebook",
         "failed": "Terjadi eror selama masuk/keluar",
         "googleTitle": "Google",
         "introductionText": "Masuk menggunakan akun MyGFW",
-        "twitterTitle": "Twitter",
-        "unable": "Tidak dapat masuk"
+        "mustBeOnline": "Anda harus online untuk masuk",
+        "signUp": "Daftar",
+        "twitterTitle": "Twitter"
     },
     "map": {
-        "alerts": "Sistem Peringatan",
-        "ctxLayers": "Lapisan kontekstual",
+        "createdDate": "Dibuat %{date}",
         "destination": "Destinasi:",
         "distance": "Jarak:",
+        "gladAlert": "Peringatan GLAD",
+        "issuedDate": "Terbit %{date}",
+        "layerSettings": {
+            "alertSettings": {
+                "alert": "Peringatan",
+                "deforestation": "Deforestasi",
+                "fires": "Kebakaran",
+                "glad": "GLAD",
+                "manyDays": "%{count} hari",
+                "manyMonths": "%{count} bulan",
+                "noAlerts": "Tidak Ada Peringatan",
+                "oneDay": "%{count} hari",
+                "oneMonth": "%{count} bulan",
+                "recent": "Terbaru",
+                "reportedOn": "Dilaporkan Pada",
+                "showingManyDays": "Menampilkan %{type} dari %{count} hari terakhir",
+                "showingManyMonths": "Menampilkan %{type} dari %{count} bulan terakhir",
+                "showingOneDay": "Menampilkan %{type} dari hari sebelumnya",
+                "showingOneMonth": "Menampilkan %{type} dari bulan lalu",
+                "timeFrame": "Jangka waktu",
+                "timeFrameDescDays": "Pilih jumlah hari",
+                "timeFrameDescMonths": "Pilh jumlah bulan",
+                "viirs": "VIIRS"
+            },
+            "alerts": "Sistem Peringatan",
+            "basemap": "Peta dasar",
+            "basemapSettings": {
+                "showingBasemap": "Peta Dasar: %{basemap}"
+            },
+            "basemaps": "Peta Dasar",
+            "contextualLayers": "Lapisan Kontekstual",
+            "contextualLayersSettings": {
+                "showingManyContextualLayers": "%{count} Lapisan Kontekstual",
+                "showingOneContextualLayer": "%{count} Lapisan Kontekstual"
+            },
+            "customBasemaps": "Peta Dasar Kustom",
+            "customLayers": "Lapisan Kustom",
+            "gfwBasemaps": "Peta Dasar GFW",
+            "gfwLayers": "Lapisan GFW",
+            "importedReports": "Laporan Impor",
+            "importedRoutes": "Rute Impor",
+            "layersHeading": "Lapisan",
+            "manageBasemaps": "Kelola Peta Dasar",
+            "manageContextualLayers": "Kelola Lapisan Kontekstual",
+            "manageReports": "Kelola Laporan",
+            "manageRoutes": "Kelola Rute",
+            "myReports": "Laporan Saya",
+            "myRoutes": "Rute Saya",
+            "onlyAvailableOnline": "Hanya Tersedia Online",
+            "report": "Lapor",
+            "reportSettings": {
+                "showingAllReports": "Semua Laporan",
+                "showingImportedReports": "Laporan Impor",
+                "showingMyReports": "Laporan Saya",
+                "showingNoReports": "Tidak Ada Laporan"
+            },
+            "reports": "Laporan",
+            "routeSettings": {
+                "showingAllRoutes": "Semua Rute",
+                "showingManyRoutes": "%{count} Rute",
+                "showingOneRoute": "%{count} Rute"
+            },
+            "routes": "Rute",
+            "showing": "Menampilkan: %{description}"
+        },
         "recent": "Terbaru",
-        "reported": "Dilaporkan"
+        "reported": "Dilaporkan",
+        "reportsAndRoutes": {
+            "body": "Rute dan Laporan juga dapat dibuat dengan mengetuk peringatan apa pun pada peta",
+            "title": "Laporan dan Rute"
+        },
+        "reportsTooltip": {
+            "body": "Rute dan Laporan dapat dibuat dengan menjatuhkan pin",
+            "title": "Laporan dan Rute"
+        },
+        "selectedItems": {
+            "location": "Lokasi: %{lat}, %{long}",
+            "manyAlerts": "%{count} Peringatan",
+            "manyReports": "%{count} Laporan",
+            "multipleItems": "Multi Item",
+            "oneAlert": "1 Peringatan",
+            "oneReport": "1 Laporan"
+        },
+        "settingsTooltip": {
+            "body": "Tampilkan lapisan dan data yang relevan bagi Anda",
+            "title": "Kustomisasikan Tampilan Peta"
+        },
+        "viirsAlert": "Peringatan VIIRS"
     },
     "partners": {
         "description": "Forest Watcher dibuat dengan kolaborasi antara Program Global Forest Watch dari World Resources Institute, Vizzuality, dan Jane Goodall Institute.",
@@ -267,24 +756,34 @@
         "answers": "Jawaban",
         "choosePicture": "Silakan ambil atau pilih gambar",
         "completed": "Lengkap",
+        "custom": "Laporan Kustom",
         "datePlaceholder": "Pilih tanggal",
         "delete": "Hapus laporan ini",
         "drafts": "Draf",
-        "empty": "Tidak ada laporan yang dikirimkan, silakan kunjungi peta dan laporkan satu poin atau beberapa poin!",
+        "empty": {
+            "action": "Pertanyaan Populer Aplikasi",
+            "body": "Laporan yang Anda buat dan laporan impor akan tampil di sini",
+            "title": "Tidak Ada Laporan"
+        },
         "emptyPicture": "Kosong",
         "export": {
+            "description": "Bagaimana Anda ingin mengekspor laporan ini?",
+            "manyReports": "%{count} Laporan",
             "navBarButtonText": "Ekspor",
             "noneSelected": "Tak ada laporan yang dipilih",
-            "oneReportAction": "Ekspor %{count} laporan...",
-            "manyReportsAction": "Ekspor %{count} laporan...",
-            "title": "Ekspor laporan",
-            "description": "Bagaimana Anda ingin mengekspor laporan ini?",
+            "oneReport": "%{count} Laporan",
             "option": {
-                "asCSV": "Ekspor sebagai CSV ..."
+                "asCSV": "Ekspor sebagai CSV ...",
+                "asSharingBundle": "Ekspor sebagai bundel sebaran..."
             },
-            "successful": "Ekspor laporan berhasil!"
+            "reportSizeAction": "Ekspor Laporan (%{bundleSize})",
+            "successful": "Ekspor laporan berhasil!",
+            "title": "Ekspor laporan"
         },
+        "glad": "Laporan Deforestasi",
+        "gladAndViirs": "Laporan Deforestasi dan Kebakaran",
         "here": "Laporkan di sini",
+        "imported": "Terimpor",
         "input": "Silakan jawab pertanyaannya",
         "inputRadio": "Pilih satu opsi untuk melanjutkan",
         "inputSelect": "Pilih setidaknya satu opsi untuk melanjutkan",
@@ -296,84 +795,90 @@
         "saveLaterDescription": "Ini akan muncul sebagai draf di bagian Laporan",
         "saveLaterTitle": "Simpan untuk nanti",
         "selected": "Laporan dipilih",
+        "share": "Bagikan Laporan",
         "title": "Lapor",
         "toReport": "Lapor",
         "upload": "Unggah",
-        "uploaded": "Terunggah"
+        "uploaded": "Terunggah",
+        "viirs": "Laporan Kebakaran"
     },
     "routes": {
-        "backgroundErrorDialogTitle": "Pelacakan rute dijeda",
         "backgroundErrorDialogMessage": "Silakan periksa pengaturan lokasi dan izin aplikasi untuk melanjutkan pelacakan rute.",
-        "confirmDeleteTitle": "Hapus rute",
+        "backgroundErrorDialogTitle": "Pelacakan rute dijeda",
         "confirmDeleteMessage": "Anda yakin ingin menghapus rute ini?",
+        "confirmDeleteTitle": "Hapus rute",
         "delete": "Hapus Rute",
         "difficulty": "Tingkat Kesulitan",
         "difficultyLevels": {
             "easy": "Mudah",
-            "medium": "Sedang",
-            "hard": "Sulit"
+            "hard": "Sulit",
+            "medium": "Sedang"
         },
         "distance": "Jarak",
         "duration": "Waktu Terpakai",
-        "insufficientPermissionsDialogTitle": "Tidak dapat melacak rute",
+        "empty": {
+            "action": "TJU Aplikasi",
+            "body": "Rute yang Anda rekam dan rute impor akan muncul di sini",
+            "title": "Tidak Ada Rute"
+        },
+        "export": {
+            "manyRoutes": "%{count} Rute",
+            "oneRoute": "%{count} Rute"
+        },
+        "importedRoutes": "Rute Terimpor",
         "insufficientPermissionsDialogMessage": "Kami membutuhkan izin lokasi di latar belakang agar dapat melacak rute Anda.",
         "insufficientPermissionsDialogOpenAppSettings": "Periksa izin",
         "insufficientPermissionsDialogOpenDeviceSettings": "Periksa pengaturan lokasi",
+        "insufficientPermissionsDialogTitle": "Tidak dapat melacak rute",
         "location": "Lokasi",
         "locationEnd": "Selesai:",
-        "locationErrorDialogTitle": "Gagal menerima lokasi",
-        "locationErrorDialogMessage": "Terjadi kesalahan saat mengakses lokasi Anda",
         "locationStart": "Mulai:",
+        "myRoutes": "Rute Saya",
         "notification": {
-            "title": "Rute sedang dilacak",
-            "message": "Forest Watcher sedang merekam rute yang Anda ambil menuju destinasi Anda"
+            "message": "Forest Watcher sedang merekam rute yang Anda ambil menuju destinasi Anda",
+            "title": "Rute sedang dilacak"
         },
-        "resumeTrackingDialogTitle": "Lanjutkan pelacakan rute",
         "resumeTrackingDialogMessage": "Anda punya rute yang belum diselesaikan. Lanjutkan rute ini?",
-        "resumeTrackingDialogPositiveButton": "Lanjutkan rute",
         "resumeTrackingDialogNegativeButton": "Hapus rute",
+        "resumeTrackingDialogPositiveButton": "Lanjutkan rute",
+        "resumeTrackingDialogTitle": "Lanjutkan pelacakan rute",
         "save": "Simpan Rute",
-        "stopRouteTrackingPanelTitle": "Hentikan Pelacakan Rute",
         "stopRouteTrackingPanelContinueOption": "Lanjutkan pelacakan rute",
-        "stopRouteTrackingPanelSaveOption": "Hentikan dan simpan rute",
         "stopRouteTrackingPanelDeleteOption": "Hentikan dan hapus rute",
-        "trackingInProgressErrorTitle": "Rute sedang dilacak",
-        "trackingInProgressErrorMessage": "Anda sedang melacak rute di wilayah lain",
+        "stopRouteTrackingPanelSaveOption": "Hentikan dan simpan rute",
+        "stopRouteTrackingPanelTitle": "Hentikan Pelacakan Rute",
         "viewOnMap": "Tampilkan Rute di Peta"
     },
     "settings": {
-        "1MonthAgo": "1 bulan yang lalu",
-        "1yearAgo": "1 tahun yang lalu",
-        "24hAgo": "24 jam yang lalu",
-        "3MonthsAgo": "3 bulan yang lalu",
-        "48hAgo": "48 jam yang lalu",
-        "6MonthsAgo": "6 bulan yang lalu",
-        "72hAgo": "72 jam yang lalu",
         "aboutApp": "Tentang aplikasi ini",
         "aboutContactUs": "Hubungi kami",
-        "aboutFAQ": "Tanya Jawab",
+        "aboutFAQ": "Pertanyaan Populer",
         "aboutPartners": "Mitra",
         "aboutTerms": "Syarat dan Ketentuan",
-        "addArea": "TAMBAH AREA",
+        "basemaps": "Peta Dasar",
         "completeYourProfileOn": "Selesaikan profil Anda di",
+        "contextualLayers": "Lapisan Kontekstual",
         "coordinatesDecimal": "Desimal",
         "coordinatesDegrees": "Derajat",
+        "coordinatesDescription": "Pilih format yang ingin Anda tampilkan",
         "coordinatesFormat": "Format Koordinat",
         "coordinatesUtm": "UTM",
-        "logOut": "KELUAR",
-        "loggedIn": "Anda masuk sebagai",
+        "logOut": "Keluar",
+        "moreInfo": "Info Lainnya",
         "offlineMode": "Mode Luring",
-        "oneWeekAgo": "Satu minggu yang lalu",
-        "timeFrame": "Jangka waktu",
+        "shareData": "Bagikan Semua Data Aplikasi",
         "title": "Pengaturan",
-        "unsafeLogout": "Laporan Anda belum disinkronkan!",
-        "unsavedDataLost": "Apabila Anda keluar, semua data yang belum disimpan akan hilang.",
-        "yourAreas": "Area Anda",
+        "unsafeLogout": "Sebagian data mungkin hilang",
+        "unsavedDataLost": "Sebagian data tidak tersinkron ke akun Anda dan mungkin akan hilang jika Anda keluar.\nData tersebut meliputi beberapa jenis area dan laporan serta semua rute, peta dasar, dan lapisan kontekstual.\nMengenai informasi dan langkah selanjutnya untuk mengakses data ini lagi, silakan lihat subjek ini di laman TJU kami.",
         "yourRoutes": "Rute Anda"
     },
     "setupCountry": {
         "firstInstruction": "Pertama, pilih negara yang diinginkan",
         "secondWelcomeText": "Silakan pilih area",
+        "tooltip": {
+            "body": "Tambahkan area yang ingin Anda terima peringatannya",
+            "title": "Memulai"
+        },
         "welcomeText": "Halo"
     },
     "setupDrawAreas": {
@@ -381,20 +886,45 @@
         "invalidSize": "Gambarlah area yang lebih kecil",
         "tapInstruction": "Klik peta untuk menggambar area"
     },
-    "setupHeader": {
-        "errorFirst": "Properti tidak valid",
-        "errorSecond": "Dimasukkan ke",
-        "errorThird": "Diperlukan jika anda menunjukkan tombol kembali"
-    },
     "setupOverview": {
         "areaName": "Nama daerah",
         "placeholder": "Masukkan nama"
+    },
+    "sharing": {
+        "inProgress": "Membagikan %{type}...",
+        "multiple": "Bagikan %{type} (%{bundleSize})",
+        "noneSelected": "Tidak Ada %{type} yang Dipilih",
+        "one": "Bagikan %{type} (%{bundleSize})",
+        "title": "Bagikan %{type}",
+        "type": {
+            "alert": "Peringatan",
+            "alerts": "Sistem Peringatan",
+            "area": "Area",
+            "areas": "Area",
+            "basemaps": "Peta Dasar",
+            "contextualLayers": "Lapisan Kontekstual",
+            "customBasemap": "Peta ",
+            "customBasemaps": "Peta Dasar Kustom",
+            "customLayer": "Lapisan Kontekstual Kustom",
+            "customLayers": "Lapisan Kontekstual Kustom",
+            "gfwLayer": "Lapisan Kontekstual Global Forest Watch",
+            "gfwLayers": "Lapisan Kontekstual Global Forest Watch",
+            "layers": "Lapisan",
+            "report": "Lapor",
+            "reports": "Laporan",
+            "route": "Rute",
+            "routes": "Rute"
+        }
     },
     "sync": {
         "alertsUpdated": "Wilayah Anda sudah terbarukan",
         "error": "Sinkronisasi mengalami masalah",
         "errorCreatingArea": "Ada kesalahan saat membuat wilayah Anda",
         "errorDesc": "Ada yang salah",
+        "failed": {
+            "title": "Terjadi eror saat menyinkronkan peringatan",
+            "outOfSpaceMessage": "Agar peringatan tersedia offline, Anda harus mengosongkan sebagian berkas tak terpakai dari ponsel"
+        },
         "gettingLatestAlerts": "Mengambil peringatan terbaru",
         "reportUploadRollback": "Laporan gagal diunggah",
         "reportUploaded": "Laporan terkirim",
@@ -414,18 +944,46 @@
         "agreeText": "Dengan menggunakan aplikasi ini, Anda setuju dengan",
         "linkText": "kondisi dan persyaratan"
     },
-    "walkthrough": {
-        "skip": "lewati tutorial",
-        "subtitle": {
-            "slide1": "Pertama, atur area yang ingin Anda monitor",
-            "slide2": "Pilih lansiran penggundulan hutan atau kebakaran yang ingin Anda tampilkan",
-            "slide3": "Navigasi ke lansiran dan kumpulkan data dari lokasi",
-            "slide4": "Klik lansiran untuk mengirimkan laporan tentang mereka",
-            "slide5": "Atau tekan pada area manapun di peta untuk membuat laporan untuk area tersebut",
-            "slide6": "Masih ada pertanyaan? Buka Pengaturan untuk membaca Tanya Jawab kami atau kunjungi fw.globalforestwatch.org"
+    "welcome": {
+        "deforestationAlerts": {
+            "body": "Lihat peringatan deforestasi GLAD dan kebakaran VIIRS untuk berbagai lokasi di seluruh dunia",
+            "title": "Tampilkan Peringatan Deforestasi"
         },
-        "title": {
-            "slide1": "Selamat datang di Forest Watcher"
-        }
+        "layers": {
+            "body": "Tampilkan lapisan kustom atau peta dasar untuk pemonitoran yang lebih efektif",
+            "title": "Kustomisasikan Lapisan Peta"
+        },
+        "reports": {
+            "body": "Laporkan apa yang Anda temukan di lapangan melalui rekaman teks dan suara",
+            "title": "Buat Laporan"
+        },
+        "routes": {
+            "body": "Navigasi lebih mudah ke area peringatan untuk diinvestigasi",
+            "title": "Rute Pencatatan"
+        },
+        "share": {
+            "body": "Bagikan area, rute, lapisan dan sebagainya untuk koordinasi tim lebih baik",
+            "title": "Bagikan Konten"
+        },
+        "title": "Selamat datang di Forest Watcher"
+    },
+    "whatsNew": {
+        "areaSize": {
+            "body": "Ukuran area maksimal telah meningkat hingga 20.000 kilometer persegi",
+            "title": "Pantau Area Lebih Besar"
+        },
+        "basemaps": {
+            "body": "Tambahkan dari Anda sendiri atau tampilkan lainnya dari Global Forest Watch guna memahami medan lebih baik",
+            "title": "Peta Dasar yang Disempurnakan"
+        },
+        "layers": {
+            "body": "Tambahkan lapisan dari Global Forest Watch atau lapisan Anda sendiri untuk pemantauan yang lebih efektif",
+            "title": "Lapisan Kontekstual yang Ditingkatkan"
+        },
+        "share": {
+            "body": "Bagikan area, rute, lapisan dan sebagainya untuk koordinasi tim yang lebih baik",
+            "title": "Bagikan Konten"
+        },
+        "title": "Baru Di Versi Ini"
     }
 }

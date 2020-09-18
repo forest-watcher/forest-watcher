@@ -49,7 +49,6 @@
         },
         "gfw": "Default Basemaps",
         "import": {
-            "addGFW": "",
             "cannotContainVectorTiles": "* files may contain raster elements only",
             "choose": "Choose basemap type",
             "chooseAnother": "Choose Another",

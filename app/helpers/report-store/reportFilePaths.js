@@ -6,6 +6,10 @@ import RNFetchBlob from 'rn-fetch-blob';
 
 export type ReportAttachmentType = 'image/jpeg'; // more to be added here when we support audio etc.
 
+export function appDocumentsRootDir() {
+  return RNFetchBlob.fs.dirs.DocumentDir;
+}
+
 export function reportRootDir() {
   return `${RNFetchBlob.fs.dirs.DocumentDir}/${CONSTANTS.files.reports}`;
 }

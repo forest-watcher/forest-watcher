@@ -18,6 +18,8 @@ import deleteReportFiles from 'helpers/report-store/deleteReportFiles';
 import { toFileUri } from 'helpers/fileURI';
 import { shouldBeConnected } from 'helpers/app';
 import { storeReportFiles } from 'helpers/report-store/storeReportFiles';
+import { Platform } from 'react-native';
+import { appDocumentsRootDir } from 'helpers/report-store/reportFilePaths';
 
 // Actions
 const GET_DEFAULT_TEMPLATE_REQUEST = 'report/GET_DEFAULT_TEMPLATE_REQUEST';
@@ -242,12 +244,24 @@ export function migrateReportAttachmentsFromV1ToV2(): Thunk<Promise<void>> {
         }
         const updatedAnswer = { ...answer };
         try {
+          let sourceDir = decodeURI(sourceUri);
+
+          if (Platform.OS === 'ios' && sourceDir.includes('/Documents')) {
+            // On iOS, we need to bin anything prior to and including the `/Documents` segment.
+            // This is because the app container UUID may have changed, and if we refer to the full
+            // path we may not be using the right UUID.
+            // We instead need to use the `appDocumentsRootDir` which'll provide the active container UUID.
+
+            const appRelativePath = sourceDir.split('/Documents')[1];
+            sourceDir = decodeURI(`${appDocumentsRootDir()}${appRelativePath}`);
+          }
+
           await storeReportFiles([
             {
               reportName: report.reportName,
               questionName: answer.questionName,
               type: 'image/jpeg',
-              path: decodeURI(sourceUri),
+              path: sourceDir,
               size: 0
             }
           ]);

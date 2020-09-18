@@ -27,8 +27,10 @@
     },
     "basemaps": {
         "delete": {
-            "message": "Tsy azonao iverenana intsony ity asa hataonao ity, te-hanohy?",
-            "title": "Fafana ity sarintany fototra ity?"
+            "messageGFWContent": "Rehefa misy connection irery ihany no ahitana ny Angona amin'ity Sarintany Fototra ity. Te hanohy ve ianao?",
+            "messageCustomContent": "Azo averina ampidirina indray raha takiana ity Sarintany Fototra mifanaraka amin’izay ilaina ity. Te hanohy ve ianao?",
+            "title": "Fafàna ve ny angon'ny Sarintany Fototra?",
+            "titleCustom": "Fafàna ve ny Sarintany Fototra mifanaraka amin’izay ilaina?"
         },
         "edit": "Hanova",
         "empty": {
@@ -38,16 +40,15 @@
         },
         "export": {
             "many": "%{count} Sarintany fototra",
-            "manyAction": "Hamoaka sarintany fototra %{count} ...",
+            "manyAction": "Zarao ireo Sarintany Fototra %{count} ...",
             "navBarButtonText": "Hamoaka",
             "noneSelected": "Tsy misy sarintany fototra nosafidiana",
             "one": "Sarintany Fototra %{count}",
-            "oneAction": "Hamoaka sarintany fototra %{count} ...",
+            "oneAction": "Zarao ny sarintany fototra %{count} ...",
             "successful": "Tontosa ny famoahana sarintany fototra!"
         },
         "gfw": "Sarintany Fototra Lasitra",
         "import": {
-            "addGFW": "",
             "cannotContainVectorTiles": "* tsy maintsy amin'ny endrika \"raster\" na \"pixels\" ny raki-takila rehetra",
             "choose": "Hisafidy karazana sarintany fototra",
             "chooseAnother": "Hisafidy Hafa",
@@ -69,8 +70,6 @@
         "names": {
             "dark": "Dark (Maizina)",
             "default": "Lasitra",
-            "landsat": "Landsat",
-            "mapboxSatellite": "Zanabolana Mapbox",
             "satellite": "Zanabolana"
         },
         "rename": {
@@ -138,8 +137,11 @@
     },
     "contextualLayers": {
         "delete": {
-            "message": "Tsy azonao iverenana intsony ity asa hataonao ity, te-hanohy?",
-            "title": "Fafana ity tongoa (couche) ity?"
+            "messageGFWContent": "Rehefa misy connection irery ihany no ahitana ny Angona ho an'ity tongoa mifanaraka amin’ny zava-misy ity. Te hanohy ve ianao?",
+            "messageGFWImportedContent": "Azo averina ampidirina indray ity angon'ny Tongoa Mifanaraka amin’ny zava-misy rehefa misy aterineto. Te hanohy amin’ny famafana azy ve ianao?",
+            "messageCustomContent": "Azo averina ampidirina indray raha takiana ity tongoa mifanaraka amin’ny zava-misy ity. Te hanohy ve ianao?",
+            "title": "Fafàna ve ny angon'ny Tongoa Mifanaraka amin’ny zava-misy?",
+            "titleCustom": "Fafàna ve ny Tongoa Mifanaraka amin’ny zava-misy?"
         },
         "edit": "Hanova",
         "empty": {
@@ -149,11 +151,11 @@
         },
         "export": {
             "many": "Tongoa %{count}",
-            "manyAction": "Hamoaka tongoa %{count} ...",
+            "manyAction": "Zarao ireo tongoa %{count} ...",
             "navBarButtonText": "Hamoaka",
             "noneSelected": "Tsy misy tongoa nosafidiana",
             "one": "Tongoa  %{count}",
-            "oneAction": "Hamoaka tongoa %{count} ...",
+            "oneAction": "Zarao ireo tongoa %{count} ...",
             "successful": "Tontosa ny famoahana tongoa!"
         },
         "gfw": "Tongoa GFW",
@@ -207,102 +209,227 @@
                     {
                         "content": {
                             "description": {
-                                "text1": "Ny \"Forest Watcher\" dia fitaovana iray na \"application\" fampiasa ao anaty finday avo lenta natao indrindra hanamorana ny fahafahana misitraka ireo angonarehetra momba ny fiovan’ny toetry ny ala avy amin'ny Global Forest Watchmandritra ny fotoana tsy ampiasana aterineto.http://www.globalforestwatch.org/.",
-                                "text2": "Ny \"Global Forest Watch\" na GFW dia rafitra fanaraha-maso ny ala sy fandefasanafanairana tsy mitsaha-mivoatra amin'ny aterineto izay manome fahafahana ny olona hanatsara ny fitantanany ny ala any amin'ny toerana rehetra misy azy. Ny teknolojian'ny zanabolana, ny infôrmatika an'habaka ary ny angona malalaka : ireo rehetra ireo no ampiasain'ny GFW hanomezana torohay momba ny ala ara-potoana an’ireo fiarahamonina manerana izao tontolo izao.   ",
-                                "text3": "Torohay manan-danja sy tena ilaina avy amin'ny GFW no omen'ny \"Forest Watcher\", ary tonga eo am-pelatanan'ireo mpanara-maso ny ala eny ifotony avy hatrany izany. Izay rehetra mampiasa ny \"Forest Watcher\" dia mahita ny toerana misy tetika alasy maharay fanairana amina finday, miditra amin'ilay toerana naharaisana fanairana na dia tsy misy aterineto aza ary manangona torohay sy sary mombaizay mety ho hitany rehetra ao. ",
-                                "text4": "Manome vahaolana takatry ny fahefa-mividin'ny tsirairay sy mora ampiasaina ity \"application\" ity mba  hamaritanahaingana ireo toerana hosafoana ho an'ireo mpiambina ala na ireo mpanao fanadihadiana eny ifotony; hanangonana porofo mahakasika ny fiovan'ny toetoetry ny ala eny ifotony; hampiasaina ireo angona na torohay voa angona hoenti-manapa-kevitra ny amin'ny fitantanana sy ny fikajiana ny ala; ary hijerena eny ifotony na mahomby na tsia ireo fitaovam-pitsirihana ampitain-davitra.  ",
-                                "text5": "Raha lazaina amin'ny antsipirihany kokoa, ireto avy no azon'izay rehetra mpampiasaity \"application\" ity atao avy aminy:"
+                                "text1": "Appli finday ny Forest Watcher, novolavolaina mba hahazoana mora foana, na rehefa tsisy connection aza, ny angona momba ny fiovan’ny toetry ny ala avy ao amin'ny Global Forest Watch http://www.globalforestwatch.org/.",
+                                "text2": "Fombafomba mavitrika rehefa misy connection fanaraha-maso sy fanairana ny Global Forest Watch (GFW), ahafahan'ny olona na aiza na aiza misy azy mitantana tsaratsara kokoa ny ala. Miaraka ampiasain'ny GFW ny teknolojian'ny zanabolana, ny habaka informatika, ary ny angona misokatra hanomezana vaovao ara-potoana mahakasika ny ala ho an'ny vondron'olona maneran-tany.",
+                                "text3": "Mametraka torohay manan-danja mivantana avy amin'ny GFW eo an-tànan'ny olona manara-maso ny ala eny an-toerana ny Forest Watcher. Ahafahan'ny olona rehetra mahita ny fandripahana ala sy ny fanairana doro-tanety amin'ny finday ny Forest Watcher, mandeha any amin'ny toerana misy ny fanairana na rehefa tsisy connection aza, manangona ny torohay sy sary mahakasika izay hitany.",
+                                "text4": "Manome vahaolana takatry ny fahefa-mividin’ny tsirairay sy mora ampiasaina ity appli ity mba: hamantarana haingana ny faritra ho safoina ho an’ireo mpiambina sy mpanadihady eny an-toerana; hanangonana ireo porofo momba ny fiovaovan’ny toetoetry ny ala eny an-toerana ; handraisana fanapaha-kevitra momba ny fitantanana sy fikajiana ny ala miainga amin'ny zavatra voamarina; ary hanamarinana ny fahombiazanan’ireo fitaovam-panaraha-maso ampitain-davitra.",
+                                "text5": "Amin’ny antsipiriany, ity appli ity dia ahafahan’ny mpampiasa azy:"
                             },
                             "orderList": {
-                                "text1": "Mampiditra na manao ny sarin’ny faritra ilaina arahi-maso mba hanaovana fanadihadiana",
-                                "text2": "Haka ireo raki-takila isan-karazany maneho ny fiovan-toetry ny ala hita avy eny amin’ny zanabolana sy ireo angona na torohay mifanaraka amin’ny zava-misy (oh.:fanairana momba ny trangana fandripahana ala manakaiky ny fotoana itrangany,ireo faritra arovana, ary endritany tsy nahafahana) ka mampiditra ireo ao aminafinday. ",
-                                "text3": "Mampiditra ny angona-nao manokana",
-                                "text4": "Manadihady ireo fanairana eny ifotony ary manangona torohay (ao anatin’izany ny fangitra\"GPS\" sy ny sary) amin’ny alalan’ny endrika azo ovaina araka izay ilàna azy",
-                                "text5": "Mandinika,manadihady, ary maka ireo angona na torohay voangona tamin’ny alalan’ilay\"application\""
+                                "text1": "Mampiditra ho tahiry na manao ny sarin’ny/ireo faritra mahaliana ho fakafakaina",
+                                "text2": "Mampiditra ho tahiry anati-na finday ireo sary avy amin’ny zanabolana momban’ny fiovan’ny ala sy ny angona mifanaraka amin'izay ilaina hafa (ohatra fanairana akaiky ny tena fotoana hitrangan’ny fandripahana ny ala, ireo faritra arovana sy ny faritra misy ala tsy mbola voakitika).",
+                                "text3": "Ampidiro ireo angona-nao manokana",
+                                "text4": "Manadihady ny fanairana eny an-toerana sy manangona ny torohay (anatin'izany ny teboka GPS sy ny sary) amin'ny alàlan'ny endrika azo ahitsy araka izay ilaina.",
+                                "text5": "Manao indray mijery sy manadihady ary mampiditra ho tahiry ny angona voaangona tamin’ny appli"
                             }
                         },
-                        "title": "Inona izany \"Forest Watcher\" izany?"
+                        "title": "Inona ny atao hoe Forest Watcher?"
                     },
                     {
                         "content": {
                             "description": {
-                                "text": "Ny Jane Goodall Institute (JGI), Google, Touchlab ary Global Forest Watch nonamolavola voalohany ny \"Forest Watcher\". Nilain’ireo mpanara-maso ny ala eny anivon’ny tanàna, ireo mpiambina ny faritra arovana ary ny fiarahamonina eny ifotony miara-miasa amin’ny Jane Goodall Institute ny nanana angona avy amin’ny zanabolana tsy maty paik’andro hoentin’izy ireo manara-maso ny ala; kanefa diasarotra ny fahazoana aterineto any amin’ireo faritra mitoka-monina izay iasan’izy ireo. Raha tsy nisy ity torohay ity, mety ho maro ireo fandripahana ala mitranga any amin’ny toerana ivelan’ny lalana lalovan’ireo andiana mpanao fisafoana ny ala izay tsy ho hitany akory. Noforonin’i JGI, GFW, Touchlab, Vizzuality ary Google noho izany ny \"Forest Watcher\" mba hahafahana mampiasa angona eny ifotony na dia tsy misy aterineto aza.      "
+                                "text": "Mampiasa ny Forest Watcher daholo ireo vondron’ny mpanara-maso ny ala, ireo mpiaro ny valan-javaboary, ireo fikambanana mikajy, ireo mpiandraikitra ny faritra voaaro, mpanao gazety ary ny polisy mihadidy ny tontolo iainana, izany dia mba hahitana ny ala misy fikorontanana, sy mampahafantatra ny lalàn-kalehan'ny mpanao fisafoana ary manangona ny torohay nomerika momban’ny zavatra hitan’izy ireo."
                             }
                         },
-                        "title": "Inona no antony namoronana ny \"Forest Watcher\"?"
+                        "title": "Iza no mampiasa ny Forest Watcher?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text": "Tamin'ny taona 2016, niara-niombon'antoka Jane Goodall Institute (JGI), Global Forest Watch (GFW) sy Touchlab ary Google hamorona appli hoan’ny finday hanaraha-maso ireo faritra arovana any Oganda na tsisy connection aza. Rehefa nahomby ny andrana dia namorona ny Forest Watcher i GFW sy JGI ary Vizzuality ahafahana miditra amin'ny angona-n’ny GFW na rehefa tsisy connection sy eny an-tsaha aza. GFW sy 3 Sided Cube no misahana ny appli ankehitriny."
+                            }
+                        },
+                        "title": "Iza no namorona ny Forest Watcher?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text": "Mandeha amin'ny iPhone rehetra misy iOS 10 na ambonin’izany ny Forest Watcher. Ny fepetra farany ambany indrindra hoan’ny Android dia ireto  voatanisa eto ambany ireto."
+                            },
+                            "orderList": {
+                                "text1": "Fepetra farafahakeliny ho an'ny Android: OS - Android 5.0; RAM - 1,5GB; Toerana malalaka ao amin'ny Disque Dur: 1GB",
+                                "text2": "Fepetra farafahakeliny ho an'ny Android: OS - Android 7.1; RAM - 3GB; toerana malalaka ao amin'ny Disque dur: 4GB +"
+                            }
+                        },
+                        "title": "Inona avy ireo fepetran’ny fitaovana hampiasana ny Forest Watcher?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text": "Eny, misy amin'ny teny Espaniola, Frantsay, Portiogey, Bahasa, Indoneziana, Holandey ary Malagasy ny Forest Watcher. Azo ampifanarahana amin'ny fiteny izay nofidinao ny fanontaniana sy ny tatitra."
+                            }
+                        },
+                        "title": "Azo ampiasaina amin'ny fiteny hafa ankoatra ny anglisy ve ny Forest Watcher?"
                     }
                 ],
-                "title": "Momba ny \"Forest Watcher\""
+                "title": "Momban’ny Forest Watcher"
             },
             "alertsAndData": {
                 "questions": [
                     {
                         "content": {
                             "description": {
-                                "text1": "Ny angona tsirairay mahakasika ny fiovan’ny ala dia efa nandalo andrana ara-tsiantifika hentitra avokoa ary manana fetra iraisana tokana. Ohatra:Nandritra ny tombana natao tany Pérou, hita fa nisy ny trangana fanairana GLAD 13,5 isan-jato misary miabo (misy fanairana mipoitra ao amin’ny angona kanefatsy hita eny ifotony izany) ary 33 isan-jato misary miiba (hita fa nisy fiovanateny ifotony kanefa tsy ahitana fanairana momba izany any anaty angona). Midikaizany fa 87 isan-jaton’ny fanairana GLAD dia maneho marina trangana fiovan’ny ala. Ambony kokoa ny tahan’ny fanairana misary miiba izay midika fa ireofanairana ireo dia tombana mampitandrina ny amin’ny fahaverezan’ny firakofan’ny ala. Izany dia manampy amin’ny fampihenana ny mety ho fandaniana ny hoenti-manana amin’ny fanadihadiana ireo fanairana izay tsy maneho fiovan’ny ala marina.     ",
-                                "text2": "Tokony hotsaroan’ireo mpampiasa azy mandrakariva fa ny fanairana GLAD dia mahatsirikany fahaverezan’ny firakofan’ny ala rehetra, na olona no nahatonga izany (toy ny fitrandrahana ala) na antony ara-boajanahary (toy ny fihotsahan-tany). Etsy andaniny, ny fanairana ihany koa dia tsy manisy fanavahana eo amin’ny firakofan’ny ala voajanahary sy nambolena. Raha te-hahazo torohay feno momba ny angona tsirairay, tsidiho ny www.globalforestwatch.org.",
-                                "text3": "Nanakaiky ny 0 kosa ny fanairana misary miabo tamin’ny tomban’ny angona VIIRS tamin’ny ankamaroan’ireo faritra, teo amin’ny 1,2 isan-jato teo izany raha ny ambony indrindra. Ny ankamaroany aza dia nifangaro tamina taratry ny masoandro avy amin’ireo tafo-trano mitaratra. Tsy notombanana kosa ny tahan’ny tsy tafiditra.Tsy afaka mahita doro tanety kely loatra (latsaky ny 100 metatra toradroa amin’ny ankapobeny) na mangatsiaka loatra (latsaky ny 700°K amin’ny ankapobeny)ny VIIRS. Antony iray mety tsy hahitany izany koa ny fanombohan’ny firehetan’ny afo mandritra ny fotoana mahadify ny zanabolana, na koa raha toa ka saron’ny rahona, setroka matevina na ny ravin-kazo ny afo."
+                                "text1": "Ny faritra mahaliana dia faritra iray nosoritanao mba harahi-maso ny fiovan’ny ala ao anatiny. Rehefa mamorona faritra mahaliana amin'ny Forest Watcher ianao dia GLAD fanairana fandripahana ala no hampahafantatra izany faritra izany."
                             }
                         },
-                        "title": "Hatraizany fahamarinan’ny fanairana?"
+                        "title": "Inona no atao hoe faritra mahaliana?"
                     },
                     {
                         "content": {
                             "description": {
-                                "text": "Misy angona lasitra telo avy amin’ny \"Global Forest Watch\" ao amin’ny \"ForestWatcher\":"
+                                "text1": "20000 kilometatra toradroa (2 000 000 hekitara) farafahabeny ny faritra mahaliana. Raha manandrana mametraka faritra lehibe kokoa noho ny 20 000 kilometatra toradroa ianao dia hahazo hafatra hoe \"error/diso\", manambara fa lehibe loatra ny habeny."
+                            }
+                        },
+                        "title": "Firy ny farafahaben'ny faritra mahaliana azoko atao?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "Azonao atao ny mizara faritra mahaliana ao amin'ny Pejy Faritra amin'ny appli finday dia tsindrio ny \"Mizara faritra\". Avy eo, azonao atao ny misafidy ireo faritra tianao hozaraina sy hisafidianana ny handefasanao ny fehezana ao amin’ny findainao. Azonao atao avy eo ny mizara ny fehezana-faritra mahaliana amin'ny alàlan'ny fomba fizarana nosafidinao, ohatra mailaka, bluetooth na WhatsApp.",
+                                "text2": "Rehefa naharay fehezana faritra mahaliana avy tamin'ny fomba fizarana nosafidinao ianao, dia azonao ampidirina ao amin'ny Forest Watcher izany. Azonao atao ny miditra ao amin'ny faritra mahaliana ao amin'ny Pejy Faritra raha vantany vao vita ny fampidirana."
+                            }
+                        },
+                        "title": "Ahoana no ahafahako mizara sy mandray faritra mahaliana?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "Azonao atao ny mizara Tongoa Mifanaraka amin’ny zava-misy amin'ny alàlan'ny fandehanana mankao amin’ny Pejy Lazaovan'ny appli-n'ny findainao dia tsindrio \"Mizara\". Avy eo, azonao atao ny misafidy ny Tongoa Mifanaraka amin’ny zava-misy izay tianao hozaraina sy hoe aiza ny handefasanao ilay fehezana ao amin'ny findainao. Azonao atao avy eo ny mizara ilay fehezana Tongoa Mifanaraka amin’ny zava-misy amin'ny alàlan'ny fomba fizarana nofidinao, ohatra mailaka, bluetooth na WhatsApp.",
+                                "text2": "Rehefa naharay fehezana  Tongoa Mifanaraka amin’ny zava-misy avy tamin'ny fomba fizarana nosafidinao ianao, dia azonao ampidirina ao amin'ny Forest Watcher izany. Azonao atao ny miditra ao amin'ny Tongoa Mifanaraka amin’ny zava-misys ao amin'ny section Tongoa Mifanaraka amin’ny zava-misy ao amin'ny Pejy Lazaova raha vantany vao vita ny fampidirana."
+                            }
+                        },
+                        "title": "Ahoana ny ahafahako mizara sy mandray Tongoa Mifanaraka amin’ny zava-misy?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text": "Manome ny fiovan'ny ala sy angona mifanaraka amin’ny zava-misy nofenoina mialoha ao anatin'ny Forest Watcher ny Global Forest Watch (GFW). Ireto no ao anatin'ny angona nofenoina mialoha: ny GLAD fanairana fandripahana ala, ny VIIRS fanairana fisiana doro tanety, ny fahaverezana faritra rakotr’ala isan-taona ary ireo faritra arovana. Jereo etsy ambany ny angona momban’ny GLAD fanairana fandripahana ny ala sy ny VIIRS fanairana fisiana doro tanety ary ny fahaverezana faritra rakotr’ala isan-taona."
                             },
-                            "footerText": "Raha mila torohay amin’ny antsipirihany momba ny angona tsirairay, tsidiho ny http://data.globalforestwatch.org/.",
+                            "footerText": "Azonao atao koa ny manampy Tongoa Mifanaraka amin’ny zava-misy fanampiny avy ao amin'ny GFW, ohatra ireo tany misy Mari-Toerana an'ny tompon-tany sy an'ny vondrom-bahoaka, ireo angona momba ny concessions samy hafa sy momba ny harena voajanahary isan-karazany. Azonao atao koa ny mampiditra Tongoa Mifanaraka amin’ny zava-misy anao manokana amin’ny alalan’ny appli finday. Ireto ny karazana raki-takila zakan'ny Forest Watcher Mobile ampidirina: .json, .geojson, .topojson, .gpx, .zip, .kmz ary .kml.\n\nRehefa mampiditra Tongoa Mifanaraka amin’ny zava-misy fanampiny ianao dia afaka misafidy na haka ho tahiry azo ampiasaina na rehefa tsisy connection na hiditra amin’ny angona rehefa misy connection ihany. Moramora kokoa ny fampiasana ny angona voatahiry ao amin'ny findainao rehefa mampiasa ireto safidy ireto. \n\nRaha mila fanazavana fanampiny, azafady tsidiho ny data.globalforestwatch.org.",
                             "orderList": {
-                                "text1": "Fanairana Doro tanety Tsy an-kiato VIIRS: Novolavolain’ny NASA, nampanarahina toetrandroisan’andro amina kalitaon-tsary avy any amin’ny 375 metatra. Maneho aminao ny faritra ahiana ho nisy doro tanety tamin’ny herinandro lasa ity. ",
-                                "text2": "Fanairana GLAD: Vokarin’ny labôratoaran’ny Oniversiten’ny Mary Land Global Land Analysis & Discovery (GLAD), nampanarahina toetrandro isan-kerinandro amina kalitaon-tsary avy any amin’ny 30 metatra. Maneho aminao ny faritra mety hahitana fiovan’ny ala tao anatin’ny herinandro ity.",
-                                "text3": "Fahaverezan’ny firakofan’ny ala isan-taona: Vokarin’ny labôratoara GLAD ihany koa, nampanarahina toetrandro isan-taona amina kalitaon-tsary avy any amin’ny 30metatra. Ity no anehoana aminao ny fiovan’ny ala tao anatin’ny taona iray.Mbola amin’ny endrika tongoa araka ny zava-misy ihany aloha no ahitana ity angona ity hatreto: tsy afaka hanao tatitra mahakasika ny fanairana amin’ny fahaverezan’ny ala isan-taona ianao na dia mbola afaka manao tatitra momba iofaritra io ihany aza amin’ny alalan’ny fanindriana ny efijery eo amin’ilay faritra misy ala very na azo."
+                                "text1": "VIIRS Fanairana Fisiana Doro tanety: novokarin'ny NASA, ahitsy ara-potoana isan’andro amin'ny kalitaon-tsary alaina avy eny amin’ny 375 metatra. Mampiseho anao ny toerana ahiana nisy doro tanety tamin’ny herinandro lasa.",
+                                "text2": "GLAD fanairana: novokarin'ny University of Maryland Global Land Analysis & Discovery (GLAD) Lab, ahitsy ara-potoana isan-kerinandro amin'ny kalitaon-tsary alaina avy eny amin’ny 30 metatra. Mampiseho isan-kerinandro ny faritra mety nisy fiovan’ny ala.",
+                                "text3": "Fahaverezan’ny rakotr’ala isan-taona: vokarin’ny GLAD lab ihany koa , ahitsy ara-potoana isan-taona, kalitaon-tsary avy eny amin’ny 30 metatra. Mampiseho isan-taona taiza ny faritra nisy fiovan'ny ala. Amin'izao fotoana izao aloha dia angon'ny Tongoa Mifanaraka amin’ny zava-misy ihany no angona misy: tsy afaka manao tatitra mifandraika amin'ny fanairana ny amin’ny fahaverezan’ny ala isan-taona ianao, nefa afaka manao tatitra ihany momba an'io toerana io rehefa tsindrina tondro eo amin'ny écran ny toerana nisy fahaverezana sy fahazoana ala."
                             }
                         },
-                        "title": "Inona avy ireo angona azo ampiasaina ary avy aiza avy?"
+                        "title": "Inona ary avy aiza ny angona misy?"
                     },
                     {
                         "content": {
                             "description": {
-                                "text": "Tsy dia matetika loatra toy ny an’ny angona fanairana ny fampanarahana toetrandrony sary ao amin’ny sarintany fototra azo avy amin’ny zanabolana. Noho izany,mety hahatsikaritra fanairana fiovan’ny ala ho ana faritra asehony fa misy alatsy mbola voakitika ianao ao anatin’ny sarintany fototra azo avy amin’ny Zanabolana. Ny fijerena ny fanairana GLAD eny ifotony no fomba tsara indrindrahanamarinana ny fiovana misy marina eny an-toerana."
+                                "text1": "Vita andrana siantifika hentitra avokoa ary manana fetra tokana ny angona tsirairay.",
+                                "text2": "Tokony hifantsika ao antsain’ny mpampiasa mandrakariva fa ny GLAD fanairana fandripahana ala dia mitsirika ny fahaverezan’ny rakotr'ala rehetra, na olona no nahatonga izany (toy ny fitrandrahana ala) na antony ara-boajanahary (toy ny fihotsahan'ny tany). Etsy andaniny, tsy afaka manavaka ihany koa ny fanairana na rakotr'ala voajanahary io na rakotr'ala hazo novolena. Natao ho fiarovana ihany koa ny fanairana satria ny mpanao fisafoana eny an-toerana no tena noheverina hampiasa azy (1% ny taha miabo diso ho an'ny fanairana voamarina, 33% ny taha miiba diso). Farany, ahitsy ara-potoana isan-kerinandro ny fanairana, nefa rehefa misy rako-drahona maharitra dia herinandro maromaro na am-bolana mihitsy aorian'ny hitrangany aza vao voatsiriky ny fanairana ny fitrangany.",
+                                "text3": "Tsy afaka mitsirika afo kely loatra na tsy ampy hafanana ny VIIRS fanairana doro-tanety (latsaky ny 100 metatra toradroa na maripana latsaky ny 700°K na 427°C).",
+                                "text4": "Raha mila fanazavana fanampiny, tsidiho azafady data.globalforestwatch.org."
                             }
                         },
-                        "title": "Nahoana aho no mahita fanairana GLAD kanefa tsy mahita fiovana ao amin’ny sarin’nysarintany fototra azo avy amin’ny zanabolana?"
+                        "title": "Hatraiza ny fahamarinan’ny fanairana fandripahana ala sy ny doro tanety?"
                     },
                     {
                         "content": {
                             "description": {
-                                "text": "Eny, azonao atao ny mampiditra sy manampy ny angona anao manokana ao amin’ny\"application\" amin’ny alalan’ny fampiasana ny tranonkala ho ana solosaina\"Forest Watcher.\" Rehefa mampiasa ny tranonkala ho ana solosaina ianao, dia azonao atao ny mampifandray ny tolotra amin’ny aterineto miendrika taila amin’ny \"Forest Watcher\" amin’ny alalan’ny URL. Raha mila fanampim-panazavana,jereo ao amin’ny tranonkala ho ana solosaina. "
+                                "text1": "Tsy ahitsy ara-potoana matetika manaraka ny angona fanairana ny Sarintany Fototra avy amin'ny zanabolana omen’ny Global Forest Watch (GFW). Arak’izany, mety hahatsikaritra fanairana amin'ny faritra izay hita ho tsy voakitika akory ny sary azo amin’ny zanabolana eo amin'ny sarintany fototra. Raha te hahita ny sary azo farany avy amin'ny zanabolana, ampiasao ny fitaovana Recent Satellite Imagery hita ao amin'ny GFW. Ny fijerena eny an-toerana ny fanairana no fomba tsara indrindra hanamarinana ny fiovana, saingy izay koa ny fomba lafo indrindra. Noho izany, alohan'ny hiheverana ny hidinana eny an-toerana hahafantarana hoe inona marina ireo mety ho mitarika ny fikorontanana, hampiasao aloha raha azo atao ny fitaovana Recent Satellite Imagery.",
+                                "text2": "Raha tsy izany, azonao atao koa ny mampiditra ho anao manokana sary sy sarintany fototra avy amin’ny zanabolana amin'ny fitetezana ny Sarintany Fototra na ny section Tongoa Mifanaraka amin’ny zava-misy eo amin'ny pejy Lazaova amin'ny appli-n'ny finday dia tsindrina ny bokotra + ery ambony an-kavanan'ny pejy."
                             }
                         },
-                        "title": "Afaka ampiako ny tongoan’angona ahy manokana ve ao amin’ny \"Forest Watcher\"? "
+                        "title": "Maninona aho no mahita fanairana fandripahana ala nefa tsy misy fiovana ao amin'ny Sarintany Fototra avy amin’ny zanabolana?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "Eny, azonao atao izao ny mampiditra mivantana ho tahiry ny tongoa mifanaraka amin’ny zava-misy sy sarintany fototra anao manokana anatin'ny appli-n'ny findainao, na dia rehefa tsisy connection aza. Azonao atao ny manampy tongoa sy sarintany fototra mifanaraka amin’ny zava-misy rehefa mandeha mankao amin’ny section Sarintany Fototra na mankao amin'ny section Tongoa Mifanaraka amin’ny zava-misy ao amin'ny pejy Lazaova, tsindrio ny bokotra + eo ambony an-kavanan'ny pejy.",
+                                "text2": "Karazana raki-takila azo ampiasaina ho an'ny tongoa mifanaraka amin’ny zava-misy: .json, .geojson, .topojson, .gpx, .zip shapefiles, .kmz ary .kml.",
+                                "text3": "Karazana raki-takila azo ampiasaina ho an'ny sarintany fototra ohatra: .mbtiles."
+                            }
+                        },
+                        "title": "Azoko atao ve ny mampiditra ho tahiry ny tongoa sy sarintany fototra mifanaraka amin’ny zava-misy ahy manokana ao amin'ny Forest Watcher?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "Ankehitriny, karazana angona vitsivitsy ihany no nampifanarahana ao amin'ny kaonty Forest Watcher-nao, izay mifandray ihany koa amin'ny Tranonkala Forest Watcher Application. Ahitana ny faritra sy tatitra nampidirinao ho tatitra ny angona. Midika izany fa rehefa miala sy miverina miditra indray amin’ny appli ianao, dia mijanona ho hita foana izany angona izany.",
+                                "text2": "Ho an'ireo karazana angona hafa dia voatahiry tsy miankina amin'ny kaonty Forest Watcher-nao ary TSY ho hita izany rehefa miala sy miverina miditra indrayao amin'ny appli ianao. Ireto ny angona tafiditra ohatra:"
+                            },
+                            "footerText": "Hanaisotra tanteraka ireo zavatra ireo ny fialàna (ankoatr’ireo sarintany fototra sy tongoa mifanaraka amin’ny zava-misy). Tsara izany ny mamehy izay angona rehetra tianao ho tazomina mialohan’ny hialanao. Mba tsy hahasarotra ny fanaovanao izany, hampiasao ny safidy 'mizara appli angona rehetra' ary tehirizo ny fehezana azo eo. Azo averina ampidirana indray izany avy eo raha takiana amin'ny fanokafana ilay fehezana miaraka amin'ny appli Forest Watcher rehefa tafiditra.",
+                            "orderList": {
+                                "text1": "Fanairana",
+                                "text2": "Faritra nampidirina",
+                                "text3": "Làlana",
+                                "text4": "Tatitra tsy tafiditra ho tahiry",
+                                "text5": "Taila Sarintany Fototra nalaina ho tahiry",
+                                "text6": "Taila Tongoa GFW nalaina ho tahiry",
+                                "text7": "Sarintany Fototra Nahitsy araka izay ilaina",
+                                "text8": "Tongoa Mifanaraka amin’ny zava-misy sy Nahitsy araka izay ilaina",
+                                "text9": "Tongoa GFW Mifanaraka amin’ny zava-misy nampidirina"
+                            }
+                        },
+                        "title": "Ahoana no fomba itehirizan'ny appli Forest Watcher ny angoko?"
                     }
                 ],
-                "title": "Fanairana sy Angona ao amin’ny \"Forest Watcher\""
-            },
-            "customLayers": {
-                "questions": [],
-                "title": "Tongoa Mifanaraka Amin’izay Ilaina"
+                "title": "Fanairana sy Angona ao anaty Forest Watcher"
             },
             "features": {
                 "questions": [
                     {
                         "content": {
                             "description": {
-                                "text": "Avoakan’ny \"Forest Watcher\" ny angona momba ny fiovan’ny ala eo amin’ny \"Faritra Iasana\"na amin’ny faritra arahinao maso. Azonao faritana ny Faritra Iasana ao amin’ny Lazaova. Raha toa ka tsy anatina ekipa iray ianao, dia mety efa manana faritranatao ho anao ianao izay azonao atsofoka ao anaty \"app\". Ilay \"application\" noavy hatrany dia haka ny angona mahakasika ny fiovan’ny ala ho an’ireo faritraireo ary hanome ny angona momba ny fandripahana ala sy ny fanairana doro tanetyvoaray farany rehefa mampiasa aterineto ianao. Vantany vao nalainao hankao amin’ny findainao ireo angona ilainao, dia azonao entina eny ifotony amin’izay ilay \"application\" ary afaka tsy mampiasa aterineto intsony. Ny \"ForestWatcher\" no hitari-dalana anao ho any amin’izay fanairana mitranga eo amin’ny toerana manodidina anao amin’ny alalan’ny GPS ao anatin’ny finday. Rehefa tongaeo anoloan’ny faritra nandraisana fanairana ianao, dia azonao atao ny mameno ny tatitra mahakasika izay mety ho hitanao eo ary koa manampy sary. "
+                                "text1": "Mahazo mamorona faritra mahaliana ao anatin'ny Forest Watcher Mobile ny mpampiasa sady manaraka ny fanairana eo amin'izy samy izy. Voatondro eo am-panombohana ny appli na ao anatin'ny pejy Faritra ny Faritra mahaliana. Azonao atao ny mijery ny fandripahana ala sy ny fanairana doro tanety farany indrindra ao amin'ny faritra mahaliananao ary maka azy ireo ho tahiry na tsisy connection aza sy hoentina eny an-toerana. Rehefa tafiditra ho tahiry dia azonao hatao ny mampiasa ny appli hitari-dalana anao ho any amin'ny fanairana eo akaiky eo amin'ny alàlan'ny GPS-n’ny finday ary hitsongo ny lalanao rehefa mandeha ianao, avy eo mamoaha taratasy fameno iray ary makà sary maro hiraketana ny zavatra voadinikao sy hitanao.",
+                                "text2": "Hahafahana bebe kokoa manitsy ifanaraka amin’izay ilaina amin'ny alalan’ireo môdelin’ny tatitra an-tsoratra azo ovana ny Forest Watcher Web sady manamora koa ny fiaraha-miasa miaraka amin’ny safidy maro hamoronana, hanao indray mijery sy hanomezana andraikitra ireo mpikambana ao amin'ny ekipa amin'ny fanaovana tatitra."
                             }
                         },
-                        "title": "Manao ahoana ny fomba fampiasana ny \"Forest Watcher\"?     "
+                        "title": "Inona no azoko atao miaraka amin'ny Forest Watcher?"
                     },
                     {
                         "content": {
                             "description": {
-                                "text": "Ny \"Forest Watcher Desktop\" no endrika iray isehoan’ny \"application\" amin’ny finday rehefa jerena amin’ny solosaina sy ampiasaina aterineto. Ato atao ny Mampiasa azy ity hitantanana ny faritra iasana, hamoronana lasitrana tatitra vaovao,hananganana ekipa mpiara-mampiasa, ary handinihana sy hakana ireo tatitranalefa tamin’ny alalan’ny \"application\". Ilay endrika amin’ny solosaina dianatao ho an’ny mpitondra raharaha sy ny mpitantana ny ekipa mba hahafahan’izy ireo manangana ny \"application\" hampiasain’ny ekipany. Raha mila fanazavanafanampiny, tsindrio eto   "
+                                "text": "Na dia novolavolaiana ho fampiasa rehefa tsisy connection aza ny Forest Watcher Mobile tany am-boalohany, dia misy ihany asa lehibe sasany mila connection vao vita. Jereo etsy ambany ny fizotry ny asa mahazatra ho an'ny Forest Watcher, mila connection na tsia"
+                            },
+                            "footerText": "Rehefa tsisy connection ianao dia ataovy \"maody tsisy connectiuon\" ny appli ao amin'ny Lazaova mba hahamari-toerana ny appli.",
+                            "orderList": {
+                                "text1": "Misy connection: \nAmpidiro ho tahiry Forest Watcher Mobile dia midira. \nMamoròna faritra mahaliana iray \nMamarita fotoana iray hoan’ny fanairana ary havaozy ireo fanairana.",
+                                "text2": "Tsisy connection:\nSafidio ary mandehana any amin'ireo fanairana. \nMamoròna tatitra eo amin’ny toerana misy anao na momba ny fanairana iray. \nTsongoy ny lalanao,\nAtaovy anaty tahirin-kevitra ireo fandinihina ary makà sary.\nZarao amin’ny fitaovana hafa ny votoatin-kevitry ny appli.(fanairana, faritra, lalana, tatitra, tongoa mifanaraka amin’ny zava-misy, taila sarintany fototra na votoatin-kevitry ny appli rehetra)"
                             }
                         },
-                        "title": "Inonano atao hoe \"Forest Watcher Desktop\"?"
+                        "title": "Inona no azoko atao, misy connection miolotra amin'ny tsisy connection?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text": "Ny Tranonkala Forest Watcher no endrika fanampiny voalohany hita amin’ny tranonkala ho an'ny appli finday rehefa misy connection, izay azo ampiasaina hitantanana ireo faritra mahaliana, hanitsiana hifanaraka amin’izay ilaina ireo lasitra tatitra, hananganana ekipa-na mpampiasa, hanaovaona indray mijery sy hampidirana ho tahiry ny tatitra nakana fankatoavina amin'ny alàlan'ny appli finday. Azon'ny mpitantana sy mpitarika ekipa ampiasaina ny Tranonkala Forest Watcher handrafetana appli ho an’ny ekipany. Tokony hitovy ihany ny teny miafina fidirana amin'ny Tranonkala Forest Watcher sy fidirana amin'ny appli. Raha mila fanazavana fanampiny, tsidiho azafady forestwatcher.globalforestwatch.org."
+                            }
+                        },
+                        "title": "Inona no atao hoe Tranonkala Forest Watcher?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "Afaka mampiditra ny tongoa mifanaraka amin’izay ilaina na amin'ny Tranonkala Forest Watcher na amin'ny Forest Watcher ho an'ny Finday. Ireto ny karazana raki-takila zakan'ny Forest Watcher ho an'ny Finday raha ampiditra ho tahiry: .json, .geojson, .topojson, .gpx, .zip, .kmz, .kml, ary .mbtiles.",
+                                "text2": "Mahazaka taila URL ny Tranonkala Forest Watcher.",
+                                "text3": "Ireo voatanisa eo ambany ireo ny karazana raki-takila mifanaraka amin’izay ilaina zakan’ny Forest Watcher ho an'ny Finday."
+                            },
+                            "footerText": "1 MB raha be indrindra ny raki-takila tsara ampidirina, ny mihoatra izay dia mety tsy hety tsara. Mety hiteraka olana ihany koa ny endrika diso sarotra loatra, mety ho voafafa ny style sy ny sary nahitsy araka izay ilaina. Raha mila fanazavana fanampiny momba ny fombafomba fampidirana ho tahiry, mifandraisa aminay azafady: forestwatcher@wri.org.",
+                            "orderList": {
+                                "text1": "GeoJSON (sy fanitarana raki-takila .geojson na .json)",
+                                "text2": "TopoJSON (sy fanitarana raki-takila .topojson na .json)",
+                                "text3": "Google Earth Keyhole Markup Language (sy fanitarana raki-takila .kml na .kmz)",
+                                "text4": "Shapefiles (sy fanitarana .zip). Raha Shapefiles dia tsy maintsy ampidirina anaty arsiva .shp sy .prj ao.",
+                                "text5": "GPS Format Exchange (sy fanitarana .gpx)",
+                                "text6": "Mapbox Tiles (sy fanitarana .mbtiles). Tsy maintsy hampidirina ho sarintany fototra."
+                            }
+                        },
+                        "title": "Karazana sy habe-na raki-takila  toy inona no eken'ny Forest Watcher?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "Eny, novolavolaina hahaleo tena tsy hiankina amin’ny Tranonkala Forest Watcher ny Forest Watcher ho an'ny Finday. Afaka ianao, ao amin'ny appli finday: mamorona faritra mahaliana, mampiditra ho hitahiry sy mandeha mankao amin’ireo fanairana, mitsongo ny lalanao eny am-pandehanana ary mirakitra ireo fandinihinao. Azonao atao ihany koa ny mampiditra ho tahiry ireo tongoa sy ireo sarintany fototra mifanaraka amin’ny zava-misy anao manokana mivantana avy hatrany amin'ny alàlan'ny appli finday, mizara ny votoatin-kevitry ny appli amin'ny fitaovana hafa na tsisy connection aza (làlana, tatitra, faritra, fanairana, angona tongoa mifanaraka amin’ny zava-misy, taila sarintany fototra na votoatin-kevitra rehetra amin'ny appli).",
+                                "text2": "Azo araraotina koa ny Tranonkala Forest Watcher hanitsiana bebe kokoa hifanaraka araka izay ilaina ny appli finday, ohatra fanitsiana hifanaraka araka izay ilaina lasitra tatitra, fitantanana ekipa sy fitantanana angona."
+                            }
+                        },
+                        "title": "Azoko ampiasaina ve ny Forest Watcher Finday na tsy mampiasa ny Tranonkala Forest Watcher aza?"
                     }
                 ],
-                "title": "Endrikaisehoany sy Fomba fiasany"
+                "title": "Inona no ataon'ny Forest Watcher?"
             },
             "help": {
                 "questions": [
@@ -310,64 +437,131 @@
                         "content": {
                             "orderListLetters": {
                                 "order1": {
-                                    "description": "Rahatoa ka tsy maharay fanairana mihitsy ianao ao amin’ny Faritra Iasanao, diajereo ao amin’ny globalforestwatch.org raha toa ka misy angona ho an’io faritraio ao sy ny fotoana nosafidianao. Raha toa ka tsy misy fanairana GLAD sy VIIRS vao haingana ao, noho izany dia tsy misy lahasana fiovan’ny ala tao ho ao.Kendreo ny hampiasa ireo tongoa araka ny zava-misy momba ny Fiovan’ny Rakotra ala Isan-Taona mba hahitanao ireo fanairana fahaverezana ala taloha izay mbola afaka manome torohay ho anao amin’ny fanadihadiana sy ny fitsidihana ifotony izay ataonao. ",
-                                    "text": "Tsy Mahita angona fanairana mihitsy aho"
+                                    "description": "Raha tsy mahita fanairana ao amin'ny Faritra Mahaliananao ianao, tsapao globalforestwatch.org mba hahitana raha misy angona momba an'io toerana io sy ny vanim-potoana nosafidianao. Raha tsy misy fanairana GLAD na VIIRS vao haingana, dia tsy nisy izany zavatra nitondra fiovan’ny ala. Ampiasao ohatra ny tongoa mifanaraka amin’ny zava-misin'ny Fiovan’ny Rakotra Ala Isan-taona isan-karazany mba hahitana ireo fanairana fahaverezana teo aloha, izay mbola hahafantarana ny hanaovana fanadihadiana na fitsidihana eny an-toerana.",
+                                    "text": "Tsy mahita angona fanairana aho"
                                 },
                                 "order2": {
-                                    "description": "Raha toa ka mikatso tsy mety mandeha ilay \"application\", dia avereno sokafana. Rahatoa ka imbetsaka mikatso ilay izy, dia mandefasa mailaka any amin’ny: forestwatcher@wri.org ary ampiaraho miaraka amin’izany ny torohay momba ny modelina finday ampiasainao sy ny zavatranataonao tamin’ny fotoana nampikatso azy.   ",
-                                    "text": "Mikatso ilay \"application\""
+                                    "description": "Raha mikatso ny appli dia avereno sokafana indray. Raha mbola mikatso imbetsaka, dia mandefasa mailaka any amin'ny: forestwatcher@wri.org, lazao ny môdelin'ny fitaovanao sy izay nataonao tamin'ny appli tamin’ny fotoana nampikatso azy.",
+                                    "text": "Mikatso ny appli"
                                 },
                                 "order3": {
-                                    "description": "Miankina amin’ny GPS ao anatin’ny findainao fiasan’ny \"Forest Watcher\" rehefa manondro sy mitady toerana izy. Voalohany, hamarino fa efa mandeha tsara ny GPS (na antsoina koa hoe tolotra fanondroana toerana) ao amin’ny findainao. Raha mbolatsy mandeha ihany, dia mandefasa mailaka any amin’ny: forestwatcher@wri.org ka lazao anay ny Modelina finday ampiasainao.  ",
-                                    "text": "Tsy hitako ny tondro avaratra/ny toerana misy ahy"
+                                    "description": "Miankina amin'ny fandehanan'ny GPS anatin’ny fitaovanao ny mikasika ny fanoroana toerana sy ny fandehandehananao. Hamarino ao amin’ny Lazaovan’ny fitaovanao fa nalefa ny GPS (matetika antsoina hoe \"serivisy fanoroana toerana\"). Mety ho ambany ny mari-pamantaran’ny GPS ao anaty trano, ka raha ao anaty trano ianao na ambanin'ny tafo dia andramo mivoaka any ivelany. Raha mbola tsy mandeha ihany dia andefaso mailaka azafady forestwatcher@wri.org ka lazao aminay ny môdelin’ny fitaovana sy ny karazana appli ampiasainao (jereo eo amin'ny farany ambanin'ny pejy Lazaova). Matetika ny GPS-amin'ny finday dia tsy tena marina toy ny fitaovana tena GPS mahaleo tena, aleo mampiditra ireo mpandrindra ny fanairana ao amin’ny fitaovana tena GPS raha toa ka manana iray ianao.",
+                                    "text": "Tsy hitako ny tondroavaratra / ny fanoroana ny toerana misy ahy"
                                 },
                                 "order4": {
-                                    "description": "Mety tsy hifanaraka amin’ny fakan-tsary ao amin’ny fisy fanaovana tatitra ny fakan-tsarin’ny finday sasany izay tsy manana fakan-tsary afa-tsy ny eoanoloana fotsiny ihany. Azonao atao ny maka sary amin’ny alalan’ny fakan-tsarin’ny \"application\", ary mampiasa ny fampidirana sary na raki-takila ao amin’ny tatitra ao amin’ny \"Forest Watcher\" raha hanampy sary avy amin’ny fitehirizan-tsarinao ianao hankao amin’ny tatitra.    ",
-                                    "text": "Tsy afaka maka sary ao amin’ny \"application\" aho"
+                                    "description": "Raha manomboka manoratra tatitra iray ianao ary miala amin'ilay tatitra eo am-panaovana azy, ny asanao vitanao hatreo sy ny GPS mamaritra ny toerana nanombohanao ny tatitra dia ho voatahiry ho azy. Azonao atao ny miverina amin'ny tatitra vakiraokanao, eo amin’ny pejin’ny tatitra nijanonanao. Azonao atao ihany koa ny maka sary amin'ny alàlan'ny fakan-tsarin'ny fitaovanao, dia ampidirinao ao amin’ny tatitrao izany avy eo.",
+                                    "text": "Te hamita tatitra aho any aoriana"
                                 },
                                 "order5": {
-                                    "description": "Misy fotoana mety tsy ho vitanao ny manao tatitra eo no ho eo avy eny amin’ny faritra naharaisana fanairana. Azonao atao ny manomboka manoratra izany tatitraizany, mitahiry azy, ary miverina mijery izany ao aoriana, rehefa tonga any amin’ny birao ianao. Azonao atao ihany koa ny maka sary fotsiny ihany amin’ny alalan’ny fakan-tsarin’ny findainao, avy eo mameno miandalana ny tatitra:azonao ampiarahina amin’iny tatitra ilay sary nalainao. ",
-                                    "text": "Tiakoraha aoriana kely vao fenoiko ny tatitra"
+                                    "description": "Rehefa hametraka voalohany ny Forest Watcher ianao dia mety maka 5 - 30 minitra ny appli hampidirany ho tahiry ireo angona ilaina rehetra, miankina amin'ny hafainganam-pandehan'ny aterinetonao. Raha ambany na miadana ny hafangainam-pandehan’ny aterinetonao dia maka fotoana ela ny fampidirana ho tahiry. Avelao hisokatra ny appli mba ho vita tanteraka ny fakana ho tahiry. Aorian'ny fametrahana voalohany, dia miditra ho tahiry ny angona fanairana vaovao isaky ny mifandray amin'ny aterineto, dia miankina amin’ny habetsahan’ny fanairana nitranga ny faharetan’ny fakana ho tahiry. Raha tianao ho hita raha misy fanairana vaovao na tsia dia akorisao midina ny écran fandraisana mba hihavao.",
+                                    "text": "Tsy mameno ny fanairana"
                                 },
                                 "order6": {
-                                    "description": "Rehefa mampiditra ny \"Forest Watcher\" ao amin’ny findainao ianao amin’ny voalohany, mila maka angona maro ilay \"application\" hahafahany miasa na tsy misy aterinetoaza. Mety mila miandry 5 minitra eo ianao vao tafiditra araka ny tokony ho izy daholo ny angona rehetra ilaina. Tsy mahagaga izany. Raha toa ka tsy matanjakany aterineto ampiasainao, mety ho lava kokoa noho izay 5 minitra izay ny fotoana hakany ireo angona ireo. Avelao handeha eo foana ilay \"application\" hahafahany mamita ny fakana ireo angona. Aorian’ny fampidirana voalohany,hahazo fanairana vaovao ianao isaky ny mahazo aterineto ny findainao - miankina amin’ny habetsahan’ny fanairana voaray ny fotoana hakany ny angona. Ny haben’ireo angona mandritra ny fampanarahana toetrandro ireo dia mety ho Kiloby te maromaro, raha toa ka hahatratra Megaby te maromaro kosa ilay fakana angona voalohany.   ",
-                                    "text": "Elabe vao azo ireo fanairana"
+                                    "description": "Raha ambany ny bandwith / tsipika mandalonao, aza hampidirina ho tahiry indray amin’ny fitaovana maro ny votoatin-kevitry ny appli fa aleonao mizara ny votoatin-kevitry ny appli amin’ny fitaovana hafa rehefa tsisy connection (fanairana, faritra, lalana, tatitra, tongoa mifanaraka amin’ny zava-misy, taila sarintany fototra sy votoatin-kevitryny appli rehetra). Mampihenana ny filàna tsipika mandalo izay fomba izay.",
+                                    "text": "Ambany ny bandwith / tsipika mandaloko sy / na ny an'ny ekipako."
                                 },
                                 "order7": {
-                                    "description": "Hatreto aloha, angona iray ihany no azonao jerena isak’izay mandeha. Ny Lazaova nomandrindra ny karazana angona hitanao ho an’ny Faritra Iasana tsirairay. Rahatoa ka sady te-hijery ny angona momba ny doro tanety ianao no hijery ny angonamomba ny fahaverezan’ny ala eo amin’ny faritra iray, dia mila mamorona FaritraIasana roa samihafa ho an’io faritra iray io ary manangana azy tsirairay mbasamy ho afaka haka ireo angona samihafa ireo izy roa ireo.  ",
-                                    "text": "Te-hiara-hahitafanairana GLAD sy VIIRS aho amin’ny Faritra Iasana iray."
+                                    "description": "Misy angona betsaka ny Forest Watcher Finday, mibahana ny sompitra fitadidian’ny fitaovana ampiasainao, miankina amin'ny habetsahan’ny faritra mahaliana anananao sy ny habeny ary ny isan'ny fanairana. Arakaraky ny maha vitsy sy maha kely ny faritra mahaliana napetrakao no maha kely ny angona alaina ho tahiry ao anaty fitaovana ampiasainao. Toro-hevitra: fitaovana afaka mitahiry 1GB farafahakeliny ampiasaina mba ahafahanao mampiasa appli hafa manampy ny Forest Wacher, 4GB na mihoatra no tena mety.",
+                                    "text": "Feno ny sompitra fitadidian’ny fitaovana ampiasaiko"
                                 },
                                 "order8": {
-                                    "description": "Angona maro no hita ao amin’ny \"Forest Watcher\" ary mety hibahana toerana betsaka aoamin’ny findainao izany izay miankina amin’ny isan’ny Faritra Iasana anananao, ny fidadasikany sy ny isan’ny fanairana voaray ho an’ny tsirairay. Noho izany, tsara raha manana fitahiry 16GB eo ianao farafahakeliny ao amin’ny findainao mba hahafahanao mampiasa ireo \"applications\" hafa ankoatra ny \"Forest Watcher\"mazava ho azy: tsy hilain’ny \"Forest Watcher\" avokoa akory io fitahiry 16GB io.Arakaraky ny havitsiana sy ny hakelin’ny fivelaran’ny faritra iasanao nohahakely ny angona ilainao ampidirina ao amin’ny findainao.  ",
-                                    "text": "Tsy ampy intsony ny fitahiry ao amin’ny findaiko"
-                                },
-                                "order9": {
-                                    "description": "Azonao ampiasaina ny \"Forest Watcher\" amin’ny solosaina hamoronanao modely-na fisy araka izay ilainao hampiasain’ny ekipanao rehefa manangona angona izy ireo.Azonao atao ihany koa ny manampy naoty eo amin’ny fizarana farany amin’ilay fisy raha toa ka misy fanamarihana tianao hatao.  ",
-                                    "text": "Te-hanangona angona mifanaraka amin’izay ilaiko aho"
+                                    "description": "Azonao ampiasaina ny Tranonkala Forest Watcher hamoronana lasitra tatitra arak’izay ilaina ho an’ny ekipanao rehefa manangona angona. Afaka manampy naoty ihany koa ianao eo amin’ny faran’ny section taratasy fameno.",
+                                    "text": "Tiako ny hampifanaraka araka izay ilaina ireo tatitra izay fenoiko na fenoin’ny ekipako rehefa manao fanadihadiana faritra iray."
                                 }
                             }
                         },
-                        "title": "Inonano tokony hataoko raha toa ka:"
+                        "title": "Famahana olana: Inona no tokony hataoko raha…?"
                     },
                     {
                         "content": {
                             "description": {
-                                "text": "Mifandraisa aminay raha te-hanehohevitra na manana fanontaniana. Manorata any amin’ny mailto:forestwatcher@wri.org."
+                                "text": "Mitady hevitra hanatsarana hatrany ny appli izahay mba hamaly ny ilain'ny mpampiasa. Azafady, raha misy toetoetra hafa mety hanampy, mifandraisa aminay: forestwatcher@wri.org."
                             }
                         },
-                        "title": "Ahoanany fomba hahazoako fanampiana?"
+                        "title": "Manan-kevitra lehibe hanatsarana ny appli aho. Inona no tokony hataoko?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text": "Mandefasa mailaka aminay miaraka amin’ny tamberin-kevitra na fanontaniana: forestwatcher@wri.org."
+                            }
+                        },
+                        "title": "Ahoana no fomba ahazoako fanampiana?"
                     }
                 ],
-                "title": "Fanampianasy Fomba hifandraisana Aminay"
+                "title": "Fanampiana & Fifandraisana"
             },
             "inTheField": {
-                "questions": [],
-                "title": "Mampiasa \"Forest Watcher\" eny an-toerana"
+                "questions": [
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "Rehefa mandeha mankany amin'ny fanairana na faritra iray dia azonao atao ny manampy tatitra: tsindrio ny bokotra eo amin'ny farany ambany an-kavanana amin'ny sarintany. Azonao atao ny maka na mifidy sary ho ampiasaina ao amin'ilay tatitra, fenoy avy eo ny taratasy fameno hiraketana ireo fandinihina ny mombomba izay hitanao.",
+                                "text2": "Raha manomboka tatitra iray ianao ary mivoaka izany avy eo, voatahiry ho azy avy haatrany ny asanao hatreo sy ny GPS mamaritra ny toerana nanombohanao ny tatitra nataonao. Afaka miverina amin'ny tatitra vakiraokanao, eo amin’ny pejy Tatitra any aoriana. Azonao atao ihany koa ny maka sary amin'ny fakan-tsarinao, afaka ampidirinao ho ao amin’ny tatitra izany avy eo."
+                            }
+                        },
+                        "title": "Ahoana no ahafahako manampy tatitra?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "Raha hitatitra momba-na vondrona fanairana iray dia azonao atao ny manindry ny fanairana GLAD sy / na VIIRS izay hadihadianao, tsindrio ny bokotra eo amin'ny farany ambany an-kavanan'ny sarintany. Azonao atao ny manao tatitra momba-na fanairana maromaro: safidio tsirairay ireo fanairana alohan'ny hanindriana ny bokotra tatitra. Rehefa voatsindry io dia hiloko maitso ny fanairana GLAD ary volomparasy ny fanairana VIIRS. Ny fiovan'ny loko no manaporofo fa vita tatitra ireo fanairana."
+                            }
+                        },
+                        "title": "Ahoana no fomba hitaterako vondrona fanairana?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "Raha handrakitra ny lalana, azonao atao ny manindry eo amin'ny bokotra start eo amin’ny farany ambany an-kavian’ny sarintany. Raha vao vitanao ny mandrakitra ny lalana dia azonao tsindriana ny bokotra stop ary misafidy na hitahiry ny lalana na hamafa ny lalana. Raha hitahiry ny lalana ianao dia ho azonao atao avy eo ny miditra aminy eo amin'ny pejy Lalana ao amin’ny appli finday."
+                            }
+                        },
+                        "title": "Ahoana no fomba iraketako làlana iray?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "Rehefa mirakitra làlana iray dia tondro teboka isaky ny 50 metatra no azo."
+                            }
+                        },
+                        "title": "Impiry ny làlako no mamorona tondro teboka?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "Azonao atao ny mizara tatitra amin'ny fandehanana mankany amin'ny section Tatitra ao amin’ny appli finday idia tsindrio \"Mizara Tatitra\". Avy eo, azonao atao ny misafidy ireo tatitra tianao hozaraina ary misafidy hoe aiza no hamoahana ny fehezana ao amin’ny fitaovana ampiasainao. Azonao atao avy eo ny mizara ny fehezana tatitra araka ny safidy fizarana nosafidianao, ohatra mailaka, bluetooth na WhatsApp.",
+                                "text2": "Toy izany koa, afaka mizara lalana ianao amin'ny fandehanana mankany amin'ny section Làlana ao amin'ny appli finday sy manindry ny \"Mizara Lalana\". Avy eo, azonao atao ny misafidy ireo lalana tianao hozaraina ary misafidy hoe aiza no hamoahana ny fehezana ao amin’ny fitaovana ampiasainao. Azonao atao avy eo ny mizara ireo fehezana lalana araka ny safidy fizarana nosafidianao, ohatra mailaka, bluetooth na WhatsApp.",
+                                "text3": "Rehefa nahazo fehezana tatitra na lalana araka ny safidy fizarana nosafidianao ianao dia azonao ampidirina ao amin'ny Forest Watcher izany. Azonao atao ny miditra ao amin’ny tatitra ao amin'ny section Tatitra na ao amin'ny lalana ao amin'ny section Lalana raha vao tanteraka ny fampidirana."
+                            }
+                        },
+                        "title": "Ahoana no ahafahako mizara sy mandray tatitra sy lalana?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "Raha te-hahita indray ny tatitra sy sarinao ianao dia midira ao amin'ny forestwatcher.globalforestwatch.org, mandehana mankao amin'ny fafana \"Faritra\" ary tsindrio ny \"Haka valiny ho tahiry\" mba hidiranao ao amin'ny CSV raki-takilanao. Azo alaina ho tahiry amin'ny alàlan'ny URL ireo sary ao amin’ny fafana fampariahana.",
+                                "text2": "Azo idirana ihany koa ny tatitra amin'ny alàlan'ny famoahana azy mivantana eo amin’ny pejy Tatitra amin'ny appli-n'ny fitaovana ampiasainao. Amin'io fomba io koa no ahazoanao mampiditra mivantana ho tahiry ireo tatitrao amin'ny fitaovana ampiasainao, dia azonao zaraina amin’ny fitaovana hafa izany avy eo na tsisy connection aza.",
+                                "text3": "Raha te-hijery ny angonao amin'ny sarintany ianao, mandehana mankao amin'ny mymaps.google.com ary midira ao amin'ny kaonty Google-nao (na mamorona iray maimaim-poana). Avy eo tsindrio \"Hamorona sarintany vaovao.\" Eo amin'ny ilany havian’ny takelaka, tsindrio \"Mampiditra\" ary ampidiro ny CSV-nao avy ao amin'ny Tranonkala Forest Watcher. Safidio ny \"Toeran’ny tatitra lat\" ary rehefa amporisihina dia safidio ny \"Laharam-pehintany mitsivalana.\" Safidio ny \"Toeran’ny tatitra lon\" ary rehefa amporisihina dia safidio ny “Laharam-pehintany mitsangana\" Safidio ny \"Manohy\" ary safidio tsanganana iray izay tianao hamaritana ny toerana misy anao. Azafady, mariho fa ny angona mitambatra amin'io tatitra io dia ny lohateny mipetaka amin'ny (ireo) paingotra manga eo amin'ny sarintany.",
+                                "text4": "Rehefa vita ireo dingana ireo dia ho vonona ny sarintaninao ary ho voatahiry ho azy. Azonao atao ny manindry ny paingotra manga raha te hahita ny antsipirian'ny tatitrao ianao, ao anatin'izany ny sary. Raha hanova anarana, tsindrio ny \"Sarintany tsy misy lohateny\" eo amin'ny zoro ambony farany havia."
+                            }
+                        },
+                        "title": "Azoko atao ve ny maka indray ireo tatitra nataoko sy mahita ny angoko ao amin'ny sarintany?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "Fananan'ny mpampiasa ny tatitra ary tsy zaraina amin’ny besinimaro. Raha mila fanazavana fanampiny, tsidiho ny globalforestwatch.org/terms."
+                            }
+                        },
+                        "title": "Nozaraina sa notanana ho tsiambaratelo ve ny tatitra nataoko?"
+                    }
+                ],
+                "title": "Mampiasa Forest Watcher eny an-toerana"
             },
-            "questionCountPlural": "Fanontaniana %{count}",
-            "questionCountSingular": "Fanontaniana 1",
+            "questionCountPlural": "%{count} Ireo fanontaniana",
+            "questionCountSingular": "1 Fanontaniana",
             "sectionHeader": "Sokajy",
-            "title": "Fanontaniana Matetika Mipetraka"
+            "title": "FAQ na Fanontaniana Mipetraka Matetika"
         }
     },
     "importBundle": {
@@ -670,11 +864,12 @@
         "coordinatesFormat": "Endriky ny Fangitra",
         "coordinatesUtm": "UTM",
         "logOut": "Hiala",
+        "moreInfo": "Fampahalalana bebe kokoa",
         "offlineMode": "Tsy misy aterineto",
         "shareData": "Hizara ny Angona amin’ny App Rehetra",
         "title": "Lazaova",
-        "unsafeLogout": "Tsy mifanaraka ireo tatitra!",
-        "unsavedDataLost": "Raha manohy miala ianao, ho very avokoany angona tsy voatahiry rehetra.",
+        "unsafeLogout": "Mety ho very ny angona sasany",
+        "unsavedDataLost": "Mety ho very na tsy vita mifanaraka amin'ny kaontinao ny angona sasany raha miala ianao. \nTafiditra amin’izany karazana faritra sy tatitra sasany sy ny làlana rehetra, sarintany fototra sy tongoa mifanaraka amin’ny zava-misy. \nRaha mila fanazavana fanampiny sy te hahafantatra ny dingana mba hidirana amin’io angona io indray, azafady jereo ny pejy FAQ-nay mahakasika io foto-dresaka io.",
         "yourRoutes": "Ny Làlana Nalehako"
     },
     "setupCountry": {
@@ -706,12 +901,15 @@
             "alerts": "Fanairana (maro)",
             "area": "Faritra (tokana)",
             "areas": "Faritra (maro)",
+            "basemaps": "Sarintany Fototra",
+            "contextualLayers": "Tongoa Mifanaraka amin’ny zava-misy",
             "customBasemap": "Sarintany fototra Mifanaraka amin’Izay Ilaina (tokana)",
             "customBasemaps": "Sarintany fototra Mifanaraka amin’Izay Ilaina (maro)",
             "customLayer": "Tongoa Araka Amin’ny Zava-misy Mifanaraka Amin’izay Ilaina (tokana)",
             "customLayers": "Tongoa Araka Amin’ny Zava-misy Mifanaraka Amin’izay Ilaina (maro)",
             "gfwLayer": "Tongoa Mifanaraka Amin’ny Zava-misy an’ny Global Forest Watch (tokana)",
             "gfwLayers": "Tongoa Mifanaraka Amin’ny Zava-misy an’ny Global Forest Watch (maro)",
+            "layers": "Tongoa",
             "report": "Tatitra(tokana)",
             "reports": "Tatitra(maro)",
             "route": "Làlana Naleha (tokana)",
@@ -723,6 +921,10 @@
         "error": "Misy olana ny fampifanarahana",
         "errorCreatingArea": "Nisy olana ny famoronana ny faritrao",
         "errorDesc": "Nisy zavatra tsy nety",
+        "failed": {
+            "title": "There was an error syncing alerts",
+            "outOfSpaceMessage": "Mba ahazoana fanairana sy votoatin-kevitra mety ho azo tsisy connection, tsy maintsy mamafa ireo raki-takila tsy miasa ao anatin’ny findainao ianao."
+        },
         "gettingLatestAlerts": "Eto am-pandraisana ireo fanairanafarany",
         "reportUploadRollback": "Tsy tafiditra ny tatitra",
         "reportUploaded": "Lasany tatitra",
