@@ -221,7 +221,7 @@ export function formatDistance(
  * @returns {{sw: [*, *], ne: [*, *]}}
  */
 export function getPolygonBoundingBox(
-  polygon: $ReadOnlyArray<Coordinates>
+  polygon: ?$ReadOnlyArray<Coordinates>
 ): ?{ ne: [number, number], sw: [number, number] } {
   if (!polygon || polygon.length === 0) {
     return undefined;

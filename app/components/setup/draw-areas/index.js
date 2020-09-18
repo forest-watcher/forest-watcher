@@ -1,6 +1,6 @@
+// @flow
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { Dimensions, View, Image, Text, TouchableHighlight } from 'react-native';
+import { Dimensions, Image, Text, TouchableHighlight, View } from 'react-native';
 
 import { AREAS, MAP_LAYER_INDEXES, MAPS } from 'config/constants';
 import kinks from '@turf/kinks';
@@ -14,6 +14,11 @@ import styles, { mapboxStyles } from './styles';
 import { coordsArrayToObject } from 'helpers/location';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import { getPolygonBoundingBox } from 'helpers/map';
+import ContextualLayers from 'containers/map/contextual-layers';
+import type { LayerSettings } from 'types/layerSettings.types';
+import type { Layer } from 'types/layers.types';
+import type { Country } from 'types/countries.types';
+import type { CountryArea } from 'types/setup.types';
 
 const geojsonArea = require('@mapbox/geojson-area');
 
@@ -23,7 +28,31 @@ const undoImage = require('assets/undo.png');
 const windowSize = Dimensions.get('window');
 const screenshotPadding = 100;
 
-class DrawAreas extends Component {
+type Props = {
+  featureId: ?string,
+  layerSettings: LayerSettings,
+  basemap: Layer,
+  country: ?Country,
+  onDrawAreaFinish: (area: CountryArea, snapshot: string) => void
+};
+
+type State = {
+  valid: boolean,
+  huge: boolean,
+  loading: boolean,
+  nextPress: boolean,
+  mapCameraBounds: ?{
+    paddingLeft: number,
+    paddingRight: number,
+    paddingTop: number,
+    paddingBottom: number,
+    sw?: [number, number],
+    ne?: [number, number]
+  },
+  markerLocations: Array<Array<number>>
+};
+
+export default class DrawAreas extends Component<Props, State> {
   constructor(props) {
     super(props);
     this.state = {
@@ -163,7 +192,7 @@ class DrawAreas extends Component {
         disabled
         error
         onPress={this.clearShape}
-        text={btnText.toUpperCase()}
+        text={btnText?.toUpperCase()}
       />
     );
   }
@@ -267,6 +296,10 @@ class DrawAreas extends Component {
           compassViewMargins={{ x: 5, y: 50 }}
         >
           {renderMapCamera}
+          <ContextualLayers
+            featureId={this.props.featureId}
+            layerSettings={this.props.layerSettings.contextualLayers}
+          />
           {this.renderNewAreaOutline(markerLocations)}
           {this.renderPolygon(markerLocations)}
         </MapboxGL.MapView>
@@ -290,15 +323,3 @@ class DrawAreas extends Component {
     );
   }
 }
-
-DrawAreas.propTypes = {
-  basemap: PropTypes.object.isRequired,
-  country: PropTypes.shape({
-    iso: PropTypes.string.isRequired,
-    bbox: PropTypes.object,
-    centroid: PropTypes.object
-  }).isRequired,
-  onDrawAreaFinish: PropTypes.func.isRequired
-};
-
-export default DrawAreas;
