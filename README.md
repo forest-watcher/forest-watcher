@@ -31,7 +31,7 @@ Forest Watcher is part of the wider GFW technological offering, and as such also
     - Install XCode CLI Tools: `xcode-select --install`
     - Install CocoaPods ([instructions](https://cocoapods.org/))
 - Prepare Android environment if needed
-    - Install Android SDK ([instructions])(https://developer.android.com/studio)
+    - Install Android SDK ([instructions](https://developer.android.com/studio))
 - Configure app
     - Supply a valid `.env` file based on `.env.sample` ([instructions](./docs/mobile/environment-vars.md))
     - Setup [Firebase](https://rnfirebase.io/) for analytics

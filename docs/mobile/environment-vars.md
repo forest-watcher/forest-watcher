@@ -1,7 +1,7 @@
 # Environment variables
 In order to get your application running you'll need to setup some environment variables.
 
-A sample env file is included [here](./.env).
+A sample env file is included [here](../../.env.sample).
 This can be copied to `.env`, `.env.android`, and `.env.ios`, and the values filled in using the instructions below.
 
 The following env vars are directly related to the app behaviour.
