@@ -1,5 +1,13 @@
 # Forest Watcher Changelog
 
+## [v2.0.0]
+- **Major app re-design to better present data**
+- Added ability to export and import sharing bundles
+- Added ability to import custom contextual layers and basemaps from local device
+- Added support for e-mail/password sign-in
+- Changed maximum permitted area size so areas up to 2,000,000 hectares are permitted
+- Changed map backend from Google Maps to Mapbox
+
 ## [v1.9.2]
 - Fixed app language not being specified after logging out and starting onboarding again
 
