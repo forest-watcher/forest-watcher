@@ -12,7 +12,9 @@ const searchImage = require('assets/search.png');
 const closeImage = require('assets/close.png');
 
 function getFilteredData(data, filter) {
-  if (!filter) return data;
+  if (!filter) {
+    return data;
+  }
   const filterUpper = deburr(filter.toUpperCase());
   return data.filter(item => deburr(item.name.toUpperCase()).indexOf(filterUpper) > -1);
 }
@@ -38,6 +40,9 @@ class SearchSelector extends Component {
   }
 
   setListVisibility(status) {
+    if (status) {
+      this.props.onFocus?.();
+    }
     this.setState({ showList: status });
   }
 
@@ -53,7 +58,7 @@ class SearchSelector extends Component {
       this.props.selected && this.props.selected.label ? this.props.selected.label : this.props.placeholder;
 
     return (
-      <View>
+      <View onLayout={this.props.onLayout}>
         <TouchableHighlight
           onPress={() => this.setListVisibility(true)}
           activeOpacity={0.5}
@@ -81,7 +86,7 @@ class SearchSelector extends Component {
                 underlineColorAndroid="transparent"
                 style={styles.searchInput}
                 placeholderTextColor={Theme.fontColors.light}
-                selectionColor={Theme.colors.color1}
+                selectionColor={Theme.colors.turtleGreen}
                 onChangeText={this.onFilterChange}
               />
               <TouchableHighlight
@@ -125,6 +130,8 @@ SearchSelector.propTypes = {
   }).isRequired,
   placeholder: PropTypes.string.isRequired,
   onOptionSelected: PropTypes.func.isRequired,
+  onFocus: PropTypes.func,
+  onLayout: PropTypes.func,
   data: PropTypes.array.isRequired
 };
 

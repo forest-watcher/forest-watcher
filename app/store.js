@@ -8,6 +8,8 @@ import Reactotron, { trackGlobalErrors, networking, openInEditor, asyncStorage }
 import sagaPlugin from 'reactotron-redux-saga';// eslint-disable-line
 import { reactotronRedux } from 'reactotron-redux'; // eslint-disable-line
 
+import migrationEnhancer from './migrate';
+
 import { rootSaga } from 'sagas';
 
 if (__DEV__) {
@@ -34,19 +36,15 @@ const authMiddleware = ({ getState }) => next => action =>
 const middlewareList = [thunk, authMiddleware, sagaMiddleware];
 
 function createAppStore(startApp) {
-  let storeCreator = createStore;
-  const { middleware: offlineMiddleware, enhanceReducer, enhanceStore } = offline({ persistCallback: startApp });
+  const { middleware: offlineMiddleware, enhanceReducer, enhanceStore } = offline({
+    persistCallback: startApp
+  });
   const middleware = applyMiddleware(...middlewareList, offlineMiddleware);
+  const storeEnhancers = [enhanceStore, migrationEnhancer, middleware];
   if (__DEV__) {
-    storeCreator = Reactotron.createStore;
+    storeEnhancers.push(Reactotron.createEnhancer());
   }
-  return storeCreator(
-    enhanceReducer(combinedReducer),
-    compose(
-      enhanceStore,
-      middleware
-    )
-  );
+  return createStore(enhanceReducer(combinedReducer), compose(...storeEnhancers));
 }
 
 createAppStore.runSagas = () => sagaMiddleware.run(rootSaga);

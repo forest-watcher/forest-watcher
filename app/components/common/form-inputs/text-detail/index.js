@@ -12,7 +12,7 @@ import detailStyles from './styles';
 
 type State = {
   value: string,
-  inputHeight: number
+  inputHeight: Animated.Value
 };
 
 type Props = {
@@ -48,14 +48,14 @@ class InputTextDetail extends Component<Props, State> {
     }
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps: Props) {
-    if (this.props.visible !== nextProps.visible) {
-      this.setVisibility(nextProps.visible);
+  componentDidUpdate(prevProps: Props) {
+    if (this.props.visible !== prevProps.visible) {
+      this.setVisibility(this.props.visible);
     }
   }
 
   setVisibility(visible: boolean) {
-    Animated.spring(this.state.inputHeight, { toValue: visible ? this.height : 0 }).start();
+    Animated.spring(this.state.inputHeight, { toValue: visible ? this.height : 0, useNativeDriver: false }).start();
   }
 
   render() {
@@ -76,7 +76,7 @@ class InputTextDetail extends Component<Props, State> {
               onChangeText={this.onChange}
               placeholder={question.label}
               underlineColorAndroid="transparent"
-              selectionColor={Theme.colors.color1}
+              selectionColor={Theme.colors.turtleGreen}
               placeholderTextColor={Theme.fontColors.light}
             />
           )}

@@ -9,7 +9,7 @@ export default StyleSheet.create({
     paddingLeft: Theme.margin.left,
     paddingRight: Theme.margin.right,
     borderBottomColor: Theme.borderColors.main,
-    borderBottomWidth: 2,
+    borderBottomWidth: 1,
     backgroundColor: 'transparent',
     marginTop: 0
   },
@@ -26,7 +26,7 @@ export default StyleSheet.create({
     borderBottomColor: Theme.borderColors.main
   },
   markerInner: {
-    top: -5,
+    top: -6,
     left: -8,
     borderWidth: 8,
     borderBottomColor: Theme.background.main

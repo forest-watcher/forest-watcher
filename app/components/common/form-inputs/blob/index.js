@@ -3,24 +3,42 @@ import type { Answer } from 'types/reports.types';
 
 import React, { Component } from 'react';
 import { Text, View, Image, TouchableHighlight, Alert } from 'react-native';
+import Config from 'react-native-config';
+import ImagePicker from 'react-native-image-picker';
 
 import ImageCard from 'components/common/image-card';
-import i18n from 'locales';
+import i18n from 'i18next';
 import Theme from 'config/theme';
-import CONSTANTS from 'config/constants';
 
 import styles from './styles';
 
-const ImagePicker = require('react-native-image-picker');
+import { storeReportFiles } from 'helpers/report-store/storeReportFiles';
+import deleteReportFiles from 'helpers/report-store/deleteReportFiles';
+import { pathForReportQuestionAttachment } from 'helpers/report-store/reportFilePaths';
+import { toFileUri } from 'helpers/fileURI';
+import { REPORT_BLOB_IMAGE_ATTACHMENT_PRESENT } from 'helpers/forms';
+
 const cameraAddIcon = require('assets/camera_add.png');
 const deleteIcon = require('assets/delete_red.png');
 
 type Props = {
   answer: Answer,
-  onChange: Answer => void
+  onChange: Answer => void,
+  reportName: string
 };
 
-class ImageBlobInput extends Component<Props> {
+type State = {
+  cachebuster: ?string // We append a cachebusting part to the image uri or if it's replaced RN Image doesn't notice
+};
+
+class ImageBlobInput extends Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      cachebuster: null
+    };
+  }
+
   /**
    * launchCamera - when called, launches the platform specific UI to ask for a photo.
    * This photo can be taken while the app is running, or can be fetched from the library.
@@ -38,37 +56,64 @@ class ImageBlobInput extends Component<Props> {
       storageOptions: {
         skipBackup: true,
         waitUntilSaved: true,
-        path: CONSTANTS.appName,
-        cameraRoll: true
+        path: Config.APP_NAME,
+        cameraRoll: true,
+        privateDirectory: true
       }
     };
 
-    ImagePicker.showImagePicker(options, response => {
+    ImagePicker.showImagePicker(options, async response => {
       if (response.error) {
         Alert.alert(i18n.t('commonText.error'), response.error, [{ text: 'OK' }]);
       } else if (response.uri) {
-        this.handlePress(response.uri);
+        // Don't store the exact URI against the answer because this breaks when we share the report.
+        // Instead just store a value to indicate that there is an attachment present
+        this.handlePress(REPORT_BLOB_IMAGE_ATTACHMENT_PRESENT);
+        await storeReportFiles([
+          {
+            reportName: this.props.reportName,
+            questionName: this.props.answer.questionName,
+            type: 'image/jpeg',
+            path: decodeURI(response.uri),
+            size: response.fileSize
+          }
+        ]);
+        this.setState({
+          cachebuster: `t${Date.now()}`
+        });
       }
     });
   };
 
-  removePicture = () => {
-    this.handlePress('');
-  };
-
-  handlePress = (value: string) => {
+  handlePress = (value: ?string) => {
     const { answer, onChange } = this.props;
     if (value !== answer.value) {
       onChange({ ...answer, value });
     }
   };
 
+  removePicture = async () => {
+    this.handlePress(null);
+    await deleteReportFiles({
+      reportName: this.props.reportName,
+      questionName: this.props.answer.questionName
+    });
+    this.setState({
+      cachebuster: null
+    });
+  };
+
   render() {
-    const imagePath = this.props.answer.value;
+    const imagePath = pathForReportQuestionAttachment(
+      this.props.reportName,
+      this.props.answer.questionName,
+      'image/jpeg'
+    );
+    const imagePathCacheBusted = this.state.cachebuster ? `${imagePath}#${this.state.cachebuster}` : null;
     return (
       <View style={styles.container}>
         <View style={styles.preview}>
-          {imagePath ? (
+          {imagePathCacheBusted ? (
             <ImageCard
               id={'imagePreview'}
               key={1}
@@ -79,7 +124,7 @@ class ImageBlobInput extends Component<Props> {
                   icon: deleteIcon
                 }
               ]}
-              uri={imagePath}
+              uri={toFileUri(imagePathCacheBusted)}
               width={Theme.screen.width - 48}
               height={416}
             />

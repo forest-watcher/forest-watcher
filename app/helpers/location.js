@@ -1,25 +1,38 @@
-import BackgroundGeolocation from '@mauron85/react-native-background-geolocation';
-import RNSimpleCompass from 'react-native-simple-compass';
-import { Linking, PermissionsAndroid, Platform } from 'react-native';
-import { Sentry } from 'react-native-sentry';
+// @flow
+import type { Coordinates, CoordinatesFormat } from 'types/common.types';
+import type { LocationPoint, Route } from 'types/routes.types';
 
-var emitter = require('tiny-emitter/instance');
+import BackgroundGeolocation, {
+  type Location,
+  type ServiceStatus,
+  type BackgroundGeolocationError
+} from '@mauron85/react-native-background-geolocation';
+import { Linking, PermissionsAndroid, Platform } from 'react-native';
+import * as Sentry from '@sentry/react-native';
+import i18n from 'i18next';
+import _ from 'lodash';
+import CompassHeading from 'react-native-compass-heading';
 
 import { LOCATION_TRACKING } from 'config/constants';
+import FWError from 'helpers/fwError';
+import { formatCoordsByFormat, formatDistance, getDistanceOfLine } from 'helpers/map';
+
+const emitter = require('tiny-emitter/instance');
+
+// Defines the type of error emitted by BackgroundGeolocation.
+export type GFWLocationError = BackgroundGeolocationError;
 
 export const GFWLocationAuthorizedAlways = BackgroundGeolocation.AUTHORIZED;
 export const GFWLocationAuthorizedInUse = BackgroundGeolocation.AUTHORIZED_FOREGROUND;
-export const GFWLocationUnauthorized = BackgroundGeolocation.NOT_AUTHORIZED;
-export const GFWLocationUndetermined = 99; // This is a fixed constant within BackgroundGeolocation, but not exposed to JS!
+const GFWLocationUnauthorized = BackgroundGeolocation.NOT_AUTHORIZED;
+const GFWLocationUndetermined = 99; // This is a fixed constant within BackgroundGeolocation, but not exposed to JS!
 export const GFWOnLocationEvent = 'gfw_onlocation_event';
-export const GFWOnStationaryEvent = 'gfw_onstationary_event';
 export const GFWOnHeadingEvent = 'gfw_onheading_event';
 export const GFWOnErrorEvent = 'gfw_onerror_event';
 
 // These error codes can be found in an enum in /node_modules/@mauron85/react-native-background-geolocation/ios/common/BackgroundGeolocation/MAURProviderDelegate.h
 export const GFWErrorPermission = 1000;
 export const GFWErrorLocation = 1003;
-export const GFWErrorLocationStale = 10000; // This is our own custom error
 
 /**
  * Cache the most recent received location so that we can instantly send a fix to new subscribers
@@ -31,8 +44,8 @@ let mostRecentLocation = null;
  *
  * @return {Promise}
  */
-export async function initialiseLocationFramework() {
-  return configureLocationFramework({
+export async function initialiseLocationFramework(): Promise<void> {
+  return await configureLocationFramework({
     desiredAccuracy: BackgroundGeolocation.HIGH_ACCURACY,
     ...LOCATION_TRACKING
   });
@@ -43,8 +56,8 @@ export async function initialiseLocationFramework() {
  *
  * @return {Promise}
  */
-async function configureLocationFramework(configuration) {
-  return new Promise((resolve, reject) => {
+async function configureLocationFramework(configuration): Promise<void> {
+  return await new Promise((resolve, reject) => {
     BackgroundGeolocation.configure(configuration, resolve, resolve);
   });
 }
@@ -54,8 +67,8 @@ async function configureLocationFramework(configuration) {
  *
  * @return {Promise}
  */
-async function getConfiguration() {
-  return new Promise((resolve, reject) => {
+async function getConfiguration(): Promise<void> {
+  return await new Promise((resolve, reject) => {
     BackgroundGeolocation.getConfig(resolve, reject);
   });
 }
@@ -85,8 +98,8 @@ export function showAppSettings() {
  *
  * @return {Promise}
  */
-export async function checkLocationStatus() {
-  return new Promise((resolve, reject) => {
+export async function checkLocationStatus(): Promise<ServiceStatus> {
+  return await new Promise((resolve, reject) => {
     BackgroundGeolocation.checkStatus(
       (isRunning, locationServicesEnabled, authorizationStatus) => {
         resolve(isRunning, locationServicesEnabled, authorizationStatus);
@@ -103,7 +116,7 @@ export async function checkLocationStatus() {
  *
  * @param {function}  grantedCallback A callback that'll be executed if the user gives permission for us to access their location.
  */
-async function requestAndroidLocationPermissions() {
+async function requestAndroidLocationPermissions(): Promise<boolean> {
   const permissionResult = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION);
   return permissionResult === true || permissionResult === PermissionsAndroid.RESULTS.GRANTED;
 }
@@ -111,18 +124,18 @@ async function requestAndroidLocationPermissions() {
 /**
  * Wrapper function around BackgroundGeolocation.getCurrentLocation that turns it from callback-based to promise-based
  */
-export async function getCurrentLocation() {
+async function getCurrentLocation(): Promise<Location> {
   const result = await checkLocationStatus();
 
   if (!result.locationServicesEnabled) {
-    throw { code: GFWErrorLocation, message: 'Location disabled' };
+    throw new FWError({ code: GFWErrorLocation, message: 'Location disabled' });
   }
 
   if (result.authorization === GFWLocationUnauthorized) {
     const isResolved = Platform.OS === 'android' && (await requestAndroidLocationPermissions());
     // If location services are disabled and the authorization is explicitally denied, return an error.
     if (!isResolved) {
-      throw { code: GFWErrorPermission, message: 'Permissions denied' };
+      throw new FWError({ code: GFWErrorPermission, message: 'Permissions denied' });
     }
   }
 
@@ -134,7 +147,7 @@ export async function getCurrentLocation() {
         resolve(location);
       },
       (code, message) => {
-        reject(new Error({ code: code, message: message }));
+        reject(new FWError({ code, message }));
       },
       {
         timeout: 10000, // ten seconds
@@ -153,7 +166,7 @@ export async function getCurrentLocation() {
  * @param  {array<LocationPoint>} completion.locations An array of location placemarks, that were retrieved from the database.
  * @param  {object}               completion.error An error that occurred while attempting to fetch locations.
  */
-export function getValidLocations(completion) {
+export function getValidLocations(completion: (?Array<Location>, ?GFWLocationError) => void) {
   BackgroundGeolocation.getValidLocations(
     locations => {
       const mappedLocations = locations.map(location => {
@@ -173,7 +186,7 @@ export function getValidLocations(completion) {
  * @param  {object} location A location object, returned from BackgroundGeolocation.
  * @return {LocationPoint}   A LocationPoint object generated from the given location
  */
-function createCompactedLocation(location) {
+function createCompactedLocation(location: Location): LocationPoint {
   return {
     accuracy: location.accuracy,
     altitude: location.altitude,
@@ -186,8 +199,8 @@ function createCompactedLocation(location) {
 /**
  * Wrapper function around BackgroundGeolocation.deleteAllLocations that turns it from callback-based to promise-based
  */
-export async function deleteAllLocations() {
-  return new Promise((resolve, reject) => {
+export async function deleteAllLocations(): Promise<void> {
+  return await new Promise((resolve, reject) => {
     BackgroundGeolocation.deleteAllLocations(resolve, reject);
   });
 }
@@ -203,18 +216,18 @@ export async function deleteAllLocations() {
  *  Resolves if location tracking was started successfully, rejects if it could not obtain sufficient permissions or
  *  location is disabled
  */
-export async function startTrackingLocation(requiredPermission) {
+export async function startTrackingLocation(requiredPermission: number) {
   const result = await checkLocationStatus();
 
   if (!result.locationServicesEnabled) {
-    throw { code: GFWErrorLocation, message: 'Location disabled' };
+    throw new FWError({ code: GFWErrorLocation, message: 'Location disabled' });
   }
 
   if (result.authorization === GFWLocationUnauthorized) {
     const isResolved = Platform.OS === 'android' && (await requestAndroidLocationPermissions());
     // If location services are disabled and the authorization is explicitally denied, return an error.
     if (!isResolved) {
-      throw { code: GFWErrorPermission, message: 'Permissions denied' };
+      throw new FWError({ code: GFWErrorPermission, message: 'Permissions denied' });
     }
   }
 
@@ -229,7 +242,7 @@ export async function startTrackingLocation(requiredPermission) {
   ) {
     const isResolved = Platform.OS === 'android' && (await requestAndroidLocationPermissions());
     if (!isResolved) {
-      throw { code: GFWErrorPermission, message: 'Incorrect permission given' };
+      throw new FWError({ code: GFWErrorPermission, message: 'Incorrect permission given' });
     }
   }
 
@@ -290,7 +303,7 @@ export async function startTrackingLocation(requiredPermission) {
   BackgroundGeolocation.start();
 }
 
-function emitLocationUpdate(location) {
+function emitLocationUpdate(location: Location) {
   emitter.emit(GFWOnLocationEvent, createCompactedLocation(location));
 }
 
@@ -311,7 +324,7 @@ export function stopTrackingLocation() {
  * @warning This will only emit a GFWOnHeadingEvent when the heading has changed by 3 or more degrees.
  */
 export function startTrackingHeading() {
-  RNSimpleCompass.start(3, degree => {
+  CompassHeading.start(2, degree => {
     emitter.emit(GFWOnHeadingEvent, degree);
   });
 }
@@ -323,5 +336,65 @@ export function startTrackingHeading() {
  * @warning It is the responsibility of the implementing app to deregister any emitter listeners within the main app.
  */
 export function stopTrackingHeading() {
-  RNSimpleCompass.stop();
+  CompassHeading.stop();
+}
+
+/**
+ * getCoordinateAndDistanceText - Returns the location and distance text.
+ */
+export function getCoordinateAndDistanceText(
+  destinationCoordinates: ?[number, number],
+  lastPosition: ?Coordinates,
+  route: ?Route,
+  coordinatesFormat: CoordinatesFormat,
+  isRouteTracking: boolean
+) {
+  if (isRouteTracking) {
+    // Show the destination coordinates.
+    return getCoordinateText(route?.destination, lastPosition, coordinatesFormat);
+  } else if (destinationCoordinates) {
+    return getCoordinateText(coordsArrayToObject(destinationCoordinates), lastPosition, coordinatesFormat);
+  } else {
+    // Show nothing!
+    return '';
+  }
+}
+
+function getCoordinateText(
+  targetLocation: ?Coordinates,
+  currentLocation: ?Coordinates,
+  coordinatesFormat: CoordinatesFormat
+) {
+  if (targetLocation && currentLocation) {
+    const distance = getDistanceOfLine(targetLocation, currentLocation);
+
+    return `${i18n.t('map.destination')} ${formatCoordsByFormat(targetLocation, coordinatesFormat)}\n${i18n.t(
+      'map.distance'
+    )} ${formatDistance(distance)}`;
+  }
+
+  return '';
+}
+
+// [1, 2] -> {latitude: 2, longitude: 1}
+export function coordsArrayToObject(coord: [number, number]) {
+  return { latitude: coord?.[1], longitude: coord?.[0] };
+}
+// {latitude: 2, longitude: 1} -> [1, 2]
+export function coordsObjectToArray(coord: ?Coordinates) {
+  return [coord?.longitude, coord?.latitude];
+}
+
+// removes locations with the same position as the previous location in the route
+export function removeDuplicateLocations<T: { latitude: number, longitude: number }>(locations: ?Array<T>): ?Array<T> {
+  if (!locations) {
+    return null;
+  }
+
+  _.reject(locations, function(location, i) {
+    return (
+      i > 0 && locations[i - 1].latitude === location.latitude && locations[i - 1].longitude === location.longitude
+    );
+  });
+  return locations;
 }

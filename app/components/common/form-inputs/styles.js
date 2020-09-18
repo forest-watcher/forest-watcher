@@ -23,7 +23,7 @@ export default StyleSheet.create({
     paddingLeft: Theme.margin.left,
     paddingRight: Theme.margin.right,
     borderBottomColor: Theme.borderColors.main,
-    borderBottomWidth: 2,
+    borderBottomWidth: 1,
     backgroundColor: Theme.background.white,
     marginTop: 8
   },

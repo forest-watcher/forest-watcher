@@ -1,47 +1,47 @@
 // @flow
 
 import React, { PureComponent } from 'react';
-import { Alert, Platform, RefreshControl, ScrollView, StatusBar, Text, View } from 'react-native';
-import Config from 'react-native-config';
+import { Image, Linking, Platform, RefreshControl, ScrollView, StatusBar, Text, View } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 
-import AreaList from 'containers/common/area-list';
 import Row from 'components/common/row';
 import debounceUI from 'helpers/debounceUI';
-import tracker from 'helpers/googleAnalytics';
-import i18n from 'locales';
+import { trackMenuButtonPress, trackScreenView } from 'helpers/analytics';
+import i18n from 'i18next';
 import styles from './styles';
+import { showWelcomeScreen } from 'screens/common';
 
 const settingsIcon = require('assets/settings.png');
 const nextIcon = require('assets/next.png');
+const areasIcon = require('assets/areas.png');
+const reportsIcon = require('assets/reports.png');
+const routesIcon = require('assets/routes.png');
 
 type Props = {
   componentId: string,
   setAreasRefreshing: boolean => void,
+  hasSeenWelcomeScreen: boolean,
   isConnected: boolean,
   needsUpdate: boolean,
   appSyncing: boolean,
   refreshing: boolean,
   pristine: boolean,
-  setSelectedAreaId: string => void,
   setPristine: boolean => void,
+  setWelcomeScreenSeen: boolean => void,
   updateApp: () => void,
-  showNotConnectedNotification: () => void,
-  activeRoute: Route
+  showNotConnectedNotification: () => void
 };
 
 class Dashboard extends PureComponent<Props> {
-  static options(passProps) {
+  static options(passProps: {}) {
     return {
       topBar: {
-        rightButtons: [
-          {
-            id: 'settings',
-            icon: settingsIcon
-          }
-        ],
         title: {
-          text: Config.APP_NAME
+          text: i18n.t('commonText.appName'),
+          fontSize: Platform.OS === 'android' ? 24 : 20
+        },
+        largeTitle: {
+          visible: true
         }
       }
     };
@@ -51,20 +51,41 @@ class Dashboard extends PureComponent<Props> {
     return false;
   }
 
+  areasAction: { callback: () => void, icon: any };
+
   reportsAction: { callback: () => void, icon: any };
+
+  routesAction: { callback: () => void, icon: any };
+
+  settingsAction: { callback: () => void, icon: any };
 
   constructor(props: Props) {
     super(props);
     Navigation.events().bindComponent(this);
 
+    this.areasAction = {
+      callback: this.onPressAreas,
+      icon: nextIcon
+    };
+
     this.reportsAction = {
       callback: this.onPressReports,
       icon: nextIcon
     };
+
+    this.routesAction = {
+      callback: this.onPressRoutes,
+      icon: nextIcon
+    };
+
+    this.settingsAction = {
+      callback: this.onPressSettings,
+      icon: nextIcon
+    };
   }
 
-  componentDidMount() {
-    tracker.trackScreenView('Home - Dashboard');
+  async componentDidMount() {
+    trackScreenView('Home - Dashboard');
     this.checkNeedsUpdate();
     if (this.props.refreshing && !this.props.appSyncing) {
       this.props.setAreasRefreshing(false);
@@ -78,7 +99,36 @@ class Dashboard extends PureComponent<Props> {
         }
       });
     }
+
+    Linking.addEventListener('url', link => {
+      if (link && link.url) {
+        this.launchImportBundleModal(link.url);
+      }
+    });
+
+    const deepLink: ?string = await Linking.getInitialURL();
+    if (deepLink) {
+      this.launchImportBundleModal(deepLink);
+    }
+
+    // This is called both here and componentDidAppear because componentDidAppear isn't called when setting
+    // the app root using RNN
+    this.showWelcomeScreenIfNecessary();
   }
+
+  componentDidAppear() {
+    // This is called both here and componentDidAppear because componentDidAppear isn't called when setting
+    // the app root using RNN
+    this.showWelcomeScreenIfNecessary();
+  }
+
+  showWelcomeScreenIfNecessary = debounceUI(() => {
+    const { hasSeenWelcomeScreen } = this.props;
+    if (!hasSeenWelcomeScreen) {
+      this.props.setWelcomeScreenSeen(true);
+      showWelcomeScreen();
+    }
+  });
 
   componentDidDisappear() {
     const { pristine, setPristine, refreshing, setAreasRefreshing } = this.props;
@@ -90,19 +140,11 @@ class Dashboard extends PureComponent<Props> {
     }
   }
 
-  navigationButtonPressed({ buttonId }) {
-    if (buttonId === 'settings') {
-      Navigation.push(this.props.componentId, {
-        component: {
-          name: 'ForestWatcher.Settings'
-        }
-      });
-    }
-  }
-
   onRefresh = () => {
     const { isConnected, appSyncing, updateApp, setAreasRefreshing, showNotConnectedNotification } = this.props;
-    if (appSyncing) return;
+    if (appSyncing) {
+      return;
+    }
 
     if (isConnected) {
       setAreasRefreshing(true);
@@ -112,28 +154,58 @@ class Dashboard extends PureComponent<Props> {
     }
   };
 
-  onAreaPress = debounceUI((areaId: string, name: string) => {
-    if (areaId && this.props.activeRoute && this.props.activeRoute?.areaId !== areaId) {
-      // TODO: Add options to view route, save route, delete route.
-      Alert.alert(i18n.t('routes.trackingInProgressErrorTitle'), i18n.t('routes.trackingInProgressErrorMessage'), [
-        { text: i18n.t('commonText.ok') }
-      ]);
-      return;
-    }
-    if (areaId) {
-      this.props.setSelectedAreaId(areaId);
-      Navigation.push(this.props.componentId, {
-        component: {
-          name: 'ForestWatcher.Map'
-        }
-      });
-    }
+  onPressAreas = debounceUI(() => {
+    trackMenuButtonPress('areas');
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'ForestWatcher.Areas'
+      }
+    });
   });
 
   onPressReports = debounceUI(() => {
+    trackMenuButtonPress('reports');
     Navigation.push(this.props.componentId, {
       component: {
         name: 'ForestWatcher.Reports'
+      }
+    });
+  });
+
+  onPressRoutes = debounceUI(() => {
+    trackMenuButtonPress('routes');
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'ForestWatcher.Routes'
+      }
+    });
+  });
+
+  onPressSettings = debounceUI(() => {
+    trackMenuButtonPress('settings');
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'ForestWatcher.Settings'
+      }
+    });
+  });
+
+  launchImportBundleModal = debounceUI((bundlePath: string) => {
+    Navigation.showModal({
+      stack: {
+        children: [
+          {
+            component: {
+              name: 'ForestWatcher.ImportBundleStart',
+              options: {
+                modalPresentationStyle: 'overCurrentContext'
+              },
+              passProps: {
+                bundlePath
+              }
+            }
+          }
+        ]
       }
     });
   });
@@ -166,25 +238,37 @@ class Dashboard extends PureComponent<Props> {
       <View style={styles.container} onStartShouldSetResponder={androidListener} onResponderRelease={androidHandler}>
         <StatusBar networkActivityIndicatorVisible={appSyncing} />
         <ScrollView
+          contentInsetAdjustmentBehavior={'always'}
           onScroll={disablePristine}
           refreshControl={<RefreshControl refreshing={refreshing} onRefresh={this.onRefresh} />}
         >
-          <View
-            onStartShouldSetResponder={iOSListener}
-            onResponderRelease={iOSHandler}
-            style={styles.list}
-            contentContainerStyle={styles.listContent}
-            scrollEnabled
-          >
-            <View>
-              <Text style={styles.label}>{i18n.t('settings.yourAreas')}</Text>
-              <AreaList onAreaPress={this.onAreaPress} showCache pristine={pristine} />
-            </View>
+          <View onStartShouldSetResponder={iOSListener} onResponderRelease={iOSHandler} style={styles.list}>
+            <Row action={this.areasAction}>
+              <View style={styles.tableRowContent}>
+                <Image source={areasIcon} />
+                <Text style={styles.tableRowText}>{i18n.t('dashboard.areas')}</Text>
+              </View>
+            </Row>
+            <Row action={this.reportsAction}>
+              <View style={styles.tableRowContent}>
+                <Image source={reportsIcon} />
+                <Text style={styles.tableRowText}>{i18n.t('dashboard.reports')}</Text>
+              </View>
+            </Row>
+            <Row action={this.routesAction}>
+              <View style={styles.tableRowContent}>
+                <Image source={routesIcon} />
+                <Text style={styles.tableRowText}>{i18n.t('dashboard.routes')}</Text>
+              </View>
+            </Row>
+            <Row action={this.settingsAction}>
+              <View style={styles.tableRowContent}>
+                <Image source={settingsIcon} />
+                <Text style={styles.tableRowText}>{i18n.t('dashboard.settings')}</Text>
+              </View>
+            </Row>
           </View>
         </ScrollView>
-        <Row action={this.reportsAction}>
-          <Text style={styles.textMyReports}>{i18n.t('dashboard.myReports')}</Text>
-        </Row>
       </View>
     );
   }

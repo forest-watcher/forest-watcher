@@ -1,59 +1,64 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Image, Text, TouchableHighlight, View } from 'react-native';
-import FastImage from 'react-native-fast-image';
+// @flow
+import type { Area } from 'types/areas.types';
 
-import Theme from 'config/theme';
+import React, { Component } from 'react';
+import { View } from 'react-native';
 
-import AreaCache from 'containers/common/area-list/area-cache';
+import VerticalSplitRow from 'components/common/vertical-split-row';
+import DataCacher from 'containers/common/download';
 import styles from './styles';
 
-const nextIcon = require('assets/next.png');
-
-function AreaList(props) {
-  const { areas, onAreaPress, showCache, pristine } = props;
-  if (!areas) return null;
-
-  return (
-    <View>
-      {areas.map((area, index) => (
-        <View key={`${area.id}-area-list`} style={styles.container}>
-          <TouchableHighlight
-            activeOpacity={0.5}
-            underlayColor="transparent"
-            onPress={() => onAreaPress(area.id, area.name)}
-          >
-            <View style={styles.item}>
-              <View style={styles.imageContainer}>
-                {area.image ? <FastImage style={styles.image} source={{ uri: area.image }} /> : null}
-              </View>
-              <View style={styles.titleContainer}>
-                <Text style={styles.title} numberOfLines={2}>
-                  {' '}
-                  {area.name}{' '}
-                </Text>
-              </View>
-              <Image style={Theme.icon} source={nextIcon} />
-            </View>
-          </TouchableHighlight>
-          {showCache && <AreaCache areaId={area.id} showTooltip={index === 0 && pristine} />}
-        </View>
-      ))}
-    </View>
-  );
-}
-
-AreaList.propTypes = {
-  areas: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      image: PropTypes.string
-    })
-  ),
-  onAreaPress: PropTypes.func,
-  showCache: PropTypes.bool,
-  pristine: PropTypes.bool
+type Props = {
+  areas: Array<Area>,
+  downloadCalloutVisible?: ?boolean,
+  onAreaDownloadPress?: (areaId: string, name: string) => void,
+  onAreaPress: (areaId: string, name: string) => void,
+  onAreaSettingsPress: (areaId: string, name: string) => void,
+  selectionState?: Array<string>,
+  sharing?: boolean
 };
 
-export default AreaList;
+export default class AreaList extends Component<Props> {
+  render() {
+    const { areas, downloadCalloutVisible, onAreaDownloadPress, onAreaPress, onAreaSettingsPress } = this.props;
+    if (!areas) {
+      return null;
+    }
+    const getRowContainerStyle = index =>
+      index === 0 && downloadCalloutVisible
+        ? styles.calloutFirstRowContainer
+        : index === 1 && downloadCalloutVisible
+        ? styles.calloutSecondRowContainer
+        : styles.rowContainer;
+
+    return (
+      <View>
+        {areas.map((area, index) => (
+          <View key={`${area.id}-area-list`} style={getRowContainerStyle(index)}>
+            <VerticalSplitRow
+              downloadVisible={false}
+              onDownloadPress={() => onAreaDownloadPress?.(area.id, area.name)}
+              onPress={downloadCalloutVisible ? null : () => onAreaPress(area.id, area.name)}
+              disableSettingsButton={this.props.sharing || (index === 0 && downloadCalloutVisible)}
+              onSettingsPress={() => onAreaSettingsPress(area.id, area.name)}
+              imageSrc={area.image}
+              // $FlowFixMe
+              selected={this.props.sharing ? this.props.selectionState?.includes?.(area.id) : null}
+              title={area.name}
+              style={styles.row}
+              largerLeftPadding
+              largeImage
+            />
+            {!this.props.sharing && (
+              <DataCacher
+                dataType={'area'}
+                id={area.id}
+                showTooltip={index === 0 && (downloadCalloutVisible ?? false)}
+              />
+            )}
+          </View>
+        ))}
+      </View>
+    );
+  }
+}

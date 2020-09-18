@@ -60,6 +60,7 @@ android/app/libs
 # Cocoapods
 #
 Pods/
+
 ios/.gems
 ios/ForestWatcher.ipa
 ios/ForestWatcher.app.dSYM.zip
@@ -79,3 +80,6 @@ realm-object-server/io\.realm\.object-server-utility/metadata/
 reports/**
 
 .env
+
+# react-native-config codegen
+ios/tmp.xcconfig

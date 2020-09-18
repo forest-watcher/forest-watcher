@@ -1,31 +1,46 @@
 // @flow
-import type { State } from 'types/store.types';
+import type { ComponentProps, Dispatch, State } from 'types/store.types';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { setActiveContextualLayer } from 'redux-modules/layers';
 import MapSidebar from 'components/map-sidebar';
-import { getSelectedArea } from 'helpers/area';
+import {
+  toggleAlertsLayer,
+  toggleRoutesLayer,
+  toggleReportsLayer,
+  toggleContextualLayersLayer,
+  getActiveBasemap,
+  DEFAULT_LAYER_SETTINGS
+} from 'redux-modules/layerSettings';
+
+type OwnProps = {|
+  +areaId: ?string,
+  +componentId: string,
+  +featureId: string,
+  +routeId: ?string
+|};
 
 function mapStateToProps(state: State) {
-  const area = getSelectedArea(state.areas.data, state.areas.selectedAreaId);
-
   return {
-    areaId: area && area.id,
-    layers: state.layers.data,
-    activeLayer: state.layers.activeLayer
+    allLayerSettings: state.layerSettings,
+    defaultLayerSettings: DEFAULT_LAYER_SETTINGS,
+    getActiveBasemap: featureId => getActiveBasemap(featureId, state)
   };
 }
 
-const mapDispatchToProps = (dispatch: *) =>
+const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
     {
-      onLayerToggle: setActiveContextualLayer
+      toggleAlertsLayer,
+      toggleRoutesLayer,
+      toggleReportsLayer,
+      toggleContextualLayersLayer
     },
     dispatch
   );
 
-export default connect(
+type PassedProps = ComponentProps<OwnProps, typeof mapStateToProps, typeof mapDispatchToProps>;
+export default connect<PassedProps, OwnProps, _, _, State, Dispatch>(
   mapStateToProps,
   mapDispatchToProps
 )(MapSidebar);

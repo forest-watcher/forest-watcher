@@ -1,14 +1,21 @@
 // @flow
-import type { State } from 'types/store.types';
+import type { ComponentProps, Dispatch, State } from 'types/store.types';
 
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import Dashboard from 'components/dashboard';
-import { updateApp, setPristineCacheTooltip, showNotConnectedNotification } from 'redux-modules/app';
-import { createReport } from 'redux-modules/reports';
-import { setAreasRefreshing, setSelectedAreaId } from 'redux-modules/areas';
+import {
+  updateApp,
+  setPristineCacheTooltip,
+  showNotConnectedNotification,
+  setWelcomeScreenSeen
+} from 'redux-modules/app';
+import { setAreasRefreshing } from 'redux-modules/areas';
 import { isOutdated } from 'helpers/date';
 import { shouldBeConnected } from 'helpers/app';
+
+type OwnProps = {|
+  +componentId: string
+|};
 
 function mapStateToProps(state: State) {
   const areasOutdated = !state.areas.synced || isOutdated(state.areas.syncDate);
@@ -19,28 +26,35 @@ function mapStateToProps(state: State) {
     appSyncing,
     isConnected,
     areasOutdated,
-    activeRoute: state.routes.activeRoute,
     refreshing: state.areas.refreshing,
     pristine: state.app.pristineCacheTooltip,
+    hasSeenWelcomeScreen: state.app.hasSeenWelcomeScreen,
     needsUpdate: areasOutdated && !appSyncing && isConnected && loggedIn
   };
 }
 
-function mapDispatchToProps(dispatch: *) {
-  return bindActionCreators(
-    {
-      updateApp,
-      createReport,
-      setAreasRefreshing,
-      setSelectedAreaId,
-      showNotConnectedNotification,
-      setPristine: setPristineCacheTooltip
+function mapDispatchToProps(dispatch: Dispatch) {
+  return {
+    setAreasRefreshing: (refreshing: boolean) => {
+      dispatch(setAreasRefreshing(refreshing));
     },
-    dispatch
-  );
+    setPristine: (pristine: boolean) => {
+      dispatch(setPristineCacheTooltip(pristine));
+    },
+    setWelcomeScreenSeen: (seen: boolean) => {
+      dispatch(setWelcomeScreenSeen(seen));
+    },
+    showNotConnectedNotification: () => {
+      dispatch(showNotConnectedNotification());
+    },
+    updateApp: () => {
+      dispatch(updateApp());
+    }
+  };
 }
 
-export default connect(
+type PassedProps = ComponentProps<OwnProps, typeof mapStateToProps, typeof mapDispatchToProps>;
+export default connect<PassedProps, OwnProps, _, _, State, Dispatch>(
   mapStateToProps,
   mapDispatchToProps
 )(Dashboard);

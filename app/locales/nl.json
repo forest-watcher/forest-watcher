@@ -1,0 +1,989 @@
+{
+    "alerts": {
+        "locationDisabled": "Locatie uitgeschakeld"
+    },
+    "areaDetail": {
+        "confirmDeleteWithRoutesMessage": "Als u dit gebied verwijdert, heeft u geen toegang meer tot de opgeslagen routes. Verwijderen?",
+        "confirmDeleteWithRoutesTitle": "Gebied met routes verwijderen",
+        "delete": "Verwijder dit gebied"
+    },
+    "areas": {
+        "empty": {
+            "action": "Veel gestelde vragen",
+            "body": "Klik op het ‘+’ icoontje om een ​​gebied in te stellen waar u toegang wilt hebben tot de waarschuwingen. U kunt ook een gebied importeren.",
+            "title": "Geen gebieden gecontroleerd"
+        },
+        "export": {
+            "manyAreas": "%{count} Gebieden",
+            "oneArea": "%{count} Gebieden"
+        },
+        "importedAreas": "Geïmporteerde gebieden",
+        "myAreas": "Mijn gebieden",
+        "title": "Gebieden",
+        "tooltip": {
+            "body": "Bekijk waarschuwingen en kaartlagen zonder internet",
+            "title": "Maak gebieden offline beschikbaar"
+        }
+    },
+    "basemaps": {
+        "delete": {
+            "messageGFWContent": "Gegevens voor deze contextuele laag zijn alleen online beschikbaar. Wilt u doorgaan?",
+            "messageGFWImportedContent": "Contextuele laag gegevens kunnen opnieuw worden gedownload wanneer er weer verbinding is met het internet. Wilt u doorgaan met het verwijderen?",
+            "messageCustomContent": "Deze aangepaste contextuele laag kan indien nodig opnieuw worden geïmporteerd. Wilt u doorgaan?",
+            "title": "Contextuele laaggegevens verwijderen?",
+            "titleCustom": "Verwijder aangepaste contextuele laag?"
+        },
+        "edit": "Bewerken",
+        "empty": {
+            "action": "Veel gestelde vragen",
+            "body": "Klik op het '+' icoontje om een ​​aangepaste basiskaart in te stellen",
+            "title": "Geen aangepaste basiskaarten"
+        },
+        "export": {
+            "many": "%{count} Basiskaarten",
+            "manyAction": "Lagen %{count} delen...",
+            "navBarButtonText": "Exporteren",
+            "noneSelected": "Geen basiskaarten geselecteerd",
+            "one": "%{count} Basiskaart",
+            "oneAction": "Laag %{count} delen...",
+            "successful": "Basiskaarten exporteren is succesvol!"
+        },
+        "gfw": "Standaard basiskaarten",
+        "import": {
+            "cannotContainVectorTiles": "* bestanden mogen alleen rasterelementen bevatten",
+            "choose": "Kies het type basiskaart",
+            "chooseAnother": "Kies een ander",
+            "custom": "Aangepaste basiskaart",
+            "error": "Mislukt om basiskaart te importeren, zorg ervoor dat u het juiste bestandstype selecteert en dat de inhoud van het bestand overeenkomt met de specificaties en probeer het dan opnieuw.",
+            "faq": "Vragen over aangepaste basiskaarten",
+            "fileContainsVectorTiles": "bevat vectorelementen en wordt niet ondersteund.",
+            "fileSizeTooLarge": "Bestand te groot",
+            "fileSizeTooLargeDesc": "Probeer het met een bestand kleiner dan 10 MB",
+            "fileTypeNotSupported": "Bestandstype niet ondersteund",
+            "fileTypeNotSupportedDesc": "het is geen bestandstype dat basiskaarten ondersteund.",
+            "save": "Importeer Basiskaart",
+            "supportedFileTypesInclude": "Ondersteunde bestandstypen omvatten:",
+            "title": "Basiskaart naam",
+            "uniqueNameError": "U heeft deze naam reeds gebruikt voor een ander basiskaart,kies een andere naam of verwijder de bestaande basiskaart.",
+            "vectorTilesNotSupported": "Bestand bevat Vector Tiles"
+        },
+        "imported": "Aangepaste basiskaarten",
+        "names": {
+            "dark": "Donker",
+            "default": "Standaard",
+            "satellite": "Satelliet"
+        },
+        "rename": {
+            "message": "Voer uw nieuwe naam in",
+            "title": "Basiskaart opnieuw een naam geven"
+        },
+        "share": "Delen",
+        "title": "Beheer van basiskaarten"
+    },
+    "chooseImage": {
+        "cancel": "Annuleren",
+        "chooseFromLibrary": "Kies uit bibliotheek",
+        "takePhoto": "Maak een foto",
+        "title": "Selecteer een afbeelding"
+    },
+    "commonText": {
+        "alert": "Waarschuwing",
+        "appName": "Forest Watcher",
+        "area": "gebied",
+        "boundaries": "Grenzen",
+        "calculating": "Berekenen",
+        "cancel": "Annuleren",
+        "clear": "Wissen",
+        "confirm": "Bevestigen",
+        "connectionRequired": "U heeft een internetverbinding nodig om deze actie te voltooien",
+        "connectionRequiredTitle": "Geen verbinding",
+        "continue": "Doorgaan met",
+        "crashFeedback": "Er is iets fout gegaan. We werken eraan om dit zo snel mogelijk te verhelpen.",
+        "date": "Datum",
+        "deselectAll": "Deselecteer alles",
+        "done": "Gedaan",
+        "error": "Fout",
+        "fileName": "Bestandsnaam",
+        "fileSizes": {
+            "bytes": "%{size} bytes",
+            "gigaBytes": "%{size} GB",
+            "kiloBytes": "%{size} kB",
+            "megaBytes": "%{size} MB",
+            "teraBytes": "%{size} TB"
+        },
+        "finish": "Af hebben",
+        "kilometers": "km",
+        "kmAway": "km afstand",
+        "language": "Taal",
+        "loading": "Aan het laden",
+        "meters": "m",
+        "metersAway": "m afstand",
+        "name": "Naam",
+        "next": "Volgende",
+        "noImage": "Geen afbeelding",
+        "offlineModeIsOn": "U bevindt zich in de offline modus",
+        "ok": "OK",
+        "oops": "Oops!",
+        "reportedPosition": "Gerapporteerde locatie",
+        "retry": "Opnieuw proberen",
+        "saving": "Aan het opslaan",
+        "selectAll": "Selecteer Alles",
+        "send": "Versturen",
+        "settings": "Instellingen",
+        "setup": "in stellen",
+        "userPosition": "Gebruikers locatie"
+    },
+    "contactUs": {
+        "description": "Vragen of feedback? Email mailnaar:forestwatcher@wri.org"
+    },
+    "contextualLayers": {
+        "delete": {
+            "messageGFWContent": "Gegevens voor deze basiskaart zijn alleen online beschikbaar. Wilt u doorgaan?",
+            "messageCustomContent": "Deze aangepaste basiskaart kan indien nodig opnieuw worden geïmporteerd. Wilt u doorgaan?",
+            "title": "Verwijder basiskaart gegevens?",
+            "titleCustom": "Aangepaste basiskaart verwijderen?"
+        },
+        "edit": "Bewerken",
+        "empty": {
+            "action": "Veel gestelde vragen over app",
+            "body": "Contextuele lagen die u toevoegt, worden hier weergegeven",
+            "title": "Geen Contextuele Lagen"
+        },
+        "export": {
+            "many": "%{count} Lagen",
+            "manyAction": "Export %{count} lagen...",
+            "navBarButtonText": "Exporterem",
+            "noneSelected": "Geen lagen selecteert",
+            "one": "%{count} Lagen",
+            "oneAction": "Export %{count} lagen...",
+            "successful": "Het exporteren van lagen is succesvol!"
+        },
+        "gfw": "GFW Lagen",
+        "import": {
+            "addGFW": "Voeg Global Forest Watch Lagen toe",
+            "choose": "Kies een contextueel laagtype",
+            "chooseAnother": "Kies een ander",
+            "custom": "Aangepaste contextuele laag",
+            "error": "Importeren van de laag is mislukt, Zorg ervoor dat u het juiste bestandstype selecteert en dat de inhoud van het bestand overeenkomt met de specificatie en probeer het dan opnieuw.",
+            "faq": "Veel gestelde vragen over aangepaste laag",
+            "fileSizeTooLarge": "Bestand te groot",
+            "fileSizeTooLargeDesc": "Probeer het met een bestand kleiner dan 10MB",
+            "fileTypeNotSupported": "Bestandstype niet ondersteund",
+            "fileTypeNotSupportedDesc": "Het is geen ondersteunend bestandstype voor contextuele lagen.",
+            "offlineWarning": "Alleen online beschikbaar",
+            "save": "Laag importeren",
+            "supportedFileTypesInclude": "Ondersteunde bestandstypen omvatten:",
+            "title": "Laag Naam",
+            "uniqueNameError": "U heeft deze naam reeds gebruikt voor een ander basiskaart,kies een andere naam of verwijder de bestaande basiskaart."
+        },
+        "imported": "Aangepaste lagen",
+        "rename": {
+            "message": "Voer uw nieuwe naam in",
+            "title": "Hernoem contextuele laag"
+        },
+        "share": "Delen",
+        "title": "Contextuele lagen beheren"
+    },
+    "countries": {
+        "searchPlaceholder": "Een land zoeken"
+    },
+    "dashboard": {
+        "areas": "Gebieden",
+        "downloadFailed": "Download mislukt",
+        "map": "Kaart",
+        "reports": "Rapporten",
+        "routes": "Routes",
+        "settings": "instellingen"
+    },
+    "datasets": {
+        "umd_as_it_happens": "Ontbossing (GLAD)",
+        "viirs": "Branden (VIIRS)"
+    },
+    "dropdown": {
+        "done": "Gedaan"
+    },
+    "faq": {
+        "categories": {
+            "about": {
+                "questions": [
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "Forest Watcher is een mobiele applicatie die is ontworpen om eenvoudig en offline toegang te bieden tot gegevens over bosverandering van Global Forest Watch http://www.globalforestwatch.org/.",
+                                "text2": "Global Forest Watch (GFW) is een dynamisch online bosmonitoring- en waarschuwingssysteem dat mensen overal in staat stelt om bossen beter te beheren. GFW brengt satelliet technologie, cloud computing en open data samen om tijdig informatie over bossen aan gemeenschappen over de hele wereld te verstrekken.",
+                                "text3": "Forest Watcher brengt waardevolle informatie van GFW rechtstreeks in handen van mensen die bossen ter plekke controleren. Met Forest Watcher kan iedereen ontbossing en brandmeldingen op een mobiel apparaat bekijken, offline naar de locatie van de waarschuwing navigeren en informatie en foto's verzamelen over wat ze vinden.",
+                                "text4": "Deze app biedt een betaalbare en gebruiksvriendelijke oplossing om: snel gebieden te identificeren voor patrouilles in het bos of veldonderzoek; verzamel bewijsmateriaal over bosveranderingen op locatie; verzamelde gegevens gebruiken om op bewijsmateriaal gebaseerde beslissingen over beheer en instandhouding te nemen; en remote sensing in het veld valideren.",
+                                "text5": "Met deze app kunnen gebruikers met name: "
+                            },
+                            "orderList": {
+                                "text1": "Upload of teken aangepaste interessegebied(en) voor analyse",
+                                "text2": "Download verschillende op satelliet gebaseerde bosveranderingen en andere contextuele gegevens (bijv. Bijna naar de huidige situatie van ontbossingswaarschuwingen, beschermde gebieden en intacte boslandschappen) naar elk mobiel apparaat",
+                                "text3": "Upload uw eigen datasets",
+                                "text4": "Onderzoek waarschuwingen in het veld en verzamel informatie (inclusief GPS-punten en foto's) via formulieren dat aangepast kunnen worden",
+                                "text5": "Bekijk, analyseer en download gegevens die met de app zijn verzameld"
+                            }
+                        },
+                        "title": "Wat is Forest Watcher?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text": "Gemeenschapbos monitors, parkwachters, natuurbescherming organisaties, beheerders van beschermde gebieden, journalisten en milieupolitie gebruiken Forest Watcher om gebieden met bosverstoring op te sporen, hun patrouilleroutes mede te delen en digitale informatie te verzamelen over hun waarnemingen."
+                            }
+                        },
+                        "title": "Wie gebruikt Forest Watcher?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text": "In 2016 werkten het Jane Goodall Institute (JGI), Global Forest Watch (GFW), Touchlab en Google samen om een ​​testversie van een mobiele app te maken om beschermde gebieden in Oeganda offline te bewaken. Na de succesvolle pilotfase creëerden GFW, JGI en Vizzuality Forest Watcher om toegang tot GFW-gegevens mogelijk te maken, zowel offline als in het veld. De app wordt momenteel onderhouden door GFW en 3 Sided Cube."
+                            }
+                        },
+                        "title": "Wie heeft Forest Watcher gemaakt?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text": "Forest Watcher werkt op elke iPhone met iOS 10 en hoger. De minimale en aanbevolen specificaties voor Android-apparaten staan ​​hieronder vermeld."
+                            },
+                            "orderList": {
+                                "text1": "Minimum specificaties voor Android: OS - Android 5.0; RAM - 1.5GB; Free Disk Space - 1GB",
+                                "text2": "Minimum specificaties voor Android: OS - Android 7.1' RAM - 3GB; Free Disk Space - 4GB+"
+                            }
+                        },
+                        "title": "Wat zijn de apparaat specificaties voor het gebruik van Forest Watcher?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text": "Ja, Forest Watcher is beschikbaar in het Spaans, Frans, Portugees, Bahasa Indonesisch, Nederlands en Madagaskar. De taal van de vragenlijsten en rapporten kan worden aangepast naar keuze."
+                            }
+                        },
+                        "title": "Is Forest Watcher beschikbaar in andere talen dan Engels?"
+                    }
+                ],
+                "title": "Over Forest Watcher"
+            },
+            "alertsAndData": {
+                "questions": [
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "Een interessegebied is een gebied dat u definieert om bosverandering te monitoren. Wanneer u een interessegebied maakt op Forest Watcher, worden voor dat gebied GLAD-ontbossingswaarschuwingen ingevuld."
+                            }
+                        },
+                        "title": "Wat is een interessegebied?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "De maximale grootte van het interessegebied is 20.000 vierkante kilometer (2.000.000 hectare). Als u een gebied groter dan 20.000 vierkante kilometer probeert vast te stellen, ontvangt u een foutmelding dat de omvang te groot is."
+                            }
+                        },
+                        "title": "Wat is het maximale omvang van het interessegebied dat ik kan maken?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "U kunt interessegebieden delen door naar de pagina Gebieden van de mobiele app te gaan en op \"Gebieden delen\" te klikken. Vanaf hier kunt u de gebieden selecteren die u wilt delen en kiezen waar u de bundel op uw apparaat wilt exporteren. Vervolgens kunt u de interessegebiedbundel delen via de door u gekozen optie, bijv. e-mail, bluetooth of WhatsApp.",
+                                "text2": "Na het ontvangen van een interessegebiedbundel via uw favoriete optie, kunt u deze importeren op Forest Watcher. Zodra het importeren is voltooid, hebt u toegang tot de interessegebied(en) op de pagina Gebieden."
+                            }
+                        },
+                        "title": "Hoe kan ik interessegebieden delen en ontvangen?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "U kunt contextuele lagen delen door naar de sectie Contextuele lagen op de pagina Instellingen van de mobiele app te gaan en op \"Delen\" te klikken. Vanaf hier kunt u de contextuele lagen selecteren die u wilt delen en kiezen waar u de bundel naar uw apparaat wilt exporteren. Vervolgens kunt u de contextuele lagenbundel delen via de door u gekozen optie, bijv. e-mail, bluetooth of WhatsApp.",
+                                "text2": "Na het ontvangen van een contextuele lagenbundel via uw voorkeurs optie voor delen, kunt u deze importeren in Forest Watcher. Zodra het importeren is voltooid, hebt u toegang tot de contextuele lagen in het gedeelte Contextuele lagen op de pagina Instellingen."
+                            }
+                        },
+                        "title": "Hoe kan ik contextuele lagen delen en ontvangen?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text": "Global Forest Watch (GFW) biedt vooraf geïnstalleerde bosverandering en contextuele gegevens over Forest Watcher. De voorgeladen gegevens omvatten GLAD-ontbossingswaarschuwingen, VIIRS actieve brandwaarschuwingen, jaarlijks verlies van boombedekking en beschermde gebieden. Hieronder vindt u informatie over de GLAD-ontbossingswaarschuwingen, VIIRS actieve brandwaarschuwingen en jaarlijkse verlies van boombedekking."
+                            },
+                            "footerText": "U kunt ook aanvullende contextuele lagen van GFW toevoegen, waaronder inheems land en gemeenschapsland van LandMark, en verschillende concessies en biodiversiteit gegevens, of u kunt uw eigen aangepaste contextuele lagen uploaden via de mobiele app. Forest Watcher Mobile ondersteunt de volgende bestandstypen voor uploaden: .json, .geojson, .topojson, .gpx, .zip, .kmz en .kml. Bij het uploaden van extra contextuele lagen heeft u de mogelijkheid om de gegevens voor offline gebruik of toegang tot de gegevens alleen online. Deze opties bieden meer flexibiliteit ten opzichte van de gegevens die op uw apparaat zijn opgeslagen. Ga voor meer informatie naar data.globalforestwatch.org.",
+                            "orderList": {
+                                "text1": "VIIRS Active Brand-waarschuwingen: Geproduceerd door NASA, dagelijks bijgewerkt met een resolutie van 375 meter. Dit toont u de locatie van vermoedelijke branden in de afgelopen week.",
+                                "text2": "GLAD-waarschuwingen: Geproduceerd door het Global Land Analysis & Discovery (GLAD) Lab van de University of Maryland, wekelijks bijgewerkt met een resolutie van 30 meter. Dit laat u week per week zien waar het bosgebied mogelijk is veranderd.",
+                                "text3": "Jaarlijks verlies van boombedekking: ook geproduceerd door het GLAD-laboratorium, jaarlijks bijgewerkt met een resolutie van 30 meter. Dit laat u van jaar tot jaar zien waar het bosgebied is veranderd. Op dit moment zijn deze gegevens alleen beschikbaar als een contextuele gegevenslaag: u kunt geen rapport maken met betrekking tot een jaarlijkse verlieswaarschuwing, hoewel u wel een rapport voor die locatie kunt maken door op het scherm op de locatie van het bos te tikken verlies of winst."
+                            }
+                        },
+                        "title": "Welke gegevens zijn beschikbaar en waar komen ze vandaan?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "Elke gegevenslaag is onderworpen aan strenge wetenschappelijke tests en heeft een unieke reeks beperkingen.",
+                                "text2": "Gebruikers moeten er rekening mee houden dat GLAD-ontbossingswaarschuwingen alle soorten verlies van boombedekking detecteren, of dit nu wordt veroorzaakt door mensen (zoals houtkap) of door natuurlijke oorzaken (zoals een aardverschuiving). De waarschuwingen maken geen onderscheid tussen natuurlijke boombedekking en beplante boombedekking. De waarschuwingen zijn ook ontworpen om conservatief te zijn, gezien het beoogde eindgebruik van veldpatrouilles (het percentage vals-positieve meldingen voor bevestigde meldingen is 1%, terwijl het percentage vals-negatieve meldingen 33% is). Ten slotte, hoewel de waarschuwingen wekelijks worden bijgewerkt, kan aanhoudende bewolking betekenen dat waarschuwingen weken of zelfs maanden na het optreden niet worden gedetecteerd.",
+                                "text3": "VIIRS-brandmeldingen kunnen geen branden detecteren die te klein of te koel zijn (over het algemeen kleiner dan 100 vierkante meter of koeler dan 427 Celcius).",
+                                "text4": "Ga voor meer informatie naar data.globalforestwatch.org."
+                            }
+                        },
+                        "title": "Hoe nauwkeurig zijn ontbossing en brandmeldingen?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "De basiskaart van satellietbeelden van Global Forest Watch (GFW) wordt minder vaak bijgewerkt dan de waarschuwingsgegevens. Als zodanig kunt u waarschuwingen opmerken voor gebieden die nog steeds ongestoord op de basiskaart van satellietbeelden verschijnen. Om recentere satellietbeelden te bekijken, raden we u aan de tool Recente satellietbeelden te gebruiken die beschikbaar is op GFW. Het bezoeken van waarschuwingen in het veld is de meest nauwkeurige manier om veranderingen te verifiëren, maar het is ook meestal de duurste. Daarom raden we u aan om, indien mogelijk, de tool Recente satellietbeelden te gebruiken voordat u uw veldbezoek plant om vast te stellen wat de waarschijnlijke oorzaken van de storing zijn.",
+                                "text2": "Als alternatief kunt u ook uw eigen satellietbeelden en basiskaarten uploaden door naar de sectie Basemaps of Contextual Layers op de pagina Instellingen van de mobiele app te gaan en op de knop + in de rechterbovenhoek van de pagina te klikken."
+                            }
+                        },
+                        "title": "Waarom zie ik een waarschuwing voor ontbossing, maar geen wijziging in de basiskaart van de satellietbeelden?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "Ja, u kunt nu uw eigen contextuele lagen en basiskaarten rechtstreeks in de mobiele app uploaden, zelfs als u offline bent. U kunt aangepaste contextuele lagen en basiskaarten toevoegen door naar de sectie Basemaps of de sectie Contextuele lagen van de pagina Instellingen te navigeren en op de knop + in de rechterbovenhoek van de pagina te klikken.",
+                                "text2": "Ondersteunde bestandstypen voor contextuele lagen zijn onder andere: .json, .geojson, .topojson, .gpx, .zip shapefiles, .kmz en .kml. ",
+                                "text3": "Ondersteunde bestandstypen voor basiskaarten zijn: .mbtiles."
+                            }
+                        },
+                        "title": "Kan ik mijn eigen contextuele lagen en basiskaarten uploaden in Forest Watcher?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "Momenteel worden alleen bepaalde soorten gegevens gesynchroniseerd met uw Forest Watcher-account, dat ook is verbonden met de Forest Watcher-webtoepassing. Deze gegevens bevatten gebieden en rapporten die u heeft ge-upload. Dit betekent dat wanneer u uitlogt en weer inlogt op de app, deze gegevens zichtbaar blijven. ",
+                                "text2": "Voor andere soorten gegevens worden deze onafhankelijk van uw Forest Watcher-account opgeslagen en zijn NIET zichtbaar wanneer u uitlogt en weer inlogt bij de app. Deze gegevens omvatten:"
+                            },
+                            "footerText": "Als u uitlogt, worden deze items permanent verwijderd (met uitzondering van aangepaste basiskaarten en aangepaste contextuele lagen). Het wordt daarom aanbevolen om alle gegevens die u wilt bewaren te bundelen voordat u uitlogt. Om het u gemakkelijk te maken, raden we u aan de optie ‘Alle app-gegevens delen’ te gebruiken en de resulterende bundel op te slaan. Dit kan vervolgens opnieuw worden geïmporteerd indien nodig door de bundel te openen met de Forest Watcher-app wanneer u bent ingelogd.",
+                            "orderList": {
+                                "text1": "Waarschuwingen",
+                                "text2": "Geïmporteerde gebieden",
+                                "text3": "Routes",
+                                "text4": "Niet-geüploade rapporten",
+                                "text5": "Downloaded Basiskaart Tiles",
+                                "text6": "Downloaded GFW Laag Tiles",
+                                "text7": "Aangepaste basiskaarten",
+                                "text8": "Aangepaste contextuele lagen",
+                                "text9": "Geïmporteerde GFW-contextlagen"
+                            }
+                        },
+                        "title": "Hoe slaat de Forest Watcher-app mijn gegevens op?"
+                    }
+                ],
+                "title": "Waarschuwingen en gegevens in Forest Watcher"
+            },
+            "features": {
+                "questions": [
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "Met Forest Watcher Mobile kunnen gebruikers interessegebieden creëren en waarschuwingen daarin monitoren. Interessante gebieden worden aangegeven bij het starten van de app of op de pagina Gebieden. U kunt de nieuwste ontbossing- en boswaarschuwingen in uw interessegebied bekijken en downloaden om offline en het veld in te gaan. Na het downloaden kunt u de app gebruiken om u naar waarschuwingen in de buurt te leiden met behulp van de interne GPS van de telefoon en uw route te volgen terwijl u onderweg bent, vul vervolgens een formulier in en maak foto's om observaties vast te leggen over wat u vindt.",
+                                "text2": "Forest Watcher Web maakt geeft meer mogelijkheden door rapportage templates en het vergemakkelijkt de samenwerking met opties voor het maken, beoordelen en toewijzen van rapporten aan teamleden."
+                            }
+                        },
+                        "title": "Wat kan ik doen met Forest Watcher?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text": "Hoewel Forest Watcher Mobile voornamelijk is ontworpen voor offline gebruik, moeten bepaalde belangrijke functies worden uitgevoerd met een internetverbinding. Hieronder vindt u een typische workflow voor online / offline gebruik van Forest Watcher"
+                            },
+                            "footerText": "Als je offline bent, raden we je aan de app in de 'offline modus' te zetten in de instellingen om de stabiliteit van de app te vergroten.",
+                            "orderList": {
+                                "text1": "Online:\nDownload Forest Watcher Mobile en log in.  nMaak een interessegebied.  nStel een tijdsperiode in voor waarschuwingen en vernieuw waarschuwingen.",
+                                "text2": "Offline:\nSelecteer en navigeer naar waarschuwingen.\nMaak een rapport op uw locatie of bij een melding.\nVolg uw route.\nDocumenteer waarnemingen en maak foto's.\nDeel app-inhoud met een ander apparaat (waarschuwingen, gebieden, routes, rapporten, contextuele lagen, basiskaarttegels of alle app-inhoud)."
+                            }
+                        },
+                        "title": "Wat kan ik online versus offline doen?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text": "Forest Watcher Web is de aanvullende online webinterface voor de mobiele app, die kan worden gebruikt om interessegebieden te beheren, rapport templates aan te passen, een team van gebruikers te configureren en rapporten te bekijken en te downloaden die via de mobiele app zijn ingediend. Forest Watcher Web kan door beheerders en teammanagers worden gebruikt om de app voor hun team in te stellen. Gebruikers moeten inloggen op Forest Watcher Web met dezelfde login die wordt gebruikt om toegang te krijgen tot de mobiele app. Ga voor meer informatie naar forestwatcher.globalforestwatch.org."
+                            }
+                        },
+                        "title": "Wat is Forest Watcher Web?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "U kunt aangepaste lagen uploaden voor zowel Forest Watcher Web als ook Forest Watcher Mobile. Forest Watcher Mobile ondersteunt de volgende bestandstypen voor uploaden: .json, .geojson, .topojson, .gpx, .zip, .kmz, .kml en .mbtiles.",
+                                "text2": "Forest Watcher-web ondersteunt URL's tiles.",
+                                "text3": "Aangepaste bestandstypen die worden ondersteund in Forest Watcher Mobile staan ​​hieronder vermeld."
+                            },
+                            "footerText": "De aanbevolen maximale bestandsgrootte is 1 MB, alles wat groter is, werkt mogelijk niet correct. Complexe vormen kunnen ook problemen opleveren en aangepaste stijlen en afbeeldingen kunnen worden verwijderd. Neem contact met ons op via forestwatcher@wri.org als je vragen hebt over het uploadproces.",
+                            "orderList": {
+                                "text1": "GeoJSON (met .geojson of .json bestand extensie)",
+                                "text2": "TopoJSON (met .topojson of .json bestand extensies)",
+                                "text3": "Google Earth Keyhole Markup Language (met .kml of .kmz bestand extensies)",
+                                "text4": "Shapefiles (met .zip extensie). Shapefiles moet bevatten .shp en .prj bestanden binnen het archief.",
+                                "text5": "GPS Exchange Format (met .gpx extensie)",
+                                "text6": "Mapbox Tiles (with .mbtiles extensie). Deze zullen geimporteerd worden als basiskaart"
+                            }
+                        },
+                        "title": "Welke bestandstypen en -groottes accepteert Forest Watcher?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "Ja, Forest Watcher Mobile is ontworpen om onafhankelijk van Forest Watcher Web te worden gebruikt. Op de mobiele app kunt u interessegebieden creëren, downloaden en navigeren naar waarschuwingen, uw route onderweg volgen en uw observaties vastleggen. U kunt ook uw eigen contextuele lagen en basiskaarten rechtstreeks uploaden via de mobiele app en app-inhoud delen met andere apparaten terwijl u offline bent (routes, rapporten, gebieden, waarschuwingen, contextuele gegevenslagen, basiskaarttegels of alle app-inhoud).",
+                                "text2": "Forest Watcher Web biedt eenvoudig mogelijkheden voor verdere aanpassing van de mobiele app, inclusief aanpassing van rapport templates, teambeheer en gegevensbeheer."
+                            }
+                        },
+                        "title": "Kan ik Forest Watcher Mobile gebruiken zonder Forest Watcher Web te gebruiken?"
+                    }
+                ],
+                "title": "Wat doet Forest Watcher?"
+            },
+            "help": {
+                "questions": [
+                    {
+                        "content": {
+                            "orderListLetters": {
+                                "order1": {
+                                    "description": "Als u geen meldingen in uw interessegebied ziet, controleer dan globalforestwatch.org om te zien of er gegevens zijn voor die locatie en het door u gekozen tijdsbestek. Als er geen recente GLAD- of VIIRS-waarschuwingen zijn, is er geen recente activiteit voor boswijziging geweest. Overweeg de Jaarlijkse wijziging van contextuele boombedekking laag te gebruiken om oudere verlieswaarschuwingen te vinden, die nog steeds een onderzoek of veldbezoek kunnen opleveren.",
+                                    "text": "Ik zie geen waarschuwingsgegevens"
+                                },
+                                "order2": {
+                                    "description": "Als de app crasht, open je hem opnieuw. Als het meerdere keren crasht, stuur dan een e-mail naar mailto: forestwatcher@wri.org en vermeld informatie over uw apparaatmodel en wat u deed in de app toen het crashte.",
+                                    "text": "De app loopt vast"
+                                },
+                                "order3": {
+                                    "description": "De locatie- en navigatiefuncties zijn afhankelijk van de interne GPS van uw apparaat. Controleer of de GPS (vaak \"location services\" genoemd) is ingeschakeld in de apparaat instellingen. Het GPS-signaal kan binnenshuis zwak zijn, dus als je binnen of onder een dak bent, probeer dan naar buiten te gaan. Als het nog steeds niet werkt, stuur dan een e-mail naar forestwatcher@wri.org om ons te vertellen welk apparaat model u gebruikt en welke app-versie (te vinden onderaan de \"Settings page\"). GPS van mobiele telefoons is meestal niet zo nauwkeurig als zelfstandige GPS-apparaten, dus u kunt ook de coördinaten van de waarschuwing invoeren in een GPS-apparaat als back-up als u over een beschikt.",
+                                    "text": "Ik kan het kompas / mijn locatie niet zien"
+                                },
+                                "order4": {
+                                    "description": "Als u een rapport begint en vervolgens het rapport verlaat, worden uw werk tot dusver en de GPS-coördinaten van de locatie waar uw rapport is gestart, automatisch opgeslagen. U kunt later op de pagina Rapporten terugkeren naar uw conceptrapport. U kunt ook een foto maken met de camera van uw apparaat en deze later uploaden naar een rapport.",
+                                    "text": "Ik wil later een rapport invullen"
+                                },
+                                "order5": {
+                                    "description": "Wanneer u Forest Watcher voor het eerst instelt, kan het 5 tot 30 minuten duren voordat de app relevante gegevens volledig downloadt, afhankelijk van de snelheid van uw internetverbinding. Als u een zwakke of trage internetverbinding heeft, duurt het downloaden langer. Houd de app open om het downloaden te voltooien. Na de eerste installatie worden nieuwe waarschuwingsgegevens gedownload telkens wanneer u verbinding maakt met internet en de downloadtijd is afhankelijk van het aantal waarschuwingen. Als je wilt zien of er nieuwe waarschuwingen beschikbaar zijn, trek je het startscherm omlaag om te vernieuwen.",
+                                    "text": "Waarschuwingen worden niet geladen"
+                                },
+                                "order6": {
+                                    "description": "Als u een lage bandbreedte heeft, in plaats van app-inhoud opnieuw te downloaden op meerdere apparaten, kunt u app-inhoud delen met een ander apparaat terwijl u offline bent (waarschuwingen, gebieden, routes, rapporten, contextuele lagen, basiskaart tiles of alle app-inhoud). Dit proces helpt de bandbreedtevereisten te verminderen.",
+                                    "text": "Mijn team en / of ik heb een lage bandbreedte"
+                                },
+                                "order7": {
+                                    "description": "Forest Watcher Mobile bevat veel gegevens en kan veel geheugen in beslag nemen op uw apparaat, afhankelijk van hoeveel interessegebieden u heeft, hun grootte en het aantal waarschuwingen. Hoe minder en kleinere interessegebieden u instelt, hoe minder gegevens er naar uw apparaat moeten worden gedownload. We raden aan om ten minste 1 GB interne opslag op uw apparaat te hebben, zodat u naast Forest Watcher ook andere apps kunt gebruiken, hoewel 4 GB of meer de voorkeur heeft.",
+                                    "text": " Ik heb onvoldoende geheugen op mijn apparaat"
+                                },
+                                "order8": {
+                                    "description": "U kunt Forest Watcher Web gebruiken om een ​​aangepast rapport templates te maken dat uw team kan gebruiken bij het verzamelen van gegevens. U kunt ook aantekeningen toevoegen in het laatste gedeelte van het formulier.",
+                                    "text": "Ik wil de rapporten aanpassen die ik of mijn team invul bij het onderzoeken van een gebied"
+                                }
+                            }
+                        },
+                        "title": "Problemen oplossen: wat moet ik doen als ...?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text": "We zijn ook altijd op zoek om de app te verbeteren om aan de gebruikersbehoeften te voldoen. Neem contact met ons op via forestwatcher@wri.org als er andere functies zijn die nuttig zouden kunnen zijn."
+                            }
+                        },
+                        "title": "Ik heb een geweldig idee om de app te verbeteren. Wat moet ik doen?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text": "Neem contact met ons op voor feedback of vragen door een e-mail te sturen naar: forestwatcher@wri.org."
+                            }
+                        },
+                        "title": "Hoe krijg ik ondersteuning?"
+                    }
+                ],
+                "title": "Ondersteuning en contact"
+            },
+            "inTheField": {
+                "questions": [
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "Wanneer u naar een waarschuwing of een gebied navigeert, kunt u een rapport toevoegen door op de rapportknop rechtsonder op de kaart te klikken. U kunt foto's maken of kiezen om toe te voegen aan het rapport en vervolgens een formulier invullen om observaties op te nemen over wat u vindt.",
+                                "text2": "Als u een rapport begint en vervolgens het rapport verlaat, worden uw werk tot dusver en de GPS-coördinaten van de locatie waar uw rapport is gestart, automatisch opgeslagen. U kunt later op de pagina Rapporten terugkeren naar uw conceptrapport. U kunt ook een foto maken met de camera van uw apparaat en deze later uploaden naar een rapport."
+                            }
+                        },
+                        "title": "Hoe voeg ik een rapport toe?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "Om te rapporteren over een groep waarschuwingen, kunt u op de GLAD- en / of VIIRS-waarschuwingen klikken die u onderzoekt en klikt u op de meldknop rechtsonder op de kaart. U kunt over meerdere waarschuwingen rapporteren door elke waarschuwing afzonderlijk te selecteren voordat u op de rapportknop klikt. Wanneer erop wordt geklikt, worden de GLAD-waarschuwingen groen en worden de VIIRS-waarschuwingen paars. De kleurverandering geeft aan dat over de waarschuwingen is gerapporteerd."
+                            }
+                        },
+                        "title": "Hoe rapporteer ik over een groep waarschuwingen?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "Om een ​​route vast te leggen, kunt u op de startknop linksonder op de kaart klikken. Als u klaar bent met het vastleggen van de route, kunt u op de stopknop klikken en kiezen of u de route wilt opslaan of de route wilt verwijderen. Als u de route opslaat, kunt u deze openen op de pagina Routes van de mobiele app."
+                            }
+                        },
+                        "title": "Hoe leg ik een route vast?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "Bij het opnemen van een route worden punten om de 50 meter vastgelegd."
+                            }
+                        },
+                        "title": "Hoe vaak creëert mijn route punten?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "U kunt rapporten delen door naar het gedeelte Rapporten van de mobiele app te gaan en op \"Rapporten delen\" te klikken. Vanaf hier kunt u de rapporten selecteren die u wilt delen en kiezen waar u de bundel naar uw apparaat wilt exporteren. Vervolgens kunt u de rapportbundel delen via de door u gekozen optie voor delen, bijvoorbeeld. e-mail, bluetooth of WhatsApp.",
+                                "text2": "Op dezelfde manier kunt u routes delen door naar het gedeelte Routes van de mobiele app te gaan en op \"Routes delen\" te klikken. Vanaf hier kunt u de routes selecteren die u wilt delen en kiezen waar u de bundel naar uw apparaat wilt exporteren. Vervolgens kunt u de routesbundel delen via de door u gekozen optie voor delen, bijv. e-mail, bluetooth of WhatsApp.",
+                                "text3": "Nadat je een rapportage of routesbundel hebt ontvangen via je voorkeursoptie voor delen, kun je deze importeren in Forest Watcher. Zodra het importeren is voltooid, hebt u toegang tot de rapporten in het gedeelte Rapporten of de routes in het gedeelte Routes."
+                            }
+                        },
+                        "title": "Hoe kan ik rapporten en routes delen en ontvangen?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "Om uw rapporten en foto's op te halen, logt u in op forestwatcher.globalforestwatch.org, navigeert u naar het tabblad \"Rapporten\" en klikt u op \"Antwoorden downloaden\" om toegang te krijgen tot uw CSV-bestand. Foto's kunnen worden gedownload via URL's in de spreadsheet. ",
+                                "text2": "Rapporten zijn ook toegankelijk via de exportfunctie op de rapportpagina van de mobiele app. Met deze functie kunt u uw rapporten rechtstreeks naar uw apparaat downloaden en deze offline delen met een ander apparaat.",
+                                "text3": "Als u uw gegevens op een kaart wilt bekijken, navigeer dan naar mymaps.google.com en log in op uw Google-account (of maak er gratis een aan). Klik vervolgens op 'Een nieuwe kaart maken'. Klik in het linkerdeelvenster op 'Importeren' en upload uw CSV vanuit Forest Watcher Web. Selecteer \"Positie van rapport lat\" en selecteer \"Latitude\" wanneer het wordt gevraagd. Selecteer \"Position of report lon\" en selecteer \"Longitude\" wanneer het wordt gevraagd. Selecteer \"Doorgaan\" en kies een kolom waarmee u uw locatie wilt identificeren. Houd er rekening mee dat de gegevens die aan dat rapport zijn gekoppeld, de titel zijn die aan de blauwe pin (s) op de kaart is bevestigd.",
+                                "text4": "Zodra deze stappen zijn voltooid, is uw kaart gereed en wordt deze automatisch opgeslagen. U kunt op de blauwe pinnen klikken om de details van uw rapport te bekijken, inclusief foto's. Om de naam te veranderen, klik op \"Naamloze kaart\" in de linkerbovenhoek."
+                            }
+                        },
+                        "title": "Kan ik mijn rapporten opvragen en mijn gegevens op een kaart zien?"
+                    },
+                    {
+                        "content": {
+                            "description": {
+                                "text1": "Rapporten zijn eigendom van de gebruiker en worden niet openbaar gedeeld. Ga voor meer informatie naar globalforestwatch.org/terms."
+                            }
+                        },
+                        "title": "Worden mijn rapporten gedeeld of vertrouwelijk gehouden?"
+                    }
+                ],
+                "title": "Forest Watcher gebruiken in het veld"
+            },
+            "questionCountPlural": "%{count} Vragen",
+            "questionCountSingular": "1 Vraag",
+            "sectionHeader": "Categorieën",
+            "title": "Veel gestelde vragen"
+        }
+    },
+    "importBundle": {
+        "confirm": {
+            "buttonTitle": "Gegevens bundel importeren",
+            "title": "Import bevestigen"
+        },
+        "containingPrefix": "Bevat:",
+        "customBasemaps": {
+            "title": "Selecteer Basiskaart gegevens"
+        },
+        "customItems": {
+            "title": "Selecteer items om te importeren"
+        },
+        "customLayers": {
+            "fileImportOptionAll": "Importeer Alles",
+            "fileImportOptionDescription": "Selecteer de gegevens die u wilt importeren",
+            "fileImportOptionSelected": "Alleen importeren voor geselecteerde items",
+            "fileImportOptionTitle": "Import optie",
+            "title": "Selecteer Contextuele laag gegevens"
+        },
+        "emptyImportError": "Er zijn geen gegevens geselecteerd om te importeren. Ga terug en selecteer items om te importeren.",
+        "importingPrefix": "Importeren:",
+        "incompatibleBundle": "Sorry, deze bundel dat bestemd is om te delen is gemaakt met een andere versie van Forest Watcher en kan niet worden geïmporteerd.",
+        "progress": "Stap %{current} of %{total}",
+        "start": {
+            "customImport": "Import aanpassen",
+            "customImportDescription": "Selecteer specifieke items om te importeren",
+            "importAll": "Importeer alle gegevens",
+            "title": "Importeer App Bundel"
+        },
+        "success": "Gegevens bundel geïmporteerd",
+        "successContentsSuffix": "nu beschikbaar"
+    },
+    "importLayer": {
+        "gfw": {
+            "add": "Laag toevoegen",
+            "allLayers": "Alle GFW Lagen (%{count})",
+            "description": "Bekijk beschrijving",
+            "downloadSubtitle": "Gegevens van de lagen worden gedownload voor offline gebruik",
+            "downloadTitle": "Downloaden",
+            "downloaded": "Gedownload",
+            "downloading": "Laag aan het downloaden...",
+            "error": "De laag kan niet worden gedownload. Controleer de opslagcapaciteit en internet verbinding van uw apparaat en probeer het opnieuw.",
+            "notYetDownloaded": "Niet gedownload",
+            "onlineSubtitle": "Laag gegevens zijn alleen beschikbaar wanneer u online bent",
+            "onlineTitle": "Alleen online toegang",
+            "title": "Voeg GFW-lagen toe"
+        }
+    },
+    "layers": {
+        "biodiversityIntactness": " Intactheid van biodiversiteit - 2016",
+        "biodiversitySignificance": "Significatie van biodiversiteit - 2016",
+        "indonesiaForestArea": "Indonesië bosgebied",
+        "landmarks": "Inheemse en gemeenschapsgebieden",
+        "logging": "Beheerde bos concessies",
+        "managedForests": "Beheerd Bos",
+        "mining": "Mijnbouw",
+        "miningConcessions": "Mijnbouw concessies",
+        "oilPalm": "Olie palm",
+        "oilPalmConcessions": "Olie palm concessies",
+        "protectedAreas": "Beschermde gebieden",
+        "rspo": "RSPO olie palm concessies - 2017",
+        "treeCoverLoss2014": "kronen dak verlies (2014)",
+        "treeCoverLoss2015": "kronen dak verlies (2015)",
+        "treeCoverLoss2016": "kronen dak verlies (2016)",
+        "treeCoverLoss2017": "kronen dak verlies (2017)",
+        "treeCoverLoss2018": "kronen dak verlies (2018)",
+        "wdpa": "Beschermde gebieden (Vector Tiles)",
+        "woodFiber": "houtvezel",
+        "woodFiberConcessions": "Houtvezel concessies op type - 2019"
+    },
+    "login": {
+        "emailLogin": {
+            "emailAddress": "Email Adres",
+            "enterYourEmail": "Voer uw Email in",
+            "enterYourPassword": "Voer uw wachtwoord in",
+            "forgotYourPassword": "Uw wachtwoord vergeten?",
+            "login": "Log in",
+            "loginError": "Fout bij het inloggen",
+            "loginWithEmail": "Inloggen met e-mail",
+            "password": "Wachtwoord"
+        },
+        "emailTitle": "Inloggen met e-mail",
+        "facebookTitle": "Facebook",
+        "failed": "Er is een fout opgetreden tijdens het inloggen / uitloggen",
+        "googleTitle": "Google",
+        "introductionText": "Log in met een MyGFW-account",
+        "mustBeOnline": "Je moet online zijn om in te loggen",
+        "signUp": "Inschrijven",
+        "twitterTitle": "Twitter"
+    },
+    "map": {
+        "createdDate": "Aan gemaakt %{date}",
+        "destination": "Bestemming:",
+        "distance": "Afstand:",
+        "gladAlert": "GLAD waarschuwing",
+        "issuedDate": "Uitgegeven %{date}",
+        "layerSettings": {
+            "alertSettings": {
+                "alert": "Waarschuwing",
+                "deforestation": "Ontbossing",
+                "fires": "Branden",
+                "glad": "GLAD",
+                "manyDays": "%{count} dagen",
+                "manyMonths": "%{count} manden",
+                "noAlerts": "Geen waarschuwingen",
+                "oneDay": "%{count} dag",
+                "oneMonth": "%{count} maanden",
+                "recent": "Recent",
+                "reportedOn": "Gerapporteerd over",
+                "showingManyDays": "Weergave %{type} van de afgelopen %{count} dagen",
+                "showingManyMonths": "Weergave %{type} van de afgelopen %{count} maanden",
+                "showingOneDay": "Weergave %{type} van de afgelopen dag",
+                "showingOneMonth": "Weergave %{type} van de afgelopen maand",
+                "timeFrame": "Tijds bestek",
+                "timeFrameDescDays": "Selecteer het aantal dagen",
+                "timeFrameDescMonths": "Selecteer het aantal maanden",
+                "viirs": "VIIRS"
+            },
+            "alerts": "Waarschuwingen",
+            "basemap": "Basiskaart",
+            "basemapSettings": {
+                "showingBasemap": "Basiskaart: %{basemap}"
+            },
+            "basemaps": "Basiskaart",
+            "contextualLayers": "Contextuele Lagen",
+            "contextualLayersSettings": {
+                "showingManyContextualLayers": "%{count} Contextuele Lagen",
+                "showingOneContextualLayer": "%{count} Contextuele Lagen"
+            },
+            "customBasemaps": "Aangepaste basiskaart",
+            "customLayers": "Aangepaste lagen",
+            "gfwBasemaps": "GFW Basiskaarten",
+            "gfwLayers": "GFW Lagen",
+            "importedReports": "Geïmporteerde rapporten",
+            "importedRoutes": "Geïmporteerde routes",
+            "layersHeading": "Lagen",
+            "manageBasemaps": "Beheer basiskaarten",
+            "manageContextualLayers": "Beheer Contextuele Lagen",
+            "manageReports": "Beheer rapporten",
+            "manageRoutes": "Beheer Routes",
+            "myReports": "Mijn Rapporten",
+            "myRoutes": "Mijn Routes",
+            "onlyAvailableOnline": "Alleen online beschikbaar",
+            "report": "Rapport",
+            "reportSettings": {
+                "showingAllReports": "Alle Rapporten",
+                "showingImportedReports": "Geïmporteerde rapporten",
+                "showingMyReports": "Mijn Rapporten",
+                "showingNoReports": "Geen Rapporten"
+            },
+            "reports": "Rapporten",
+            "routeSettings": {
+                "showingAllRoutes": "Alle Routes",
+                "showingManyRoutes": "%{count} Routes",
+                "showingOneRoute": "%{count} Route"
+            },
+            "routes": "Routes",
+            "showing": "Showing: %{description}"
+        },
+        "recent": "Recent",
+        "reported": "gerapporteerd",
+        "reportsAndRoutes": {
+            "body": "Routes en rapporten kunnen ook worden gemaakt door op waarschuwingen op de kaart te klikken",
+            "title": "Rapporten and Routes"
+        },
+        "reportsTooltip": {
+            "body": "Routes en rapporten kunnen worden gemaakt door een pin te verzenden",
+            "title": "Rapporten and Routes"
+        },
+        "selectedItems": {
+            "location": "Lokatie: %{lat}, %{long}",
+            "manyAlerts": "%{count} Waarschuwingen",
+            "manyReports": "%{count} Rapporten",
+            "multipleItems": "Meerdere items",
+            "oneAlert": "1 Waarschuwing",
+            "oneReport": "1 Rapport"
+        },
+        "settingsTooltip": {
+            "body": "Toon de voor u relevante lagen en gegevens",
+            "title": "Pas kaart weergave aan"
+        },
+        "viirsAlert": "VIIRS waarschuwing"
+    },
+    "partners": {
+        "description": "Forest Watcher is gemaakt in samenwerking met het World Resources Institute Global forest Watch-programma, Vizzuality en het Jane Goodall Institute.",
+        "listOfPartners": "Bekijk alle Global Forest Watch partners."
+    },
+    "report": {
+        "addPicture": "Foto toevoegen",
+        "answers": "Antwoorden",
+        "choosePicture": "Maak of kies een foto",
+        "completed": "Voltooid",
+        "custom": "Aangepast rapport",
+        "datePlaceholder": "Selecteer een datum",
+        "delete": "Verwijder dit rapport",
+        "drafts": "Concepten",
+        "empty": {
+            "action": "Veel gestelde vragen over de app",
+            "body": "Rapporten die u maakt en geïmporteerde rapporten worden hier weergegeven",
+            "title": "Geen Rapporten"
+        },
+        "emptyPicture": "Leeg",
+        "export": {
+            "description": "Hoe wilt u dit rapport exporteren??",
+            "manyReports": "%{count} Rapporten",
+            "navBarButtonText": "Exporteren",
+            "noneSelected": "Geen rapporten geselecteerd",
+            "oneReport": "%{count} Rapport",
+            "option": {
+                "asCSV": "Exporteer als CSV...",
+                "asSharingBundle": "Exporteer als bundel om te delen..."
+            },
+            "reportSizeAction": "Exporteer Rapporten (%{bundleSize})",
+            "successful": "Exporteren van rapporten succesvol!",
+            "title": "Exporteer rapport"
+        },
+        "glad": "Ontbossing Rapport",
+        "gladAndViirs": "Ontbossing en Brand Rapporten",
+        "here": "Rapporteer hier",
+        "imported": "Geimporteerd",
+        "input": "Beantwoord alstublieft de vraag",
+        "inputRadio": "Kies een optie om door te gaan",
+        "inputSelect": "Kies ten minste één optie om door te gaan",
+        "inputText": "Schrijf alstublieft iets",
+        "metadata": "Metadata",
+        "noGpsPosition": "GPS-signaal niet beschikbaar op het moment van rapporteren",
+        "pictures": "Foto's",
+        "review": "Rapport nakijken",
+        "saveLaterDescription": "Het verschijnt als concept in het rapport gedeelte",
+        "saveLaterTitle": "Bewaar voor later",
+        "selected": "Rapport geselecteerd",
+        "share": "Rapporten delen",
+        "title": "Rapport",
+        "toReport": "Rapport",
+        "upload": "Upload",
+        "uploaded": "Geupload",
+        "viirs": "Brand Rapport"
+    },
+    "routes": {
+        "backgroundErrorDialogMessage": "Controleer uw locatie-instellingen en app-toestemmingen om het volgen van routes te hervatten.",
+        "backgroundErrorDialogTitle": "Route tracking gepauzeerd",
+        "confirmDeleteMessage": "Weet je zeker dat je deze route wilt verwijderen?",
+        "confirmDeleteTitle": "Route verwijderen",
+        "delete": "Route verwijderen",
+        "difficulty": "Moeilijkheidsgraad",
+        "difficultyLevels": {
+            "easy": "Makkelijk",
+            "hard": "Hard",
+            "medium": "Medium"
+        },
+        "distance": "Afstand",
+        "duration": "Genomen tijd",
+        "empty": {
+            "action": "Veel gestelde vragen over de app",
+            "body": "Routes die u opneemt en geïmporteerde routes worden hier weergegeven",
+            "title": "Geen Routes"
+        },
+        "export": {
+            "manyRoutes": "%{count} Routes",
+            "oneRoute": "%{count} Route"
+        },
+        "importedRoutes": "Geimporteerde Routes",
+        "insufficientPermissionsDialogMessage": "We hebben toestemming over achtergond locatie nodig om uw route te kunnen volgen.",
+        "insufficientPermissionsDialogOpenAppSettings": "Controleer toestemmingen",
+        "insufficientPermissionsDialogOpenDeviceSettings": "Controleer locatie-instellingen",
+        "insufficientPermissionsDialogTitle": "Kan route niet volgen",
+        "location": "Lokatie",
+        "locationEnd": "Eind:",
+        "locationStart": "Start:",
+        "myRoutes": "Mijn Routes",
+        "notification": {
+            "message": "Forest Watcher registreert de route die u neemt naar uw bestemming",
+            "title": "Route volgen in werking"
+        },
+        "resumeTrackingDialogMessage": "Je hebt een onvoltooide route. Wil je het hervatten",
+        "resumeTrackingDialogNegativeButton": "Route verwijderen",
+        "resumeTrackingDialogPositiveButton": "Hervat route",
+        "resumeTrackingDialogTitle": "Hervat het volgen van routes",
+        "save": "Route opslaan",
+        "stopRouteTrackingPanelContinueOption": "Ga door met het volgen van routes",
+        "stopRouteTrackingPanelDeleteOption": "Stop en verwijder route",
+        "stopRouteTrackingPanelSaveOption": "Stop en route opslaan",
+        "stopRouteTrackingPanelTitle": "Stop het volgen van routes",
+        "viewOnMap": "Bekijk route op kaart"
+    },
+    "settings": {
+        "aboutApp": "Over deze app",
+        "aboutContactUs": "Neem contact op met ons",
+        "aboutFAQ": "Veel gestelde vragen",
+        "aboutPartners": "Partners",
+        "aboutTerms": "Voorwaarden",
+        "basemaps": "Basiskaarten",
+        "completeYourProfileOn": "Vul je profiel in op",
+        "contextualLayers": "Contextuele Lagen",
+        "coordinatesDecimal": "Decimal",
+        "coordinatesDegrees": "Degrees",
+        "coordinatesDescription": "Selecteer een indeling die u wilt weergeven",
+        "coordinatesFormat": "Coördinaten formaat",
+        "coordinatesUtm": "UTM",
+        "logOut": "Log Out",
+        "moreInfo": "meer informatie",
+        "offlineMode": "Offline modus",
+        "shareData": "Deel alle app-gegevens",
+        "title": "Instellingen",
+        "unsafeLogout": "Sommige gegevens zijn mogelijk verlorent",
+        "unsavedDataLost": "Sommige gegevens worden niet gesynchroniseerd met uw account en kunnen verloren gaan als u uitlogt. \nDit omvat bepaalde soorten gebieden en rapporten en alle routes, basiskaarten en contextuele lagen. \nVoor meer informatie en stappen om deze gegevens opnieuw te openen, bekijkt u onze FAQ-pagina over dit onderwerp.",
+        "yourRoutes": "Uw routes"
+    },
+    "setupCountry": {
+        "firstInstruction": "Selecteer eerst uw land van interesse",
+        "secondWelcomeText": "stel een gebied in",
+        "tooltip": {
+            "body": "Voeg een gebied toe waarvoor u waarschuwingen wilt ontvangen",
+            "title": "Beginnen"
+        },
+        "welcomeText": "Hallo"
+    },
+    "setupDrawAreas": {
+        "invalidShape": "Ongeldige vorm",
+        "invalidSize": "Please draw a smaller area",
+        "tapInstruction": "Klik op de kaart om te tekenen"
+    },
+    "setupOverview": {
+        "areaName": "Geef het gebied een naam",
+        "placeholder": "Voer een naam in"
+    },
+    "sharing": {
+        "inProgress": "Delen %{type}...",
+        "multiple": "Deel %{type} (%{bundleSize})",
+        "noneSelected": "Geen %{type} Geselecteerd",
+        "one": "Deel %{type} (%{bundleSize})",
+        "title": "Deel %{type}",
+        "type": {
+            "alert": "Waarschuwing",
+            "alerts": "Waarschuwingen",
+            "area": "Gebied",
+            "areas": "Gebieden",
+            "basemaps": "Basiskaarten",
+            "contextualLayers": "Contextuele Lagen",
+            "customBasemap": "Aangepaste basiskaart",
+            "customBasemaps": "Aangepaste basiskaarten",
+            "customLayer": "Aangepaste contextuele laag",
+            "customLayers": "Aangepaste contextuele lagen",
+            "gfwLayer": "Global Forest Watch Contextuele Laag",
+            "gfwLayers": "Global Forest Watch Contextuele Lagen",
+            "layers": "Lagen",
+            "report": "Rapport",
+            "reports": "Rapporten",
+            "route": "Route",
+            "routes": "Routes"
+        }
+    },
+    "sync": {
+        "alertsUpdated": "Uw gebieden zijn up-to-date",
+        "error": "Synchronisatie fout",
+        "errorCreatingArea": "Er is een fout opgetreden bij het maken van uw gebied",
+        "errorDesc": "Er is iets fout gegaan",
+        "failed": {
+            "title": "There was an error syncing alerts",
+            "outOfSpaceMessage": "Om waarschuwingen en inhoud offline beschikbaar te hebben, moet u enkele ongebruikte bestanden van uw telefoon wissen"
+        },
+        "gettingLatestAlerts": "Verkrijgen van de laatste waarschuwingen",
+        "reportUploadRollback": "Rapport kan niet worden ge-upload",
+        "reportUploaded": "rapport verzonden",
+        "subtitle": {
+            "offline": "Je hebt een internetverbinding nodig om je gegevens bij te werken",
+            "updated": "We zijn er klaar voor!",
+            "updating": "We maken je telefoon gereed voor het veld"
+        },
+        "title": {
+            "offline": "Je bent offline",
+            "updated": "Download compleet!",
+            "updating": "Gegevens downloaden..."
+        },
+        "tryAgain": "Probeer het opnieuw"
+    },
+    "termsAndConditions": {
+        "agreeText": "Door deze app te gebruiken, gaat u akkoord met",
+        "linkText": "voorwaarden"
+    },
+    "welcome": {
+        "deforestationAlerts": {
+            "body": "Zie GLAD ontbossing en VIIRS-brandmeldingen voor locaties over de hele wereld",
+            "title": "Bekijk waarschuwingen over ontbossing"
+        },
+        "layers": {
+            "body": "Geef aangepaste lagen of basiskaarten weer voor effectievere monitoring",
+            "title": "Pas kaartlagen aan"
+        },
+        "reports": {
+            "body": "Rapporteer over wat u ter plaatse vindt door middel van tekst- en spraakopname",
+            "title": "Rapporten Creëeren"
+        },
+        "routes": {
+            "body": "Gemakkelijk navigeren om waarschuwingen in de gebieden de te onderzoeken",
+            "title": "Routes opnemen"
+        },
+        "share": {
+            "body": "Deel gebieden, routes, lagen en meer voor een betere team coördinatie",
+            "title": "Deel het inhoud"
+        },
+        "title": "Welkom bij Forest Watcher"
+    },
+    "whatsNew": {
+        "areaSize": {
+            "body": "De maximale oppervlakte is vergroot tot 20.000 vierkante kilometer",
+            "title": "Controleer grotere gebieden"
+        },
+        "basemaps": {
+            "body": "Voeg er zelf een toe of bekijk meer van Global Forest Watch om terrein beter te begrijpen",
+            "title": "Verbeterde basiskaarten"
+        },
+        "layers": {
+            "body": "Voeg uw eigen lagen toe of van Global Forest Watch voor effectievere monitoring",
+            "title": "Verbeterde contextuele lagen"
+        },
+        "share": {
+            "body": "Deel gebieden, routes, lagen en meer voor een betere team coördinatie",
+            "title": "Deel het inhoud"
+        },
+        "title": "Nieuw in deze versie"
+    }
+}

@@ -1,18 +1,19 @@
 // @flow
+import type { ViewStyle } from 'types/reactElementStyles.types';
 
 import React, { Component } from 'react';
 import { Image, Text, View } from 'react-native';
 
-import i18n from 'locales';
+import i18n from 'i18next';
 import styles from './styles';
 
 const locationErrorIcon = require('assets/gpsOff.png');
 
-import { GFWErrorPermission, GFWErrorLocation, GFWErrorLocationStale } from 'helpers/location';
+import { GFWErrorPermission, GFWErrorLocation } from 'helpers/location';
 
 type Props = {
-  locationError: GFWErrorLocation | GFWErrorPermission,
-  style: *
+  locationError: ?number,
+  style: ViewStyle
 };
 
 export default class LocationErrorBanner extends Component<Props> {
@@ -24,12 +25,9 @@ export default class LocationErrorBanner extends Component<Props> {
         message = i18n.t('alerts.locationDisabled');
         break;
       }
-      case GFWErrorPermission: {
+      case GFWErrorPermission:
+      default: {
         message = null;
-        break;
-      }
-      case GFWErrorLocationStale: {
-        message = i18n.t('alerts.noGPS');
         break;
       }
     }

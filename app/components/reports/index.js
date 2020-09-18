@@ -1,164 +1,134 @@
 // @flow
 
+import type { Report, Template } from 'types/reports.types';
+import type { GroupedReports } from 'containers/reports';
+
 import React, { PureComponent } from 'react';
-import { NativeModules, Platform, View, Text, TouchableOpacity, ScrollView } from 'react-native';
-import RNFetchBlob from 'react-native-fetch-blob';
+import { NativeModules, Platform, View, Text, ScrollView } from 'react-native';
+import RNFetchBlob from 'rn-fetch-blob';
 
 import Row from 'components/common/row';
 import moment from 'moment';
-import i18n from 'locales';
+import i18n from 'i18next';
 import debounceUI from 'helpers/debounceUI';
-import tracker from 'helpers/googleAnalytics';
+import { trackScreenView } from 'helpers/analytics';
 import styles from './styles';
-import { colors } from 'config/theme';
 import { Navigation } from 'react-native-navigation';
-import { withSafeArea } from 'react-native-safe-area';
 import exportReports from 'helpers/exportReports';
+import { readableNameForReportName } from 'helpers/reports';
 
-const SafeAreaView = withSafeArea(View, 'padding', 'bottom');
+import EmptyState from 'components/common/empty-state';
+import ShareSheet from 'components/common/share';
+import displayExportReportDialog from 'helpers/sharing/displayExportReportDialog';
+
+import shareFile from 'helpers/shareFile';
+import calculateBundleSize from 'helpers/sharing/calculateBundleSize';
+import generateUniqueID from 'helpers/uniqueId';
+import { getShareButtonText } from 'helpers/sharing/utils';
+
+import Theme from 'config/theme';
 
 const editIcon = require('assets/edit.png');
+const emptyIcon = require('assets/reportsEmpty.png');
 const nextIcon = require('assets/next.png');
 const checkboxOff = require('assets/checkbox_off.png');
 const checkboxOn = require('assets/checkbox_on.png');
 
-type ReportItem = {
-  title: string,
-  date: string
-};
-
-type Props = {
-  reports: {
-    draft: Array<ReportItem>,
-    uploaded: Array<ReportItem>,
-    complete: Array<ReportItem>
+type Props = {|
+  +componentId: string,
+  +exportReportsAsBundle: (ids: Array<string>) => Promise<void>,
+  +reports: GroupedReports,
+  +templates: {
+    +[string]: Template
   },
-  getLastStep: string => number,
-  showExportReportsSuccessfulNotification: () => void
-};
+  +appLanguage: string,
+  +getLastStep: string => ?number,
+  +showExportReportsSuccessfulNotification: () => void
+|};
 
-const KEY_EXPORT_START = 'key_export_start';
-const KEY_EXPORT_CANCEL = 'key_export_cancel';
+type State = {|
+  +bundleSize: number | typeof undefined,
+  +creatingArchive: boolean,
+  +selectedForExport: Array<string>,
+  +inShareMode: boolean
+|};
 
-const BUTTON_EXPORT_START = [
-  {
-    id: KEY_EXPORT_START,
-    text: i18n.t('report.export.navBarButtonText')
-  }
-];
-
-const BUTTON_EXPORT_CANCEL = [
-  {
-    id: KEY_EXPORT_CANCEL,
-    text: i18n.t('commonText.cancel')
-  }
-];
-
-const BUTTON_EXPORT_EMPTY = [];
-
-class Reports extends PureComponent<Props> {
-  static options(passProps) {
+class Reports extends PureComponent<Props, State> {
+  static options(passProps: {}) {
     return {
       topBar: {
+        background: {
+          color: Theme.colors.veryLightPink
+        },
         title: {
-          text: i18n.t('dashboard.myReports')
+          text: i18n.t('dashboard.reports')
         }
       }
     };
   }
 
-  constructor(props) {
+  fetchId: ?string;
+  shareSheet: any;
+
+  constructor(props: Props) {
     super(props);
 
     // Set an empty starting state for this object. If empty, we're not in export mode. If there's items in here, export mode is active.
     this.state = {
-      selectedForExport: {}
+      bundleSize: undefined,
+      creatingArchive: false,
+      inShareMode: false,
+      selectedForExport: []
     };
   }
 
   componentDidMount() {
-    tracker.trackScreenView('My Reports');
-
-    Navigation.events().bindComponent(this);
-
-    // If we've got reports that can be exported, show the export button.
-    const exportButton =
-      this.props.reports.complete?.length > 0 || this.props.reports.uploaded?.length > 0
-        ? BUTTON_EXPORT_START
-        : BUTTON_EXPORT_EMPTY;
-    this.setExportButtonTo(exportButton);
+    trackScreenView('My Reports');
   }
 
-  componentDidUpdate(prevProps) {
-    if (Object.keys(this.state.selectedForExport).length > 0) {
-      // Do not change the button state, if we're in export mode!
-      return;
-    }
-
-    const { draft, complete, uploaded } = this.props.reports;
-
-    const hasExportableReports = complete.length + uploaded.length > 0;
-    const hadExportableReports = prevProps.reports.complete.length + prevProps.reports.uploaded.length > 0;
-
-    if (hasExportableReports === hadExportableReports) {
-      // Do not change the button state, as there's been no change that needs an update.
-      return;
-    }
-
-    this.setExportButtonTo(complete.length + uploaded.length > 0 ? BUTTON_EXPORT_START : BUTTON_EXPORT_EMPTY);
-  }
-
-  /**
-   * setExportButtonTo - Changes the 'export' nav bar button to the provided state.
-   *
-   * @param  {object} buttonState The new button object that should be shown in the nav bar.
-   */
-  setExportButtonTo(buttonState) {
-    Navigation.mergeOptions(this.props.componentId, {
-      topBar: {
-        rightButtons: buttonState
-      }
+  fetchExportSize = async (reportIds: Array<string>) => {
+    const currentFetchId = generateUniqueID();
+    const mergedReports: Array<Report> = [
+      ...this.props.reports.complete,
+      ...this.props.reports.uploaded,
+      ...this.props.reports.imported
+    ];
+    this.fetchId = currentFetchId;
+    this.setState({
+      bundleSize: undefined
     });
-  }
-
-  navigationButtonPressed({ buttonId }) {
-    if (buttonId === KEY_EXPORT_START) {
-      this.setExportButtonTo(BUTTON_EXPORT_CANCEL);
-
-      // Merge together the completed and uploaded reports.
-      const completedReports = this.props.reports.complete || [];
-      const mergedReports = completedReports.concat(this.props.reports.uploaded);
-
-      // Create an object that'll contain the 'selected' state for each report.
-      let exportData = {};
-      mergedReports.forEach(report => {
-        exportData[report.title] = false;
-      });
-
+    const fileSize = await calculateBundleSize({
+      reports: mergedReports.filter(report => reportIds.includes(report.reportName)),
+      templates: this.props.templates
+    });
+    if (this.fetchId === currentFetchId) {
       this.setState({
-        selectedForExport: exportData
-      });
-    } else if (buttonId === KEY_EXPORT_CANCEL) {
-      // Reset the export button, and clear out the 'selectedForExport' state.
-      this.setExportButtonTo(BUTTON_EXPORT_START);
-
-      this.setState({
-        selectedForExport: {}
+        bundleSize: fileSize
       });
     }
-  }
+  };
 
   /**
    * Handles the report row being selected while in export mode.
    * Will swap the state for the specified row, to show in the UI if it has been selected or not.
    */
-  onReportSelectedForExport = title => {
-    this.setState(state => ({
-      selectedForExport: {
-        ...state.selectedForExport,
-        [title]: !state.selectedForExport[title]
+  onReportSelectedForExport = (title: string) => {
+    this.setState(
+      state => {
+        if (state.selectedForExport.includes(title)) {
+          return {
+            selectedForExport: [...state.selectedForExport].filter(id => title !== id)
+          };
+        } else {
+          return {
+            selectedForExport: [...state.selectedForExport, title]
+          };
+        }
+      },
+      () => {
+        this.fetchExportSize(this.state.selectedForExport);
       }
-    }));
+    );
   };
 
   /**
@@ -253,29 +223,54 @@ class Reports extends PureComponent<Props> {
   /**
    * Handles the 'export <x> reports' button being tapped.
    *
-   * @param  {Object} selectedReports A mapping of report titles to a boolean dictating whether they've been selected for export.
-   * @param  {Array} userReports      The user's reports.
+   * @param  {Array} selectedReports A list of report titles dictating whether they've been selected for export.
    */
-  onExportReportsTapped = debounceUI(async (selectedReports, userReports) => {
-    // Merge the completed and uploaded reports that are available together, so we can find any selected reports to export them.
-    const completeReports = userReports.complete || [];
-    const mergedReports = completeReports.concat(userReports.uploaded);
-
-    let reportsToExport = [];
-
-    // Iterate through the selected reports. If the report has been marked to export, find the full report object.
-    Object.keys(selectedReports).forEach(key => {
-      const reportIsSelected = selectedReports[key];
-      if (!reportIsSelected) {
-        return;
+  onExportReportsTapped = debounceUI(async selectedReports => {
+    const buttonHandler = async idx => {
+      this.setState({
+        creatingArchive: true
+      });
+      switch (idx) {
+        case 0: {
+          await this.props.exportReportsAsBundle(selectedReports);
+          break;
+        }
+        case 1: {
+          await this.exportReportsAsCsv(selectedReports);
+          break;
+        }
       }
 
-      const selectedReport = mergedReports.find(report => report.title === key);
+      // Show 'export successful' notification, and reset export state to reset UI.
+      this.props.showExportReportsSuccessfulNotification();
+      // $FlowFixMe
+      this.shareSheet?.setSharing?.(false);
+      this.setState({
+        creatingArchive: false,
+        selectedForExport: [],
+        inShareMode: false
+      });
 
-      reportsToExport.push(selectedReport);
-    });
+      if (Platform.OS === 'android') {
+        NativeModules.Intents.launchDownloadsDirectory();
+      }
+    };
+    await displayExportReportDialog(false, buttonHandler);
+  });
 
-    await exportReports(
+  exportReportsAsCsv = async (selectedReports: Array<string>) => {
+    // Merge the completed and uploaded reports that are available together, so we can find any selected reports to export them.
+    const mergedReports = [
+      ...this.props.reports.complete,
+      ...this.props.reports.uploaded,
+      ...this.props.reports.imported
+    ];
+
+    const reportsToExport: Array<Report> = selectedReports
+      .map(key => mergedReports.find(report => report.reportName === key))
+      .filter(Boolean);
+
+    const zippedReportsPath = await exportReports(
       reportsToExport,
       this.props.templates,
       this.props.appLanguage,
@@ -285,156 +280,190 @@ class Reports extends PureComponent<Props> {
       })
     );
 
-    // TODO: Handle errors returned from export function.
+    shareFile(zippedReportsPath);
+  };
 
-    // Show 'export successful' notification, and reset export state to reset UI.
-    this.props.showExportReportsSuccessfulNotification();
-    this.setExportButtonTo(BUTTON_EXPORT_START);
-    this.setState({
-      selectedForExport: {}
+  onFrequentlyAskedQuestionsPress = () => {
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'ForestWatcher.FaqCategories'
+      }
     });
+  };
 
-    if (Platform.OS === 'android') {
-      NativeModules.Intents.launchDownloadsDirectory();
-    }
-  });
+  setAllSelected = (selected: boolean) => {
+    // Merge together the completed and uploaded reports.
+    const mergedReports = [
+      ...this.props.reports.complete,
+      ...this.props.reports.uploaded,
+      ...this.props.reports.imported
+    ];
+    const selectedForExport = selected ? mergedReports.map(report => report.reportName) : [];
+    this.fetchExportSize(selectedForExport);
+    this.setState({
+      selectedForExport
+    });
+  };
+
+  setSharing = (sharing: boolean) => {
+    // Can set selectedForExport to [] either way as we want to start sharing again with none selected
+    this.setState({
+      inShareMode: sharing,
+      selectedForExport: [],
+      bundleSize: undefined
+    });
+  };
 
   /**
-   * getItems - Returns an array of rows, based on the report data provided.
+   * renderReports - Returns an array of rows, based on the report data provided.
    *
-   * @param  {Array} data <ReportItem>  An array of reports.
+   * @param  {Array} data <Report>  An array of reports.
    * @param  {any} image                The action image.
    * @param  {void} onPress             The action callback.
    * @return {Array}                    An array of report rows.
    */
-  getItems(data: Array<ReportItem>, image: any, onPress: string => void) {
-    return data.map((item, index) => {
-      let positionParsed = '';
-      if (item.position) {
-        const latLng = item.position.split(',');
-        if (latLng && latLng.length > 1) {
-          positionParsed = `${parseFloat(latLng[0]).toFixed(4)}, ${parseFloat(latLng[1]).toFixed(4)}`;
-        }
-      }
-
+  renderReports(data: Array<Report>, image: any, onPress: string => void): any {
+    return data.map((item: Report, index: number) => {
       let icon = image;
+      const position = 'center';
 
       // Here, if we're currently in export mode, override the icon to show either the checkbox on or off image.
-      if (this.state.selectedForExport?.[item.title] === true) {
+      if (this.state.inShareMode && this.state.selectedForExport.includes(item.reportName)) {
         icon = checkboxOn;
-      } else if (this.state.selectedForExport?.[item.title] === false) {
+      } else if (this.state.inShareMode) {
         icon = checkboxOff;
       }
 
-      const dateParsed = moment(item.date).fromNow();
+      const dateParsed = moment(item.date).format('YYYY-MM-DD - HH:mm:ss');
+      const timeSinceParsed = moment(item.date).fromNow();
+      const title = readableNameForReportName(item.reportName);
       const action = {
-        icon: icon,
+        icon,
         callback: () => {
-          onPress(item.title);
-        }
+          onPress(item.reportName);
+        },
+        position
       };
       return (
-        <Row key={index + item.title} rowStyle={{ height: 120 }} action={action}>
+        <Row key={index + item.reportName} action={action}>
           <View style={styles.listItem}>
-            <Text style={styles.itemTitle}>{item.title}</Text>
-            <Text style={styles.itemText}>{positionParsed}</Text>
+            <Text style={styles.itemTitle}>{title}</Text>
+            {item.area?.name && <Text style={styles.itemText}>{item.area.name}</Text>}
             <Text style={styles.itemText}>{dateParsed}</Text>
+            <Text style={styles.itemText}>{timeSinceParsed}</Text>
           </View>
         </Row>
       );
     });
   }
 
-  renderSection(title: string, ...options: [Array<ReportItem>, any, (string) => void]) {
+  renderSection(title: string, ...options: [Array<Report>, any, (string) => void]) {
     return (
       <View style={styles.listContainer}>
-        <View style={styles.listHeader}>
-          <Text style={styles.listTitle}>{title}</Text>
-        </View>
-        {this.getItems(...options)}
+        <Text style={styles.listTitle}>{title}</Text>
+        {this.renderReports(...options)}
       </View>
     );
   }
 
-  getCompleted(completed, icon, callback) {
+  getCompleted(completed: Array<Report>, icon: any, callback: string => void) {
     return this.renderSection(i18n.t('report.completed'), completed, icon, callback);
   }
 
-  getUploaded(uploaded, icon, callback) {
+  getUploaded(uploaded: Array<Report>, icon: any, callback: string => void) {
     return this.renderSection(i18n.t('report.uploaded'), uploaded, icon, callback);
   }
 
-  getDrafts(drafts, icon, callback) {
+  getDrafts(drafts: Array<Report>, icon: any, callback: string => void) {
     return this.renderSection(i18n.t('report.drafts'), drafts, icon, callback);
+  }
+
+  getImported(imported: Array<Report>, icon: any, callback: string => void) {
+    return this.renderSection(i18n.t('report.imported'), imported, icon, callback);
   }
 
   /**
    * renderReportsScrollView - Renders a list of reports.
    *
-   * @param  {array} reports      An array of reports.
    * @param  {bool} inExportMode  Whether the user is in export mode or not. If in export mode, a different callback will be used.
    * @return {ScrollView}         A ScrollView element with all content rendered to it.
    */
-  renderReportsScrollView(reports, inExportMode) {
-    const { complete, draft, uploaded } = reports;
-    const hasReports = !!complete.length || !!draft.length || !!uploaded.length;
+  renderReportsScrollView(inExportMode: boolean) {
+    const { complete, draft, uploaded, imported } = this.props.reports;
+    const hasReports = !!complete.length || !!draft.length || !!uploaded.length || !!imported.length;
+
+    if (!hasReports) {
+      return (
+        <View style={styles.containerEmpty}>
+          <EmptyState
+            actionTitle={i18n.t('report.empty.action')}
+            body={i18n.t('report.empty.body')}
+            onActionPress={this.onFrequentlyAskedQuestionsPress}
+            icon={emptyIcon}
+            title={i18n.t('report.empty.title')}
+          />
+        </View>
+      );
+    }
 
     return (
-      <ScrollView style={styles.container} showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
-        {hasReports ? (
-          <View style={styles.container}>
-            {draft && draft.length > 0 && !inExportMode && this.getDrafts(draft, editIcon, this.onClickDraft)}
-            {complete &&
-              complete.length > 0 &&
-              this.getCompleted(complete, nextIcon, inExportMode ? this.onReportSelectedForExport : this.onClickUpload)}
-            {uploaded &&
-              uploaded.length > 0 &&
-              this.getUploaded(uploaded, nextIcon, inExportMode ? this.onReportSelectedForExport : this.onClickNext)}
-          </View>
-        ) : (
-          <View style={styles.containerEmpty}>
-            <Text style={styles.emptyTitle}>{i18n.t('report.empty')}</Text>
-          </View>
-        )}
+      <ScrollView
+        style={styles.container}
+        contentContainerStyle={styles.contentContainer}
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+      >
+        <View style={styles.container}>
+          {draft && draft.length > 0 && !inExportMode && this.getDrafts(draft, editIcon, this.onClickDraft)}
+          {complete &&
+            complete.length > 0 &&
+            this.getCompleted(complete, nextIcon, inExportMode ? this.onReportSelectedForExport : this.onClickUpload)}
+          {uploaded &&
+            uploaded.length > 0 &&
+            this.getUploaded(uploaded, nextIcon, inExportMode ? this.onReportSelectedForExport : this.onClickNext)}
+          {imported &&
+            imported.length > 0 &&
+            this.getImported(imported, nextIcon, inExportMode ? this.onReportSelectedForExport : this.onClickUpload)}
+        </View>
       </ScrollView>
     );
   }
 
   render() {
     // Determine if we're in export mode, and how many reports have been selected to export.
-    const inExportMode = Object.keys(this.state.selectedForExport).length > 0;
-    const totalToExport = Object.values(this.state.selectedForExport).filter(row => row === true).length;
+    const totalToExport = this.state.selectedForExport.length;
+
+    const { complete, uploaded, imported } = this.props.reports;
+    const totalReports = complete.length + uploaded.length + imported.length;
+    const sharingType = i18n.t('sharing.type.reports');
 
     return (
       /* View necessary to fix the swipe back on wix navigation */
       <View style={styles.container}>
-        {this.renderReportsScrollView(this.props.reports, inExportMode)}
-        {inExportMode && (
-          <SafeAreaView
-            style={[
-              styles.exportButtonContainer,
-              {
-                borderTopColor: totalToExport > 0 ? colors.color1 : colors.color3
-              }
-            ]}
-          >
-            <TouchableOpacity
-              style={styles.exportButton}
-              disabled={totalToExport === 0}
-              onPress={() => {
-                this.onExportReportsTapped(this.state.selectedForExport, this.props.reports);
-              }}
-            >
-              <Text style={styles.exportTitle}>
-                {totalToExport > 0
-                  ? totalToExport == 1
-                    ? i18n.t('report.export.oneReport', { count: 1 })
-                    : i18n.t('report.export.manyReports', { count: totalToExport })
-                  : i18n.t('report.export.noneSelected')}
-              </Text>
-            </TouchableOpacity>
-          </SafeAreaView>
-        )}
+        <ShareSheet
+          componentId={this.props.componentId}
+          disabled={totalReports === 0}
+          isSharing={this.state.creatingArchive}
+          onShare={() => {
+            this.onExportReportsTapped(this.state.selectedForExport);
+          }}
+          onSharingToggled={this.setSharing}
+          onToggleAllSelected={this.setAllSelected}
+          ref={ref => {
+            this.shareSheet = ref;
+          }}
+          selected={totalToExport}
+          selectAllCountText={
+            totalReports > 1
+              ? i18n.t('report.export.manyReports', { count: totalReports })
+              : i18n.t('report.export.oneReport', { count: 1 })
+          }
+          shareButtonInProgressTitle={i18n.t('sharing.inProgress', { type: sharingType })}
+          shareButtonDisabledTitle={i18n.t('sharing.title', { type: sharingType })}
+          shareButtonEnabledTitle={getShareButtonText(sharingType, totalToExport, this.state.bundleSize)}
+        >
+          {this.renderReportsScrollView(this.state.inShareMode)}
+        </ShareSheet>
       </View>
     );
   }

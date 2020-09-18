@@ -1,24 +1,27 @@
 // @flow
+import type { Coordinates } from 'types/common.types';
+
 export type RouteState = {
-  activeRoute: Route,
+  activeRoute: ?Route,
   previousRoutes: Array<Route>
 };
+
+// eslint-disable-next-line import/no-unused-modules
+export type RouteDifficulty = 'easy' | 'medium' | 'hard';
 
 export type Route = {
   id: string,
   areaId: string,
+  // The geostore ID is used to download route tiles for offline use.
+  // It can be null - however if it is when the route cannot be downloaded!
+  geostoreId: ?string,
   name: string,
   startDate: number,
-  endDate: number,
-  difficulty: 'easy' | 'medium' | 'hard',
-  destination: Location,
-  language: string,
-  locations: Array<LocationPoint>
-};
-
-export type Location = {
-  latitude: number,
-  longitude: number
+  endDate: ?number,
+  difficulty: RouteDifficulty,
+  destination: Coordinates,
+  locations: Array<LocationPoint>,
+  isImported?: true
 };
 
 export type LocationPoint = {
@@ -30,19 +33,24 @@ export type LocationPoint = {
 };
 
 export type RouteDeletionCriteria = {
-  id: string,
-  areaId: string
+  id?: string,
+  areaId?: string
 };
 
 export type RouteAction =
-  | finishAndSaveRoute
-  | deleteRouteAction
-  | updateActiveRoute
-  | updateSavedRoute
-  | discardActiveRoute;
+  | FinishAndSaveRoute
+  | DeleteRouteAction
+  | UpdateActiveRoute
+  | UpdateSavedRoute
+  | DiscardActiveRoute
+  | ImportRoute;
 
-type updateActiveRoute = { type: 'routes/UPDATE_ACTIVE_ROUTE', payload: Route };
-type updateSavedRoute = { type: 'routes/UPDATE_SAVED_ROUTE', payload: Route };
-type finishAndSaveRoute = { type: 'routes/FINISH_AND_SAVE_ROUTE' };
-type deleteRouteAction = { type: 'routes/DELETE_ROUTE', payload: RouteDeletionCriteria };
-type discardActiveRoute = { type: 'routes/DISCARD_ACTIVE_ROUTE' };
+type UpdateActiveRoute = {
+  type: 'routes/UPDATE_ACTIVE_ROUTE',
+  payload: $Shape<Route>
+};
+type UpdateSavedRoute = { type: 'routes/UPDATE_SAVED_ROUTE', payload: $Shape<Route> };
+type FinishAndSaveRoute = { type: 'routes/FINISH_AND_SAVE_ROUTE' };
+type DeleteRouteAction = { type: 'routes/DELETE_ROUTE', payload: RouteDeletionCriteria };
+type DiscardActiveRoute = { type: 'routes/DISCARD_ACTIVE_ROUTE' };
+type ImportRoute = { type: 'routes/IMPORT_ROUTE', payload: Route };

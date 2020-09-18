@@ -4,7 +4,6 @@ import configureStore from 'redux-mock-store';
 import { combinedReducer } from 'combinedReducer';
 import appReducer, {
   retrySync,
-  saveLastActions,
   setAppSynced,
   setCoordinatesFormat,
   setOfflineMode,
@@ -26,10 +25,6 @@ describe('Redux App Module', () => {
       expect(action).toMatchSnapshot();
       expect(appReducer(undefined, action)).toMatchSnapshot();
     }
-
-    it('saveLastActions', () => {
-      simpleActionTest(saveLastActions()); // todo (payload) - how to test this
-    });
 
     it('setAppSynced', () => {
       simpleActionTest(setAppSynced(true));

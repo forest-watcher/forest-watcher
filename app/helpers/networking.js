@@ -1,6 +1,6 @@
 import fetch from './fetchWithTimeout';
 
-export default async function checkConnectivity(url) {
+export default function checkConnectivity(url) {
   return fetch(url, {
     method: 'HEAD'
   })

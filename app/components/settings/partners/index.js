@@ -1,10 +1,14 @@
+// @flow
+
 import React, { Component } from 'react';
 import { View, ScrollView, Text, Linking } from 'react-native';
-import tracker from 'helpers/googleAnalytics';
+import { trackScreenView } from 'helpers/analytics';
 
-import i18n from 'locales';
+import i18n from 'i18next';
 import List from 'components/common/list';
 import styles from './styles';
+
+import Theme from 'config/theme';
 
 const tscLogo = require('assets/3sc_logo.jpeg');
 const wriLogo = require('assets/wri_logo.png');
@@ -12,7 +16,19 @@ const jgiLogo = require('assets/jgi_logo.png');
 const gfwLogo = require('assets/gfw_logo.png');
 const vizzualityLogo = require('assets/vizzuality_logo.png');
 
-class Partners extends Component {
+class Partners extends Component<{}> {
+  static options(passProps: {}) {
+    return {
+      topBar: {
+        background: {
+          color: Theme.colors.veryLightPink
+        }
+      }
+    };
+  }
+
+  partners: Array<{ text: string, image: number, url: string, functionOnPress: string => void }>;
+
   constructor() {
     super();
     this.partners = [
@@ -50,10 +66,10 @@ class Partners extends Component {
   }
 
   componentDidMount() {
-    tracker.trackScreenView('Partners');
+    trackScreenView('Partners');
   }
 
-  handleLink = url => {
+  handleLink = (url: string) => {
     Linking.openURL(url);
   };
 

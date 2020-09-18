@@ -1,5 +1,6 @@
 // @flow
 
+import type { LoginProvider } from 'types/app.types';
 import type { OfflineMeta, PersistRehydrate } from 'types/offline.types';
 
 export type UserState = {
@@ -11,7 +12,8 @@ export type UserState = {
   logSuccess: boolean,
   synced: boolean,
   syncing: boolean,
-  loading: boolean
+  loading: boolean,
+  emailLoginError: ?string
 };
 
 export type UserAction =
@@ -21,6 +23,8 @@ export type UserAction =
   | SetLoginAuth
   | SetLoginStatus
   | SetLoginLoading
+  | SetEmailLoginError
+  | ClearEmailLoginError
   | PersistRehydrate
   | LogoutRequest;
 
@@ -32,7 +36,7 @@ export type GetUserRollback = { type: 'user/GET_USER_ROLLBACK' };
 export type SetLoginAuth = {
   type: 'user/SET_LOGIN_AUTH',
   payload: {
-    socialNetwork: string,
+    socialNetwork: LoginProvider,
     loggedIn: boolean,
     token: string,
     oAuthToken?: string
@@ -48,4 +52,11 @@ export type LogoutRequest = {
 export type SetLoginLoading = {
   type: 'user/SET_LOGIN_LOADING',
   payload: boolean
+};
+export type SetEmailLoginError = {
+  type: 'user/SET_EMAIL_LOGIN_ERROR',
+  payload: ?string
+};
+export type ClearEmailLoginError = {
+  type: 'user/CLEAR_EMAIL_LOGIN_ERROR'
 };

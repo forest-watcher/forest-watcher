@@ -1,13 +1,19 @@
 // @flow
-import type { State } from 'types/store.types';
+import type { ComponentProps, Dispatch, State } from 'types/store.types';
 
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { isUnsafeLogout } from 'helpers/app';
 import { logout } from 'redux-modules/user';
-import { setOfflineMode, showNotConnectedNotification } from 'redux-modules/app';
+import { setOfflineMode } from 'redux-modules/app';
 
 import Settings from 'components/settings';
+import { trackSharedContent } from 'helpers/analytics';
+import { exportWholeAppBundleFromRedux } from 'helpers/sharing/exportBundleFromRedux';
+import shareBundle from 'helpers/sharing/shareBundle';
+
+type OwnProps = {|
+  +componentId: string
+|};
 
 function mapStateToProps(state: State) {
   return {
@@ -15,22 +21,29 @@ function mapStateToProps(state: State) {
     isUnsafeLogout: isUnsafeLogout(state),
     user: state.user.data,
     loggedIn: state.user.loggedIn,
-    areas: state.areas.data,
     offlineMode: state.app.offlineMode
   };
 }
 
-const mapDispatchToProps = (dispatch: *) =>
-  bindActionCreators(
-    {
-      logout,
-      setOfflineMode,
-      showNotConnectedNotification
+const mapDispatchToProps = (dispatch: Dispatch) => {
+  return {
+    logout: (socialNetworkFallback: ?string) => {
+      dispatch(logout(socialNetworkFallback));
     },
-    dispatch
-  );
+    setOfflineMode: (offlineMode: boolean) => {
+      dispatch(setOfflineMode(offlineMode));
+    },
+    shareAppData: async (): Promise<string> => {
+      const outputPath = await dispatch(exportWholeAppBundleFromRedux());
+      trackSharedContent('bundle');
+      await shareBundle(outputPath);
+      return outputPath;
+    }
+  };
+};
 
-export default connect(
+type PassedProps = ComponentProps<OwnProps, typeof mapStateToProps, typeof mapDispatchToProps>;
+export default connect<PassedProps, OwnProps, _, _, State, Dispatch>(
   mapStateToProps,
   mapDispatchToProps
 )(Settings);

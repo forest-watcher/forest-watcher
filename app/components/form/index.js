@@ -2,10 +2,10 @@
 import type { Question, Answer } from 'types/reports.types';
 
 import React, { Component } from 'react';
-import i18n from 'locales';
+import i18n from 'i18next';
 import { Platform, View } from 'react-native';
 import debounceUI from 'helpers/debounceUI';
-import tracker from 'helpers/googleAnalytics';
+import { trackScreenView, trackReportingConcluded } from 'helpers/analytics';
 import styles from 'components/form/styles';
 import ActionButton from 'components/common/action-button';
 import FormField from 'components/common/form-inputs';
@@ -49,7 +49,7 @@ class Form extends Component<Props> {
   }
 
   componentDidMount() {
-    tracker.trackScreenView('Reporting - Form Step');
+    trackScreenView('Reporting - Form Step');
   }
 
   /**
@@ -60,6 +60,7 @@ class Form extends Component<Props> {
   navigationButtonPressed({ buttonId }) {
     if (buttonId === 'backButton') {
       if (this.props.nextQuestionIndex !== null || !this.props.editMode) {
+        trackReportingConcluded('cancelled', 'answers');
         Navigation.dismissModal(this.props.componentId);
       } else {
         Navigation.popToRoot(this.props.componentId);
@@ -127,10 +128,10 @@ class Form extends Component<Props> {
   }
 
   render() {
-    const { question, answer, questionAnswered, text } = this.props;
+    const { question, answer, reportName, questionAnswered, text } = this.props;
     return (
       <View style={styles.container}>
-        {question && <FormField question={question} answer={answer} onChange={this.onChange} />}
+        {question && <FormField reportName={reportName} question={question} answer={answer} onChange={this.onChange} />}
         {this.getNext(question, questionAnswered, text)}
       </View>
     );

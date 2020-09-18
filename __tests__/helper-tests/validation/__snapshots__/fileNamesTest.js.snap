@@ -1,0 +1,64 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`fileNames func fileNameIsValid when files already exist returns invalid when the file does not exist & the name matches 1`] = `
+Object {
+  "alreadyTaken": true,
+  "valid": false,
+}
+`;
+
+exports[`fileNames func fileNameIsValid when files already exist returns valid when the file & name do not already exist 1`] = `
+Object {
+  "alreadyTaken": false,
+  "valid": true,
+}
+`;
+
+exports[`fileNames func fileNameIsValid when files already exist returns valid when the file exists & the name matches 1`] = `
+Object {
+  "alreadyTaken": false,
+  "valid": true,
+}
+`;
+
+exports[`fileNames func fileNameIsValid when no files already exist returns invalid when provided with a file name above the length limit 1`] = `
+Object {
+  "alreadyTaken": false,
+  "valid": false,
+}
+`;
+
+exports[`fileNames func fileNameIsValid when no files already exist returns invalid when provided with a file name just above the length limit 1`] = `
+Object {
+  "alreadyTaken": false,
+  "valid": false,
+}
+`;
+
+exports[`fileNames func fileNameIsValid when no files already exist returns invalid when provided with a null name 1`] = `
+Object {
+  "alreadyTaken": false,
+  "valid": false,
+}
+`;
+
+exports[`fileNames func fileNameIsValid when no files already exist returns valid when provided with a file name just below the length limit 1`] = `
+Object {
+  "alreadyTaken": false,
+  "valid": true,
+}
+`;
+
+exports[`fileNames func fileNameIsValid when no files already exist returns valid when provided with a file name on the length limit 1`] = `
+Object {
+  "alreadyTaken": false,
+  "valid": true,
+}
+`;
+
+exports[`fileNames func fileNameIsValid when no files already exist returns valid when provided with a file that has a short name 1`] = `
+Object {
+  "alreadyTaken": false,
+  "valid": true,
+}
+`;

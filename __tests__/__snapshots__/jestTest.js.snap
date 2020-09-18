@@ -18,49 +18,73 @@ exports[`Redux Actions - Unit Tests snapshot redux action thunk test 1`] = `[Fun
 
 exports[`Redux Reducers - Unit Tests snapshot redux reducer action test 1`] = `
 Object {
-  "actions": Array [],
+  "areaCountryTooltipSeen": false,
+  "areaDownloadTooltipSeen": false,
   "coordinatesFormat": "decimal",
+  "hasMigratedV1Files": true,
+  "hasSeenWelcomeScreen": false,
+  "isUpdate": false,
   "language": "en",
+  "mapWalkthroughSeen": false,
   "offlineMode": false,
   "pristineCacheTooltip": true,
+  "reduxVersion": 2,
   "synced": true,
-  "version": "1.9.2",
+  "version": "2.0.0",
 }
 `;
 
 exports[`Redux Reducers - Unit Tests snapshot redux reducer initial state test 1`] = `
 Object {
-  "actions": Array [],
+  "areaCountryTooltipSeen": false,
+  "areaDownloadTooltipSeen": false,
   "coordinatesFormat": "decimal",
+  "hasMigratedV1Files": true,
+  "hasSeenWelcomeScreen": false,
+  "isUpdate": false,
   "language": "en",
+  "mapWalkthroughSeen": false,
   "offlineMode": false,
   "pristineCacheTooltip": true,
+  "reduxVersion": 2,
   "synced": false,
-  "version": "1.9.2",
+  "version": "2.0.0",
 }
 `;
 
 exports[`Redux Reducers - Unit Tests snapshot redux reducer multiple action test 1`] = `
 Object {
-  "actions": Array [],
+  "areaCountryTooltipSeen": false,
+  "areaDownloadTooltipSeen": false,
   "coordinatesFormat": "decimal",
+  "hasMigratedV1Files": true,
+  "hasSeenWelcomeScreen": false,
+  "isUpdate": false,
   "language": "en",
+  "mapWalkthroughSeen": false,
   "offlineMode": false,
   "pristineCacheTooltip": true,
+  "reduxVersion": 2,
   "synced": true,
-  "version": "1.9.2",
+  "version": "2.0.0",
 }
 `;
 
 exports[`Redux Reducers - Unit Tests snapshot redux reducer multiple action test 2`] = `
 Object {
-  "actions": Array [],
+  "areaCountryTooltipSeen": false,
+  "areaDownloadTooltipSeen": false,
   "coordinatesFormat": "decimal",
+  "hasMigratedV1Files": true,
+  "hasSeenWelcomeScreen": false,
+  "isUpdate": false,
   "language": "en",
+  "mapWalkthroughSeen": false,
   "offlineMode": true,
   "pristineCacheTooltip": true,
+  "reduxVersion": 2,
   "synced": true,
-  "version": "1.9.2",
+  "version": "2.0.0",
 }
 `;
 

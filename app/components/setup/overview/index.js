@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, Image, TextInput } from 'react-native';
+import { View, Text, Image, TextInput, ActivityIndicator } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Navigation } from 'react-native-navigation';
 
 import Theme from 'config/theme';
 import ActionButton from 'components/common/action-button';
-import i18n from 'locales';
+import i18n from 'i18next';
+import { getAreaSize } from 'helpers/area';
 import debounceUI from 'helpers/debounceUI';
-import tracker from 'helpers/googleAnalytics';
+import { trackAreaCreationFlowEnded, trackScreenView } from 'helpers/analytics';
 import styles from './styles';
 
 const editImage = require('assets/edit.png');
@@ -27,15 +28,44 @@ class SetupOverview extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: this.props.area ? this.props.area.name : ''
+      name: this.props.area ? this.props.area.name : '',
+      navigateToAreasWhenReady: false
     };
   }
 
   componentDidMount() {
-    tracker.trackScreenView('Overview Set Up');
+    trackScreenView('Overview Set Up');
   }
 
-  onNextPress = debounceUI(async () => {
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (this.state.navigateToAreasWhenReady && !this.props.syncingAreas && prevProps.syncingAreas) {
+      this.navigateToAreaScreen();
+    }
+  }
+
+  navigateToAreaScreen = async () => {
+    await Navigation.setStackRoot(this.props.componentId, {
+      component: {
+        id: 'ForestWatcher.Dashboard',
+        name: 'ForestWatcher.Dashboard'
+      }
+    });
+
+    Navigation.push('ForestWatcher.Dashboard', {
+      component: {
+        name: 'ForestWatcher.Areas',
+        passProps: {
+          scrollToBottom: true
+        }
+      }
+    });
+  };
+
+  onNextPress = debounceUI(() => {
+    if (!this.props.isConnected) {
+      this.props.showNotConnectedNotification();
+      return;
+    }
     const params = {
       area: {
         name: this.state.name,
@@ -43,14 +73,10 @@ class SetupOverview extends Component {
       },
       snapshot: this.props.snapshot
     };
-    tracker.trackAreaCreationFlowEndedEvent();
+    trackAreaCreationFlowEnded(getAreaSize(this.props.area));
     this.props.setSetupArea(params);
     this.props.saveArea(params);
-    Navigation.setStackRoot(this.props.componentId, {
-      component: {
-        name: 'ForestWatcher.Dashboard'
-      }
-    });
+    this.setState({ navigateToAreasWhenReady: true });
   });
 
   textChange = name => {
@@ -65,6 +91,9 @@ class SetupOverview extends Component {
     } else if (this.state.saving) {
       btnEnabled = false;
       btnText = i18n.t('commonText.saving');
+    }
+    if (this.state.navigateToAreasWhenReady) {
+      btnEnabled = false;
     }
     return (
       <KeyboardAwareScrollView>
@@ -90,7 +119,7 @@ class SetupOverview extends Component {
                 onFocus={this.props.onTextFocus}
                 onBlur={this.props.onTextBlur}
                 underlineColorAndroid="transparent"
-                selectionColor={Theme.colors.color1}
+                selectionColor={Theme.colors.turtleGreen}
                 placeholderTextColor={Theme.fontColors.light}
               />
               <Image style={Theme.icon} source={editImage} onPress={() => this.input.focus()} />
@@ -102,6 +131,11 @@ class SetupOverview extends Component {
             onPress={this.onNextPress}
             text={btnText.toUpperCase()}
           />
+          {this.state.navigateToAreasWhenReady && this.props.syncingAreas && (
+            <View style={styles.loading}>
+              <ActivityIndicator color={Theme.colors.turtleGreen} style={{ height: 80 }} size="large" />
+            </View>
+          )}
         </View>
       </KeyboardAwareScrollView>
     );
@@ -110,10 +144,13 @@ class SetupOverview extends Component {
 
 SetupOverview.propTypes = {
   area: PropTypes.object.isRequired,
+  syncingAreas: PropTypes.bool.isRequired,
   componentId: PropTypes.string.isRequired,
   snapshot: PropTypes.string.isRequired,
   saveArea: PropTypes.func.isRequired,
   setSetupArea: PropTypes.func.isRequired,
+  isConnected: PropTypes.bool.isRequired,
+  showNotConnectedNotification: PropTypes.func,
   onTextFocus: PropTypes.func,
   onTextBlur: PropTypes.func
 };

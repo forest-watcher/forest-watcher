@@ -14,7 +14,7 @@ const icons = {};
 function ActionButton(props) {
   function onButtonPress() {
     if (!props.disabled) {
-      props.onPress();
+      props.onPress?.();
     }
   }
   const containerStyles = [
@@ -24,6 +24,7 @@ function ActionButton(props) {
     props.dark ? styles.dark : '',
     props.light ? styles.light : '',
     props.disabled ? styles.disabled : '',
+    props.secondary ? styles.secondary : '',
     props.error ? styles.error : '',
     props.delete ? styles.error : '',
     props.transparent ? styles.transparent : '',
@@ -34,7 +35,7 @@ function ActionButton(props) {
     styles.button,
     props.light ? styles.buttonLight : '',
     props.short ? styles.short : '',
-    props.disabled || props.delete || props.noIcon ? styles.buttonNoIcon : ''
+    !props.left && (props.disabled || props.delete || props.noIcon) ? styles.buttonNoIcon : ''
   ];
 
   const textStyles = [
@@ -47,8 +48,9 @@ function ActionButton(props) {
     props.disabled ? styles.buttonTextDisabled : '',
     props.error ? styles.buttonTextError : '',
     props.delete ? styles.buttonTextError : '',
+    props.secondary ? styles.buttonTextSecondary : '',
     props.transparent
-      ? { color: props.delete ? Theme.colors.color7 : props.light || props.dark ? '' : Theme.background.secondary }
+      ? { color: props.delete ? Theme.colors.carnation : props.light || props.dark ? '' : Theme.background.secondary }
       : ''
   ];
 
@@ -56,15 +58,19 @@ function ActionButton(props) {
 
   let arrowIcon = nextIconWhite;
   let underlayColor = Platform.select({ android: Theme.background.white, ios: Theme.background.secondary });
-  if (props.light || props.dark) {
+  if (props.light || props.dark || props.secondary) {
     underlayColor = Theme.background.white;
     arrowIcon = nextIcon;
   }
   if (props.monochrome) {
     arrowIcon = nextIcon;
   }
-  if (props.disabled) underlayColor = Theme.colors.color6;
-  if (props.error || props.delete) underlayColor = Theme.colors.color7;
+  if (props.disabled) {
+    underlayColor = Theme.colors.veryLightPinkTwo;
+  }
+  if (props.error || props.delete) {
+    underlayColor = Theme.colors.carnation;
+  }
 
   const Touchable = Platform.select({
     android: TouchableNativeFeedback,
@@ -97,7 +103,7 @@ function ActionButton(props) {
             <Image style={Theme.icon} source={icons[props.icon]} />
           </View>
         )}
-        {props.text && <Text style={textStyles}>{props.text.toUpperCase()}</Text>}
+        {props.text && <Text style={textStyles}>{props.text}</Text>}
         {!(props.disabled || props.delete || props.noIcon) && (
           <View style={styles.iconContainer}>
             <Image style={arrowIconStyles} source={arrowIcon} />
@@ -120,11 +126,12 @@ ActionButton.propTypes = {
   left: PropTypes.bool,
   disabled: PropTypes.bool,
   delete: PropTypes.bool,
+  secondary: PropTypes.bool,
   short: PropTypes.bool,
   error: PropTypes.bool,
   icon: PropTypes.string,
   text: PropTypes.string.isRequired,
-  onPress: PropTypes.func.isRequired,
+  onPress: PropTypes.func,
   noIcon: PropTypes.bool,
   main: PropTypes.bool,
   monochrome: PropTypes.bool,

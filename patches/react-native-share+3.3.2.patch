@@ -1,0 +1,19 @@
+diff --git a/node_modules/react-native-share/android/src/main/java/cl/json/ShareFiles.java b/node_modules/react-native-share/android/src/main/java/cl/json/ShareFiles.java
+index b154df0..bd6e15a 100644
+--- a/node_modules/react-native-share/android/src/main/java/cl/json/ShareFiles.java
++++ b/node_modules/react-native-share/android/src/main/java/cl/json/ShareFiles.java
+@@ -87,10 +87,10 @@ public class ShareFiles
+     private boolean isLocalFile(Uri uri) {
+         String scheme = uri.getScheme();
+         if((scheme != null) && uri.getScheme().equals("content") || "file".equals(uri.getScheme())) {
+-//            // type is already set
+-//            if (this.type != null) {
+-//                return true;
+-//            }
++            // type is already set
++            if (this.intentType != null) {
++                return true;
++            }
+             // try to get mimetype from uri
+             String type = this.getMimeType(uri.toString());
+

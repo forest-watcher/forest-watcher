@@ -3,8 +3,9 @@ import { StyleSheet, Platform } from 'react-native';
 
 export default StyleSheet.create({
   container: {
+    flexGrow: 1,
     borderRadius: 32,
-    borderWidth: 2,
+    borderWidth: 1,
     borderColor: Theme.background.secondary,
     backgroundColor: Theme.background.secondary,
     overflow: 'hidden'
@@ -14,30 +15,34 @@ export default StyleSheet.create({
     marginRight: 12
   },
   dark: {
-    backgroundColor: Theme.colors.color6,
-    borderColor: Theme.colors.color6
+    backgroundColor: Theme.colors.veryLightPinkTwo,
+    borderColor: Theme.colors.veryLightPinkTwo
   },
   light: {
     backgroundColor: Theme.background.white,
     borderColor: Theme.background.white
   },
   disabled: {
-    backgroundColor: Theme.colors.color6,
-    borderColor: Theme.colors.color6
+    backgroundColor: Theme.colors.veryLightPinkTwo,
+    borderColor: Theme.colors.veryLightPinkTwo
   },
   error: {
-    backgroundColor: Theme.colors.color7,
-    borderColor: Theme.colors.color7
+    backgroundColor: Theme.colors.carnation,
+    borderColor: Theme.colors.carnation
+  },
+  secondary: {
+    backgroundColor: 'transparent',
+    borderColor: Theme.colors.turtleGreen
   },
   transparent: {
     backgroundColor: 'transparent'
   },
   button: {
-    height: 64,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingLeft: 24
+    paddingLeft: 24,
+    paddingVertical: 12
   },
   buttonNoIcon: {
     paddingLeft: 0
@@ -85,9 +90,7 @@ export default StyleSheet.create({
   },
   buttonTextDisabled: {
     color: Theme.fontColors.light,
-    fontWeight: '400',
-    marginLeft: 0,
-    fontStyle: 'italic'
+    marginLeft: 0
   },
   buttonTextError: {
     color: Theme.fontColors.white,
@@ -95,5 +98,8 @@ export default StyleSheet.create({
     marginLeft: 0,
     fontStyle: 'normal',
     fontSize: 16
+  },
+  buttonTextSecondary: {
+    color: Theme.fontColors.main
   }
 });

@@ -8,14 +8,14 @@
   {
     "name": "Akrotiri and Dhekelia",
     "iso": "XAD",
-    "centroid": "~~~ null ~~~",
-    "bbox": "~~~ null ~~~"
+    "centroid": "",
+    "bbox": ""
   },
   {
     "name": "Åland",
     "iso": "ALA",
-    "centroid": "~~~ null ~~~",
-    "bbox": "~~~ null ~~~"
+    "centroid": "",
+    "bbox": ""
   },
   {
     "name": "Albania",
@@ -170,8 +170,8 @@
   {
     "name": "Bonaire, Saint Eustatius and Saba",
     "iso": "BES",
-    "centroid": "~~~ null ~~~",
-    "bbox": "~~~ null ~~~"
+    "centroid": "",
+    "bbox": ""
   },
   {
     "name": "Bosnia and Herzegovina",
@@ -188,8 +188,8 @@
   {
     "name": "Bouvet Island",
     "iso": "BVT",
-    "centroid": "~~~ null ~~~",
-    "bbox": "~~~ null ~~~"
+    "centroid": "",
+    "bbox": ""
   },
   {
     "name": "Brazil",
@@ -260,8 +260,8 @@
   {
     "name": "Caspian Sea",
     "iso": "XCA",
-    "centroid": "~~~ null ~~~",
-    "bbox": "~~~ null ~~~"
+    "centroid": "",
+    "bbox": ""
   },
   {
     "name": "Cayman Islands",
@@ -296,20 +296,20 @@
   {
     "name": "Christmas Island",
     "iso": "CXR",
-    "centroid": "~~~ null ~~~",
-    "bbox": "~~~ null ~~~"
+    "centroid": "",
+    "bbox": ""
   },
   {
     "name": "Clipperton Island",
     "iso": "XCL",
-    "centroid": "~~~ null ~~~",
-    "bbox": "~~~ null ~~~"
+    "centroid": "",
+    "bbox": ""
   },
   {
     "name": "Cocos Islands",
     "iso": "CCK",
-    "centroid": "~~~ null ~~~",
-    "bbox": "~~~ null ~~~"
+    "centroid": "",
+    "bbox": ""
   },
   {
     "name": "Colombia",
@@ -530,8 +530,8 @@
   {
     "name": "Gibraltar",
     "iso": "GIB",
-    "centroid": "~~~ null ~~~",
-    "bbox": "~~~ null ~~~"
+    "centroid": "",
+    "bbox": ""
   },
   {
     "name": "Greece",
@@ -554,8 +554,8 @@
   {
     "name": "Guadeloupe",
     "iso": "GLP",
-    "centroid": "~~~ null ~~~",
-    "bbox": "~~~ null ~~~"
+    "centroid": "",
+    "bbox": ""
   },
   {
     "name": "Guam",
@@ -722,8 +722,8 @@
   {
     "name": "Kosovo",
     "iso": "XKO",
-    "centroid": "~~~ null ~~~",
-    "bbox": "~~~ null ~~~"
+    "centroid": "",
+    "bbox": ""
   },
   {
     "name": "Kuwait",
@@ -866,8 +866,8 @@
   {
     "name": "Mayotte",
     "iso": "MYT",
-    "centroid": "~~~ null ~~~",
-    "bbox": "~~~ null ~~~"
+    "centroid": "",
+    "bbox": ""
   },
   {
     "name": "Mexico",
@@ -998,8 +998,8 @@
   {
     "name": "Northern Cyprus",
     "iso": "XNC",
-    "centroid": "~~~ null ~~~",
-    "bbox": "~~~ null ~~~"
+    "centroid": "",
+    "bbox": ""
   },
   {
     "name": "Northern Mariana Islands",
@@ -1040,8 +1040,8 @@
   {
     "name": "Palestina",
     "iso": "PSE",
-    "centroid": "~~~ null ~~~",
-    "bbox": "~~~ null ~~~"
+    "centroid": "",
+    "bbox": ""
   },
   {
     "name": "Panama",
@@ -1058,8 +1058,8 @@
   {
     "name": "Paracel Islands",
     "iso": "PIS",
-    "centroid": "~~~ null ~~~",
-    "bbox": "~~~ null ~~~"
+    "centroid": "",
+    "bbox": ""
   },
   {
     "name": "Paraguay",
@@ -1298,8 +1298,8 @@
   {
     "name": "Spratly islands",
     "iso": "SP-",
-    "centroid": "~~~ null ~~~",
-    "bbox": "~~~ null ~~~"
+    "centroid": "",
+    "bbox": ""
   },
   {
     "name": "Sri Lanka",
@@ -1322,8 +1322,8 @@
   {
     "name": "Svalbard and Jan Mayen",
     "iso": "SJM",
-    "centroid": "~~~ null ~~~",
-    "bbox": "~~~ null ~~~"
+    "centroid": "",
+    "bbox": ""
   },
   {
     "name": "Swaziland",
@@ -1382,8 +1382,8 @@
   {
     "name": "Tokelau",
     "iso": "TKL",
-    "centroid": "~~~ null ~~~",
-    "bbox": "~~~ null ~~~"
+    "centroid": "",
+    "bbox": ""
   },
   {
     "name": "Tonga",
@@ -1424,8 +1424,8 @@
   {
     "name": "Tuvalu",
     "iso": "TUV",
-    "centroid": "~~~ null ~~~",
-    "bbox": "~~~ null ~~~"
+    "centroid": "",
+    "bbox": ""
   },
   {
     "name": "Uganda",
@@ -1460,8 +1460,8 @@
   {
     "name": "United States Minor Outlying Islands",
     "iso": "UMI",
-    "centroid": "~~~ null ~~~",
-    "bbox": "~~~ null ~~~"
+    "centroid": "",
+    "bbox": ""
   },
   {
     "name": "Uruguay",
@@ -1514,8 +1514,8 @@
   {
     "name": "Western Sahara",
     "iso": "ESH",
-    "centroid": "~~~ null ~~~",
-    "bbox": "~~~ null ~~~"
+    "centroid": "",
+    "bbox": ""
   },
   {
     "name": "Yemen",

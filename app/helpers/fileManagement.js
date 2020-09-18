@@ -1,5 +1,7 @@
-import { Platform } from 'react-native';
-import RNFetchBlob from 'react-native-fetch-blob';
+// @flow
+import RNFetchBlob from 'rn-fetch-blob';
+import FWError, { ERROR_CODES } from 'helpers/fwError';
+const RNFS = require('react-native-fs');
 
 global.Buffer = global.Buffer || require('buffer').Buffer; // eslint-disable-line
 
@@ -15,90 +17,152 @@ if (typeof atob === 'undefined') {
   };
 }
 
-export function parseImagePath(url) {
-  let parsedUrl = url;
-
-  if (Platform.OS === 'android') {
-    parsedUrl = `file://${parsedUrl}`;
-  }
-
-  return parsedUrl;
-}
-
-export async function storeImage(url, imageDir = false) {
-  const cleanedUrl = url.replace('file://', '');
-  const parentDirectory = RNFetchBlob.fs.dirs;
-  let imagesDirectory = `${parentDirectory.DocumentDir}/images`;
-
-  if (imageDir) {
-    if (Platform.OS === 'android') {
-      imagesDirectory = `${parentDirectory.PictureDir}/ForestWatcher`;
-    }
-  }
-
-  const newPath = `${imagesDirectory}/${cleanedUrl.split('/').pop()}`;
-
-  try {
-    const isDir = await RNFetchBlob.fs.isDir(imagesDirectory);
-
-    if (!isDir) {
-      try {
-        await RNFetchBlob.fs.mkdir(imagesDirectory);
-      } catch (error) {
-        return parseImagePath(newPath);
-      }
-    }
-
-    await RNFetchBlob.fs.mv(cleanedUrl, newPath).catch(error => error);
-
-    if (Platform.OS === 'android') {
-      await RNFetchBlob.fs.scanFile([{ path: newPath }]);
-    }
-
-    return parseImagePath(newPath);
-  } catch (error) {
-    // To-do error
-    return error;
+/**
+ * Throws an error if the size of a file is greater than the specified threshold.
+ *
+ * Will also error if the file cannot be read (either because it doesn't exist or maybe because it's an Android content:
+ * URI that isn't backed by a file)
+ */
+export async function assertMaximumFileSize(uri: string, maxSizeInBytes: number) {
+  const result = await RNFS.stat(uri);
+  if (result.size > maxSizeInBytes) {
+    throw new FWError({ message: `File too large: ${uri}`, code: ERROR_CODES.FILE_TOO_LARGE });
   }
 }
 
-export async function removeFolder(folder) {
-  if (!folder) return false;
-  const path = `${RNFetchBlob.fs.dirs.DocumentDir}/${folder}`;
-  await RNFetchBlob.fs.unlink(path);
-  return true;
+/**
+ * Helper function that copies a file existing at sourceUri to destinationUri
+ *
+ * This helper function will create any missing directories in the destination path, and will overwrite any existing file
+ *
+ * On Android this function will work with both content:// and file:// URIs
+ */
+export async function copyFileWithReplacement(sourceUri: string, destinationUri: string) {
+  await writeFileWithReplacement(sourceUri, destinationUri, 'copy');
 }
 
-export async function getCachedImageByUrl(url, imageDir) {
-  const parsedUrl = url.replace(/ /g, '%20');
-  const parentDirectory = RNFetchBlob.fs.dirs;
-  const imagesDirectory = `${parentDirectory.DocumentDir}/${imageDir}`;
-  const filePath = `${imagesDirectory}/${btoa(parsedUrl)}.${url.split('.').pop()}`;
+/**
+ * List all the files under the specified directory and its subdirectories
+ */
+export async function listRecursive(
+  path: string,
+  directoryBlacklist: Array<string> = ['__MACOSX']
+): Promise<Array<string>> {
+  const files: Array<string> = [];
+  const children = await RNFS.readDir(path);
 
-  try {
-    const isDir = await RNFetchBlob.fs.isDir(imagesDirectory);
-
-    if (!isDir) {
-      try {
-        await RNFetchBlob.fs.mkdir(imagesDirectory);
-      } catch (error) {
-        return parseImagePath(filePath);
-      }
-    }
-
-    const exists = await RNFetchBlob.fs.exists(filePath);
-
-    if (!exists) {
-      try {
-        const image = await RNFetchBlob.config({ path: filePath }).fetch('GET', parsedUrl);
-        return parseImagePath(image.path());
-      } catch (error) {
-        return error;
+  // eslint-disable-next-line no-unused-vars
+  for (const child of children) {
+    if (child.isDirectory()) {
+      const isBlacklisted = directoryBlacklist.includes(child.name);
+      if (!isBlacklisted) {
+        const grandchildren = await listRecursive(child.path);
+        files.push(...grandchildren);
       }
     } else {
-      return parseImagePath(filePath);
+      files.push(child.path);
     }
-  } catch (error) {
-    return error;
   }
+
+  return files;
+}
+
+/**
+ * Modifies the path so it is relative to the specified root directory
+ */
+export function pathWithoutRoot(path: string, rootDir: string): string {
+  return path.replace(rootDir, '');
+}
+
+/**
+ * Read a binary file from the local file system
+ *
+ * Avoid doing this unless necessary as the loaded file contents are sent over the bridge as base64. Process the binary
+ * data natively where possible.
+ */
+export async function readBinaryFile(path: string): Promise<Buffer> {
+  return await readFile(path, 'base64');
+}
+
+/**
+ * Read a file from the local file system
+ *
+ * Avoid doing this unless necessary as the loaded file contents are sent over the bridge. Process the
+ * data natively where possible.
+ */
+async function readFile(path: string, encoding: 'base64' | 'utf8'): Promise<Buffer> {
+  const stream = await RNFetchBlob.fs.readStream(path, encoding);
+  return new Promise((resolve, reject) => {
+    stream.open();
+
+    const chunks: Array<Buffer> = [];
+    stream.onData((data: string | Array<number>) => {
+      const chunk = new Buffer(data, encoding);
+      chunks.push(chunk);
+    });
+    stream.onEnd(() => {
+      const complete = Buffer.concat(chunks);
+      resolve(complete);
+    });
+    stream.onError(reject);
+  });
+}
+
+/**
+ * Read a file from the local file system
+ *
+ * Avoid doing this unless necessary as the loaded file contents are sent over the bridge. Process the
+ * data natively where possible.
+ */
+export async function readTextFile(path: string): Promise<string> {
+  const buffer = await readFile(path, 'utf8');
+  return buffer.toString();
+}
+
+/**
+ * Helper function that copies or moves a file existing at sourceUri to destinationUri
+ *
+ * This helper function will create any missing directories in the destination path, and will overwrite any existing file
+ *
+ * On Android this function will work with both content:// and file:// URIs
+ */
+export async function writeFileWithReplacement(sourceUri: string, destinationUri: string, method: 'copy' | 'move') {
+  const destinationPath = destinationUri
+    .split('/')
+    .slice(0, -1)
+    .join('/');
+
+  const dirExists = await RNFS.exists(destinationPath);
+  if (!dirExists) {
+    await RNFS.mkdir(destinationPath);
+  }
+
+  const fileExists = await RNFS.exists(destinationUri);
+  if (fileExists) {
+    await RNFS.unlink(destinationUri);
+  }
+
+  if (method === 'copy') {
+    await RNFS.copyFile(sourceUri, destinationUri);
+  } else if (method === 'move') {
+    await RNFS.moveFile(sourceUri, destinationUri);
+  }
+}
+
+/**
+ * Writes a GoeJSON object to disk in the directory provided
+ *
+ * @param {Object} json The JSON object to save to disk
+ * @param {string} fileName The file name to save the file as
+ * @param {string} directory The directory to save the file to
+ */
+export async function writeJSONToDisk(json: Object, fileName: string, directory: string): Promise<void> {
+  const path = directory + (directory.endsWith('/') ? '' : '/') + fileName;
+  // Make the directory for saving files to, if this is already present this won't error according to docs
+  await RNFS.mkdir(directory, {
+    NSURLIsExcludedFromBackupKey: false // Allow this to be saved to iCloud backup!
+  });
+  // Write the new data to the app's storage we use RNFetchBlob here because RNFS seemed to be having
+  // issues with writing large files crashing the app (Possibly due to it encoding the data it saves in the JS layer)
+  await RNFetchBlob.fs.writeFile(path, JSON.stringify(json));
 }

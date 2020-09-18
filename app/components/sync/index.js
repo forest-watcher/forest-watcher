@@ -1,12 +1,12 @@
 // @flow
-
+import type { Thunk } from 'types/store.types';
 import React, { Component } from 'react';
 import { StatusBar, View, Text } from 'react-native';
-import i18n from 'locales';
+import i18n from 'i18next';
 import LottieView from 'lottie-react-native';
-import MapView from 'react-native-maps';
 import ActionButton from 'components/common/action-button';
 import styles from './styles';
+import MapboxGL from '@react-native-mapbox-gl/maps';
 
 const rangerAnimation = require('assets/animations/ranger.json');
 const loadedAnimation = require('assets/animations/check.json');
@@ -16,11 +16,11 @@ type Props = {
   isConnected: boolean,
   criticalSyncError: boolean,
   syncFinished: boolean,
-  retrySync: () => void
+  retrySync: () => Thunk<void>
 };
 
 class Sync extends Component<Props> {
-  static options(passProps) {
+  static options(passProps: {}) {
     return {
       topBar: {
         drawBehind: true,
@@ -84,13 +84,15 @@ class Sync extends Component<Props> {
 
   getAction() {
     const { criticalSyncError, retrySync } = this.props;
-    if (!criticalSyncError) return null;
+    if (!criticalSyncError) {
+      return null;
+    }
     return (
       <ActionButton
         monochrome
         noIcon
         style={styles.button}
-        onPress={retrySync} // TODO: retry again
+        onPress={retrySync}
         text={i18n.t('sync.tryAgain').toUpperCase()}
       />
     );
@@ -99,22 +101,29 @@ class Sync extends Component<Props> {
   render() {
     const { isConnected, syncFinished, criticalSyncError } = this.props;
     let animationSource = noConnectionAnimation;
-    if (isConnected && !criticalSyncError) animationSource = syncFinished ? loadedAnimation : rangerAnimation;
+    if (isConnected && !criticalSyncError) {
+      animationSource = syncFinished ? loadedAnimation : rangerAnimation;
+    }
 
     return (
       <View style={[styles.mainContainer, styles.center]}>
         <StatusBar networkActivityIndicatorVisible />
         {/*
-         * Google Maps must verify its API token over the internet before it can be used.
-         * This is done automatically the first time a map is displayed.
-         * However, if a GFW user were to download an offline tileset without ever opening the map, they would find that
-         * any map views they view would fail to work once offline, because Google Maps has not verified its token.
-         * For that reason we use this workaround where we show an invisible mapView on this screen (a point at which
-         * the user has connection) to ensure Google Maps is verified.
-         * Ultimately, this is caused by Google Maps not really being geared for total offline use, and we can remove
-         * this workaround when/if we switch to a pure Mapbox implementation.
+         * The Mapbox native Android SDK crashes if the following steps are performed:
+         * (i) Install fresh version of app and log into an account with an area
+         * (ii) If running in dev mode, disable Live Reload / Fast Reload (see https://github.com/nitaliano/react-native-mapbox-gl/issues/1016#issuecomment-362048325)
+         * (iii) Download the area offline (which uses Mapbox.OfflineManager)
+         * (iv) Once finished, enable airplane mode, and open the area map. Crash!
+         *
+         * However, if the Mapbox map is viewed at any point before step (iv), then the crash does not occur.
+         * The crash occurs in native Android code so it is not clear exactly why it occurs, but we can avoid the issue
+         * by displaying an invisible dummy "MapView" here on the sync screen. Placing it here ensures that the map
+         * has loaded at least once, and so works around the crash described above.
+         *
+         * This is disgusting but funnily enough we had to do something almost identical for Google Maps in v1. See Git
+         * history for details.
          */}
-        <MapView style={styles.map} provider={MapView.PROVIDER_GOOGLE} mapType="none" />
+        <MapboxGL.MapView style={styles.map} />
         <LottieView
           style={styles.animation}
           loop={!syncFinished}

@@ -46,7 +46,8 @@ function SelectInput(props: Props) {
       <Text style={styles.label}>{question.label}</Text>
       <KeyboardAwareScrollView style={styles.containerContent}>
         {hasValues &&
-          question.values.map((item, index) => {
+          // $FlowFixMe
+          question.values?.map((item, index) => {
             const checked = !!answer.value && answer.value.indexOf(item.value) >= 0;
             const { childQuestion } = question;
             return (

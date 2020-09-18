@@ -6,12 +6,14 @@ import { withSafeArea } from 'react-native-safe-area';
 
 import SearchSelector from 'components/common/search-selector';
 import ActionButton from 'components/common/action-button';
+import Callout from 'components/common/callout';
 import Theme from 'config/theme';
-import i18n from 'locales';
+import i18n from 'i18next';
+import { trackAreaCreationFlowStarted, trackScreenView } from 'helpers/analytics';
 import debounceUI from 'helpers/debounceUI';
-import tracker from 'helpers/googleAnalytics';
 import styles from './styles';
-import { launchAppRoot } from '../../../main';
+import { launchAppRoot, showWelcomeScreen } from 'screens/common';
+import { pushMapSetupScreen } from 'screens/maps';
 
 const SafeAreaView = withSafeArea(View, 'margin', 'bottom');
 const backIcon = require('assets/previous.png');
@@ -20,6 +22,9 @@ class SetupCountry extends Component {
   static options(passProps) {
     return {
       topBar: {
+        background: {
+          color: Theme.colors.veryLightPink
+        },
         leftButtons: passProps.goBackDisabled
           ? [
               {
@@ -42,8 +47,15 @@ class SetupCountry extends Component {
   }
 
   componentDidMount() {
-    tracker.trackAreaCreationFlowStartedEvent();
-    tracker.trackScreenView('Set Up - Select Country');
+    trackAreaCreationFlowStarted();
+    trackScreenView('Set Up - Select Country');
+    this.showWelcomeScreenIfNecessary();
+  }
+
+  componentDidAppear() {
+    // This is called both here and componentDidAppear because componentDidAppear isn't called when setting
+    // the app root using RNN
+    this.showWelcomeScreenIfNecessary();
   }
 
   navigationButtonPressed({ buttonId }) {
@@ -53,10 +65,17 @@ class SetupCountry extends Component {
     }
   }
 
+  showWelcomeScreenIfNecessary = debounceUI(() => {
+    if (!this.props.hasSeenWelcomeScreen) {
+      this.props.setWelcomeScreenSeen(true);
+      showWelcomeScreen();
+    }
+  });
+
   renderLoading() {
     return (
       <View style={[styles.container, styles.center]}>
-        <ActivityIndicator color={Theme.colors.color1} style={{ height: 80 }} size={'large'} />
+        <ActivityIndicator color={Theme.colors.turtleGreen} style={{ height: 80 }} size={'large'} />
       </View>
     );
   }
@@ -88,11 +107,7 @@ class SetupCountry extends Component {
       const currentCountry = this.getCurrentCountry(countries, user.country);
       this.props.setSetupCountry(currentCountry);
     }
-    Navigation.push(componentId, {
-      component: {
-        name: 'ForestWatcher.SetupBoundaries'
-      }
-    });
+    pushMapSetupScreen(componentId);
   });
 
   render() {
@@ -111,14 +126,22 @@ class SetupCountry extends Component {
 
           <View style={styles.selector}>
             <Text style={styles.selectorLabel}>{i18n.t('setupCountry.firstInstruction')}</Text>
-            <SearchSelector
-              selected={this.getCountrySelected(countries, iso)}
-              onOptionSelected={setSetupCountry}
-              data={countries}
-              placeholder={i18n.t('countries.searchPlaceholder')}
-            />
+            <Callout
+              body={i18n.t('setupCountry.tooltip.body')}
+              title={i18n.t('setupCountry.tooltip.title')}
+              visible={!this.props.areaCountryTooltipSeen}
+            >
+              <SearchSelector
+                selected={this.getCountrySelected(countries, iso)}
+                onFocus={() => {
+                  this.props.setAreaCountryTooltipSeen(true);
+                }}
+                onOptionSelected={setSetupCountry}
+                data={countries}
+                placeholder={i18n.t('countries.searchPlaceholder')}
+              />
+            </Callout>
           </View>
-
           <ActionButton
             style={styles.buttonPos}
             disabled={!iso}
@@ -133,11 +156,15 @@ class SetupCountry extends Component {
 }
 
 SetupCountry.propTypes = {
+  areaCountryTooltipSeen: PropTypes.bool,
   logout: PropTypes.func,
   user: PropTypes.any,
   setupCountry: PropTypes.any,
   countries: PropTypes.any,
+  setAreaCountryTooltipSeen: PropTypes.func.isRequired,
   setSetupCountry: PropTypes.func.isRequired,
+  setWelcomeScreenSeen: PropTypes.func.isRequired,
+  hasSeenWelcomeScreen: PropTypes.bool.isRequired,
   componentId: PropTypes.string.isRequired
 };
 

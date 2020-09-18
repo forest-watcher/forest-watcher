@@ -1,21 +1,20 @@
 // @flow
 import type { State } from 'types/store.types';
+import type { AlertDatasetConfig } from 'types/alerts.types';
 
 import { put, takeEvery, select, all, fork } from 'redux-saga/effects';
-import { getAreaAlerts, SET_ACTIVE_ALERTS } from 'redux-modules/alerts';
+import { getAreaAlerts } from 'redux-modules/alerts';
 import { GET_AREAS_COMMIT, SAVE_AREA_COMMIT } from 'redux-modules/areas';
-import { AREAS as areasConstants } from 'config/constants';
+import { DATASETS } from 'config/constants';
 import moment from 'moment/moment';
-import clusterGenerator from 'helpers/clusters-generator';
-import { getSelectedArea, activeDataset } from 'helpers/area';
 
 function* syncAlertDatasets({ area, cache }): Generator<*, *, *> {
   yield all(
-    Object.entries(areasConstants.alertRange)
+    Object.entries(DATASETS)
       // $FlowFixMe
-      .map((entry: [string, number]) => {
-        const [slug, defaultRange] = entry;
-        let range = defaultRange;
+      .map((entry: [string, AlertDatasetConfig]) => {
+        const [slug, datasetConfig] = entry;
+        let range = datasetConfig.requestThreshold;
         // Get the last cache date and request only that new data
         if (cache[slug] && cache[slug][area.id]) {
           const now = moment();
@@ -34,7 +33,6 @@ export function* getAlertsOnAreasCommit(): Generator<*, *, *> {
   function* syncAlertsSaga(): Generator<*, *, *> {
     const areas = yield select((state: State) => state.areas.data);
     const cache = yield select((state: State) => state.alerts.cache);
-
     yield all(areas.map(area => fork(syncAlertDatasets, { area, cache })));
   }
 
@@ -48,18 +46,4 @@ export function* getAlertsOnAreaCreation(): Generator<*, *, *> {
   }
 
   yield takeEvery(SAVE_AREA_COMMIT, readSaveAreaPayload);
-}
-
-export function* setActiveAlerts(): Generator<*, *, *> {
-  function* updateClusters() {
-    const area = yield select(({ areas }: State) => getSelectedArea(areas.data, areas.selectedAreaId));
-    const canDisplay = yield select(({ alerts }) => alerts.canDisplayAlerts);
-    const dataset = activeDataset(area);
-
-    if (dataset && canDisplay) {
-      clusterGenerator.update(area.id, dataset.slug, dataset.startDate);
-    }
-  }
-
-  yield takeEvery(SET_ACTIVE_ALERTS, updateClusters);
 }
