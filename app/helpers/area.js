@@ -1,22 +1,20 @@
 // @flow
 import type { Area, Dataset } from 'types/areas.types';
-
-export function getSelectedArea(areas: Array<Area>, selectedId: string): ?Area {
-  if (!selectedId || (!areas || !areas.length)) return null;
-  return areas.find(a => a.id === selectedId);
-}
+import { polygon } from '@turf/helpers';
+const geojsonArea = require('@mapbox/geojson-area');
 
 export function activeDataset(area: Area): ?Dataset {
-  if (!area || area.datasets === undefined) return null;
-  const enabledDataset = area.datasets.find(d => d.active === true);
-  if (typeof enabledDataset !== 'undefined') {
-    return { ...enabledDataset };
+  if (!area.datasets) {
+    return null;
   }
-  return null;
+  const enabledDataset = area.datasets.find(Boolean);
+  return enabledDataset;
 }
 
-export function enabledDatasetName(area: Area): ?string {
-  if (!area.datasets) return null;
-  const enabledDataset = activeDataset(area);
-  return enabledDataset ? enabledDataset.name : null;
-}
+// Returns the area size in square meters.
+export const getAreaSize = (area: Area): number => {
+  const polygon2 = polygon(area.geojson.coordinates);
+  const areaSize = geojsonArea.geometry(polygon2?.geometry);
+
+  return areaSize;
+};

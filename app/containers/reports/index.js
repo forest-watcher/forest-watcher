@@ -1,49 +1,59 @@
 // @flow
-import type { State } from 'types/store.types';
+import type { ComponentProps, Dispatch, State } from 'types/store.types';
+import type { Report, ReportsList } from 'types/reports.types';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getNextStep } from 'helpers/forms';
-import { shouldBeConnected } from 'helpers/app';
 import { showExportReportsSuccessfulNotification } from 'redux-modules/app';
 
 import Reports from 'components/reports';
+import { trackSharedContent } from 'helpers/analytics';
+import exportBundleFromRedux from 'helpers/sharing/exportBundleFromRedux';
+import shareBundle from 'helpers/sharing/shareBundle';
 
-function getReports(reports) {
+export type GroupedReports = {
+  draft: Array<Report>,
+  complete: Array<Report>,
+  uploaded: Array<Report>,
+  imported: Array<Report>
+};
+
+export function getReports(reports: ReportsList): GroupedReports {
   const data = {
     draft: [],
     complete: [],
-    uploaded: []
+    uploaded: [],
+    imported: []
   };
   Object.keys(reports).forEach(key => {
     const report = reports[key];
-    if (data[report.status]) {
-      data[report.status].push({
-        ...report,
-        title: key
-      });
+    // GFW-699: If a report was imported and then uploaded by the user, then we'll show it in the Uploaded group.
+    if (report.isImported && report.status !== 'uploaded') {
+      data.imported.push(report);
+    } else if (data[report.status]) {
+      data[report.status].push(report);
     }
   });
   return sortReports(data);
 }
 
-function sortReports(reports) {
+function sortReports(reports: GroupedReports) {
   const sorted = {};
   Object.keys(reports).forEach(status => {
-    const section = reports[status].sort((a, b) => {
-      if (a.date > b.date) return -1;
-      if (a.date < b.date) return +1;
-      return 0;
-    });
-    sorted[status] = section;
+    // $FlowFixMe
+    sorted[status] = reports[status].sort((a, b) => b.date - a.date); // todo: are report dates strings or numbers?
   });
   return sorted;
 }
 
+type OwnProps = {|
+  +componentId: string
+|};
+
 function mapStateToProps(state: State) {
   return {
     appLanguage: state.app.language,
-    isConnected: shouldBeConnected(state),
     templates: state.reports.templates,
     reports: getReports(state.reports.list),
     getLastStep: formName => {
@@ -62,16 +72,25 @@ function mapStateToProps(state: State) {
   };
 }
 
-function mapDispatchToProps(dispatch: *) {
-  return bindActionCreators(
-    {
-      showExportReportsSuccessfulNotification
+function mapDispatchToProps(dispatch: Dispatch) {
+  return {
+    exportReportsAsBundle: async (ids: Array<string>) => {
+      const outputPath = await dispatch(
+        exportBundleFromRedux({
+          reportIds: ids
+        })
+      );
+      trackSharedContent('report');
+      await shareBundle(outputPath);
     },
-    dispatch
-  );
+    showExportReportsSuccessfulNotification: () => {
+      dispatch(showExportReportsSuccessfulNotification());
+    }
+  };
 }
 
-export default connect(
+type PassedProps = ComponentProps<OwnProps, typeof mapStateToProps, typeof mapDispatchToProps>;
+export default connect<PassedProps, OwnProps, _, _, State, Dispatch>(
   mapStateToProps,
   mapDispatchToProps
 )(Reports);

@@ -7,10 +7,15 @@ import {
   createFakeReport,
   createFakeTemplate
 } from '../__mocks__/generateFakeData';
+import { setI18nConfig } from 'locales';
 
 const faker = require('faker');
 
 describe('report export', () => {
+  beforeAll(() => {
+    setI18nConfig();
+  });
+
   it('renderReportGroupAsCsv outputs correct metafield headers', () => {
     const languages = createFakeLanguages(3);
     const template = createFakeTemplate({ languages: languages, questions: [] });

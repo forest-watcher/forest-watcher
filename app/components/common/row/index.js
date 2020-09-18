@@ -24,9 +24,10 @@ function Row(props) {
       })}
       underlayColor="transparent"
       onPress={onPress}
+      disabled={!onPress}
     >
       <View style={[styles.row, props.rowStyle]}>
-        <View style={styles.title}>{props.children}</View>
+        <View style={props.style}>{props.children}</View>
         {hasCustomSwitch && (
           <CustomSwitch
             value={props.value}
@@ -35,7 +36,12 @@ function Row(props) {
             onValueChange={props.onValueChange}
           />
         )}
-        {props.action && <Image style={Theme.icon} source={props.action.icon} />}
+        {props.action && (
+          <Image
+            style={[Theme.icon, props.action.position === 'top' ? styles.topIcon : {}, props.iconStyle]}
+            source={props.action.icon}
+          />
+        )}
       </View>
     </Touchable>
   );
@@ -43,16 +49,19 @@ function Row(props) {
 
 Row.propTypes = {
   children: PropTypes.node,
+  iconStyle: PropTypes.any,
   value: PropTypes.bool,
   onValueChange: PropTypes.func,
   action: PropTypes.shape({
     callback: PropTypes.func.isRequired,
-    icon: PropTypes.any
+    icon: PropTypes.any,
+    position: PropTypes.oneOf(['top', 'center'])
   }),
   opacity: PropTypes.number,
   rowStyle: PropTypes.any,
   switchColorOn: PropTypes.string,
-  switchColorOff: PropTypes.string
+  switchColorOff: PropTypes.string,
+  style: PropTypes.any
 };
 
 export default Row;

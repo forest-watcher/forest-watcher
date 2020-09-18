@@ -1,4 +1,4 @@
-import Theme from 'config/theme';
+import Theme, { isSmallScreen } from 'config/theme';
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
@@ -6,27 +6,12 @@ export default StyleSheet.create({
     flex: 1,
     backgroundColor: Theme.background.main
   },
-  contentContainer: {
-    flex: 1,
-    width: Theme.screen.width,
-    height: Theme.screen.height
-  },
   label: {
-    marginLeft: 16,
-    marginBottom: 8,
-    fontSize: 17,
-    color: Theme.fontColors.light,
-    fontFamily: Theme.font,
-    fontWeight: '400'
-  },
-  textMyReports: {
-    fontWeight: '400',
-    fontSize: 17,
-    fontFamily: Theme.font,
-    color: Theme.fontColors.secondary
+    ...Theme.sectionHeaderText
   },
   list: {
-    flex: 1
+    flex: 1,
+    paddingTop: isSmallScreen ? 28 : 76
   },
   listContent: {
     paddingTop: 10,
@@ -42,6 +27,14 @@ export default StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 4,
     elevation: 16
+  },
+  tableRowContent: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  tableRowText: {
+    marginLeft: 24,
+    ...Theme.tableRowText
   },
   iconSettings: {
     position: 'absolute',

@@ -40,13 +40,14 @@ function RadioInput(props: Props) {
   }
 
   const { childQuestion } = question;
-  const hasValues = question && question.values && question.values.length;
+  const hasValues: boolean = (question?.values?.length ?? 0) > 0;
   return (
     <View style={styles.container}>
       <Text style={styles.label}>{question.label}</Text>
       <KeyboardAwareScrollView style={styles.containerContent}>
         {hasValues &&
-          question.values.map((item, index) => (
+          // $FlowFixMe
+          question.values?.map((item, index) => (
             <React.Fragment key={index}>
               <View style={styles.inputContainer} key="container">
                 <CheckBtn

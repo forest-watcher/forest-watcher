@@ -14,7 +14,7 @@ const SafeAreaView = withSafeArea(View, 'padding', 'bottom');
 type Props = {
   title: string,
   closeDialog: () => void,
-  buttons: [{ text: string, onPress: () => void, buttonProps: * }]
+  buttons: Array<{ text: string, onPress: () => void, buttonProps: any }>
 };
 
 class BottomDialog extends PureComponent<Props> {

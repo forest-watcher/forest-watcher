@@ -59,7 +59,6 @@ export default StyleSheet.create({
     marginBottom: 8
   },
   headerImage: {
-    alignSelf: 'stretch',
-    height: 164
+    alignSelf: 'stretch'
   }
 });

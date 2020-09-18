@@ -7,7 +7,7 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'transparent',
-    borderColor: Theme.colors.color1,
+    borderColor: Theme.colors.turtleGreen,
     borderWidth: 2,
     borderStyle: 'dashed'
   },

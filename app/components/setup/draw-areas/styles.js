@@ -1,11 +1,12 @@
 import Theme from 'config/theme';
 import { StyleSheet } from 'react-native';
+import MapboxGL from '@react-native-mapbox-gl/maps';
 
 export default StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject
   },
-  map: {
+  mapView: {
     ...StyleSheet.absoluteFillObject,
     zIndex: 0,
     flex: 1,
@@ -68,3 +69,24 @@ export default StyleSheet.create({
     left: 80
   }
 });
+
+export const mapboxStyles = {
+  areaFill: {
+    fillColor: Theme.polygon.fill,
+    fillAntialias: false
+  },
+  areaOutlineLayer: {
+    lineColor: Theme.colors.white,
+    lineCap: MapboxGL.LineJoin.Round,
+    lineJoin: MapboxGL.LineJoin.Round,
+    lineWidth: 2
+  },
+  pointOuterCircle: {
+    circleRadius: 5,
+    circleColor: Theme.colors.white
+  },
+  pointInnerCircle: {
+    circleRadius: 3,
+    circleColor: Theme.colors.turtleGreen
+  }
+};

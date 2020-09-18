@@ -3,6 +3,7 @@ import Config from 'react-native-config';
 
 import checkConnectivity from 'helpers/networking';
 
+// eslint-disable-next-line import/no-unused-modules
 export class DetectNetworkPing {
   static urlList = [
     Config.API_URL,
@@ -21,7 +22,7 @@ export class DetectNetworkPing {
     */
     if (!connection.online) {
       dispatch(connection);
-      return;
+      return null;
     }
 
     // Get URL based on current attempt number.
@@ -43,9 +44,11 @@ export class DetectNetworkPing {
       if (urlIndex < DetectNetworkPing.urlList.length - 1) {
         // Recall this function, incrementing the urlIndex so we try the next URL.
         this.pingToDetectNetwork(dispatch, urlIndex + 1)(connection);
+        return;
       } else {
         // If every URL has failed, fail the request and stop attempting.
         dispatch({ ...connection, online: false });
+        return;
       }
     });
   };

@@ -1,3 +1,5 @@
+// @flow
+import type { Answer, Question } from 'types/reports.types';
 import React from 'react';
 import Text from './text';
 import Radio from './radio';
@@ -6,8 +8,17 @@ import Date from './date';
 import Blob from './blob';
 import Number from './number';
 
-function FormField(props) {
-  if (!props.question) return null;
+type Props = {
+  reportName: string,
+  question: Question,
+  answer: Answer,
+  onChange: Answer => void
+};
+
+function FormField(props: Props) {
+  if (!props.question) {
+    return null;
+  }
 
   switch (props.question.type) {
     case 'text':

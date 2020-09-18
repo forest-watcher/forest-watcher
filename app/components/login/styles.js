@@ -7,90 +7,91 @@ export default StyleSheet.create({
     flex: 1
   },
   intro: {
-    alignItems: 'center'
+    alignItems: 'center',
+    paddingVertical: 26
   },
-  logo: {
-    width: 108,
-    height: 112,
-    marginTop: 80
+  scrollView: {
+    flex: 1
   },
   bottomContainer: {
-    justifyContent: 'space-between'
-  },
-  buttons: {
-    marginTop: 70
+    justifyContent: 'space-evenly',
+    flex: 1
   },
   buttonsLabel: {
+    marginTop: 28,
+    marginBottom: 8,
     fontFamily: Theme.font,
-    color: Theme.fontColors.light,
-    fontSize: 17,
+    color: Theme.fontColors.secondary,
+    fontSize: 16,
     fontWeight: '400',
-    marginLeft: Theme.margin.left,
-    ...Platform.select({
-      android: {
-        marginBottom: 8
-      }
-    })
+    textAlign: 'center'
   },
   button: {
-    height: 64,
-    marginLeft: 8,
-    marginRight: 8,
-    marginBottom: 8,
+    height: 56,
+    marginHorizontal: 24,
+    marginTop: 16,
     borderRadius: 32,
     justifyContent: 'center',
-    overflow: 'hidden'
+    overflow: 'hidden',
+    paddingHorizontal: 22
+  },
+  buttonContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between'
+  },
+  buttonTitleContainer: {
+    flexDirection: 'row',
+    alignItems: 'center'
   },
   iconArrow: {
     width: 10,
-    height: 18,
-    position: 'absolute',
-    right: 24,
-    top: 2
+    height: 18
+  },
+  buttonEmail: {
+    backgroundColor: Theme.colors.turtleGreen
+  },
+  iconEmail: {
+    width: 28,
+    height: 28
   },
   buttonFacebook: {
     backgroundColor: Theme.socialNetworks.facebook
   },
   iconFacebook: {
-    width: 12,
-    height: 21,
-    position: 'absolute',
-    left: 24,
-    top: 2
+    width: 23,
+    height: 21
   },
   buttonTwitter: {
     backgroundColor: Theme.socialNetworks.twitter
   },
   iconTwitter: {
     width: 23,
-    height: 20,
-    position: 'absolute',
-    left: 20,
-    top: 4
+    height: 20
   },
   buttonGoogle: {
     backgroundColor: Theme.socialNetworks.google
   },
   iconGoogle: {
-    width: 21,
-    height: 21,
-    position: 'absolute',
-    left: 20,
-    top: 3
+    width: 23,
+    height: 21
   },
   buttonCountry: {
-    backgroundColor: Theme.colors.color3,
+    backgroundColor: Theme.colors.grey,
     height: 48
   },
   buttonText: {
+    letterSpacing: 0.8,
     fontFamily: Theme.font,
     color: Theme.fontColors.white,
-    fontSize: 17,
-    fontWeight: '400',
-    marginLeft: 56
+    fontSize: 16,
+    marginLeft: 18
   },
   buttonTextCountry: {
     marginLeft: 24
+  },
+  signInContainer: {
+    flexGrow: 1
   },
   webViewHeader: {
     flexDirection: 'row',
@@ -100,7 +101,7 @@ export default StyleSheet.create({
     paddingBottom: 10,
     backgroundColor: Theme.background.white,
     borderBottomWidth: 1,
-    borderBottomColor: Theme.colors.color6,
+    borderBottomColor: Theme.colors.veryLightPinkTwo,
     ...Platform.select({
       ios: {
         zIndex: 1
@@ -131,9 +132,10 @@ export default StyleSheet.create({
     height: 32,
     fontFamily: Theme.font,
     color: Theme.fontColors.light,
-    backgroundColor: Theme.colors.color4,
+    backgroundColor: Theme.colors.veryLightPink,
     fontSize: 15,
     fontWeight: '400',
+    flex: 1,
     paddingTop: 4,
     paddingBottom: 4,
     paddingLeft: 10,
@@ -155,11 +157,9 @@ export default StyleSheet.create({
     marginBottom: 8
   },
   loaderContainer: {
-    flex: 1,
     backgroundColor: 'transparent',
     left: 0,
     right: 0,
-    top: 192,
     bottom: 0,
     position: 'absolute',
     zIndex: 5
@@ -167,5 +167,13 @@ export default StyleSheet.create({
   loader: {
     alignItems: 'center',
     justifyContent: 'flex-start'
+  },
+  linkStyle: {
+    ...Theme.text,
+    fontSize: 16,
+    marginTop: 36,
+    marginBottom: 24,
+    textAlign: 'center',
+    textDecorationLine: 'underline'
   }
 });

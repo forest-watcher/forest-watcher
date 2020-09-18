@@ -4,16 +4,16 @@
 
 To be able to use the map we need to create tokens for:
 
-- Google maps, needed for Google maps application, get it from:
-  - [Android](https://developers.google.com/maps/documentation/android-api/signup)
-  - [iOS](https://developers.google.com/maps/documentation/ios-sdk/get-api-key)
-- Mapbox, used for the satellite basemap, [follow this instructions](https://www.mapbox.com/help/how-access-tokens-work/#creating-and-managing-access-tokens) to generate your own key.
+- Mapbox, used for all mapping functionality, [follow this instructions](https://www.mapbox.com/help/how-access-tokens-work/#creating-and-managing-access-tokens) to generate your own key.
 
 ```bash
-GOOGLE_MAPS_API_KEY_IOS=
-GOOGLE_MAPS_API_KEY_ANDROID=
+MAPBOX_BASE_URL=
 MAPBOX_TOKEN=
 ```
+
+
+
+
 
 ## Translations dependencies
 
@@ -24,18 +24,14 @@ TRANSIFEX_URL=
 TRANSIFEX_PROJECT=
 TRANSIFEX_SLUG=
 TRANSIFEX_API_TOKEN=
-LOCALES_PATH=app/locales
-```
-
-## Analytics dependencies
-
-In case you want to track pages visited and other user interactions get a google analytics
-account [tracking id](https://support.google.com/analytics/answer/1008080?hl=en) and fill it.
-
-```bash
-GOOGLE_ANALYTICS_ID=
 ```
 
 ## Crash Reporting
 
-We are using [Sentry](https://sentry.io/welcome/) to handle crashes.
+We are using [Sentry](https://sentry.io/welcome/) to handle crashes. Setup a project on Sentry to get a DSN.
+
+Also make sure you copy `sentry.properties` into the `./android` and `./ios` folders.
+
+```bash
+SENTRY_DSN=
+```

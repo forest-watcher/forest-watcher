@@ -1,5 +1,5 @@
 // @flow
-import type { State } from 'types/store.types';
+import type { ComponentProps, Dispatch, State } from 'types/store.types';
 
 import isEmpty from 'lodash/isEmpty';
 import { connect } from 'react-redux';
@@ -9,6 +9,10 @@ import { hasSyncFinished } from 'helpers/sync';
 import { shouldBeConnected } from 'helpers/app';
 
 import Sync from 'components/sync';
+
+type OwnProps = {|
+  +componentId: string
+|};
 
 function mapStateToProps(state: State) {
   const hasAreas = !!state.areas.data.length;
@@ -22,7 +26,7 @@ function mapStateToProps(state: State) {
   };
 }
 
-const mapDispatchToProps = (dispatch: *) =>
+const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
     {
       retrySync
@@ -30,7 +34,8 @@ const mapDispatchToProps = (dispatch: *) =>
     dispatch
   );
 
-export default connect(
+type PassedProps = ComponentProps<OwnProps, typeof mapStateToProps, typeof mapDispatchToProps>;
+export default connect<PassedProps, OwnProps, _, _, State, Dispatch>(
   mapStateToProps,
   mapDispatchToProps
 )(Sync);

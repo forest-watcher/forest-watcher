@@ -1,47 +1,24 @@
-import Theme from 'config/theme';
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
+
+const areaRowContainerMargin = 26;
+const areaRowHeight = 130;
+export const AREA_ROW_TOTAL_HEIGHT = areaRowContainerMargin + areaRowHeight;
 
 export default StyleSheet.create({
-  container: {
+  rowContainer: {
+    marginBottom: areaRowContainerMargin
+  },
+  row: {
+    height: Platform.OS === 'android' ? areaRowHeight : undefined // extra 2 for bottomBorder in Row component
+  },
+  calloutFirstRowContainer: {
+    // GFW-459 & GFW-584 - prevent area tooltip bottom from being cut off on android
+    marginBottom: 126,
+    zIndex: 10000
+  },
+  calloutSecondRowContainer: {
+    // GFW-459 & GFW-584 - prevent area tooltip bottom from being cut off on android
+    marginTop: -100,
     marginBottom: 26
-  },
-  item: {
-    paddingRight: 10,
-    borderBottomColor: Theme.borderColors.main,
-    borderBottomWidth: 2,
-    backgroundColor: Theme.background.white,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    position: 'relative'
-  },
-  imageContainer: {
-    width: 128,
-    height: 126,
-    backgroundColor: Theme.background.modal
-  },
-  image: {
-    width: 128,
-    height: 126
-  },
-  titleContainer: {
-    flex: 1,
-    alignItems: 'flex-start',
-    marginVertical: 16
-  },
-  title: {
-    fontFamily: Theme.font,
-    color: Theme.fontColors.secondary,
-    fontSize: 17,
-    fontWeight: '400',
-    marginLeft: 16
-  },
-  subtitle: {
-    fontFamily: Theme.font,
-    color: Theme.fontColors.light,
-    fontSize: 15,
-    fontWeight: '400',
-    marginLeft: 16,
-    marginTop: 8
   }
 });

@@ -1,23 +1,24 @@
 import React from 'react';
+import { Platform, Switch } from 'react-native';
 import PropTypes from 'prop-types';
-import { Switch } from 'react-native';
 
 import Theme from 'config/theme';
 
 function CustomSwitch(props) {
   return (
     <Switch
+      ios_backgroundColor={Theme.colors.veryLightPink}
       value={props.value}
       onValueChange={props.onValueChange}
-      trackColor={Theme.colors.color4}
-      thumbColor={props.value ? props.colorOn : props.colorOff}
+      trackColor={Theme.colors.veryLightPink}
+      thumbColor={Platform.OS === 'android' ? (props.value ? props.colorOn : props.colorOff) : null}
     />
   );
 }
 
 CustomSwitch.defaultProps = {
-  colorOff: Theme.colors.color4,
-  colorOn: Theme.colors.color1
+  colorOff: Theme.colors.veryLightPink,
+  colorOn: Theme.colors.turtleGreen
 };
 
 CustomSwitch.propTypes = {

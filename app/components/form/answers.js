@@ -2,10 +2,9 @@
 import type { Answer, Question } from 'types/reports.types';
 
 import React, { PureComponent } from 'react';
-import { ActionSheetIOS, NativeModules, Platform, View, Text, ScrollView } from 'react-native';
-import DialogAndroid from 'react-native-dialogs';
+import { NativeModules, Platform, View, Text, ScrollView } from 'react-native';
 import { Navigation } from 'react-native-navigation';
-import i18n from 'locales';
+import i18n from 'i18next';
 
 import ActionButton from 'components/common/action-button';
 import AnswerComponent from 'components/form/answer/answer';
@@ -13,6 +12,11 @@ import ImageCarousel from 'components/common/image-carousel';
 import tracker, { REPORT_OUTCOME_CANCELLED, REPORT_OUTCOME_COMPLETED } from 'helpers/googleAnalytics';
 import withDraft from './withDraft';
 import styles from './styles';
+import displayExportReportDialog from 'helpers/sharing/displayExportReportDialog';
+import { pathForReportQuestionAttachment } from 'helpers/report-store/reportFilePaths';
+import { toFileUri } from 'helpers/fileURI';
+import { trackReportingConcluded } from 'helpers/analytics';
+import { isBlobResponse } from 'helpers/forms';
 
 const deleteIcon = require('assets/delete_red.png');
 const exportIcon = require('assets/upload.png');
@@ -22,22 +26,30 @@ type Props = {
   metadata: Array<{ id: string, label: string, value: any }>,
   results: Array<{ question: Question, answer: Answer }>,
   reportName: string,
-  uploadReport: string => void,
-  deleteReport: string => void,
+  uploadReport: () => void,
+  deleteReport: () => void,
   exportReport: () => void,
-  setReportAnswer: (string, Answer, boolean) => void,
+  exportReportAsBundle: () => Promise<void>,
+  setReportAnswer: (Answer, boolean) => void,
   readOnly: boolean,
-  setActiveAlerts: boolean => void,
   isConnected: boolean,
   showNotConnectedNotification: () => void,
   showExportReportsSuccessfulNotification: () => void,
   showUploadButton: boolean
 };
 
+type Image = {
+  id: string,
+  name: string,
+  order: number,
+  required: boolean,
+  uri: any
+};
+
 const closeIcon = require('assets/close.png');
 
 class Answers extends PureComponent<Props> {
-  static options(passProps) {
+  static options(passProps: { readOnly: boolean }) {
     return {
       topBar: {
         leftButtons: [
@@ -71,12 +83,14 @@ class Answers extends PureComponent<Props> {
    */
   async navigationButtonPressed({ buttonId }) {
     if (buttonId === 'export') {
-      const title = i18n.t('report.export.title');
-      const message = i18n.t('report.export.description');
-      const options = [i18n.t('report.export.option.asCSV')];
       const buttonHandler = async idx => {
         switch (idx) {
           case 0: {
+            await this.props.exportReportAsBundle();
+            this.props.showExportReportsSuccessfulNotification();
+            break;
+          }
+          case 1: {
             await this.props.exportReport();
             this.props.showExportReportsSuccessfulNotification();
             if (Platform.OS === 'android') {
@@ -84,7 +98,7 @@ class Answers extends PureComponent<Props> {
             }
             break;
           }
-          case 1: {
+          case 2: {
             if (this.props.showUploadButton) {
               this.onUploadRequested();
             }
@@ -92,35 +106,12 @@ class Answers extends PureComponent<Props> {
           }
         }
       };
-
-      if (this.props.showUploadButton) {
-        options.push(i18n.t('report.upload'));
-      }
-
-      if (Platform.OS === 'ios') {
-        ActionSheetIOS.showActionSheetWithOptions(
-          {
-            options: [...options, i18n.t('commonText.cancel')],
-            cancelButtonIndex: options.length,
-            title,
-            message
-          },
-          buttonHandler
-        );
-      } else if (Platform.OS === 'android') {
-        const { selectedItem } = await DialogAndroid.showPicker(title, message, {
-          items: options.map((item, idx) => ({ label: item, id: idx })),
-          positiveText: i18n.t('commonText.cancel')
-        });
-        if (selectedItem) {
-          buttonHandler(selectedItem.id);
-        }
-      }
+      await displayExportReportDialog(this.props.showUploadButton, buttonHandler);
     }
 
     if (buttonId === 'backButton') {
       Navigation.dismissModal(this.props.componentId);
-      tracker.trackReportFlowEndedEvent(REPORT_OUTCOME_CANCELLED);
+      trackReportingConcluded('cancelled', 'answers');
     }
   }
 
@@ -130,16 +121,16 @@ class Answers extends PureComponent<Props> {
       return;
     }
 
-    const { reportName, uploadReport, componentId } = this.props;
-    uploadReport(reportName);
+    const { uploadReport, componentId } = this.props;
+    uploadReport();
     Navigation.dismissModal(componentId);
   };
 
   onPressSend = () => {
-    const { reportName, uploadReport, componentId, setActiveAlerts } = this.props;
-    uploadReport(reportName);
-    setActiveAlerts(true);
-    tracker.trackReportFlowEndedEvent(REPORT_OUTCOME_COMPLETED);
+    const { uploadReport, componentId } = this.props;
+    uploadReport();
+
+    trackReportingConcluded('completed', 'overview');
     Navigation.dismissModal(componentId);
   };
 
@@ -167,35 +158,37 @@ class Answers extends PureComponent<Props> {
     });
   };
 
-  onDeleteImage = (id, questionName, images) => {
-    const image = images.find(i => i.id === id);
-    const { reportName, setReportAnswer } = this.props;
+  onDeleteImage = (id, questionName, images: Array<Image>) => {
+    const image: ?Image = images.find(i => i.id === id);
+    const { setReportAnswer } = this.props;
     const answer = {
       questionName,
       value: ''
     };
-    setReportAnswer(reportName, answer, true);
-    if (image.required) this.onEdit(image.order);
+    setReportAnswer(answer, true);
+    if (image?.required) {
+      this.onEdit(image?.order);
+    }
   };
 
   handleDeleteArea = () => {
-    const { componentId, deleteReport, reportName } = this.props;
-    deleteReport(reportName);
+    const { componentId, deleteReport } = this.props;
+    deleteReport();
+    trackReportingConcluded('cancelled', 'overview');
     Navigation.dismissModal(componentId);
   };
 
   render() {
     const { results, readOnly, metadata } = this.props;
     const regularAnswers = results.filter(({ question }) => question.type !== 'blob');
-    const images = results
-      .filter(({ question }) => question.type === 'blob')
-      .map((image, index) => ({
-        id: image.question.Id,
-        uri: image.answer.value[index],
-        name: image.question.name,
-        order: image.question.order,
-        required: image.question.required
-      }));
+
+    const images = results.filter(isBlobResponse).map((image, index) => ({
+      id: image.question.Id,
+      uri: toFileUri(pathForReportQuestionAttachment(this.props.reportName, image.question.name, 'image/jpeg')),
+      name: image.question.name,
+      order: image.question.order,
+      required: image.question.required
+    }));
     const imageActions = !readOnly
       ? [
           {

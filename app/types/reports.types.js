@@ -1,15 +1,18 @@
 // @flow
-import type { Area, GetAreasCommit } from 'types/areas.types';
+import type { Dataset, GetAreasCommit } from 'types/areas.types';
 import type { LogoutRequest } from 'types/user.types';
 import type { OfflineMeta } from 'types/offline.types';
+
+export type Metadata = { id: string, label: string, value: any };
 
 export type Question = {
   type: string,
   name: string,
   Id: string,
   conditions: Array<any>,
+  conditionalValue: ?number,
   childQuestions: Array<Question>,
-  childQuestion: Question,
+  childQuestion: ?Question,
   defaultValue: string,
   values?: Array<any>,
   order: number,
@@ -21,6 +24,11 @@ export type Answer = {
   questionName: string,
   value: any,
   child?: ?Answer
+};
+
+export type AnsweredQuestion = {
+  question: Question,
+  answer: Answer
 };
 
 export type Template = {
@@ -35,27 +43,52 @@ export type Template = {
   createdAt: string,
   public: boolean,
   status: 'unpublished' | 'published',
-  id: string
+  id: string,
+  isImported?: true
 };
 
 export type Report = {
-  name: string,
-  area: Area,
+  reportName: string,
+  area: ReportArea,
   userPosition: string,
   clickedPosition: string,
   index: number,
   status: 'draft' | 'complete' | 'uploaded',
   date: string,
-  answers: Array<Answer>
+  answers: Array<Answer>,
+  isImported?: true
+};
+
+export type SelectedReport = {
+  reportName: string,
+  lat: number,
+  long: number
+};
+
+export type BasicReport = {
+  reportName: string,
+  userPosition: string, // "x,x"
+  clickedPosition: string, // JSON representation of an array of objects with lat and lon props
+  area: ReportArea
+};
+
+export type ReportArea = {
+  id: string,
+  name: string,
+  datasets?: Array<Dataset>,
+  dataset?: Dataset,
+  templateId: string
+};
+
+export type ReportsList = {
+  [string]: Report
 };
 
 export type ReportsState = {
   templates: {
     [string]: Template
   },
-  list: {
-    [string]: Report
-  },
+  list: ReportsList,
   synced: boolean,
   syncing: boolean
 };
@@ -67,10 +100,12 @@ export type GetDefaultTemplateRollback = { type: 'report/GET_DEFAULT_TEMPLATE_RO
 export type CreateReport = {
   type: 'report/CREATE_REPORT',
   payload: {
-    [string]: Report
+    report: Report
   }
 };
 export type DeleteReport = { type: 'report/DELETE_REPORT', payload: { reportName: string } };
+export type ImportReport = { type: 'report/IMPORT_REPORT', payload: Report };
+export type ImportTemplate = { type: 'report/IMPORT_TEMPLATE', payload: Template };
 export type UpdateReport = { type: 'report/UPDATE_REPORT', payload: { name: string, data: Report } };
 export type SetReportAnswer = {
   type: 'report/SET_REPORT_ANSWER',
@@ -118,4 +153,6 @@ export type ReportsAction =
   | UploadReportCommit
   | UploadReportRollback
   | SetReportAnswer
+  | ImportReport
+  | ImportTemplate
   | LogoutRequest;

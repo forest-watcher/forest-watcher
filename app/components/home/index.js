@@ -1,5 +1,6 @@
 // @flow
-
+import type { AppAction } from 'types/app.types';
+import type { Thunk } from 'types/store.types';
 import React, { Component } from 'react';
 import { View, ActivityIndicator, InteractionManager } from 'react-native';
 import { Navigation } from 'react-native-navigation';
@@ -12,12 +13,12 @@ type Props = {
   componentId: string,
   hasAreas: boolean,
   actionsPending: number,
-  setAppSynced: boolean => void,
-  syncApp: () => void
+  setAppSynced: boolean => AppAction,
+  syncApp: () => Thunk<void>
 };
 
 class Home extends Component<Props> {
-  static options(passProps) {
+  static options(passProps: {}) {
     return {
       topBar: {
         drawBehind: true,
@@ -60,6 +61,7 @@ class Home extends Component<Props> {
         } else {
           Navigation.setStackRoot(componentId, {
             component: {
+              id: 'ForestWatcher.Dashboard',
               name: 'ForestWatcher.Dashboard'
             }
           });
@@ -75,7 +77,7 @@ class Home extends Component<Props> {
     } else {
       Navigation.setStackRoot(componentId, {
         component: {
-          name: 'ForestWatcher.Walkthrough'
+          name: 'ForestWatcher.Login'
         }
       });
     }
@@ -93,8 +95,8 @@ class Home extends Component<Props> {
           {
             component: {
               name: 'ForestWatcher.Sync',
-              passProps: {
-                goBackDisabled: true
+              options: {
+                modalPresentationStyle: 'overCurrentContext'
               }
             }
           }
@@ -106,7 +108,7 @@ class Home extends Component<Props> {
   render() {
     return (
       <View style={[styles.mainContainer, styles.center]}>
-        <ActivityIndicator color={Theme.colors.color1} style={{ height: 80 }} size="large" />
+        <ActivityIndicator color={Theme.colors.turtleGreen} style={{ height: 80 }} size="large" />
       </View>
     );
   }

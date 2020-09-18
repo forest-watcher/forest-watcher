@@ -1,11 +1,12 @@
-import { Alert, AppState, Platform } from 'react-native';
+import { Alert, AppState, NativeModules, Platform } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import { Provider } from 'react-redux';
 import Theme from 'config/theme';
 import { registerScreens } from 'screens';
 import createStore from 'store';
 import { setupCrashLogging } from './crashes';
-import i18n from 'locales';
+import { setI18nConfig } from 'locales';
+import i18n from 'i18next';
 
 import {
   GFWLocationAuthorizedAlways,
@@ -15,7 +16,14 @@ import {
   showLocationSettings,
   startTrackingLocation
 } from 'helpers/location';
-import { discardActiveRoute } from './redux-modules/routes';
+import { discardActiveRoute } from 'redux-modules/routes';
+import Config from 'react-native-config';
+import MapboxGL from '@react-native-mapbox-gl/maps';
+import { trackRouteFlowEvent } from 'helpers/analytics';
+import { launchAppRoot } from 'screens/common';
+import { migrateFilesFromV1ToV2 } from './migrate';
+import { SET_HAS_MIGRATED_V1_FILES } from 'redux-modules/app';
+import * as Sentry from '@sentry/react-native';
 
 // Disable ios warnings
 // console.disableYellowBox = true;
@@ -23,6 +31,7 @@ import { discardActiveRoute } from './redux-modules/routes';
 // Show request in chrome network tool
 // GLOBAL.XMLHttpRequest = GLOBAL.originalXMLHttpRequest || GLOBAL.XMLHttpRequest;
 
+// eslint-disable-next-line import/no-unused-modules
 export default class App {
   constructor() {
     this.store = null;
@@ -31,6 +40,8 @@ export default class App {
   }
 
   async launchRoot() {
+    setI18nConfig();
+
     await Navigation.setDefaultOptions({
       ...Theme.navigator.styles
     });
@@ -41,8 +52,25 @@ export default class App {
       screen = 'ForestWatcher.Dashboard';
     }
 
+    if (Platform.OS === 'android') {
+      NativeModules.FWMapbox.installOfflineModeInterceptor(state.app.offlineMode);
+    }
+
     await launchAppRoot(screen);
     await this._handleAppStateChange('active');
+
+    try {
+      const hasMigratedFiles = state.app.hasMigratedV1Files;
+      if (!hasMigratedFiles) {
+        await migrateFilesFromV1ToV2(this.store.dispatch);
+        this.store.dispatch({
+          type: SET_HAS_MIGRATED_V1_FILES
+        });
+      }
+    } catch (err) {
+      console.warn('3SC', 'Could not migrate files', err);
+      Sentry.captureException(err);
+    }
   }
 
   _handleAppStateChange = async nextAppState => {
@@ -83,6 +111,7 @@ export default class App {
       });
 
       if (!shouldResume) {
+        trackRouteFlowEvent('discardedOnLaunch');
         this.store.dispatch(discardActiveRoute());
         return;
       }
@@ -141,34 +170,9 @@ export default class App {
       this.store = store;
       registerScreens(store, Provider);
       initialiseLocationFramework();
+      MapboxGL.setAccessToken(Config.MAPBOX_TOKEN);
       createStore.runSagas();
       await this.launchRoot();
     });
   }
-}
-
-export function launchAppRoot(screen) {
-  return Navigation.setRoot({
-    root: {
-      sideMenu: {
-        center: {
-          stack: {
-            children: [
-              {
-                component: {
-                  name: screen
-                }
-              }
-            ]
-          }
-        },
-        right: {
-          component: {
-            name: 'ForestWatcher.RightDrawer',
-            passProps: {}
-          }
-        }
-      }
-    }
-  });
 }

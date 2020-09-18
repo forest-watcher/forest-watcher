@@ -8,7 +8,7 @@ import styles from './styles';
 function ButtonCircle(props) {
   function onButtonPress() {
     if (!props.disabled) {
-      props.onPress();
+      props.onPress?.();
     }
   }
   const btnStyles = [
@@ -24,15 +24,23 @@ function ButtonCircle(props) {
     underlayColor = Theme.background.white;
   }
   if (props.red) {
-    underlayColor = Theme.colors.color7;
+    underlayColor = Theme.colors.carnation;
   }
   if (props.gray) {
     underlayColor = Theme.background.gray;
   }
-  if (props.disabled) underlayColor = Theme.colors.color6;
+  if (props.disabled) {
+    underlayColor = Theme.colors.veryLightPinkTwo;
+  }
 
   return (
-    <TouchableHighlight style={btnStyles} onPress={onButtonPress} activeOpacity={0.8} underlayColor={underlayColor}>
+    <TouchableHighlight
+      onLayout={props.onLayout}
+      style={[btnStyles, props.style]}
+      onPress={onButtonPress}
+      activeOpacity={0.8}
+      underlayColor={underlayColor}
+    >
       {props.icon && <Image style={props.shouldFillContainer ? Theme.largeIcon : Theme.icon} source={props.icon} />}
     </TouchableHighlight>
   );
@@ -50,6 +58,7 @@ ButtonCircle.propTypes = {
   style: PropTypes.node,
   icon: PropTypes.number,
   disabled: PropTypes.bool,
+  onLayout: PropTypes.func,
   onPress: PropTypes.func.isRequired,
   gray: PropTypes.bool
 };

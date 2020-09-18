@@ -6,12 +6,11 @@ import type { Dispatch, GetState } from 'types/store.types';
 import Config from 'react-native-config';
 // Actions
 import { LOGOUT_REQUEST } from 'redux-modules/user';
-import { RETRY_SYNC } from 'redux-modules/app';
+import { RETRY_SYNC, getAreaById } from 'redux-modules/shared';
 import { GET_ALERTS_COMMIT } from 'redux-modules/alerts';
 import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 
-import tracker from 'helpers/googleAnalytics';
-import { deleteRoutes } from './routes';
+import deleteAlerts from 'helpers/alert-store/deleteAlerts';
 
 const GET_AREAS_REQUEST = 'areas/GET_AREAS_REQUEST';
 export const GET_AREAS_COMMIT = 'areas/GET_AREAS_COMMIT';
@@ -20,24 +19,16 @@ const SET_AREAS_REFRESHING = 'areas/SET_AREAS_REFRESHING';
 export const SAVE_AREA_REQUEST = 'areas/SAVE_AREA_REQUEST';
 export const SAVE_AREA_COMMIT = 'areas/SAVE_AREA_COMMIT';
 export const SAVE_AREA_ROLLBACK = 'areas/SAVE_AREA_ROLLBACK';
-export const UPDATE_AREA_REQUEST = 'areas/UPDATE_AREA_REQUEST';
+const UPDATE_AREA_REQUEST = 'areas/UPDATE_AREA_REQUEST';
 const UPDATE_AREA_COMMIT = 'areas/UPDATE_AREA_COMMIT';
 const UPDATE_AREA_ROLLBACK = 'areas/UPDATE_AREA_ROLLBACK';
 const DELETE_AREA_REQUEST = 'areas/DELETE_AREA_REQUEST';
 export const DELETE_AREA_COMMIT = 'areas/DELETE_AREA_COMMIT';
 const DELETE_AREA_ROLLBACK = 'areas/DELETE_AREA_ROLLBACK';
-const SET_SELECTED_AREA_ID = 'areas/SET_SELECTED_AREA_ID';
-
-// Helpers
-function getAreaById(areas: Array<Area>, areaId: string) {
-  const area = areas.find(areaData => areaData.id === areaId);
-  return area ? { ...area } : null;
-}
 
 // Reducer
 const initialState = {
   data: [],
-  selectedAreaId: '',
   synced: false,
   refreshing: false,
   syncing: false,
@@ -48,6 +39,7 @@ const initialState = {
 export default function reducer(state: AreasState = initialState, action: AreasAction) {
   switch (action.type) {
     case PERSIST_REHYDRATE: {
+      // $FlowFixMe
       const { areas } = action.payload;
       return { ...state, ...areas, syncError: false };
     }
@@ -60,7 +52,6 @@ export default function reducer(state: AreasState = initialState, action: AreasA
     case GET_AREAS_REQUEST:
       return { ...state, synced: false, syncing: true };
     case GET_AREAS_COMMIT: {
-      const data = action.payload;
       const syncData = {
         syncDate: Date.now(),
         synced: true,
@@ -68,14 +59,15 @@ export default function reducer(state: AreasState = initialState, action: AreasA
         syncError: false,
         refreshing: false
       };
-      return { ...state, data, ...syncData };
+      const importedAreas = state.data.filter(area => area.isImported);
+      return { ...state, data: [...action.payload, ...importedAreas], ...syncData };
     }
     case GET_AREAS_ROLLBACK: {
       return { ...state, syncing: false, syncError: true };
     }
     case GET_ALERTS_COMMIT: {
       const area = action.meta.area;
-      const data = state.data.map(a => {
+      const data: Array<Area> = state.data.map((a: Area) => {
         if (a.id === area.id) {
           const datasets = a.datasets.map(dataset => {
             if (dataset.slug === action.meta.datasetSlug) {
@@ -94,9 +86,15 @@ export default function reducer(state: AreasState = initialState, action: AreasA
     }
     case SAVE_AREA_COMMIT: {
       let data = state.data;
-      const area = action.payload;
-      if (area) {
-        data = [...data, area];
+      const areaToSave = action.payload;
+      if (areaToSave) {
+        // Ignore the saved area if it already exists - this could happen when importing an area for example
+        const possiblyPreexistingArea = state.data.find(area => area.id === areaToSave.id);
+        if (!possiblyPreexistingArea) {
+          data = [...data, areaToSave];
+        } else {
+          console.warn('3SC', `Ignore already existing area with ID ${areaToSave.id}`);
+        }
       }
       return { ...state, data, synced: true, syncing: false, refreshing: false };
     }
@@ -105,7 +103,7 @@ export default function reducer(state: AreasState = initialState, action: AreasA
     }
     case UPDATE_AREA_REQUEST: {
       const newArea = { ...action.payload };
-      const areas = state.data.map(area => {
+      const areas: Array<Area> = state.data.map(area => {
         if (area.id === newArea.id) {
           return { ...newArea };
         }
@@ -116,7 +114,7 @@ export default function reducer(state: AreasState = initialState, action: AreasA
     case UPDATE_AREA_COMMIT: {
       // Not overwritting the geostore
       const { geostore, ...newArea } = action.payload; // eslint-disable-line
-      const data = state.data.map(area => {
+      const data: Array<Area> = state.data.map(area => {
         if (area.id === newArea.id) {
           return { ...area, ...newArea };
         }
@@ -126,7 +124,7 @@ export default function reducer(state: AreasState = initialState, action: AreasA
     }
     case UPDATE_AREA_ROLLBACK: {
       const oldArea = action.meta;
-      const areas = state.data.map(area => {
+      const areas: Array<Area> = state.data.map(area => {
         if (area.id === oldArea.id) {
           return { ...oldArea };
         }
@@ -135,25 +133,28 @@ export default function reducer(state: AreasState = initialState, action: AreasA
       return { ...state, data: areas };
     }
     case DELETE_AREA_REQUEST: {
-      const data = state.data.filter(area => area.id !== action.payload.id);
+      const data: Array<Area> = state.data.filter((area: Area) => area.id !== action.payload.id);
       return { ...state, data, synced: false, syncing: true };
     }
     case DELETE_AREA_COMMIT: {
       const { id } = action.meta.area || {};
-      const selectedAreaId = id === state.selectedAreaId ? '' : state.selectedAreaId;
-      return { ...state, synced: true, syncing: false, selectedAreaId };
+      if (id) {
+        deleteAlerts({
+          areaId: id
+        });
+      }
+      return { ...state, synced: true, syncing: false };
     }
     case DELETE_AREA_ROLLBACK: {
       const data = [...state.data, action.meta.area];
       return { ...state, data, syncing: false };
     }
-    case SET_SELECTED_AREA_ID: {
-      return { ...state, selectedAreaId: action.payload };
-    }
     case LOGOUT_REQUEST: {
       return initialState;
     }
     default:
+      // eslint-disable-next-line babel/no-unused-expressions
+      (action.type: empty);
       return state;
   }
 }
@@ -173,7 +174,21 @@ export function getAreas(): AreasAction {
 }
 
 export function updateArea(area: Area) {
-  return async (dispatch: Dispatch, state: GetState) => {
+  return (dispatch: Dispatch, state: GetState) => {
+    // For imported areas, we don't need to do a network request
+    // Use the same Redux actions to only apply the change locally
+    if (area.isImported) {
+      dispatch({
+        type: UPDATE_AREA_REQUEST,
+        payload: area
+      });
+      dispatch({
+        type: UPDATE_AREA_COMMIT,
+        payload: area
+      });
+      return;
+    }
+
     const url = `${Config.API_URL}/area/${area.id}`;
     const originalArea = getAreaById(state().areas.data, area.id);
     const headers = { 'content-type': 'multipart/form-data' };
@@ -198,13 +213,6 @@ export function updateArea(area: Area) {
   };
 }
 
-export function setSelectedAreaId(id: string): AreasAction {
-  return {
-    type: SET_SELECTED_AREA_ID,
-    payload: id
-  };
-}
-
 export function setAreasRefreshing(refreshing: boolean): AreasAction {
   return {
     type: SET_AREAS_REFRESHING,
@@ -212,11 +220,12 @@ export function setAreasRefreshing(refreshing: boolean): AreasAction {
   };
 }
 
-export function saveArea(params: { snapshot: string, area: CountryArea }): AreasAction {
+export function saveArea(params: { datasets: Array<Dataset>, snapshot: string, area: CountryArea }): AreasAction {
   const url = `${Config.API_URL}/forest-watcher/area`;
   const headers = { 'content-type': 'multipart/form-data' };
   const body = new FormData();
   body.append('name', params.area.name);
+  // $FlowFixMe
   body.append('geojson', JSON.stringify(params.area.geojson));
 
   const image = {
@@ -243,61 +252,25 @@ export function saveArea(params: { snapshot: string, area: CountryArea }): Areas
   };
 }
 
-export function setAreaDatasetStatus(areaId: string, datasetSlug: string, status: boolean) {
-  return async (dispatch: Dispatch, state: GetState) => {
+export function deleteArea(areaId: ?string) {
+  return (dispatch: Dispatch, state: GetState) => {
     const area = getAreaById(state().areas.data, areaId);
-    if (area) {
-      const datasets = area.datasets.map(item => {
-        if (item.slug !== datasetSlug) {
-          if (status === true) {
-            if (item.active) {
-              tracker.trackLayerToggledEvent(item.slug, false);
-            }
-            return {
-              ...item,
-              active: false
-            };
-          }
-          return item;
-        }
-        return { ...item, active: status };
-      });
-      tracker.trackLayerToggledEvent(datasetSlug, status);
-      dispatch(updateArea({ ...area, datasets }));
-    }
-  };
-}
 
-export function updateDate(areaId: string, datasetSlug: string, date: { startDate: number }) {
-  return async (dispatch: Dispatch, state: GetState) => {
-    const area = getAreaById(state().areas.data, areaId);
-    const dateKeys = Object.keys(date) || [];
     if (area) {
-      area.datasets = area.datasets.map((d: Dataset) => {
-        const newDataset = { ...d };
-        if (d.slug === datasetSlug) {
-          dateKeys.forEach(dKey => {
-            if (d[dKey]) {
-              newDataset[dKey] = date[dKey];
-            }
-          });
-        }
-        return newDataset;
-      });
-      dispatch(updateArea(area));
-    }
-  };
-}
+      // For imported areas, we don't need to do a network request
+      // Use the same Redux actions to only apply the change locally
+      if (area.isImported) {
+        dispatch({
+          type: DELETE_AREA_REQUEST,
+          payload: area
+        });
+        dispatch({
+          type: DELETE_AREA_COMMIT,
+          meta: { area }
+        });
+        return;
+      }
 
-export function deleteArea(areaId: string) {
-  return async (dispatch: Dispatch, state: GetState) => {
-    const area = getAreaById(state().areas.data, areaId);
-    dispatch(
-      deleteRoutes({
-        areaId: areaId
-      })
-    );
-    if (area) {
       const url = `${Config.API_URL}/area/${area.id}`;
       dispatch({
         type: DELETE_AREA_REQUEST,
@@ -315,7 +288,7 @@ export function deleteArea(areaId: string) {
 }
 
 export function syncAreas() {
-  return async (dispatch: Dispatch, state: GetState) => {
+  return (dispatch: Dispatch, state: GetState) => {
     const { loggedIn } = state().user;
     const { synced, syncing } = state().areas;
     if (!synced && !syncing && loggedIn) {

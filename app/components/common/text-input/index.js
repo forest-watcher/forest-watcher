@@ -14,10 +14,11 @@ function InputText(props) {
         style={styles.input}
         autoCapitalize="none"
         value={props.value}
+        editable={props.editable ?? true}
         onChangeText={props.onChangeText}
         placeholder={props.placeholder}
         underlineColorAndroid="transparent"
-        selectionColor={Theme.colors.color1}
+        selectionColor={Theme.colors.turtleGreen}
         placeholderTextColor={Theme.fontColors.light}
       />
     </View>
@@ -27,7 +28,8 @@ function InputText(props) {
 InputText.propTypes = {
   value: PropTypes.string,
   onChangeText: PropTypes.func,
-  placeholder: PropTypes.string
+  placeholder: PropTypes.string,
+  editable: PropTypes.bool
 };
 
 export default InputText;

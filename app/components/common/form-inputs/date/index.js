@@ -4,7 +4,7 @@ import type { Question, Answer } from 'types/reports.types';
 import React from 'react';
 import { View, Text } from 'react-native';
 import DatePicker from 'react-native-datepicker';
-import i18n from 'locales';
+import i18n from 'i18next';
 
 import styles from '../styles';
 import dateStyles from './styles';

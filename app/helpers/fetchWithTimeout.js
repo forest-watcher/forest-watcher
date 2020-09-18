@@ -1,3 +1,5 @@
+import FWError from 'helpers/fwError';
+
 /**
  * A simple wrapper for the built-in fetch promise that errors with a timeout after the specified time period.
  *
@@ -8,13 +10,7 @@
  * @returns {Promise.<*>}
  */
 export default function fetchWithTimeout(url, request, timeout = 30000) {
-  const fetchPromise = fetch(url, request).catch(err => {
-    // Some sort of networking error has occurred
-    throw {
-      domain: 'networking',
-      code: 2
-    };
-  });
+  const fetchPromise = fetch(url, request);
 
   if (request.method === 'POST' || request.method === 'PUT' || request.method === 'PATCH') {
     console.warn(
@@ -25,10 +21,12 @@ export default function fetchWithTimeout(url, request, timeout = 30000) {
 
   const timeoutPromise = new Promise((resolve, reject) => {
     setTimeout(() => {
-      reject({
-        domain: 'networking',
-        code: 1
-      });
+      reject(
+        new FWError({
+          domain: 'networking',
+          code: 1
+        })
+      );
     }, timeout);
   });
 

@@ -13,16 +13,11 @@
 
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
-#if __has_include(<React/RNSentry.h>)
-#import <React/RNSentry.h> // This is used for versions of react >= 0.40
-#else
-#import "RNSentry.h" // This is used for versions of react < 0.40
-#endif
 #import <ReactNativeNavigation/ReactNativeNavigation.h>
 #import "ReactNativeConfig.h"
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
-
-@import GoogleMaps;
+#import <React/RCTLinkingManager.h>
+#import "ForestWatcher-Swift.h"
 
 @implementation AppDelegate
 
@@ -31,11 +26,7 @@
   [[FBSDKApplicationDelegate sharedInstance] application:application
                            didFinishLaunchingWithOptions:launchOptions];
   
-  // Google Maps API Key
-  NSString *apiUrl = [ReactNativeConfig envFor:@"GOOGLE_MAPS_API_KEY"];
-  
   // Firebase Config
-  [GMSServices provideAPIKey:apiUrl];
   [FIRApp configure];
   
   // Setting the window bounds / colour.
@@ -45,8 +36,6 @@
   // Launching the React Native JS app! ✨
   NSURL *jsCodeLocation = [self sourceURL];
   [ReactNativeNavigation bootstrap:jsCodeLocation launchOptions:launchOptions];
-  
-  [RNSentry installWithRootView:[ReactNativeNavigation getBridge]];
   
   return YES;
 }
@@ -68,7 +57,17 @@
     return YES;
   }
   
-  return handled;
+  if ([[url absoluteString] hasSuffix:@".gfwbundle"]) {
+    [[FWSecurityScopedResourcesManager sharedManager] startAccessingSecurityScopedResourceAt:url];
+  }
+  
+  return handled || [RCTLinkingManager application:app openURL:url options:options];
 }
+
+#if RCT_DEV
+- (BOOL)bridge:(RCTBridge *)bridge didNotFindModule:(NSString *)moduleName {
+  return YES;
+}
+#endif
 
 @end

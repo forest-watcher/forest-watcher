@@ -1,25 +1,35 @@
 // @flow
 
+import type { Route, RouteDifficulty } from 'types/routes.types';
 import React, { PureComponent } from 'react';
-import { Text, ScrollView, Picker } from 'react-native';
+import { Dimensions, Text, ScrollView, Picker } from 'react-native';
 import { Navigation } from 'react-native-navigation';
+import moment from 'moment';
 
 import styles from './styles';
 import ActionButton from 'components/common/action-button';
 import InputText from 'components/common/text-input';
 import { getValidLocations, stopTrackingLocation } from 'helpers/location';
-import i18n from 'locales';
+import i18n from 'i18next';
 import RoutePreviewImage from '../preview-image';
+import { trackRouteDetailsUpdated } from 'helpers/analytics';
+import { getDistanceOfPolyline } from 'helpers/map';
+
+const screenDimensions = Dimensions.get('screen');
 
 type Props = {
   componentId: string,
-  route: Route,
-  updateActiveRoute: () => void,
-  finishAndSaveRoute: () => void
+  route: ?Route,
+  updateActiveRoute: ($Shape<Route>, string) => void,
+  finishAndSaveRoute: (routeId: string, string) => Promise<void>
 };
 
-class SaveRoute extends PureComponent<Props> {
-  static options(passProps) {
+type State = {
+  route: $Shape<Route>
+};
+
+class SaveRoute extends PureComponent<Props, State> {
+  static options(passProps: {}) {
     return {
       topBar: {
         title: {
@@ -33,14 +43,12 @@ class SaveRoute extends PureComponent<Props> {
     super(props);
     Navigation.events().bindComponent(this);
 
-    const date = Date.now();
     this.state = {
       route: {
-        id: date,
-        endDate: date,
-        name: '',
-        difficulty: 'easy',
-        locations: []
+        ...props.route,
+        difficulty: props.route?.difficulty ?? 'easy',
+        endDate: Date.now(),
+        name: props.route?.name ?? ''
       }
     };
   }
@@ -60,7 +68,7 @@ class SaveRoute extends PureComponent<Props> {
     });
   }
 
-  changeRouteSaveName = newRouteSaveName => {
+  changeRouteSaveName = (newRouteSaveName: string) => {
     this.setState(state => ({
       route: {
         ...state.route,
@@ -69,7 +77,7 @@ class SaveRoute extends PureComponent<Props> {
     }));
   };
 
-  changeRouteDifficulty = newDifficulty => {
+  changeRouteDifficulty = (newDifficulty: RouteDifficulty) => {
     this.setState(state => ({
       route: {
         ...state.route,
@@ -78,26 +86,38 @@ class SaveRoute extends PureComponent<Props> {
     }));
   };
 
-  onSaveRoutePressed = () => {
+  onSaveRoutePressed = async () => {
+    const { route } = this.state;
+    if (!route) {
+      return;
+    }
+
     stopTrackingLocation();
-    this.props.updateActiveRoute({
-      ...this.state.route
-    });
-    this.props.finishAndSaveRoute();
+
+    const routeDistance = getDistanceOfPolyline(route.locations);
+    trackRouteDetailsUpdated(
+      route.difficulty,
+      (route.endDate ?? Date.now()) - route.startDate,
+      moment(route.endDate).format('l'),
+      routeDistance
+    );
+    await this.props.updateActiveRoute(route, route.areaId);
+    await this.props.finishAndSaveRoute(route.id, route.areaId);
     Navigation.pop(this.props.componentId);
   };
 
   render() {
-    if (!this.props.route) {
+    if (!this.state.route) {
       return null;
     }
 
     return (
       <ScrollView style={styles.container}>
         <RoutePreviewImage
+          aspectRatio={0.5}
+          width={screenDimensions.width}
           style={styles.headerImage}
           route={{
-            ...this.props.route,
             ...this.state.route
           }}
         />
@@ -110,14 +130,15 @@ class SaveRoute extends PureComponent<Props> {
         <Text style={styles.headingText}>{i18n.t('routes.difficulty').toUpperCase()}</Text>
         <Picker
           selectedValue={this.state.route.difficulty}
-          onValueChange={this.changeRouteDifficulty}
+          // $FlowFixMe
+          onValueChange={value => this.changeRouteDifficulty(value)}
           style={styles.picker}
           itemStyle={{ height: 72 }} // Only for iOS
           mode="dropdown" // Only for Android
         >
-          <Picker.Item label={i18n.t('routes.difficultyLevels.easy')} value={'easy'} style={styles.pickerItem} />
-          <Picker.Item label={i18n.t('routes.difficultyLevels.medium')} value={'medium'} style={styles.pickerItem} />
-          <Picker.Item label={i18n.t('routes.difficultyLevels.hard')} value={'hard'} style={styles.pickerItem} />
+          <Picker.Item label={i18n.t('routes.difficultyLevels.easy')} value={'easy'} />
+          <Picker.Item label={i18n.t('routes.difficultyLevels.medium')} value={'medium'} />
+          <Picker.Item label={i18n.t('routes.difficultyLevels.hard')} value={'hard'} />
         </Picker>
         <ActionButton
           style={styles.actionButton}
@@ -131,13 +152,5 @@ class SaveRoute extends PureComponent<Props> {
     );
   }
 }
-/*
-label: PropTypes.string.isRequired,
-  selectedValue: PropTypes.any.isRequired,
-  onValueChange: PropTypes.func.isRequired,
-  options: PropTypes.arrayOf(
-    PropTypes.shape({
-      label: PropTypes.string.isRequired,
-      value: PropTypes.any.isRequired
- */
+
 export default SaveRoute;

@@ -2,13 +2,19 @@
 
 exports[`Redux App Module Initial reducer state 1`] = `
 Object {
-  "actions": Array [],
+  "areaCountryTooltipSeen": false,
+  "areaDownloadTooltipSeen": false,
   "coordinatesFormat": "decimal",
+  "hasMigratedV1Files": true,
+  "hasSeenWelcomeScreen": false,
+  "isUpdate": false,
   "language": "en",
+  "mapWalkthroughSeen": false,
   "offlineMode": false,
   "pristineCacheTooltip": true,
+  "reduxVersion": 2,
   "synced": false,
-  "version": "1.9.2",
+  "version": "2.0.2",
 }
 `;
 
@@ -54,13 +60,19 @@ Array [
 
 exports[`Redux App Module Redux Snapshot Thunk Actions showNotConnectedNotification full test 2`] = `
 Object {
-  "actions": Array [],
+  "areaCountryTooltipSeen": false,
+  "areaDownloadTooltipSeen": false,
   "coordinatesFormat": "decimal",
+  "hasMigratedV1Files": true,
+  "hasSeenWelcomeScreen": false,
+  "isUpdate": false,
   "language": "en",
+  "mapWalkthroughSeen": false,
   "offlineMode": false,
   "pristineCacheTooltip": true,
+  "reduxVersion": 2,
   "synced": false,
-  "version": "1.9.2",
+  "version": "2.0.2",
 }
 `;
 
@@ -75,13 +87,19 @@ Array [
 
 exports[`Redux App Module Redux Snapshot Thunk Actions showNotConnectedNotification full test 4`] = `
 Object {
-  "actions": Array [],
+  "areaCountryTooltipSeen": false,
+  "areaDownloadTooltipSeen": false,
   "coordinatesFormat": "decimal",
+  "hasMigratedV1Files": true,
+  "hasSeenWelcomeScreen": false,
+  "isUpdate": false,
   "language": "en",
+  "mapWalkthroughSeen": false,
   "offlineMode": true,
   "pristineCacheTooltip": true,
+  "reduxVersion": 2,
   "synced": false,
-  "version": "1.9.2",
+  "version": "2.0.2",
 }
 `;
 
@@ -95,13 +113,19 @@ Array [
 
 exports[`Redux App Module Redux Snapshot Thunk Actions showNotConnectedNotification full test 6`] = `
 Object {
-  "actions": Array [],
+  "areaCountryTooltipSeen": false,
+  "areaDownloadTooltipSeen": false,
   "coordinatesFormat": "decimal",
+  "hasMigratedV1Files": true,
+  "hasSeenWelcomeScreen": false,
+  "isUpdate": false,
   "language": "en",
+  "mapWalkthroughSeen": false,
   "offlineMode": true,
   "pristineCacheTooltip": true,
+  "reduxVersion": 2,
   "synced": false,
-  "version": "1.9.2",
+  "version": "2.0.2",
 }
 `;
 
@@ -126,27 +150,6 @@ Array [
 ]
 `;
 
-exports[`Redux App Module Simple Actions: snapshot and reducer test saveLastActions 1`] = `
-Object {
-  "payload": undefined,
-  "type": "app/SAVE_LAST_ACTIONS",
-}
-`;
-
-exports[`Redux App Module Simple Actions: snapshot and reducer test saveLastActions 2`] = `
-Object {
-  "actions": Array [
-    undefined,
-  ],
-  "coordinatesFormat": "decimal",
-  "language": "en",
-  "offlineMode": false,
-  "pristineCacheTooltip": true,
-  "synced": false,
-  "version": "1.9.2",
-}
-`;
-
 exports[`Redux App Module Simple Actions: snapshot and reducer test setAppSynced 1`] = `
 Object {
   "payload": true,
@@ -156,13 +159,19 @@ Object {
 
 exports[`Redux App Module Simple Actions: snapshot and reducer test setAppSynced 2`] = `
 Object {
-  "actions": Array [],
+  "areaCountryTooltipSeen": false,
+  "areaDownloadTooltipSeen": false,
   "coordinatesFormat": "decimal",
+  "hasMigratedV1Files": true,
+  "hasSeenWelcomeScreen": false,
+  "isUpdate": false,
   "language": "en",
+  "mapWalkthroughSeen": false,
   "offlineMode": false,
   "pristineCacheTooltip": true,
+  "reduxVersion": 2,
   "synced": true,
-  "version": "1.9.2",
+  "version": "2.0.2",
 }
 `;
 
@@ -175,13 +184,19 @@ Object {
 
 exports[`Redux App Module Simple Actions: snapshot and reducer test setAppSynced 4`] = `
 Object {
-  "actions": Array [],
+  "areaCountryTooltipSeen": false,
+  "areaDownloadTooltipSeen": false,
   "coordinatesFormat": "decimal",
+  "hasMigratedV1Files": true,
+  "hasSeenWelcomeScreen": false,
+  "isUpdate": false,
   "language": "en",
+  "mapWalkthroughSeen": false,
   "offlineMode": false,
   "pristineCacheTooltip": true,
+  "reduxVersion": 2,
   "synced": false,
-  "version": "1.9.2",
+  "version": "2.0.2",
 }
 `;
 
@@ -194,13 +209,19 @@ Object {
 
 exports[`Redux App Module Simple Actions: snapshot and reducer test setCoordinatesFormat 2`] = `
 Object {
-  "actions": Array [],
+  "areaCountryTooltipSeen": false,
+  "areaDownloadTooltipSeen": false,
   "coordinatesFormat": "decimal",
+  "hasMigratedV1Files": true,
+  "hasSeenWelcomeScreen": false,
+  "isUpdate": false,
   "language": "en",
+  "mapWalkthroughSeen": false,
   "offlineMode": false,
   "pristineCacheTooltip": true,
+  "reduxVersion": 2,
   "synced": false,
-  "version": "1.9.2",
+  "version": "2.0.2",
 }
 `;
 
@@ -213,13 +234,19 @@ Object {
 
 exports[`Redux App Module Simple Actions: snapshot and reducer test setCoordinatesFormat 4`] = `
 Object {
-  "actions": Array [],
+  "areaCountryTooltipSeen": false,
+  "areaDownloadTooltipSeen": false,
   "coordinatesFormat": "degrees",
+  "hasMigratedV1Files": true,
+  "hasSeenWelcomeScreen": false,
+  "isUpdate": false,
   "language": "en",
+  "mapWalkthroughSeen": false,
   "offlineMode": false,
   "pristineCacheTooltip": true,
+  "reduxVersion": 2,
   "synced": false,
-  "version": "1.9.2",
+  "version": "2.0.2",
 }
 `;
 
@@ -232,13 +259,19 @@ Object {
 
 exports[`Redux App Module Simple Actions: snapshot and reducer test setOfflineMode 2`] = `
 Object {
-  "actions": Array [],
+  "areaCountryTooltipSeen": false,
+  "areaDownloadTooltipSeen": false,
   "coordinatesFormat": "decimal",
+  "hasMigratedV1Files": true,
+  "hasSeenWelcomeScreen": false,
+  "isUpdate": false,
   "language": "en",
+  "mapWalkthroughSeen": false,
   "offlineMode": true,
   "pristineCacheTooltip": true,
+  "reduxVersion": 2,
   "synced": false,
-  "version": "1.9.2",
+  "version": "2.0.2",
 }
 `;
 
@@ -251,13 +284,19 @@ Object {
 
 exports[`Redux App Module Simple Actions: snapshot and reducer test setOfflineMode 4`] = `
 Object {
-  "actions": Array [],
+  "areaCountryTooltipSeen": false,
+  "areaDownloadTooltipSeen": false,
   "coordinatesFormat": "decimal",
+  "hasMigratedV1Files": true,
+  "hasSeenWelcomeScreen": false,
+  "isUpdate": false,
   "language": "en",
+  "mapWalkthroughSeen": false,
   "offlineMode": false,
   "pristineCacheTooltip": true,
+  "reduxVersion": 2,
   "synced": false,
-  "version": "1.9.2",
+  "version": "2.0.2",
 }
 `;
 
@@ -270,13 +309,19 @@ Object {
 
 exports[`Redux App Module Simple Actions: snapshot and reducer test setPristineCacheTooltip 2`] = `
 Object {
-  "actions": Array [],
+  "areaCountryTooltipSeen": false,
+  "areaDownloadTooltipSeen": false,
   "coordinatesFormat": "decimal",
+  "hasMigratedV1Files": true,
+  "hasSeenWelcomeScreen": false,
+  "isUpdate": false,
   "language": "en",
+  "mapWalkthroughSeen": false,
   "offlineMode": false,
   "pristineCacheTooltip": true,
+  "reduxVersion": 2,
   "synced": false,
-  "version": "1.9.2",
+  "version": "2.0.2",
 }
 `;
 
@@ -289,13 +334,19 @@ Object {
 
 exports[`Redux App Module Simple Actions: snapshot and reducer test setPristineCacheTooltip 4`] = `
 Object {
-  "actions": Array [],
+  "areaCountryTooltipSeen": false,
+  "areaDownloadTooltipSeen": false,
   "coordinatesFormat": "decimal",
+  "hasMigratedV1Files": true,
+  "hasSeenWelcomeScreen": false,
+  "isUpdate": false,
   "language": "en",
+  "mapWalkthroughSeen": false,
   "offlineMode": false,
   "pristineCacheTooltip": false,
+  "reduxVersion": 2,
   "synced": false,
-  "version": "1.9.2",
+  "version": "2.0.2",
 }
 `;
 
@@ -307,12 +358,18 @@ Object {
 
 exports[`Redux App Module Simple Actions: snapshot and reducer test updateApp 2`] = `
 Object {
-  "actions": Array [],
+  "areaCountryTooltipSeen": false,
+  "areaDownloadTooltipSeen": false,
   "coordinatesFormat": "decimal",
+  "hasMigratedV1Files": true,
+  "hasSeenWelcomeScreen": false,
+  "isUpdate": false,
   "language": "en",
+  "mapWalkthroughSeen": false,
   "offlineMode": false,
   "pristineCacheTooltip": true,
+  "reduxVersion": 2,
   "synced": false,
-  "version": "1.9.2",
+  "version": "2.0.2",
 }
 `;

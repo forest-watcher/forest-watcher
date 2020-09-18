@@ -3,7 +3,7 @@ const fetch = require('node-fetch');
 require('dotenv').config();
 
 // Get current translations
-const translations = require(`../${process.env.LOCALES_PATH}/en.json`);
+const translations = require(`../app/locales/en.json`);
 
 // Endpoint for source language translations
 const url = `${process.env.TRANSIFEX_URL}/${process.env.TRANSIFEX_PROJECT}/resource/${process.env.TRANSIFEX_SLUG}/content`;

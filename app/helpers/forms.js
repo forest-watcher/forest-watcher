@@ -1,14 +1,20 @@
 // @flow
 
-import type { Question, Report, ReportsState, Template, Answer } from 'types/reports.types';
+import type { AnsweredQuestion, Metadata, Question, Report, Template, Answer } from 'types/reports.types';
 
 import moment from 'moment';
 
 import { REPORTS } from 'config/constants';
-import i18n from 'locales';
+import i18n from 'i18next';
 import flatMap from 'lodash/flatMap';
 
-export const getBtnTextByType = (type: string) => {
+/**
+ * Don't store the exact URI against the answer because this breaks when we share the report.
+ * Instead just store a value to indicate that there is an attachment present
+ */
+export const REPORT_BLOB_IMAGE_ATTACHMENT_PRESENT = 'image/jpeg';
+
+export const getBtnTextByType = (type: string): string => {
   switch (type) {
     case 'text':
       return i18n.t('report.inputText');
@@ -24,10 +30,10 @@ export const getBtnTextByType = (type: string) => {
 /**
  * Converts a question into a form where irrelevant information and languages are stripped
  */
-export const parseQuestion = (step: { question: Question, template: Template }, deviceLang: ?string) => {
+export const parseQuestion = (step: { question: Question, template: Template }, deviceLang: ?string): Question => {
   const { question, template } = step;
   const lang = template.languages.includes(deviceLang) ? deviceLang : template.defaultLanguage;
-  let parsedQuestion = { ...question };
+  let parsedQuestion: Question = { ...question };
   const whitelist = ['defaultValue', 'label', 'values', 'name'];
   whitelist.forEach((key: string) => {
     if (typeof parsedQuestion[key] === 'object') {
@@ -50,12 +56,13 @@ export const parseQuestion = (step: { question: Question, template: Template }, 
   return parsedQuestion;
 };
 
-export const getTemplate = (reports: ReportsState, formName: string) => {
-  const list = reports.list[formName];
-  const status = templateId => reports.templates[templateId] && reports.templates[templateId].status;
+export const getTemplate = (report: Report, templates: { +[string]: Template }): Template => {
+  const status = templateId => templates[templateId] && templates[templateId].status;
   const templateId =
-    list && list.area.templateId && status(list.area.templateId) !== 'unpublished' ? list.area.templateId : 'default';
-  return Object.assign({}, reports.templates[templateId]);
+    report && report.area.templateId && status(report.area.templateId) !== 'unpublished'
+      ? report.area.templateId
+      : 'default';
+  return Object.assign({}, templates[templateId]);
 };
 
 export const getNextStep = (step: {
@@ -84,25 +91,37 @@ export const getNextStep = (step: {
   return null;
 };
 
-export const isQuestionAnswered = (answer: Answer) => {
-  if (!answer) return false;
+export const isQuestionAnswered = (answer: Answer): boolean => {
+  if (!answer) {
+    return false;
+  }
   return answer.value !== '';
 };
 
-function getAnswerValues(question, answer) {
-  if (typeof answer === 'undefined') return undefined;
+function getAnswerValues(question: Question, answer: ?Answer) {
+  if (!answer) {
+    return undefined;
+  }
+
   const simpleTypeInputs = ['number', 'text', 'point', 'blob'];
   let value = Array.isArray(answer.value) ? answer.value : [answer.value];
   if (!simpleTypeInputs.includes(question.type)) {
-    value = question.values.filter(item => value.includes(item.value)).map(item => item.label);
+    value = question.values?.filter(item => value.includes(item.value)).map(item => item.label);
   }
   return { ...answer, value };
 }
 
 /**
+ * Indicates whether or not the specified question-answer pair is for a completed blob question
+ */
+export function isBlobResponse({ question, answer }: { question: Question, answer: Answer }): boolean {
+  return question.type === 'blob' && Array.isArray(answer.value) && !!answer.value?.[0];
+}
+
+/**
  * Converts a template into a form where irrelevant information and languages are stripped
  */
-export function mapFormToQuestions(template: Template, deviceLang: ?string) {
+export function mapFormToQuestions(template: Template, deviceLang: ?string): { [string]: Question } {
   return flatMap(template.questions, question => {
     const parsedQuestion = parseQuestion({ template, question }, deviceLang);
     if (parsedQuestion.childQuestion) {
@@ -119,20 +138,23 @@ export function mapFormToQuestions(template: Template, deviceLang: ?string) {
 /**
  * Converts a report into a form where irrelevant information and languages are stripped
  */
-export function mapFormToAnsweredQuestions(answers: Array<Answer>, template: Template, deviceLang: ?string) {
-  const questions = mapFormToQuestions(template, deviceLang);
-  return flatMap(answers, answer => {
+export function mapFormToAnsweredQuestions(
+  answers: Array<Answer>,
+  template: Template,
+  deviceLang: ?string
+): Array<AnsweredQuestion> {
+  const questions: { [string]: Question } = mapFormToQuestions(template, deviceLang);
+  return flatMap((answers: Array<Answer>), (answer: Answer) => {
     const question = questions[answer.questionName];
-    const answeredQuestion = {
+    const answeredQuestion: AnsweredQuestion = {
       question,
       answer: getAnswerValues(question, answer)
     };
 
-    const hasChild = answer.child && answer.child !== null;
-    const childMatchCondition =
-      hasChild && question.childQuestion && answer.value === question.childQuestion.conditionalValue;
-    if (childMatchCondition) {
-      const childQuestion = questions[answer.child.questionName];
+    const childMatchCondition = question.childQuestion && answer.value === question.childQuestion.conditionalValue;
+    if (!!answer.child && childMatchCondition) {
+      const questionName = answer.child.questionName;
+      const childQuestion = questions[questionName];
       return [
         answeredQuestion,
         {
@@ -147,19 +169,6 @@ export function mapFormToAnsweredQuestions(answers: Array<Answer>, template: Tem
 }
 
 /**
- * Constant array defining metadata fields returned by the mapReportsToMetadata.
- */
-export const REPORT_METADATA_FIELDS = [
-  { id: 'name', label: i18n.t('commonText.name') },
-  { id: 'areaName', label: i18n.t('commonText.area') },
-  { id: 'date', label: i18n.t('commonText.date') },
-  { id: 'language', label: i18n.t('commonText.language') },
-  { id: 'userPosition', label: i18n.t('commonText.userPosition') },
-  { id: 'clickedPosition', label: i18n.t('commonText.reportedPosition') },
-  { id: 'dataset', label: i18n.t('commonText.alert') }
-];
-
-/**
  * Creates and returns an array of structured metadata relating to the provided report
  *
  * The metadata returned by this method
@@ -170,11 +179,13 @@ export const REPORT_METADATA_FIELDS = [
  * @return {*}
  *  An array of objects, with each object having a unique id, a human-readable label, and an array of values
  */
-export function mapReportToMetadata(report: Report, language) {
-  if (!report) return [];
+export function mapReportToMetadata(report: Report, language: string): Array<Metadata> {
+  if (!report) {
+    return [];
+  }
 
   const {
-    area: { dataset = {} }
+    area: { dataset = {} } // TODO: we have datasets, but not dataset
   } = report;
   const reportedPosition =
     report.clickedPosition &&
@@ -188,7 +199,7 @@ export function mapReportToMetadata(report: Report, language) {
   const userPosition =
     report.userPosition === REPORTS.noGpsPosition ? i18n.t('report.noGpsPosition') : report.userPosition;
 
-  const metadata = [
+  const metadata: Array<Metadata> = [
     { id: 'name', label: i18n.t('commonText.name'), value: [report.reportName] },
     { id: 'areaName', label: i18n.t('commonText.area'), value: [report.area.name] },
     { id: 'date', label: i18n.t('commonText.date'), value: [date] },

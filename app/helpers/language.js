@@ -1,7 +1,9 @@
-import i18n from 'react-native-i18n';
+// @flow
 
-export function getLanguage() {
-  let lang = i18n.locale;
+import { getLocale } from '../locales/';
+
+export function getLanguage(): string {
+  let lang = getLocale();
   if (lang.indexOf('-') !== -1) {
     lang = lang.split('-')[0];
   }

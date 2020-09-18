@@ -22,7 +22,6 @@ export default StyleSheet.create({
     marginVertical: 24
   },
   headerImage: {
-    alignSelf: 'stretch',
-    height: 164
+    alignSelf: 'stretch'
   }
 });

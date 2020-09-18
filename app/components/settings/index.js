@@ -1,48 +1,69 @@
 // @flow
 import React, { Component } from 'react';
-import { View, Text, TouchableHighlight, ScrollView, Image, Alert } from 'react-native';
+import { ActivityIndicator, View, Text, TouchableHighlight, ScrollView, Image, Alert } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import Hyperlink from 'react-native-hyperlink';
 
-import type { Area } from 'types/areas.types';
-
 import List from 'components/common/list';
-import AreaList from 'containers/common/area-list';
 import Theme from 'config/theme';
 import CoordinatesDropdown from 'containers/settings/coordinates-dropdown';
 import Row from 'components/common/row';
 import { getVersionName } from 'helpers/app';
 import debounceUI from 'helpers/debounceUI';
 
-import { launchAppRoot } from 'main';
-import i18n from 'locales';
-import tracker from 'helpers/googleAnalytics';
+import { launchAppRoot } from 'screens/common';
+import i18n from 'i18next';
+import { trackScreenView } from 'helpers/analytics';
 import styles from './styles';
 
-const plusIcon = require('assets/plus.png');
+const layersIcon = require('assets/contextualLayers.png');
+const nextIcon = require('assets/next.png');
+const shareIcon = require('assets/share.png');
+const basemapsIcon = require('assets/basemap.png');
 
 type Props = {
   user: any,
   loggedIn: boolean, // eslint-disable-line
-  areas: Array<Area>,
   componentId: string,
-  logout: () => void,
+  logout: (?string) => void,
   isUnsafeLogout: boolean,
-  setOfflineMode: () => void,
+  setOfflineMode: boolean => void,
   offlineMode: boolean,
-  showNotConnectedNotification: () => void
+  shareAppData: () => Promise<string>
 };
 
-class Settings extends Component<Props> {
-  static options(passProps) {
+type State = {
+  isExportInProgress: boolean,
+  versionName: string
+};
+
+type AboutSection = {
+  text: string,
+  image: ?any,
+  section: string,
+  functionOnPress: (string, string) => void
+};
+
+export default class Settings extends Component<Props, State> {
+  static options(passProps: {}) {
     return {
       topBar: {
+        background: {
+          color: Theme.colors.veryLightPink
+        },
         title: {
           text: i18n.t('settings.title')
         }
       }
     };
   }
+
+  aboutSections: Array<AboutSection>;
+  shareAction: { callback: () => Promise<void>, icon: any };
+
+  contextualLayersAction: { callback: () => void, icon: any };
+
+  basemapsAction: { callback: () => void, icon: any };
 
   constructor() {
     super();
@@ -62,7 +83,7 @@ class Settings extends Component<Props> {
       {
         text: i18n.t('settings.aboutFAQ'),
         image: null,
-        section: 'ForestWatcher.FaqList',
+        section: 'ForestWatcher.FaqCategories',
         functionOnPress: this.handleStaticLinks
       },
       {
@@ -73,73 +94,101 @@ class Settings extends Component<Props> {
       }
     ];
 
+    this.shareAction = {
+      callback: this.onPressShare,
+      icon: nextIcon
+    };
+
+    this.basemapsAction = {
+      callback: this.onPressBasemaps,
+      icon: nextIcon
+    };
+
+    this.contextualLayersAction = {
+      callback: this.onPressContextualLayers,
+      icon: nextIcon
+    };
+
     this.state = {
+      isExportInProgress: false,
       versionName: getVersionName()
     };
   }
 
-  componentDidMount() {
-    tracker.trackScreenView('Settings');
-  }
-
-  UNSAFE_componentWillReceiveProps(props: Props) {
-    if (props.areas.length === 0 && props.loggedIn) {
-      Navigation.push(this.props.componentId, {
-        component: {
-          name: 'ForestWatcher.SetupCountry'
-        }
-      });
-    }
-  }
-
-  onAreaPress = debounceUI((areaId: string, name: string) => {
+  onPressContextualLayers = debounceUI(() => {
     Navigation.push(this.props.componentId, {
       component: {
-        name: 'ForestWatcher.AreaDetail',
+        name: 'ForestWatcher.MappingFiles',
         passProps: {
-          id: areaId
-        },
-        options: {
-          topBar: {
-            title: {
-              text: name
-            }
-          }
+          mappingFileType: 'contextual_layer'
         }
       }
     });
   });
+
+  onPressBasemaps = debounceUI(() => {
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'ForestWatcher.MappingFiles',
+        passProps: {
+          mappingFileType: 'basemap'
+        }
+      }
+    });
+  });
+
+  onPressShare = async () => {
+    try {
+      this.setState({
+        isExportInProgress: true
+      });
+      await this.props.shareAppData();
+    } finally {
+      this.setState({
+        isExportInProgress: false
+      });
+    }
+  };
+
+  componentDidMount() {
+    trackScreenView('Settings');
+  }
 
   onLogoutPress = debounceUI(() => {
     const { logout, isUnsafeLogout } = this.props;
     const proceedWithLogout = () => {
       logout();
-      launchAppRoot('ForestWatcher.Walkthrough');
+      launchAppRoot('ForestWatcher.Login');
     };
-    if (isUnsafeLogout) {
-      Alert.alert(i18n.t('settings.unsafeLogout'), i18n.t('settings.unsavedDataLost'), [
-        { text: 'OK', onPress: proceedWithLogout },
-        {
-          text: 'Cancel',
-          style: 'cancel'
-        }
-      ]);
-    } else proceedWithLogout();
-  });
-
-  onPressAddArea = debounceUI(() => {
-    const { offlineMode } = this.props;
-
-    if (offlineMode) {
-      this.props.showNotConnectedNotification();
-      return;
-    }
-
-    Navigation.push(this.props.componentId, {
-      component: {
-        name: 'ForestWatcher.SetupCountry'
+    const questions = i18n.t('faq.categories.alertsAndData.questions', { returnObjects: true });
+    const faqExists = Array.isArray(questions) && questions.length > 0;
+    const onPressMoreInfo = () => {
+      // Looking for "How does the Forest Watcher app store my data?" FAQ
+      if (faqExists) {
+        const question = questions[questions.length - 1];
+        Navigation.push(this.props.componentId, {
+          component: {
+            name: 'ForestWatcher.FaqDetail',
+            passProps: {
+              contentFaq: question.content,
+              title: question.title
+            }
+          }
+        });
       }
-    });
+    };
+    // Only show more info button if FAQ exists.
+    const alertButtons = faqExists
+      ? [
+          { text: i18n.t('settings.moreInfo'), onPress: onPressMoreInfo },
+          { text: i18n.t('settings.logOut'), onPress: proceedWithLogout }
+        ]
+      : [{ text: i18n.t('settings.logOut'), onPress: proceedWithLogout }];
+    if (isUnsafeLogout) {
+      Alert.alert(i18n.t('settings.unsafeLogout'), i18n.t('settings.unsavedDataLost'), alertButtons);
+    } else {
+      proceedWithLogout();
+    }
   });
 
   handleStaticLinks = debounceUI((section: string, text: string) => {
@@ -158,7 +207,7 @@ class Settings extends Component<Props> {
   });
 
   render() {
-    const { areas, setOfflineMode, offlineMode } = this.props;
+    const { setOfflineMode, offlineMode } = this.props;
     const hasUserData = this.props.user.fullName && this.props.user.email;
 
     return (
@@ -169,9 +218,7 @@ class Settings extends Component<Props> {
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
         >
-          <Text style={styles.label}>{i18n.t('settings.loggedIn')}</Text>
-
-          <View style={styles.user}>
+          <Row style={styles.user}>
             {hasUserData ? (
               <View style={styles.info}>
                 <Text style={styles.name}>{this.props.user.fullName}</Text>
@@ -195,30 +242,31 @@ class Settings extends Component<Props> {
             <TouchableHighlight activeOpacity={0.5} underlayColor="transparent" onPress={this.onLogoutPress}>
               <Text style={styles.logout}>{i18n.t('settings.logOut')}</Text>
             </TouchableHighlight>
-          </View>
-
-          <View style={styles.coordinates}>
-            <CoordinatesDropdown />
-          </View>
+          </Row>
+          <Text style={styles.label}>{i18n.t('settings.coordinatesFormat')}</Text>
+          <CoordinatesDropdown />
           <View style={styles.offlineMode}>
             <Row value={offlineMode} onValueChange={setOfflineMode}>
-              <Text style={[styles.label, { marginLeft: 0 }]}>{i18n.t('settings.offlineMode')}</Text>
+              <Text style={[styles.rowLabel, { marginLeft: 0 }]}>{i18n.t('settings.offlineMode')}</Text>
             </Row>
           </View>
-
-          {areas && areas.length ? (
-            <View style={styles.areas}>
-              <Text style={styles.label}>{i18n.t('settings.yourAreas')}</Text>
-              <AreaList onAreaPress={(areaId, name) => this.onAreaPress(areaId, name)} />
-            </View>
-          ) : null}
-          <TouchableHighlight activeOpacity={0.5} underlayColor="transparent" onPress={this.onPressAddArea}>
-            <View style={styles.addButton}>
-              <Image style={[Theme.icon, styles.addButtonIcon]} source={plusIcon} />
-              <Text style={styles.addButtonText}>{i18n.t('settings.addArea').toUpperCase()}</Text>
-            </View>
-          </TouchableHighlight>
-
+          <Row action={this.basemapsAction} rowStyle={styles.noMarginsRow} style={styles.row}>
+            <Image style={styles.rowIcon} source={basemapsIcon} />
+            <Text style={styles.rowLabel}>{i18n.t('settings.basemaps')}</Text>
+          </Row>
+          <Row action={this.contextualLayersAction} rowStyle={styles.noMarginsRow} style={styles.row}>
+            <Image style={styles.rowIcon} source={layersIcon} />
+            <Text style={styles.rowLabel}>{i18n.t('settings.contextualLayers')}</Text>
+          </Row>
+          <Row
+            action={this.state.isExportInProgress ? null : this.shareAction}
+            rowStyle={styles.noMarginsRow}
+            style={styles.row}
+          >
+            <Image style={styles.rowIcon} source={shareIcon} />
+            <Text style={styles.rowLabel}>{i18n.t('settings.shareData')}</Text>
+            {this.state.isExportInProgress && <ActivityIndicator color={Theme.colors.turtleGreen} size={'large'} />}
+          </Row>
           <View style={styles.aboutSection}>
             <Text style={styles.label}>{i18n.t('settings.aboutApp')}</Text>
             <List content={this.aboutSections} bigSeparation={false}>
@@ -234,5 +282,3 @@ class Settings extends Component<Props> {
     );
   }
 }
-
-export default Settings;

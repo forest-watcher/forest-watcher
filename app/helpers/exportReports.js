@@ -1,14 +1,18 @@
-import { REPORT_METADATA_FIELDS, mapFormToAnsweredQuestions, mapFormToQuestions, mapReportToMetadata } from './forms';
+// @flow
+import type { Answer, Metadata, Question, Report, Template } from 'types/reports.types';
+import { mapFormToAnsweredQuestions, mapFormToQuestions, mapReportToMetadata } from './forms';
 
 import _ from 'lodash';
 
 const { parse } = require('json2csv');
 import { PermissionsAndroid, Platform } from 'react-native';
-import RNFetchBlob from 'react-native-fetch-blob';
+import RNFetchBlob from 'rn-fetch-blob';
+import i18n from 'i18next';
+import zipFolder from 'helpers/archive';
 
-var moment = require('moment');
+const moment = require('moment');
 
-export const ExportMethod = {
+const ExportMethod = {
   CSV: 0,
   HTML: 1,
   PDF: 2
@@ -33,12 +37,12 @@ export const ExportMethod = {
  *  Array of file paths that were created in order to fulfil the export
  */
 export default async function exportReports(
-  reports,
-  templates,
-  lang,
-  dir = RNFetchBlob.fs.dirs.DocumentDir,
-  method = ExportMethod.CSV
-) {
+  reports: Array<Report>,
+  templates: { +[string]: Template },
+  lang: string,
+  dir: string = RNFetchBlob.fs.dirs.DocumentDir,
+  method: number = ExportMethod.CSV
+): Promise<string> {
   // TODO: Handle non-CSV methods.
   if (method !== ExportMethod.CSV) {
     throw new Error('Only CSV exporting is handled right now!');
@@ -56,16 +60,19 @@ export default async function exportReports(
   const exportDirectory = `${dir}/Reports/${formattedDateTime}`;
 
   // For every CSV string (one per template), get the template's name & save the CSV string to a file!
-  let exportedFilePaths = Object.keys(csvStrings).map(key => {
+  const writePromises = Object.keys(csvStrings).map(async (key: string) => {
     const csvString = csvStrings[key];
-    const templateName = templates?.[key]?.['name']?.[lang] || templates?.[key]?.defaultLanguage;
+    const templateName: string = templates?.[key]?.['name']?.[lang] || templates?.[key]?.defaultLanguage;
 
     const completeFilePath = `${exportDirectory}/${templateName}.csv`;
-    RNFetchBlob.fs.writeFile(completeFilePath, csvString, 'utf8');
-    return completeFilePath;
+    return await RNFetchBlob.fs.writeFile(completeFilePath, csvString, 'utf8');
   });
 
-  return exportedFilePaths;
+  await Promise.all(writePromises);
+
+  const zippedReportsPath = await zipFolder(exportDirectory, `${exportDirectory}-zipped.zip`);
+
+  return zippedReportsPath;
 }
 
 /**
@@ -87,10 +94,16 @@ export default async function exportReports(
  *  An object where each key is a template ID, and its associated value is a string representing a CSV document of reports
  *  for that template
  */
-export function renderReportsAsCsv(reports, templates, lang) {
+// eslint-disable-next-line import/no-unused-modules
+export function renderReportsAsCsv(
+  reports: Array<Report>,
+  templates: { [string]: Template },
+  lang: string
+): { [string]: string } {
   const reportsByTemplateId = {};
 
   // Group all reports by their templateId
+  // $FlowFixMe
   reports?.forEach(report => {
     const templateId = report?.area?.templateId;
     if (templates[templateId]) {
@@ -99,7 +112,7 @@ export function renderReportsAsCsv(reports, templates, lang) {
   });
 
   // For each related group of reports, create a CSV
-  return _.mapValues(reportsByTemplateId, (reports, templateId) =>
+  return _.mapValues(reportsByTemplateId, (reports: Array<Report>, templateId: string) =>
     renderReportGroupAsCsv(reports, templates[templateId], lang)
   );
 }
@@ -125,35 +138,54 @@ export function renderReportsAsCsv(reports, templates, lang) {
  *  language is used.
  * @return {string}
  */
-export function renderReportGroupAsCsv(reports, template, lang, outputMetadata = true) {
+export function renderReportGroupAsCsv(
+  reports: Array<Report>,
+  template: Template,
+  lang: string,
+  outputMetadata: boolean = true
+) {
   // Define columns based on the metadata returned by mapReportToMetadata. These are passed as config to json2csv.
   // Each label represents the column header, and value is a function to calculate the value of each cell
-  const metadataFields = REPORT_METADATA_FIELDS.map(field => ({
+  const metadataFields = [
+    { id: 'name', label: i18n.t('commonText.name') },
+    { id: 'areaName', label: i18n.t('commonText.area') },
+    { id: 'date', label: i18n.t('commonText.date') },
+    { id: 'language', label: i18n.t('commonText.language') },
+    { id: 'userPosition', label: i18n.t('commonText.userPosition') },
+    { id: 'clickedPosition', label: i18n.t('commonText.reportedPosition') },
+    { id: 'dataset', label: i18n.t('commonText.alert') }
+  ].map(field => ({
     label: field.label,
-    value: reportData => reportData.metadata?.find(item => item.id === field.id)?.value?.join?.(', ')
+    value: (
+      reportData: { metadata: ?Array<Metadata> } // $FlowFixMe
+    ) => reportData.metadata?.find(item => item.id === field.id)?.value?.join?.(', ')
   }));
 
-  const questions = mapFormToQuestions(template, lang);
+  const questions: { [string]: Question } = mapFormToQuestions(template, lang);
 
   // These are passed as config to json2csv.
   // Each label represents the column header, and value is a function to calculate the value of each cell
-  const questionFields = Object.values(questions).map(question => ({
-    label: question.label,
-    value: reportData => {
-      const answers = reportData.answers;
-      const answerToThisQuestion = answers.find(answer => question.name === answer.questionName);
+  const questionFields = Object.keys(questions)
+    .map((key: string) => questions[key])
+    .map((question: Question) => ({
+      label: question.label,
+      value: reportData => {
+        const answers: Array<Answer> = reportData.answers;
+        const answerToThisQuestion = answers.find(answer => question.name === answer.questionName);
 
-      if (!answerToThisQuestion) {
-        return null;
+        if (!answerToThisQuestion) {
+          return null;
+        }
+
+        return renderReportAnswerAsText(question.type, answerToThisQuestion.value);
       }
-
-      return renderReportAnswerAsText(question.type, answerToThisQuestion.value);
-    }
-  }));
+    }));
 
   // Create the metadata for each report
+  // $FlowFixMe
   const reportMetadata = reports?.filter(report => !!report)?.map(report => mapReportToMetadata(report, lang));
   // Create an array of answer arrays. Each inner array is a localised array of answers comprising a report
+  // $FlowFixMe
   const localisedAnswers = reports
     ?.filter(report => !!report)
     ?.map(report => mapFormToAnsweredQuestions(report.answers, template, lang))
@@ -162,7 +194,7 @@ export function renderReportGroupAsCsv(reports, template, lang, outputMetadata =
   // Unfortunately the array above still include nested "child" answers. We will flatten these here so everything is in
   // one array
   const flattenedAnswers = localisedAnswers.map(answers =>
-    _.flatMap(answers, answer => (answer.child ? [answer, answer.child] : [answer]))
+    _.flatMap((answers: Array<Answer>), (answer: Answer) => (answer.child ? [answer, answer.child] : [answer]))
   );
 
   // Now zip together the report metadata and the associated answers
@@ -189,7 +221,7 @@ export function renderReportGroupAsCsv(reports, template, lang, outputMetadata =
  * @return {string}
  *  Possibly null
  */
-function renderReportAnswerAsText(questionType, answerValue) {
+function renderReportAnswerAsText(questionType: string, answerValue: string | Array<string>): ?string {
   switch (questionType) {
     case 'date':
     case 'number':

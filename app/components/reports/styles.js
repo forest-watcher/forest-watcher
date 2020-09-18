@@ -4,8 +4,7 @@ import { StyleSheet } from 'react-native';
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Theme.background.main,
-    position: 'relative'
+    backgroundColor: Theme.background.main
   },
   containerEmpty: {
     flex: 1,
@@ -23,6 +22,9 @@ export default StyleSheet.create({
   containerFull: {
     marginTop: 0
   },
+  contentContainer: {
+    paddingTop: 44
+  },
   listContainer: {
     flex: 1,
     marginBottom: 24
@@ -37,10 +39,7 @@ export default StyleSheet.create({
     justifyContent: 'space-between'
   },
   listTitle: {
-    fontSize: 17,
-    fontWeight: '400',
-    fontFamily: Theme.font,
-    color: Theme.fontColors.light
+    ...Theme.sectionHeaderText
   },
   emptyTitle: {
     flex: 1,
@@ -73,18 +72,11 @@ export default StyleSheet.create({
     maxWidth: 288
   },
   itemTitle: {
-    paddingTop: 1,
-    fontSize: 17,
-    lineHeight: 20,
-    fontWeight: '400',
-    fontFamily: Theme.font,
-    color: Theme.fontColors.secondary
+    ...Theme.tableRowText,
+    fontSize: 16
   },
   itemText: {
-    fontSize: 17,
-    lineHeight: 24,
-    fontWeight: '400',
-    fontFamily: Theme.font,
-    color: Theme.fontColors.light
+    ...Theme.tableRowText,
+    fontSize: 12
   }
 });

@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { Alert } from 'react-native';
 
 import CONSTANTS from 'config/constants';
-import i18n from 'locales';
+import i18n from 'i18next';
 import { Navigation } from 'react-native-navigation';
-import tracker, { REPORT_OUTCOME_SAVED } from '../../helpers/googleAnalytics';
+import { trackReportingConcluded } from 'helpers/analytics';
 
 const saveReportIcon = require('assets/save_for_later.png');
 
@@ -24,7 +24,7 @@ function withDraft(WrappedComponent: any) {
   return class withDraftHOC extends WrappedComponent {
     static displayName = `HOC(${getDisplayName(WrappedComponent)})`;
 
-    static options(passProps) {
+    static options(passProps: {}) {
       const wrappedOptions = WrappedComponent.options(passProps);
       return {
         ...(wrappedOptions || {}),
@@ -68,7 +68,7 @@ function withDraft(WrappedComponent: any) {
                   status: CONSTANTS.status.draft
                 });
               }
-              tracker.trackReportFlowEndedEvent(REPORT_OUTCOME_SAVED);
+              trackReportingConcluded('saved', 'withDraft');
               Navigation.dismissModal(componentId);
             }
           }
@@ -78,6 +78,7 @@ function withDraft(WrappedComponent: any) {
     };
 
     navigationButtonPressed(event) {
+      // $FlowFixMe
       super.navigationButtonPressed?.bind(this)?.(event);
       if (event.buttonId === 'draft') {
         this.onPressDraft();
