@@ -12,6 +12,10 @@ const reportNameRegex = /-([A-Z|]+)-REPORT--\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\d/;
  * @return {string} A localised, readable version of the string
  */
 export function readableNameForReportName(reportName: string): string {
+  if (!reportName) {
+    // GFW-778: Fix for empty report names
+    return i18n.t('report.custom');
+  }
   const result = reportName.match(reportNameRegex);
   if (!result || result.length < 2) {
     return reportName;

@@ -1134,10 +1134,10 @@
     opencollective-postinstall "^2.0.1"
     superstruct "^0.6.2"
 
-"@react-native-mapbox-gl/maps@8.0.0":
-  version "8.0.0"
-  resolved "https://registry.yarnpkg.com/@react-native-mapbox-gl/maps/-/maps-8.0.0.tgz#505e1f790d7694cacb79d2d46956ece15b5f6537"
-  integrity sha512-anOYwSpqFG2JyY8d9uxYH01cBUIo1/osXlC7hD5LJTC6x8nUPpn7/k7TGjH7kgrCtYxpqXI1G7nWPYUwyA1j/w==
+"@react-native-mapbox-gl/maps@8.1.0-rc.2":
+  version "8.1.0-rc.2"
+  resolved "https://registry.yarnpkg.com/@react-native-mapbox-gl/maps/-/maps-8.1.0-rc.2.tgz#09c8ecdfca900a861e0135d53f6cab20e6256294"
+  integrity sha512-gjU5YSjlxqWZ5flMxiEoKUsu9DjLy3aqntivJGbqooRT8d1wILtErXDG2TDyprWGrUpFUl/D27TjLLSIhVmyOw==
   dependencies:
     "@mapbox/geo-viewport" ">= 0.4.0"
     "@turf/along" ">= 4.0.0 <7.0.0"

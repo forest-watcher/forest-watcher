@@ -14,7 +14,7 @@ Object {
   "pristineCacheTooltip": true,
   "reduxVersion": 2,
   "synced": false,
-  "version": "2.0.0",
+  "version": "2.0.2",
 }
 `;
 
@@ -72,7 +72,7 @@ Object {
   "pristineCacheTooltip": true,
   "reduxVersion": 2,
   "synced": false,
-  "version": "2.0.0",
+  "version": "2.0.2",
 }
 `;
 
@@ -99,7 +99,7 @@ Object {
   "pristineCacheTooltip": true,
   "reduxVersion": 2,
   "synced": false,
-  "version": "2.0.0",
+  "version": "2.0.2",
 }
 `;
 
@@ -125,7 +125,7 @@ Object {
   "pristineCacheTooltip": true,
   "reduxVersion": 2,
   "synced": false,
-  "version": "2.0.0",
+  "version": "2.0.2",
 }
 `;
 
@@ -171,7 +171,7 @@ Object {
   "pristineCacheTooltip": true,
   "reduxVersion": 2,
   "synced": true,
-  "version": "2.0.0",
+  "version": "2.0.2",
 }
 `;
 
@@ -196,7 +196,7 @@ Object {
   "pristineCacheTooltip": true,
   "reduxVersion": 2,
   "synced": false,
-  "version": "2.0.0",
+  "version": "2.0.2",
 }
 `;
 
@@ -221,7 +221,7 @@ Object {
   "pristineCacheTooltip": true,
   "reduxVersion": 2,
   "synced": false,
-  "version": "2.0.0",
+  "version": "2.0.2",
 }
 `;
 
@@ -246,7 +246,7 @@ Object {
   "pristineCacheTooltip": true,
   "reduxVersion": 2,
   "synced": false,
-  "version": "2.0.0",
+  "version": "2.0.2",
 }
 `;
 
@@ -271,7 +271,7 @@ Object {
   "pristineCacheTooltip": true,
   "reduxVersion": 2,
   "synced": false,
-  "version": "2.0.0",
+  "version": "2.0.2",
 }
 `;
 
@@ -296,7 +296,7 @@ Object {
   "pristineCacheTooltip": true,
   "reduxVersion": 2,
   "synced": false,
-  "version": "2.0.0",
+  "version": "2.0.2",
 }
 `;
 
@@ -321,7 +321,7 @@ Object {
   "pristineCacheTooltip": true,
   "reduxVersion": 2,
   "synced": false,
-  "version": "2.0.0",
+  "version": "2.0.2",
 }
 `;
 
@@ -346,7 +346,7 @@ Object {
   "pristineCacheTooltip": false,
   "reduxVersion": 2,
   "synced": false,
-  "version": "2.0.0",
+  "version": "2.0.2",
 }
 `;
 
@@ -370,6 +370,6 @@ Object {
   "pristineCacheTooltip": true,
   "reduxVersion": 2,
   "synced": false,
-  "version": "2.0.0",
+  "version": "2.0.2",
 }
 `;

@@ -1,5 +1,14 @@
 # Forest Watcher Changelog
 
+## [v2.0.2]
+- Fixed how Map Settings is used in Setup Area flow
+- Fixed report images occasionally not appearing
+- Fixed crashes when dealing with edge-case v1 data such as reports without names etc.
+- Upgraded `react-native-mapbox-gl` to v8.1.0 from v8.0.0 to address occasional Mapbox native library crashes
+
+## [v2.0.1] (Android-only)
+- Removed Map Settings toggle from Setup Area flow temporarily
+
 ## [v2.0.0]
 - **Major app re-design to better present data**
 - Added ability to export and import sharing bundles

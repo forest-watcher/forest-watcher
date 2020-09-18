@@ -9,7 +9,7 @@ import type { MBTileBasemapMetadata } from './types';
 type Props = {
   basemapId: string,
   basemapPath: ?string,
-  belowLayerID: string,
+  belowLayerID?: string,
   layerIndex?: number,
   port: number
 };
