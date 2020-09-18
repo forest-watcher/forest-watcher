@@ -11,8 +11,9 @@ const mapSettingsIcon = require('assets/map_settings.png');
 export function pushMapScreen(
   componentId: string,
   passProps: { areaId?: ?string, featureId?: ?string, routeId?: ?string },
-  title?: ?string = null,
-  mapScreenName: string = 'ForestWatcher.Map'
+  title: ?string = null,
+  mapScreenName: string = 'ForestWatcher.Map',
+  hideLayerSettingsIcon = false
 ) {
   const featureId = passProps.featureId ?? passProps.areaId ?? passProps.routeId ?? '';
   Navigation.push(componentId, {
@@ -51,12 +52,14 @@ export function pushMapScreen(
                         color: Theme.fontColors.white
                       }
                     ],
-                    rightButtons: [
-                      {
-                        id: 'settings',
-                        icon: mapSettingsIcon
-                      }
-                    ]
+                    rightButtons: hideLayerSettingsIcon
+                      ? []
+                      : [
+                          {
+                            id: 'settings',
+                            icon: mapSettingsIcon
+                          }
+                        ]
                   }
                 },
                 passProps: {
@@ -86,7 +89,8 @@ export function pushMapSetupScreen(componentId: string) {
     componentId,
     { featureId: 'newAreaFeatureId' },
     i18n.t('commonText.setup'),
-    'ForestWatcher.SetupBoundaries'
+    'ForestWatcher.SetupBoundaries',
+    true
   );
 }
 
