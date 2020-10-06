@@ -132,6 +132,8 @@ export async function writeFileWithReplacement(sourceUri: string, destinationUri
     .slice(0, -1)
     .join('/');
 
+  const decodedSourceUri = decodeURI(sourceUri);
+
   const dirExists = await RNFS.exists(destinationPath);
   if (!dirExists) {
     await RNFS.mkdir(destinationPath);
@@ -143,9 +145,9 @@ export async function writeFileWithReplacement(sourceUri: string, destinationUri
   }
 
   if (method === 'copy') {
-    await RNFS.copyFile(sourceUri, destinationUri);
+    await RNFS.copyFile(decodedSourceUri, destinationUri);
   } else if (method === 'move') {
-    await RNFS.moveFile(sourceUri, destinationUri);
+    await RNFS.moveFile(decodedSourceUri, destinationUri);
   }
 }
 
