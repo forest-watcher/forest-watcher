@@ -1,6 +1,7 @@
 // @flow
 import RNFetchBlob from 'rn-fetch-blob';
 import FWError, { ERROR_CODES } from 'helpers/fwError';
+import { Platform } from 'react-native';
 const RNFS = require('react-native-fs');
 
 global.Buffer = global.Buffer || require('buffer').Buffer; // eslint-disable-line
@@ -132,7 +133,7 @@ export async function writeFileWithReplacement(sourceUri: string, destinationUri
     .slice(0, -1)
     .join('/');
 
-  const decodedSourceUri = decodeURI(sourceUri);
+  const decodedSourceUri = Platform.OS === 'android' ? sourceUri : decodeURI(sourceUri);
 
   const dirExists = await RNFS.exists(destinationPath);
   if (!dirExists) {
