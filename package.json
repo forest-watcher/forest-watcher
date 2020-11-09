@@ -37,7 +37,7 @@
     "@react-native-community/netinfo": "5.5.1",
     "@react-native-firebase/analytics": "7.6.9",
     "@react-native-firebase/app": "8.4.7",
-    "@react-native-mapbox-gl/maps": "8.1.0-rc.2",
+    "@react-native-mapbox-gl/maps": "8.1.0-rc.9",
     "@redux-offline/redux-offline": "2.5.2-native.3",
     "@sentry/react-native": "1.5.0",
     "@tmcw/togeojson": "4.0.0",
