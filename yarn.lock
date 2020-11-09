@@ -8238,10 +8238,10 @@ react-lifecycles-compat@2.0.0:
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-2.0.0.tgz#71d9c4cde47114c4102454f76da055c2bc48c948"
   integrity sha512-txfpPCQYiazVdcbMRhatqWKcAxJweUu2wDXvts5/7Wyp6+Y9cHojqXHsLPEckzutfHlxZhG8Oiundbmp8Fd6eQ==
 
-react-native-actions-sheet@0.1.9:
-  version "0.1.9"
-  resolved "https://registry.yarnpkg.com/react-native-actions-sheet/-/react-native-actions-sheet-0.1.9.tgz#03409456a5d793a2ff36482b754270880a936d32"
-  integrity sha512-MYioZKkvNJr53Z0jGHK5MIuvXjptGmbzRgfqT16bgIyFjE2Wm0DK962K9c5s8bcfrRmeE+lJ+LV+nUQw6dRimQ==
+react-native-actions-sheet@0.3.5:
+  version "0.3.5"
+  resolved "https://registry.yarnpkg.com/react-native-actions-sheet/-/react-native-actions-sheet-0.3.5.tgz#7e91a7a5598e396a7ea3de223291a94a0fcb5b32"
+  integrity sha512-m777kTyNLADV3hF0wCT43LTWeIPS4ZHC5Gd5+8WQ6OD1u6U44AXpmYXpBfn6ji7dq70a3Is+Dh9SkzmmVK++JQ==
 
 react-native-app-auth@5.0.2:
   version "5.0.2"

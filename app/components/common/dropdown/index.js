@@ -80,7 +80,7 @@ export default class Dropdown extends Component<Props> {
             this.actionSheet = ref;
           }}
         >
-          <SafeAreaInsetsContext.Comsumer>
+          <SafeAreaInsetsContext.Consumer>
             {insets => {
               const dropdownContainerStyle = Platform.select({
                 android: { marginBottom: insets.top },
@@ -117,7 +117,7 @@ export default class Dropdown extends Component<Props> {
                 </View>
               );
             }}
-          </SafeAreaInsetsContext.Comsumer>
+          </SafeAreaInsetsContext.Consumer>
         </ActionSheet>
       </Row>
     );
