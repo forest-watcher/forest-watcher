@@ -1,7 +1,7 @@
 require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
-platform :ios, '10.0'
+platform :ios, '11.0'
 
 target 'ForestWatcher' do
   config = use_native_modules!
@@ -14,9 +14,6 @@ target 'ForestWatcher' do
 
   # react-native-webview dependency.
   pod 'react-native-webview', :path => '../node_modules/react-native-webview'
-
-  # react-native-navigation dependencies.
-  pod 'ReactNativeNavigation', :path => '../node_modules/react-native-navigation'
 
   # react-native-mapbox-gl dependency.
   pod 'react-native-mapbox-gl', :path => '../node_modules/@react-native-mapbox-gl/maps'
