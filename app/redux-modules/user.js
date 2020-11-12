@@ -10,6 +10,8 @@ import Config from 'react-native-config';
 import oAuth from 'config/oAuth';
 import i18n from 'i18next';
 
+import { appleAuth } from '@invertase/react-native-apple-authentication';
+
 const CookieManager = require('@react-native-community/cookies');
 
 import { deleteAllOfflinePacks } from 'helpers/mapbox';
@@ -107,6 +109,41 @@ export function syncUser() {
     const { user } = state();
     if (!user.synced && !user.syncing) {
       dispatch(getUser());
+    }
+  };
+}
+
+export function appleLogin() {
+  return async (dispatch: Dispatch) => {
+    try {
+      dispatch({ type: SET_LOGIN_LOADING, payload: true });
+      const result = await appleAuth.performRequest(oAuth.apple);
+      const { identityToken } = result;
+      try {
+        const response = await fetch(`${Config.API_AUTH}/auth/apple/token?access_token=${identityToken}`);
+        dispatch({ type: SET_LOGIN_LOADING, payload: false });
+        if (!response.ok) {
+          throw new Error(response.status);
+        }
+        const data = await response.json();
+        dispatch({
+          type: SET_LOGIN_AUTH,
+          payload: {
+            socialNetwork: 'apple',
+            loggedIn: true,
+            token: data.token,
+            oAuthToken: identityToken
+          }
+        });
+      } catch (e) {
+        console.error(e);
+        dispatch({ type: SET_LOGIN_LOADING, payload: false });
+        dispatch(logout('apple'));
+      }
+    } catch (e) {
+      console.error(e);
+      dispatch({ type: SET_LOGIN_STATUS, payload: false });
+      dispatch({ type: SET_LOGIN_LOADING, payload: false });
     }
   };
 }

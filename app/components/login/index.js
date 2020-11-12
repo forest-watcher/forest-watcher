@@ -43,6 +43,7 @@ import { Navigation } from 'react-native-navigation';
 import Hyperlink from 'react-native-hyperlink';
 import { GFW_SIGN_UP_LINK } from 'config/constants';
 
+const appleIcon = require('assets/appleLogo.png');
 const headerImage = require('assets/login_bg.jpg');
 const logoIcon = require('assets/logo_dark.png');
 const emailIcon = require('assets/emailIcon.png');
@@ -61,6 +62,7 @@ type Props = {
   loggedIn: boolean,
   logSuccess: boolean,
   logout: (?string) => Thunk<Promise<void>>,
+  appleLogin: () => Thunk<Promise<void>>,
   facebookLogin: () => Thunk<Promise<void>>,
   googleLogin: () => Thunk<Promise<void>>,
   setLoginAuth: ({
@@ -183,6 +185,7 @@ class Login extends PureComponent<Props, State> {
     }
 
     const provider = {
+      apple: this.props.appleLogin,
       google: this.props.googleLogin,
       facebook: this.props.facebookLogin,
       twitter: this.webViewProvider
@@ -339,6 +342,21 @@ class Login extends PureComponent<Props, State> {
               <View style={styles.buttonTitleContainer}>
                 <Image resizeMode={'contain'} style={styles.iconGoogle} source={googleIcon} />
                 <Text style={styles.buttonText}>{i18n.t('login.googleTitle')}</Text>
+              </View>
+              <Image style={styles.iconArrow} source={nextIcon} />
+            </View>
+          </TouchableHighlight>
+          <TouchableHighlight
+            style={[styles.button, styles.buttonApple]}
+            onPress={() => this.onPress('apple')}
+            activeOpacity={0.8}
+            underlayColor={Theme.socialNetworks.apple}
+            disabled={this.props.loading}
+          >
+            <View style={styles.buttonContent}>
+              <View style={styles.buttonTitleContainer}>
+                <Image resizeMode={'contain'} style={styles.iconApple} source={appleIcon} />
+                <Text style={styles.buttonText}>{i18n.t('login.appleTitle')}</Text>
               </View>
               <Image style={styles.iconArrow} source={nextIcon} />
             </View>

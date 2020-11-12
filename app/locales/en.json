@@ -645,6 +645,7 @@
             "loginWithEmail": "Login With Email",
             "password": "Password"
         },
+        "appleTitle": "Apple",
         "emailTitle": "Login with Email",
         "facebookTitle": "Facebook",
         "failed": "There was an error during login/logout",

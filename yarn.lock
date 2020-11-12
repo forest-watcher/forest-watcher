@@ -712,6 +712,11 @@
   dependencies:
     "@hapi/hoek" "^8.3.0"
 
+"@invertase/react-native-apple-authentication@2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@invertase/react-native-apple-authentication/-/react-native-apple-authentication-2.1.0.tgz#ae58fe8cafa17272e363cbc68f342b9aefd6414c"
+  integrity sha512-9F4aZVS2wpwZS81zi6I4R3OEctrpDUjDfJaJRHaedQ9d3DQjsbFNpKN2eKUMLnJoY2hweE2dRdgwXrJaNaEZ+g==
+
 "@jest/console@^24.7.1", "@jest/console@^24.9.0":
   version "24.9.0"
   resolved "https://registry.yarnpkg.com/@jest/console/-/console-24.9.0.tgz#79b1bc06fb74a8cfb01cbdedf945584b1b9707f0"
