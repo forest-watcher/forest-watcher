@@ -347,7 +347,7 @@ class Login extends PureComponent<Props, State> {
               <Image style={styles.iconArrow} source={nextIcon} />
             </View>
           </TouchableHighlight>
-          {Platform.OS === "ios" && (
+          {Platform.OS === 'ios' && (
             <TouchableHighlight
               style={[styles.button, styles.buttonApple]}
               onPress={() => this.onPress('apple')}
