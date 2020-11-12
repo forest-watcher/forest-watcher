@@ -58,8 +58,8 @@ export default function reducer(state: UserState = initialState, action: UserAct
       return { ...state, syncing: false };
     }
     case SET_LOGIN_AUTH: {
-      const { socialNetwork, loggedIn, token, oAuthToken } = action.payload;
-      return { ...state, socialNetwork, loggedIn, token, oAuthToken, emailLoginError: null };
+      const { socialNetwork, loggedIn, token, oAuthToken, userId } = action.payload;
+      return { ...state, socialNetwork, loggedIn, token, oAuthToken, userId, emailLoginError: null };
     }
     case SET_LOGIN_STATUS: {
       const logSuccess = action.payload;
@@ -83,7 +83,8 @@ export default function reducer(state: UserState = initialState, action: UserAct
         synced: false,
         loggedIn: false,
         oAuthToken: null,
-        socialNetwork: null
+        socialNetwork: null,
+        userId: null
       };
     default:
       return state;
@@ -118,7 +119,13 @@ export function appleLogin() {
     try {
       dispatch({ type: SET_LOGIN_LOADING, payload: true });
       const result = await appleAuth.performRequest(oAuth.apple);
-      const { identityToken } = result;
+      const { identityToken, user } = result;
+      const credentialState = await appleAuth.getCredentialStateForUser(user);
+      if (credentialState !== appleAuth.State.AUTHORIZED) {
+        dispatch({ type: SET_LOGIN_STATUS, payload: false });
+        dispatch({ type: SET_LOGIN_LOADING, payload: false });
+        return;
+      }
       try {
         const response = await fetch(`${Config.API_AUTH}/auth/apple/token?access_token=${identityToken}`);
         dispatch({ type: SET_LOGIN_LOADING, payload: false });
@@ -132,7 +139,8 @@ export function appleLogin() {
             socialNetwork: 'apple',
             loggedIn: true,
             token: data.token,
-            oAuthToken: identityToken
+            oAuthToken: identityToken,
+            userId: user
           }
         });
       } catch (e) {

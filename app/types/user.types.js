@@ -39,7 +39,8 @@ export type SetLoginAuth = {
     socialNetwork: LoginProvider,
     loggedIn: boolean,
     token: string,
-    oAuthToken?: string
+    oAuthToken?: string,
+    userId?: string
   }
 };
 export type SetLoginStatus = {
