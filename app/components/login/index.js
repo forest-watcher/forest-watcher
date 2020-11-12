@@ -9,6 +9,7 @@ import {
   Alert,
   Image,
   ImageBackground,
+  Platform,
   ScrollView,
   Text,
   TouchableHighlight,
@@ -346,21 +347,23 @@ class Login extends PureComponent<Props, State> {
               <Image style={styles.iconArrow} source={nextIcon} />
             </View>
           </TouchableHighlight>
-          <TouchableHighlight
-            style={[styles.button, styles.buttonApple]}
-            onPress={() => this.onPress('apple')}
-            activeOpacity={0.8}
-            underlayColor={Theme.socialNetworks.apple}
-            disabled={this.props.loading}
-          >
-            <View style={styles.buttonContent}>
-              <View style={styles.buttonTitleContainer}>
-                <Image resizeMode={'contain'} style={styles.iconApple} source={appleIcon} />
-                <Text style={styles.buttonText}>{i18n.t('login.appleTitle')}</Text>
+          {Platform.OS === "ios" && (
+            <TouchableHighlight
+              style={[styles.button, styles.buttonApple]}
+              onPress={() => this.onPress('apple')}
+              activeOpacity={0.8}
+              underlayColor={Theme.socialNetworks.apple}
+              disabled={this.props.loading}
+            >
+              <View style={styles.buttonContent}>
+                <View style={styles.buttonTitleContainer}>
+                  <Image resizeMode={'contain'} style={styles.iconApple} source={appleIcon} />
+                  <Text style={styles.buttonText}>{i18n.t('login.appleTitle')}</Text>
+                </View>
+                <Image style={styles.iconArrow} source={nextIcon} />
               </View>
-              <Image style={styles.iconArrow} source={nextIcon} />
-            </View>
-          </TouchableHighlight>
+            </TouchableHighlight>
+          )}
           <Hyperlink linkDefault linkText={i18n.t('login.signUp')}>
             <Text style={styles.linkStyle} selectable>
               {GFW_SIGN_UP_LINK}
