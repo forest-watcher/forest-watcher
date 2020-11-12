@@ -76,6 +76,9 @@
     "flowtype": {
       "onlyFilesWithFlowAnnotation": true
     },
+    "import/ignore": [
+      "node_modules/react-native/index\\.js$"
+    ],
     "import/resolver": {
       "babel-module": {},
       "node": {
