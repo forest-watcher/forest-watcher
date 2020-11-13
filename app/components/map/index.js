@@ -50,7 +50,7 @@ import { Navigation, NavigationButtonPressedEvent } from 'react-native-navigatio
 import { withSafeArea } from 'react-native-safe-area';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import { MBTilesSource } from 'react-native-mbtiles';
-import { initialWindowSafeAreaInsets } from 'react-native-safe-area-context';
+import { initialWindowMetrics } from 'react-native-safe-area-context';
 
 const SafeAreaView = withSafeArea(View, 'margin', 'top');
 
@@ -88,7 +88,7 @@ const ROUTE_TRACKING_BOTTOM_DIALOG_STATE_HIDDEN = 0;
 const ROUTE_TRACKING_BOTTOM_DIALOG_STATE_EXITING = 1;
 const ROUTE_TRACKING_BOTTOM_DIALOG_STATE_STOPPING = 2;
 
-const DISMISSED_INFO_BANNER_POSTIION = 200 + initialWindowSafeAreaInsets.bottom;
+const DISMISSED_INFO_BANNER_POSTIION = 200 + initialWindowMetrics.insets.bottom;
 
 const backgroundImage = require('assets/map_bg_gradient.png');
 

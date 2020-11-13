@@ -634,6 +634,13 @@
         "woodFiber": "Wood fiber",
         "woodFiberConcessions": "Wood fiber concessions by type - 2019"
     },
+    "locationPermissions": {
+        "enablePermissions": "Enable Permissions",
+        "subTitle": "To see your location on the map",
+        "title": "Enable Location Permissions",
+        "bullet1": "Tap below and set access to ‘allow while using the app’.",
+        "bullet2": "Keep precise location set to ‘on’ to ensure your position remains accurate."
+    },
     "login": {
         "emailLogin": {
             "emailAddress": "Email Address",
@@ -645,6 +652,7 @@
             "loginWithEmail": "Login With Email",
             "password": "Password"
         },
+        "appleTitle": "Apple",
         "emailTitle": "Login with Email",
         "facebookTitle": "Facebook",
         "failed": "There was an error during login/logout",

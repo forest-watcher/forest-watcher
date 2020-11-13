@@ -8,7 +8,7 @@ import ActionSheet from 'react-native-actions-sheet';
 import Row from 'components/common/row';
 import styles from './styles';
 
-import { SafeAreaConsumer } from 'react-native-safe-area-context';
+import { SafeAreaInsetsContext } from 'react-native-safe-area-context';
 
 import i18n from 'i18next';
 
@@ -80,7 +80,7 @@ export default class Dropdown extends Component<Props> {
             this.actionSheet = ref;
           }}
         >
-          <SafeAreaConsumer>
+          <SafeAreaInsetsContext.Consumer>
             {insets => {
               const dropdownContainerStyle = Platform.select({
                 android: { marginBottom: insets.top },
@@ -117,7 +117,7 @@ export default class Dropdown extends Component<Props> {
                 </View>
               );
             }}
-          </SafeAreaConsumer>
+          </SafeAreaInsetsContext.Consumer>
         </ActionSheet>
       </Row>
     );

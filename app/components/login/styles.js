@@ -55,6 +55,13 @@ export default StyleSheet.create({
     width: 28,
     height: 28
   },
+  buttonApple: {
+    backgroundColor: Theme.socialNetworks.apple
+  },
+  iconApple: {
+    width: 23,
+    height: 21
+  },
   buttonFacebook: {
     backgroundColor: Theme.socialNetworks.facebook
   },
