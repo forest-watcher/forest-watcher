@@ -1,4 +1,5 @@
 // @flow
+import { Platform } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import Theme from 'config/theme';
 
@@ -46,7 +47,9 @@ export function showWelcomeScreen() {
                 componentBackgroundColor: 'rgba(0,0,0,0.74)'
               },
               screenBackgroundColor: 'rgba(0,0,0,0.74)',
-              modalPresentationStyle: 'overCurrentContext'
+              // Has to be overFullScreen on iOS otherwise viewDidAppear not called on presenting VC
+              // Android doesn't support `overFullScreen`
+              modalPresentationStyle: Platform.OS === 'ios' ? 'overFullScreen' : 'overCurrentContext'
             }
           }
         }
@@ -69,7 +72,9 @@ export function showLocationPermissionsScreen() {
                 componentBackgroundColor: 'rgba(0,0,0,0.74)'
               },
               screenBackgroundColor: 'rgba(0,0,0,0.74)',
-              modalPresentationStyle: 'overCurrentContext'
+              // Has to be overFullScreen on iOS otherwise viewDidAppear not called on presenting VC
+              // Android doesn't support `overFullScreen`
+              modalPresentationStyle: Platform.OS === 'ios' ? 'overFullScreen' : 'overCurrentContext'
             }
           }
         }
