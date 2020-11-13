@@ -7,6 +7,7 @@ import createStore from 'store';
 import { setupCrashLogging } from './crashes';
 import { setI18nConfig } from 'locales';
 import i18n from 'i18next';
+import { appleAuth } from '@invertase/react-native-apple-authentication';
 
 import {
   GFWLocationAuthorizedAlways,
@@ -23,6 +24,7 @@ import { trackRouteFlowEvent } from 'helpers/analytics';
 import { launchAppRoot } from 'screens/common';
 import { migrateFilesFromV1ToV2 } from './migrate';
 import { SET_HAS_MIGRATED_V1_FILES } from 'redux-modules/app';
+import { logout } from 'redux-modules/user';
 import * as Sentry from '@sentry/react-native';
 
 // Disable ios warnings
@@ -36,6 +38,9 @@ export default class App {
   constructor() {
     this.store = null;
     this.currentAppState = 'background';
+    // onCredentialRevoked isn't reliably called, so we also check in `launchRoot` and `_handleAppStateChange` and log the
+    // user out there if necessary
+    appleAuth.onCredentialRevoked(this._onAppleLoginCredentialRevoked);
     AppState.addEventListener('change', this._handleAppStateChange);
   }
 
@@ -50,6 +55,16 @@ export default class App {
     let screen = 'ForestWatcher.Home';
     if (state.user.loggedIn && state.app.synced) {
       screen = 'ForestWatcher.Dashboard';
+    }
+    // If we're logged in with Apple Login
+    if (state.user.loggedIn && state.user.socialNetwork === 'apple' && state.user.userId) {
+      // Check credential state
+      const credentialState = await appleAuth.getCredentialStateForUser(state.user.userId);
+      // If we're not authorized, then log the user out!
+      if (credentialState !== appleAuth.State.AUTHORIZED) {
+        this.store.dispatch(logout('apple'));
+        screen = 'ForestWatcher.Home';
+      }
     }
 
     if (Platform.OS === 'android') {
@@ -73,6 +88,15 @@ export default class App {
     }
   }
 
+  _onAppleLoginCredentialRevoked = () => {
+    // As this can be called before the store is initialised, ensure we have a store before continuing.
+    if (!this.store) {
+      return;
+    }
+    this.store.dispatch(logout('apple'));
+    launchAppRoot('ForestWatcher.Home');
+  };
+
   _handleAppStateChange = async nextAppState => {
     // As this can be called before the store is initialised, ensure we have a store before continuing.
     if (!this.store) {
@@ -86,7 +110,20 @@ export default class App {
       return;
     }
 
-    const activeRoute = this.store.getState().routes.activeRoute;
+    const state = this.store.getState();
+
+    // If we're logged in with Apple Login
+    if (state.user.loggedIn && state.user.socialNetwork === 'apple' && state.user.userId) {
+      // Check credential state
+      const credentialState = await appleAuth.getCredentialStateForUser(state.user.userId);
+      // If we're not authorized, then log the user out!
+      if (credentialState !== appleAuth.State.AUTHORIZED) {
+        this.store.dispatch(logout('apple'));
+        launchAppRoot('ForestWatcher.Home');
+      }
+    }
+
+    const activeRoute = state.routes.activeRoute;
 
     // If there was no active route then we are done
     if (!activeRoute) {

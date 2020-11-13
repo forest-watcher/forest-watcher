@@ -469,6 +469,8 @@ PODS:
     - React
   - rn-fetch-blob (0.12.0):
     - React-Core
+  - RNAppleAuthentication (2.1.0):
+    - React-Core
   - RNCAsyncStorage (1.8.0):
     - React
   - RNFBAnalytics (8.0.1):
@@ -579,6 +581,7 @@ DEPENDENCIES:
   - ReactNativeNavigation (from `../node_modules/react-native-navigation`)
   - RealmJS (from `../node_modules/realm`)
   - rn-fetch-blob (from `../node_modules/rn-fetch-blob`)
+  - "RNAppleAuthentication (from `../node_modules/@invertase/react-native-apple-authentication`)"
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
   - "RNFBAnalytics (from `../node_modules/@react-native-firebase/analytics`)"
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
@@ -723,6 +726,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/realm"
   rn-fetch-blob:
     :path: "../node_modules/rn-fetch-blob"
+  RNAppleAuthentication:
+    :path: "../node_modules/@invertase/react-native-apple-authentication"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-community/async-storage"
   RNFBAnalytics:
@@ -824,6 +829,7 @@ SPEC CHECKSUMS:
   ReactNativeNavigation: c2dcda2b86e32090c443182206c915107d03106f
   RealmJS: 85d246ec57ac1420faf933c282c0b379e61f38a0
   rn-fetch-blob: f065bb7ab7fb48dd002629f8bdcb0336602d3cba
+  RNAppleAuthentication: 46cbc67739bae83ca229497f9b0038f3f5431443
   RNCAsyncStorage: 5d83b49070d41fd72906a116c5e7bdac4ea3a814
   RNFBAnalytics: e6327172c7367e1b435310c3ed251f2711adb36a
   RNFBApp: 2810471bdc092151f20f16a9f8915b1ad70325b2

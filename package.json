@@ -29,6 +29,7 @@
     "postinstall": "yarn jetify"
   },
   "dependencies": {
+    "@invertase/react-native-apple-authentication": "2.1.0",
     "@mapbox/geojson-area": "0.2.2",
     "@mapbox/tilebelt": "1.0.1",
     "@mauron85/react-native-background-geolocation": "0.6.3",
