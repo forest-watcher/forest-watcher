@@ -6,6 +6,11 @@ platform :ios, '11.0'
 target 'ForestWatcher' do
   config = use_native_modules!
 
+  permissions_path = '../node_modules/react-native-permissions/ios'
+
+  pod 'Permission-LocationAlways', :path => "#{permissions_path}/LocationAlways.podspec"
+  pod 'Permission-LocationWhenInUse', :path => "#{permissions_path}/LocationWhenInUse.podspec"
+
   # Pods for ForestWatcher
   use_react_native!(:path => config["reactNativePath"])
 
