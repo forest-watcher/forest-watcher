@@ -43,6 +43,7 @@ import styles from './styles';
 import { Navigation } from 'react-native-navigation';
 import Hyperlink from 'react-native-hyperlink';
 import { GFW_SIGN_UP_LINK } from 'config/constants';
+import { appleAuth } from '@invertase/react-native-apple-authentication';
 
 const appleIcon = require('assets/appleLogo.png');
 const headerImage = require('assets/login_bg.jpg');
@@ -347,7 +348,7 @@ class Login extends PureComponent<Props, State> {
               <Image style={styles.iconArrow} source={nextIcon} />
             </View>
           </TouchableHighlight>
-          {Platform.OS === 'ios' && (
+          {Platform.OS === 'ios' && appleAuth.isSupported && (
             <TouchableHighlight
               style={[styles.button, styles.buttonApple]}
               onPress={() => this.onPress('apple')}
