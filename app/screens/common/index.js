@@ -55,6 +55,29 @@ export function showWelcomeScreen() {
   });
 }
 
+export function showLocationPermissionsScreen() {
+  Navigation.showModal({
+    stack: {
+      children: [
+        {
+          component: {
+            name: 'ForestWatcher.LocationPermissions',
+            options: {
+              animations: Theme.navigationAnimations.fadeModal,
+              layout: {
+                backgroundColor: 'transparent',
+                componentBackgroundColor: 'rgba(0,0,0,0.74)'
+              },
+              screenBackgroundColor: 'rgba(0,0,0,0.74)',
+              modalPresentationStyle: 'overCurrentContext'
+            }
+          }
+        }
+      ]
+    }
+  });
+}
+
 export function showFAQSection(parentComponentId: string, title: string) {
   Navigation.push(parentComponentId, {
     component: {

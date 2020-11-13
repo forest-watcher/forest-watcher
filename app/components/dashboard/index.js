@@ -3,13 +3,14 @@
 import React, { PureComponent } from 'react';
 import { Image, Linking, Platform, RefreshControl, ScrollView, StatusBar, Text, View } from 'react-native';
 import { Navigation } from 'react-native-navigation';
+import { checkMultiple, PERMISSIONS, RESULTS } from 'react-native-permissions';
 
 import Row from 'components/common/row';
 import debounceUI from 'helpers/debounceUI';
 import { trackMenuButtonPress, trackScreenView } from 'helpers/analytics';
 import i18n from 'i18next';
 import styles from './styles';
-import { showWelcomeScreen } from 'screens/common';
+import { showLocationPermissionsScreen, showWelcomeScreen } from 'screens/common';
 
 const settingsIcon = require('assets/settings.png');
 const nextIcon = require('assets/next.png');
@@ -59,9 +60,13 @@ class Dashboard extends PureComponent<Props> {
 
   settingsAction: { callback: () => void, icon: any };
 
+  doneLocationPermissionsShowCheck: boolean;
+
   constructor(props: Props) {
     super(props);
     Navigation.events().bindComponent(this);
+
+    this.doneLocationPermissionsShowCheck = false;
 
     this.areasAction = {
       callback: this.onPressAreas,
@@ -113,20 +118,39 @@ class Dashboard extends PureComponent<Props> {
 
     // This is called both here and componentDidAppear because componentDidAppear isn't called when setting
     // the app root using RNN
-    this.showWelcomeScreenIfNecessary();
+    this.showOnboardingScreensIfNecessary();
   }
 
   componentDidAppear() {
     // This is called both here and componentDidAppear because componentDidAppear isn't called when setting
     // the app root using RNN
-    this.showWelcomeScreenIfNecessary();
+    this.showOnboardingScreensIfNecessary();
   }
 
-  showWelcomeScreenIfNecessary = debounceUI(() => {
+  showOnboardingScreensIfNecessary = debounceUI(async () => {
     const { hasSeenWelcomeScreen } = this.props;
     if (!hasSeenWelcomeScreen) {
       this.props.setWelcomeScreenSeen(true);
       showWelcomeScreen();
+      // Only show location permission prompt on iOS 14+, don't track whether this has been seen in redux
+      // state, because we need to show it every launch until user has responded to permission
+    } else if (
+      Platform.OS === 'ios' &&
+      parseInt(Platform.Version, 10) >= 14 &&
+      !this.doneLocationPermissionsShowCheck
+    ) {
+      this.doneLocationPermissionsShowCheck = true;
+      // Check both location permissions as we want to make sure neither have been requested!
+      const permissionsToCheck = [PERMISSIONS.IOS.LOCATION_ALWAYS, PERMISSIONS.IOS.LOCATION_WHEN_IN_USE];
+      const locationPermissions = await checkMultiple(permissionsToCheck);
+      // According to Docs: DENIED = The permission has not been requested / is denied but requestable
+      // this is what we want for our check because location permissions are NOT requestable if already denied
+      if (
+        Object.values(locationPermissions).filter(permission => permission === RESULTS.DENIED).length ===
+        permissionsToCheck.length
+      ) {
+        showLocationPermissionsScreen();
+      }
     }
   });
 
