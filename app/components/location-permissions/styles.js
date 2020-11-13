@@ -17,7 +17,8 @@ export default StyleSheet.create({
   },
   contentContainer: {
     ...Theme.modalContainer,
-    alignItems: 'stretch'
+    alignItems: 'stretch',
+    paddingTop: 24
   },
   headerImage: {
     resizeMode: 'contain'
