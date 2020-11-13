@@ -66,7 +66,7 @@ const WELCOME_ITEMS = [
 type Props = {
   componentId: string,
   isAppUpdate: boolean,
-  onDone?: () => void 
+  onDone?: () => void
 };
 
 export default class Welcome extends Component<Props> {
