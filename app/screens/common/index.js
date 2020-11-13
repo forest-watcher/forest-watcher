@@ -1,5 +1,4 @@
 // @flow
-import { Platform } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import Theme from 'config/theme';
 
@@ -33,13 +32,20 @@ export function presentInformationModal(passProps: { title: string, body: string
   });
 }
 
-export function showWelcomeScreen() {
+/**
+  Presents the welcome screen modally with default animation
+  @param {function} onDone - A function to be called when the screen has fully dismissed
+ */
+export function showWelcomeScreen(onDone: () => void) {
   Navigation.showModal({
     stack: {
       children: [
         {
           component: {
             name: 'ForestWatcher.Welcome',
+            passProps: {
+              onDone
+            },
             options: {
               animations: Theme.navigationAnimations.fadeModal,
               layout: {
@@ -47,9 +53,7 @@ export function showWelcomeScreen() {
                 componentBackgroundColor: 'rgba(0,0,0,0.74)'
               },
               screenBackgroundColor: 'rgba(0,0,0,0.74)',
-              // Has to be overFullScreen on iOS otherwise viewDidAppear not called on presenting VC
-              // Android doesn't support `overFullScreen`
-              modalPresentationStyle: Platform.OS === 'ios' ? 'overFullScreen' : 'overCurrentContext'
+              modalPresentationStyle: 'overCurrentContext'
             }
           }
         }
@@ -72,9 +76,7 @@ export function showLocationPermissionsScreen() {
                 componentBackgroundColor: 'rgba(0,0,0,0.74)'
               },
               screenBackgroundColor: 'rgba(0,0,0,0.74)',
-              // Has to be overFullScreen on iOS otherwise viewDidAppear not called on presenting VC
-              // Android doesn't support `overFullScreen`
-              modalPresentationStyle: Platform.OS === 'ios' ? 'overFullScreen' : 'overCurrentContext'
+              modalPresentationStyle: 'overCurrentContext'
             }
           }
         }

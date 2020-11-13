@@ -131,7 +131,9 @@ class Dashboard extends PureComponent<Props> {
     const { hasSeenWelcomeScreen } = this.props;
     if (!hasSeenWelcomeScreen) {
       this.props.setWelcomeScreenSeen(true);
-      showWelcomeScreen();
+      showWelcomeScreen(() => {
+        this.showOnboardingScreensIfNecessary();
+      });
       // Only show location permission prompt on iOS 14+, don't track whether this has been seen in redux
       // state, because we need to show it every launch until user has responded to permission
     } else if (
