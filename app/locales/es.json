@@ -634,6 +634,13 @@
         "woodFiber": "Fibra de madera",
         "woodFiberConcessions": "Concesiones de fibra de madera por tipo: 2019"
     },
+    "locationPermissions": {
+        "enablePermissions": "Activar los permisos",
+        "subTitle": "Para ver tu ubicación en el mapa",
+        "title": "Activar los permisos de ubicación",
+        "bullet1": "Pulsa abajo y configura el acceso a \"permitir mientras se usa la aplicación\".",
+        "bullet2": "Mantén la ubicación exacta encendida para asegurarte de que tu posición sea exacta."
+    },
     "login": {
         "emailLogin": {
             "emailAddress": "Dirección de correo electrónico",
@@ -645,6 +652,7 @@
             "loginWithEmail": "Iniciar sesión con el correo electrónico",
             "password": "Contraseña"
         },
+        "appleTitle": "Apple",
         "emailTitle": "Iniciar sesión con el correo electrónico\n",
         "facebookTitle": "Facebook",
         "failed": "Se ha producido un error durante el inicio o cierre de sesión",
@@ -673,10 +681,10 @@
                 "oneMonth": "%{count} mes",
                 "recent": "Recientes",
                 "reportedOn": "Informado el",
-                "showingManyDays": "Mostrando %{type} de los últimos %{count} días",
-                "showingManyMonths": "Mostrando %{type} de los últimos %{count} meses",
-                "showingOneDay": "Mostrando %{type} desde el último día",
-                "showingOneMonth": "Mostrando %{type} desde el último mes",
+                "showingManyDays": "Hasta 10 000 alertas de los últimos %{count} días.",
+                "showingManyMonths": "Hasta 10 000 alertas de los últimos %{count} meses.",
+                "showingOneDay": "Hasta 10 000 alertas del día anterior",
+                "showingOneMonth": "Hasta 10 000 alertas del mes pasado",
                 "timeFrame": "Periodo de tiempo",
                 "timeFrameDescDays": "Seleccione el número de días",
                 "timeFrameDescMonths": "Seleccione el número de meses",
