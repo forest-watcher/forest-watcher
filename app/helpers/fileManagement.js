@@ -24,10 +24,13 @@ if (typeof atob === 'undefined') {
  * Will also error if the file cannot be read (either because it doesn't exist or maybe because it's an Android content:
  * URI that isn't backed by a file)
  */
-export async function assertMaximumFileSize(uri: string, maxSizeInBytes: number) {
+export async function assertMaximumFileSize(uri: string, maxSizeInBytes: number, kmzFileType = false) {
   const result = await RNFS.stat(uri);
   if (result.size > maxSizeInBytes) {
-    throw new FWError({ message: `File too large: ${uri}`, code: ERROR_CODES.FILE_TOO_LARGE });
+    throw new FWError({
+      message: kmzFileType ? `File too large: ${uri}` : `The uncompressed data from the file exceeds 10MB: ${uri}`,
+      code: ERROR_CODES.FILE_TOO_LARGE
+    });
   }
 }
 

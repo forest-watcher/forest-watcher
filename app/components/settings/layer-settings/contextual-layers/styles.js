@@ -46,6 +46,9 @@ export default StyleSheet.create({
     color: Theme.fontColors.secondary,
     fontSize: 12
   },
+  rowTextContainer: {
+    flexDirection: 'column'
+  },
   onlyAvailableOnlineLabel: {
     paddingTop: 16
   }

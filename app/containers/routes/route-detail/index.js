@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import RouteDetail from 'components/routes/route-detail';
 
 import { deleteRoutes, updateSavedRoute } from 'redux-modules/routes';
+import { initialiseAreaLayerSettings } from 'redux-modules/layerSettings';
 
 type OwnProps = {|
   +componentId: string,
@@ -21,6 +22,9 @@ function mapStateToProps(state: State, ownProps: OwnProps) {
 
 function mapDispatchToProps(dispatch: Dispatch, ownProps: OwnProps) {
   return {
+    initialiseAreaLayerSettings: (featureId: string, areaId: string) => {
+      dispatch(initialiseAreaLayerSettings(featureId, areaId));
+    },
     deleteRoute: () => {
       dispatch(
         deleteRoutes({
