@@ -109,7 +109,7 @@ class ContextualLayersLayerSettings extends PureComponent<Props> {
                 onPress={this.setContextualLayerShowing.bind(this, layer.id, !selected)}
                 key={index}
               >
-                <View style={{ flexDirection: 'column' }}>
+                <View style={styles.rowTextContainer}>
                   <Text style={styles.rowLabel}>{i18n.t(layer.name)}</Text>
                   {!isDownloadedForCurrentFeature && (
                     <Text style={[styles.rowLabel, styles.onlyAvailableOnlineLabel]}>

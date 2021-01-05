@@ -26,6 +26,7 @@ type Props = {
   coordinatesFormat: CoordinatesFormat,
   deleteRoute: () => void,
   updateRoute: ($Shape<Route>) => void,
+  initialiseAreaLayerSettings: (string, string) => void,
   route: ?Route
 };
 
@@ -76,6 +77,7 @@ export default class RouteDetail extends PureComponent<Props> {
       return;
     }
 
+    this.props.initialiseAreaLayerSettings(route.id, route.areaId);
     pushMapScreen(this.props.componentId, { areaId: route.areaId, routeId: route.id }, route.name);
   });
 
