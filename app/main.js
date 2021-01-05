@@ -40,7 +40,9 @@ export default class App {
     this.currentAppState = 'background';
     // onCredentialRevoked isn't reliably called, so we also check in `launchRoot` and `_handleAppStateChange` and log the
     // user out there if necessary
-    appleAuth.onCredentialRevoked(this._onAppleLoginCredentialRevoked);
+    if (appleAuth.isSupported) {
+      appleAuth.onCredentialRevoked(this._onAppleLoginCredentialRevoked);
+    }
     AppState.addEventListener('change', this._handleAppStateChange);
   }
 
@@ -57,7 +59,7 @@ export default class App {
       screen = 'ForestWatcher.Dashboard';
     }
     // If we're logged in with Apple Login
-    if (state.user.loggedIn && state.user.socialNetwork === 'apple' && state.user.userId) {
+    if (state.user.loggedIn && state.user.socialNetwork === 'apple' && state.user.userId && appleAuth.isSupported) {
       // Check credential state
       const credentialState = await appleAuth.getCredentialStateForUser(state.user.userId);
       // If we're not authorized, then log the user out!
@@ -110,7 +112,7 @@ export default class App {
     const state = this.store.getState();
 
     // If we're logged in with Apple Login
-    if (state.user.loggedIn && state.user.socialNetwork === 'apple' && state.user.userId) {
+    if (state.user.loggedIn && state.user.socialNetwork === 'apple' && state.user.userId && appleAuth.isSupported) {
       // Check credential state
       const credentialState = await appleAuth.getCredentialStateForUser(state.user.userId);
       // If we're not authorized, then log the user out!
