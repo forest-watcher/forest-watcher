@@ -95,27 +95,27 @@ class ContextualLayersLayerSettings extends PureComponent<Props> {
           <Text style={styles.listTitle}>{i18n.t('map.layerSettings.gfwLayers')}</Text>
         </View>
         {sortGFWContextualLayers(baseApiLayers).map((layer, index) => {
-            const isDownloadedForCurrentFeature = downloadProgress[layer.id]?.[featureId] != null;
+          const isDownloadedForCurrentFeature = downloadProgress[layer.id]?.[featureId] != null;
 
-            const selected = contextualLayersLayerSettings.activeContextualLayerIds.includes(layer.id);
-            return (
-              <ActionsRow
-                style={styles.rowContent}
-                onPress={this.setContextualLayerShowing.bind(this, layer.id, !selected)}
-                key={index}
-              >
-                <View style={styles.rowTextContainer}>
-                  <Text style={styles.rowLabel}>{i18n.t(layer.name)}</Text>
-                  {!isDownloadedForCurrentFeature && (
-                    <Text style={[styles.rowLabel, styles.onlyAvailableOnlineLabel]}>
-                      {i18n.t(`map.layerSettings.onlyAvailableOnline`)}
-                    </Text>
-                  )}
-                </View>
-                <Image source={selected ? checkboxOn : checkboxOff} />
-              </ActionsRow>
-            );
-          })}
+          const selected = contextualLayersLayerSettings.activeContextualLayerIds.includes(layer.id);
+          return (
+            <ActionsRow
+              style={styles.rowContent}
+              onPress={this.setContextualLayerShowing.bind(this, layer.id, !selected)}
+              key={index}
+            >
+              <View style={styles.rowTextContainer}>
+                <Text style={styles.rowLabel}>{i18n.t(layer.name)}</Text>
+                {!isDownloadedForCurrentFeature && (
+                  <Text style={[styles.rowLabel, styles.onlyAvailableOnlineLabel]}>
+                    {i18n.t(`map.layerSettings.onlyAvailableOnline`)}
+                  </Text>
+                )}
+              </View>
+              <Image source={selected ? checkboxOn : checkboxOff} />
+            </ActionsRow>
+          );
+        })}
       </View>
     );
   };
