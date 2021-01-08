@@ -12,6 +12,7 @@ import { Navigation, NavigationButtonPressedEvent } from 'react-native-navigatio
 import type { Layer, LayersCacheStatus } from 'types/layers.types';
 import type { LayerSettingsAction } from 'types/layerSettings.types';
 import debounceUI from 'helpers/debounceUI';
+import { sortGFWContextualLayers } from 'helpers/sortContextualLayers';
 
 const layerPlaceholder = require('assets/layerPlaceholder.png');
 const checkboxOff = require('assets/checkbox_off.png');
@@ -93,34 +94,28 @@ class ContextualLayersLayerSettings extends PureComponent<Props> {
         <View style={styles.listHeader}>
           <Text style={styles.listTitle}>{i18n.t('map.layerSettings.gfwLayers')}</Text>
         </View>
-        {baseApiLayers
-          .sort((layerA, layerB) => {
-            const nameA = layerA.name.toUpperCase();
-            const nameB = layerB.name.toUpperCase();
-            return nameA < nameB ? -1 : nameA > nameB ? 1 : 0;
-          })
-          .map((layer, index) => {
-            const isDownloadedForCurrentFeature = downloadProgress[layer.id]?.[featureId] != null;
+        {sortGFWContextualLayers(baseApiLayers).map((layer, index) => {
+          const isDownloadedForCurrentFeature = downloadProgress[layer.id]?.[featureId] != null;
 
-            const selected = contextualLayersLayerSettings.activeContextualLayerIds.includes(layer.id);
-            return (
-              <ActionsRow
-                style={styles.rowContent}
-                onPress={this.setContextualLayerShowing.bind(this, layer.id, !selected)}
-                key={index}
-              >
-                <View style={styles.rowTextContainer}>
-                  <Text style={styles.rowLabel}>{i18n.t(layer.name)}</Text>
-                  {!isDownloadedForCurrentFeature && (
-                    <Text style={[styles.rowLabel, styles.onlyAvailableOnlineLabel]}>
-                      {i18n.t(`map.layerSettings.onlyAvailableOnline`)}
-                    </Text>
-                  )}
-                </View>
-                <Image source={selected ? checkboxOn : checkboxOff} />
-              </ActionsRow>
-            );
-          })}
+          const selected = contextualLayersLayerSettings.activeContextualLayerIds.includes(layer.id);
+          return (
+            <ActionsRow
+              style={styles.rowContent}
+              onPress={this.setContextualLayerShowing.bind(this, layer.id, !selected)}
+              key={index}
+            >
+              <View style={styles.rowTextContainer}>
+                <Text style={styles.rowLabel}>{i18n.t(layer.name)}</Text>
+                {!isDownloadedForCurrentFeature && (
+                  <Text style={[styles.rowLabel, styles.onlyAvailableOnlineLabel]}>
+                    {i18n.t(`map.layerSettings.onlyAvailableOnline`)}
+                  </Text>
+                )}
+              </View>
+              <Image source={selected ? checkboxOn : checkboxOff} />
+            </ActionsRow>
+          );
+        })}
       </View>
     );
   };
