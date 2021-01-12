@@ -21,7 +21,11 @@ const eyeIcon = require('assets/eyeIcon.png');
 type State = {
   email: string,
   password: string,
-  showPassword: boolean
+  showPassword: boolean,
+  /**
+   * WRM-2137: Refresh secure input font. RN bug, introduces from OS upgrade.
+   */
+  +refreshInputFont: boolean
 };
 
 type Props = {
@@ -67,12 +71,17 @@ export default class EmailLogin extends Component<Props, State> {
     this.state = {
       email: '',
       password: '',
-      showPassword: false
+      showPassword: false,
+      refreshInputFont: false
     };
   }
 
   componentDidMount() {
     this.props.clearEmailLoginError();
+    if (!this.state.refreshInputFont) {
+      // eslint-disable-next-line react/no-did-mount-set-state
+      this.setState({ refreshInputFont: true });
+    }
   }
 
   navigationButtonPressed({ buttonId }: { buttonId: NavigationButtonPressedEvent }) {
@@ -147,7 +156,7 @@ export default class EmailLogin extends Component<Props, State> {
               }}
               autoCorrect={false}
               multiline={false}
-              style={styles.input}
+              style={[styles.input, this.state.refreshInputFont ? { fontFamily: Theme.font } : {}]}
               autoCapitalize="none"
               secureTextEntry={!this.state.showPassword}
               value={this.state.password}

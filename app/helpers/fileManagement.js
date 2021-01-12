@@ -1,6 +1,7 @@
 // @flow
 import RNFetchBlob from 'rn-fetch-blob';
 import FWError, { ERROR_CODES } from 'helpers/fwError';
+import { Platform } from 'react-native';
 const RNFS = require('react-native-fs');
 
 global.Buffer = global.Buffer || require('buffer').Buffer; // eslint-disable-line
@@ -23,10 +24,13 @@ if (typeof atob === 'undefined') {
  * Will also error if the file cannot be read (either because it doesn't exist or maybe because it's an Android content:
  * URI that isn't backed by a file)
  */
-export async function assertMaximumFileSize(uri: string, maxSizeInBytes: number) {
+export async function assertMaximumFileSize(uri: string, maxSizeInBytes: number, kmzFileType = false) {
   const result = await RNFS.stat(uri);
   if (result.size > maxSizeInBytes) {
-    throw new FWError({ message: `File too large: ${uri}`, code: ERROR_CODES.FILE_TOO_LARGE });
+    throw new FWError({
+      message: kmzFileType ? `File too large: ${uri}` : `The uncompressed data from the file exceeds 10MB: ${uri}`,
+      code: ERROR_CODES.FILE_TOO_LARGE
+    });
   }
 }
 
@@ -132,6 +136,8 @@ export async function writeFileWithReplacement(sourceUri: string, destinationUri
     .slice(0, -1)
     .join('/');
 
+  const decodedSourceUri = Platform.OS === 'android' ? sourceUri : decodeURI(sourceUri);
+
   const dirExists = await RNFS.exists(destinationPath);
   if (!dirExists) {
     await RNFS.mkdir(destinationPath);
@@ -143,9 +149,9 @@ export async function writeFileWithReplacement(sourceUri: string, destinationUri
   }
 
   if (method === 'copy') {
-    await RNFS.copyFile(sourceUri, destinationUri);
+    await RNFS.copyFile(decodedSourceUri, destinationUri);
   } else if (method === 'move') {
-    await RNFS.moveFile(sourceUri, destinationUri);
+    await RNFS.moveFile(decodedSourceUri, destinationUri);
   }
 }
 

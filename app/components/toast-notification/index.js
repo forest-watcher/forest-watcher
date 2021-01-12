@@ -5,7 +5,7 @@ import { View, Text } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import styles from './styles';
 
-import { initialWindowSafeAreaInsets } from 'react-native-safe-area-context';
+import { initialWindowMetrics } from 'react-native-safe-area-context';
 
 const Timer = require('react-native-timer');
 
@@ -44,7 +44,7 @@ class ToastNotification extends PureComponent<Props> {
   render() {
     const { type, text, description } = this.props;
     return (
-      <View style={[styles.view, styles[type], { paddingTop: initialWindowSafeAreaInsets.top }]}>
+      <View style={[styles.view, styles[type], { paddingTop: initialWindowMetrics.insets.top }]}>
         <View style={styles.internalView}>
           <Text style={[styles.text, styles[`${type}Text`]]}>{text}</Text>
           {description && <Text style={[styles.description, styles[`${type}Text`]]}>{description}</Text>}

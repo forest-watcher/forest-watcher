@@ -23,7 +23,7 @@ export default async function importKMZFile(file: File & { uri: string }, fileNa
     if (!mainFile) {
       throw new Error('Invalid KMZ bundle, missing a root .kml file');
     }
-    await assertMaximumFileSize(mainFile, CONSTANTS.files.maxFileSizeForLayerImport);
+    await assertMaximumFileSize(mainFile, CONSTANTS.files.maxFileSizeForLayerImport, true);
     const geoJSON = await convertToGeoJSON(mainFile, 'kml');
 
     const importedFile = await storeGeoJson(file.id, geoJSON);

@@ -10,6 +10,7 @@ import Row from 'components/common/row';
 import { GFW_CONTEXTUAL_LAYERS } from 'config/constants';
 
 import type { Layer } from 'types/layers.types';
+import { sortGFWContextualLayers } from 'helpers/sortContextualLayers';
 
 import debounceUI from 'helpers/debounceUI';
 const nextIcon = require('assets/next.png');
@@ -74,15 +75,11 @@ class GFWLayers extends PureComponent<Props, State> {
   };
 
   render() {
-    const localisedSortedLayers = GFW_CONTEXTUAL_LAYERS.map(layer => {
+    const localisedSortedLayers = sortGFWContextualLayers(GFW_CONTEXTUAL_LAYERS).map(layer => {
       return {
         ...layer,
         name: i18n.t(`layers.${layer.name ?? ''}`)
       };
-    }).sort((layerA, layerB) => {
-      const nameA = layerA.name.toUpperCase();
-      const nameB = layerB.name.toUpperCase();
-      return nameA < nameB ? -1 : nameA > nameB ? 1 : 0;
     });
     return (
       <View style={styles.container}>

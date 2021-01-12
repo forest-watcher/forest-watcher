@@ -65,7 +65,8 @@ const WELCOME_ITEMS = [
 
 type Props = {
   componentId: string,
-  isAppUpdate: boolean
+  isAppUpdate: boolean,
+  onDone?: () => void
 };
 
 export default class Welcome extends Component<Props> {
@@ -80,8 +81,9 @@ export default class Welcome extends Component<Props> {
     };
   }
 
-  onContinue = () => {
-    Navigation.dismissModal(this.props.componentId);
+  onContinue = async () => {
+    await Navigation.dismissModal(this.props.componentId);
+    this.props.onDone?.();
   };
 
   componentDidMount() {

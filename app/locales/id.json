@@ -630,9 +630,17 @@
         "treeCoverLoss2016": "Kehilangan Tutupan Pohon (2016)",
         "treeCoverLoss2017": "Kehilangan Tutupan Pohon (2017)",
         "treeCoverLoss2018": "Kehilangan Tutupan Pohon (2018)",
+        "treeCoverLoss2019": "Kehilangan Tutupan Pohon (2019)",
         "wdpa": "Area Dilindungi (Ubin Vektor)",
         "woodFiber": "Serat kayu",
         "woodFiberConcessions": "Konsesi serat kayu berdasarkan jenis - 2019"
+    },
+    "locationPermissions": {
+        "enablePermissions": "Aktifkan Izin",
+        "subTitle": "Untuk melihat lokasi Anda di peta",
+        "title": "Aktifkan Izin Lokasi",
+        "bullet1": "Ketuk di bawah dan atur akses ke 'izinkan saat menggunakan aplikasi'.",
+        "bullet2": "Tetap atur lokasi persis ke 'nyala' guna memastikan posisi Anda tetap akurat."
     },
     "login": {
         "emailLogin": {
@@ -645,6 +653,7 @@
             "loginWithEmail": "Masuk Dengan Email",
             "password": "Sandi"
         },
+        "appleTitle": "Apple",
         "emailTitle": "Masuk dengan Email",
         "facebookTitle": "Facebook",
         "failed": "Terjadi eror selama masuk/keluar",
@@ -673,10 +682,10 @@
                 "oneMonth": "%{count} bulan",
                 "recent": "Terbaru",
                 "reportedOn": "Dilaporkan Pada",
-                "showingManyDays": "Menampilkan %{type} dari %{count} hari terakhir",
-                "showingManyMonths": "Menampilkan %{type} dari %{count} bulan terakhir",
-                "showingOneDay": "Menampilkan %{type} dari hari sebelumnya",
-                "showingOneMonth": "Menampilkan %{type} dari bulan lalu",
+                "showingManyDays": "Hingga 10.000 peringatan dari %{count} hari terakhir",
+                "showingManyMonths": "Hingga 10.000 peringatan dari %{count} bulan terakhir",
+                "showingOneDay": "Hingga 10.000 peringatan dari hari sebelumnya",
+                "showingOneMonth": "Hingga 10.000 peringatan dari bulan sebelumnya",
                 "timeFrame": "Jangka waktu",
                 "timeFrameDescDays": "Pilih jumlah hari",
                 "timeFrameDescMonths": "Pilh jumlah bulan",

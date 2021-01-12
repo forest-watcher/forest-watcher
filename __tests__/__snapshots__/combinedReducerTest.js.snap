@@ -20,7 +20,7 @@ Object {
     "pristineCacheTooltip": true,
     "reduxVersion": 2,
     "synced": false,
-    "version": "2.0.2",
+    "version": "2.0.3",
   },
   "areas": Object {
     "data": Array [],
@@ -1935,7 +1935,7 @@ Object {
     "pristineCacheTooltip": true,
     "reduxVersion": 2,
     "synced": false,
-    "version": "2.0.2",
+    "version": "2.0.3",
   },
   "areas": Object {
     "data": Array [],

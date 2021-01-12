@@ -5,7 +5,7 @@ import type { OfflineMeta } from 'types/offline.types';
 export type AnyAction = { type: string, payload: any, meta?: OfflineMeta };
 export type CoordinatesValue = 'decimal' | 'degrees';
 
-export type LoginProvider = 'email' | 'facebook' | 'twitter' | 'google';
+export type LoginProvider = 'apple' | 'email' | 'facebook' | 'twitter' | 'google';
 
 export type AppState = {
   isUpdate: boolean,

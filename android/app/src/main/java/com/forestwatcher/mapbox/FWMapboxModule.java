@@ -28,8 +28,15 @@ public class FWMapboxModule extends ReactContextBaseJavaModule
 	@ReactMethod
 	public void installOfflineModeInterceptor(boolean isOfflineModeEnabled)
 	{
-		MapboxOfflineModeInterceptor.installCustomForestWatcherHttpClient();
-		setOfflineModeEnabled(isOfflineModeEnabled);
+		getReactApplicationContext().runOnUiQueueThread(new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				MapboxOfflineModeInterceptor.installCustomForestWatcherHttpClient();
+				setOfflineModeEnabled(isOfflineModeEnabled);
+			}
+		});
 	}
 
 	@ReactMethod
