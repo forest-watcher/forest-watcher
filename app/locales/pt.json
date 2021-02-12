@@ -630,9 +630,17 @@
         "treeCoverLoss2016": "Perda de cobertura arbórea (2016)",
         "treeCoverLoss2017": "Perda de cobertura arbórea (2017)",
         "treeCoverLoss2018": "Perda de cobertura arbórea (2018)",
+        "treeCoverLoss2019": "Perda de cobertura arbórea (2019)",
         "wdpa": "Áreas Protegidas (Mosaicos de Vetor)",
         "woodFiber": "Fibra de Madeira",
         "woodFiberConcessions": "Concessões de fibra de madeira por tipo - 2019"
+    },
+    "locationPermissions": {
+        "enablePermissions": "Dar permissões",
+        "subTitle": "Para ver a sua localização no mapa",
+        "title": "Dar permissões de localização",
+        "bullet1": "Toque abaixo e defina o acesso como \"permitir enquanto estiver a usar a aplicação\".",
+        "bullet2": "Mantenha a localização precisa ativa para garantir que a sua posição pode ser determinada com rigor."
     },
     "login": {
         "emailLogin": {
@@ -645,6 +653,7 @@
             "loginWithEmail": "Iniciar Sessão com E-mail",
             "password": "Palavra-passe"
         },
+        "appleTitle": "Apple",
         "emailTitle": "Iniciar a sessão com o email",
         "facebookTitle": "Facebook",
         "failed": "Ocorreu um erro a entrar/sair",
@@ -673,10 +682,10 @@
                 "oneMonth": "%{count} mês",
                 "recent": "Recentes",
                 "reportedOn": "Relatado Em",
-                "showingManyDays": "A exibir %{type} dos últimos %{count} dias",
-                "showingManyMonths": "A exibir %{type} dos últimos %{count} meses",
-                "showingOneDay": "A exibir %{type} do último dia",
-                "showingOneMonth": "A exibir %{type} do mês passado",
+                "showingManyDays": "Até 10 000 alertas dos últimos %{count} dias",
+                "showingManyMonths": "Até 10 000 alertas dos últimos %{count} meses",
+                "showingOneDay": "Até 10 000 alertas do último dia",
+                "showingOneMonth": "Até 10 000 alertas do último mês",
                 "timeFrame": "Prazo",
                 "timeFrameDescDays": "Selecionar a quantidade de dias",
                 "timeFrameDescMonths": "Selecione o número de meses",
@@ -847,46 +856,6 @@
         "stopRouteTrackingPanelDeleteOption": "Parar e eliminar rota",
         "stopRouteTrackingPanelSaveOption": "Parar e guardar rota",
         "stopRouteTrackingPanelTitle": "Parar a monitorização da rota",
-        "viewOnMap": "Visualizar rota no mapa"
-    },
-    "routes": {
-        "backgroundErrorDialogTitle": "A monitorização da rota foi colocada em pausa",
-        "backgroundErrorDialogMessage": "Por favor, verifique as suas definições de localização e permissões da aplicação para retomar a monitorização da rota.",
-        "confirmDeleteTitle": "Eliminar rota",
-        "confirmDeleteMessage": "Tem a certeza de que quer eliminar esta rota?",
-        "delete": "Eliminar rota",
-        "difficulty": "Dificuldade",
-        "difficultyLevels": {
-            "easy": "Fácil",
-            "medium": "Médio",
-            "hard": "Difícil"
-        },
-        "distance": "Distância",
-        "duration": "Tempo gasto",
-        "insufficientPermissionsDialogTitle": "Não é possível monitorizar a rota",
-        "insufficientPermissionsDialogMessage": "Para conseguirmos monitorizar a sua rota, necessitamos de permissões para aceder à sua localização em segundo plano.",
-        "insufficientPermissionsDialogOpenAppSettings": "Verificar permissões",
-        "insufficientPermissionsDialogOpenDeviceSettings": "Verificar as definições de localização",
-        "location": "Localização",
-        "locationEnd": "Fim:",
-        "locationErrorDialogTitle": "Ocorreu um erro ao obter a localização",
-        "locationErrorDialogMessage": "Ocorreu um erro ao tentar aceder à sua localização",
-        "locationStart": "Início:",
-        "notification": {
-            "title": "A rota está a ser monitorizada",
-            "message": "A Forest Watcher está a gravar a rota que está a seguir até ao seu destino"
-        },
-        "resumeTrackingDialogTitle": "Retomar a monitorização de rota",
-        "resumeTrackingDialogMessage": "Existe uma rota que ainda não foi concluída. Gostaria de retomá-la?",
-        "resumeTrackingDialogPositiveButton": "Retomar rota",
-        "resumeTrackingDialogNegativeButton": "Eliminar rota",
-        "save": "Guardar rota",
-        "stopRouteTrackingPanelTitle": "Parar a monitorização da rota",
-        "stopRouteTrackingPanelContinueOption": "Continuar a monitorização de rota",
-        "stopRouteTrackingPanelSaveOption": "Parar e guardar rota",
-        "stopRouteTrackingPanelDeleteOption": "Parar e eliminar rota",
-        "trackingInProgressErrorTitle": "A rota está a ser monitorizada",
-        "trackingInProgressErrorMessage": "Já está a monitorizar uma rota numa área diferente",
         "viewOnMap": "Visualizar rota no mapa"
     },
     "settings": {

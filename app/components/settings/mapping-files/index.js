@@ -20,6 +20,7 @@ import showRenameModal from 'helpers/showRenameModal';
 import { presentInformationModal, showFAQSection } from 'screens/common';
 import fileNameIsValid from 'helpers/validation/fileNames';
 import { getShareButtonText } from 'helpers/sharing/utils';
+import { sortGFWContextualLayers } from 'helpers/sortContextualLayers';
 import generateUniqueID from 'helpers/uniqueId';
 import calculateBundleSize from 'helpers/sharing/calculateBundleSize';
 
@@ -349,10 +350,15 @@ class MappingFiles extends Component<Props, State> {
       return null;
     }
 
+    let sortedFiles = [...files];
+    if (mappingFileType === 'contextual_layer') {
+      sortedFiles = sortGFWContextualLayers(sortedFiles);
+    }
+
     return (
       <View>
         <Text style={styles.heading}>{i18n.t(this.i18nKeyFor('gfw'))}</Text>
-        {files.map(file => {
+        {sortedFiles.map(file => {
           const fileDownloadProgress: Array<LayerCacheData> = Object.values(downloadProgress[file.id] ?? {});
           // If the file is fully downloaded, we should show the refresh icon. Otherwise, we should show the download icon.
           const fileIsFullyDownloaded =

@@ -79,6 +79,7 @@ const config = {
     right: 16
   },
   socialNetworks: {
+    apple: '#000000',
     facebook: '#3b5998',
     twitter: '#00aced',
     google: '#ea4335'

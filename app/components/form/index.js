@@ -68,21 +68,6 @@ class Form extends Component<Props> {
     }
   }
 
-  /**
-   * navigationButtonPressed - Handles events from the back button on the modal nav bar.
-   *
-   * @param  {type} { buttonId } The component ID for the button.
-   */
-  navigationButtonPressed({ buttonId }) {
-    if (buttonId === 'backButton') {
-      if (this.props.nextQuestionIndex !== null || !this.props.editMode) {
-        Navigation.dismissModal(this.props.componentId);
-      } else {
-        Navigation.popToRoot(this.props.componentId);
-      }
-    }
-  }
-
   shouldComponentUpdate(nextProps) {
     return this.props.answer !== nextProps.answer;
   }

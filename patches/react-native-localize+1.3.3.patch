@@ -1,0 +1,14 @@
+diff --git a/node_modules/react-native-localize/android/src/main/java/com/reactcommunity/rnlocalize/RNLocalizeModule.java b/node_modules/react-native-localize/android/src/main/java/com/reactcommunity/rnlocalize/RNLocalizeModule.java
+index 6e29bed..eb59adc 100644
+--- a/node_modules/react-native-localize/android/src/main/java/com/reactcommunity/rnlocalize/RNLocalizeModule.java
++++ b/node_modules/react-native-localize/android/src/main/java/com/reactcommunity/rnlocalize/RNLocalizeModule.java
+@@ -129,7 +129,8 @@ public class RNLocalizeModule extends ReactContextBaseJavaModule implements Life
+     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+       locales.add(config.locale);
+     } else {
+-      LocaleList list = config.getLocales();
++      LocaleList list = LocaleList.getDefault();
++      config.setLocales(list);
+ 
+       for (int i = 0; i < list.size(); i++) {
+         locales.add(list.get(i));

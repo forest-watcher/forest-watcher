@@ -32,13 +32,43 @@ export function presentInformationModal(passProps: { title: string, body: string
   });
 }
 
-export function showWelcomeScreen() {
+/**
+  Presents the welcome screen modally with default animation
+  @param {function} onDone - A function to be called when the screen has fully dismissed
+ */
+export function showWelcomeScreen(onDone: () => void) {
   Navigation.showModal({
     stack: {
       children: [
         {
           component: {
             name: 'ForestWatcher.Welcome',
+            passProps: {
+              onDone
+            },
+            options: {
+              animations: Theme.navigationAnimations.fadeModal,
+              layout: {
+                backgroundColor: 'transparent',
+                componentBackgroundColor: 'rgba(0,0,0,0.74)'
+              },
+              screenBackgroundColor: 'rgba(0,0,0,0.74)',
+              modalPresentationStyle: 'overCurrentContext'
+            }
+          }
+        }
+      ]
+    }
+  });
+}
+
+export function showLocationPermissionsScreen() {
+  Navigation.showModal({
+    stack: {
+      children: [
+        {
+          component: {
+            name: 'ForestWatcher.LocationPermissions',
             options: {
               animations: Theme.navigationAnimations.fadeModal,
               layout: {
@@ -77,7 +107,6 @@ export function launchAppRoot(screen: string) {
         children: [
           {
             component: {
-              id: 'ForestWatcher.Dashboard',
               name: screen
             }
           }

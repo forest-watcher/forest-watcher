@@ -41,13 +41,13 @@ class Home extends Component<Props> {
     });
   }
 
-  handleStatus() {
+  async handleStatus() {
     const { loggedIn, hasAreas, isAppSynced, componentId, actionsPending, setAppSynced, syncApp } = this.props;
 
     if (loggedIn) {
       if (isAppSynced) {
         if (this.syncModalOpen) {
-          Navigation.dismissAllModals();
+          await Navigation.dismissAllModals();
         }
         if (!hasAreas) {
           Navigation.setStackRoot(componentId, {

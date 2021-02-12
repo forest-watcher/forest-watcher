@@ -77,11 +77,6 @@ function ActionButton(props) {
     ios: TouchableHighlight
   });
 
-  const Touchable = Platform.select({
-    android: TouchableNativeFeedback,
-    ios: TouchableHighlight
-  });
-
   return (
     <Touchable
       style={Platform.select({
