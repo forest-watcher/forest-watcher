@@ -1,5 +1,13 @@
 # Forest Watcher Changelog
 
+## [v2.0.3]
+- Performed OS updates to support latest iOS and Android OS releases
+- Added new location permissions prompt on iOS to prompt users not to use new low-precision location permissions
+- Added login with Apple
+- Fixed some crashes when reading and writing files to disk
+- Added functionality to sort GFW Contextual Layers using required custom sort order
+- Updated a lot of outdated dependencies including RN from v0.61.5 -> v0.63.3
+
 ## [v2.0.2]
 - Fixed how Map Settings is used in Setup Area flow
 - Fixed report images occasionally not appearing
