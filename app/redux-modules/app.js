@@ -47,6 +47,7 @@ const initialState = {
   pristineCacheTooltip: true,
   coordinatesFormat: COORDINATES_FORMATS.decimal.value,
   hasSeenWelcomeScreen: false,
+  welcomeSeenVersion: null,
   hasMigratedV1Files: true // This will only be set to false in migrate.js if we migrate from v1
 };
 
@@ -56,7 +57,7 @@ export default function reducer(state: AppState = initialState, action: AppActio
       // $FlowFixMe
       const { app } = action.payload;
       const language = getLanguage();
-      return { ...state, ...app, language };
+      return { ...state, ...app, language, version, isUpdate: app?.version && app.version !== version };
     }
     case SET_OFFLINE_MODE:
       return { ...state, offlineMode: action.payload };
@@ -73,7 +74,7 @@ export default function reducer(state: AppState = initialState, action: AppActio
     case SET_PRISTINE_CACHE_TOOLTIP:
       return { ...state, pristineCacheTooltip: action.payload };
     case SET_WELCOME_SEEN:
-      return { ...state, hasSeenWelcomeScreen: action.payload };
+      return { ...state, hasSeenWelcomeScreen: true, welcomeSeenVersion: action.payload };
     case SET_HAS_MIGRATED_V1_FILES:
       return { ...state, hasMigratedV1Files: true };
     case LOGOUT_REQUEST:
@@ -141,10 +142,10 @@ export function setCoordinatesFormat(format: CoordinatesValue): AppAction {
   };
 }
 
-export function setWelcomeScreenSeen(seen: boolean): AppAction {
+export function setWelcomeScreenSeen(): AppAction {
   return {
     type: SET_WELCOME_SEEN,
-    payload: seen
+    payload: version
   };
 }
 

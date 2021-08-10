@@ -1,5 +1,5 @@
 // @flow
-import type { AlertsState, AlertsAction } from 'types/alerts.types';
+import type { AlertDatasetAPIConfig, AlertsState, AlertsAction } from 'types/alerts.types';
 import type { Area } from 'types/areas.types';
 import type { PersistRehydrate } from 'types/offline.types';
 
@@ -9,12 +9,15 @@ import Config from 'react-native-config';
 import { LOGOUT_REQUEST } from 'redux-modules/user';
 import { RETRY_SYNC } from 'redux-modules/shared';
 import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
-import storeAlertsFromCsv from 'helpers/alert-store/storeAlertsFromCsv';
+import storeAlertsFromCSV from 'helpers/alert-store/storeAlertsFromCSV';
 import deleteAlerts from 'helpers/alert-store/deleteAlerts';
 
 const GET_ALERTS_REQUEST = 'alerts/GET_ALERTS_REQUEST';
+const CLEAR_ALERTS_CACHE = 'alerts/CLEAR_ALERTS_CACHE';
 export const GET_ALERTS_COMMIT = 'alerts/GET_ALERTS_COMMIT';
 export const GET_ALERTS_ROLLBACK = 'alerts/GET_ALERTS_ROLLBACK';
+
+import moment from 'moment';
 
 // Reducer
 const initialState = {
@@ -30,6 +33,17 @@ export default function reducer(state: AlertsState = initialState, action: Alert
       const { alerts } = (action: PersistRehydrate).payload;
       return { ...state, ...alerts, syncError: false };
     }
+    case CLEAR_ALERTS_CACHE: {
+      const { area } = action.meta;
+      const cache = { ...state.cache };
+      Object.entries(cache).forEach(entry => {
+        const [key, value] = entry;
+        const subCache = { ...value };
+        delete subCache[area.id];
+        cache[key] = subCache;
+      });
+      return { ...state, cache };
+    }
     case RETRY_SYNC: {
       return { ...state, syncError: false };
     }
@@ -38,7 +52,7 @@ export default function reducer(state: AlertsState = initialState, action: Alert
       return { ...state, queue };
     }
     case GET_ALERTS_COMMIT: {
-      const { area, datasetSlug, range, alertId } = action.meta;
+      const { area, confidenceKey, datasetSlug, alertId, minDate, dateKey } = action.meta;
       const cache = {
         ...state.cache,
         [datasetSlug]: {
@@ -49,7 +63,7 @@ export default function reducer(state: AlertsState = initialState, action: Alert
       const queue: Array<string> = state.queue.filter(item => item !== alertId);
 
       if (action.payload) {
-        storeAlertsFromCsv(area.id, datasetSlug, action.payload, range);
+        storeAlertsFromCSV(area.id, datasetSlug, confidenceKey, dateKey, action.payload, minDate);
       }
       return { ...state, queue, cache };
     }
@@ -68,18 +82,43 @@ export default function reducer(state: AlertsState = initialState, action: Alert
 }
 
 // Action Creators
-export function getAreaAlerts(area: Area, datasetSlug: string, range: number) {
-  const url = `${Config.API_URL}/fw-alerts/${datasetSlug}/${area.geostore.id}?range=${range}&output=csv`;
+export function getAreaAlerts(area: Area, datasetSlug: string, apiConfig: AlertDatasetAPIConfig, minDate: Date) {
+  const { confidenceKey, dateKey, tableName, requiresMaxDate } = apiConfig.query;
+  let url = `${Config.DATA_API_URL}/dataset/${apiConfig.datastoreId}/latest/query/csv?geostore_origin=rw&geostore_id=${
+    area.geostore.id
+  }&sql=select latitude, longitude, ${dateKey}${
+    confidenceKey ? ', ' + confidenceKey : ''
+  } from ${tableName} where ${dateKey} > '${moment(minDate).format('YYYY-MM-DD')}'`;
+  if (requiresMaxDate) {
+    url += ` and ${dateKey} < '${moment().format('YYYY-MM-DD')}'`;
+  }
+  url += ` ORDER BY ${dateKey} DESC LIMIT 10000`;
   const alertId = `${area.id}_${datasetSlug}`;
+  const headers = {
+    Origin: 'com.wri.forestwatcher',
+    ['x-api-key']: Config.DATA_API_TOKEN,
+    'Content-Type': 'text/csv'
+  };
   return {
     type: GET_ALERTS_REQUEST,
     payload: alertId,
     meta: {
       offline: {
-        effect: { url, deserialize: false },
-        commit: { type: GET_ALERTS_COMMIT, meta: { area, datasetSlug, range, alertId } },
+        effect: { url, deserialize: false, headers },
+        commit: { type: GET_ALERTS_COMMIT, meta: { area, datasetSlug, minDate, alertId, confidenceKey, dateKey } },
         rollback: { type: GET_ALERTS_ROLLBACK, meta: { alertId } }
       }
+    }
+  };
+}
+
+/// Clears alerts area cache timestamp for the given area
+/// @param {Object} area - The area to clear for
+export function clearAreaAlertsCache(area: Area) {
+  return {
+    type: CLEAR_ALERTS_CACHE,
+    meta: {
+      area
     }
   };
 }

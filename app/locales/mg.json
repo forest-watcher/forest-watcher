@@ -203,6 +203,11 @@
         "done": "Vita"
     },
     "faq": {
+        "alert_settings": {
+            "deforestation": {
+                "title": "Inona no karazana fanairana misy ao"
+            }
+        },
         "categories": {
             "about": {
                 "questions": [
@@ -244,11 +249,11 @@
                     {
                         "content": {
                             "description": {
-                                "text": "Mandeha amin'ny iPhone rehetra misy iOS 10 na ambonin’izany ny Forest Watcher. Ny fepetra farany ambany indrindra hoan’ny Android dia ireto  voatanisa eto ambany ireto."
+                                "text": "Mandeha amin'ny iPhone rehetra misy iOS 13 na ambonin’izany ny Forest Watcher. Ny fepetra farany ambany indrindra hoan’ny Android dia ireto  voatanisa eto ambany ireto."
                             },
                             "orderList": {
                                 "text1": "Fepetra farafahakeliny ho an'ny Android: OS - Android 5.0; RAM - 1,5GB; Toerana malalaka ao amin'ny Disque Dur: 1GB",
-                                "text2": "Fepetra farafahakeliny ho an'ny Android: OS - Android 7.1; RAM - 3GB; toerana malalaka ao amin'ny Disque dur: 4GB +"
+                                "text2": "Fepetra takiana amin'ny Android: OS - Android 7.1; RAM - 3GB; Toerana malalaka ao amin'ny Disque Dur: 4GB"
                             }
                         },
                         "title": "Inona avy ireo fepetran’ny fitaovana hampiasana ny Forest Watcher?"
@@ -269,7 +274,7 @@
                     {
                         "content": {
                             "description": {
-                                "text1": "Ny faritra mahaliana dia faritra iray nosoritanao mba harahi-maso ny fiovan’ny ala ao anatiny. Rehefa mamorona faritra mahaliana amin'ny Forest Watcher ianao dia GLAD fanairana fandripahana ala no hampahafantatra izany faritra izany."
+                                "text1": "Ny faritra mahaliana dia faritra iray nosoritanao mba harahi-maso ny fiovan’ny ala ao anatiny. Rehefa mamorona faritra mahaliana amin'ny Forest Watcher ianao dia fanairana fandripahana ala no hampahafantatra izany faritra izany."
                             }
                         },
                         "title": "Inona no atao hoe faritra mahaliana?"
@@ -303,24 +308,28 @@
                     {
                         "content": {
                             "description": {
-                                "text": "Manome ny fiovan'ny ala sy angona mifanaraka amin’ny zava-misy nofenoina mialoha ao anatin'ny Forest Watcher ny Global Forest Watch (GFW). Ireto no ao anatin'ny angona nofenoina mialoha: ny GLAD fanairana fandripahana ala, ny VIIRS fanairana fisiana doro tanety, ny fahaverezana faritra rakotr’ala isan-taona ary ireo faritra arovana. Jereo etsy ambany ny angona momban’ny GLAD fanairana fandripahana ny ala sy ny VIIRS fanairana fisiana doro tanety ary ny fahaverezana faritra rakotr’ala isan-taona."
+                                "text": "Manome ny fiovan'ny ala sy angona mifanaraka amin’ny zava-misy nofenoina mialoha ao anatin'ny Forest Watcher ny Global Forest Watch (GFW). Ao anatin’ny angona nofenoina mialoha dia misy karazana fandripahana ala miisa telo (GLAD, GLAD-S2, RADD), fanairana fisiana doro tanety VIIRS ary fahaverezana faritra rakotr’ala isan-taona ary ireo faritra arovana. Jereo etsy ambany ny angona momban’ny fanairana fandripahana ny ala sy ny VIIRS fanairana fisiana doro tanety ary ny fahaverezana faritra rakotr’ala isan-taona."
                             },
                             "footerText": "Azonao atao koa ny manampy Tongoa Mifanaraka amin’ny zava-misy fanampiny avy ao amin'ny GFW, ohatra ireo tany misy Mari-Toerana an'ny tompon-tany sy an'ny vondrom-bahoaka, ireo angona momba ny concessions samy hafa sy momba ny harena voajanahary isan-karazany. Azonao atao koa ny mampiditra Tongoa Mifanaraka amin’ny zava-misy anao manokana amin’ny alalan’ny appli finday. Ireto ny karazana raki-takila zakan'ny Forest Watcher Mobile ampidirina: .json, .geojson, .topojson, .gpx, .zip, .kmz ary .kml.\n\nRehefa mampiditra Tongoa Mifanaraka amin’ny zava-misy fanampiny ianao dia afaka misafidy na haka ho tahiry azo ampiasaina na rehefa tsisy connection na hiditra amin’ny angona rehefa misy connection ihany. Moramora kokoa ny fampiasana ny angona voatahiry ao amin'ny findainao rehefa mampiasa ireto safidy ireto. \n\nRaha mila fanazavana fanampiny, azafady tsidiho ny data.globalforestwatch.org.",
                             "orderList": {
-                                "text1": "VIIRS Fanairana Fisiana Doro tanety: novokarin'ny NASA, ahitsy ara-potoana isan’andro amin'ny kalitaon-tsary alaina avy eny amin’ny 375 metatra. Mampiseho anao ny toerana ahiana nisy doro tanety tamin’ny herinandro lasa.",
-                                "text2": "GLAD fanairana: novokarin'ny University of Maryland Global Land Analysis & Discovery (GLAD) Lab, ahitsy ara-potoana isan-kerinandro amin'ny kalitaon-tsary alaina avy eny amin’ny 30 metatra. Mampiseho isan-kerinandro ny faritra mety nisy fiovan’ny ala.",
-                                "text3": "Fahaverezan’ny rakotr’ala isan-taona: vokarin’ny GLAD lab ihany koa , ahitsy ara-potoana isan-taona, kalitaon-tsary avy eny amin’ny 30 metatra. Mampiseho isan-taona taiza ny faritra nisy fiovan'ny ala. Amin'izao fotoana izao aloha dia angon'ny Tongoa Mifanaraka amin’ny zava-misy ihany no angona misy: tsy afaka manao tatitra mifandraika amin'ny fanairana ny amin’ny fahaverezan’ny ala isan-taona ianao, nefa afaka manao tatitra ihany momba an'io toerana io rehefa tsindrina tondro eo amin'ny écran ny toerana nisy fahaverezana sy fahazoana ala."
+                                "text1": "GLAD fanairana fandripahana ala: novokarin'ny University of Maryland Global Land Analysis & Discovery (GLAD) Lab, ahitsy ara-potoana isaky ny 8 andro amin'ny kalitaon-tsary alaina avy eny amin’ny 30 metatra. Mampiseho isan-kerinandro ny faritra mety nisy fiovan’ny ala. Ireo fanairana ireo dia mampiasa angona azo avy amin’ny satelita Landasat 7 sy 8 ary mampiseho ny toerana ahiana nisy fahaverezana rakotr’ala ao amin’ny faritry ny tropika.",
+                                "text2": "GLAD-S2 fanairana fandripahana ala: vokarin’ny GLAD lab ihany koa, ahitsy ara-potoana isaky ny 5 andro amin’ny kalitaon-tsary alaina avy eny amin’ny 10 metatra. Ireto fanairana ireto dia mampiasa angona avy amin’ny satelita European Space Agency’s Sentinel-2 ary mampiseho ny toerana ahiana nisy fahaverezan’ny ala. Amin’izao fotoana famoahana vokatra izao (Jolay 2021) dia fanairana momba ny kamorin’ny Amazona no hita ao.",
+                                "text3": "Fanairana fandripahana ala RADD: Vokarin’ny laboratoara fikarohana momba ny torohay ara jeograka sy ny fitaovam-pitsirihana ampitain-davitra (Laboratory of Geo-information Science and Remote Sensing) an’ny Wageningen University and Research (WUR), ahitsy ara-potoana isaky ny 6-12 andro amin’ny kalitaon-tsary alaina avy eny amin’ny 10 metatra. Ireo fanairana ireo dia mampiasa angona azo avy amin’ny radara mamakivaky rahona (cloud-penetrating radar) avy amin’ny satelita European Space Agency’s Sentinel-1 mampiseho ny toerana ahiana nisy fahaverezan’ny ala voalohany (forêt primaire). Amin’izao fotoana famoahana vokatra izao (Jolay 2021) dia azo alaina avy any amin’ny faritra atsimon’ny Sahara eto Afrika sy ny Nosy any Atsimo Atsinanan’I Azia ny fanairana.",
+                                "text4": "VIIRS Fanairana Fisiana Doro tanety: novokarin'ny NASA, ahitsy ara-potoana isan’andro amin'ny kalitaon-tsary alaina avy eny amin’ny 375 metatra. Mampiseho ny toerana ahiana nisy doro tanety nandritry ny herinandro lasa.",
+                                "text5": "Fahaverezan’ny rakotr’ala isan-taona: vokarin’ny GLAD lab, ahitsy isan-taona, kalitaon-tsary avy eny amin’ny 30 metatra. Izy dia mampiseho isan-taona ny faritra nisy fiovan’ny rakotr’ala. Amin’izao fotoana izao dia angon’ny tongoa mifanaraka amin’ny zava-misy ihany aloha no angona azo: tsy afaka manao tatitra momba ny fahaverezan’ny rakotr’ala mandritry ny herintaona ianao, tsy afaka manao tatitra toy ny tatitra fanao momba ny fanairana hafa. Na izany aza, afaka manao tatitra amin’ny alàlan’ny fampiasana angona isan-taona ianao ka tsindrio ilay paingotra (pin) misy ny marika “+” eo amin’ny sisiny ambanin’ny ecran ary tsindrio tondro (asio paingotra) eo amin’ny écran ilay toerana hanaovana tatitra. "
                             }
                         },
+                        "id": "alert_types",
                         "title": "Inona ary avy aiza ny angona misy?"
                     },
                     {
                         "content": {
                             "description": {
                                 "text1": "Vita andrana siantifika hentitra avokoa ary manana fetra tokana ny angona tsirairay.",
-                                "text2": "Tokony hifantsika ao antsain’ny mpampiasa mandrakariva fa ny GLAD fanairana fandripahana ala dia mitsirika ny fahaverezan’ny rakotr'ala rehetra, na olona no nahatonga izany (toy ny fitrandrahana ala) na antony ara-boajanahary (toy ny fihotsahan'ny tany). Etsy andaniny, tsy afaka manavaka ihany koa ny fanairana na rakotr'ala voajanahary io na rakotr'ala hazo novolena. Natao ho fiarovana ihany koa ny fanairana satria ny mpanao fisafoana eny an-toerana no tena noheverina hampiasa azy (1% ny taha miabo diso ho an'ny fanairana voamarina, 33% ny taha miiba diso). Farany, ahitsy ara-potoana isan-kerinandro ny fanairana, nefa rehefa misy rako-drahona maharitra dia herinandro maromaro na am-bolana mihitsy aorian'ny hitrangany aza vao voatsiriky ny fanairana ny fitrangany.",
-                                "text3": "Tsy afaka mitsirika afo kely loatra na tsy ampy hafanana ny VIIRS fanairana doro-tanety (latsaky ny 100 metatra toradroa na maripana latsaky ny 700°K na 427°C).",
-                                "text4": "Raha mila fanazavana fanampiny, tsidiho azafady data.globalforestwatch.org."
+                                "text2": "Tokony hifantsika ao antsain’ny mpampiasa mandrakariva fa ny fanairana fandripahana ala hita ao amin’ny Forest Watcher dia mitsirika ny fahaverezan’ny rakotr'ala rehetra, na olona no nahatonga izany (toy ny fitrandrahana ala) na antony ara-boajanahary (toy ny fihotsahan'ny tany). Ny fanairana dia tsy manavaka ny rakotr’ala voajanahary sy ny rakotr’ala hazo novolena.  ",
+                                "text3": "Ny fanairana dia mila raisina amim-pitandremana noho ny hampiasana azy any amin’ny farany hanaovana fisafoana eny an-toerana (oh: 1% ny tahan’ny miabo diso ho an'ny fanairana GLAD voamarina, ary 33% ny tahan’ny miiba diso; 2% ny tahan’ny miabo diso ho an'ny fanairana RADD voamarina, ary 5% ny tahan’ny miiba diso). Ankoatrizay, na dia ahitsy ara-potoana foana ary ny fanairana, rehefa misy rako-drahona mamaharitra dia mety mitarika tsy fahafahana mitsirika fanairana amin’ny alàlan’ny GLAD sy GLAD-S2 mandritry ny herinandro maromaro na volana maromaro mihitsy aorian’ny nisehoan’ilay tranga.",
+                                "text4": "An assessment of the VIIRS fire alerts found the rate of false positives to be near 0 for most regions, with a maximum of 1.2% in the regions assessed, mostly associated with sunglint on reflective rooftops. VIIRS fire alerts cannot detect fires that are too small or too cool (generally smaller than 100 square meters or cooler than 700 Kelvin).",
+                                "text5": "Raha mila fanazavana fanampiny, tsidiho azafady data.globalforestwatch.org."
                             }
                         },
                         "title": "Hatraiza ny fahamarinan’ny fanairana fandripahana ala sy ny doro tanety?"
@@ -505,7 +514,7 @@
                     {
                         "content": {
                             "description": {
-                                "text1": "Raha hitatitra momba-na vondrona fanairana iray dia azonao atao ny manindry ny fanairana GLAD sy / na VIIRS izay hadihadianao, tsindrio ny bokotra eo amin'ny farany ambany an-kavanan'ny sarintany. Azonao atao ny manao tatitra momba-na fanairana maromaro: safidio tsirairay ireo fanairana alohan'ny hanindriana ny bokotra tatitra. Rehefa voatsindry io dia hiloko maitso ny fanairana GLAD ary volomparasy ny fanairana VIIRS. Ny fiovan'ny loko no manaporofo fa vita tatitra ireo fanairana."
+                                "text1": "Raha hitatitra momba-na fanairana maro dia azonao atao ny manindry ny fanairana momba-na fandripahana ala na fanairana VIIRS izay hadihadianao, ary tsindrio ny bokotra eo amin'ny farany ambany an-kavanan'ny sarintany. Azonao atao ny manao tatitra momba-na fanairana maromaro: safidio tsirairay ireo fanairana alohan'ny hanindriana ny bokotra tatitra. Azo atao koa ny mampiasa ny bokotra vaovao “Fifantenana ireo fanairana misy fifandraisana” raha tiana ny hanangona amin’ny fomba mandeha ho azy ireo fanairana misy fifandrisana amin’ilay fanairana nofidiana hanaovana tatitra. Izay fanairana mikasika fandripahana ala ao anatin’ireo dia hivadika loko maintso, ary hivadika volomparasy kosa ireo fanairana VIIRS."
                             }
                         },
                         "title": "Ahoana no fomba hitaterako vondrona fanairana?"
@@ -631,6 +640,8 @@
         "treeCoverLoss2017": "Fahaverezan’ny rakotra Ala (2017)",
         "treeCoverLoss2018": "Fahaverezan’ny rakotra Ala (2018)",
         "treeCoverLoss2019": "Fahaverezan’ny rakotra Ala (2019)",
+        "treeCoverLoss2020": "Fahaverezan’ny rakotra Ala (2020)",
+        "treeCoverLoss2021": "Fahaverezan’ny rakotra Ala (2021)",
         "wdpa": "Faritra arovana (Amin’ny endrika Tailana \"Vecteur\")",
         "woodFiber": "Kofehin-kazo",
         "woodFiberConcessions": "Tobim-pamokarana kofehin-kazo araka ny karazany – 2019"
@@ -653,8 +664,8 @@
             "loginWithEmail": "Hiditra amin’ny alalan’ny mailaka",
             "password": "Teny Miafina"
         },
-        "emailTitle": "Hiditra amin’ny alalan’ny mailaka ",
-        "appleTitle": "Apple",
+        "appleTitle": "Hiditra amin’ny alalan’ny Apple",
+        "emailTitle": "Hiditra amin’ny alalan’ny mailaka",
         "facebookTitle": "Facebook",
         "failed": "Nisy Olana nandritra ny fidirana/fialana",
         "googleTitle": "Google",
@@ -665,31 +676,46 @@
     },
     "map": {
         "createdDate": "Niforona tamin’ny  %{date}",
-        "destination": "Tanjona:",
-        "distance": "Elanelana:",
+        "currentLocation": "toerana amin'izao fotoana izao %{location}",
+        "destination": "Tanjona: %{destination}",
+        "distance": "Elanelana: %{distance}",
         "gladAlert": "Fanairana GLAD",
         "issuedDate": "Nalefa tamin’ny %{date}",
+        "dateRangeLong": "%{minDate} - %{maxDate}",
+        "dateRangeShort": "%{minDays} - %{maxDays} andro lasa",
         "layerSettings": {
             "alertSettings": {
                 "alert": "Fanairana",
+                "all": "Fanairana rehetra",
                 "deforestation": "Fandripahana ala",
                 "fires": "Doro tanety",
+                "wur_radd_alerts": "RADD",
                 "glad": "GLAD",
+                "glad_sentinel_2": "GLAD-S2",
+                "umd_as_it_happens": "GLAD",
                 "manyDays": "%{count} andro",
                 "manyMonths": "%{count} volana",
+                "manyWeeks": "%{count} herinandro maro",
                 "noAlerts": "Tsy misy Fanairana",
                 "oneDay": "%{count} andro",
                 "oneMonth": "%{count} volana",
-                "recent": "Vao haingana",
+                "oneWeek": "%{count} herinandro",
                 "reportedOn": "Notaterina tamin’ny",
+                "showingManyDays": "Hatramin'ny fanairana 10,000 nandritra ny %{count} andro lasa",
+                "showingManyMonths": "Hatramin'ny fanairana 10,000 nandritra ny %{count} volana lasa",
+                "showingManyWeeks": "Hatramin'ny fanairana 10000 isa nanomboka tamin'ny %{count} herinandro maro lasa teo",
+                "showingOneDay": "Hatramin'ny fanairana 10,000 nandritra ny iray andro lasa",
+                "showingOneMonth": "Hatramin'ny fanairana 10,000 nandritra ny iray volana lasa",
+                "showingOneWeek": "Hatramin'ny fanairana 10000 isa nanomboka tamin'ny herinandro lasa teo",
                 "timeFrame": "Fe-potoana",
                 "timeFrameDescDays": "Hisafidy ny isan’andro",
                 "timeFrameDescMonths": "Hisafidy ny isan’ny volana",
-                "showingManyDays": "Hatramin'ny fanairana 10,000 nandritra ny %{count} andro lasa",
-                "showingManyMonths": "Hatramin'ny fanairana 10,000 nandritra ny %{count} volana lasa",
-                "showingOneDay": "Hatramin'ny fanairana 10,000 nandritra ny iray andro lasa",
-                "showingOneMonth": "Hatramin'ny fanairana 10,000 nandritra ny iray volana lasa",
-                "viirs": "VIIRS"
+                "timeFrameDescMultiple": "Fidio ny fe-potoana",
+                "timeFrameDescWeeks": "Fidio ny isan'ny herinandro",
+                "viirs": "VIIRS",
+                "umd_as_it_happensDescription": "Isan-kerinandro, 30m, faritry ny tropika, UMD/GLAD",
+                "glad_sentinel_2Description": "Isaky ny 5 andro, 10m, kamorin'ny Amazona, ULD/GLAD",
+                "wur_radd_alertsDescription": "Isaky ny 6-12 andro, 10m, firenena vitsivitsy, WUR"
             },
             "alerts": "Fanairana",
             "basemap": "Sarintany fototra",
@@ -732,7 +758,6 @@
             "routes": "Làlana",
             "showing": "Aseho: %{description}"
         },
-        "recent": "Vao haingana",
         "reported": "Nanaovana tatitra",
         "reportsAndRoutes": {
             "body": "Azo foronina ihany koa ny làlana sy ny tatitra amin’ny alalan’ny fanindriana ny fanairana eo amin’ny sarintany",
@@ -743,12 +768,31 @@
             "title": "Tatitra sy Làlana"
         },
         "selectedItems": {
+            "alertSubtitle": "%{alerts} • %{date}",
+            "alertCount": "%{count} %{type}",
+            "allHighConfidenceAlerts": "Fanairana maro azo antoka be",
+            "highConfidenceAlert": "Fanairana azo antoka be",
             "location": "Toerana: %{lat}, %{long}",
             "manyAlerts": "Fanairana %{count}",
             "manyReports": "Tatitra %{count}",
             "multipleItems": "Singa Maro Samihafa",
             "oneAlert": "Fanairana 1",
-            "oneReport": "Tatitra 1"
+            "oneReport": "Tatitra 1",
+            "selectAll": "Fanteno ny fanairana rehetra misy fifandraisana",
+            "someHighConfidenceAlerts": "Fanairana vitsivitsy azo antoka be",
+            "alertCategories": {
+                "deforestation": "Fanairana fandripahana ala",
+                "deforestation_plural": "Fanairana maro mikasika fandripahana ala",
+                "deforestationfires_plural": "Fanairana fandripahana ala sy doro-tanety",
+                "fires": "Fanairana doro-tanety",
+                "fires_plural": "Fanairana maro mikasika doro-tanety"
+            },
+            "alertType": {
+                "umd_as_it_happens": "GLAD",
+                "wur_radd_alerts": "RADD",
+                "glad_sentinel_2": "GLAD-S2",
+                "viirs": "VIIRS"
+            }
         },
         "settingsTooltip": {
             "body": "Aseho ny Tongoa sy angona ilainao",
@@ -789,8 +833,15 @@
             "successful": "Tontosa ny famoahana tatitra!",
             "title": "Hamoaka tatitra"
         },
-        "glad": "Tatitra momba ny Fandripahana Ala",
-        "gladAndViirs": "Tatitra momba ny Fandripahana Ala sy ny Doro Tanety",
+        "alertType": {
+            "wur_radd_alerts": "RADD",
+            "glad_sentinel_2": "GLAD-S2",
+            "umd_as_it_happens": "GLAD",
+            "viirs": "VIIRS"
+        },
+        "deforestation": "Fandripahana ala (%{alertTypes})",
+        "fires": "Tatitra momba ny Doro Tanety",
+        "deforestationAndFires": "Fandripahana ala (%{alertTypes}) sy Tatitra momba ny Doro Tanety",
         "here": "Eto no anaovana ny tatitra",
         "imported": "Nampidirina",
         "input": "Valio ny fanontaniana azafady",
@@ -808,8 +859,7 @@
         "title": "Tatitra",
         "toReport": "Tatitra",
         "upload": "Hampiditra",
-        "uploaded": "Tafiditra",
-        "viirs": "Tatitra momba ny Doro Tanety"
+        "uploaded": "Tafiditra"
     },
     "routes": {
         "backgroundErrorDialogMessage": "Hamarino ny Lazaova momba ny tondro toerana sy ny fahazoan-dalana mampiasa ny\"application\" mba hahafahanao miverina manaraka ny làlana aleha.",
@@ -955,7 +1005,7 @@
     },
     "welcome": {
         "deforestationAlerts": {
-            "body": "Hijery ny fandripahana ala GLAD sy fanairana doro-tanety VIIRS amin’ireo toerana maneran-tany",
+            "body": "Hijery ny fanairana amin’ireo toerana maneran-tany",
             "title": "Hijery Fanairana fandripahana ala"
         },
         "layers": {
@@ -977,21 +1027,13 @@
         "title": "Tonga soa ato amin'ny \"Forest Watcher\""
     },
     "whatsNew": {
-        "areaSize": {
-            "body": "Nitombo mahatratra 20 000kilaometatra toradroa ny haben'ny faritra lehibe indrindra",
-            "title": "Hanara-maso Faritra Lehibe kokoa"
+        "improvedAlerting": {
+            "body": "Midira amin'ny karazana fanairana vaovao maro anaty faritra vitsivitsy mba hampahomby kokoa ny fanarahamaso",
+            "title": "Rafitra fanairana maro nohatsaraina"
         },
-        "basemaps": {
-            "body": "Hanome izay avy aminao na hijery GlobalForest Watch maro hafa mba hahazoana bebe kokoa ny zava-mitranga eny an-toerana",
-            "title": "Sarintany fototra nohatsaraina"
-        },
-        "layers": {
-            "body": "Hanampy tongoa avy amin’ny GlobalForest Watch na ny anao manokana hampahomby kokoa ny fanaraha-maso",
-            "title": "Tongoa Mifanaraka amin’ny Zava-misy nohatsaraina"
-        },
-        "share": {
-            "body": "Hizara faritra (maro), làlananaleha, tongoa sy ny maro hafa hanatsarana ny fandrindrana ny asan'ny ekipa",
-            "title": "Hizara Votoatiny"
+        "selectConnected": {
+            "body": "Fanteno izay fanairana misy fifandraisana hita eo amin'ny sarintany amin'ny alàlan'ny fanindriana bokotra",
+            "title": "Fanteno izay fanairana misy fifandraisana"
         },
         "title": "Zava-baovao amin'ity Endrika ity"
     }

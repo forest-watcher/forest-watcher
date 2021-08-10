@@ -90,7 +90,8 @@ export async function unpackBundle(uri: string): Promise<UnpackedSharingBundle> 
 
   if (Platform.OS === 'ios') {
     const fileName = fixedUri.substring(fixedUri.lastIndexOf('/') + 1);
-    const tempZipPath = RNFS.TemporaryDirectoryPath + fileName.replace(/\.[^/.]+$/, '.zip');
+    // Replace trailing slash from `RNFS.TemporaryDirectoryPath` because it's presence is platform dependent
+    const tempZipPath = RNFS.TemporaryDirectoryPath.replace(/\/$/, '') + '/' + fileName.replace(/\.[^/.]+$/, '.zip');
 
     await RNFS.copyFile(fixedUri, tempZipPath);
     await unzip(tempZipPath, stagingDir);

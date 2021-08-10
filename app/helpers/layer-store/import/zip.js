@@ -13,11 +13,13 @@ import { storeGeoJson } from 'helpers/layer-store/storeLayerFiles';
 
 export default async function importZipFile(file: File & { uri: string }, fileName: string): Promise<LayerFile> {
   // Unzip the file ourself, as the shapefile library uses a node module which is only supported in browsers
-  const tempZipPath = RNFS.TemporaryDirectoryPath + fileName;
+  // Strip trailing slash from RNFS.TemporaryDirectoryPath as presence is platform-dependent
+  const tempZipPath = RNFS.TemporaryDirectoryPath.replace(/\/$/, '') + '/' + fileName;
   try {
     await RNFS.copyFile(file.uri, tempZipPath);
     const extensionLessFileName = fileName.replace(/\.[^/.]+$/, '');
-    const tempPath = RNFS.TemporaryDirectoryPath + extensionLessFileName;
+    // Strip trailing slash from RNFS.TemporaryDirectoryPath as presence is platform-dependent
+    const tempPath = RNFS.TemporaryDirectoryPath.replace(/\/$/, '') + '/' + extensionLessFileName;
     // Use the response here in-case it unzips strangely (Have seen this myself: Simon)
     const unzippedPath = await unzip(tempZipPath, tempPath);
 

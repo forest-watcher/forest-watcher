@@ -3,7 +3,6 @@ import type { Question, Answer } from 'types/reports.types';
 
 import React from 'react';
 import { View, Text, TextInput } from 'react-native';
-import debounce from 'lodash/debounce';
 
 import Theme from 'config/theme';
 import styles from '../styles';
@@ -24,14 +23,10 @@ class InputTextCustom extends React.PureComponent<Props, State> {
   };
 
   onChange = (value: string) => {
-    this.setState({ value });
-    this.debouncedChange(value);
-  };
-
-  debouncedChange = debounce((value: string) => {
     const { answer, onChange } = this.props;
+    this.setState({ value });
     onChange({ ...answer, value });
-  }, 300);
+  };
 
   render() {
     const { question } = this.props;

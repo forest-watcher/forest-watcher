@@ -87,7 +87,7 @@ class ReportLayerSettings extends PureComponent<Props> {
             style={styles.rowContainer}
             hideImage
             smallerVerticalPadding
-            largerLeftPadding
+            largerPadding
           />
           <VerticalSplitRow
             title={i18n.t('map.layerSettings.importedReports')}
@@ -97,7 +97,7 @@ class ReportLayerSettings extends PureComponent<Props> {
             style={styles.rowContainer}
             hideImage
             smallerVerticalPadding
-            largerLeftPadding
+            largerPadding
           />
         </ScrollView>
         <BottomTray requiresSafeAreaView>

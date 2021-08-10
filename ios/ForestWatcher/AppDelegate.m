@@ -63,16 +63,7 @@ static void InitializeFlipper(UIApplication *application) {
   // Launching the React Native JS app! ✨
   [ReactNativeNavigation bootstrapWithDelegate:self launchOptions:launchOptions];
 
-  // Add any custom logic here.
-  if ([self.authorizationFlowManagerDelegate resumeExternalUserAgentFlowWithURL:url]) {
-    return YES;
-  }
-  
-  if ([[url absoluteString] hasSuffix:@".gfwbundle"]) {
-    [[FWSecurityScopedResourcesManager sharedManager] startAccessingSecurityScopedResourceAt:url];
-  }
-  
-  return handled || [RCTLinkingManager application:app openURL:url options:options];
+  return YES;
 }
 
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
@@ -102,7 +93,6 @@ static void InitializeFlipper(UIApplication *application) {
   
   return handled || [RCTLinkingManager application:app openURL:url options:options];
 }
-#endif
 
 #if RCT_DEV
 - (BOOL)bridge:(RCTBridge *)bridge didNotFindModule:(NSString *)moduleName {

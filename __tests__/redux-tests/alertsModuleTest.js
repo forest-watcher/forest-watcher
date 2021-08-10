@@ -14,9 +14,43 @@ describe('Redux Alerts Module', () => {
       expect(alertsReducer(undefined, action)).toMatchSnapshot();
     }
 
+    it('getAreaAlertsWithConfidence', () => {
+      const mockArea = { id: 'areaID', geostore: { id: 'geostoreID' } };
+      simpleActionTest(
+        getAreaAlerts(
+          mockArea,
+          'datasetSlugMock',
+          {
+            query: {
+              confidenceKey: 'confidenceKeyMock',
+              datastoreId: 'datasetSlugMock',
+              dateKey: 'dateKeyMock',
+              minDateKey: 'minDateKeyMock',
+              tableName: 'tableNameMock'
+            }
+          },
+          new Date(Date.UTC(2021, 4, 25, 12, 0, 0))
+        )
+      );
+    })
+
     it('getAreaAlerts', () => {
       const mockArea = { id: 'areaID', geostore: { id: 'geostoreID' } };
-      simpleActionTest(getAreaAlerts(mockArea, 'datasetSlugMock', 10));
+      simpleActionTest(
+        getAreaAlerts(
+          mockArea,
+          'datasetSlugMock',
+          {
+            query: {
+              datastoreId: 'datasetSlugMock',
+              dateKey: 'dateKeyMock',
+              minDateKey: 'minDateKeyMock',
+              tableName: 'tableNameMock'
+            }
+          },
+          new Date(Date.UTC(2021, 4, 25, 12, 0, 0))
+        )
+      );
     });
   });
 });

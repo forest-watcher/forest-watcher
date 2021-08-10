@@ -82,7 +82,7 @@ export default class MultipleItems extends PureComponent<Props, null> {
     return features.map((report: ReportFeatureProperties) => {
       const dateParsed = moment(report.date).format('YYYY-MM-DD - HH:mm:ss');
       const timeSinceParsed = moment(report.date).fromNow();
-      const title = readableNameForReportName(report.name);
+      const title = readableNameForReportName(report.name, true);
       const action = {
         icon: nextIcon,
         callback: () => {

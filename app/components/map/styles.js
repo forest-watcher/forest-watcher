@@ -2,6 +2,16 @@ import Theme from 'config/theme';
 import { Platform, StyleSheet } from 'react-native';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 
+const CoordinateTextDefault = {
+  fontFamily: Theme.font,
+  fontSize: 12,
+  textShadowColor: Theme.colors.greyishBrown,
+  textShadowOffset: { width: 0, height: 0.5 },
+  textShadowRadius: 1,
+  color: 'white',
+  textAlign: Platform.OS === 'ios' ? 'center' : undefined
+};
+
 export default StyleSheet.create({
   container: {
     flex: 1,
@@ -35,21 +45,17 @@ export default StyleSheet.create({
     color: 'red',
     margin: 16
   },
-  coordinateText: {
-    fontFamily: Theme.font,
-    fontSize: 12,
-    textShadowColor: Theme.colors.greyishBrown,
-    textShadowOffset: { width: 0, height: 0.5 },
-    textShadowRadius: 1,
-    color: 'white',
-    lineHeight: 16,
+  coordinateTextContainer: {
     justifyContent: Platform.OS === 'ios' ? 'center' : undefined,
-    left: Platform.OS === 'ios' ? 0 : 52,
-    paddingHorizontal: 20,
-    position: 'absolute',
-    right: 0,
-    textAlign: Platform.OS === 'ios' ? 'center' : undefined,
-    top: 45
+    paddingHorizontal: 52,
+    marginTop: Platform.OS === 'android' ? 20 : 10
+  },
+  coordinateText: {
+    ...CoordinateTextDefault
+  },
+  coordinateTextLarge: {
+    ...CoordinateTextDefault,
+    fontSize: 16
   },
   selectedMarkerIcon: {
     borderColor: 'rgba(255, 255, 255, 1)',
@@ -71,7 +77,6 @@ export default StyleSheet.create({
     left: 0,
     right: 0,
     top: 0,
-    height: 164,
     zIndex: 3,
     position: 'absolute'
   },

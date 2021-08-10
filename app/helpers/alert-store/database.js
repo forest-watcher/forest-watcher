@@ -5,7 +5,7 @@
 import type { Alert } from 'types/alerts.types';
 import Realm from 'realm';
 
-const SCHEMA_VERSION = 1;
+const SCHEMA_VERSION = 2;
 
 type Schema = {|
   +name: string,
@@ -22,7 +22,8 @@ const AlertSchema: Schema = {
     slug: { type: 'string', indexed: true },
     long: 'float',
     lat: 'float',
-    date: 'int'
+    date: 'int',
+    confidence: 'string'
   }
 };
 
@@ -58,6 +59,12 @@ function migrate(oldRealm, newRealm) {
           newAlerts[i].id = generateAlertId(oldAlerts[i]);
         }
       }
+      break;
+    }
+    case 2: {
+      // Nothing to do!
+      // Realm will automatically detect new properties and removed properties
+      // And will update the schema on disk automatically
       break;
     }
     default: {

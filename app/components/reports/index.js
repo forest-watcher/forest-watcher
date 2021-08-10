@@ -336,7 +336,7 @@ class Reports extends PureComponent<Props, State> {
 
       const dateParsed = moment(item.date).format('YYYY-MM-DD - HH:mm:ss');
       const timeSinceParsed = moment(item.date).fromNow();
-      const title = readableNameForReportName(item.reportName);
+      const title = readableNameForReportName(item.reportName, true);
       const action = {
         icon,
         callback: () => {

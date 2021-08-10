@@ -1,5 +1,5 @@
 // @flow
-import type { SelectedAlert } from 'types/alerts.types';
+import type { Alert, SelectedAlert } from 'types/alerts.types';
 import type { MapItemFeatureProperties } from 'types/common.types';
 import type { SelectedReport } from 'types/reports.types';
 import type { LocationPoint } from 'types/routes.types';
@@ -31,10 +31,13 @@ type Props = {|
   locationError: ?number,
   onCustomReportingPress: () => void,
   onReportSelectionPress: () => void,
+  onSelectAllConnectedAlertsPress: ($ReadOnlyArray<Alert>) => void,
   onSelectionCancelPress: () => void,
   onStartTrackingPress: () => void,
   onStopTrackingPress: () => void,
   onZoomToUserLocationPress: () => void,
+  connectedAlerts: $ReadOnlyArray<SelectedAlert>,
+  highlightedAlerts: $ReadOnlyArray<Alert>,
   selectedAlerts: $ReadOnlyArray<SelectedAlert>,
   selectedReports: $ReadOnlyArray<SelectedReport>,
   tappedOnFeatures: $ReadOnlyArray<MapItemFeatureProperties>,
@@ -45,11 +48,13 @@ export default class MapFooter extends Component<Props> {
   renderButtonPanel() {
     const {
       animatedPosition,
+      connectedAlerts,
       customReporting,
       isRouteTracking,
       userLocation,
       locationError,
       selectedAlerts,
+      highlightedAlerts,
       selectedReports,
       tappedOnFeatures,
       onReportSelectionPress,
@@ -57,7 +62,8 @@ export default class MapFooter extends Component<Props> {
       onZoomToUserLocationPress,
       onSelectionCancelPress,
       onStartTrackingPress,
-      onStopTrackingPress
+      onStopTrackingPress,
+      onSelectAllConnectedAlertsPress
     } = this.props;
     const hasAlertsSelected = selectedAlerts && selectedAlerts.length > 0;
     const hasReportSelected = selectedReports?.length;
@@ -73,7 +79,13 @@ export default class MapFooter extends Component<Props> {
           mostRecentLocationTime={userLocation?.timestamp}
         />
         <Animated.View style={{ transform: [{ translateY: animatedPosition }] }}>
-          <InfoBanner style={styles.infoBanner} tappedOnFeatures={tappedOnFeatures} />
+          <InfoBanner
+            style={styles.infoBanner}
+            tappedOnFeatures={tappedOnFeatures}
+            connectedAlerts={connectedAlerts}
+            highlightedAlerts={highlightedAlerts}
+            onSelectAllConnectedAlertsPress={onSelectAllConnectedAlertsPress}
+          />
         </Animated.View>
         <View style={styles.buttonPanel}>
           {canReport ? (

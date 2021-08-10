@@ -7,6 +7,7 @@ import moment from 'moment';
 import { REPORTS } from 'config/constants';
 import i18n from 'i18next';
 import flatMap from 'lodash/flatMap';
+import { readableNameForReportName } from 'helpers/reports';
 
 /**
  * Don't store the exact URI against the answer because this breaks when we share the report.
@@ -208,7 +209,10 @@ export function mapReportToMetadata(report: Report, language: string): Array<Met
     { id: 'clickedPosition', label: i18n.t('commonText.reportedPosition'), value: [reportedPosition] }
   ];
 
-  if (dataset && dataset.slug) {
+  const readableName = readableNameForReportName(report.reportName, false);
+  if (readableName) {
+    metadata.push({ id: 'dataset', label: i18n.t('commonText.alert'), value: [readableName] });
+  } else if (dataset && dataset.slug) {
     metadata.push({ id: 'dataset', label: i18n.t('commonText.alert'), value: [i18n.t(`datasets.${dataset.slug}`)] });
   }
 

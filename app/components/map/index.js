@@ -1,7 +1,7 @@
 // @flow
 import React, { Component, type Node } from 'react';
 
-import type { SelectedAlert } from 'types/alerts.types';
+import type { Alert, SelectedAlert } from 'types/alerts.types';
 import type { Layer } from 'types/layers.types';
 import type {
   AlertFeatureProperties,
@@ -42,17 +42,14 @@ import BottomDialog from 'components/map/bottom-dialog';
 import { closestFeature, formatCoordsByFormat, getPolygonBoundingBox } from 'helpers/map';
 import { pathForMBTilesFile } from 'helpers/layer-store/layerFilePaths';
 import debounceUI from 'helpers/debounceUI';
-import { trackScreenView, type ReportingSource } from 'helpers/analytics';
+import { trackAlertTapped, trackScreenView, type ReportingSource } from 'helpers/analytics';
 import Theme from 'config/theme';
 import i18n from 'i18next';
 import styles, { mapboxStyles } from './styles';
 import { Navigation, NavigationButtonPressedEvent } from 'react-native-navigation';
-import { withSafeArea } from 'react-native-safe-area';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import { MBTilesSource } from 'react-native-mbtiles';
 import { initialWindowMetrics } from 'react-native-safe-area-context';
-
-const SafeAreaView = withSafeArea(View, 'margin', 'top');
 
 import {
   GFWLocationAuthorizedAlways,
@@ -88,7 +85,7 @@ const ROUTE_TRACKING_BOTTOM_DIALOG_STATE_HIDDEN = 0;
 const ROUTE_TRACKING_BOTTOM_DIALOG_STATE_EXITING = 1;
 const ROUTE_TRACKING_BOTTOM_DIALOG_STATE_STOPPING = 2;
 
-const DISMISSED_INFO_BANNER_POSTIION = 200 + initialWindowMetrics.insets.bottom;
+const DISMISSED_INFO_BANNER_POSTIION = 300 + initialWindowMetrics.insets.bottom;
 
 const backgroundImage = require('assets/map_bg_gradient.png');
 
@@ -120,6 +117,8 @@ type State = {
   userLocation: ?LocationPoint,
   heading: ?number,
   hasHeadingReadingFromCompass: boolean,
+  connectedAlerts: $ReadOnlyArray<Alert>,
+  highlightedAlerts: $ReadOnlyArray<Alert>,
   selectedAlerts: $ReadOnlyArray<SelectedAlert>,
   selectedReports: $ReadOnlyArray<SelectedReport>,
   customReporting: boolean,
@@ -165,6 +164,8 @@ class MapComponent extends Component<Props, State> {
       userLocation: null,
       heading: null,
       hasHeadingReadingFromCompass: false,
+      connectedAlerts: [],
+      highlightedAlerts: [],
       selectedAlerts: [],
       selectedReports: [],
       customReporting: false,
@@ -197,7 +198,6 @@ class MapComponent extends Component<Props, State> {
     emitter.on(GFWOnLocationEvent, this.updateLocationFromGeolocation);
 
     this.geoLocate();
-
     this.showMapWalkthroughIfNecessary();
   }
 
@@ -221,16 +221,6 @@ class MapComponent extends Component<Props, State> {
   };
 
   componentDidUpdate(prevProps: Props, prevState: State) {
-    if (prevState.userLocation !== this.state.userLocation && this.state.userLocation) {
-      Navigation.mergeOptions(this.props.componentId, {
-        topBar: {
-          title: {
-            text: formatCoordsByFormat(this.state.userLocation, this.props.coordinatesFormat)
-          }
-        }
-      });
-    }
-
     if (prevState.infoBannerShowing !== this.state.infoBannerShowing) {
       Animated.spring(this.state.animatedPosition, {
         toValue: this.state.infoBannerShowing ? 0 : DISMISSED_INFO_BANNER_POSTIION,
@@ -492,7 +482,8 @@ class MapComponent extends Component<Props, State> {
     this.setState({
       customReporting: false,
       selectedAlerts: [],
-      selectedReports: []
+      selectedReports: [],
+      tappedOnFeatures: []
     });
   });
 
@@ -815,16 +806,30 @@ class MapComponent extends Component<Props, State> {
       long: Number(alertProps.long),
       datasetId: alertProps.datasetId
     };
-    const isAlert = alert => alert.lat === pressedAlert.lat && alert.long === pressedAlert.long;
+    const dataset = DATASETS[alertProps.datasetId] ?? DATASETS.find(dataset => dataset.id === alertProps.datasetId);
+    if (dataset) {
+      trackAlertTapped(dataset.reportNameId.toLowerCase());
+    }
+    const isAlert = alert => Number(alert.lat) === pressedAlert.lat && Number(alert.long) === pressedAlert.long;
 
     this.setState((prevState: State) => {
       const isAlertAlreadySelected = prevState.selectedAlerts.find(isAlert);
+      const tappedOnAlerts = prevState.tappedOnFeatures.filter(feature => feature.type === 'alert');
+      let newTappedOnFeatures = [];
+      // If alert already selected, remove it from tapped on features!
+      if (isAlertAlreadySelected) {
+        newTappedOnFeatures = tappedOnAlerts.filter(feature => {
+          return !isAlert(feature);
+        });
+      } else {
+        newTappedOnFeatures = [...tappedOnAlerts, alertProps];
+      }
       const selectedAlerts = isAlertAlreadySelected
         ? prevState.selectedAlerts.filter(alert => !isAlert(alert))
         : [...prevState.selectedAlerts, pressedAlert];
       return {
         selectedReports: [], // deselect report if alert is tapped
-        tappedOnFeatures: [alertProps],
+        tappedOnFeatures: newTappedOnFeatures,
         selectedAlerts: selectedAlerts,
         infoBannerShowing: selectedAlerts.length > 0
       };
@@ -892,7 +897,36 @@ class MapComponent extends Component<Props, State> {
     this.dismissInfoBanner();
     this.setState({
       selectedAlerts: [],
-      selectedReports: []
+      selectedReports: [],
+      tappedOnFeatures: []
+    });
+  };
+
+  onSelectAllConnectedAlertsPress = (alerts: $ReadOnlyArray<Alert>) => {
+    this.setState(currentState => {
+      return {
+        selectedAlerts: [
+          ...currentState.selectedAlerts,
+          ...alerts.map(alert => {
+            return {
+              lat: alert.lat,
+              long: alert.long,
+              datasetId: alert.slug,
+              confidence: alert.confidence
+            };
+          })
+        ],
+        tappedOnFeatures: [
+          ...currentState.tappedOnFeatures,
+          ...alerts.map(alert => {
+            return {
+              datasetId: alert.slug,
+              type: 'alert',
+              ...alert
+            };
+          })
+        ]
+      };
     });
   };
 
@@ -934,14 +968,30 @@ class MapComponent extends Component<Props, State> {
       <View style={styles.container}>
         <View pointerEvents="none" style={styles.header}>
           <Image style={styles.headerBg} source={backgroundImage} />
-          <SafeAreaView>
+          <View>
             {!isConnected && (
               <Text style={styles.offlineNotice}>
                 {isOfflineMode ? i18n.t('settings.offlineMode') : i18n.t('commonText.connectionRequiredTitle')}
               </Text>
             )}
-            <Text style={styles.coordinateText}>{coordinateAndDistanceText}</Text>
-          </SafeAreaView>
+            <View
+              style={[
+                styles.coordinateTextContainer,
+                { paddingTop: Platform.OS === 'ios' ? initialWindowMetrics.insets.top : 0 } // Status bar padding only on iOS because on Android
+                // the status bar is opaque and pushes the whole app down
+              ]}
+            >
+              {this.state.userLocation && (
+                <Text style={styles.coordinateTextLarge}>
+                  {i18n.t('map.currentLocation', {
+                    location: formatCoordsByFormat(this.state.userLocation, this.props.coordinatesFormat)
+                  })}
+                </Text>
+              )}
+              {!this.state.userLocation && <Text style={styles.coordinateTextLarge}>{i18n.t('dashboard.map')}</Text>}
+              <Text style={styles.coordinateText}>{coordinateAndDistanceText}</Text>
+            </View>
+          </View>
         </View>
         <MapboxGL.MapView
           ref={ref => {
@@ -970,6 +1020,9 @@ class MapComponent extends Component<Props, State> {
             reportedAlerts={this.props.reportedAlerts}
             selectedAlerts={this.state.selectedAlerts}
             onShapeSourcePressed={this.onAlertFeaturesPressed}
+            onHighlightedAlertsChanged={(highlightedAlerts, connectedAlerts) => {
+              this.setState({ highlightedAlerts, connectedAlerts });
+            }}
           />
           <Reports
             featureId={featureId}
@@ -998,6 +1051,9 @@ class MapComponent extends Component<Props, State> {
           onStartTrackingPress={this.onStartTrackingPressed}
           onStopTrackingPress={this.onStopTrackingPressed}
           onZoomToUserLocationPress={this.zoomToUserLocation}
+          connectedAlerts={this.state.connectedAlerts}
+          onSelectAllConnectedAlertsPress={this.onSelectAllConnectedAlertsPress}
+          highlightedAlerts={this.state.highlightedAlerts}
           selectedAlerts={this.state.selectedAlerts}
           selectedReports={this.state.selectedReports}
           tappedOnFeatures={this.state.tappedOnFeatures}

@@ -138,8 +138,9 @@ class ImportMappingFileType extends PureComponent<Props, State> {
 
     if (this.props.mappingFileType === 'basemap') {
       // On Android, the MBTiles lib is unable to read metadata from arbitrary URIs... so we copy the file locally
-      // so that we can give it a file: URI
-      const tempUri = `${RNFS.TemporaryDirectoryPath}/${Date.now()}.mbtiles`;
+      // so that we can give it a file: URI. Remove trailing slash from `RNFS.TemporaryDirectoryPath` because it's presence
+      // is platform-dependent
+      const tempUri = `${RNFS.TemporaryDirectoryPath.replace(/\/$/, '')}/${Date.now()}.mbtiles`;
 
       try {
         await copyFileWithReplacement(file.uri, tempUri);

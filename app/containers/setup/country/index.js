@@ -7,6 +7,7 @@ import { setSetupCountry } from 'redux-modules/setup';
 import { logout } from 'redux-modules/user';
 
 import { setAreaCountryTooltipSeen, setWelcomeScreenSeen } from 'redux-modules/app';
+import { hasSeenLatestWhatsNewOrWelcomeScreen } from 'helpers/app';
 
 import SetupCountry from 'components/setup/country';
 
@@ -20,7 +21,7 @@ function mapStateToProps(state: State) {
     user: !state.user.data ? ' ' : state.user.data,
     setupCountry: state.setup.country,
     countries: state.countries.data,
-    hasSeenWelcomeScreen: state.app.hasSeenWelcomeScreen
+    hasSeenWelcomeScreen: hasSeenLatestWhatsNewOrWelcomeScreen(state)
   };
 }
 

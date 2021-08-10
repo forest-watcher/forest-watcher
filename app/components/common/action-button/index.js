@@ -33,9 +33,11 @@ function ActionButton(props) {
 
   const btnStyles = [
     styles.button,
+    props.compact ? styles.compact : '',
     props.light ? styles.buttonLight : '',
     props.short ? styles.short : '',
-    !props.left && (props.disabled || props.delete || props.noIcon) ? styles.buttonNoIcon : ''
+    !props.left && (props.disabled || props.delete || props.noIcon) ? styles.buttonNoIcon : '',
+    props.buttonStyle || ''
   ];
 
   const textStyles = [
@@ -51,7 +53,9 @@ function ActionButton(props) {
     props.secondary ? styles.buttonTextSecondary : '',
     props.transparent
       ? { color: props.delete ? Theme.colors.carnation : props.light || props.dark ? '' : Theme.background.secondary }
-      : ''
+      : '',
+    props.compact ? styles.buttonTextCompact : '',
+    props.textStyle || ''
   ];
 
   const arrowIconStyles = [Theme.icon, props.short ? styles.shortIcon : ''];
@@ -94,7 +98,7 @@ function ActionButton(props) {
     >
       <View
         style={Platform.select({
-          android: [containerStyles, btnStyles],
+          android: [btnStyles, containerStyles],
           ios: btnStyles
         })}
       >
@@ -115,11 +119,14 @@ function ActionButton(props) {
 }
 
 ActionButton.defaultProps = {
+  compact: false,
   disabled: false,
   short: false
 };
 
 ActionButton.propTypes = {
+  buttonStyle: PropTypes.any,
+  compact: PropTypes.bool,
   light: PropTypes.bool,
   dark: PropTypes.bool,
   style: PropTypes.any,
@@ -135,6 +142,7 @@ ActionButton.propTypes = {
   noIcon: PropTypes.bool,
   main: PropTypes.bool,
   monochrome: PropTypes.bool,
+  textStyle: PropTypes.any,
   transparent: PropTypes.bool
 };
 

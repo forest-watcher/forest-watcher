@@ -5,10 +5,10 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {
   DEFAULT_LAYER_SETTINGS,
-  setGladAlertsTimeFrame,
-  setViirsAlertsTimeFrame,
-  toggleGladAlerts,
-  toggleViirsAlerts
+  clearEnabledAlertTypes,
+  setAlertsCategoryAlertsTimeFrame,
+  toggleAlertsCategoryAlerts,
+  toggleAlertsDataset
 } from 'redux-modules/layerSettings';
 import AlertLayerSettings from 'components/settings/layer-settings/alerts';
 
@@ -28,10 +28,10 @@ function mapStateToProps(state: State, ownProps: OwnProps) {
 const mapDispatchToProps = (dispatch: Dispatch) =>
   bindActionCreators(
     {
-      toggleGladAlerts,
-      toggleViirsAlerts,
-      setGladAlertsTimeFrame,
-      setViirsAlertsTimeFrame
+      clearEnabledAlertTypes,
+      toggleAlertsDataset,
+      toggleAlertsCategoryAlerts,
+      setAlertsCategoryAlertsTimeFrame
     },
     dispatch
   );

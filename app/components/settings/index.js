@@ -231,10 +231,10 @@ export default class Settings extends Component<Props, State> {
                 <Hyperlink
                   linkDefault
                   linkStyle={Theme.link}
-                  linkText={url => (url === 'https://www.globalforestwatch.org/my_gfw' ? 'my GFW' : url)}
+                  linkText={url => (url === 'https://www.globalforestwatch.org/my-gfw' ? 'my GFW' : url)}
                 >
                   <Text selectable style={styles.completeProfile}>
-                    {`${i18n.t('settings.completeYourProfileOn')} https://www.globalforestwatch.org/my_gfw`}
+                    {`${i18n.t('settings.completeYourProfileOn')} https://www.globalforestwatch.org/my-gfw`}
                   </Text>
                 </Hyperlink>
               </View>

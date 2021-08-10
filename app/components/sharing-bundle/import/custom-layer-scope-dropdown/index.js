@@ -85,16 +85,18 @@ export default function CustomLayerScopeDropdown(props: Props): Node {
         {
           label: allLayerFilesLabel,
           labelKey: '',
-          value: 'all'
+          value: 'all',
+          id: 'all'
         },
         {
           label: selectedLayerFilesLabel,
           labelKey: '',
-          value: 'intersecting'
+          value: 'intersecting',
+          id: 'intersecting'
         }
       ]}
-      selectedValue={selectedValue}
-      onValueChange={value => onValueChange(value === 'all' ? value : 'intersecting')}
+      selectedValue={{ value: selectedValue, id: selectedValue }}
+      onValueChange={value => onValueChange(value.value)}
       hideLabel={true}
       inactive={!isEnabled}
     />

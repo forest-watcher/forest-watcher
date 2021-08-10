@@ -22,6 +22,9 @@ export default StyleSheet.create({
     backgroundColor: Theme.background.white,
     borderColor: Theme.background.white
   },
+  compact: {
+    paddingVertical: Platform.OS === 'android' ? 6 : 2
+  },
   disabled: {
     backgroundColor: Theme.colors.veryLightPinkTwo,
     borderColor: Theme.colors.veryLightPinkTwo
@@ -58,7 +61,7 @@ export default StyleSheet.create({
     justifyContent: 'flex-start'
   },
   buttonText: {
-    flex: 1,
+    flexGrow: 1,
     textAlign: 'center',
     color: Theme.fontColors.white,
     fontFamily: Theme.font,
@@ -98,6 +101,9 @@ export default StyleSheet.create({
     marginLeft: 0,
     fontStyle: 'normal',
     fontSize: 16
+  },
+  buttonTextCompact: {
+    fontSize: 12
   },
   buttonTextSecondary: {
     color: Theme.fontColors.main

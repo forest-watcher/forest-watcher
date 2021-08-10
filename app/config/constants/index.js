@@ -1,5 +1,5 @@
 // @flow
-import type { AlertDatasetConfig } from 'types/alerts.types';
+import type { AlertDatasetConfig, AlertDatasetCategory } from 'types/alerts.types';
 
 import Config from 'react-native-config';
 import BackgroundGeolocation from '@mauron85/react-native-background-geolocation';
@@ -39,6 +39,16 @@ export const MAP_LAYER_INDEXES = {
   alerts: 150,
   reports: 180,
   userLocation: 200
+};
+
+export type IconSize = {
+  minIconSize: number,
+  maxIconSize: number
+};
+
+export const MAP_DEFAULT_ICON_SIZE: IconSize = {
+  minIconSize: 0.8325,
+  maxIconSize: 6.67
 };
 
 // Defines the configuration for the BackgroundGeolocation module.
@@ -85,47 +95,157 @@ export const STATUS = {
   uploaded: 'uploaded'
 };
 
+export const DATASET_CATEGORIES: { string: AlertDatasetCategory } = {
+  deforestation: {
+    id: 'deforestation',
+    faqCategory: 'alertsAndData',
+    faqQuestionId: 'alert_types',
+    faqTitleKey: 'faq.alert_settings.deforestation.title',
+    nameKey: 'map.deforestationAlert',
+    filterThresholds: [
+      {
+        units: 'weeks',
+        value: 2
+      },
+      {
+        units: 'months',
+        value: 1
+      },
+      {
+        units: 'months',
+        value: 2
+      },
+      {
+        units: 'months',
+        value: 6
+      },
+      {
+        units: 'months',
+        value: 12
+      }
+    ],
+    iconPrefix: 'deforestation',
+    color: Theme.colors.glad,
+    colorReported: Theme.colors.report,
+    datasetSlugs: ['umd_as_it_happens', 'glad_sentinel_2', 'wur_radd_alerts']
+  },
+  fires: {
+    id: 'fires',
+    nameKey: 'map.fireAlert', // TODO: Add
+    filterThresholds: [
+      {
+        units: 'days',
+        value: 1
+      },
+      {
+        units: 'days',
+        value: 2
+      },
+      {
+        units: 'days',
+        value: 6
+      },
+      {
+        units: 'days',
+        value: 12
+      }
+    ],
+    iconPrefix: 'fires',
+    color: Theme.colors.viirs,
+    colorReported: Theme.colors.viirsReported,
+    datasetSlugs: ['viirs']
+  }
+};
+
 export const DATASETS: { [slug: string]: AlertDatasetConfig } = {
   umd_as_it_happens: {
+    api: {
+      datastoreId: 'umd_glad_landsat_alerts',
+      query: {
+        confidenceKey: 'umd_glad_landsat_alerts__confidence',
+        dateKey: 'umd_glad_landsat_alerts__date',
+        requiresMaxDate: true,
+        tableName: 'umd_glad_landsat_alerts'
+      }
+    },
     id: 'umd_as_it_happens',
+    minIconSize: 0.8325,
+    maxIconSize: 6.67,
+    sortKey: 1,
     nameKey: 'map.gladAlert',
-    requestThreshold: 365,
-    recencyThreshold: 7,
-    filterThresholdOptions: [1, 2, 6, 12],
-    filterThresholdUnits: 'months',
-    iconPrefix: 'glad',
-    color: Theme.colors.glad,
-    colorRecent: Theme.colors.recent,
-    colorReported: Theme.colors.report,
-    reportNameId: 'GLAD'
+    reportNameId: 'GLAD',
+    requestThreshold: 365
+  },
+  glad_sentinel_2: {
+    api: {
+      datastoreId: 'umd_glad_sentinel2_alerts',
+      query: {
+        confidenceKey: 'umd_glad_sentinel2_alerts__confidence',
+        dateKey: 'umd_glad_sentinel2_alerts__date',
+        requiresMaxDate: true,
+        tableName: 'umd_glad_sentinel2_alerts'
+      }
+    },
+    id: 'glad_sentinel_2',
+    minIconSize: 0.333,
+    maxIconSize: 2.646,
+    sortKey: 2,
+    nameKey: 'map.gladS2Alert',
+    reportNameId: 'GLADSTWO', // Must match regex for report names: [A-Z]
+    requestThreshold: 365
+  },
+  wur_radd_alerts: {
+    api: {
+      datastoreId: 'wur_radd_alerts',
+      query: {
+        confidenceKey: 'wur_radd_alerts__confidence',
+        dateKey: 'wur_radd_alerts__date',
+        requiresMaxDate: true,
+        tableName: 'wur_radd_alerts'
+      }
+    },
+    id: 'wur_radd_alerts',
+    minIconSize: 0.333,
+    maxIconSize: 2.646,
+    sortKey: 3,
+    nameKey: 'map.raddAlert',
+    reportNameId: 'RADD',
+    requestThreshold: 365
   },
   viirs: {
+    api: {
+      datastoreId: 'nasa_viirs_fire_alerts',
+      query: {
+        dateKey: 'alert__date',
+        requiresMaxDate: false,
+        tableName: 'mytable'
+      }
+    },
     id: 'viirs',
+    minIconSize: 0.8325,
+    maxIconSize: 6.67,
+    sortKey: 4,
     nameKey: 'map.viirsAlert',
-    requestThreshold: 7,
-    recencyThreshold: 0,
-    filterThresholdOptions: [1, 2, 6, 12],
-    filterThresholdUnits: 'days',
-    iconPrefix: 'viirs',
-    color: Theme.colors.viirs,
-    colorRecent: Theme.colors.recent,
-    colorReported: Theme.colors.viirsReported,
-    reportNameId: 'VIIRS'
+    reportNameId: 'VIIRS',
+    requestThreshold: 7
   }
 };
 
 export const COORDINATES_FORMATS = {
   decimal: {
     labelKey: 'settings.coordinatesDecimal',
-    value: 'decimal'
+    value: 'decimal',
+    id: 'decimal'
   },
   degrees: {
     labelKey: 'settings.coordinatesDegrees',
-    value: 'degrees'
+    value: 'degrees',
+    id: 'degrees'
   },
   utm: {
     labelKey: 'settings.coordinatesUtm',
-    value: 'utm'
+    value: 'utm',
+    id: 'utm'
   }
 };
 
@@ -758,6 +878,8 @@ const LAYER_MAX_NAME_LENGTH = 40;
 
 export const GFW_SIGN_UP_LINK = 'https://www.globalforestwatch.org/my-gfw';
 export const GFW_FORGOT_PASSWORD_LINK = `${Config.API_AUTH}/auth/reset-password`;
+
+export const LAST_WHATS_NEW_VERSION = '2.1.0';
 
 export default {
   areas: AREAS,

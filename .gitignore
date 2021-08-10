@@ -79,15 +79,10 @@ realm-object-server/io\.realm\.object-server-utility/metadata/
 
 reports/**
 
-# Configuration
-sentry.properties
-*/sentry.properties
-google-services.json
 .env
-.env.android*
-.env.ios*
-GoogleService-Info.plist
-*/GoogleService-Info.plist
+.env.*
+ios/sentry.properties
+ios/GoogleService-Info.plist
 
 # react-native-config codegen
 ios/tmp.xcconfig

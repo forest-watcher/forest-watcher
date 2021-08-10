@@ -9,6 +9,8 @@ export default StyleSheet.create({
   },
   contentContainer: {
     ...Theme.modalContainer,
+    paddingTop: 20,
+    paddingBottom: 24,
     alignItems: 'stretch'
   },
   itemBodyText: {
@@ -21,7 +23,7 @@ export default StyleSheet.create({
   itemContainer: {
     flexDirection: 'row',
     flex: 1,
-    marginBottom: 32
+    marginBottom: 16
   },
   itemContentContainer: {
     flex: 1
@@ -35,12 +37,12 @@ export default StyleSheet.create({
     fontSize: 16
   },
   list: {
-    marginVertical: 12
+    marginBottom: 20
   },
   listContent: {
     alignItems: 'stretch',
     flexGrow: 1,
-    paddingTop: 28
+    paddingTop: 20
   },
   titleText: {
     ...Theme.text,

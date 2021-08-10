@@ -203,6 +203,11 @@
         "done": "Concluído"
     },
     "faq": {
+        "alert_settings": {
+            "deforestation": {
+                "title": "Que tipos de alertas estão disponíveis?"
+            }
+        },
         "categories": {
             "about": {
                 "questions": [
@@ -244,11 +249,11 @@
                     {
                         "content": {
                             "description": {
-                                "text": "A Forest Watcher funcionará em qualquer iPhone com o iOS 10 ou superior. As especificações mínimas e recomendadas para os dispositivos Android estão listadas abaixo."
+                                "text": "A Forest Watcher funcionará em qualquer iPhone com o iOS 13 ou superior. As especificações mínimas e recomendadas para os dispositivos Android estão listadas abaixo."
                             },
                             "orderList": {
                                 "text1": "Especificações mínimas para Android: OS - Android 5.0;RAM - 1,5GB; Espaço Livre em Disco - 1GB",
-                                "text2": "Especificações mínimas para Android: OS - Android 7.1; RAM - 3 GB; Espaço livre em disco - 4 GB (mín.)"
+                                "text2": "Especificações recomendadas para Android: Sistema operativo - Android 7.1; RAM - 3 GB; Espaço livre em disco - mais de 4 GB"
                             }
                         },
                         "title": "Quais são as especificações de dispositivo para usar o Forest Watcher?"
@@ -303,24 +308,28 @@
                     {
                         "content": {
                             "description": {
-                                "text": "A Global Forest Watch (GFW) proporciona dados pré-carregados de alterações florestais e contextuais no Forest Watcher. Os dados pré-carregados incluem alertas de desflorestação GLAD, alertas de incêndios ativos VIIRS, perda anual de cobertura de árvores e áreas protegidas. A informação sobre os alertas de desflorestação GLAD, alertas de incêndios ativos VIIRS e perda de cobertura de árvores encontra-se abaixo."
+                                "text": "A Global Forest Watch (GFW) fornece dados pré-carregados sobre as alterações na floresta e dados contextuais adicionais, disponibilizados na Forest Watcher. Os dados pré-carregados incluem três tipos de alertas de desmatamento (GLAD, GLAD-S2, RADD), alertas de incêndios ativos do VIIRS, perda anual de cobertura arbórea e áreas protegidas."
                             },
                             "footerText": "Pode também adicionar camadas contextuais adicionais do GFW, incluindo terras indígenas e comunitárias LandMark e dados de várias concessões e biodiversidade ou pode carregar as suas camadas contextuais personalizadas através da aplicação móvel. O Forest Watcher Mobile suporta os seguintes tipos de ficheiros para carregamento: .json, .geojson, .topojson, .gpx, .zip, .kmz e .kml.\n\nQuando carrega camadas contextuais adicionais, terá a opção de descarregar os dados para uso offline ou aceder aos dados apenas quando online. Estas opções proporcionam maior flexibilidade sobre os dados armazenados no seu dispositivo.\n\nPara mais informações, visite data.globalforestwatch.org.",
                             "orderList": {
-                                "text1": "Alertas de Incêndio Ativo VIIRS: Produzidos pela NASA e atualizados todos os dias a uma resolução de 375 metros. Isto mostra a localização de suspeitas de incêndios na semana passada.",
-                                "text2": "Alertas GLAD: produzidos pelo Laboratório Global Land Analysis & Discovery (GLAD) da Universidade de Maryland e atualizados semanalmente numa resolução de 30 metros. Estes alertas mostram-lhe, semana a semana, onde pode ter havido alterações na área de floresta.",
-                                "text3": "Perda anual da cobertura arbórea: informação que também é produzida pelo laboratório GLAD e atualizada anualmente numa resolução de 30 metros. Estes dados revelam, de ano para ano, onde é que existiram alterações na área florestal. De momento os dados só estão disponíveis como uma camada contextual de dados: não poderá criar um relatório relacionado com um alerta de perdas anuais, embora seja possível criar um relatório para uma determinada localização se tocar, sobre o ecrã, no local onde existiram ganhos ou perdas de floresta."
+                                "text1": "Alertas de desmatamento do GLAD: Produzidos pelo Laboratório \"Global Land Analysis & Discovery\" (GLAD) da Universidade de Maryland, atualizados a cada 8 dias, com uma resolução de 30 metros. Estes alertas usam dados dos satélites Landsat 7 e 8 e identificam áreas de provável perda de cobertura arbórea nas regiões dos trópicos.",
+                                "text2": "Alertas de desmatamento do GLAD-S2: Também produzidos pelo laboratório GLAD, atualizados a cada 5 dias, com uma resolução de 10 metros. Estes alertas usam dados dos satélites Sentinel-2 da Agência Espacial Europeia para identificar áreas de provável perda de floresta primária. No momento da publicação atual (julho de 2021), os alertas estão disponíveis para a Bacia Amazónica.",
+                                "text3": "Alertas de desmatamento do RADD: Produzidos pelo Wageningen University and Research (WUR) Laboratory of Geo-information Science and Remote Sensing (Laboratório de Ciência de Geoinformação e Teledeteção da Universidade de Wageningen), atualizados a cada 6-12 dias, com uma resolução de 10 metros. Estes alertas usam dados de radar de penetração através das nuvens, fornecidos pelos satélites Sentinel-1 da Agência Espacial Europeia, para identificar áreas de provável perda de floresta primária. No momento da publicação atual (julho de 2021), os alertas estão disponíveis para a África subsaariana e para o sudeste asiático insular.",
+                                "text4": "Alertas de incêndios ativos do VIIRS: Produzidos pela NASA, atualizados diariamente com uma resolução de 375 metros. Estes alertas mostram-lhe a localização das suspeitas de incêndio na última semana.",
+                                "text5": "Perda anual de cobertura arbórea: Também produzida pelo laboratório GLAD, atualizada anualmente, com uma resolução de 30 metros. Este indicador mostra-lhe as alterações da área florestal de um ano para o outro. Atualmente, estes dados só estão disponíveis como uma camada de dados adicional: não poderá criar um relatório relativo a um alerta de perda anual, embora ainda seja possível criar um relatório para um determinado local, tocando no ecrã, nos locais onde se tenham verificado perdas ou ganhos de superfície florestal."
                             }
                         },
+                        "id": "alert_types",
                         "title": "Que dados estão disponíveis e de onde provêm?"
                     },
                     {
                         "content": {
                             "description": {
                                 "text1": "Cada camada de dados foi sujeita a rigorosos testes científicos e possui um conjunto único de limitações.",
-                                "text2": "Os utilizadores devem ter em atenção que os alertas de desmatamento do GLAD detetam todos os tipos de perda de cobertura arbórea, quer esta seja causada pelo ser humano (p. ex., na colheita de madeira) ou por causas naturais (p. ex., em deslizamentos de terras). Os alertas não diferenciam entre cobertura arbórea natural e cobertura arbórea plantada. Tendo em conta que se destinam a ser usados por patrulhas no terreno, os alertas foram também concebidos adotando uma abordagem assente na prudência (a taxa de falsos positivos, para os alertas confirmados, é de 1%, enquanto a taxa de falsos negativos é de 33%). Por último, apesar de os alertas serem atualizados semanalmente, as situações de nebulosidade persistente podem impedir a deteção de alertas durante várias semanas (ou até meses) após uma ocorrência.",
-                                "text3": "Os alertas de incêndio do VIIRS não conseguem detetar incêndios de dimensão reduzida ou com uma temperatura demasiado baixa (normalmente, incêndios numa área inferior a 100 metros quadrados, ou com temperaturas inferiores a 700 Kelvin).",
-                                "text4": "Para mais informações, visite data.globalforestwatch.org."
+                                "text2": "Os utilizadores devem ter em atenção que os alertas de desmatamento disponíveis na Forest Watcher detetam todos os tipos de perda de cobertura arbórea, quer sejam causados por ação humana (p. ex., pela exploração madeireira) ou por causas naturais (p. ex., deslizamentos de terras). Os alertas não permitem distinguir entre cobertura arbórea natural e cobertura arbórea plantada.",
+                                "text3": "Os alertas foram concebidos numa perspetiva conservadora, visto que a sua finalidade é a utilização por patrulhas no terreno (p. ex., a taxa de falsos positivos para alertas confirmados do GLAD é de 1%, enquanto a taxa de falsos negativos é de 33%; a taxa de falsos positivos para alertas confirmados do RADD é de 2%, enquanto a taxa de falsos negativos é de 5%). Além disso, embora os alertas sejam atualizados regularmente, a nebulosidade persistente sobre determinadas áreas, pode impossibilitar a deteção de alertas do GLAD e do GLAD-S2, durante semanas, ou mesmo meses, após uma ocorrência.",
+                                "text4": "Uma avaliação dos alertas de incêndio do VIIRS revelou uma taxa de falsos positivos próxima dos 0% para a maioria das regiões, atingindo o valor máximo de 1,2% nas regiões avaliadas, associada sobretudo ao reflexo da luz solar em alguns telhados. Os alertas de incêndio do VIIRS não podem detetar incêndios de dimensão reduzida ou com temperaturas demasiado baixas (geralmente, com uma dimensão inferior a 100 metros quadrados ou uma temperatura inferior a 700 Kelvin).",
+                                "text5": "Para mais informações, visite data.globalforestwatch.org."
                             }
                         },
                         "title": "Quão precisos são os alertas de desflorestação e incêndio?"
@@ -437,7 +446,7 @@
                         "content": {
                             "orderListLetters": {
                                 "order1": {
-                                    "description": "Se não vir quaisquer alertas na sua Área de Interesse, vá até globalforestwatch.org e verifique se existem dados para essa localização e para o período de tempo que escolheu. Se não existem alertas GLAD ou VIIRS recentes, significa que não existiu atividade recente relacionada com alterações na floresta. Considere usar a camada de dados contextuais da Alteração Anual da Cobertura Arbórea para encontrar alertas de perdas mais antigos que ainda poderão fornecer informações relevantes para uma investigação ou visita de campo.",
+                                    "description": "Se não vir quaisquer alertas na sua Área de Interesse, vá até globalforestwatch.org e verifique se existem dados para essa localização e para o período de tempo que escolheu. Se não existem alertas de desmatamento ou VIIRS recentes, significa que não existiu atividade recente relacionada com alterações na floresta. Considere usar a camada de dados contextuais da Alteração Anual da Cobertura Arbórea para encontrar alertas de perdas mais antigos que ainda poderão fornecer informações relevantes para uma investigação ou visita de campo.",
                                     "text": "Não vejo nenhuns dados de alerta"
                                 },
                                 "order2": {
@@ -505,7 +514,7 @@
                     {
                         "content": {
                             "description": {
-                                "text1": "Para reportar um grupo de alertas, pode clicar nos alertas GLAD e/ou VIIRS que está a investigar e clicar no botão \"reportar\" no canto inferior direito. Pode reportar vários alertas ao selecionar cada alerta individualmente antes de clicar no botão \"reportar\". Quando forem clicados, os alertas GLAD ficarão verdes e os alertas VIIRS ficarão roxos. A alteração de cor indica que os alertas foram reportados."
+                                "text1": "Para fazer relatórios sobre um grupo de alertas, pode clicar num alerta de desmatamento e/ou do VIIRS que esteja a investigar e clicar no botão \"relatório\", no canto inferior direito do mapa. Pode fazer um relatório sobre vários alertas, selecionando cada alerta, individualmente, antes de clicar no botão \"relatório\". Os utilizadores também podem usar o novo botão \"Selecionar todos os alertas relacionados\" para agrupar automaticamente todos os alertas relacionados com o alerta atualmente selecionado. Quando selecionados, os alertas de desmatamento assumem a cor verde e os alertas do VIIRS assumem a cor roxa."
                             }
                         },
                         "title": "Como reporto um grupo e alertas?"
@@ -631,6 +640,8 @@
         "treeCoverLoss2017": "Perda de cobertura arbórea (2017)",
         "treeCoverLoss2018": "Perda de cobertura arbórea (2018)",
         "treeCoverLoss2019": "Perda de cobertura arbórea (2019)",
+        "treeCoverLoss2020": "Perda de cobertura arbórea (2020)",
+        "treeCoverLoss2021": "Perda de cobertura arbórea (2021)",
         "wdpa": "Áreas Protegidas (Mosaicos de Vetor)",
         "woodFiber": "Fibra de Madeira",
         "woodFiberConcessions": "Concessões de fibra de madeira por tipo - 2019"
@@ -653,7 +664,7 @@
             "loginWithEmail": "Iniciar Sessão com E-mail",
             "password": "Palavra-passe"
         },
-        "appleTitle": "Apple",
+        "appleTitle": "Iniciar sessão com a Apple",
         "emailTitle": "Iniciar a sessão com o email",
         "facebookTitle": "Facebook",
         "failed": "Ocorreu um erro a entrar/sair",
@@ -665,31 +676,46 @@
     },
     "map": {
         "createdDate": "Criado em %{date}",
-        "destination": "Destino:",
-        "distance": "Distância:",
+        "currentLocation": "Localização atual: %{location}",
+        "destination": "Destino: %{destination}",
+        "distance": "Distância: %{distance}",
         "gladAlert": "Alerta GLAD",
         "issuedDate": "Emitido em %{date}",
+        "dateRangeLong": "%{minDate} - %{maxDate}",
+        "dateRangeShort": "Há %{minDays} - %{maxDays} dias",
         "layerSettings": {
             "alertSettings": {
                 "alert": "Alerta",
+                "all": "Todos os Alertas",
                 "deforestation": "Desmatamento",
                 "fires": "Incêndios",
+                "wur_radd_alerts": "RADD",
                 "glad": "GLAD",
+                "glad_sentinel_2": "GLAD-S2",
+                "umd_as_it_happens": "GLAD",
                 "manyDays": "%{count} dias",
                 "manyMonths": "%{count} meses",
+                "manyWeeks": "%{count} semanas",
                 "noAlerts": "Nenhum Alerta",
                 "oneDay": "%{count} dia",
                 "oneMonth": "%{count} mês",
-                "recent": "Recentes",
+                "oneWeek": "%{count} semana",
                 "reportedOn": "Relatado Em",
                 "showingManyDays": "Até 10 000 alertas dos últimos %{count} dias",
                 "showingManyMonths": "Até 10 000 alertas dos últimos %{count} meses",
+                "showingManyWeeks": "Até 10000 alertas das últimas %{count} semanas",
                 "showingOneDay": "Até 10 000 alertas do último dia",
                 "showingOneMonth": "Até 10 000 alertas do último mês",
+                "showingOneWeek": "Até 10000 alertas da última semana",
                 "timeFrame": "Prazo",
                 "timeFrameDescDays": "Selecionar a quantidade de dias",
                 "timeFrameDescMonths": "Selecione o número de meses",
-                "viirs": "VIIRS"
+                "timeFrameDescMultiple": "Selecione o período de tempo",
+                "timeFrameDescWeeks": "Selecione o número de semanas",
+                "viirs": "VIIRS",
+                "umd_as_it_happensDescription": "Semanalmente, 30m, trópicos, UMD/GLAD",
+                "glad_sentinel_2Description": "A cada 5 dias, 10m, Bacia Amazónica, UMD/GLAD",
+                "wur_radd_alertsDescription": "A cada 6-12 dias, 10m, países selecionados, WUR"
             },
             "alerts": "Alertas",
             "basemap": "Mapa-base",
@@ -732,7 +758,6 @@
             "routes": "Percursos",
             "showing": "A exibir: %{description}"
         },
-        "recent": "Recentes",
         "reported": "Relatados",
         "reportsAndRoutes": {
             "body": "Percursos e Relatórios podem também ser criados ao tocar em qualquer alerta do mapa",
@@ -743,12 +768,31 @@
             "title": "Relatórios e Percursos"
         },
         "selectedItems": {
+            "alertSubtitle": "%{alerts} • %{date}",
+            "alertCount": "%{count} %{type}",
+            "allHighConfidenceAlerts": "Alertas de alta confiança",
+            "highConfidenceAlert": "Alerta de alta confiança",
             "location": "Localização: %{lat}, %{long}",
             "manyAlerts": "%{count} alertas",
             "manyReports": "%{count} relatórios",
             "multipleItems": "Vários itens",
             "oneAlert": "1 Alerta",
-            "oneReport": "1 Relatório"
+            "oneReport": "1 Relatório",
+            "selectAll": "Selecione todos os alertas conectados",
+            "someHighConfidenceAlerts": "Alguns alertas de alta confiança",
+            "alertCategories": {
+                "deforestation": "Alerta de desmatamento",
+                "deforestation_plural": "Alertas de desmatamento",
+                "deforestationfires_plural": "Alertas de fogo e desmatamento",
+                "fires": "Alerta de fogo",
+                "fires_plural": "Alertas de fogo"
+            },
+            "alertType": {
+                "umd_as_it_happens": "GLAD",
+                "wur_radd_alerts": "RADD",
+                "glad_sentinel_2": "GLAD-S2",
+                "viirs": "VIIRS"
+            }
         },
         "settingsTooltip": {
             "body": "Mostrar as camadas e os dados relevantes para si",
@@ -789,8 +833,15 @@
             "successful": "Os relatórios foram exportados com sucesso!",
             "title": "Exportar relatório"
         },
-        "glad": "Relatório de Desmatamento",
-        "gladAndViirs": "Relatório de Desmatamento e de Queimadas",
+        "alertType": {
+            "wur_radd_alerts": "RADD",
+            "glad_sentinel_2": "GLAD-S2",
+            "umd_as_it_happens": "GLAD",
+            "viirs": "VIIRS"
+        },
+        "deforestation": "(%{alertTypes}) de desmatamento",
+        "fires": "Relatório de Incêndio",
+        "deforestationAndFires": "(%{alertTypes}) de Desmatamento e Relatório de Incêndios",
         "here": "Reporte aqui",
         "imported": "Importado",
         "input": "Por favor, responda à questão",
@@ -808,8 +859,7 @@
         "title": "Relatório",
         "toReport": "Relatório",
         "upload": "Carregar",
-        "uploaded": "Carregado",
-        "viirs": "Relatório de Incêndio"
+        "uploaded": "Carregado"
     },
     "routes": {
         "backgroundErrorDialogMessage": "Por favor, verifique as suas definições de localização e permissões da aplicação para retomar a monitorização da rota.",
@@ -977,21 +1027,13 @@
         "title": "Bem-vindo à Forest Watcher"
     },
     "whatsNew": {
-        "areaSize": {
-            "body": "O tamanho máximo da área aumentou para 20 000 quilómetros quadrados",
-            "title": "Monitorar Áreas Maiores"
+        "improvedAlerting": {
+            "body": "Aceda a novos tipos de alerta em regiões selecionadas para uma monitorização mais eficaz",
+            "title": "Sistemas de Alerta Melhorados"
         },
-        "basemaps": {
-            "body": "Adicione o seu próprio ou veja outros do Global Forest Watch para compreender melhor o terreno",
-            "title": "Mapas de Base Melhorados"
-        },
-        "layers": {
-            "body": "Adicione camadas da Global Forest Watch ou suas para monitoramento mais eficaz.",
-            "title": "Camadas Contextuais Melhoradas"
-        },
-        "share": {
-            "body": "Partilhar áreas, itinerários e camadas para melhor coordenação da equipa",
-            "title": "Partilhar Conteúdo"
+        "selectConnected": {
+            "body": "Selecione alertas conectados no mapa com o toque de um botão",
+            "title": "Selecione Alertas Conectados"
         },
         "title": "Novo nesta Versão"
     }

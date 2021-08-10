@@ -1,10 +1,10 @@
 // @flow
 
-import type { Coordinates, CoordinatesFormat } from 'types/common.types';
+import type { Coordinates, CoordinatesFormat, MapItemFeatureProperties } from 'types/common.types';
 import type { Alert, SelectedAlert } from 'types/alerts.types';
-import type { AlertsIndex } from 'components/map/alerts/dataset';
+import type { AlertsIndex } from 'components/map/alerts/dataset-category';
 
-import { COORDINATES_FORMATS } from 'config/constants';
+import { COORDINATES_FORMATS, DATASET_CATEGORIES } from 'config/constants';
 import UtmLatLng from 'utm-latlng';
 import formatcoords from 'formatcoords';
 import i18n from 'i18next';
@@ -16,6 +16,46 @@ import pointToLineDistance from '@turf/point-to-line-distance';
 import _ from 'lodash';
 import geokdbush from 'geokdbush';
 
+/**
+ * Formats string for alerts selected on map
+ *
+ * e.g. if 2 GLAD alerts and 5 RADD alerts selected will read:
+ * "2 GLAD, 5 RADD"
+ *
+ * @param {Object[]} alerts - The alerts that are selected
+ * @returns {string} A formated string
+ */
+export function formatSelectedAlertTypeCounts(alerts: Array<MapItemFeatureProperties>): string {
+  const countsByType = _.countBy(alerts, alert => i18n.t(`map.selectedItems.alertType.${alert.datasetId}`));
+  return Object.entries(countsByType)
+    .map(entry => {
+      const [datasetName, count] = entry;
+      return i18n.t('map.selectedItems.alertCount', {
+        type: datasetName,
+        count
+      });
+    })
+    .join(', ');
+}
+
+/**
+ * Formats string for alert categories selected on map
+ *
+ * e.g. if 2 GLAD alerts and 5 VIIRS alerts selected will read:
+ * "Deforestation and Fire Alerts"
+ *
+ * @param {Object[]} alerts - The alerts that are selected
+ * @returns {string} A formated string
+ */
+export function formatSelectedAlertCategories(alerts: Array<MapItemFeatureProperties>): string {
+  const categoryIds = alerts.map(alert => {
+    const { id } = Object.values(DATASET_CATEGORIES).find(category => category.datasetSlugs.includes(alert.datasetId));
+    return id;
+  });
+  const uniqueCategoryIds = _.uniq(categoryIds).sort();
+  return i18n.t(`map.selectedItems.alertCategories.${uniqueCategoryIds.join('')}`, { count: alerts.length });
+}
+
 // Use example
 // const firstPoint = { latitude: -3.097125, longitude: -45.600375 }
 // const points = [{ latitude: -2.337625, longitude: -46.940875 }]
@@ -23,7 +63,8 @@ function getAllNeighbours(
   alertsIndex: AlertsIndex,
   firstPoint: SelectedAlert,
   points: Array<Alert>,
-  distance: number = 0.03
+  distance: number = 0.03,
+  includingFirstPoint: boolean = true
 ): Array<Alert> {
   // default distance 30m - alerts are about 27.5m apart on the map (39m diagonally)
   const neighbours: Array<Alert> = [];
@@ -53,7 +94,12 @@ function getAllNeighbours(
 
   getNeighbours(firstPoint);
   // return array of siblings without the point
-  if (neighbours?.length && neighbours[0]?.lat === firstPoint.lat && neighbours[0]?.long === firstPoint.long) {
+  if (
+    !includingFirstPoint &&
+    neighbours?.length &&
+    neighbours[0]?.lat === firstPoint.lat &&
+    neighbours[0]?.long === firstPoint.long
+  ) {
     neighbours.shift();
   }
   return neighbours;
@@ -128,14 +174,30 @@ export function formatCoordsByFormat(coordinates: Coordinates, format: Coordinat
 
 export function getNeighboursSelected(
   alertsIndex: AlertsIndex,
-  selectedAlerts: $ReadOnlyArray<SelectedAlert>,
-  allAlerts: Array<Alert>
+  selectedAlerts: $ReadOnlyArray<SelectedAlert | Alert>,
+  allAlerts: Array<Alert>,
+  includingSelectedAlerts: boolean = true
 ): Array<Alert> {
   let neighbours: Array<Alert> = [];
+  let selectedAlertsCopy: Array<SelectedAlert> = [...selectedAlerts];
 
-  selectedAlerts.forEach((alert: SelectedAlert) => {
-    neighbours = [...neighbours, ...getAllNeighbours(alertsIndex, alert, allAlerts)];
-  });
+  while (selectedAlertsCopy.length > 0) {
+    // We get the last alert so we can use `.pop()` which is more performant
+    // than `.shift()`
+    const alert = selectedAlertsCopy[selectedAlertsCopy.length - 1];
+    neighbours = [...neighbours, ...getAllNeighbours(alertsIndex, alert, allAlerts, 0.03, includingSelectedAlerts)];
+    // Remove the current alert from the array
+    selectedAlertsCopy.pop();
+    // Remove selected alerts that were already detected in neighbours as we will have
+    // already also found those alert's neighbours in the original search!
+    selectedAlertsCopy = selectedAlertsCopy.filter((alert: SelectedAlert) => {
+      return (
+        neighbours.findIndex(
+          t => t.lat === alert.lat && t.long === alert.long && (t.slug === alert.datasetId || t.slug === alert.slug)
+        ) === -1
+      );
+    });
+  }
 
   // Remove duplicates
   neighbours = neighbours.filter(

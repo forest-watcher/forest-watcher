@@ -9,7 +9,7 @@ import styles from './styles';
 function FaqDetail(props) {
   const { description, orderList, orderListLetters, footerText } = props.contentFaq;
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { paddingTop: 0 }]}>
       <ScrollView
         style={styles.container}
         contentContainerStyle={styles.containerContent}

@@ -11,27 +11,52 @@ export type Alert = {
   slug: string,
   long: number,
   lat: number,
-  date: number
+  date: number,
+  confidence?: string
 };
 
 export type SelectedAlert = {
   lat: number,
   long: number,
-  datasetId: ?string
+  datasetId: ?string,
+  confidence?: string
+};
+
+export type FilterThreshold = {
+  units: 'days' | 'months' | 'weeks',
+  value: number
+};
+
+export type AlertDatasetCategory = {
+  id: string,
+  faqCategory?: string,
+  faqQuestionId?: string,
+  faqTitleKey?: string,
+  nameKey: string,
+  filterThresholds: Array<FilterThreshold>,
+  iconPrefix: string,
+  color: string,
+  colorReported: string,
+  datasetSlugs: Array<string>
+};
+
+export type AlertDatasetAPIConfig = {
+  datastoreId: string,
+  query: {
+    confidenceKey?: string,
+    dateKey: string,
+    maxDateKey?: string,
+    minDateKey: string,
+    tableName: string
+  }
 };
 
 export type AlertDatasetConfig = {
+  api: AlertDatasetAPIConfig,
   id: string,
   nameKey: string,
-  requestThreshold: number, // days
-  recencyThreshold: number, // days
-  filterThresholdOptions: Array<number>,
-  filterThresholdUnits: 'days' | 'months',
-  iconPrefix: string,
-  color: string,
-  colorRecent: string,
-  colorReported: string,
-  reportNameId: string
+  reportNameId: string,
+  requestThreshold: number // days
 };
 
 export type AlertsState = {
@@ -40,6 +65,12 @@ export type AlertsState = {
       [areaId: string]: string
     },
     umd_as_it_happens?: {
+      [areaId: string]: string
+    },
+    wur_radd_alerts?: {
+      [areaId: string]: string
+    },
+    glad_sentinel_2?: {
       [areaId: string]: string
     }
   },
@@ -64,7 +95,7 @@ type GetAreaAlertsRequest = {
 export type GetAreaAlertsCommit = {
   type: 'alerts/GET_ALERTS_COMMIT',
   payload: ?string,
-  meta: { area: Area, datasetSlug: string, range: number, alertId: string }
+  meta: { area: Area, datasetSlug: string, minDate: Date, confidenceKey?: string, dateKey: string, alertId: string }
 };
 type GetAreaAlertsRollback = {
   type: 'alerts/GET_ALERTS_ROLLBACK',

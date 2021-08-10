@@ -28,7 +28,6 @@
     "basemaps": {
         "delete": {
             "messageGFWContent": "Gegevens voor deze contextuele laag zijn alleen online beschikbaar. Wilt u doorgaan?",
-            "messageGFWImportedContent": "Contextuele laag gegevens kunnen opnieuw worden gedownload wanneer er weer verbinding is met het internet. Wilt u doorgaan met het verwijderen?",
             "messageCustomContent": "Deze aangepaste contextuele laag kan indien nodig opnieuw worden geïmporteerd. Wilt u doorgaan?",
             "title": "Contextuele laaggegevens verwijderen?",
             "titleCustom": "Verwijder aangepaste contextuele laag?"
@@ -134,11 +133,12 @@
         "userPosition": "Gebruikers locatie"
     },
     "contactUs": {
-        "description": "Vragen of feedback? Email mailnaar:forestwatcher@wri.org"
+        "description": "Vragen of feedback? Email mailto:forestwatcher@wri.org"
     },
     "contextualLayers": {
         "delete": {
             "messageGFWContent": "Gegevens voor deze basiskaart zijn alleen online beschikbaar. Wilt u doorgaan?",
+            "messageGFWImportedContent": "De data van de contextuele lagen kunnen opnieuw worden gedownload als u verbonden bent met het internet. Wilt u doorgaan met verwijderen?",
             "messageCustomContent": "Deze aangepaste basiskaart kan indien nodig opnieuw worden geïmporteerd. Wilt u doorgaan?",
             "title": "Verwijder basiskaart gegevens?",
             "titleCustom": "Aangepaste basiskaart verwijderen?"
@@ -203,6 +203,11 @@
         "done": "Gedaan"
     },
     "faq": {
+        "alert_settings": {
+            "deforestation": {
+                "title": "Welke meldingstypes zijn er beschikbaar?"
+            }
+        },
         "categories": {
             "about": {
                 "questions": [
@@ -244,11 +249,11 @@
                     {
                         "content": {
                             "description": {
-                                "text": "Forest Watcher werkt op elke iPhone met iOS 10 en hoger. De minimale en aanbevolen specificaties voor Android-apparaten staan ​​hieronder vermeld."
+                                "text": "Forest Watcher werkt op elke iPhone met iOS 13 en hoger. De minimale en aanbevolen specificaties voor Android-apparaten staan ​​hieronder vermeld."
                             },
                             "orderList": {
                                 "text1": "Minimum specificaties voor Android: OS - Android 5.0; RAM - 1.5GB; Free Disk Space - 1GB",
-                                "text2": "Minimum specificaties voor Android: OS - Android 7.1' RAM - 3GB; Free Disk Space - 4GB+"
+                                "text2": "Aanbevolen specificaties voor Android: OS - Android 7.1' RAM - 3GB; Vrije schijfruimte - 4GB+"
                             }
                         },
                         "title": "Wat zijn de apparaat specificaties voor het gebruik van Forest Watcher?"
@@ -269,7 +274,7 @@
                     {
                         "content": {
                             "description": {
-                                "text1": "Een interessegebied is een gebied dat u definieert om bosverandering te monitoren. Wanneer u een interessegebied maakt op Forest Watcher, worden voor dat gebied GLAD-ontbossingswaarschuwingen ingevuld."
+                                "text1": "Een interessegebied is een gebied dat u definieert om bosverandering te monitoren. Wanneer u een interessegebied maakt op Forest Watcher, worden voor dat gebied ontbossingswaarschuwingen ingevuld."
                             }
                         },
                         "title": "Wat is een interessegebied?"
@@ -303,24 +308,28 @@
                     {
                         "content": {
                             "description": {
-                                "text": "Global Forest Watch (GFW) biedt vooraf geïnstalleerde bosverandering en contextuele gegevens over Forest Watcher. De voorgeladen gegevens omvatten GLAD-ontbossingswaarschuwingen, VIIRS actieve brandwaarschuwingen, jaarlijks verlies van boombedekking en beschermde gebieden. Hieronder vindt u informatie over de GLAD-ontbossingswaarschuwingen, VIIRS actieve brandwaarschuwingen en jaarlijkse verlies van boombedekking."
+                                "text": "Global Forest Watch (GFW) biedt vooraf geladen verandering in bossen en contextuele gegevens over Forest Watcher. De vooraf geladen gegevens omvatten drie soorten waarschuwingen voor ontbossing (GLAD, GLAD-S2, RADD), VIIRS actieve waarschuwingen voor brand, jaarlijks verlies van bosbedekking en beschermde gebieden."
                             },
                             "footerText": "U kunt ook aanvullende contextuele lagen van GFW toevoegen, waaronder inheems land en gemeenschapsland van LandMark, en verschillende concessies en biodiversiteit gegevens, of u kunt uw eigen aangepaste contextuele lagen uploaden via de mobiele app. Forest Watcher Mobile ondersteunt de volgende bestandstypen voor uploaden: .json, .geojson, .topojson, .gpx, .zip, .kmz en .kml. Bij het uploaden van extra contextuele lagen heeft u de mogelijkheid om de gegevens voor offline gebruik of toegang tot de gegevens alleen online. Deze opties bieden meer flexibiliteit ten opzichte van de gegevens die op uw apparaat zijn opgeslagen. Ga voor meer informatie naar data.globalforestwatch.org.",
                             "orderList": {
-                                "text1": "VIIRS Active Brand-waarschuwingen: Geproduceerd door NASA, dagelijks bijgewerkt met een resolutie van 375 meter. Dit toont u de locatie van vermoedelijke branden in de afgelopen week.",
-                                "text2": "GLAD-waarschuwingen: Geproduceerd door het Global Land Analysis & Discovery (GLAD) Lab van de University of Maryland, wekelijks bijgewerkt met een resolutie van 30 meter. Dit laat u week per week zien waar het bosgebied mogelijk is veranderd.",
-                                "text3": "Jaarlijks verlies van boombedekking: ook geproduceerd door het GLAD-laboratorium, jaarlijks bijgewerkt met een resolutie van 30 meter. Dit laat u van jaar tot jaar zien waar het bosgebied is veranderd. Op dit moment zijn deze gegevens alleen beschikbaar als een contextuele gegevenslaag: u kunt geen rapport maken met betrekking tot een jaarlijkse verlieswaarschuwing, hoewel u wel een rapport voor die locatie kunt maken door op het scherm op de locatie van het bos te tikken verlies of winst."
+                                "text1": "GLAD-waarschuwingen voor ontbossing: geproduceerd door het Global Land Analysis & Discovery (GLAD) Lab van de University of Maryland, elke 8 dagen bijgewerkt met een resolutie van 30 meter. Deze waarschuwingen gebruiken gegevens van Landsat 7- en 8-satellieten en identificeren gebieden met waarschijnlijk verlies van bosbedekking in de tropen.",
+                                "text2": "GLAD-S2-waarschuwingen voor ontbossing: Ook geproduceerd door het GLAD-lab, elke 5 dagen bijgewerkt met een resolutie van 10 meter. Deze waarschuwingen maken gebruik van gegevens van de Sentinel-2-satellieten van de European Space Agency om gebieden met waarschijnlijk verlies van primair bos te identificeren. Op het moment van de huidige release (juli 2021) zijn waarschuwingen beschikbaar voor het Amazonebekken.",
+                                "text3": "RADD-waarschuwingen voor ontbossing: geproduceerd door Wageningen University and Research (WUR) Laboratory of Geo-information Science and Remote Sensing, elke 6-12 dagen bijgewerkt met een resolutie van 10 meter. Deze waarschuwingen maken gebruik van door wolken penetrerende radargegevens van de Sentinel-1-satellieten van de European Space Agency om gebieden met waarschijnlijk verlies van primair bos te identificeren. Op het moment van de huidige release (juli 2021) zijn waarschuwingen beschikbaar in sub-Sahara Afrika en insulair Zuidoost-Azië.",
+                                "text4": "VIIRS actieve waarschuwingen voor brand: geproduceerd door NASA, dagelijks bijgewerkt met een resolutie van 375 meter. Deze waarschuwingen tonen u de locatie van vermoedelijke branden in de afgelopen week.",
+                                "text5": "Jaarlijks verlies van bosbedekking: ook geproduceerd door het GLAD-lab, jaarlijks bijgewerkt met een resolutie van 30 meter. Dit laat u van jaar tot jaar zien waar het bosgebied is veranderd. Momenteel zijn deze gegevens alleen beschikbaar als contextuele laag van gegevens: u kunt geen rapport maken met betrekking tot een jaarlijkse melding van verlies, hoewel u nog steeds een rapport voor die locatie kunt maken door op het scherm te tikken op de locatie van het verlies of winst in bossen."
                             }
                         },
+                        "id": "alert_types",
                         "title": "Welke gegevens zijn beschikbaar en waar komen ze vandaan?"
                     },
                     {
                         "content": {
                             "description": {
                                 "text1": "Elke gegevenslaag is onderworpen aan strenge wetenschappelijke tests en heeft een unieke reeks beperkingen.",
-                                "text2": "Gebruikers moeten er rekening mee houden dat GLAD-ontbossingswaarschuwingen alle soorten verlies van boombedekking detecteren, of dit nu wordt veroorzaakt door mensen (zoals houtkap) of door natuurlijke oorzaken (zoals een aardverschuiving). De waarschuwingen maken geen onderscheid tussen natuurlijke boombedekking en beplante boombedekking. De waarschuwingen zijn ook ontworpen om conservatief te zijn, gezien het beoogde eindgebruik van veldpatrouilles (het percentage vals-positieve meldingen voor bevestigde meldingen is 1%, terwijl het percentage vals-negatieve meldingen 33% is). Ten slotte, hoewel de waarschuwingen wekelijks worden bijgewerkt, kan aanhoudende bewolking betekenen dat waarschuwingen weken of zelfs maanden na het optreden niet worden gedetecteerd.",
-                                "text3": "VIIRS-brandmeldingen kunnen geen branden detecteren die te klein of te koel zijn (over het algemeen kleiner dan 100 vierkante meter of koeler dan 427 Celcius).",
-                                "text4": "Ga voor meer informatie naar data.globalforestwatch.org."
+                                "text2": "Gebruikers moeten er rekening mee houden dat waarschuwingen voor ontbossing die beschikbaar zijn in Forest Watcher alle soorten verlies van bosbedekking detecteren, of dit nu wordt veroorzaakt door mensen (zoals houtkap) of natuurlijke oorzaken (zoals een aardverschuiving). De waarschuwingen maken geen onderscheid tussen natuurlijke bosbedekking en aangeplante bosbedekking.",
+                                "text3": "De waarschuwingen zijn conservatief ontworpen gezien het beoogde eindgebruik van veldpatrouilles (bijv. het percentage fout-positieven voor bevestigde GLAD-waarschuwingen is 1%, terwijl het percentage fout-negatieven 33% is; het percentage fout-positieve voor bevestigde RADD-waarschuwingen is 2%, terwijl het percentage fout-negatieven 5% is). Bovendien kan, hoewel de waarschuwingen regelmatig worden bijgewerkt, aanhoudende bewolking betekenen dat GLAD- en GLAD-S2-waarschuwingen weken of zelfs maanden na het voorval niet worden gedetecteerd.",
+                                "text4": "Een beoordeling van de VIIRS waarschuwingen voor brand wees uit dat het percentage valse positieven voor de meeste regio's bijna 0 was, met een maximum van 1,2% in de beoordeelde regio's, meestal geassocieerd met glinstering van de zon op reflecterende daken. VIIRS waarschuwingen voor brand kunnen geen branden detecteren die te klein of te koud zijn (meestal kleiner dan 100 vierkante meter of koeler dan 700 Kelvin).",
+                                "text5": "Ga voor meer informatie naar data.globalforestwatch.org."
                             }
                         },
                         "title": "Hoe nauwkeurig zijn ontbossing en brandmeldingen?"
@@ -437,11 +446,11 @@
                         "content": {
                             "orderListLetters": {
                                 "order1": {
-                                    "description": "Als u geen meldingen in uw interessegebied ziet, controleer dan globalforestwatch.org om te zien of er gegevens zijn voor die locatie en het door u gekozen tijdsbestek. Als er geen recente GLAD- of VIIRS-waarschuwingen zijn, is er geen recente activiteit voor boswijziging geweest. Overweeg de Jaarlijkse wijziging van contextuele boombedekking laag te gebruiken om oudere verlieswaarschuwingen te vinden, die nog steeds een onderzoek of veldbezoek kunnen opleveren.",
+                                    "description": "Als u geen meldingen in uw interessegebied ziet, controleer dan globalforestwatch.org om te zien of er gegevens zijn voor die locatie en het door u gekozen tijdsbestek. Als er geen recente waarschuwingen zijn, is er geen recente activiteit voor boswijziging geweest. Overweeg de Jaarlijkse wijziging van contextuele boombedekking laag te gebruiken om oudere verlieswaarschuwingen te vinden, die nog steeds een onderzoek of veldbezoek kunnen opleveren.",
                                     "text": "Ik zie geen waarschuwingsgegevens"
                                 },
                                 "order2": {
-                                    "description": "Als de app crasht, open je hem opnieuw. Als het meerdere keren crasht, stuur dan een e-mail naar mailto: forestwatcher@wri.org en vermeld informatie over uw apparaatmodel en wat u deed in de app toen het crashte.",
+                                    "description": "Als de app crasht, open je hem opnieuw. Als het meerdere keren crasht, stuur dan een e-mail naar mailto:forestwatcher@wri.org en vermeld informatie over uw apparaatmodel en wat u deed in de app toen het crashte.",
                                     "text": "De app loopt vast"
                                 },
                                 "order3": {
@@ -483,7 +492,7 @@
                     {
                         "content": {
                             "description": {
-                                "text": "Neem contact met ons op voor feedback of vragen door een e-mail te sturen naar: forestwatcher@wri.org."
+                                "text": "Neem contact met ons op voor feedback of vragen door een e-mail te sturen mailto:forestwatcher@wri.org."
                             }
                         },
                         "title": "Hoe krijg ik ondersteuning?"
@@ -505,7 +514,7 @@
                     {
                         "content": {
                             "description": {
-                                "text1": "Om te rapporteren over een groep waarschuwingen, kunt u op de GLAD- en / of VIIRS-waarschuwingen klikken die u onderzoekt en klikt u op de meldknop rechtsonder op de kaart. U kunt over meerdere waarschuwingen rapporteren door elke waarschuwing afzonderlijk te selecteren voordat u op de rapportknop klikt. Wanneer erop wordt geklikt, worden de GLAD-waarschuwingen groen en worden de VIIRS-waarschuwingen paars. De kleurverandering geeft aan dat over de waarschuwingen is gerapporteerd."
+                                "text1": "Om te rapporteren over een groep waarschuwingen, kunt u klikken op een ontbossing en/of VIIRS-waarschuwingen die u onderzoekt en op de rapporteerknop rechtsonder op de kaart. U kunt over meerdere waarschuwingen rapporteren door elke waarschuwing afzonderlijk te selecteren voordat u op de rapporteerknop klikt. Gebruikers kunnen ook de nieuwe knop \"Alle verbonden waarschuwingen selecteren\" gebruiken om automatisch de waarschuwingen te groeperen die zijn gekoppeld aan de momenteel geselecteerde waarschuwing. Indien geselecteerd, worden waarschuwingen voor ontbossing groen en worden de VIIRS-waarschuwingen paars."
                             }
                         },
                         "title": "Hoe rapporteer ik over een groep waarschuwingen?"
@@ -631,6 +640,8 @@
         "treeCoverLoss2017": "kronen dak verlies (2017)",
         "treeCoverLoss2018": "kronen dak verlies (2018)",
         "treeCoverLoss2019": "kronen dak verlies (2019)",
+        "treeCoverLoss2020": "Kronen dak verlies (2020)",
+        "treeCoverLoss2021": "kronen dak verlies (2021)",
         "wdpa": "Beschermde gebieden (Vector Tiles)",
         "woodFiber": "houtvezel",
         "woodFiberConcessions": "Houtvezel concessies op type - 2019"
@@ -653,8 +664,8 @@
             "loginWithEmail": "Inloggen met e-mail",
             "password": "Wachtwoord"
         },
+        "appleTitle": "Log in met Apple",
         "emailTitle": "Inloggen met e-mail",
-        "appleTitle": "Apple",
         "facebookTitle": "Facebook",
         "failed": "Er is een fout opgetreden tijdens het inloggen / uitloggen",
         "googleTitle": "Google",
@@ -665,31 +676,46 @@
     },
     "map": {
         "createdDate": "Aan gemaakt %{date}",
-        "destination": "Bestemming:",
-        "distance": "Afstand:",
+        "currentLocation": "Huidige locatie: %{locatie}",
+        "destination": "Bestemming: %{destination}",
+        "distance": "Afstand: %{distance}",
         "gladAlert": "GLAD waarschuwing",
         "issuedDate": "Uitgegeven %{date}",
+        "dateRangeLong": "%{minDate} - %{maxDate}",
+        "dateRangeShort": "%{minDays} - %{maxDays} dagen geleden",
         "layerSettings": {
             "alertSettings": {
                 "alert": "Waarschuwing",
+                "all": "Alle meldingen",
                 "deforestation": "Ontbossing",
                 "fires": "Branden",
+                "wur_radd_alerts": "RADD",
                 "glad": "GLAD",
+                "glad_sentinel_2": "GLAD-S2",
+                "umd_as_it_happens": "GLAD",
                 "manyDays": "%{count} dagen",
                 "manyMonths": "%{count} manden",
+                "manyWeeks": "%{count} weken",
                 "noAlerts": "Geen waarschuwingen",
                 "oneDay": "%{count} dag",
                 "oneMonth": "%{count} maanden",
-                "recent": "Recent",
+                "oneWeek": "%{count} week",
                 "reportedOn": "Gerapporteerd over",
+                "showingManyDays": "Tot 10,000 alarmeringen over de laatste %{count} dagen",
+                "showingManyMonths": "Tot 10,000 alarmeringen over de laatste %{count} maanden",
+                "showingManyWeeks": "Tot 10.000 meldingen in de afgelopen %{count} weken",
+                "showingOneDay": "Tot 10,000 alarmeringen van gisteren",
+                "showingOneMonth": "Tot 10,000 alarmeringen in de laatste maand",
+                "showingOneWeek": "Tot 10.000 meldingen in de afgelopen week",
                 "timeFrame": "Tijds bestek",
                 "timeFrameDescDays": "Selecteer het aantal dagen",
                 "timeFrameDescMonths": "Selecteer het aantal maanden",
-                "showingManyDays": "Tot 10,000 alarmeringen over de laatste %{count} dagen",
-                "showingManyMonths": "Tot 10,000 alarmeringen over de laatste %{count} maanden",
-                "showingOneDay": "Tot 10,000 alarmeringen van gisteren",
-                "showingOneMonth": "Tot 10,000 alarmeringen in de laatste maand",
-                "viirs": "VIIRS"
+                "timeFrameDescMultiple": "Selecteer het tijdsbestek",
+                "timeFrameDescWeeks": "Selecteer het aantal weken",
+                "viirs": "VIIRS",
+                "umd_as_it_happensDescription": "Wekelijks, 30m, tropen, UMD/GLAD",
+                "glad_sentinel_2Description": "Iedere 5 dagen, 10m, Amazon Basin, UMD/GLAD",
+                "wur_radd_alertsDescription": "Iedere 6-12 dagen, 10m, bepaalde landen, WUR"
             },
             "alerts": "Waarschuwingen",
             "basemap": "Basiskaart",
@@ -732,7 +758,6 @@
             "routes": "Routes",
             "showing": "Showing: %{description}"
         },
-        "recent": "Recent",
         "reported": "gerapporteerd",
         "reportsAndRoutes": {
             "body": "Routes en rapporten kunnen ook worden gemaakt door op waarschuwingen op de kaart te klikken",
@@ -743,12 +768,31 @@
             "title": "Rapporten and Routes"
         },
         "selectedItems": {
+            "alertSubtitle": "%{alerts} • %{date}",
+            "alertCount": "%{count} %{type}",
+            "allHighConfidenceAlerts": "Meldingen met een hoge betrouwbaarheid",
+            "highConfidenceAlert": "Melding met een hoge betrouwbaarheid",
             "location": "Lokatie: %{lat}, %{long}",
             "manyAlerts": "%{count} Waarschuwingen",
             "manyReports": "%{count} Rapporten",
             "multipleItems": "Meerdere items",
             "oneAlert": "1 Waarschuwing",
-            "oneReport": "1 Rapport"
+            "oneReport": "1 Rapport",
+            "selectAll": "Selecteer alle gerelateerde meldingen",
+            "someHighConfidenceAlerts": "Een aantal meldingen met een hoge betrouwbaarheid",
+            "alertCategories": {
+                "deforestation": "Ontbossingsmelding",
+                "deforestation_plural": "Ontbossingsmeldingen",
+                "deforestationfires_plural": "Meldingen ontbossing en brand",
+                "fires": "Brandmelding",
+                "fires_plural": "Brandmeldingen"
+            },
+            "alertType": {
+                "umd_as_it_happens": "GLAD",
+                "wur_radd_alerts": "RADD",
+                "glad_sentinel_2": "GLAD-S2",
+                "viirs": "VIIRS"
+            }
         },
         "settingsTooltip": {
             "body": "Toon de voor u relevante lagen en gegevens",
@@ -789,8 +833,15 @@
             "successful": "Exporteren van rapporten succesvol!",
             "title": "Exporteer rapport"
         },
-        "glad": "Ontbossing Rapport",
-        "gladAndViirs": "Ontbossing en Brand Rapporten",
+        "alertType": {
+            "wur_radd_alerts": "RADD",
+            "glad_sentinel_2": "GLAD-S2",
+            "umd_as_it_happens": "GLAD",
+            "viirs": "VIIRS"
+        },
+        "deforestation": "Ontbossing (%{alertTypes})",
+        "fires": "Brand Rapport",
+        "deforestationAndFires": "Rapport ontbossing (%{alertTypes}) en branden",
         "here": "Rapporteer hier",
         "imported": "Geimporteerd",
         "input": "Beantwoord alstublieft de vraag",
@@ -808,8 +859,7 @@
         "title": "Rapport",
         "toReport": "Rapport",
         "upload": "Upload",
-        "uploaded": "Geupload",
-        "viirs": "Brand Rapport"
+        "uploaded": "Geupload"
     },
     "routes": {
         "backgroundErrorDialogMessage": "Controleer uw locatie-instellingen en app-toestemmingen om het volgen van routes te hervatten.",
@@ -955,7 +1005,7 @@
     },
     "welcome": {
         "deforestationAlerts": {
-            "body": "Zie GLAD ontbossing en VIIRS-brandmeldingen voor locaties over de hele wereld",
+            "body": "Zie ontbossing en VIIRS-brandmeldingen voor locaties over de hele wereld",
             "title": "Bekijk waarschuwingen over ontbossing"
         },
         "layers": {
@@ -977,21 +1027,13 @@
         "title": "Welkom bij Forest Watcher"
     },
     "whatsNew": {
-        "areaSize": {
-            "body": "De maximale oppervlakte is vergroot tot 20.000 vierkante kilometer",
-            "title": "Controleer grotere gebieden"
+        "improvedAlerting": {
+            "body": "Toegang tot nieuwe meldingtypes in bepaalde gebieden voor een effectiever beeld",
+            "title": "Verbeterde meldingssystemen"
         },
-        "basemaps": {
-            "body": "Voeg er zelf een toe of bekijk meer van Global Forest Watch om terrein beter te begrijpen",
-            "title": "Verbeterde basiskaarten"
-        },
-        "layers": {
-            "body": "Voeg uw eigen lagen toe of van Global Forest Watch voor effectievere monitoring",
-            "title": "Verbeterde contextuele lagen"
-        },
-        "share": {
-            "body": "Deel gebieden, routes, lagen en meer voor een betere team coördinatie",
-            "title": "Deel het inhoud"
+        "selectConnected": {
+            "body": "Selecteer met een druk op de knop gerelateerde meldingen op de kaart",
+            "title": "Selecteer gerelateerde meldingen"
         },
         "title": "Nieuw in deze versie"
     }

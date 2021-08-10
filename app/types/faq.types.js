@@ -8,7 +8,8 @@ export type FAQCategory = {
 
 export type FAQQuestion = {
   title: string,
-  content: FAQQuestionContent
+  content: FAQQuestionContent,
+  id?: string
 };
 
 export type FAQQuestionContent = {

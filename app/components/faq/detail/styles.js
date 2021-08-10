@@ -5,7 +5,7 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Theme.background.main,
-    paddingTop: 10
+    paddingTop: 20
   },
   containerContent: {
     paddingBottom: 20

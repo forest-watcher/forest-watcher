@@ -11,7 +11,10 @@ import MapboxGL from '@react-native-mapbox-gl/maps';
 import i18n from 'i18next';
 import moment from 'moment';
 import { type Feature, type Point, featureCollection, point } from '@turf/helpers';
-import { MAP_LAYER_INDEXES } from 'config/constants';
+import { type IconSize, MAP_DEFAULT_ICON_SIZE, MAP_LAYER_INDEXES } from 'config/constants';
+import { datasetsForReportName } from 'helpers/reports';
+
+import _ from 'lodash';
 
 export type ReportLayerSettings = {
   layerIsActive: boolean,
@@ -61,16 +64,45 @@ export default class Reports extends Component<Props> {
     return iconName;
   };
 
+  getReportIconSize = (report: Report): IconSize => {
+    const datasets = datasetsForReportName(report.reportName);
+    if (!datasets || datasets.length === 0) {
+      return MAP_DEFAULT_ICON_SIZE;
+    }
+    // Get unique icon sizes from the selected datasets
+    const sizes = _.uniqWith(
+      datasets.map(dataset => {
+        return {
+          minIconSize: dataset.minIconSize,
+          maxIconSize: dataset.maxIconSize
+        };
+      }),
+      _.isEqual
+    );
+
+    // If more than one different size then return default
+    // as we can't be sure which to render as!
+    if (sizes.length > 1) {
+      return MAP_DEFAULT_ICON_SIZE;
+    }
+
+    return sizes[0];
+  };
+
   reportToFeature = (report: Report): Feature<Point, ReportFeatureProperties> => {
     const selected =
       this.props.selectedReports?.length > 0 &&
       !!this.props.selectedReports.find(rep => rep.reportName === report.reportName);
     const position = getReportPosition(report);
+    const { minIconSize, maxIconSize } = this.getReportIconSize(report);
+
     const properties: ReportFeatureProperties = {
       selected,
       icon: this.getReportIcon(!!report.isImported, selected),
       date: moment(report.date),
       type: 'report',
+      minIconSize,
+      maxIconSize,
       name: i18n.t('map.layerSettings.report'),
       imported: report.isImported ?? false,
       // need to pass these as strings as they are rounded in onShapeSourcePressed method.

@@ -46,7 +46,7 @@ export default class AreaList extends Component<Props> {
               selected={this.props.sharing ? this.props.selectionState?.includes?.(area.id) : null}
               title={area.name}
               style={styles.row}
-              largerLeftPadding
+              largerPadding
               largeImage
             />
             {!this.props.sharing && (

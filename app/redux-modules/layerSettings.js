@@ -1,9 +1,10 @@
 // @flow
-import type { LayerSettingsState, LayerSettingsAction } from 'types/layerSettings.types';
-import { DATASETS, DEFAULT_BASEMAP, GFW_BASEMAPS } from 'config/constants';
+import type { AlertLayerSettingsType, LayerSettingsState, LayerSettingsAction } from 'types/layerSettings.types';
+import { DATASETS, DATASET_CATEGORIES, DEFAULT_BASEMAP, GFW_BASEMAPS } from 'config/constants';
 import remove from 'lodash/remove';
 import type { Dispatch, GetState, State } from 'types/store.types';
 import type { Area } from 'types/areas.types';
+import type { FilterThreshold } from 'types/alerts.types';
 
 import { trackReportsToggled, trackRoutesToggled, trackAlertTypeToggled, trackLayersToggled } from 'helpers/analytics';
 
@@ -19,10 +20,10 @@ const TOGGLE_MY_REPORTS_LAYER = 'layerSettings/TOGGLE_MY_REPORTS_LAYER';
 const TOGGLE_IMPORTED_REPORTS_LAYER = 'layerSettings/TOGGLE_IMPORTED_REPORTS_LAYER';
 
 const INITIALISE_ALERTS = 'layerSettings/INITIALISE_ALERTS';
-const TOGGLE_GLAD_ALERTS = 'layerSettings/TOGGLE_GLAD_ALERTS';
-const TOGGLE_VIIRS_ALERTS = 'layerSettings/TOGGLE_VIIRS_ALERTS';
-const SET_GLAD_ALERTS_TIME_FRAME = 'layerSettings/SET_GLAD_ALERTS_TIME_FRAME';
-const SET_VIIRS_ALERTS_TIME_FRAME = 'layerSettings/SET_VIIRS_ALERTS_TIME_FRAME';
+const CLEAR_ENABLED_ALERT_TYPES = 'layerSettings/CLEAR_ENABLED_ALERT_TYPES';
+const TOGGLE_ALERTS_DATASET = 'layerSettings/TOGGLE_ALERTS_DATASET';
+const TOGGLE_ALERTS_CATEGORY_ALERTS = 'layerSettings/TOGGLE_ALERTS_CATEGORY_ALERTS';
+const SET_ALERTS_CATEGORY_ALERTS_TIME_FRAME = 'layerSettings/SET_ALERTS_CATEGORY_ALERTS_TIME_FRAME';
 
 const COPY_LAYER_SETTINGS = 'layerSettings/COPY_LAYER_SETTINGS';
 
@@ -42,13 +43,19 @@ export const DEFAULT_LAYER_SETTINGS = {
     layerIsActive: true,
     // alert types need to be made active depending on which alert types are available for the area
     initialised: false,
-    glad: {
-      active: false,
-      timeFrame: 1
+    deforestation: {
+      timeFrame: {
+        value: 1,
+        units: 'months'
+      },
+      activeSlugs: ['umd_as_it_happens', 'glad_sentinel_2', 'wur_radd_alerts']
     },
-    viirs: {
-      active: false,
-      timeFrame: 1
+    fires: {
+      timeFrame: {
+        value: 1,
+        units: 'days'
+      },
+      activeSlugs: ['viirs']
     }
   },
   routes: {
@@ -94,17 +101,20 @@ export default function reducer(
 
   switch (action.type) {
     case TOGGLE_ALERTS_LAYER: {
-      const newState = !state[featureId].alerts.layerIsActive;
-      alertLayerToggleUpdated(newState, state[featureId].alerts.glad.active, state[featureId].alerts.viirs.active);
+      const newActive = !state[featureId].alerts.layerIsActive;
+
+      const updatedState = {
+        ...state[featureId].alerts,
+        layerIsActive: newActive
+      };
+
+      alertLayerToggleUpdated(updatedState);
 
       return {
         ...state,
         [featureId]: {
           ...state[featureId],
-          alerts: {
-            ...state[featureId].alerts,
-            layerIsActive: newState
-          }
+          alerts: updatedState
         }
       };
     }
@@ -191,6 +201,7 @@ export default function reducer(
       };
     }
     case INITIALISE_ALERTS: {
+      const { showDeforestation, showFires } = action.payload;
       return {
         ...state,
         [featureId]: {
@@ -198,77 +209,102 @@ export default function reducer(
           alerts: {
             ...state[featureId].alerts,
             initialised: true,
-            glad: {
-              ...state[featureId].alerts.glad,
-              active: action.payload.showGlad
+            deforestation: {
+              ...state[featureId].alerts.deforestation,
+              activeSlugs: showDeforestation ? DATASET_CATEGORIES.deforestation.datasetSlugs : []
             },
-            viirs: {
-              ...state[featureId].alerts.viirs,
-              active: action.payload.showViirs
+            fires: {
+              ...state[featureId].alerts.fires,
+              activeSlugs: showFires ? DATASET_CATEGORIES.fires.datasetSlugs : []
             }
           }
         }
       };
     }
-    case TOGGLE_GLAD_ALERTS: {
-      const newState = !state[featureId].alerts.glad.active;
-      alertLayerToggleUpdated(state[featureId].alerts.layerIsActive, newState, state[featureId].alerts.viirs.active);
+    case CLEAR_ENABLED_ALERT_TYPES: {
+      const newState = {
+        ...state,
+        [featureId]: {
+          ...state[featureId],
+          alerts: {
+            ...state[featureId].alerts,
+            fires: {
+              ...state[featureId].alerts.fires,
+              activeSlugs: []
+            },
+            deforestation: {
+              ...state[featureId].alerts.deforestation,
+              activeSlugs: []
+            }
+          }
+        }
+      };
+      alertLayerToggleUpdated(newState[featureId].alerts);
+      return newState;
+    }
+    case TOGGLE_ALERTS_CATEGORY_ALERTS: {
+      const { categoryId } = action.payload;
+      const currentSlugs = state[featureId].alerts[categoryId].activeSlugs;
+      // If current slugs is not equal to all the slugs available for the category
+      // then we're toggling all ON
+      const active = currentSlugs.length < DATASET_CATEGORIES[categoryId].datasetSlugs.length;
+      const activeSlugs = active ? DATASET_CATEGORIES[categoryId].datasetSlugs : [];
+      const newState = {
+        ...state,
+        [featureId]: {
+          ...state[featureId],
+          alerts: {
+            ...state[featureId].alerts,
+            [categoryId]: {
+              ...state[featureId].alerts[categoryId],
+              activeSlugs
+            }
+          }
+        }
+      };
+      alertLayerToggleUpdated(newState[featureId].alerts);
+      return newState;
+    }
+    case TOGGLE_ALERTS_DATASET: {
+      const { categoryId, slug } = action.payload;
+      const activeSlugs = [...state[featureId].alerts[categoryId].activeSlugs];
+      const slugIndex = activeSlugs.findIndex(activeSlug => {
+        return activeSlug === slug;
+      });
+      // Slug should be made active if index not found in active slugs
+      const newActive = slugIndex === -1;
+      if (newActive) {
+        activeSlugs.push(slug);
+      } else {
+        activeSlugs.splice(slugIndex, 1);
+      }
+      const newState = {
+        ...state,
+        [featureId]: {
+          ...state[featureId],
+          alerts: {
+            ...state[featureId].alerts,
+            [categoryId]: {
+              ...state[featureId].alerts[categoryId],
+              activeSlugs
+            }
+          }
+        }
+      };
+      alertLayerToggleUpdated(newState[featureId].alerts);
+      return newState;
+    }
+    case SET_ALERTS_CATEGORY_ALERTS_TIME_FRAME: {
+      const { categoryId, timeFrame } = action.payload;
       return {
         ...state,
         [featureId]: {
           ...state[featureId],
           alerts: {
             ...state[featureId].alerts,
-            glad: {
-              ...state[featureId].alerts.glad,
-              active: newState
-            }
-          }
-        }
-      };
-    }
-    case TOGGLE_VIIRS_ALERTS: {
-      const newState = !state[featureId].alerts.viirs.active;
-      alertLayerToggleUpdated(state[featureId].alerts.layerIsActive, state[featureId].alerts.glad.active, newState);
-      return {
-        ...state,
-        [featureId]: {
-          ...state[featureId],
-          alerts: {
-            ...state[featureId].alerts,
-            viirs: {
-              ...state[featureId].alerts.viirs,
-              active: newState
-            }
-          }
-        }
-      };
-    }
-    case SET_GLAD_ALERTS_TIME_FRAME: {
-      return {
-        ...state,
-        [featureId]: {
-          ...state[featureId],
-          alerts: {
-            ...state[featureId].alerts,
-            glad: {
-              ...state[featureId].alerts.glad,
-              timeFrame: action.payload.timeFrame
-            }
-          }
-        }
-      };
-    }
-    case SET_VIIRS_ALERTS_TIME_FRAME: {
-      return {
-        ...state,
-        [featureId]: {
-          ...state[featureId],
-          alerts: {
-            ...state[featureId].alerts,
-            viirs: {
-              ...state[featureId].alerts.viirs,
-              timeFrame: action.payload.timeFrame
+            [categoryId]: {
+              ...state[featureId].alerts[categoryId],
+              timeFrame
             }
           }
         }
@@ -408,15 +444,27 @@ export default function reducer(
   }
 }
 
-function alertLayerToggleUpdated(mainToggleState, gladEnabled, viirsEnabled) {
-  if (gladEnabled && viirsEnabled) {
-    trackAlertTypeToggled('glad_viirs', mainToggleState);
-  } else if (gladEnabled && !viirsEnabled) {
-    trackAlertTypeToggled('glad', mainToggleState);
-  } else if (!gladEnabled && viirsEnabled) {
-    trackAlertTypeToggled('viirs', mainToggleState);
+function alertLayerToggleUpdated(alertLayerSettings: AlertLayerSettingsType) {
+  const { layerIsActive, deforestation, fires } = alertLayerSettings;
+  let alertTypesEnabled: Array<string> = [];
+  [deforestation, fires].forEach(settings => {
+    if (settings.activeSlugs.length > 0) {
+      alertTypesEnabled = alertTypesEnabled.concat(
+        settings.activeSlugs.map(slug => {
+          const dataset = DATASETS[slug] ?? DATASETS.find(dataset => dataset.id === slug);
+          // Use reportNameId because it's not localised and matches previous analytics (slug doesn't)
+          return dataset.reportNameId.toLowerCase(); // toLowerCase because previous analytics used lowercase!
+        })
+      );
+    }
+  });
+  // Sort because original analytics were sorted and we don't want
+  // different analytics events for the same combo of enabled alert types!
+  alertTypesEnabled.sort();
+  if (alertTypesEnabled.length > 0) {
+    trackAlertTypeToggled(alertTypesEnabled.join('_'), layerIsActive);
   } else {
-    trackAlertTypeToggled('none', mainToggleState);
+    trackAlertTypeToggled('none', layerIsActive);
   }
 }
 
@@ -546,51 +594,58 @@ export function toggleImportedReportsLayer(featureId: string): LayerSettingsActi
   };
 }
 
-function initialiseAlerts(featureId: string, showGlad: boolean, showViirs: boolean): LayerSettingsAction {
+function initialiseAlerts(featureId: string, showDeforestation: boolean, showFires: boolean): LayerSettingsAction {
   return {
     type: INITIALISE_ALERTS,
     payload: {
       featureId,
-      showGlad,
-      showViirs
+      showDeforestation,
+      showFires
     }
   };
 }
 
-export function toggleGladAlerts(featureId: string): LayerSettingsAction {
+export function clearEnabledAlertTypes(featureId: string): LayerSettingsAction {
   return {
-    type: TOGGLE_GLAD_ALERTS,
+    type: CLEAR_ENABLED_ALERT_TYPES,
     payload: {
       featureId
     }
   };
 }
 
-export function toggleViirsAlerts(featureId: string): LayerSettingsAction {
+export function toggleAlertsCategoryAlerts(featureId: string, categoryId: string): LayerSettingsAction {
   return {
-    type: TOGGLE_VIIRS_ALERTS,
+    type: TOGGLE_ALERTS_CATEGORY_ALERTS,
     payload: {
-      featureId
+      featureId,
+      categoryId
     }
   };
 }
 
-export function setGladAlertsTimeFrame(featureId: string, timeFrame: number): LayerSettingsAction {
+export function toggleAlertsDataset(featureId: string, categoryId: string, slug: string): LayerSettingsAction {
   return {
-    type: SET_GLAD_ALERTS_TIME_FRAME,
+    type: TOGGLE_ALERTS_DATASET,
     payload: {
       featureId,
-      timeFrame
+      categoryId,
+      slug
     }
   };
 }
 
-export function setViirsAlertsTimeFrame(featureId: string, timeFrame: number): LayerSettingsAction {
+export function setAlertsCategoryAlertsTimeFrame(
+  featureId: string,
+  categoryId: string,
+  timeFrame: FilterThreshold
+): LayerSettingsAction {
   return {
-    type: SET_VIIRS_ALERTS_TIME_FRAME,
+    type: SET_ALERTS_CATEGORY_ALERTS_TIME_FRAME,
     payload: {
       featureId,
-      timeFrame
+      timeFrame,
+      categoryId
     }
   };
 }
@@ -668,10 +723,16 @@ export function initialiseAreaLayerSettings(featureId: string, areaId: string) {
     }
 
     const areaDatasets = area.datasets.map(dataset => dataset.slug);
-    const hasGladAlerts = areaDatasets.includes(DATASETS.umd_as_it_happens.id);
-    const hasViirsAlerts = areaDatasets.includes(DATASETS.viirs.id);
-    const showGlad = hasGladAlerts;
-    const showViirs = hasViirsAlerts && !hasGladAlerts;
-    dispatch(initialiseAlerts(featureId, showGlad, showViirs));
+    const hasDeforestationAlerts =
+      DATASET_CATEGORIES.deforestation.datasetSlugs.findIndex(datasetId => {
+        return areaDatasets.includes(datasetId);
+      }) !== -1;
+    const hasFiresAlerts =
+      DATASET_CATEGORIES.fires.datasetSlugs.findIndex(datasetId => {
+        return areaDatasets.includes(datasetId);
+      }) !== -1;
+    const showDeforestation = hasDeforestationAlerts;
+    const showFires = hasFiresAlerts && !hasDeforestationAlerts;
+    dispatch(initialiseAlerts(featureId, showDeforestation, showFires));
   };
 }

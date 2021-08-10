@@ -237,7 +237,7 @@ export default class Routes extends PureComponent<Props, State> {
             subtitle={subtitle}
             disableSettingsButton={this.state.inShareMode}
             selected={this.state.inShareMode ? this.state.selectedForExport.includes(item.id) : null}
-            largerLeftPadding
+            largerPadding
             largeImage
           />
           {!this.state.inShareMode && <DataCacher dataType={'route'} id={item.id} showTooltip={false} />}

@@ -156,7 +156,9 @@ export default class ShareSelector extends Component<Props, State> {
                 noIcon
                 onPress={this.props.disableEditButton ? null : editing ? this.props.onEdit : this.onClickEdit}
                 secondary={!editing && !this.props.disableEditButton}
+                style={{ flex: 1 }}
                 text={editing ? this.props.editButtonEnabledTitle : this.props.editButtonDisabledTitle}
+                textStyle={{ flexGrow: 0 }}
               />
             )}
             {showEditButton && !editing && !sharing && <View style={{ width: 15 }} />}
@@ -166,6 +168,7 @@ export default class ShareSelector extends Component<Props, State> {
                 noIcon
                 onPress={this.props.disabled ? null : sharing ? this.props.onShare : this.onClickShare}
                 secondary={!sharing && !this.props.disabled}
+                style={{ flex: 1 }}
                 text={
                   isSharing
                     ? this.props.shareButtonInProgressTitle
@@ -173,6 +176,7 @@ export default class ShareSelector extends Component<Props, State> {
                     ? this.props.shareButtonEnabledTitle
                     : this.props.shareButtonDisabledTitle
                 }
+                textStyle={{ flexGrow: 0 }}
               />
             )}
           </BottomTray>

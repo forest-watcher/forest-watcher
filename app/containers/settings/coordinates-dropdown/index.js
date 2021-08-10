@@ -16,7 +16,10 @@ function mapStateToProps(state: State) {
     description: i18n.t('settings.coordinatesDescription'),
     hideLabel: true,
     label: i18n.t('settings.coordinatesFormat'),
-    selectedValue: state.app.coordinatesFormat,
+    selectedValue: {
+      id: state.app.coordinatesFormat,
+      value: state.app.coordinatesFormant
+    },
     options: Object.values(COORDINATES_FORMATS)
   };
 }
@@ -24,7 +27,9 @@ function mapStateToProps(state: State) {
 function mapDispatchToProps(dispatch: Dispatch) {
   return bindActionCreators(
     {
-      onValueChange: setCoordinatesFormat
+      onValueChange: optionValue => {
+        return dispatch(setCoordinatesFormat(optionValue.value));
+      }
     },
     dispatch
   );

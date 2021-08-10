@@ -7,7 +7,23 @@ type MenuButtonType = 'areas' | 'reports' | 'routes' | 'settings';
 type DownloadableContentType = 'basemap' | 'layer';
 type ImportableContentType = 'area' | 'basemap' | 'bundle' | 'layer' | 'report' | 'route';
 type SharableContentType = 'area' | 'basemap' | 'bundle' | 'report' | 'route' | 'layer';
-type AlertType = 'glad' | 'viirs' | 'none' | 'glad_viirs';
+type AlertType =
+  | 'glad'
+  | 'glad_gladstwo'
+  | 'glad_radd'
+  | 'glad_viirs'
+  | 'glad_gladstwo_radd'
+  | 'glad_gladstwo_viirs'
+  | 'glad_radd_viirs'
+  | 'glad_gladstwo_radd_viirs'
+  | 'gladstwo'
+  | 'gladstwo_radd'
+  | 'gladstwo_viirs'
+  | 'gladstwo_radd_viirs'
+  | 'radd'
+  | 'radd_viirs'
+  | 'viirs'
+  | 'none';
 type ImportableLayerCategories = 'all' | 'own' | 'imported' | 'none';
 type RoutingAction = 'started' | 'saved' | 'discardedFromMap' | 'discardedOnLaunch';
 type RouteDifficulty = 'easy' | 'medium' | 'hard';
@@ -138,6 +154,12 @@ export const trackAlertTypeToggled = (alertType: AlertType, enabled: boolean) =>
   analytics().logEvent('alert_type_toggled', {
     layer_name: alertType,
     layer_enabled: enabled ? 1 : 0
+  });
+};
+
+export const trackAlertTapped = (alertType: AlertType) => {
+  analytics().logEvent('alert_tapped', {
+    dataset: alertType
   });
 };
 

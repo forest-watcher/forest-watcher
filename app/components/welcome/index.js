@@ -14,24 +14,14 @@ const SafeAreaView = withSafeArea(View, 'margin', 'vertical');
 
 const UPDATE_ITEMS = [
   {
-    icon: require('assets/shareAndroid.png'),
-    title: () => i18n.t('whatsNew.share.title'),
-    body: () => i18n.t('whatsNew.share.body')
+    icon: require('assets/alertsData.png'),
+    title: () => i18n.t('whatsNew.improvedAlerting.title'),
+    body: () => i18n.t('whatsNew.improvedAlerting.body')
   },
   {
-    icon: require('assets/contextualLayers.png'),
-    title: () => i18n.t('whatsNew.layers.title'),
-    body: () => i18n.t('whatsNew.layers.body')
-  },
-  {
-    icon: require('assets/basemap.png'),
-    title: () => i18n.t('whatsNew.basemaps.title'),
-    body: () => i18n.t('whatsNew.basemaps.body')
-  },
-  {
-    icon: require('assets/areas.png'),
-    title: () => i18n.t('whatsNew.areaSize.title'),
-    body: () => i18n.t('whatsNew.areaSize.body')
+    icon: require('assets/connectedAlerts.png'),
+    title: () => i18n.t('whatsNew.selectConnected.title'),
+    body: () => i18n.t('whatsNew.selectConnected.body')
   }
 ];
 

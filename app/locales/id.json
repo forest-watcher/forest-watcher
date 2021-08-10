@@ -203,6 +203,11 @@
         "done": "Selesai"
     },
     "faq": {
+        "alert_settings": {
+            "deforestation": {
+                "title": "Apa jenis peringatan yang tersedia?"
+            }
+        },
         "categories": {
             "about": {
                 "questions": [
@@ -244,11 +249,11 @@
                     {
                         "content": {
                             "description": {
-                                "text": "Forest Watcher akan berjalan di semua iPhone dengan iOS 10 ke atas. Spesifikasi minimal dan direkomendasikan untuk perangkat Android adalah sebagai berikut."
+                                "text": "Forest Watcher akan berjalan di semua iPhone dengan iOS 13 ke atas. Spesifikasi minimal dan direkomendasikan untuk perangkat Android adalah sebagai berikut."
                             },
                             "orderList": {
                                 "text1": "Spesifikasi minimal untuk Android: OS - Android 5.0; RAM - 1.5GB; Ruang Disk Bebas - 1GB",
-                                "text2": "Spesifikasi minimum untuk Android: OS - Android 7.1' RAM - 3GB; Ruang Penyimpanan Kosong - 4GB+"
+                                "text2": "Spesifikasi yang disarankan untuk Android: OS - Android 7.1' RAM - 3GB; Ruang Diska Gratis - 4GB+"
                             }
                         },
                         "title": "Apa spesifikasi perangkat agar dapat menggunakan Forest Watcher?"
@@ -303,24 +308,28 @@
                     {
                         "content": {
                             "description": {
-                                "text": "Global Forest Watch (GFW) memberikan data perubahan hutan pramuat dan kontekstual di Forest Watcher. Data pramuat termasuk peringatan deforestasi GLAD, peringatan kebakaran aktif VIIRS, kehilangan tutupan pohon tahunan serta area yang dilindungi. Informasi seputar peringatan deforestasi GLAD, peringatan kebakaran aktif VIIRS serta data kehilangan tutupan pohon adalah sebagai berikut."
+                                "text": "Global Forest Watch (GFW) menyediakan perubahan hutan yang dimuat sebelumnya dan data kontekstual di Forest Watcher. Data yang dimuat sebelumnya mencakup tiga jenis peringatan deforestasi (GLAD, GLAD-S2, RADD), peringatan kebakaran aktif VIIRS, kehilangan tutupan pohon tahunan, dan kawasan lindung."
                             },
                             "footerText": "Anda juga dapat menambahkan lapisan kontekstual tambahan dari GFW, termasuk lahan adat dan masyarakat LandMark, serta berbagai data konsesi dan biodiversitas, atau Anda dapat mengunggah lapisan kontekstual kustom lewat aplikasi seluler. Forest Watcher Mobile mendukung jenis berikut untuk unggahan: .json, .geojson, .topojson, .gpx, .zip, .kmz dan .kml.\n\nSaat mengunggah lapisan kontekstual tambahan, Anda akan punya opsi mengunduh data untuk pemakaian offline atau mengakses data saat di online saja. Opsi-opsi ini menawarkan fleksibilitas lebih besar untuk data yang tersimpan di perangkat Anda.\n\nUntuk informasi lebih lanjut, kunjungi data.globalforestwatch.org.",
                             "orderList": {
-                                "text1": "Lansiran Kebakaran Aktif VIIRS: Diproduksi oleh NASA, diperbaharui setiap hari dengan resolusi 375 meter. Ini menunjukkan lokasi dugaan kebakaran seminggu terakhir.",
-                                "text2": "Lansiran GLAD: Diproduksi oleh Laboratorium Global Land Analysis & Discovery (GLAD) Universitas Maryland, diperbaharui tiap minggu dengan resolusi 30 meter. Ini menunjukkan Anda dimana kawasan hutan mungkin telah berubah minggu demi minggu.",
-                                "text3": "Cakupan Kehilangan Pohon Tahunan: Juga diproduksi oleh lab GLAD, diperbaharui tiap tahun dengan resolusi 30 meter. Ini menunjukkan Anda tahun ke tahun di mana kawasan hutan telah berubah. Saat ini data hanya tersedia sebagai lapisan data kontekstual: Anda tidak akan dapat membuat laporan yang terkait dengan lansiran kehilangan tahunan, walaupun Anda masih dapat membuat laporan untuk lokasi tersebut dengan menekan layar di lokasi kehilangan atau penambahan hutan."
+                                "text1": "Peringatan deforestasi GLAD: Diproduksi oleh University of Maryland Global Land Analysis & Discovery (GLAD) Lab, diperbarui setiap 8 hari pada resolusi 30 meter. Peringatan ini menggunakan data dari satelit Landsat 7 dan 8 dan mengidentifikasi area yang kemungkinan kehilangan tutupan pohon di daerah tropis.",
+                                "text2": "Peringatan deforestasi GLAD-S2: Juga diproduksi oleh lab GLAD, diperbarui setiap 5 hari pada resolusi 10 meter. Peringatan ini menggunakan data dari satelit Sentinel-2 Badan Antariksa Eropa untuk mengidentifikasi area yang kemungkinan kehilangan hutan primer. Pada saat rilis saat ini (Juli 2021), peringatan tersedia untuk Amazon Basin.",
+                                "text3": "Peringatan deforestasi RADD: Diproduksi oleh Laboratorium Ilmu Geo-informasi dan Penginderaan Jauh Wageningen University and Research (WUR), diperbarui setiap 6-12 hari pada resolusi 10 meter. Peringatan ini menggunakan data radar penembus awan dari satelit Sentinel-1 Badan Antariksa Eropa untuk mengidentifikasi area yang kemungkinan kehilangan hutan primer. Pada saat rilis saat ini (Juli 2021), peringatan tersedia di Afrika sub-Sahara dan Asia Tenggara kepulauan.",
+                                "text4": "Peringatan kebakaran aktif VIIRS: Diproduksi oleh NASA, diperbarui setiap hari pada resolusi 375 meter. Peringatan ini menunjukkan lokasi dugaan kebakaran dalam seminggu terakhir.",
+                                "text5": "Kehilangan tutupan pohon tahunan: Juga diproduksi oleh lab GLAD, diperbarui setiap tahun pada resolusi 30 meter. Ini menunjukkan tempat kawasan hutan telah berubah dari tahun ke tahun. Saat ini, data ini hanya tersedia sebagai lapisan data kontekstual: Anda tidak akan dapat membuat laporan terkait dengan peringatan kehilangan tahunan, meskipun Anda masih dapat membuat laporan untuk lokasi tersebut dengan mengetuk layar di lokasi hilangnya hutan atau keuntungan."
                             }
                         },
+                        "id": "alert_types",
                         "title": "Data apa yang tersedia dan dari mana asalnya?"
                     },
                     {
                         "content": {
                             "description": {
                                 "text1": "Setiap lapisan data telah melalui pengujian ilmiah yang ketat dan memiliki set limitasi unik.",
-                                "text2": "Pengguna patut mengingat bahwa peringatan deforestasi GLAD mendeteksi semua jenis kehilangan tutupan pohon, baik yang disebabkan oleh manusia (cth: pembalakan) atau alam (cth: tanah longsor). Peringatan tidak membedakan antara tutupan pohon alami dan tutupan pohon tanam. Peringatan juga dirancang agar konservatif dengan pertimbangan patroli lapangan sebagai kegunaan akhirnya (tingkat positif palsu 1%, dengan tingkat negatif palsu 33%). Terakhir, meski peringatan diperbarui setiap minggu, tutupan awan persisten dapat berarti bahwa peringatan tidak terdeteksi selama beberapa minggu atau bahkan bulan setelah kejadian.",
-                                "text3": "Peringatan kebakaran VIIRS tidak dapat mendeteksi kebakaran yang terlalu kecil atau terlalu dingin (umumnya di bawah 100 meter persegi atau lebih dingin dari 700 Kelvin).",
-                                "text4": "Untuk informasi lebih lanjut, silakan kunjungi data.globalforestwatch.org."
+                                "text2": "Pengguna harus mengingat bahwa peringatan deforestasi yang tersedia di Forest Watcher mendeteksi semua jenis kehilangan tutupan pohon, baik yang disebabkan oleh manusia (seperti penebangan) atau alam (seperti tanah longsor). Peringatan tidak membedakan antara tutupan pohon alami dan tutupan pohon yang ditanam.",
+                                "text3": "Peringatan dirancang untuk konservatif mengingat tujuan akhir penggunaan patroli lapangan (misalnya tingkat positif palsu untuk peringatan GLAD yang dikonfirmasi adalah 1%, sedangkan tingkat negatif palsunya adalah 33%; tingkat positif palsu untuk peringatan RADD yang dikonfirmasi adalah 2%, sedangkan tingkat negatif palsunya adalah 5%). Selain itu, meskipun peringatan diperbarui secara teratur, tutupan awan yang terus-menerus dapat berarti bahwa peringatan GLAD dan GLAD-S2 tidak terdeteksi selama berminggu-minggu atau bahkan berbulan-bulan setelah terjadinya.",
+                                "text4": "Penilaian peringatan kebakaran VIIRS menemukan tingkat positif palsu mendekati 0 untuk sebagian besar wilayah, dengan maksimum 1,2% di wilayah yang dinilai, sebagian besar terkait dengan sinar matahari di atap reflektif. Peringatan kebakaran VIIRS tidak dapat mendeteksi kebakaran yang terlalu kecil atau terlalu dingin (umumnya lebih kecil dari 100 meter persegi atau lebih dingin dari 700 Kelvin).",
+                                "text5": "Untuk informasi lebih lanjut, silakan kunjungi data.globalforestwatch.org."
                             }
                         },
                         "title": "Seberapa akuratkah peringatan deforestasi dan kebakaran?"
@@ -437,7 +446,7 @@
                         "content": {
                             "orderListLetters": {
                                 "order1": {
-                                    "description": "Jika Anda tidak melihat lansiran pada Area Minat Anda, periksa globalforestwatch.org untuk melihat apakah ada data untuk lokasi dan jangka waktu yang Anda pilih. Jika tidak ada lansiran GLAD atau VIIRS terbaru, maka tidak ada aktivitas perubahan hutan baru-baru ini. Pertimbangkan untuk menggunakan lapisan kontekstual Peralihan Pohon Tahunan untuk menemukan lansiran lama, yang masih dapat menginformasikan investigasi atau kunjungan lapangan.",
+                                    "description": "Jika Anda tidak melihat peringatan apa pun di Area Menarik Anda, periksa globalforestwatch.org untuk melihat apakah ada data untuk lokasi tersebut dan jangka waktu yang Anda pilih. Jika tidak ada deforestasi baru-baru ini atau peringatan VIIRS, maka tidak ada aktivitas perubahan hutan baru-baru ini. Pertimbangkan untuk menggunakan lapisan kontekstual Perubahan Tutupan Pohon Tahunan untuk menemukan peringatan kehilangan yang lebih lama, yang masih dapat menginformasikan penyelidikan atau kunjungan lapangan.",
                                     "text": "Saya tidak melihat data lansiran"
                                 },
                                 "order2": {
@@ -505,7 +514,7 @@
                     {
                         "content": {
                             "description": {
-                                "text1": "Untuk melaporkan kelompok peringatan, Anda dapat mengeklik peringatan GLAD dan/atau VIIRS yang Anda selidiki dan mengeklik tombol laporan yang terdapat di kanan bawah peta. Anda dapat melaporkan banyak peringatan dengan memilih sendiri setiap peringatan sebelum mengeklik tombol lapor kemudian. Ketika diklik, laporan GLAD akan menjadi hijau dan laporan VIIRS akan menjadi ungu. Perubahan warna itu menunjukkan bahwa peringatan telah dilaporkan. "
+                                "text1": "Untuk melaporkan sekelompok peringatan, Anda dapat mengeklik peringatan deforestasi dan/atau VIIRS yang sedang Anda selidiki dan mengeklik tombol laporkan di kanan bawah peta. Anda dapat melaporkan beberapa peringatan dengan memilih setiap peringatan satu per satu, sebelum mengeklik tombol laporkan. Pengguna juga dapat menggunakan tombol \"Pilih semua peringatan yang terhubung\" yang baru untuk secara otomatis mengelompokkan peringatan yang terhubung ke peringatan yang dipilih saat ini. Saat dipilih, peringatan deforestasi akan menjadi berwarna hijau dan peringatan VIIRS akan menjadi ungu."
                             }
                         },
                         "title": "Bagaimana cara melaporkan sekelompok peringatan?"
@@ -631,6 +640,8 @@
         "treeCoverLoss2017": "Kehilangan Tutupan Pohon (2017)",
         "treeCoverLoss2018": "Kehilangan Tutupan Pohon (2018)",
         "treeCoverLoss2019": "Kehilangan Tutupan Pohon (2019)",
+        "treeCoverLoss2020": "Kehilangan Tutupan Pohon (2020)",
+        "treeCoverLoss2021": "Kehilangan Tutupan Pohon (2021)",
         "wdpa": "Area Dilindungi (Ubin Vektor)",
         "woodFiber": "Serat kayu",
         "woodFiberConcessions": "Konsesi serat kayu berdasarkan jenis - 2019"
@@ -653,7 +664,7 @@
             "loginWithEmail": "Masuk Dengan Email",
             "password": "Sandi"
         },
-        "appleTitle": "Apple",
+        "appleTitle": "Masuk dengan Apple",
         "emailTitle": "Masuk dengan Email",
         "facebookTitle": "Facebook",
         "failed": "Terjadi eror selama masuk/keluar",
@@ -665,31 +676,46 @@
     },
     "map": {
         "createdDate": "Dibuat %{date}",
-        "destination": "Destinasi:",
-        "distance": "Jarak:",
+        "currentLocation": "Lokasi Saat Ini: %{location}",
+        "destination": "Destinasi: %{destination}",
+        "distance": "Jarak: %{distance}",
         "gladAlert": "Peringatan GLAD",
         "issuedDate": "Terbit %{date}",
+        "dateRangeLong": "%{minDate} - %{maxDate}",
+        "dateRangeShort": "%{minDays} - %{maxDays} hari yang lalu",
         "layerSettings": {
             "alertSettings": {
                 "alert": "Peringatan",
+                "all": "Semua Peringatan",
                 "deforestation": "Deforestasi",
                 "fires": "Kebakaran",
+                "wur_radd_alerts": "RADD",
                 "glad": "GLAD",
+                "glad_sentinel_2": "GLAD-S2",
+                "umd_as_it_happens": "GLAD",
                 "manyDays": "%{count} hari",
                 "manyMonths": "%{count} bulan",
+                "manyWeeks": "%{count} minggu",
                 "noAlerts": "Tidak Ada Peringatan",
                 "oneDay": "%{count} hari",
                 "oneMonth": "%{count} bulan",
-                "recent": "Terbaru",
+                "oneWeek": "%{count} minggu",
                 "reportedOn": "Dilaporkan Pada",
                 "showingManyDays": "Hingga 10.000 peringatan dari %{count} hari terakhir",
                 "showingManyMonths": "Hingga 10.000 peringatan dari %{count} bulan terakhir",
+                "showingManyWeeks": "Hingga 10.000 peringatan dari %{count} minggu terakhir",
                 "showingOneDay": "Hingga 10.000 peringatan dari hari sebelumnya",
                 "showingOneMonth": "Hingga 10.000 peringatan dari bulan sebelumnya",
+                "showingOneWeek": "Hingga 10.000 peringatan dari minggu terakhir",
                 "timeFrame": "Jangka waktu",
                 "timeFrameDescDays": "Pilih jumlah hari",
                 "timeFrameDescMonths": "Pilh jumlah bulan",
-                "viirs": "VIIRS"
+                "timeFrameDescMultiple": "Pilih jangka waktu",
+                "timeFrameDescWeeks": "Pilih jumlah minggu",
+                "viirs": "VIIRS",
+                "umd_as_it_happensDescription": "Mingguan, 30m, tropis, UMD/GLAD",
+                "glad_sentinel_2Description": "Setiap 5 hari, 10m, Amazon Basin, UMD/GLAD",
+                "wur_radd_alertsDescription": "Setiap 6-12 hari, 10m, pilih negara, WUR"
             },
             "alerts": "Sistem Peringatan",
             "basemap": "Peta dasar",
@@ -732,7 +758,6 @@
             "routes": "Rute",
             "showing": "Menampilkan: %{description}"
         },
-        "recent": "Terbaru",
         "reported": "Dilaporkan",
         "reportsAndRoutes": {
             "body": "Rute dan Laporan juga dapat dibuat dengan mengetuk peringatan apa pun pada peta",
@@ -743,12 +768,31 @@
             "title": "Laporan dan Rute"
         },
         "selectedItems": {
+            "alertSubtitle": "%{alerts} • %{date}",
+            "alertCount": "%{count} %{type}",
+            "allHighConfidenceAlerts": "Peringatan kepastian tinggi",
+            "highConfidenceAlert": "Peringatan kepastian tinggi",
             "location": "Lokasi: %{lat}, %{long}",
             "manyAlerts": "%{count} Peringatan",
             "manyReports": "%{count} Laporan",
             "multipleItems": "Multi Item",
             "oneAlert": "1 Peringatan",
-            "oneReport": "1 Laporan"
+            "oneReport": "1 Laporan",
+            "selectAll": "Pilih semua peringatan yang terhubung",
+            "someHighConfidenceAlerts": "Beberapa peringatan dengan kepastian tinggi",
+            "alertCategories": {
+                "deforestation": "Peringatan Deforestasi",
+                "deforestation_plural": "Peringatan Deforestasi",
+                "deforestationfires_plural": "Peringatan Deforestasi dan Kebakaran",
+                "fires": "Peringatan Kebakaran",
+                "fires_plural": "Peringatan Kebakaran"
+            },
+            "alertType": {
+                "umd_as_it_happens": "GLAD",
+                "wur_radd_alerts": "RADD",
+                "glad_sentinel_2": "GLAD-S2",
+                "viirs": "VIIRS"
+            }
         },
         "settingsTooltip": {
             "body": "Tampilkan lapisan dan data yang relevan bagi Anda",
@@ -789,8 +833,15 @@
             "successful": "Ekspor laporan berhasil!",
             "title": "Ekspor laporan"
         },
-        "glad": "Laporan Deforestasi",
-        "gladAndViirs": "Laporan Deforestasi dan Kebakaran",
+        "alertType": {
+            "wur_radd_alerts": "RADD",
+            "glad_sentinel_2": "GLAD-S2",
+            "umd_as_it_happens": "GLAD",
+            "viirs": "VIIRS"
+        },
+        "deforestation": "Deforestasi (%{alertTypes})",
+        "fires": "Laporan Kebakaran",
+        "deforestationAndFires": "Laporan Deforestasi (%{alertTypes}) dan Kebakaran",
         "here": "Laporkan di sini",
         "imported": "Terimpor",
         "input": "Silakan jawab pertanyaannya",
@@ -808,8 +859,7 @@
         "title": "Lapor",
         "toReport": "Lapor",
         "upload": "Unggah",
-        "uploaded": "Terunggah",
-        "viirs": "Laporan Kebakaran"
+        "uploaded": "Terunggah"
     },
     "routes": {
         "backgroundErrorDialogMessage": "Silakan periksa pengaturan lokasi dan izin aplikasi untuk melanjutkan pelacakan rute.",
@@ -977,21 +1027,13 @@
         "title": "Selamat datang di Forest Watcher"
     },
     "whatsNew": {
-        "areaSize": {
-            "body": "Ukuran area maksimal telah meningkat hingga 20.000 kilometer persegi",
-            "title": "Pantau Area Lebih Besar"
+        "improvedAlerting": {
+            "body": "Akses jenis peringatan baru di wilayah tertentu untuk pemantauan yang lebih efektif",
+            "title": "Sistem Peringatan yang Ditingkatkan"
         },
-        "basemaps": {
-            "body": "Tambahkan dari Anda sendiri atau tampilkan lainnya dari Global Forest Watch guna memahami medan lebih baik",
-            "title": "Peta Dasar yang Disempurnakan"
-        },
-        "layers": {
-            "body": "Tambahkan lapisan dari Global Forest Watch atau lapisan Anda sendiri untuk pemantauan yang lebih efektif",
-            "title": "Lapisan Kontekstual yang Ditingkatkan"
-        },
-        "share": {
-            "body": "Bagikan area, rute, lapisan dan sebagainya untuk koordinasi tim yang lebih baik",
-            "title": "Bagikan Konten"
+        "selectConnected": {
+            "body": "Pilih peringatan yang terhubung di peta dengan satu ketukan tombol",
+            "title": "Pilih Peringatan Terhubung"
         },
         "title": "Baru Di Versi Ini"
     }

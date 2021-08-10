@@ -9,10 +9,15 @@ const deserializeOptions = {
 
 export default function effect({ url, headers, errorCode, deserialize = true, ...params }, { auth, ...action }) {
   if (url && typeof url === 'string') {
+    const authedHeaders = { ...headers };
+    // Only add `Authorization` header if don't already have x-api-token header
+    if (!authedHeaders['x-api-key']) {
+      authedHeaders['Authorization'] = `Bearer ${auth}`;
+    }
     const req = {
       ...params,
       url,
-      headers: { ...headers, Authorization: `Bearer ${auth}` }
+      headers: authedHeaders
     };
     const canDeserialize = res => res && typeof res === 'object' && res.data && deserialize;
     return defaultEffect(req, action)

@@ -1,5 +1,21 @@
 # Forest Watcher Changelog
 
+## [v2.1.0]
+- Adds support for new GLAD-S2 and RADD deforestation alert types including:
+    - New 2 week option for deforestation alerts shown on map
+    - Migrating to new data API
+    - New alert layer settings with deforestation alerts grouped under "deforestation"
+- Adds new "Select All Connected Alerts" button which allows user to select all contiguous alerts with their current selection
+- Removes recent alert styling from alert map
+- Adds "what's new" screen for letting users know what they can do with the app
+- Fixes bug with not being able to view alerts on Android with custom basemap enabled
+
+## [v2.0.4]
+- Fixed an error where a trailing slash in a file path caused an issue with importing files
+- Updated complete profile link
+- Fixed permissions issue importing images on Android
+- Fixed app not refreshing correct alerts if area geometry is changed in frontend
+
 ## [v2.0.3]
 - Performed OS updates to support latest iOS and Android OS releases
 - Added new location permissions prompt on iOS to prompt users not to use new low-precision location permissions

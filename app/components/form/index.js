@@ -23,7 +23,11 @@ type Props = {
   text: string,
   setReportAnswer: (string, Answer, boolean) => void,
   componentId: string,
-  editMode: boolean
+  editMode: boolean,
+  /**
+   * The component Id to pop to if in edit mode
+   */
+  popToComponentId: string
 };
 
 const closeIcon = require('assets/close.png');
@@ -35,15 +39,17 @@ class Form extends Component<Props> {
         title: {
           text: i18n.t('report.title')
         },
-        leftButtons: [
-          {
-            id: 'backButton',
-            text: i18n.t('commonText.cancel'),
-            icon: Platform.select({
-              android: closeIcon
-            })
-          }
-        ]
+        leftButtons: passProps.editMode
+          ? []
+          : [
+              {
+                id: 'backButton',
+                text: i18n.t('commonText.cancel'),
+                icon: Platform.select({
+                  android: closeIcon
+                })
+              }
+            ]
       }
     };
   }
@@ -72,7 +78,7 @@ class Form extends Component<Props> {
     return this.props.answer !== nextProps.answer;
   }
 
-  onChange = debounceUI(answer => {
+  onChange = answer => {
     const { setReportAnswer, reportName, updateOnly } = this.props;
     setReportAnswer(reportName, answer, updateOnly);
   });
@@ -86,12 +92,15 @@ class Form extends Component<Props> {
       setReportAnswer,
       updateOnly,
       editMode,
-      questionAnswered
+      questionAnswered,
+      popToComponentId
     } = this.props;
     if (!questionAnswered) {
       setReportAnswer(reportName, answer, updateOnly);
     }
-    if (nextQuestionIndex !== null) {
+    if (editMode) {
+      Navigation.popTo(popToComponentId);
+    } else if (nextQuestionIndex !== null) {
       Navigation.push(componentId, {
         component: {
           name: 'ForestWatcher.NewReport',
@@ -103,18 +112,14 @@ class Form extends Component<Props> {
         }
       });
     } else {
-      if (editMode) {
-        Navigation.popToRoot(componentId);
-      } else {
-        Navigation.push(componentId, {
-          component: {
-            name: 'ForestWatcher.Answers',
-            passProps: {
-              reportName
-            }
+      Navigation.push(componentId, {
+        component: {
+          name: 'ForestWatcher.Answers',
+          passProps: {
+            reportName
           }
-        });
-      }
+        }
+      });
     }
   });
 

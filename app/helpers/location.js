@@ -368,9 +368,9 @@ function getCoordinateText(
   if (targetLocation && currentLocation) {
     const distance = getDistanceOfLine(targetLocation, currentLocation);
 
-    return `${i18n.t('map.destination')} ${formatCoordsByFormat(targetLocation, coordinatesFormat)}\n${i18n.t(
-      'map.distance'
-    )} ${formatDistance(distance)}`;
+    return `${i18n.t('map.destination', {
+      destination: formatCoordsByFormat(targetLocation, coordinatesFormat)
+    })}\n${i18n.t('map.distance', { distance: formatDistance(distance) })}`;
   }
 
   return '';

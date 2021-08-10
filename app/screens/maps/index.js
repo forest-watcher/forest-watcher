@@ -41,10 +41,6 @@ export function pushMapScreen(
                       translucent: true
                     },
                     drawBehind: true,
-                    title: {
-                      color: Theme.fontColors.white,
-                      text: title ?? i18n.t('dashboard.map')
-                    },
                     leftButtons: [
                       {
                         id: 'backButton',

@@ -9,7 +9,9 @@ import generateUniqueID from 'helpers/uniqueId';
 import { migrateReportAttachmentsFromV1ToV2 } from 'redux-modules/reports';
 import migrateLayerFilesFromV1ToV2 from 'helpers/layer-store/migrateLayerFilesFromV1ToV2';
 
-export const CURRENT_REDUX_STATE_VERSION = 2;
+import { DATASET_CATEGORIES } from 'config/constants';
+
+export const CURRENT_REDUX_STATE_VERSION = 3;
 
 /**
  * Migrate files from their locations in v1 to their new locations in v2
@@ -66,6 +68,63 @@ const migrateLayerCacheStateFromV1ToV2 = (v1Cache: { [string]: { [string]: strin
     });
 
   return v2Cache;
+};
+
+/**
+ * v3 layer settings state uses dataset categories (i.e. deforestation contains GLAD, GLAD+ and RADD) so we need to
+ * migrate the old layer settings state when time intervals e.t.c were at the slug level (GLAD) to be at the category level
+ */
+const migrateLayerSettingsStateFromV2ToV3 = (v2LayerSettings: { [featureId: string]: any }): LayerSettingsState => {
+  const v3LayerSettings: LayerSettingsState = {};
+  if (!v2LayerSettings) {
+    return v3LayerSettings;
+  }
+
+  // For each featureId in old settings (featureId === area id)
+  Object.entries(v2LayerSettings).forEach(([featureId, v2LayerSetting]) => {
+    // Get old alert settings
+    const v2LayerAlertSettings = v2LayerSetting.alerts;
+    const v3LayerAlertSettings = { ...v2LayerSetting.alerts };
+
+    // If glad is present on old settings, setup `deforestation` category
+    // using `glad` and then delete from settings object to clear up state
+    if (v2LayerAlertSettings.glad) {
+      v3LayerAlertSettings['deforestation'] = {
+        activeSlugs: v2LayerAlertSettings.glad.active ? DATASET_CATEGORIES.deforestation.datasetSlugs : [],
+        timeFrame: {
+          units: 'months', // No longer in a constant, but as this is a 1 time
+          // migration, we're fine to hard-code
+          value: v2LayerAlertSettings.glad.timeFrame
+        }
+      };
+      // Get rid of old GLAD settings!
+      delete v3LayerAlertSettings['glad'];
+    }
+
+    // If viirs is present on old settings, setup `fires` category
+    // using `viirs` and then delete from settings object to clear up state
+    if (v2LayerAlertSettings.viirs) {
+      v3LayerAlertSettings['fires'] = {
+        activeSlugs: v2LayerAlertSettings.viirs.active ? DATASET_CATEGORIES.fires.datasetSlugs : [],
+        timeFrame: {
+          units: 'days', // No longer in a constant, but as this is a 1 time
+          // migration, we're fine to hard-code
+          value: v2LayerAlertSettings.viirs.timeFrame
+        }
+      };
+      // Get rid of old VIIRS settings!
+      delete v3LayerAlertSettings['viirs'];
+    }
+
+    // re-construct layer settings object
+    const v3LayerSetting = {
+      ...v2LayerSetting,
+      alerts: v3LayerAlertSettings
+    };
+    // Re-assign the layer settings for the current feature id
+    v3LayerSettings[featureId] = v3LayerSetting;
+  });
+  return v3LayerSettings;
 };
 
 /**
@@ -155,6 +214,20 @@ const manifest = {
         pendingCache: undefined // Removed key
       },
       routes: migrateRouteStateFromV1ToV2(state.routes, state.areas.data)
+    };
+  },
+  3: (state: State): State => {
+    console.warn('3SC', 'Migrate Redux state to v3');
+    const { app, layerSettings } = state;
+    // Only set welcomeSeenVersion if the user has actually seen it!
+    if (app.hasSeenWelcomeScreen) {
+      app.welcomeSeenVersion = '2.0.4'; // Doesn't matter if user actually saw it on an older version as we only need this
+      // value in versions post 2.1.0
+    }
+    return {
+      ...state,
+      app,
+      layerSettings: migrateLayerSettingsStateFromV2ToV3(layerSettings)
     };
   }
 };

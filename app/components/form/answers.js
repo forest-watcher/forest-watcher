@@ -145,7 +145,9 @@ class Answers extends PureComponent<Props> {
           title: i18n.t('report.title'),
           questionIndex: index,
           readOnly: false,
-          editMode: true
+          editMode: true,
+          updateOnly: true,
+          popToComponentId: this.props.componentId
         },
         options: {
           topBar: {

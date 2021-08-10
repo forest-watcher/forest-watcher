@@ -107,20 +107,14 @@ class MapSidebar extends PureComponent<Props, null> {
   });
 
   getAlertsSettingsTitle = (layerSettings: LayerSettings) => {
-    const { glad, viirs, layerIsActive } = layerSettings.alerts;
-    let alerts;
-    if (glad.active) {
-      alerts = i18n.t('map.layerSettings.alertSettings.glad');
-      if (viirs.active) {
-        alerts += ', ' + i18n.t('map.layerSettings.alertSettings.viirs');
-      }
-    } else {
-      if (viirs.active) {
-        alerts = i18n.t('map.layerSettings.alertSettings.viirs');
-      } else {
-        alerts = i18n.t('map.layerSettings.alertSettings.noAlerts');
-      }
-    }
+    const { deforestation, fires, layerIsActive } = layerSettings.alerts;
+    let alertSlugs = [];
+    alertSlugs = alertSlugs.concat(deforestation.activeSlugs);
+    alertSlugs = alertSlugs.concat(fires.activeSlugs);
+    const alerts =
+      alertSlugs.length > 0
+        ? alertSlugs.map(slug => i18n.t(`map.layerSettings.alertSettings.${slug}`)).join(', ')
+        : i18n.t('map.layerSettings.alertSettings.noAlerts');
     if (layerIsActive) {
       return i18n.t('map.layerSettings.showing', { description: alerts });
     }
@@ -227,7 +221,7 @@ class MapSidebar extends PureComponent<Props, null> {
                 hideDivider
                 hideImage
                 smallerVerticalPadding
-                largerLeftPadding
+                largerPadding
               />
               <VerticalSplitRow
                 onIconPress={() => {
@@ -246,7 +240,7 @@ class MapSidebar extends PureComponent<Props, null> {
                 hideDivider
                 hideImage
                 smallerVerticalPadding
-                largerLeftPadding
+                largerPadding
               />
               <VerticalSplitRow
                 onIconPress={() => {
@@ -265,7 +259,7 @@ class MapSidebar extends PureComponent<Props, null> {
                 hideDivider
                 hideImage
                 smallerVerticalPadding
-                largerLeftPadding
+                largerPadding
               />
             </React.Fragment>
           )}
@@ -286,7 +280,7 @@ class MapSidebar extends PureComponent<Props, null> {
             hideDivider
             hideImage
             smallerVerticalPadding
-            largerLeftPadding
+            largerPadding
           />
         </ScrollView>
         {!this.props.isNewArea && (

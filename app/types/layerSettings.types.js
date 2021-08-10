@@ -1,5 +1,7 @@
 // @flow
 
+import type { FilterThreshold } from 'types/alerts.types';
+
 /**
  * Just to understand better, as the flow type may be confusing,
  * the layer settings redux module state will be of this shape:
@@ -20,13 +22,13 @@
 export type AlertLayerSettingsType = {
   layerIsActive: boolean,
   initialised: boolean,
-  glad: {
-    active: boolean,
-    timeFrame: number
+  deforestation: {
+    timeFrame: FilterThreshold,
+    activeSlugs: Array<string>
   },
-  viirs: {
-    active: boolean,
-    timeFrame: number
+  fires: {
+    timeFrame: FilterThreshold,
+    activeSlugs: Array<string>
   }
 };
 
@@ -57,6 +59,7 @@ export type LayerSettings = {
 };
 
 export type LayerSettingsAction =
+  | ClearEnabledAlertTypes
   | ClearEnabledContextualLayers
   | SetContextualLayerShowing
   | ToggleAlertsLayer
@@ -67,10 +70,8 @@ export type LayerSettingsAction =
   | ToggleImportedReportsLayer
   | ToggleContextualLayersLayer
   | InitialiseAlerts
-  | ToggleGladAlerts
-  | ToggleViirsAlerts
-  | SetGladAlertsTimeFrame
-  | SetViirsAlertsTimeFrame
+  | ToggleAlertsCategoryAlerts
+  | SetAlertsCategoryAlertsTimeFrame
   | CopyLayerSettings
   | DeselectAllRoutes
   | ToggleRouteSelected
@@ -78,6 +79,12 @@ export type LayerSettingsAction =
   | UnselectDeletedBasemap
   | SelectActiveBasemap;
 
+export type ClearEnabledAlertTypes = {
+  type: 'layerSettings/CLEAR_ENABLED_ALERT_TYPES',
+  payload: {
+    featureId: string
+  }
+};
 export type ClearEnabledContextualLayers = {
   type: 'layerSettings/CLEAR_ENABLED_CONTEXTUAL_LAYERS',
   payload: {
@@ -131,34 +138,31 @@ export type InitialiseAlerts = {
   type: 'layerSettings/INITIALISE_ALERTS',
   payload: {
     featureId: string,
-    showGlad: boolean,
-    showViirs: boolean
+    showDeforestation: boolean,
+    showFires: boolean
   }
 };
-export type ToggleGladAlerts = {
-  type: 'layerSettings/TOGGLE_GLAD_ALERTS',
-  payload: {
-    featureId: string
-  }
-};
-export type ToggleViirsAlerts = {
-  type: 'layerSettings/TOGGLE_VIIRS_ALERTS',
-  payload: {
-    featureId: string
-  }
-};
-export type SetGladAlertsTimeFrame = {
-  type: 'layerSettings/SET_GLAD_ALERTS_TIME_FRAME',
+export type ToggleAlertsCategoryAlerts = {
+  type: 'layerSettings/TOGGLE_ALERTS_CATEGORY_ALERTS',
   payload: {
     featureId: string,
-    timeFrame: number
+    categoryId: string
   }
 };
-export type SetViirsAlertsTimeFrame = {
-  type: 'layerSettings/SET_VIIRS_ALERTS_TIME_FRAME',
+export type ToggleAlertsDataset = {
+  type: 'layerSettings/TOGGLE_ALERTS_DATASET',
   payload: {
     featureId: string,
-    timeFrame: number
+    categoryId: string,
+    slug: string
+  }
+};
+export type SetAlertsCategoryAlertsTimeFrame = {
+  type: 'layerSettings/SET_ALERTS_CATEGORY_ALERTS_TIME_FRAME',
+  payload: {
+    featureId: string,
+    timeFrame: FilterThreshold,
+    categoryId: string
   }
 };
 export type SelectActiveBasemap = {

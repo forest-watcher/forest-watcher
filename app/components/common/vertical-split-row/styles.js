@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   disclosureIndicator: {
-    marginHorizontal: isSmallScreen ? 12 : 24
+    marginLeft: isSmallScreen ? 12 : 24
   },
   downloadButton: {
     bottom: 12,
@@ -64,7 +64,7 @@ export default StyleSheet.create({
     paddingVertical: isSmallScreen ? 12 : 24
   },
   titleContainer: {
-    alignItems: 'center',
+    alignItems: 'flex-start',
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between'
@@ -72,7 +72,7 @@ export default StyleSheet.create({
   contentContainer: {
     flexGrow: 1,
     alignItems: 'stretch',
-    marginLeft: isSmallScreen ? 12 : 16
+    marginHorizontal: isSmallScreen ? 12 : 16
   },
   title: {
     flex: 1,
@@ -86,8 +86,8 @@ export default StyleSheet.create({
     marginVertical: isSmallScreen ? 0 : 6,
     marginRight: 12
   },
-  largerLeftPadding: {
-    marginLeft: isSmallScreen ? 12 : 24
+  largerPadding: {
+    marginHorizontal: isSmallScreen ? 12 : 24
   },
   smallerVerticalPadding: {
     paddingVertical: isSmallScreen ? 8 : 16
@@ -98,6 +98,11 @@ export default StyleSheet.create({
     color: Theme.fontColors.secondary,
     fontSize: isSmallScreen ? 12 : 15,
     fontWeight: '400',
-    marginTop: isSmallScreen ? 0 : 2
+    marginTop: isSmallScreen ? 0 : 2,
+    lineHeight: isSmallScreen ? 16 : 21
+  },
+  subtitleBottom: {
+    marginTop: 0,
+    marginBottom: 20
   }
 });

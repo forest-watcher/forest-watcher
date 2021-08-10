@@ -27,13 +27,14 @@ export default StyleSheet.create({
     textAlign: 'center'
   },
   button: {
-    height: 56,
+    minHeight: 56,
     marginHorizontal: 24,
     marginTop: 16,
     borderRadius: 32,
     justifyContent: 'center',
     overflow: 'hidden',
-    paddingHorizontal: 22
+    paddingHorizontal: 22,
+    paddingVertical: 8
   },
   buttonContent: {
     flexDirection: 'row',
@@ -42,7 +43,8 @@ export default StyleSheet.create({
   },
   buttonTitleContainer: {
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
+    flexShrink: 1
   },
   iconArrow: {
     width: 10,
@@ -92,7 +94,8 @@ export default StyleSheet.create({
     fontFamily: Theme.font,
     color: Theme.fontColors.white,
     fontSize: 16,
-    marginLeft: 18
+    marginLeft: 18,
+    flexShrink: 1
   },
   buttonTextCountry: {
     marginLeft: 24

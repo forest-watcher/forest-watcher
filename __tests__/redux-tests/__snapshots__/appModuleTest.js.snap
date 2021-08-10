@@ -12,9 +12,10 @@ Object {
   "mapWalkthroughSeen": false,
   "offlineMode": false,
   "pristineCacheTooltip": true,
-  "reduxVersion": 2,
+  "reduxVersion": 3,
   "synced": false,
-  "version": "2.0.3",
+  "version": "2.1.0",
+  "welcomeSeenVersion": null,
 }
 `;
 
@@ -70,9 +71,10 @@ Object {
   "mapWalkthroughSeen": false,
   "offlineMode": false,
   "pristineCacheTooltip": true,
-  "reduxVersion": 2,
+  "reduxVersion": 3,
   "synced": false,
-  "version": "2.0.3",
+  "version": "2.1.0",
+  "welcomeSeenVersion": null,
 }
 `;
 
@@ -97,9 +99,10 @@ Object {
   "mapWalkthroughSeen": false,
   "offlineMode": true,
   "pristineCacheTooltip": true,
-  "reduxVersion": 2,
+  "reduxVersion": 3,
   "synced": false,
-  "version": "2.0.3",
+  "version": "2.1.0",
+  "welcomeSeenVersion": null,
 }
 `;
 
@@ -123,9 +126,10 @@ Object {
   "mapWalkthroughSeen": false,
   "offlineMode": true,
   "pristineCacheTooltip": true,
-  "reduxVersion": 2,
+  "reduxVersion": 3,
   "synced": false,
-  "version": "2.0.3",
+  "version": "2.1.0",
+  "welcomeSeenVersion": null,
 }
 `;
 
@@ -169,9 +173,10 @@ Object {
   "mapWalkthroughSeen": false,
   "offlineMode": false,
   "pristineCacheTooltip": true,
-  "reduxVersion": 2,
+  "reduxVersion": 3,
   "synced": true,
-  "version": "2.0.3",
+  "version": "2.1.0",
+  "welcomeSeenVersion": null,
 }
 `;
 
@@ -194,9 +199,10 @@ Object {
   "mapWalkthroughSeen": false,
   "offlineMode": false,
   "pristineCacheTooltip": true,
-  "reduxVersion": 2,
+  "reduxVersion": 3,
   "synced": false,
-  "version": "2.0.3",
+  "version": "2.1.0",
+  "welcomeSeenVersion": null,
 }
 `;
 
@@ -219,9 +225,10 @@ Object {
   "mapWalkthroughSeen": false,
   "offlineMode": false,
   "pristineCacheTooltip": true,
-  "reduxVersion": 2,
+  "reduxVersion": 3,
   "synced": false,
-  "version": "2.0.3",
+  "version": "2.1.0",
+  "welcomeSeenVersion": null,
 }
 `;
 
@@ -244,9 +251,10 @@ Object {
   "mapWalkthroughSeen": false,
   "offlineMode": false,
   "pristineCacheTooltip": true,
-  "reduxVersion": 2,
+  "reduxVersion": 3,
   "synced": false,
-  "version": "2.0.3",
+  "version": "2.1.0",
+  "welcomeSeenVersion": null,
 }
 `;
 
@@ -269,9 +277,10 @@ Object {
   "mapWalkthroughSeen": false,
   "offlineMode": true,
   "pristineCacheTooltip": true,
-  "reduxVersion": 2,
+  "reduxVersion": 3,
   "synced": false,
-  "version": "2.0.3",
+  "version": "2.1.0",
+  "welcomeSeenVersion": null,
 }
 `;
 
@@ -294,9 +303,10 @@ Object {
   "mapWalkthroughSeen": false,
   "offlineMode": false,
   "pristineCacheTooltip": true,
-  "reduxVersion": 2,
+  "reduxVersion": 3,
   "synced": false,
-  "version": "2.0.3",
+  "version": "2.1.0",
+  "welcomeSeenVersion": null,
 }
 `;
 
@@ -319,9 +329,10 @@ Object {
   "mapWalkthroughSeen": false,
   "offlineMode": false,
   "pristineCacheTooltip": true,
-  "reduxVersion": 2,
+  "reduxVersion": 3,
   "synced": false,
-  "version": "2.0.3",
+  "version": "2.1.0",
+  "welcomeSeenVersion": null,
 }
 `;
 
@@ -344,9 +355,10 @@ Object {
   "mapWalkthroughSeen": false,
   "offlineMode": false,
   "pristineCacheTooltip": false,
-  "reduxVersion": 2,
+  "reduxVersion": 3,
   "synced": false,
-  "version": "2.0.3",
+  "version": "2.1.0",
+  "welcomeSeenVersion": null,
 }
 `;
 
@@ -368,8 +380,9 @@ Object {
   "mapWalkthroughSeen": false,
   "offlineMode": false,
   "pristineCacheTooltip": true,
-  "reduxVersion": 2,
+  "reduxVersion": 3,
   "synced": false,
-  "version": "2.0.3",
+  "version": "2.1.0",
+  "welcomeSeenVersion": null,
 }
 `;

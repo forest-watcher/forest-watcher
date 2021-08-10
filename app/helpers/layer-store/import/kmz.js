@@ -12,8 +12,9 @@ import { storeGeoJson } from 'helpers/layer-store/storeLayerFiles';
 import convertToGeoJSON from './convertToGeoJSON';
 
 export default async function importKMZFile(file: File & { uri: string }, fileName: string): Promise<LayerFile> {
-  const tempZipPath = RNFS.TemporaryDirectoryPath + fileName.replace(/\.[^/.]+$/, '.zip');
-  const tempPath = RNFS.TemporaryDirectoryPath + fileName.replace(/\.[^/.]+$/, '');
+  // Remove trailing slashes from RNFS.TemporaryDirectoryPath as presence is platform-dependent
+  const tempZipPath = RNFS.TemporaryDirectoryPath.replace(/\/$/, '') + '/' + fileName.replace(/\.[^/.]+$/, '.zip');
+  const tempPath = RNFS.TemporaryDirectoryPath.replace(/\/$/, '') + '/' + fileName.replace(/\.[^/.]+$/, '');
   try {
     await RNFS.copyFile(file.uri, tempZipPath);
     const location = await unzip(tempZipPath, tempPath);

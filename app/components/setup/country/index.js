@@ -67,7 +67,7 @@ class SetupCountry extends Component {
 
   showWelcomeScreenIfNecessary = debounceUI(() => {
     if (!this.props.hasSeenWelcomeScreen) {
-      this.props.setWelcomeScreenSeen(true);
+      this.props.setWelcomeScreenSeen();
       showWelcomeScreen();
     }
   });

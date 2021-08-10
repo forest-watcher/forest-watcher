@@ -30,14 +30,19 @@ const mapStateToProps = (state: State, ownProps: OwnProps) => {
   const answer = answers.find(a => a.questionName === question.name) || defaultAnswer;
   const nextStep = getNextStep({ currentQuestion: questionIndex, questions, answers });
   const questionAnswered = isQuestionAnswered(answer);
-  const text = questionAnswered || !question.required ? i18n.t('commonText.next') : getBtnTextByType(question.type);
+  const text =
+    questionAnswered || !question.required
+      ? editMode
+        ? i18n.t('commonText.done')
+        : i18n.t('commonText.next')
+      : getBtnTextByType(question.type);
 
   const nextQuestionAnswer = answers.find(ans => ans.questionName === (nextStep && questions[nextStep].name));
   const nextQuestionIndex = typeof nextQuestionAnswer !== 'undefined' && editMode ? null : nextStep;
-  // Necesary until we have the "cache" selection ready
-  // because the imagen won't change the path on the report
+  // Necessary for `blob` until we have the "cache" selection ready
+  // because the image won't change the path on the report
   // but we don't want to clear following answers
-  const updateOnly = question.type === 'blob';
+  const updateOnly = ownProps.updateOnly || question.type === 'blob';
   return {
     question,
     answer,

@@ -203,6 +203,11 @@
         "done": "Done"
     },
     "faq": {
+        "alert_settings": {
+            "deforestation": {
+                "title": "What alert types are available?"
+            }
+        },
         "categories": {
             "about": {
                 "questions": [
@@ -244,11 +249,11 @@
                     {
                         "content": {
                             "description": {
-                                "text": "Forest Watcher will run on any iPhone with iOS 10 and above. The minimum and recommended specifications for Android devices are listed below."
+                                "text": "Forest Watcher will run on any iPhone with iOS 13 and above. The minimum and recommended specifications for Android devices are listed below."
                             },
                             "orderList": {
                                 "text1": "Minimum specifications for Android: OS - Android 5.0; RAM - 1.5GB; Free Disk Space - 1GB",
-                                "text2": "Minimum specifications for Android: OS - Android 7.1' RAM - 3GB; Free Disk Space - 4GB+"
+                                "text2": "Recommended specifications for Android: OS - Android 7.1' RAM - 3GB; Free Disk Space - 4GB+"
                             }
                         },
                         "title": "What are the device specifications for using Forest Watcher?"
@@ -303,24 +308,28 @@
                     {
                         "content": {
                             "description": {
-                                "text": "Global Forest Watch (GFW) provides preloaded forest change and contextual data on Forest Watcher. The preloaded data includes GLAD deforestation alerts, VIIRS active fire alerts, annual tree cover loss and protected areas. Information on the GLAD deforestation alerts, VIIRS active fire alerts and annual tree cover loss data is below."
+                                "text": "Global Forest Watch (GFW) provides preloaded forest change and contextual data on Forest Watcher. The preloaded data includes three types of deforestation alerts (GLAD, GLAD-S2, RADD), VIIRS active fire alerts, annual tree cover loss and protected areas."
                             },
                             "footerText": "You can also add additional contextual layers from GFW, including LandMark indigenous and community lands, and various concessions and biodiversity data, or you can upload your own custom contextual layers through the mobile app. Forest Watcher Mobile supports the following file types for upload: .json, .geojson, .topojson, .gpx, .zip, .kmz and .kml.\n\nWhen uploading additional contextual layers, you will have the option to either download the data for offline use or access the data online only. These options offer more flexibility over the data stored on your device.\n\nFor more information, please visit data.globalforestwatch.org.",
                             "orderList": {
-                                "text1": "VIIRS Active Fire alerts: Produced by NASA, updated daily at 375 meter resolution. This shows you the location of suspected fires in the last week.",
-                                "text2": "GLAD alerts: Produced by the University of Maryland Global Land Analysis & Discovery (GLAD) Lab, updated weekly at 30 meter resolution. This show you week-by-week where forest area may have changed.",
-                                "text3": "Annual tree cover loss: Also produced by the GLAD lab, updated annually at 30 meter resolution. This shows you year-to-year where forest area has changed. At the moment this data is only available as a contextual data layer: you will not be able to create a report related to an annual loss alert, although you can still create a report for that location by tapping the screen at the location of the forest loss or gain."
+                                "text1": "GLAD deforestation alerts: Produced by the University of Maryland Global Land Analysis & Discovery (GLAD) Lab, updated every 8 days at 30-meter resolution. These alerts use data from Landsat 7 and 8 satellites and identify areas of likely tree cover loss in the tropics.",
+                                "text2": "GLAD-S2 deforestation alerts: Also produced by the GLAD lab, updated every 5 days at 10-meter resolution. These alerts use data from the European Space Agency’s Sentinel-2 satellites to identify areas of likely primary forest loss. At the time of the current release (July 2021), alerts are available for the Amazon Basin.",
+                                "text3": "RADD deforestation alerts: Produced by Wageningen University and Research (WUR) Laboratory of Geo-information Science and Remote Sensing, updated every 6-12 days at 10-meter resolution. These alerts use cloud-penetrating radar data from the European Space Agency’s Sentinel-1 satellites to identify areas of likely primary forest loss. At the time of the current release (July 2021), alerts are available in sub-Saharan Africa and insular Southeast Asia.",
+                                "text4": "VIIRS active fire alerts: Produced by NASA, updated daily at 375-meter resolution. These alerts show you the location of suspected fires in the last week.",
+                                "text5": "Annual tree cover loss: Also produced by the GLAD lab, updated annually at 30-meter resolution. This shows you year-to-year where forest area has changed. Currently, this data is only available as a contextual data layer: you will not be able to create a report related to an annual loss alert, although you can still create a report for that location by tapping the screen at the location of the forest loss or gain."
                             }
                         },
+                        "id": "alert_types",
                         "title": "What data is available and where do they come from?"
                     },
                     {
                         "content": {
                             "description": {
                                 "text1": "Each data layer has been through rigorous scientific testing and has a unique set of limitations.",
-                                "text2": "Users should keep in mind that GLAD deforestation alerts detect all types of tree cover loss, whether it is caused by humans (such as logging) or natural causes (such as a landslide). The alerts do not differentiate between natural tree cover and planted tree cover. The alerts are also designed to be conservative given their intended end use of field patrols (false positive rate for confirmed alerts is 1%, while the false negative rate is 33%). Lastly, while the alerts are updated on a weekly basis, persistent cloud cover could mean that alerts are not detected for weeks or even months after the occurrence.",
-                                "text3": "VIIRS fire alerts cannot detect fires that are too small or too cool (generally smaller than 100 square meters or cooler than 700 Kelvin).",
-                                "text4": "For more information, please visit data.globalforestwatch.org."
+                                "text2": "Users should keep in mind that deforestation alerts available in Forest Watcher detect all types of tree cover loss, whether it is caused by humans (such as logging) or natural causes (such as a landslide). The alerts do not differentiate between natural tree cover and planted tree cover.",
+                                "text3": "The alerts are designed to be conservative given their intended end use of field patrols (e.g. the false positive rate for confirmed GLAD alerts is 1%, while the false negative rate is 33%; the false positive rate for confirmed RADD alerts is 2%, while the false negative rate is 5%). Additionally, while the alerts are updated on a regular basis, persistent cloud cover could mean that GLAD and GLAD-S2 alerts are not detected for weeks or even months after the occurrence.",
+                                "text4": "An assessment of the VIIRS fire alerts found the rate of false positives to be near 0 for most regions, with a maximum of 1.2% in the regions assessed, mostly associated with sunglint on reflective rooftops. VIIRS fire alerts cannot detect fires that are too small or too cool (generally smaller than 100 square meters or cooler than 700 Kelvin).",
+                                "text5": "For more information, please visit data.globalforestwatch.org."
                             }
                         },
                         "title": "How accurate are deforestation and fires alerts?"
@@ -437,7 +446,7 @@
                         "content": {
                             "orderListLetters": {
                                 "order1": {
-                                    "description": "If you don’t see any alerts in your Area of Interest, check globalforestwatch.org to see if there is data for that location and the timeframe you chose. If there are no recent GLAD or VIIRS alerts, then there has been no recent forest change activity. Consider using the Annual Tree Cover Change contextual layer to find older loss alerts, which could still inform an investigation or field visit.",
+                                    "description": "If you don’t see any alerts in your Area of Interest, check globalforestwatch.org to see if there is data for that location and the timeframe you chose. If there are no recent deforestation or VIIRS alerts, then there has been no recent forest change activity. Consider using the Annual Tree Cover Change contextual layer to find older loss alerts, which could still inform an investigation or field visit.",
                                     "text": "I don’t see any alert data"
                                 },
                                 "order2": {
@@ -505,7 +514,7 @@
                     {
                         "content": {
                             "description": {
-                                "text1": "To report on a group of alerts, you can click on the GLAD and/or VIIRS alerts that you’re investigating and click the report button on the bottom right of the map. You can report on multiple alerts by selecting each alert individually, before clicking the report button. When clicked on, the GLAD alerts will become green and the VIIRS alerts will become purple. The change in color indicates that the alerts have been reported on."
+                                "text1": "To report on a group of alerts, you can click on a deforestation and/or VIIRS alerts that you’re investigating and click the report button on the bottom right of the map. You can report on multiple alerts by selecting each alert individually, before clicking the report button. Users can also use the new “Select all connected alerts” button to automatically group the alerts connected to the currently selected alert. When selected, deforestation alerts will become green and the VIIRS alerts will become purple."
                             }
                         },
                         "title": "How do I report on a group of alerts?"
@@ -631,6 +640,8 @@
         "treeCoverLoss2017": "Tree Cover Loss (2017)",
         "treeCoverLoss2018": "Tree Cover Loss (2018)",
         "treeCoverLoss2019": "Tree Cover Loss (2019)",
+        "treeCoverLoss2020": "Tree Cover Loss (2020)",
+        "treeCoverLoss2021": "Tree Cover Loss (2021)",
         "wdpa": "Protected Areas (Vector Tiles)",
         "woodFiber": "Wood fiber",
         "woodFiberConcessions": "Wood fiber concessions by type - 2019"
@@ -653,7 +664,7 @@
             "loginWithEmail": "Login With Email",
             "password": "Password"
         },
-        "appleTitle": "Apple",
+        "appleTitle": "Sign in With Apple",
         "emailTitle": "Login with Email",
         "facebookTitle": "Facebook",
         "failed": "There was an error during login/logout",
@@ -665,31 +676,46 @@
     },
     "map": {
         "createdDate": "Created %{date}",
-        "destination": "Destination:",
-        "distance": "Distance:",
+        "currentLocation": "Current Location: %{location}",
+        "destination": "Route Destination: %{destination}",
+        "distance": "Distance: %{distance}",
         "gladAlert": "GLAD alert",
         "issuedDate": "Issued %{date}",
+        "dateRangeLong": "%{minDate} - %{maxDate}",
+        "dateRangeShort": "%{minDays} - %{maxDays} days ago",
         "layerSettings": {
             "alertSettings": {
                 "alert": "Alert",
+                "all": "All Alerts",
                 "deforestation": "Deforestation",
                 "fires": "Fires",
+                "wur_radd_alerts": "RADD",
                 "glad": "GLAD",
+                "glad_sentinel_2": "GLAD-S2",
+                "umd_as_it_happens": "GLAD",
                 "manyDays": "%{count} days",
                 "manyMonths": "%{count} months",
+                "manyWeeks": "%{count} weeks",
                 "noAlerts": "No Alerts",
                 "oneDay": "%{count} day",
                 "oneMonth": "%{count} month",
-                "recent": "Recent",
+                "oneWeek": "%{count} week",
                 "reportedOn": "Reported On",
                 "showingManyDays": "Up to 10,000 alerts from the past %{count} days",
                 "showingManyMonths": "Up to 10,000 alerts from the past %{count} months",
+                "showingManyWeeks": "Up to 10,000 alerts from the past %{count} weeks",
                 "showingOneDay": "Up to 10,000 alerts from the past day",
                 "showingOneMonth": "Up to 10,000 alerts from the past month",
+                "showingOneWeek": "Up to 10,000 alerts from the past week",
                 "timeFrame": "Time Frame",
                 "timeFrameDescDays": "Select the amount of days",
                 "timeFrameDescMonths": "Select the amount of months",
-                "viirs": "VIIRS"
+                "timeFrameDescMultiple": "Select the time frame",
+                "timeFrameDescWeeks": "Select the amount of weeks",
+                "viirs": "VIIRS",
+                "umd_as_it_happensDescription": "Weekly, 30m, tropics, UMD/GLAD",
+                "glad_sentinel_2Description": "Every 5 days, 10m, Amazon Basin, UMD/GLAD",
+                "wur_radd_alertsDescription": "Every 6-12 days, 10m, select countries, WUR"
             },
             "alerts": "Alerts",
             "basemap": "Basemap",
@@ -732,7 +758,6 @@
             "routes": "Routes",
             "showing": "Showing: %{description}"
         },
-        "recent": "Recent",
         "reported": "Reported",
         "reportsAndRoutes": {
             "body": "Routes and Reports can also be created by tapping any alerts on the map",
@@ -743,12 +768,31 @@
             "title": "Reports and Routes"
         },
         "selectedItems": {
+            "alertSubtitle": "%{alerts} • %{date}",
+            "alertCount": "%{count} %{type}",
+            "allHighConfidenceAlerts": "High confidence alerts",
+            "highConfidenceAlert": "High confidence alert",
             "location": "Location: %{lat}, %{long}",
             "manyAlerts": "%{count} Alerts",
             "manyReports": "%{count} Reports",
             "multipleItems": "Multiple Items",
             "oneAlert": "1 Alert",
-            "oneReport": "1 Report"
+            "oneReport": "1 Report",
+            "selectAll": "Select all connected alerts",
+            "someHighConfidenceAlerts": "Some high confidence alerts",
+            "alertCategories": {
+                "deforestation": "Deforestation Alert",
+                "deforestation_plural": "Deforestation Alerts",
+                "deforestationfires_plural": "Deforestation and Fire Alerts",
+                "fires": "Fire Alert",
+                "fires_plural": "Fire Alerts"
+            },
+            "alertType": {
+                "umd_as_it_happens": "GLAD",
+                "wur_radd_alerts": "RADD",
+                "glad_sentinel_2": "GLAD-S2",
+                "viirs": "VIIRS"
+            }
         },
         "settingsTooltip": {
             "body": "Show the layers and data relevant to you",
@@ -789,8 +833,15 @@
             "successful": "Exporting reports succeeded!",
             "title": "Export report"
         },
-        "glad": "Deforestation Report",
-        "gladAndViirs": "Deforestation and Fires Report",
+        "alertType": {
+            "wur_radd_alerts": "RADD",
+            "glad_sentinel_2": "GLAD-S2",
+            "umd_as_it_happens": "GLAD",
+            "viirs": "VIIRS"
+        },
+        "deforestation": "Deforestation (%{alertTypes})",
+        "fires": "Fire Report",
+        "deforestationAndFires": "Deforestation (%{alertTypes}) and Fires Report",
         "here": "Report here",
         "imported": "Imported",
         "input": "Please, answer the question",
@@ -808,8 +859,7 @@
         "title": "Report",
         "toReport": "Report",
         "upload": "Upload",
-        "uploaded": "Uploaded",
-        "viirs": "Fire Report"
+        "uploaded": "Uploaded"
     },
     "routes": {
         "backgroundErrorDialogMessage": "Please check your location settings and app permissions to resume route tracking.",
@@ -977,21 +1027,13 @@
         "title": "Welcome to Forest Watcher"
     },
     "whatsNew": {
-        "areaSize": {
-            "body": "The maximum area size has increased to 20,000 square kilometers",
-            "title": "Monitor Larger Areas"
+        "improvedAlerting": {
+            "body": "Access new alert types in select regions for more effective monitoring",
+            "title": "Improved Alerting Systems"
         },
-        "basemaps": {
-            "body": "Add your own or view more from Global Forest Watch to better understand terrain",
-            "title": "Improved Basemaps"
-        },
-        "layers": {
-            "body": "Add layers from Global Forest Watch or your own for more effective monitoring",
-            "title": "Improved Contextual Layers"
-        },
-        "share": {
-            "body": "Share areas, routes, layers and more for improved team coordination",
-            "title": "Share Content"
+        "selectConnected": {
+            "body": "Select connected alerts on the map with the tap of a button",
+            "title": "Select Connected Alerts"
         },
         "title": "New in This Version"
     }

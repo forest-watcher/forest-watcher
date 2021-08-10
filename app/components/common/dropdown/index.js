@@ -14,8 +14,8 @@ import i18n from 'i18next';
 
 const nextIcon = require('assets/next.png');
 
-type OptionValue = string | number;
-type Option = { label?: string, labelKey: string, value: OptionValue };
+type OptionValue = { value: string | number, id: string };
+type Option = { label?: string, labelKey: string, value: OptionValue, id: string };
 
 type Props = {
   description: ?string,
@@ -67,7 +67,7 @@ export default class Dropdown extends Component<Props> {
       label: option.label ?? i18n.t(option.labelKey)
     }));
     const selectedLabel =
-      optionsWithLabel.find((option: Option) => option.value === selectedValue)?.label ?? `${selectedValue}`;
+      optionsWithLabel.find((option: Option) => option.id === selectedValue.id)?.label ?? `${selectedValue.value}`;
     const rowStyle = [styles.dropdownRow, this.props.inactive ? styles.inactiveDropdownRow : {}];
     return (
       <Row opacity={this.props.inactive ? 0.2 : 0.5} action={this.showActionSheetAction} rowStyle={rowStyle}>
@@ -101,14 +101,14 @@ export default class Dropdown extends Component<Props> {
                     {optionsWithLabel.map((option, i) => (
                       <Row
                         action={{
-                          callback: this.onSelectedOption.bind(this, option.value)
+                          callback: this.onSelectedOption.bind(this, option)
                         }}
-                        key={option.value + i}
+                        key={option.id}
                         rowStyle={styles.optionRow}
                         style={styles.optionRowContainer}
                       >
-                        <View style={[styles.switch, option.value === selectedValue ? styles.switchOn : null]}>
-                          {option.value === selectedValue && <View style={styles.switchInterior} />}
+                        <View style={[styles.switch, option.id === selectedValue.id ? styles.switchOn : null]}>
+                          {option.id === selectedValue.id && <View style={styles.switchInterior} />}
                         </View>
                         <Text style={styles.smallLabel}>{option.label ?? ''}</Text>
                       </Row>

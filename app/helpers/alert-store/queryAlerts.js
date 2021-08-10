@@ -7,6 +7,10 @@ import { initDb } from 'helpers/alert-store/database';
 export type AlertsQuery = {|
   +areaId?: string,
   +dataset?: string,
+  /**
+   If both `datasets` and `dataset` are provided, then `datasets` will take precedence when requ
+   */
+  +datasets?: Array<string>,
   +timeAgo?: { min?: number, max?: number, unit: string },
   /**
    * GFW-770: We limit the amount of alerts to 10,000 by default (unless deleting alerts).
@@ -39,7 +43,7 @@ export default function queryAlerts(query: AlertsQuery): Array<Alert> {
  * Synchronous method of the above, because Realm works synchronously
  */
 export function queryAlertsLazy(query: AlertsQuery) {
-  const { areaId, dataset, timeAgo, distinctLocations, limitAlerts } = query;
+  const { areaId, dataset, datasets, timeAgo, distinctLocations, limitAlerts } = query;
   const db = initDb();
 
   const predicateParts = [];
@@ -48,7 +52,14 @@ export function queryAlertsLazy(query: AlertsQuery) {
     predicateParts.push(`areaId = '${areaId}'`);
   }
 
-  if (dataset) {
+  if (datasets && datasets.length > 0) {
+    const datasetsPredicate = datasets
+      .map(dataset => {
+        return `slug = '${dataset}'`;
+      })
+      .join(' OR ');
+    predicateParts.push(`(${datasetsPredicate})`);
+  } else if (dataset) {
     predicateParts.push(`slug = '${dataset}'`);
   }
 

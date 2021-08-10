@@ -1,5 +1,5 @@
 // @flow
-import type { ViewStyle } from 'types/reactElementStyles.types';
+import type { ViewStyle, TextStyle } from 'types/reactElementStyles.types';
 
 import React, { Component, type Node } from 'react';
 
@@ -42,7 +42,7 @@ type Props = {
   hideImage?: ?boolean,
   imageSrc?: ?string | ?number,
   largeImage?: ?boolean,
-  largerLeftPadding?: ?boolean,
+  largerPadding?: ?boolean,
   legend?: ?Array<Legend>,
   onDownloadPress?: () => void,
   onPress?: ?() => void,
@@ -55,6 +55,8 @@ type Props = {
   smallerVerticalPadding?: ?boolean,
   style?: ?ViewStyle,
   subtitle?: ?string,
+  subtitleBelowLegend?: ?boolean,
+  subtitleStyle?: ?TextStyle,
   title: string,
   backgroundImageResizeMode?: ?string
 };
@@ -129,7 +131,7 @@ export default class VerticalSplitRow extends Component<Props> {
               )}
             </View>
           )}
-          <View style={[styles.contentContainer, this.props.largerLeftPadding ? styles.largerLeftPadding : {}]}>
+          <View style={[styles.contentContainer, this.props.largerPadding ? styles.largerPadding : {}]}>
             <View
               style={[
                 styles.nameContainer,
@@ -138,12 +140,18 @@ export default class VerticalSplitRow extends Component<Props> {
               ]}
             >
               <View style={styles.titleContainer}>
-                <Text numberOfLines={2} style={[styles.title, this.props.disabled ? { opacity: 0.6 } : {}]}>
-                  {this.props.title}
-                </Text>
+                <View style={{ flex: 1 }}>
+                  <Text numberOfLines={2} style={[styles.title, this.props.disabled ? { opacity: 0.6 } : {}]}>
+                    {this.props.title}
+                  </Text>
+                  {this.props.subtitle && !this.props.subtitleBelowLegend && (
+                    <Text numberOfLines={0} style={[styles.subtitle, this.props.subtitleStyle]}>
+                      {this.props.subtitle}
+                    </Text>
+                  )}
+                </View>
                 {this.renderIcon(this.props.selected, this.props.useRadioIcon, this.props.onIconPress)}
               </View>
-              {!!this.props.subtitle && <Text style={styles.subtitle}>{this.props.subtitle}</Text>}
             </View>
             {(this.props.settingsTitle || this.props.onSettingsPress) && (
               <SettingsButton
@@ -155,7 +163,12 @@ export default class VerticalSplitRow extends Component<Props> {
               />
             )}
             {(this.props.legend?.length ?? 0) > 0 && (
-              <View style={styles.legendContainer}>
+              <View
+                style={[
+                  styles.legendContainer,
+                  this.props.subtitle && this.props.subtitleBelowLegend ? { marginBottom: 8 } : {}
+                ]}
+              >
                 {/* $FlowFixMe */}
                 {this.props.legend?.map(item => {
                   return (
@@ -166,6 +179,11 @@ export default class VerticalSplitRow extends Component<Props> {
                   );
                 })}
               </View>
+            )}
+            {this.props.subtitle && this.props.subtitleBelowLegend && (
+              <Text numberOfLines={0} style={[styles.subtitle, styles.subtitleBottom, this.props.subtitleStyle]}>
+                {this.props.subtitle}
+              </Text>
             )}
           </View>
         </View>

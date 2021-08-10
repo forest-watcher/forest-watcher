@@ -131,7 +131,7 @@ class Dashboard extends PureComponent<Props> {
   showOnboardingScreensIfNecessary = debounceUI(async () => {
     const { hasSeenWelcomeScreen } = this.props;
     if (!hasSeenWelcomeScreen) {
-      this.props.setWelcomeScreenSeen(true);
+      this.props.setWelcomeScreenSeen();
       showWelcomeScreen(() => {
         this.showOnboardingScreensIfNecessary();
       });

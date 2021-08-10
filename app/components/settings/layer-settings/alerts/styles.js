@@ -42,8 +42,21 @@ export default StyleSheet.create({
     fontSize: 12,
     opacity: 0.6
   },
+  row: {
+    marginBottom: 12,
+    paddingHorizontal: 24
+  },
+  rowTitleLabel: {
+    ...Theme.tableRowText,
+    flex: 1,
+    fontSize: 16
+  },
   smallLabel: {
     ...Theme.text,
     fontSize: 12
+  },
+  subtitle: {
+    fontSize: 12,
+    lineHeight: 16
   }
 });

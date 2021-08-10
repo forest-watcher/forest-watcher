@@ -2,7 +2,7 @@
 import type { State } from 'types/store.types';
 import type { Report } from 'types/reports.types';
 
-import { STATUS } from 'config/constants/index';
+import { STATUS, LAST_WHATS_NEW_VERSION } from 'config/constants/index';
 
 // $FlowFixMe
 import { version } from 'package.json';
@@ -23,4 +23,12 @@ export function shouldBeConnected(state: State): boolean {
 
 export function getVersionName(): string {
   return `v${version}`;
+}
+
+export function hasSeenLatestWhatsNewOrWelcomeScreen(state: State): boolean {
+  const { welcomeSeenVersion } = state.app;
+  if (!welcomeSeenVersion) {
+    return false;
+  }
+  return welcomeSeenVersion >= LAST_WHATS_NEW_VERSION;
 }

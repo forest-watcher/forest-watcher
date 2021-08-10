@@ -16,14 +16,18 @@ export type AlertFeatureProperties = {|
   type: 'alert',
   lat: string,
   long: string,
-  clusterId: 'reported' | 'recent' | 'other',
+  confidence?: string,
+  clusterId: 'reported' | 'other',
   datasetId: string,
   name: string,
   date: number,
   icon: string,
   reported: boolean,
   selected: boolean,
-  cluster?: boolean
+  cluster?: boolean,
+  minIconSize: number,
+  maxIconSize: number,
+  sortKey: number
 |};
 
 /**
@@ -41,7 +45,9 @@ export type ReportFeatureProperties = {|
   long: string,
   featureId: string,
   reportAreaName: string,
-  cluster?: boolean
+  cluster?: boolean,
+  minIconSize: number,
+  maxIconSize: number
 |};
 
 /**
