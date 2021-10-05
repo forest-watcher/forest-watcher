@@ -102,7 +102,7 @@
     "shpjs": "3.4.3",
     "tiny-emitter": "2.1.0",
     "topojson-client": "3.1.0",
-    "url-parse": "1.4.4",
+    "url-parse": "1.5.2",
     "utm-latlng": "1.0.5",
     "uuid": "8.3.1",
     "xmldom": "0.3.0"
