@@ -6,6 +6,7 @@
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
   <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
   <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+  <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
   <uses-permission android:name="android.permission.CAMERA" />
   <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
   <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
@@ -21,6 +22,23 @@
   <uses-feature
     android:name="android.hardware.sensor.compass"
     android:required="false" />
+
+  <queries>
+      <intent>
+          <action android:name="android.media.action.IMAGE_CAPTURE" />
+      </intent>
+      <intent>
+          <action android:name="android.intent.action.GET_CONTENT" />
+          <data android:mimeType="image/*" />
+      </intent>
+      <intent>
+          <action android:name="android.intent.action.PICK" />
+          <data android:mimeType="image/*" />
+      </intent>
+      <intent>
+          <action android:name="android.intent.action.CHOOSER" />
+      </intent>
+  </queries>
 
   <application
     android:name=".MainApplication"
@@ -90,7 +108,6 @@
         <data android:scheme="file" android:host="*" android:mimeType="*/*" android:pathPattern="..*\\.gfwbundle" />
       </intent-filter>
     </activity>
-    <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
 
     <meta-data
       android:name="com.facebook.sdk.ApplicationId"

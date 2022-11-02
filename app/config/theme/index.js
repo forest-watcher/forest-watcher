@@ -170,6 +170,9 @@ const config = {
         subtitle: {
           color: colors.turtleGreen
         },
+        scrollEdgeAppearance: {
+          noBorder: true
+        },
         title: {
           color: fontColors.secondary,
           fontFamily: fontName,

@@ -58,7 +58,7 @@ export const LOCATION_TRACKING = {
   stationaryRadius: 50,
   distanceFilter: 50,
   startOnBoot: false,
-  stopOnTerminate: true,
+  stopOnTerminate: false,
   interval: 10000,
   notificationTitle: i18n.t('routes.notification.title'),
   notificationText: i18n.t('routes.notification.message'),
@@ -879,7 +879,7 @@ const LAYER_MAX_NAME_LENGTH = 40;
 export const GFW_SIGN_UP_LINK = 'https://www.globalforestwatch.org/my-gfw';
 export const GFW_FORGOT_PASSWORD_LINK = `${Config.API_AUTH}/auth/reset-password`;
 
-export const LAST_WHATS_NEW_VERSION = '2.1.0';
+export const LAST_WHATS_NEW_VERSION = '3.0.0';
 
 export default {
   areas: AREAS,

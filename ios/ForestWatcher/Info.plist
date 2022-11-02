@@ -176,8 +176,6 @@
 	<true/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<true/>
 		<key>NSExceptionDomains</key>
 		<dict>
 			<key>localhost</key>
@@ -192,11 +190,11 @@
 	<key>NSCameraUsageDescription</key>
 	<string>Forest Watcher will use your camera when running the application to collect photos for your reports.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>App requires background tracking</string>
+	<string>The app uses location services to track your movements when you create a route in the map</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>The app uses the location services to help you navigate in the application.</string>
+	<string>The app uses location services to track your movements when you create a route in the map</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>The app uses the location services to help you navigate in the application.</string>
+	<string>The app uses location services to track your movements when you create a route in the map</string>
 	<key>NSMotionUsageDescription</key>
 	<string>App requires motion tracking</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>

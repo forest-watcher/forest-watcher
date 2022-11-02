@@ -25,6 +25,63 @@
             "title": "Jadikan Area Tersedia Offline"
         }
     },
+    "teams": {
+        "sectionTitles": {
+            "invites": "Undangan Tim",
+            "joined": "Dimasukkan oleh Saya",
+            "managed": "Dikelola oleh Saya"
+        },
+        "teamCards": {
+            "areas": "Area:"
+        },
+        "titles": {
+            "teamOverviewTitle": "Tim",
+            "teamDetailsTitle": "Perincian Tim"
+        },
+        "teamDetails": {
+            "teamNameLabel": "Nama",
+            "teamAreasLabel": "Area",
+            "teamMonitorsLabel": "Pemantau",
+            "teamManagersLabel": "Manajer",
+            "buttonJoinTeam": "Masuki Tim",
+            "buttonDontJoinTeam": "Jangan Masuki",
+            "buttonLeaveTeam": "Tinggalkan Tim",
+            "leaveConfirmationTitle": "Tinggalkan Tim",
+            "leaveConfirmation": "Yakin ingin meninggalkan tim ini?",
+            "joinConfirmationTitle": "Masuki Tim",
+            "joinConfirmation": "Yakin ingin memasuki tim ini?",
+            "declineConfirmationtitle": "Tolak Undangan",
+            "declineConfirmation": "Yakin ingin menolak undangan ini?"
+        },
+        "notifications": {
+            "acceptSuccess": "Berhasil memasuki tim",
+            "leaveSuccess": "Berhasil meninggalkan tim",
+            "declineSuccess": "Undangan ditolak",
+            "newInviteTitle_one": "Anda punya 1 undangan untuk memasuki tim",
+            "newInviteTitle_other": "Anda punya %{count} undangan untuk memasuki tim",
+            "newInviteSubtitle": "Ketuk untuk melihat perincian tim"
+        }
+    },
+    "deleteAccount": {
+        "title": "Hapus Akun",
+        "heading": "Harap baca sebelum melanjutkan",
+        "body1": "Akun Forest Watcher Anda dibagikan ke banyak aplikasi World Resource Institute (WRI). Ini termasuk: ",
+        "bullet1": "Forest Watcher\nGlobal Forest Watch (GFW)\nMapBuilder\nResource Watch\nPartnership for Resilience & Preparedness (PREPdata)",
+        "body2": "Jika melanjutkan, Anda tak akan lagi dapat mengakses aplikasi-aplikasi ini melalui akun ini. Anda akan perlu mendaftar lagi jika ingin menggunakannya di masa mendatang.\n\nSelain itu, semua konten yang terkait dengan akun ini (di semua aplikasi) akan dihapus. Ini termasuk:",
+        "bullet2": "Area perhatian\nLaporan\nRute\nLapisan Kontekstual\nLangganan\nDataset\nWidget",
+        "footer": "Untuk daftar lengkap jenis konten, harap kunjungi https://resource-watch.github.io/doc-api/concepts.html#core-resources.",
+        "footerLinkText": "Dokumentasi API Resource Watch",
+        "deleteButton": "Hapus Akun",
+        "confirmationTitle": "Apakah Anda yakin?",
+        "confirmationBody": "Tindakan ini tidak dapat dibatalkan. Ini akan menghapus permanen akun Forest Watcher Anda beserta semua konten terkait di semua produk WRI yang pernah Anda gunakan.",
+        "confirmationNegative": "Batal",
+        "confirmationPositive": "Hapus Akun",
+        "scheduleDeletionTitle": "Akun Anda Telah Dijadwalkan untuk Penghapusan",
+        "ok": "Oke",
+        "adminErrorMessage": "Saat ini Anda adalah administrator pada satu atau lebih tim. Harap hapus tim-tim ini atau alihkan status administratif kepada pengguna lain di http://forestwatcher.globalforestwatch.org. Setelah langkah ini selesai, sinkronkan perangkat ini dan kembalilah ke sini untuk menghapus akun Anda",
+        "failedMessage": "Gagal menghapus akun.",
+        "openLink": "Buka situs web Forest Watcher"
+    },
     "basemaps": {
         "delete": {
             "messageGFWContent": "Data untuk Peta Dasar ini hanya akan tersedia online. Ingin lanjutkan?",
@@ -189,6 +246,7 @@
     },
     "dashboard": {
         "areas": "Area",
+        "teams": "Tim",
         "downloadFailed": "Unduhan gagal",
         "map": "Peta",
         "reports": "Laporan",
@@ -650,8 +708,11 @@
         "enablePermissions": "Aktifkan Izin",
         "subTitle": "Untuk melihat lokasi Anda di peta",
         "title": "Aktifkan Izin Lokasi",
-        "bullet1": "Ketuk di bawah dan atur akses ke 'izinkan saat menggunakan aplikasi'.",
-        "bullet2": "Tetap atur lokasi persis ke 'nyala' guna memastikan posisi Anda tetap akurat."
+        "bullet1": "Tetap atur lokasi persis ke \"nyala\" untuk memastikan posisi Anda tetap akurat. Atur akses ke \"izinkan saat menggunakan aplikasi\".",
+        "bullet2": "Data lokasi latar belakang dikumpulkan untuk memungkinkan pelacakan peta dan rute, bahkan saat aplikasi ditutup atau tidak digunakan.",
+        "bullet3": "Jika Anda ingin mengubah keputusan, preferensi ini dapat diubah pada pengaturan aplikasi Anda. Menolak perizinan ini akan membatasi pengalaman aplikasi Anda.",
+        "bullet4_10": "Untuk mengaktifkan lokasi latar belakang, pilih \"izinkan sepanjang waktu\"",
+        "bullet4_11": "Untuk memungkinkan lokasi latar belakang, pilih pengaturan perizinan aplikasi dan untuk perizinan lokasi, pilih \"izinkan sepanjang waktu\""
     },
     "login": {
         "emailLogin": {
@@ -859,7 +920,11 @@
         "title": "Lapor",
         "toReport": "Lapor",
         "upload": "Unggah",
-        "uploaded": "Terunggah"
+        "uploaded": "Terunggah",
+        "choose": {
+            "title": "Pilih Templat",
+            "subtitle": "Untuk membuat laporan, pilih salah satu dari templat berikut:"
+        }
     },
     "routes": {
         "backgroundErrorDialogMessage": "Silakan periksa pengaturan lokasi dan izin aplikasi untuk melanjutkan pelacakan rute.",
@@ -929,7 +994,8 @@
         "title": "Pengaturan",
         "unsafeLogout": "Sebagian data mungkin hilang",
         "unsavedDataLost": "Sebagian data tidak tersinkron ke akun Anda dan mungkin akan hilang jika Anda keluar.\nData tersebut meliputi beberapa jenis area dan laporan serta semua rute, peta dasar, dan lapisan kontekstual.\nMengenai informasi dan langkah selanjutnya untuk mengakses data ini lagi, silakan lihat subjek ini di laman TJU kami.",
-        "yourRoutes": "Rute Anda"
+        "yourRoutes": "Rute Anda",
+        "deleteAcount": "Hapus Akun"
     },
     "setupCountry": {
         "firstInstruction": "Pertama, pilih negara yang diinginkan",
@@ -1027,14 +1093,33 @@
         "title": "Selamat datang di Forest Watcher"
     },
     "whatsNew": {
-        "improvedAlerting": {
-            "body": "Akses jenis peringatan baru di wilayah tertentu untuk pemantauan yang lebih efektif",
-            "title": "Sistem Peringatan yang Ditingkatkan"
+        "improvedAreaCreation": {
+            "body": "Gambar area, unggah shapefile dan tambahkan bundel data",
+            "title": "Pembuatan Area yang Disempurnakan"
         },
-        "selectConnected": {
-            "body": "Pilih peringatan yang terhubung di peta dengan satu ketukan tombol",
-            "title": "Pilih Peringatan Terhubung"
+        "joinTeams": {
+            "body": "Terima undangan untuk memasuki tim pada aplikasi Forest Watcher",
+            "title": "Masuki Tim"
+        },
+        "teamOverview": {
+            "body": "Lihat ikhtisar tim termasuk area terkait, pemantau, dan manajer",
+            "title": "Lihat Ikhtisar Tim"
         },
         "title": "Baru Di Versi Ini"
+    },
+    "update": {
+        "title": "Pembaruan Baru Tersedia",
+        "subtitle": "Perbarui aplikasi Anda untuk menggunakan fitur-fitur baru"
+    },
+    "createAnArea": {
+        "title": "Buat Area",
+        "subtitle": "Untuk membuat area, pilih salah satu dari opsi berikut:",
+        "sections": {
+            "drawArea": "Gambar Area Baru",
+            "uploadShapefile": "Unggah Shapefile",
+            "importBundle": "Impor dari Bundel Data Forest Watcher"
+        },
+        "invalidShapefile": "Eror saat mengunggah shapefile. Harap coba shapefile lainnya.",
+        "invalidBundle": "Eror saat mengimpor GFW Bundle."
     }
 }

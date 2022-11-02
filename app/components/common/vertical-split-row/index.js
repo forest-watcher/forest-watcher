@@ -141,7 +141,7 @@ export default class VerticalSplitRow extends Component<Props> {
             >
               <View style={styles.titleContainer}>
                 <View style={{ flex: 1 }}>
-                  <Text numberOfLines={2} style={[styles.title, this.props.disabled ? { opacity: 0.6 } : {}]}>
+                  <Text numberOfLines={1} style={[styles.title, this.props.disabled ? { opacity: 0.6 } : {}]}>
                     {this.props.title}
                   </Text>
                   {this.props.subtitle && !this.props.subtitleBelowLegend && (

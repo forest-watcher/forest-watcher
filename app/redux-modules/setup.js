@@ -4,10 +4,12 @@ import type { Country } from 'types/countries.types';
 
 // Actions
 import { SAVE_AREA_ROLLBACK } from 'redux-modules/areas';
+import { SHARING_BUNDLE_IMPORTED } from 'redux-modules/app';
 
 const INIT_SETUP = 'setup/INIT_SETUP';
 const SET_COUNTRY = 'setup/SET_COUNTRY';
 const SET_AOI = 'setup/SET_AOI'; // AOI = Area of interest
+const START_BUNDLE_IMPORT = 'setup/START_BUNDLE_IMPORT';
 
 // Reducer
 const initialState = {
@@ -19,7 +21,8 @@ const initialState = {
     id: null
   },
   snapshot: '',
-  error: false
+  error: false,
+  imported: false
 };
 
 export default function reducer(state: SetupState = initialState, action: SetupAction): SetupState {
@@ -47,6 +50,12 @@ export default function reducer(state: SetupState = initialState, action: SetupA
       const { area, snapshot } = action.meta;
       return { ...state, area, snapshot };
     }
+    case SHARING_BUNDLE_IMPORTED: {
+      return { ...state, imported: true };
+    }
+    case START_BUNDLE_IMPORT: {
+      return { ...state, imported: false };
+    }
     default:
       return state;
   }
@@ -73,5 +82,11 @@ export function setSetupArea(setup: { area: CountryArea, snapshot: string }): Se
       area,
       snapshot
     }
+  };
+}
+
+export function startImport(): SetupAction {
+  return {
+    type: START_BUNDLE_IMPORT
   };
 }

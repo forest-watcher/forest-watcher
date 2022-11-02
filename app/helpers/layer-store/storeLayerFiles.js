@@ -82,13 +82,16 @@ export async function storeTilesFromUrl(
   zoom: [number, number],
   progressListener: (received: number, total: number) => void
 ) {
-  const url = `${Config.API_URL}/download-tiles/${geostoreId}/${zoom[0]}/${
+  const url = `${Config.API_VIZZUALITY_URL}/download-tiles/${geostoreId}/${zoom[0]}/${
     zoom[1]
   }?layerUrl=${layerUrl}&useExtension=false`;
   const res = await RNFetchBlob.config({ fileCache: true })
     .fetch('GET', encodeURI(url))
     .progress(progressListener);
+
   const statusCode = res.info().status;
+  const data = await res.json();
+  console.log('store tiles from url: result', JSON.stringify(data), url);
   if (statusCode >= 200 && statusCode < 400 && res.path()) {
     const downloadPath = res.path();
     const targetPath = pathForLayer(type, id);

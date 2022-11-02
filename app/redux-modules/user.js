@@ -9,12 +9,14 @@ import { LoginManager, AccessToken } from 'react-native-fbsdk';
 import Config from 'react-native-config';
 import oAuth from 'config/oAuth';
 import i18n from 'i18next';
+import jwt_decode from 'jwt-decode';
 
 import { appleAuth } from '@invertase/react-native-apple-authentication';
 
 const CookieManager = require('@react-native-community/cookies');
 
 import { deleteAllOfflinePacks } from 'helpers/mapbox';
+import { decreaseAppSynced } from './app';
 
 // Actions
 const GET_USER_REQUEST = 'user/GET_USER_REQUEST';
@@ -26,6 +28,9 @@ export const LOGOUT_REQUEST = 'user/LOGOUT_REQUEST';
 const SET_LOGIN_LOADING = 'user/SET_LOGIN_LOADING';
 const SET_EMAIL_LOGIN_ERROR = 'user/SET_EMAIL_LOGIN_ERROR';
 const CLEAR_EMAIL_LOGIN_ERROR = 'user/CLEAR_EMAIL_LOGIN_ERROR';
+const DELETE_ACCOUNT_REQUEST = 'user/DELETE_ACCOUNT_REQUEST';
+const DELETE_ACCOUNT_COMMIT = 'user/DELETE_ACCOUNT_COMMIT';
+export const DELETE_ACCOUNT_ROLLBACK = 'user/DELETE_ACCOUNT_ROLLBACK';
 
 // Reducer
 const initialState = {
@@ -38,7 +43,8 @@ const initialState = {
   synced: false,
   syncing: false,
   loading: false,
-  emailLoginError: null
+  emailLoginError: null,
+  deleted: false
 };
 
 export default function reducer(state: UserState = initialState, action: UserAction): UserState {
@@ -58,7 +64,8 @@ export default function reducer(state: UserState = initialState, action: UserAct
       return { ...state, syncing: false };
     }
     case SET_LOGIN_AUTH: {
-      const { socialNetwork, loggedIn, token, oAuthToken, userId } = action.payload;
+      const { socialNetwork, loggedIn, token, oAuthToken } = action.payload;
+      const userId = parseJwt(token).id;
       return { ...state, socialNetwork, loggedIn, token, oAuthToken, userId, emailLoginError: null };
     }
     case SET_LOGIN_STATUS: {
@@ -84,11 +91,27 @@ export default function reducer(state: UserState = initialState, action: UserAct
         loggedIn: false,
         oAuthToken: null,
         socialNetwork: null,
-        userId: null
+        userId: null,
+        deleted: false
       };
+    case DELETE_ACCOUNT_REQUEST: {
+      return { ...state, loading: false, deleted: false };
+    }
+    case DELETE_ACCOUNT_COMMIT: {
+      logout();
+      return { ...state, loading: false, deleted: true };
+    }
+    case DELETE_ACCOUNT_ROLLBACK: {
+      return { ...state, loading: false };
+    }
     default:
       return state;
   }
+}
+
+function parseJwt(token) {
+  const decoded = jwt_decode(token);
+  return decoded;
 }
 
 // Action Creators
@@ -98,7 +121,14 @@ export function getUser(): UserAction {
     meta: {
       offline: {
         effect: { url: `${Config.API_AUTH}/user` },
-        commit: { type: GET_USER_COMMIT },
+        commit: {
+          type: GET_USER_COMMIT,
+          meta: {
+            then: payload => (dispatch, state) => {
+              dispatch(decreaseAppSynced());
+            }
+          }
+        },
         rollback: { type: GET_USER_ROLLBACK }
       }
     }
@@ -272,7 +302,8 @@ export function emailLogin(email: string, password: string): Thunk<Promise<void>
         payload: {
           loggedIn: true,
           socialNetwork: 'email',
-          token: responseJson.data.token
+          token: responseJson.data.token,
+          userId: responseJson.data.id
         }
       });
     } catch (error) {
@@ -328,7 +359,22 @@ export function logout(socialNetworkFallback: ?string): Thunk<Promise<void>> {
       dispatch({ type: SET_LOGIN_STATUS, payload: true });
     } catch (e) {
       console.error(e);
-      return dispatch({ type: SET_LOGIN_STATUS, payload: false });
+      dispatch({ type: SET_LOGIN_STATUS, payload: false });
+    }
+  };
+}
+
+export function deleteAccount(): UserAction {
+  const url = `${Config.API_URL}/users`;
+
+  return {
+    type: DELETE_ACCOUNT_REQUEST,
+    meta: {
+      offline: {
+        effect: { url, method: 'DELETE' },
+        commit: { type: DELETE_ACCOUNT_COMMIT },
+        rollback: { type: DELETE_ACCOUNT_ROLLBACK }
+      }
     }
   };
 }

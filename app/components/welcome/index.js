@@ -14,14 +14,19 @@ const SafeAreaView = withSafeArea(View, 'margin', 'vertical');
 
 const UPDATE_ITEMS = [
   {
-    icon: require('assets/alertsData.png'),
-    title: () => i18n.t('whatsNew.improvedAlerting.title'),
-    body: () => i18n.t('whatsNew.improvedAlerting.body')
+    icon: require('assets/areas.png'),
+    title: () => i18n.t('whatsNew.improvedAreaCreation.title'),
+    body: () => i18n.t('whatsNew.improvedAreaCreation.body')
   },
   {
-    icon: require('assets/connectedAlerts.png'),
-    title: () => i18n.t('whatsNew.selectConnected.title'),
-    body: () => i18n.t('whatsNew.selectConnected.body')
+    icon: require('assets/teams.png'),
+    title: () => i18n.t('whatsNew.joinTeams.title'),
+    body: () => i18n.t('whatsNew.joinTeams.body')
+  },
+  {
+    icon: require('assets/menu.png'),
+    title: () => i18n.t('whatsNew.teamOverview.title'),
+    body: () => i18n.t('whatsNew.teamOverview.body')
   }
 ];
 

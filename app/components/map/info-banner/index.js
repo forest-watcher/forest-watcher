@@ -4,7 +4,15 @@ import type { MapItemFeatureProperties } from 'types/common.types';
 import type { ViewStyle } from 'types/reactElementStyles.types';
 
 import React, { Component } from 'react';
-import { Image, Platform, Text, TouchableHighlight, TouchableNativeFeedback, View } from 'react-native';
+import {
+  Image,
+  Platform,
+  Text,
+  TouchableHighlight,
+  TouchableNativeFeedback,
+  View,
+  ActivityIndicator
+} from 'react-native';
 import ActionButton from 'components/common/action-button';
 import styles from './styles';
 import Theme from 'config/theme';
@@ -13,6 +21,7 @@ import { Navigation } from 'react-native-navigation';
 import { formatInfoBannerDates } from 'helpers/date';
 import { formatSelectedAlertTypeCounts, formatSelectedAlertCategories } from 'helpers/map';
 import i18n from 'i18next';
+import { trackSelectAllConnectedAlerts } from 'helpers/analytics';
 
 const rightArrow = require('assets/next.png');
 
@@ -21,7 +30,8 @@ type Props = {
   highlightedAlerts: $ReadOnlyArray<Alert>,
   onSelectAllConnectedAlertsPress: ($ReadOnlyArray<Alert>) => void,
   tappedOnFeatures: $ReadOnlyArray<MapItemFeatureProperties>,
-  style: ViewStyle
+  style: ViewStyle,
+  loading: boolean
 };
 
 export default class InfoBanner extends Component<Props> {
@@ -103,6 +113,7 @@ export default class InfoBanner extends Component<Props> {
   });
 
   onSelectAllConnectedAlertsPress = () => {
+    trackSelectAllConnectedAlerts(this.props.highlightedAlerts);
     this.props.onSelectAllConnectedAlertsPress(this.props.highlightedAlerts);
   };
 
@@ -201,6 +212,7 @@ export default class InfoBanner extends Component<Props> {
               {secondarySubtitle && <Text style={styles.subtitle}>{secondarySubtitle}</Text>}
             </View>
             {showRightArrow && <Image source={rightArrow} />}
+            {this.props.loading && <ActivityIndicator color={Theme.colors.turtleGreen} size="small" />}
           </View>
           {showSelectAllConnectedAlerts && (
             <View style={styles.actionContainer}>

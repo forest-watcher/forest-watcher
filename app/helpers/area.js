@@ -7,7 +7,7 @@ export function activeDataset(area: Area): ?Dataset {
   if (!area.datasets) {
     return null;
   }
-  const enabledDataset = area.datasets.find(Boolean);
+  const enabledDataset = area.datasets.find(x => x.active);
   return enabledDataset;
 }
 

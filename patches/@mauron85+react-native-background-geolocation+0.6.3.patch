@@ -1,0 +1,13 @@
+diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/VERSIONS.gradle b/node_modules/@mauron85/react-native-background-geolocation/android/common/VERSIONS.gradle
+index 61f0865..12bbb2d 100644
+--- a/node_modules/@mauron85/react-native-background-geolocation/android/common/VERSIONS.gradle
++++ b/node_modules/@mauron85/react-native-background-geolocation/android/common/VERSIONS.gradle
+@@ -142,7 +142,7 @@ ext {
+ 
+     libs = [
+         reactNative: [group: 'com.facebook.react', name: 'react-native', version: getReactNativeLibVersion()],
+-        permissions: [group: 'com.intentfilter', name: 'android-permissions', version: '0.1.7'],
++        permissions: [group: 'io.github.nishkarsh', name: 'android-permissions', version: '0.1.7'],
+         logback: [group: 'com.github.tony19', name: 'logback-android', version: '1.1.1-9'],
+         slf4j: [group: 'org.slf4j', name: 'slf4j-api', version: '1.7.21'],
+         promise: [group: 'com.github.jparkie', name: 'promise', version: '1.0.3'],

@@ -2,8 +2,6 @@ package com.cube.rnmbtiles
 
 import android.database.sqlite.SQLiteDatabase
 import com.facebook.react.bridge.WritableNativeMap
-import org.jetbrains.anko.db.MapRowParser
-import org.jetbrains.anko.db.select
 
 // Defines metadata for this source object.
 // TODO: Pass this up to the JS layer.
@@ -15,8 +13,7 @@ data class RNMBTileMetadata(
     var tileSize: Int,
     var attribution: String?,
     var layersJson: String?
-)
-{
+) {
 
     val mappedMetadata: WritableNativeMap
         get() {
@@ -84,7 +81,14 @@ class RNMBTileSource(var id: String, var filePath: String) {
             val attribution = getMetadata("attribution")
             val layersJson = null// getMetadata("json")
 
-            metadata = RNMBTileMetadata(minZoomLevel = minZoomLevel, maxZoomLevel = maxZoomLevel, isVector = isVector, tms = tms, tileSize = tileSize, attribution = attribution, layersJson = layersJson)
+            metadata = RNMBTileMetadata(
+                minZoomLevel = minZoomLevel,
+                maxZoomLevel = maxZoomLevel,
+                isVector = isVector,
+                tms = tms,
+                tileSize = tileSize,
+                attribution = attribution,
+                layersJson = layersJson)
         } catch (error: RNMBTileSourceException) {
             print(error.localizedMessage)
             throw error
@@ -97,25 +101,28 @@ class RNMBTileSource(var id: String, var filePath: String) {
 
     // Given coordinates, queries the database and returns a tile if one exists.
     fun getTile(z: Int, x: Int, y: Int): ByteArray {
-        return database.select("tiles")
-                .whereArgs("(zoom_level = {z}) and (tile_column = {x}) and (tile_row = {y})",
-                        "z" to z, "x" to x, "y" to y)
-                .parseList(TilesParser)
-                .run { if (!isEmpty()) get(0) else null }
-                ?: throw RNMBTileSourceException.TileNotFoundException()
+        val c = database.query(
+            "tiles",
+            arrayOf("tile_data"),
+            "(zoom_level = ?) and (tile_column = ?) and (tile_row = ?)",
+            arrayOf(z.toString(), x.toString(), y.toString()),
+            null,
+            null,
+            null)
+        c.moveToFirst()
+        val index = c.getColumnIndex("tile_data")
+        val data = c.getBlob(index)
+        c.close()
+        return data
     }
 
     // Given a metadata property, queries the database and returns it, if it exists.
     private fun getMetadata(property: String): String? {
-        return database.select("metadata").whereSimple("name = ?", property).parseOpt(MetadataParser)?.second
+        val c = database.query("metadata", arrayOf("name", "value"), "name = ?", arrayOf(property), null, null, null)
+        c.moveToFirst()
+        val index = c.getColumnIndex("value")
+        val data = c.getString(index)
+        c.close()
+        return data
     }
-}
-
-object MetadataParser : MapRowParser<Pair<String, String>> {
-    override fun parseRow(columns: Map<String, Any?>): Pair<String, String> =
-            columns["name"] as String to columns["value"] as String
-}
-
-object TilesParser : MapRowParser<ByteArray> {
-    override fun parseRow(columns: Map<String, Any?>): ByteArray = columns["tile_data"] as ByteArray
 }

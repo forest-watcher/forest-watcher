@@ -30,33 +30,8 @@ type Props = {
   onShapeSourcePressed?: (MapboxFeaturePressEvent<ReportFeatureProperties>) => void
 };
 
-const getReportPosition = (report: Report): [number, number] => {
-  let position;
-  if (report.clickedPosition) {
-    const clickedPosition = JSON.parse(report.clickedPosition);
-    if (clickedPosition?.length) {
-      const lastClickedPosition = clickedPosition[clickedPosition.length - 1];
-      if (lastClickedPosition.lon && lastClickedPosition.lat) {
-        position = [lastClickedPosition.lon, lastClickedPosition.lat];
-      }
-    }
-  }
-
-  if (!position) {
-    const positionValues = report.userPosition.split(',').reverse();
-
-    if (positionValues.length < 2) {
-      throw new Error('3SC - getReportPosition was passed a report with an invalid userPosition string');
-    }
-
-    return [Number(positionValues[0]), Number(positionValues[1])];
-  }
-
-  return position;
-};
-
 export default class Reports extends Component<Props> {
-  getReportIcon = (isImported: boolean, isSelected: boolean) => {
+  getReportIcon: (isImported: boolean, isSelected: boolean) => any = (isImported: boolean, isSelected: boolean) => {
     let iconName = isImported ? 'importedReport' : 'report';
     if (isSelected) {
       iconName += 'Selected';
@@ -64,7 +39,7 @@ export default class Reports extends Component<Props> {
     return iconName;
   };
 
-  getReportIconSize = (report: Report): IconSize => {
+  getReportIconSize: (report: Report) => IconSize = (report: Report): IconSize => {
     const datasets = datasetsForReportName(report.reportName);
     if (!datasets || datasets.length === 0) {
       return MAP_DEFAULT_ICON_SIZE;
@@ -89,14 +64,20 @@ export default class Reports extends Component<Props> {
     return sizes[0];
   };
 
-  reportToFeature = (report: Report): Feature<Point, ReportFeatureProperties> => {
-    const selected =
-      this.props.selectedReports?.length > 0 &&
-      !!this.props.selectedReports.find(rep => rep.reportName === report.reportName);
-    const position = getReportPosition(report);
-    const { minIconSize, maxIconSize } = this.getReportIconSize(report);
-
-    const properties: ReportFeatureProperties = {
+  getProperties: (options: any) => ReportFeatureProperties = ({
+    selected,
+    report,
+    position,
+    minIconSize,
+    maxIconSize
+  }: {
+    selected: boolean,
+    report: Report,
+    position: { lat: number, lon: number },
+    minIconSize: number,
+    maxIconSize: number
+  }) => {
+    return {
       selected,
       icon: this.getReportIcon(!!report.isImported, selected),
       date: moment(report.date),
@@ -106,19 +87,59 @@ export default class Reports extends Component<Props> {
       name: i18n.t('map.layerSettings.report'),
       imported: report.isImported ?? false,
       // need to pass these as strings as they are rounded in onShapeSourcePressed method.
-      lat: '' + position[1],
-      long: '' + position[0],
+      lat: '' + position.lat,
+      long: '' + position.lon,
       featureId: report.reportName,
       reportAreaName: report.area.name
     };
-    return point(position, properties);
   };
 
-  renderReports = (reports: $ReadOnlyArray<Report>, imported: boolean) => {
+  getPoints: (report: Report) => Array<Feature<Point, ReportFeatureProperties>> = (
+    report: Report
+  ): Array<Feature<Point, ReportFeatureProperties>> => {
+    const selected =
+      this.props.selectedReports?.length > 0 &&
+      !!this.props.selectedReports.find(rep => rep.reportName === report.reportName);
+    const { minIconSize, maxIconSize } = this.getReportIconSize(report);
+    const clickedPositions = JSON.parse(report.clickedPosition);
+    if (clickedPositions.length > 0) {
+      return clickedPositions.map(position => {
+        const properties: ReportFeatureProperties = this.getProperties({
+          selected,
+          report,
+          position,
+          minIconSize,
+          maxIconSize
+        });
+        return point([position.lon, position.lat], properties);
+      });
+    } else {
+      const userPosition = report.userPosition.split(',');
+      const position = {
+        lat: Number(userPosition[0]),
+        lon: Number(userPosition[1])
+      };
+      const properties = this.getProperties({
+        selected,
+        report,
+        position,
+        minIconSize,
+        maxIconSize
+      });
+      return [point([position.lon, position.lat], properties)];
+    }
+  };
+
+  renderReports: (reports: $ReadOnlyArray<Report>, imported: boolean) => any = (
+    reports: $ReadOnlyArray<Report>,
+    imported: boolean
+  ) => {
     if (!reports?.length) {
       return null;
     }
-    const reportFeatureCollection = reports ? featureCollection(reports.map(this.reportToFeature)) : null;
+    const points = [];
+    reports.forEach(report => points.push(...this.getPoints(report)));
+    const reportFeatureCollection = reports ? featureCollection(points) : null;
     const circleColor = imported ? Theme.colors.importedReport : Theme.colors.report;
     const onPress = this.props.onShapeSourcePressed || null;
     const key = imported ? 'importedReport' : 'myReport';
@@ -154,7 +175,7 @@ export default class Reports extends Component<Props> {
     );
   };
 
-  render() {
+  render(): React$Element<any> | null {
     const { myReportsActive, importedReportsActive, layerIsActive } = this.props.reportLayerSettings;
     if (!layerIsActive) {
       return null;

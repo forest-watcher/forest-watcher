@@ -3,7 +3,6 @@ import type { ComponentProps, Dispatch, State } from 'types/store.types';
 import type { Report, ReportsList } from 'types/reports.types';
 
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { getNextStep } from 'helpers/forms';
 import { showExportReportsSuccessfulNotification } from 'redux-modules/app';
 

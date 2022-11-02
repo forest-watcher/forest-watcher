@@ -37,7 +37,7 @@ export type ReportFeatureProperties = {|
   type: 'report',
   selected: boolean,
   icon: string,
-  date: number,
+  date: moment$Moment,
   name: string,
   imported: boolean,
   // need to pass these as strings as they are rounded in onShapeSourcePressed method.

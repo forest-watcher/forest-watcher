@@ -11,7 +11,7 @@ import { saveReport, uploadReport, deleteReport, setReportAnswer } from 'redux-m
 
 import { shouldBeConnected } from 'helpers/app';
 import { trackSharedContent } from 'helpers/analytics';
-import { getTemplate, mapFormToAnsweredQuestions, mapReportToMetadata } from 'helpers/forms';
+import { mapFormToAnsweredQuestions, mapReportToMetadata } from 'helpers/forms';
 import exportReports from 'helpers/exportReports';
 import Answers from 'components/form/answers';
 import exportBundleFromRedux from 'helpers/sharing/exportBundleFromRedux';
@@ -26,7 +26,7 @@ type OwnProps = {|
 function mapStateToProps(state: State, ownProps: OwnProps) {
   const { reportName, readOnly } = ownProps;
   const { reports, app } = state;
-  const template = getTemplate(reports.list[reportName], reports.templates);
+  const template = state.reports.list[reportName]?.template || state.reports.templates['default'];
   const templateLang: string = template.languages.includes(app.language) ? app.language : template.defaultLanguage;
   const report = reports.list[reportName];
   const answers = report && report.answers;

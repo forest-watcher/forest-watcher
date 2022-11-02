@@ -2,6 +2,8 @@ import { Platform, UIManager, StatusBar } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import App from './app/main';
 import { disableAnalytics } from 'helpers/analytics';
+import { LogBox } from 'react-native';
+LogBox.ignoreAllLogs();
 
 global.Buffer = global.Buffer || require('buffer').Buffer;
 

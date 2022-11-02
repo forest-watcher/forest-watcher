@@ -16,14 +16,15 @@ type Props = {|
   +reportedAlerts: $ReadOnlyArray<Coordinates>,
   +selectedAlerts: $ReadOnlyArray<SelectedAlert>,
   +onShapeSourcePressed?: (MapboxFeaturePressEvent<AlertFeatureProperties>) => void,
-  +onHighlightedAlertsChanged?: ($ReadOnlyArray<Alert>, $ReadOnlyArray<Alert>) => void
+  +onHighlightedAlertsChanged?: ($ReadOnlyArray<Alert>, $ReadOnlyArray<Alert>) => void,
+  +setLoading?: (loading: boolean) => void
 |};
 
 type State = {|
   +highlightedAlerts: $ReadOnlyArray<Coordinates>
 |};
 
-export default class Alerts extends Component<Props> {
+export default class Alerts extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -36,48 +37,56 @@ export default class Alerts extends Component<Props> {
     };
   }
 
+  highlightAlerts() {
+    const { selectedAlerts } = this.props;
+    let highlightedAlerts = [];
+    if (this.refs.firesCategory) {
+      highlightedAlerts = highlightedAlerts.concat(this.refs.firesCategory.getHighlightedAlerts(selectedAlerts));
+    }
+    if (this.refs.deforestationCategory) {
+      highlightedAlerts = highlightedAlerts.concat(
+        this.refs.deforestationCategory.getHighlightedAlerts(selectedAlerts)
+      );
+    }
+    // Need to use the highlighted alerts array to fetch the cross category
+    // connected alerts because alerts can be highlighted due to being
+    // contiguous with other alerts that are highlighted in a seperate category
+    let connectedAlerts = [];
+    const highlightedAndSelectedAlerts = highlightedAlerts.concat(selectedAlerts);
+
+    if (this.refs.firesCategory) {
+      connectedAlerts = connectedAlerts.concat(
+        this.refs.firesCategory.getHighlightedAlerts(highlightedAndSelectedAlerts)
+      );
+    }
+    if (this.refs.deforestationCategory) {
+      connectedAlerts = connectedAlerts.concat(
+        this.refs.deforestationCategory.getHighlightedAlerts(highlightedAndSelectedAlerts)
+      );
+    }
+
+    const selectedAlertIds = selectedAlerts.map(alert => (alert.slug || alert.datasetId) + alert.lat + alert.long);
+
+    // Make sure highlighted alerts doesn't include already selected alerts!
+    const crossCategoryHighlightedAlerts = connectedAlerts.filter(alert => {
+      const alertId = (alert.slug || alert.datasetId) + alert.lat + alert.long;
+      return !selectedAlertIds.includes(alertId);
+    });
+    highlightedAlerts = highlightedAlerts.filter(alert => {
+      const alertId = (alert.slug || alert.datasetId) + alert.lat + alert.long;
+      return !selectedAlertIds.includes(alertId);
+    });
+    this.props.onHighlightedAlertsChanged(crossCategoryHighlightedAlerts, connectedAlerts);
+    this.props.setLoading?.(false);
+    this.setState({ highlightedAlerts });
+  }
+
   componentDidUpdate(prevProps: Props, prevState: State) {
     if (this.props.selectedAlerts !== prevProps.selectedAlerts) {
-      const { selectedAlerts } = this.props;
-      let highlightedAlerts = [];
-      if (this.refs.firesCategory) {
-        highlightedAlerts = highlightedAlerts.concat(this.refs.firesCategory.getHighlightedAlerts(selectedAlerts));
-      }
-      if (this.refs.deforestationCategory) {
-        highlightedAlerts = highlightedAlerts.concat(
-          this.refs.deforestationCategory.getHighlightedAlerts(selectedAlerts)
-        );
-      }
-      // Need to use the highlighted alerts array to fetch the cross category
-      // connected alerts because alerts can be highlighted due to being
-      // contiguous with other alerts that are highlighted in a seperate category
-      let connectedAlerts = [];
-      const highlightedAndSelectedAlerts = highlightedAlerts.concat(selectedAlerts);
-
-      if (this.refs.firesCategory) {
-        connectedAlerts = connectedAlerts.concat(
-          this.refs.firesCategory.getHighlightedAlerts(highlightedAndSelectedAlerts)
-        );
-      }
-      if (this.refs.deforestationCategory) {
-        connectedAlerts = connectedAlerts.concat(
-          this.refs.deforestationCategory.getHighlightedAlerts(highlightedAndSelectedAlerts)
-        );
-      }
-
-      const selectedAlertIds = selectedAlerts.map(alert => (alert.slug || alert.datasetId) + alert.lat + alert.long);
-
-      // Make sure highlighted alerts doesn't include already selected alerts!
-      const crossCategoryHighlightedAlerts = connectedAlerts.filter(alert => {
-        const alertId = (alert.slug || alert.datasetId) + alert.lat + alert.long;
-        return !selectedAlertIds.includes(alertId);
-      });
-      highlightedAlerts = highlightedAlerts.filter(alert => {
-        const alertId = (alert.slug || alert.datasetId) + alert.lat + alert.long;
-        return !selectedAlertIds.includes(alertId);
-      });
-      this.props.onHighlightedAlertsChanged(crossCategoryHighlightedAlerts, connectedAlerts);
-      this.setState({ highlightedAlerts });
+      this.props.setLoading?.(true);
+      /* Allow for the loading state to reach the destination
+       * A better approach would be to make highlightAlerts asychronous */
+      setTimeout(() => this.highlightAlerts(), 500);
     }
   }
 

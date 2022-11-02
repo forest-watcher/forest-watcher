@@ -46,8 +46,9 @@ export type AlertDatasetAPIConfig = {
     confidenceKey?: string,
     dateKey: string,
     maxDateKey?: string,
-    minDateKey: string,
-    tableName: string
+    minDateKey?: string,
+    tableName: string,
+    requiresMaxDate: boolean
   }
 };
 
@@ -56,7 +57,10 @@ export type AlertDatasetConfig = {
   id: string,
   nameKey: string,
   reportNameId: string,
-  requestThreshold: number // days
+  requestThreshold: number, // days
+  minIconSize: number,
+  maxIconSize: number,
+  sortKey: number
 };
 
 export type AlertsState = {

@@ -175,6 +175,7 @@ function downloadAllLayers(
   return Promise.all(
     cacheZoom.map(cacheLevel => {
       const layerConfig = { ...config, zoom: cacheLevel };
+      console.log('Download all layers', layerType, layerConfig);
       return downloadLayer(layerType, layerConfig, dispatch);
     })
   );

@@ -20,6 +20,7 @@ import { trackImportedContent } from 'helpers/analytics';
 import deleteLayerFiles from 'helpers/layer-store/deleteLayerFiles';
 
 import { importLayerFile } from 'helpers/layer-store/import/importLayerFile';
+import { decreaseAppSynced } from '../app';
 
 const GET_LAYERS_REQUEST = 'layers/GET_LAYERS_REQUEST';
 const GET_LAYERS_COMMIT = 'layers/GET_LAYERS_COMMIT';
@@ -269,7 +270,15 @@ export function getUserLayers() {
       meta: {
         offline: {
           effect: { url },
-          commit: { type: GET_LAYERS_COMMIT, meta: { areas } },
+          commit: {
+            type: GET_LAYERS_COMMIT,
+            meta: {
+              areas,
+              then: payload => (dispatch, state) => {
+                dispatch(decreaseAppSynced());
+              }
+            }
+          },
           rollback: { type: GET_LAYERS_ROLLBACK }
         }
       }

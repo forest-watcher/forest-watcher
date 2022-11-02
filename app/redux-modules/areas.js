@@ -11,6 +11,9 @@ import { GET_ALERTS_COMMIT } from 'redux-modules/alerts';
 import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 
 import deleteAlerts from 'helpers/alert-store/deleteAlerts';
+import type { Template } from '../types/reports.types';
+import { setAppSyncing } from './app';
+import { DATASETS } from '../config/constants';
 
 const GET_AREAS_REQUEST = 'areas/GET_AREAS_REQUEST';
 export const GET_AREAS_COMMIT = 'areas/GET_AREAS_COMMIT';
@@ -41,6 +44,9 @@ export default function reducer(state: AreasState = initialState, action: AreasA
     case PERSIST_REHYDRATE: {
       // $FlowFixMe
       const { areas } = action.payload;
+      areas?.data?.forEach(area => {
+        area.reportTemplate = convertAreaTemplates(area.reportTemplate);
+      });
       return { ...state, ...areas, syncError: false };
     }
     case RETRY_SYNC: {
@@ -59,7 +65,14 @@ export default function reducer(state: AreasState = initialState, action: AreasA
         syncError: false,
         refreshing: false
       };
+
       const importedAreas = state.data.filter(area => area.isImported);
+      importedAreas.forEach(area => {
+        area.reportTemplate = convertAreaTemplates(area.reportTemplate);
+      });
+      action.payload.forEach(area => {
+        area.reportTemplate = convertAreaTemplates(area.reportTemplate);
+      });
       return { ...state, data: [...action.payload, ...importedAreas], ...syncData };
     }
     case GET_AREAS_ROLLBACK: {
@@ -91,6 +104,7 @@ export default function reducer(state: AreasState = initialState, action: AreasA
         // Ignore the saved area if it already exists - this could happen when importing an area for example
         const possiblyPreexistingArea = state.data.find(area => area.id === areaToSave.id);
         if (!possiblyPreexistingArea) {
+          areaToSave.reportTemplate = convertAreaTemplates(areaToSave.reportTemplate);
           data = [...data, areaToSave];
         } else {
           console.warn('3SC', `Ignore already existing area with ID ${areaToSave.id}`);
@@ -159,14 +173,30 @@ export default function reducer(state: AreasState = initialState, action: AreasA
   }
 }
 
+export function convertAreaTemplates(reportTemplate: any): Array<Template> {
+  if (!reportTemplate) {
+    return [];
+  } else if (reportTemplate.length === undefined) {
+    return [reportTemplate];
+  }
+  return reportTemplate;
+}
+
 export function getAreas(): AreasAction {
-  const url = `${Config.API_URL}/forest-watcher/area`;
+  const url = `${Config.API_V3_URL}/forest-watcher/area/teams`;
   return {
     type: GET_AREAS_REQUEST,
     meta: {
       offline: {
         effect: { url },
-        commit: { type: GET_AREAS_COMMIT },
+        commit: {
+          type: GET_AREAS_COMMIT,
+          meta: {
+            then: payload => (dispatch, state) => {
+              dispatch(setAppSyncing(2 + payload.length * 4));
+            }
+          }
+        },
         rollback: { type: GET_AREAS_ROLLBACK }
       }
     }
@@ -189,7 +219,7 @@ export function updateArea(area: Area) {
       return;
     }
 
-    const url = `${Config.API_URL}/area/${area.id}`;
+    const url = `${Config.API_V3_URL}/forest-watcher/area/${area.id}`;
     const originalArea = getAreaById(state().areas.data, area.id);
     const headers = { 'content-type': 'multipart/form-data' };
     const body = new FormData();
@@ -221,7 +251,7 @@ export function setAreasRefreshing(refreshing: boolean): AreasAction {
 }
 
 export function saveArea(params: { datasets: Array<Dataset>, snapshot: string, area: CountryArea }): AreasAction {
-  const url = `${Config.API_URL}/forest-watcher/area`;
+  const url = `${Config.API_V3_URL}/forest-watcher/area`;
   const headers = { 'content-type': 'multipart/form-data' };
   const body = new FormData();
   body.append('name', params.area.name);
@@ -271,7 +301,7 @@ export function deleteArea(areaId: ?string) {
         return;
       }
 
-      const url = `${Config.API_URL}/area/${area.id}`;
+      const url = `${Config.API_V3_URL}/forest-watcher/area/${area.id}`;
       dispatch({
         type: DELETE_AREA_REQUEST,
         payload: area,

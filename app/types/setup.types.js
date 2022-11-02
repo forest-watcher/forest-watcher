@@ -5,20 +5,29 @@ import type { SaveAreaRequest, SaveAreaCommit, SaveAreaRollback } from 'types/ar
 
 export type CountryArea = {
   name: string,
-  geojson: ?Object,
-  wdpaid: ?number,
-  id: ?string
+  geojson?: ?Object,
+  wdpaid?: ?number,
+  id?: ?string
 };
 
 export type SetupState = {
-  country: ?Country,
+  country?: ?Country,
   area: CountryArea,
   snapshot: string,
-  error: boolean
+  error: boolean,
+  imported: boolean
 };
 
-export type SetupAction = InitSetup | SetCountry | SetAoi | SaveAreaRequest | SaveAreaCommit | SaveAreaRollback;
+export type SetupAction =
+  | InitSetup
+  | SetCountry
+  | SetAoi
+  | SaveAreaRequest
+  | SaveAreaCommit
+  | SaveAreaRollback
+  | StartBundleImport;
 
 export type InitSetup = { type: 'setup/INIT_SETUP' };
 export type SetCountry = { type: 'setup/SET_COUNTRY', payload: Country };
 export type SetAoi = { type: 'setup/SET_AOI', payload: { area: CountryArea, snapshot: string } };
+export type StartBundleImport = { type: 'setup/START_BUNDLE_IMPORT' };

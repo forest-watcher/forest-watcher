@@ -7,10 +7,17 @@ export type CoordinatesValue = 'decimal' | 'degrees';
 
 export type LoginProvider = 'apple' | 'email' | 'facebook' | 'twitter' | 'google';
 
+export type AppUpdateType = {
+  shouldUpdate: boolean,
+  url: string,
+  lastUpdate: ?Date
+};
+
 export type AppState = {
   isUpdate: boolean,
   language: string,
   synced: false,
+  syncing: number,
   coordinatesFormat: CoordinatesValue,
   hasSeenWelcomeScreen: boolean,
   pristineCacheTooltip: boolean,
@@ -21,7 +28,8 @@ export type AppState = {
   mapWalkthroughSeen: boolean,
   offlineMode: boolean,
   hasMigratedV1Files: boolean,
-  welcomeSeenVersion: ?string
+  welcomeSeenVersion: ?string,
+  needsAppUpdate: AppUpdateType
 };
 
 export type AppAction =
@@ -30,6 +38,8 @@ export type AppAction =
   | SetAreaCountryTooltipSeen
   | SetAreaDownloadTooltipSeen
   | SetAppSynced
+  | SetAppSyncing
+  | DecreaseAppSyncing
   | SetHasSeenWelcomeScreen
   | SetCoordinatesFormat
   | SetPristineCacheTooltip
@@ -40,13 +50,16 @@ export type AppAction =
   | LogoutRequest
   | ShowExportReportsSuccessfulNotification
   | SharingBundleImported
-  | UpdateApp;
+  | UpdateApp
+  | SetNeedsAppUpdate;
 
 export type SetOfflineMode = { type: 'app/SET_OFFLINE_MODE', payload: boolean };
 export type SetLanguage = { type: 'app/SET_LANGUAGE', payload: string };
 export type SetAreaCountryTooltipSeen = { type: 'app/SET_AREA_COUNTRY_TOOLTIP_SEEN', payload: boolean };
 export type SetAreaDownloadTooltipSeen = { type: 'app/SET_AREA_DOWNLOAD_TOOLTIP_SEEN', payload: boolean };
 export type SetAppSynced = { type: 'app/SET_APP_SYNCED', payload: boolean };
+export type SetAppSyncing = { type: 'app/SET_APP_SYNCING', payload: number };
+export type DecreaseAppSyncing = { type: 'app/DECREASE_APP_SYNCING' };
 export type SetHasSeenWelcomeScreen = { type: 'app/SET_WELCOME_SEEN', payload: string };
 export type SetCoordinatesFormat = { type: 'app/SET_COORDINATES_FORMAT', payload: CoordinatesValue };
 export type SetPristineCacheTooltip = { type: 'app/SET_PRISTINE_CACHE_TOOLTIP', payload: boolean };
@@ -63,3 +76,4 @@ export type SharingBundleImported = {|
     summary: string
   }
 |};
+export type SetNeedsAppUpdate = { type: 'app/SET_NEEDS_APP_UPDATE', payload: AppUpdateType };

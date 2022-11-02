@@ -1,0 +1,49 @@
+diff --git a/node_modules/react-native-app-auth/android/build.gradle b/node_modules/react-native-app-auth/android/build.gradle
+index 85fb638..1625b94 100644
+--- a/node_modules/react-native-app-auth/android/build.gradle
++++ b/node_modules/react-native-app-auth/android/build.gradle
+@@ -56,6 +56,6 @@ repositories {
+ dependencies {
+     //noinspection GradleDynamicVersion
+     implementation 'com.facebook.react:react-native:+'  // From node_modules
+-    implementation 'net.openid:appauth:0.8.1'
+-    implementation 'androidx.browser:browser:1.2.0'
++    implementation 'net.openid:appauth:0.11.1'
++    implementation 'androidx.browser:browser:1.3.0'
+ }
+diff --git a/node_modules/react-native-app-auth/android/src/main/java/com/rnappauth/RNAppAuthModule.java b/node_modules/react-native-app-auth/android/src/main/java/com/rnappauth/RNAppAuthModule.java
+index 8736904..c51b5dd 100644
+--- a/node_modules/react-native-app-auth/android/src/main/java/com/rnappauth/RNAppAuthModule.java
++++ b/node_modules/react-native-app-auth/android/src/main/java/com/rnappauth/RNAppAuthModule.java
+@@ -784,11 +784,9 @@ public class RNAppAuthModule extends ReactContextBaseJavaModule implements Activ
+         final Activity currentActivity = getCurrentActivity();
+ 
+         EndSessionRequest.Builder endSessionRequestBuilder =
+-                new EndSessionRequest.Builder(
+-                        serviceConfiguration,
+-                        idTokenHint,
+-                        Uri.parse(postLogoutRedirectUri)
+-                );
++                new EndSessionRequest.Builder(serviceConfiguration)
++                        .setIdTokenHint(idTokenHint)
++                        .setPostLogoutRedirectUri(Uri.parse(postLogoutRedirectUri));
+                 
+         if (additionalParametersMap != null) {
+             if (additionalParametersMap.containsKey("state")) {
+diff --git a/node_modules/react-native-app-auth/android/src/main/java/com/rnappauth/utils/EndSessionResponseFactory.java b/node_modules/react-native-app-auth/android/src/main/java/com/rnappauth/utils/EndSessionResponseFactory.java
+index 4cad2da..1bc35c7 100644
+--- a/node_modules/react-native-app-auth/android/src/main/java/com/rnappauth/utils/EndSessionResponseFactory.java
++++ b/node_modules/react-native-app-auth/android/src/main/java/com/rnappauth/utils/EndSessionResponseFactory.java
+@@ -13,8 +13,10 @@ public final class EndSessionResponseFactory {
+         WritableMap map = Arguments.createMap();
+ 
+         map.putString("state", response.state);
+-        map.putString("idTokenHint", response.request.idToken);
+-        map.putString("postLogoutRedirectUri", response.request.redirectUri.toString());
++        map.putString("idTokenHint", response.request.idTokenHint);
++        if (response.request.postLogoutRedirectUri != null) {
++            map.putString("postLogoutRedirectUri", response.request.postLogoutRedirectUri.toString());
++        }
+ 
+         return map;
+     }

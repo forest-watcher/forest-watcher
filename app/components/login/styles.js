@@ -163,8 +163,7 @@ export default StyleSheet.create({
     fontFamily: Theme.font,
     color: Theme.fontColors.light,
     fontSize: 14,
-    textAlign: 'center',
-    marginBottom: 8
+    textAlign: 'center'
   },
   loaderContainer: {
     backgroundColor: 'transparent',

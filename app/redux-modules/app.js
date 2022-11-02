@@ -11,15 +11,19 @@ import { syncCountries } from 'redux-modules/countries';
 import { syncUser, LOGOUT_REQUEST } from 'redux-modules/user';
 import { syncLayers } from 'redux-modules/layers';
 import { syncReports } from 'redux-modules/reports';
+import { syncTeams } from 'redux-modules/teams';
 import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 
 import { RETRY_SYNC } from 'redux-modules/shared';
 import { CURRENT_REDUX_STATE_VERSION } from '../migrate';
 import { NativeModules, Platform } from 'react-native';
+import { checkVersion } from 'react-native-check-version';
 
 // Actions
 const SET_OFFLINE_MODE = 'app/SET_OFFLINE_MODE';
 const SET_APP_SYNCED = 'app/SET_APP_SYNCED';
+const SET_APP_SYNCING = 'app/SET_APP_SYNCING';
+const DECREASE_APP_SYNCING = 'app/DECREASE_APP_SYNCING';
 const SET_AREA_COUNTRY_TOOLTIP_SEEN = 'app/SET_AREA_COUNTRY_TOOLTIP_SEEN';
 const SET_AREA_DOWNLOAD_TOOLTIP_SEEN = 'app/SET_AREA_DOWNLOAD_TOOLTIP_SEEN';
 const SET_COORDINATES_FORMAT = 'app/SET_COORDINATES_FORMAT';
@@ -32,6 +36,7 @@ export const SHOW_CONNECTION_REQUIRED = 'app/SHOW_CONNECTION_REQUIRED';
 export const UPDATE_APP = 'app/UPDATE_APP';
 export const EXPORT_REPORTS_SUCCESSFUL = 'app/EXPORT_REPORTS_SUCCESSFUL';
 export const SHARING_BUNDLE_IMPORTED = 'app/SHARING_BUNDLE_IMPORT_SUCCESSFUL';
+const SET_NEEDS_APP_UPDATE = 'app/SET_NEEDS_APP_UPDATE';
 
 // Reducer
 const initialState = {
@@ -42,13 +47,19 @@ const initialState = {
   areaDownloadTooltipSeen: false,
   mapWalkthroughSeen: false,
   synced: false,
+  syncing: 0,
   language: getLanguage(),
   offlineMode: false,
   pristineCacheTooltip: true,
   coordinatesFormat: COORDINATES_FORMATS.decimal.value,
   hasSeenWelcomeScreen: false,
   welcomeSeenVersion: null,
-  hasMigratedV1Files: true // This will only be set to false in migrate.js if we migrate from v1
+  hasMigratedV1Files: true, // This will only be set to false in migrate.js if we migrate from v1
+  needsAppUpdate: {
+    shouldUpdate: false,
+    url: '',
+    lastUpdate: null
+  }
 };
 
 export default function reducer(state: AppState = initialState, action: AppAction) {
@@ -57,12 +68,26 @@ export default function reducer(state: AppState = initialState, action: AppActio
       // $FlowFixMe
       const { app } = action.payload;
       const language = getLanguage();
-      return { ...state, ...app, language, version, isUpdate: app?.version && app.version !== version };
+      return {
+        ...state,
+        ...app,
+        language,
+        version,
+        isUpdate: app?.version && app.version !== version,
+        needsAppUpdate: {
+          ...app?.needsAppUpdate,
+          shouldUpdate: false
+        }
+      };
     }
     case SET_OFFLINE_MODE:
       return { ...state, offlineMode: action.payload };
     case SET_APP_SYNCED:
       return { ...state, synced: action.payload };
+    case SET_APP_SYNCING:
+      return { ...state, syncing: action.payload };
+    case DECREASE_APP_SYNCING:
+      return { ...state, syncing: state.syncing > 0 ? state.syncing - 1 : 0 };
     case SET_AREA_COUNTRY_TOOLTIP_SEEN:
       return { ...state, areaCountryTooltipSeen: action.payload };
     case SET_AREA_DOWNLOAD_TOOLTIP_SEEN:
@@ -87,9 +112,28 @@ export default function reducer(state: AppState = initialState, action: AppActio
         mapWalkthroughSeen: state.mapWalkthroughSeen,
         hasSeenWelcomeScreen: state.hasSeenWelcomeScreen
       };
+    case SET_NEEDS_APP_UPDATE:
+      return { ...state, needsAppUpdate: action.payload };
     default:
       return state;
   }
+}
+
+export function checkAppVersion(): (dispatch: Dispatch, state: GetState) => void {
+  return (dispatch: Dispatch, state: GetState) => {
+    const lastUpdate = state().app.needsAppUpdate.lastUpdate;
+    const lastUpdateDate = lastUpdate ? new Date(lastUpdate) : new Date();
+    checkVersion().then(releasedVersion => {
+      return dispatch({
+        type: SET_NEEDS_APP_UPDATE,
+        payload: {
+          shouldUpdate: releasedVersion.needsUpdate,
+          url: releasedVersion.url,
+          lastUpdate: releasedVersion.needsUpdate ? new Date() : lastUpdateDate
+        }
+      });
+    });
+  };
 }
 
 export function setOfflineMode(offlineMode: boolean): AppAction {
@@ -109,7 +153,20 @@ export function setAppSynced(open: boolean): AppAction {
   };
 }
 
-export function syncApp() {
+export function decreaseAppSynced(): AppAction {
+  return {
+    type: DECREASE_APP_SYNCING
+  };
+}
+
+export function setAppSyncing(syncing: number): AppAction {
+  return {
+    type: SET_APP_SYNCING,
+    payload: syncing
+  };
+}
+
+export function syncApp(): (dispatch: Dispatch, state: GetState) => void {
   return (dispatch: Dispatch, state: GetState) => {
     const { user } = state();
     dispatch(syncUser());
@@ -118,6 +175,7 @@ export function syncApp() {
       dispatch(syncReports());
       dispatch(syncAreas());
       dispatch(syncLayers());
+      dispatch(syncTeams());
     }
   };
 }
@@ -128,7 +186,7 @@ export function updateApp(): AppAction {
   };
 }
 
-export function retrySync() {
+export function retrySync(): (dispatch: Dispatch) => void {
   return (dispatch: Dispatch) => {
     dispatch({ type: RETRY_SYNC });
     dispatch(syncApp());

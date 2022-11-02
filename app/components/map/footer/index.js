@@ -41,7 +41,8 @@ type Props = {|
   selectedAlerts: $ReadOnlyArray<SelectedAlert>,
   selectedReports: $ReadOnlyArray<SelectedReport>,
   tappedOnFeatures: $ReadOnlyArray<MapItemFeatureProperties>,
-  userLocation: ?LocationPoint
+  userLocation: ?LocationPoint,
+  loading: boolean
 |};
 
 export default class MapFooter extends Component<Props> {
@@ -85,6 +86,7 @@ export default class MapFooter extends Component<Props> {
             connectedAlerts={connectedAlerts}
             highlightedAlerts={highlightedAlerts}
             onSelectAllConnectedAlertsPress={onSelectAllConnectedAlertsPress}
+            loading={this.props.loading}
           />
         </Animated.View>
         <View style={styles.buttonPanel}>

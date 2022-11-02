@@ -4,7 +4,7 @@ import type { Report, Template } from 'types/reports.types';
 import type { GroupedReports } from 'containers/reports';
 
 import React, { PureComponent } from 'react';
-import { NativeModules, Platform, View, Text, ScrollView } from 'react-native';
+import { Platform, View, Text, ScrollView } from 'react-native';
 import RNFetchBlob from 'rn-fetch-blob';
 
 import Row from 'components/common/row';
@@ -188,7 +188,8 @@ class Reports extends PureComponent<Props, State> {
                   screen: 'ForestWatcher.NewReport',
                   title,
                   reportName,
-                  step: lastStep
+                  step: lastStep,
+                  isModal: true
                 },
                 options: {
                   topBar: {
@@ -250,10 +251,6 @@ class Reports extends PureComponent<Props, State> {
         selectedForExport: [],
         inShareMode: false
       });
-
-      if (Platform.OS === 'android') {
-        NativeModules.Intents.launchDownloadsDirectory();
-      }
     };
     await displayExportReportDialog(false, buttonHandler);
   });

@@ -23,7 +23,7 @@ const Answer = (props: Props) => (
       <View style={styles.answers}>
         {props.answers &&
           props.answers.map((answer, i) => (
-            <Text style={styles.answer} key={`${props.questionId}${i}`}>
+            <Text numberOfLines={3} style={styles.answer} key={`${props.questionId}${i}`}>
               {answer}
             </Text>
           ))}

@@ -2,14 +2,13 @@
 import type { Answer, Question } from 'types/reports.types';
 
 import React, { PureComponent } from 'react';
-import { NativeModules, Platform, View, Text, ScrollView } from 'react-native';
+import { Platform, View, Text, ScrollView } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import i18n from 'i18next';
 
 import ActionButton from 'components/common/action-button';
 import AnswerComponent from 'components/form/answer/answer';
 import ImageCarousel from 'components/common/image-carousel';
-import tracker, { REPORT_OUTCOME_CANCELLED, REPORT_OUTCOME_COMPLETED } from 'helpers/googleAnalytics';
 import withDraft from './withDraft';
 import styles from './styles';
 import displayExportReportDialog from 'helpers/sharing/displayExportReportDialog';
@@ -93,9 +92,6 @@ class Answers extends PureComponent<Props> {
           case 1: {
             await this.props.exportReport();
             this.props.showExportReportsSuccessfulNotification();
-            if (Platform.OS === 'android') {
-              NativeModules.Intents.launchDownloadsDirectory();
-            }
             break;
           }
           case 2: {

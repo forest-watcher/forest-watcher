@@ -7,6 +7,7 @@ import type { Layer } from 'types/layers.types';
 
 import type { Feature, Polygon } from '@turf/helpers';
 import type { ReportAttachmentType } from 'helpers/report-store/reportFilePaths';
+import type { Team } from './teams.types';
 
 export type DownloadDataType = 'area' | 'route';
 export type LayerType = 'basemap' | 'contextual_layer';
@@ -92,7 +93,12 @@ export type ImportBundleRequest = {|
   /**
    * Flag indicating whether or not to import all the routes in the bundle
    */
-  routes: boolean
+  routes: boolean,
+
+  /**
+   * Flag indicating whether or not to import all the teams in the bundle
+   */
+  teams: boolean
 |};
 
 export type LayerFile = {|
@@ -158,6 +164,7 @@ export type SharingBundle = {|
   manifest: SharingBundleManifest,
   reports: Array<Report>,
   routes: Array<Route>,
+  teams: Array<Team>,
   templates: { [string]: Template }
 |};
 

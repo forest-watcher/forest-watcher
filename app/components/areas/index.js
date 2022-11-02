@@ -23,6 +23,7 @@ import { getShareButtonText } from 'helpers/sharing/utils';
 import Theme from 'config/theme';
 import { AREA_ROW_TOTAL_HEIGHT } from 'components/common/area-list/styles';
 import { pushMapScreen } from 'screens/maps';
+import type { Team } from 'types/teams.types';
 
 const plusIcon = require('assets/add.png');
 const emptyIcon = require('assets/areasEmpty.png');
@@ -36,7 +37,8 @@ type Props = {|
   +setAreaDownloadTooltipSeen: (seen: boolean) => void,
   +showNotConnectedNotification: () => void,
   +scrollToBottom?: boolean,
-  +offlineMode: boolean
+  +offlineMode: boolean,
+  +teams: Array<Team>
 |};
 
 type State = {|
@@ -180,10 +182,10 @@ class Areas extends Component<Props, State> {
     });
   });
 
-  onAreaPress = debounceUI((areaId: string, name: string) => {
-    if (areaId) {
-      this.props.initialiseAreaLayerSettings(areaId, areaId);
-      pushMapScreen(this.props.componentId, { areaId });
+  onAreaPress = debounceUI((area: Area, name: string) => {
+    if (area) {
+      this.props.initialiseAreaLayerSettings(area.id, area.id);
+      pushMapScreen(this.props.componentId, { teamId: area.teamId, areaId: area.id });
     }
   });
 
@@ -202,7 +204,7 @@ class Areas extends Component<Props, State> {
 
     Navigation.push(this.props.componentId, {
       component: {
-        name: 'ForestWatcher.SetupCountry'
+        name: 'ForestWatcher.CreateArea'
       }
     });
   });
@@ -346,7 +348,15 @@ class Areas extends Component<Props, State> {
     );
   }
 
-  renderAreaList = (areas: Array<Area>, title: string, allowsDownloadTooltip: boolean = false) => {
+  renderAreaList: (
+    areas: Array<Area>,
+    title: string,
+    allowsDownloadTooltip?: boolean
+  ) => null | React$Element<React$FragmentType> = (
+    areas: Array<Area>,
+    title: string,
+    allowsDownloadTooltip: boolean = false
+  ) => {
     if (areas.length === 0) {
       return null;
     }
@@ -356,15 +366,16 @@ class Areas extends Component<Props, State> {
         <Text style={styles.label}>{title}</Text>
         <AreaList
           areas={areas}
+          teams={this.props.teams}
           downloadCalloutVisible={allowsDownloadTooltip && !this.props.areaDownloadTooltipSeen}
           onAreaDownloadPress={(areaId, name) => {
             this.props.setAreaDownloadTooltipSeen(true);
           }}
-          onAreaPress={(areaId, name) => {
+          onAreaPress={(area, name) => {
             if (this.state.inShareMode) {
-              this.onAreaSelectedForExport(areaId);
+              this.onAreaSelectedForExport(area.id);
             } else {
-              this.onAreaPress(areaId, name);
+              this.onAreaPress(area, name);
             }
           }}
           onAreaSettingsPress={(areaId, name) => {

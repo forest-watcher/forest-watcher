@@ -2,7 +2,8 @@
 
 import type { Route, RouteDifficulty } from 'types/routes.types';
 import React, { PureComponent } from 'react';
-import { Dimensions, Text, ScrollView, Picker } from 'react-native';
+import { Dimensions, Text, ScrollView } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 import { Navigation } from 'react-native-navigation';
 import moment from 'moment';
 

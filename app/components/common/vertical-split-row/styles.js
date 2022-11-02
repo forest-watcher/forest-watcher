@@ -20,7 +20,9 @@ export default StyleSheet.create({
     borderBottomWidth: 1,
     backgroundColor: Theme.background.white,
     flexDirection: 'row',
-    alignItems: 'stretch'
+    alignItems: 'stretch',
+    minHeight: 128,
+    maxHeight: 128
   },
   imageContainer: {
     minWidth: 92,
@@ -60,14 +62,14 @@ export default StyleSheet.create({
     marginRight: 20
   },
   nameContainer: {
-    flex: 1,
-    paddingVertical: isSmallScreen ? 12 : 24
+    flex: 1
   },
   titleContainer: {
-    alignItems: 'flex-start',
+    alignItems: 'center',
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    alignSelf: 'baseline'
   },
   contentContainer: {
     flexGrow: 1,
@@ -75,7 +77,6 @@ export default StyleSheet.create({
     marginHorizontal: isSmallScreen ? 12 : 16
   },
   title: {
-    flex: 1,
     fontFamily: Theme.font,
     color: Theme.fontColors.secondary,
     fontSize: isSmallScreen ? 16 : 17,
@@ -83,7 +84,6 @@ export default StyleSheet.create({
   },
   settingsButton: {
     alignSelf: 'flex-start',
-    marginVertical: isSmallScreen ? 0 : 6,
     marginRight: 12
   },
   largerPadding: {
@@ -93,7 +93,6 @@ export default StyleSheet.create({
     paddingVertical: isSmallScreen ? 8 : 16
   },
   subtitle: {
-    flex: 1,
     fontFamily: Theme.font,
     color: Theme.fontColors.secondary,
     fontSize: isSmallScreen ? 12 : 15,

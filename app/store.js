@@ -1,11 +1,12 @@
 import { createStore, compose, applyMiddleware } from 'redux';
 import { combinedReducer } from 'combinedReducer';
 import offline from 'offline';
+import offlineChain from 'redux-offline-chain';
 import thunk from 'redux-thunk';
 import createSagaMiddleware from 'redux-saga';
 
 import Reactotron, { trackGlobalErrors, networking, openInEditor, asyncStorage } from 'reactotron-react-native'; // eslint-disable-line
-import sagaPlugin from 'reactotron-redux-saga';// eslint-disable-line
+import sagaPlugin from 'reactotron-redux-saga'; // eslint-disable-line
 import { reactotronRedux } from 'reactotron-redux'; // eslint-disable-line
 
 import migrationEnhancer from './migrate';
@@ -39,7 +40,7 @@ function createAppStore(startApp) {
   const { middleware: offlineMiddleware, enhanceReducer, enhanceStore } = offline({
     persistCallback: startApp
   });
-  const middleware = applyMiddleware(...middlewareList, offlineMiddleware);
+  const middleware = applyMiddleware(...middlewareList, offlineMiddleware, offlineChain);
   const storeEnhancers = [enhanceStore, migrationEnhancer, middleware];
   if (__DEV__) {
     storeEnhancers.push(Reactotron.createEnhancer());

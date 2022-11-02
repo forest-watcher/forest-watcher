@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import { View, Text, ScrollView, Image } from 'react-native';
+import { View, Text, ScrollView, Image, Platform, PermissionsAndroid } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 
 import i18n from 'i18next';
@@ -12,6 +12,7 @@ import ActionButton from 'components/common/action-button';
 import { request, PERMISSIONS } from 'react-native-permissions';
 
 import { withSafeArea } from 'react-native-safe-area';
+import parseInt from 'lodash/fp/parseInt';
 const SafeAreaView = withSafeArea(View, 'margin', 'vertical');
 
 const locationPermissionsImage = require('assets/locationPermissions.jpg');
@@ -32,8 +33,12 @@ export default class Welcome extends Component<Props> {
     };
   }
 
-  onContinue = async () => {
-    await request(PERMISSIONS.IOS.LOCATION_ALWAYS);
+  onContinue: () => Promise<void> = async () => {
+    if (Platform.OS === 'android') {
+      await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION);
+    } else {
+      await request(PERMISSIONS.IOS.LOCATION_ALWAYS);
+    }
     Navigation.dismissModal(this.props.componentId);
   };
 
@@ -63,10 +68,26 @@ export default class Welcome extends Component<Props> {
                 <Text style={styles.itemText}>{i18n.t('locationPermissions.bullet1')}</Text>
               </View>
             </View>
-            <View style={[styles.itemContainer, styles.itemContainerLast]}>
+            <View style={styles.itemContainer}>
               <View style={styles.bullet} />
               <View style={styles.itemContentContainer}>
                 <Text style={styles.itemText}>{i18n.t('locationPermissions.bullet2')}</Text>
+              </View>
+            </View>
+            <View style={styles.itemContainer}>
+              <View style={styles.bullet} />
+              <View style={styles.itemContentContainer}>
+                <Text style={styles.itemText}>{i18n.t('locationPermissions.bullet3')}</Text>
+              </View>
+            </View>
+            <View style={styles.itemContainer}>
+              <View style={styles.bullet} />
+              <View style={styles.itemContentContainer}>
+                <Text style={styles.itemText}>
+                  {Platform.Version < 32
+                    ? i18n.t('locationPermissions.bullet4_10')
+                    : i18n.t('locationPermissions.bullet4_11')}
+                </Text>
               </View>
             </View>
           </ScrollView>

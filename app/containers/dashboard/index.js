@@ -7,15 +7,13 @@ import {
   updateApp,
   setPristineCacheTooltip,
   showNotConnectedNotification,
-  setWelcomeScreenSeen
+  setWelcomeScreenSeen,
+  checkAppVersion
 } from 'redux-modules/app';
 import { setAreasRefreshing } from 'redux-modules/areas';
 import { isOutdated } from 'helpers/date';
 import { hasSeenLatestWhatsNewOrWelcomeScreen, shouldBeConnected } from 'helpers/app';
-
-type OwnProps = {|
-  +componentId: string
-|};
+import { syncTeams } from '../../redux-modules/teams';
 
 type OwnProps = {|
   +componentId: string
@@ -30,11 +28,13 @@ function mapStateToProps(state: State) {
     appSyncing,
     isConnected,
     areasOutdated,
-    activeRoute: state.routes.activeRoute,
     refreshing: state.areas.refreshing,
     pristine: state.app.pristineCacheTooltip,
     hasSeenWelcomeScreen: hasSeenLatestWhatsNewOrWelcomeScreen(state),
-    needsUpdate: areasOutdated && !appSyncing && isConnected && loggedIn
+    needsUpdate: areasOutdated && !appSyncing && isConnected && loggedIn,
+    invites: state.teams.invites,
+    needsAppUpdate: state.app.needsAppUpdate,
+    isAppUpdate: state.app.isUpdate
   };
 }
 
@@ -54,6 +54,12 @@ function mapDispatchToProps(dispatch: Dispatch) {
     },
     updateApp: () => {
       dispatch(updateApp());
+    },
+    getTeamInvites: () => {
+      dispatch(syncTeams());
+    },
+    checkAppVersion: () => {
+      dispatch(checkAppVersion());
     }
   };
 }

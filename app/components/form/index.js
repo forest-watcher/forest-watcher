@@ -1,5 +1,5 @@
 // @flow
-import type { Question, Answer } from 'types/reports.types';
+import type { Question, Answer, Template } from 'types/reports.types';
 
 import React, { Component } from 'react';
 import i18n from 'i18next';
@@ -27,10 +27,12 @@ type Props = {
   /**
    * The component Id to pop to if in edit mode
    */
-  popToComponentId: string
+  popToComponentId: string,
+  template: Template,
+  isModal: Boolean
 };
 
-const closeIcon = require('assets/close.png');
+const closeIcon = require('assets/backButton.png');
 
 class Form extends Component<Props> {
   static options(passProps) {
@@ -65,11 +67,11 @@ class Form extends Component<Props> {
    */
   navigationButtonPressed({ buttonId }) {
     if (buttonId === 'backButton') {
-      if (this.props.nextQuestionIndex !== null || !this.props.editMode) {
-        trackReportingConcluded('cancelled', 'answers');
+      if (this.props.isModal) {
         Navigation.dismissModal(this.props.componentId);
       } else {
-        Navigation.popToRoot(this.props.componentId);
+        Navigation.pop(this.props.componentId);
+        trackReportingConcluded('cancelled', 'answers');
       }
     }
   }
@@ -81,7 +83,7 @@ class Form extends Component<Props> {
   onChange = answer => {
     const { setReportAnswer, reportName, updateOnly } = this.props;
     setReportAnswer(reportName, answer, updateOnly);
-  });
+  };
 
   onSubmit = debounceUI(() => {
     const {
@@ -107,7 +109,8 @@ class Form extends Component<Props> {
           passProps: {
             editMode,
             reportName,
-            questionIndex: nextQuestionIndex
+            questionIndex: nextQuestionIndex,
+            template: this.props.template
           }
         }
       });

@@ -152,7 +152,9 @@ export default class AlertDatasetCategory extends PureComponent<Props, State> {
     }
   };
 
-  getHighlightedAlerts = (selectedAlerts: $ReadOnlyArray<SelectedAlert>): $ReadOnlyArray<Coordinates> => {
+  getHighlightedAlerts: (selectedAlerts: $ReadOnlyArray<SelectedAlert>) => $ReadOnlyArray<Alert> = (
+    selectedAlerts: $ReadOnlyArray<SelectedAlert>
+  ): $ReadOnlyArray<Alert> => {
     if (!this.state.alertsIndex) {
       return [];
     }
@@ -217,7 +219,7 @@ export default class AlertDatasetCategory extends PureComponent<Props, State> {
   };
 
   _createFeaturesForAlerts = (alerts: Array<Alert>, alertsIndex: AlertsIndex): FeatureCollectionState => {
-    const selectedNeighbours = this.props.selectedAlerts.concat(this.props.highlightedAlerts);
+    const selectedNeighbours = this.props.selectedAlerts;
     const alertFeatures = alerts.map((alert: Alert) => {
       const properties = this._getAlertProperties(alert, selectedNeighbours);
       return point([alert.long, alert.lat], properties);

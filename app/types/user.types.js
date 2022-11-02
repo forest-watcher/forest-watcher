@@ -13,7 +13,9 @@ export type UserState = {
   synced: boolean,
   syncing: boolean,
   loading: boolean,
-  emailLoginError: ?string
+  emailLoginError: ?string,
+  userId: string,
+  deleted: boolean
 };
 
 export type UserAction =
@@ -26,7 +28,10 @@ export type UserAction =
   | SetEmailLoginError
   | ClearEmailLoginError
   | PersistRehydrate
-  | LogoutRequest;
+  | LogoutRequest
+  | DeleteAccountRequest
+  | DeleteAccountCommit
+  | DeleteAccountRollback;
 
 type User = {};
 
@@ -60,4 +65,14 @@ export type SetEmailLoginError = {
 };
 export type ClearEmailLoginError = {
   type: 'user/CLEAR_EMAIL_LOGIN_ERROR'
+};
+export type DeleteAccountRequest = {
+  type: 'user/DELETE_ACCOUNT_REQUEST',
+  meta: any
+};
+export type DeleteAccountCommit = {
+  type: 'user/DELETE_ACCOUNT_COMMIT'
+};
+export type DeleteAccountRollback = {
+  type: 'user/DELETE_ACCOUNT_ROLLBACK'
 };

@@ -14,8 +14,9 @@ import {
 } from 'redux-modules/app';
 import { Types } from 'components/toast-notification';
 import i18n from 'i18next';
+import { TEAM_ACTION_ACCEPT_COMMIT, TEAM_ACTION_DECLINE_COMMIT, TEAM_ACTION_LEAVE_COMMIT } from './redux-modules/teams';
 
-export default {
+export default ({
   [UPLOAD_REPORT_COMMIT]: {
     type: Types.success,
     textKey: 'sync.reportUploaded'
@@ -59,5 +60,17 @@ export default {
     time: 5,
     descriptionFn: (action: SharingBundleImported) =>
       `${action.payload.summary} ${i18n.t('importBundle.successContentsSuffix')}`
+  },
+  [TEAM_ACTION_ACCEPT_COMMIT]: {
+    type: Types.success,
+    textKey: 'teams.notifications.acceptSuccess'
+  },
+  [TEAM_ACTION_LEAVE_COMMIT]: {
+    type: Types.success,
+    textKey: 'teams.notifications.leaveSuccess'
+  },
+  [TEAM_ACTION_DECLINE_COMMIT]: {
+    type: Types.success,
+    textKey: 'teams.notifications.declineSuccess'
   }
-};
+}: any);

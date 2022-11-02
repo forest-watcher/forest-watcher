@@ -24,7 +24,7 @@ function List(props) {
   });
 
   return (
-    <ScrollView>
+    <ScrollView bounces={false}>
       {props.content.map((data, key) => (
         <Touchable
           key={`link-${key}`}

@@ -91,6 +91,12 @@ export default class Settings extends Component<Props, State> {
         image: null,
         section: 'ForestWatcher.ContactUs',
         functionOnPress: this.handleStaticLinks
+      },
+      {
+        text: i18n.t('settings.deleteAcount'),
+        image: null,
+        section: 'ForestWatcher.DeleteAccount',
+        functionOnPress: this.handleStaticLinks
       }
     ];
 

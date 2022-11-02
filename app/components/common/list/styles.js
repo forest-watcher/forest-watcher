@@ -10,7 +10,8 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
-    marginBottom: 2
+    marginBottom: 1,
+    paddingVertical: 18
   },
 
   containerBigSeparation: {
@@ -30,10 +31,11 @@ export default StyleSheet.create({
 
   text: {
     flex: 1,
-    fontSize: 17,
+    fontSize: 16,
     color: Theme.fontColors.secondary,
     marginLeft: Theme.margin.left,
-    marginRight: 16
+    marginRight: 16,
+    lineHeight: 24
   },
 
   imageList: {
