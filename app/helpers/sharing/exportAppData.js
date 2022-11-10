@@ -13,6 +13,7 @@ import _ from 'lodash';
 import { GFW_BASEMAPS } from 'config/constants';
 import queryAlerts from 'helpers/alert-store/queryAlerts';
 import { getTemplate } from 'helpers/forms';
+import type { TeamsState } from '../../types/teams.types';
 
 /**
  * Version number of the bundles created using the functions in this file
@@ -34,6 +35,7 @@ export default function exportAppData(appState: State, request: ExportBundleRequ
   const layers = exportLayers(appState.layers, request.layerIds);
   const [reports, templates] = exportReports(appState.reports, request.reportIds);
   const routes = exportRoutes(appState.routes, request.routeIds);
+  const teams = exportTeams(appState.teams);
 
   return {
     version: APP_DATA_FORMAT_VERSION,
@@ -45,6 +47,7 @@ export default function exportAppData(appState: State, request: ExportBundleRequ
     manifest: { layerFiles: [], reportFiles: [] },
     reports: reports,
     routes: routes,
+    teams: teams,
     templates: templates
   };
 }
@@ -124,4 +127,11 @@ function exportReports(reportsState: ReportsState, reportIds: Array<string>): [A
  */
 function exportRoutes(routesState: RouteState, routeIds: Array<string>): Array<Route> {
   return routesState.previousRoutes.filter(route => routeIds.includes(route.id)).filter(Boolean);
+}
+
+/**
+ * Export all joined teams
+ */
+function exportTeams(teamState: TeamsState) {
+  return teamState.data.filter(team => team.userRole !== 'left');
 }

@@ -1,0 +1,61 @@
+diff --git a/node_modules/react-native-navigation/lib/ios/RNNNavigationOptions.h b/node_modules/react-native-navigation/lib/ios/RNNNavigationOptions.h
+index 30acd97..a448ff4 100644
+--- a/node_modules/react-native-navigation/lib/ios/RNNNavigationOptions.h
++++ b/node_modules/react-native-navigation/lib/ios/RNNNavigationOptions.h
+@@ -35,6 +35,7 @@ extern const NSInteger BLUR_TOPBAR_TAG;
+ @property(nonatomic, strong) DeprecationOptions *deprecations;
+ @property(nonatomic, strong) WindowOptions *window;
+ 
++@property(nonatomic, strong) Bool *ignoreChildOptions;
+ @property(nonatomic, strong) Bool *popGesture;
+ @property(nonatomic, strong) Image *backgroundImage;
+ @property(nonatomic, strong) Image *rootBackgroundImage;
+diff --git a/node_modules/react-native-navigation/lib/ios/RNNNavigationOptions.m b/node_modules/react-native-navigation/lib/ios/RNNNavigationOptions.m
+index c7c4488..fd3ebe1 100644
+--- a/node_modules/react-native-navigation/lib/ios/RNNNavigationOptions.m
++++ b/node_modules/react-native-navigation/lib/ios/RNNNavigationOptions.m
+@@ -40,6 +40,7 @@ - (instancetype)initWithDict:(NSDictionary *)dict {
+     self.deprecations = [[DeprecationOptions alloc] initWithDict:dict[@"deprecations"]];
+     self.window = [[WindowOptions alloc] initWithDict:dict[@"window"]];
+ 
++    self.ignoreChildOptions = [[Bool alloc] initWithValue:dict[@"ignoreChildOptions"]];
+     self.popGesture = [[Bool alloc] initWithValue:dict[@"popGesture"]];
+     self.backgroundImage = [ImageParser parse:dict key:@"backgroundImage"];
+     self.rootBackgroundImage = [ImageParser parse:dict key:@"rootBackgroundImage"];
+diff --git a/node_modules/react-native-navigation/lib/ios/UIViewController+LayoutProtocol.m b/node_modules/react-native-navigation/lib/ios/UIViewController+LayoutProtocol.m
+index 4304020..0ee2831 100644
+--- a/node_modules/react-native-navigation/lib/ios/UIViewController+LayoutProtocol.m
++++ b/node_modules/react-native-navigation/lib/ios/UIViewController+LayoutProtocol.m
+@@ -38,11 +38,17 @@ - (void)mergeChildOptions:(RNNNavigationOptions *)options child:(UIViewControlle
+ }
+ 
+ - (RNNNavigationOptions *)resolveOptions {
++    if ([self.options.ignoreChildOptions hasValue] && [self.options.ignoreChildOptions get]) {
++        return self.options.copy;
++    }
+     return (RNNNavigationOptions *)[self.options.copy
+         mergeOptions:self.getCurrentChild.resolveOptions];
+ }
+ 
+ - (RNNNavigationOptions *)resolveOptionsWithDefault {
++    if ([self.options.ignoreChildOptions hasValue] && [self.options.ignoreChildOptions get]) {
++        return [self.options.copy withDefault:self.defaultOptions];
++    }
+     return [(RNNNavigationOptions *)[self.options.copy
+         mergeOptions:self.getCurrentChild.resolveOptions] withDefault:self.defaultOptions];
+ }
+diff --git a/node_modules/react-native-navigation/lib/src/interfaces/Options.ts b/node_modules/react-native-navigation/lib/src/interfaces/Options.ts
+index 7448948..a43ecb6 100644
+--- a/node_modules/react-native-navigation/lib/src/interfaces/Options.ts
++++ b/node_modules/react-native-navigation/lib/src/interfaces/Options.ts
+@@ -1502,6 +1502,10 @@ setRoot: {
+    * @default true
+    */
+   popGesture?: boolean;
++  /**
++   * Ignore child options when resolving view hierarchy options  
++   */
++  ignoreChildOptions?: boolean;
+   /**
+    * Background image for the screen
+    * #### (iOS specific)

@@ -13,6 +13,8 @@ import { IMPORT_LAYER_REQUEST, IMPORT_LAYER_COMMIT } from 'redux-modules/shared'
 import { IMPORT_ROUTE } from 'redux-modules/routes';
 import { IMPORT_REPORT, IMPORT_TEMPLATE } from 'redux-modules/reports';
 import { isCustomContextualLayer, isGfwContextualLayer } from 'helpers/layerTypes';
+import type { Team } from '../../types/teams.types';
+import { GET_TEAMS_COMMIT } from '../../redux-modules/teams';
 
 export default function importAppData(bundle: SharingBundle, request: ImportBundleRequest, dispatch: Dispatch) {
   if (request.areas) {
@@ -41,6 +43,17 @@ export default function importAppData(bundle: SharingBundle, request: ImportBund
   if (request.gfwContextualLayers.metadata) {
     importLayers(bundle.layers.filter(isGfwContextualLayer), dispatch);
   }
+
+  if (request.teams) {
+    importTeams(bundle.teams, dispatch);
+  }
+}
+
+function importTeams(teams: Array<Team>, dispatch: Dispatch) {
+  dispatch({
+    type: GET_TEAMS_COMMIT,
+    payload: teams
+  });
 }
 
 function importAlerts(alerts: Array<Alert>) {

@@ -20,6 +20,7 @@ import { shouldBeConnected } from 'helpers/app';
 import { storeReportFiles } from 'helpers/report-store/storeReportFiles';
 import { Platform } from 'react-native';
 import { appDocumentsRootDir } from 'helpers/report-store/reportFilePaths';
+import { decreaseAppSynced } from './app';
 
 // Actions
 const GET_DEFAULT_TEMPLATE_REQUEST = 'report/GET_DEFAULT_TEMPLATE_REQUEST';
@@ -73,15 +74,14 @@ export default function reducer(state: ReportsState = initialState, action: Repo
       }
 
       // Merge in the templates retrieved from the areas
-      action.payload
-        .map(area => area.reportTemplate)
-        .filter(Boolean)
-        .forEach(template => {
+      action.payload.forEach(area => {
+        area.reportTemplate?.forEach(template => {
           templates[template.id] = {
             ...template,
             questions: orderQuestions(template.questions)
           };
         });
+      });
 
       return { ...state, templates };
     }
@@ -184,7 +184,7 @@ export default function reducer(state: ReportsState = initialState, action: Repo
 }
 
 // Action Creators
-function getDefaultReport(): ReportsAction {
+export function getDefaultReport(): ReportsAction {
   const url = `${Config.API_URL}/reports/default`;
 
   return {
@@ -192,7 +192,14 @@ function getDefaultReport(): ReportsAction {
     meta: {
       offline: {
         effect: { url },
-        commit: { type: GET_DEFAULT_TEMPLATE_COMMIT },
+        commit: {
+          type: GET_DEFAULT_TEMPLATE_COMMIT,
+          meta: {
+            then: payload => (dispatch, state) => {
+              dispatch(decreaseAppSynced());
+            }
+          }
+        },
         rollback: { type: GET_DEFAULT_TEMPLATE_ROLLBACK }
       }
     }
@@ -200,7 +207,7 @@ function getDefaultReport(): ReportsAction {
 }
 
 export function createReport(report: BasicReport): ReportsAction {
-  const { reportName, userPosition, clickedPosition, area } = report;
+  const { reportName, userPosition, clickedPosition, area, template } = report;
   return {
     type: CREATE_REPORT,
     payload: {
@@ -212,7 +219,8 @@ export function createReport(report: BasicReport): ReportsAction {
         index: 0,
         answers: [],
         date: new Date().toISOString(),
-        status: CONSTANTS.status.draft
+        status: CONSTANTS.status.draft,
+        template
       }
     }
   };
@@ -328,7 +336,7 @@ export function uploadReport(reportName: string) {
     const language = app.language || '';
     const area = report.area;
     const dataset = area.dataset || {};
-    const template = getTemplate(report, reports.templates);
+    const template = report.template || getTemplate(report, reports.templates);
 
     const form = new FormData();
     form.append('report', template.id);
@@ -344,6 +352,7 @@ export function uploadReport(reportName: string) {
     form.append('date', report && report.date);
     form.append('clickedPosition', report && report.clickedPosition);
     form.append('userPosition', report && report.userPosition);
+    form.append('teamId', area.teamId);
 
     const answeredQuestions = mapFormToAnsweredQuestions(report.answers, template, null);
     // eslint-disable-next-line no-unused-vars
@@ -378,7 +387,7 @@ export function uploadReport(reportName: string) {
       name: reportName,
       status: CONSTANTS.status.complete
     };
-    const url = `${Config.API_URL}/reports/${template.id}/answers`;
+    const url = `${Config.API_V3_URL}/reports/${template.id}/answers`;
     const headers = { 'content-type': 'multipart/form-data' };
     dispatch({
       type: UPLOAD_REPORT_REQUEST,

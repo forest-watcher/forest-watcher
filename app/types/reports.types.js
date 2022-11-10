@@ -2,6 +2,7 @@
 import type { Dataset, GetAreasCommit } from 'types/areas.types';
 import type { LogoutRequest } from 'types/user.types';
 import type { OfflineMeta } from 'types/offline.types';
+import type { Geostore } from './areas.types';
 
 export type Metadata = { id: string, label: string, value: any };
 
@@ -56,7 +57,8 @@ export type Report = {
   status: 'draft' | 'complete' | 'uploaded',
   date: string,
   answers: Array<Answer>,
-  isImported?: true
+  isImported?: true,
+  template: Template
 };
 
 export type SelectedReport = {
@@ -69,15 +71,26 @@ export type BasicReport = {
   reportName: string,
   userPosition: string, // "x,x"
   clickedPosition: string, // JSON representation of an array of objects with lat and lon props
-  area: ReportArea
+  area: ReportArea,
+  template: Template
 };
 
 export type ReportArea = {
   id: string,
   name: string,
-  datasets?: Array<Dataset>,
-  dataset?: Dataset,
-  templateId: string
+  application: string,
+  geostore: Geostore,
+  userId: string,
+  createdAt: string,
+  image: string,
+  datasets: ?Array<Dataset>,
+  dataset: ?Dataset,
+  use: Object,
+  iso: Object,
+  reportTemplate: Array<Template>,
+  templateId: string,
+  isImported?: true,
+  teamId: string
 };
 
 export type ReportsList = {

@@ -1,7 +1,17 @@
 // @flow
 
 import React, { PureComponent } from 'react';
-import { Image, Linking, Platform, RefreshControl, ScrollView, StatusBar, Text, View } from 'react-native';
+import {
+  Image,
+  Linking,
+  PermissionsAndroid,
+  Platform,
+  RefreshControl,
+  ScrollView,
+  StatusBar,
+  Text,
+  View
+} from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import { checkMultiple, PERMISSIONS, RESULTS } from 'react-native-permissions';
 
@@ -11,12 +21,16 @@ import { trackMenuButtonPress, trackScreenView } from 'helpers/analytics';
 import i18n from 'i18next';
 import styles from './styles';
 import { showLocationPermissionsScreen, showWelcomeScreen } from 'screens/common';
+import Theme from 'config/theme';
+import type { Team } from '../../types/teams.types';
+import type { AppUpdateType } from '../../types/app.types';
 
 const settingsIcon = require('assets/settings.png');
 const nextIcon = require('assets/next.png');
 const areasIcon = require('assets/areas.png');
 const reportsIcon = require('assets/reports.png');
 const routesIcon = require('assets/routes.png');
+const teamsIcon = require('assets/teams.png');
 
 type Props = {
   componentId: string,
@@ -28,10 +42,14 @@ type Props = {
   refreshing: boolean,
   pristine: boolean,
   setPristine: boolean => void,
-  setWelcomeScreenSeen: boolean => void,
+  invites: Array<Team>,
+  needsAppUpdate: AppUpdateType,
+  isAppUpdate: boolean,
+  setWelcomeScreenSeen: () => void,
   updateApp: () => void,
   showNotConnectedNotification: () => void,
-  activeRoute: Route
+  getTeamInvites: () => void,
+  checkAppVersion: () => void
 };
 
 class Dashboard extends PureComponent<Props> {
@@ -44,6 +62,9 @@ class Dashboard extends PureComponent<Props> {
         },
         largeTitle: {
           visible: true
+        },
+        background: {
+          color: Theme.background.main
         }
       }
     };
@@ -54,6 +75,8 @@ class Dashboard extends PureComponent<Props> {
   }
 
   areasAction: { callback: () => void, icon: any };
+
+  teamsAction: { callback: () => void, icon: any };
 
   reportsAction: { callback: () => void, icon: any };
 
@@ -88,11 +111,18 @@ class Dashboard extends PureComponent<Props> {
       callback: this.onPressSettings,
       icon: nextIcon
     };
+
+    this.teamsAction = {
+      callback: this.onPressTeams,
+      icon: nextIcon
+    };
   }
 
   async componentDidMount() {
     trackScreenView('Home - Dashboard');
+    this.props.checkAppVersion();
     this.checkNeedsUpdate();
+    this.props.getTeamInvites();
     if (this.props.refreshing && !this.props.appSyncing) {
       this.props.setAreasRefreshing(false);
     }
@@ -128,9 +158,12 @@ class Dashboard extends PureComponent<Props> {
     this.showOnboardingScreensIfNecessary();
   }
 
-  showOnboardingScreensIfNecessary = debounceUI(async () => {
-    const { hasSeenWelcomeScreen } = this.props;
+  showOnboardingScreensIfNecessary: () => any = debounceUI(async () => {
+    const { hasSeenWelcomeScreen, isAppUpdate } = this.props;
     if (!hasSeenWelcomeScreen) {
+      if (isAppUpdate) {
+        this.onRefresh();
+      }
       this.props.setWelcomeScreenSeen();
       showWelcomeScreen(() => {
         this.showOnboardingScreensIfNecessary();
@@ -154,6 +187,14 @@ class Dashboard extends PureComponent<Props> {
       ) {
         showLocationPermissionsScreen();
       }
+    } else if (Platform.OS === 'android' && !this.doneLocationPermissionsShowCheck) {
+      const fineLocationCheck = await PermissionsAndroid.checkPermission(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+      );
+      if (!fineLocationCheck) {
+        showLocationPermissionsScreen();
+        this.doneLocationPermissionsShowCheck = true;
+      }
     }
   });
 
@@ -167,7 +208,7 @@ class Dashboard extends PureComponent<Props> {
     }
   }
 
-  onRefresh = () => {
+  onRefresh: () => void = () => {
     const { isConnected, appSyncing, updateApp, setAreasRefreshing, showNotConnectedNotification } = this.props;
     if (appSyncing) {
       return;
@@ -181,7 +222,7 @@ class Dashboard extends PureComponent<Props> {
     }
   };
 
-  onPressAreas = debounceUI(() => {
+  onPressAreas: () => void = debounceUI(() => {
     trackMenuButtonPress('areas');
     Navigation.push(this.props.componentId, {
       component: {
@@ -190,7 +231,7 @@ class Dashboard extends PureComponent<Props> {
     });
   });
 
-  onPressReports = debounceUI(() => {
+  onPressReports: () => void = debounceUI(() => {
     trackMenuButtonPress('reports');
     Navigation.push(this.props.componentId, {
       component: {
@@ -199,7 +240,7 @@ class Dashboard extends PureComponent<Props> {
     });
   });
 
-  onPressRoutes = debounceUI(() => {
+  onPressRoutes: () => void = debounceUI(() => {
     trackMenuButtonPress('routes');
     Navigation.push(this.props.componentId, {
       component: {
@@ -208,7 +249,7 @@ class Dashboard extends PureComponent<Props> {
     });
   });
 
-  onPressSettings = debounceUI(() => {
+  onPressSettings: () => void = debounceUI(() => {
     trackMenuButtonPress('settings');
     Navigation.push(this.props.componentId, {
       component: {
@@ -217,7 +258,28 @@ class Dashboard extends PureComponent<Props> {
     });
   });
 
-  launchImportBundleModal = debounceUI((bundlePath: string) => {
+  onPressTeams: () => void = debounceUI(() => {
+    trackMenuButtonPress('teams');
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'ForestWatcher.Teams'
+      }
+    });
+  });
+
+  onPressInvite(team: Team) {
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'ForestWatcher.TeamDetails',
+        passProps: {
+          team,
+          invited: true
+        }
+      }
+    });
+  }
+
+  launchImportBundleModal: () => void = debounceUI((bundlePath: string) => {
     Navigation.showModal({
       stack: {
         children: [
@@ -237,7 +299,7 @@ class Dashboard extends PureComponent<Props> {
     });
   });
 
-  getPristine = (): boolean => this.props.pristine;
+  getPristine: () => boolean = () => this.props.pristine;
 
   checkNeedsUpdate() {
     const { needsUpdate, updateApp } = this.props;
@@ -246,11 +308,53 @@ class Dashboard extends PureComponent<Props> {
     }
   }
 
-  disablePristine = () => {
+  disablePristine: () => void = () => {
     this.props.setPristine(false);
   };
 
-  render() {
+  getNotice(): ?React$Element<any> {
+    if (this.props.needsAppUpdate.shouldUpdate) {
+      return (
+        <Row
+          action={{
+            icon: nextIcon,
+            callback: () => Linking.openURL(this.props.needsAppUpdate.url)
+          }}
+          rowStyle={{ ...styles.noticeRow, opacity: 1, marginVertical: 0 }}
+          iconStyle={{ tintColor: 'white' }}
+        >
+          <View>
+            <Text style={styles.noticeTitle}>{i18n.t('update.title')}</Text>
+            <Text style={styles.noticeSubtitle}>{i18n.t('update.subtitle')}</Text>
+          </View>
+        </Row>
+      );
+    } else if (this.props.invites?.length > 0) {
+      const localisationKey =
+        this.props.invites?.length > 1
+          ? 'teams.notifications.newInviteTitle_other'
+          : 'teams.notifications.newInviteTitle_one';
+      return (
+        <Row
+          action={{
+            icon: nextIcon,
+            callback: () => this.onPressInvite(this.props.invites[0])
+          }}
+          rowStyle={{ ...styles.noticeRow, opacity: 1, marginVertical: 0 }}
+          iconStyle={{ tintColor: 'white' }}
+        >
+          <View>
+            <Text style={styles.noticeTitle}>{i18n.t(localisationKey, { count: this.props.invites?.length })}</Text>
+            <Text style={styles.noticeSubtitle}>{i18n.t('teams.notifications.newInviteSubtitle')}</Text>
+          </View>
+        </Row>
+      );
+    } else {
+      return null;
+    }
+  }
+
+  render(): React$Element<any> {
     const { pristine, refreshing, appSyncing } = this.props;
     const isIOS = Platform.OS === 'ios';
     // we remove the event handler to improve performance
@@ -269,11 +373,18 @@ class Dashboard extends PureComponent<Props> {
           onScroll={disablePristine}
           refreshControl={<RefreshControl refreshing={refreshing} onRefresh={this.onRefresh} />}
         >
+          {this.getNotice()}
           <View onStartShouldSetResponder={iOSListener} onResponderRelease={iOSHandler} style={styles.list}>
             <Row action={this.areasAction}>
               <View style={styles.tableRowContent}>
                 <Image source={areasIcon} />
                 <Text style={styles.tableRowText}>{i18n.t('dashboard.areas')}</Text>
+              </View>
+            </Row>
+            <Row action={this.teamsAction}>
+              <View style={styles.tableRowContent}>
+                <Image source={teamsIcon} />
+                <Text style={styles.tableRowText}>{i18n.t('dashboard.teams')}</Text>
               </View>
             </Row>
             <Row action={this.reportsAction}>

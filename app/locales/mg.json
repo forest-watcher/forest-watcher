@@ -25,6 +25,63 @@
             "title": "Atao Azo Ampiasaina Ivelan'ny Aterineto ireo Faritra"
         }
     },
+    "teams": {
+        "sectionTitles": {
+            "invites": "Team Invites",
+            "joined": "Joined By Me",
+            "managed": "Managed By Me"
+        },
+        "teamCards": {
+            "areas": "Areas: "
+        },
+        "titles": {
+            "teamOverviewTitle": "Teams",
+            "teamDetailsTitle": "Team Details"
+        },
+        "teamDetails": {
+            "teamNameLabel": "Anarana",
+            "teamAreasLabel": "Faritra (maro)",
+            "teamMonitorsLabel": "Monitors",
+            "teamManagersLabel": "Managers",
+            "buttonJoinTeam": "Join Team",
+            "buttonDontJoinTeam": "Do Not Join",
+            "buttonLeaveTeam": "Leave Team",
+            "leaveConfirmationTitle": "Leave Team",
+            "leaveConfirmation": "Are you sure you want to leave this team?",
+            "joinConfirmationTitle": "Join Team",
+            "joinConfirmation": "Are you sure you want to join this team?",
+            "declineConfirmationtitle": "Decline Invite",
+            "declineConfirmation": "Are you sure you want to decline this invitation?"
+        },
+        "notifications": {
+            "acceptSuccess": "Successfully joined a team",
+            "leaveSuccess": "Successfully left a team",
+            "declineSuccess": "Invitation declined",
+            "newInviteTitle_one": "You have 1 invitation to join a team",
+            "newInviteTitle_other": "You have %{count} invitations to join a team",
+            "newInviteSubtitle": "Tap to view team details"
+        }
+    },
+    "deleteAccount": {
+        "title": "Delete Your Account",
+        "heading": "Please read before continuing",
+        "body1": "Your Forest Watcher account is shared across many World Resource Institute (WRI) applications. This includes:",
+        "bullet1": "Forest Watcher\nGlobal Forest Watch (GFW)\nMapBuilder\nResource Watch\nPartnership for Resilience & Preparedness (PREPdata)",
+        "body2": "If you proceed, you will no longer be able to access these applications with this account. You will need to register again if you wish to use them in the future.\n\nIn addition, all content associated with this account (across all applications) will be deleted. This includes:",
+        "bullet2": "Areas of interest\nReports\nRoutes\nContextual Layers\nSubscriptions\nDatasets\nWidgets",
+        "footer": "For a complete list of content types, please visit the https://resource-watch.github.io/doc-api/concepts.html#core-resources.",
+        "footerLinkText": "Resource Watch API documentation",
+        "deleteButton": "Delete Your Account",
+        "confirmationTitle": "Are you sure?",
+        "confirmationBody": "This action cannot be undone. This will permanently delete your Forest Watcher account and all associated content across any WRI products you have used.",
+        "confirmationNegative": "Ajanona",
+        "confirmationPositive": "Delete Your Account",
+        "scheduleDeletionTitle": "Your Account Has Been Scheduled For Deletion",
+        "ok": "OK",
+        "adminErrorMessage": "You are currently an administrator of one or more teams. Please delete these teams or transfer administrative status to another user at http://forestwatcher.globalforestwatch.org. Once this step is complete, sync this device and come back here to delete your account",
+        "failedMessage": "Failed to delete your account.",
+        "openLink": "Open Forest Watcher website"
+    },
     "basemaps": {
         "delete": {
             "messageGFWContent": "Rehefa misy connection irery ihany no ahitana ny Angona amin'ity Sarintany Fototra ity. Te hanohy ve ianao?",
@@ -189,6 +246,7 @@
     },
     "dashboard": {
         "areas": "Faritra",
+        "teams": "Teams",
         "downloadFailed": "Tsy tontosa ny fakàna raki-takila",
         "map": "Sarintany",
         "reports": "Tatitra",
@@ -650,8 +708,11 @@
         "enablePermissions": "Hanome alalana",
         "subTitle": "Hijery ny toerana misy anao eo amin'ny sarintany",
         "title": "Hanome alalana ny fijerena ny toerana",
-        "bullet1": "Tsindrio eto ambany dia amboary ny \"fanomezan-dalana eo am-pampiasana ny app\".",
-        "bullet2": "Tazomy eo amin'ny \"on\" ny toerana misy anao mba ho mari-pototra hatrany izany"
+        "bullet1": "Keep precise location set to ‘on’ to ensure your position remains accurate. Set access to ‘allow while using the app’.",
+        "bullet2": "Background location data is collected to enable map and route tracking even when the app is closed or not in use.",
+        "bullet3": "Should you choose to change your decision, this preference can be changed within your app settings. Denying this permission will limit your app experience.",
+        "bullet4_10": "To enable background location, select ‘allow all the time’",
+        "bullet4_11": "To enable background location, go to the app's permission settings and for the location permission, select ‘allow all the time’"
     },
     "login": {
         "emailLogin": {
@@ -664,7 +725,7 @@
             "loginWithEmail": "Hiditra amin’ny alalan’ny mailaka",
             "password": "Teny Miafina"
         },
-        "appleTitle": "Hiditra amin’ny alalan’ny Apple",
+        "appleTitle": "Sign in With Apple",
         "emailTitle": "Hiditra amin’ny alalan’ny mailaka",
         "facebookTitle": "Facebook",
         "failed": "Nisy Olana nandritra ny fidirana/fialana",
@@ -859,7 +920,11 @@
         "title": "Tatitra",
         "toReport": "Tatitra",
         "upload": "Hampiditra",
-        "uploaded": "Tafiditra"
+        "uploaded": "Tafiditra",
+        "choose": {
+            "title": "Choose A Template",
+            "subtitle": "To create a report, select one of the following templates:"
+        }
     },
     "routes": {
         "backgroundErrorDialogMessage": "Hamarino ny Lazaova momba ny tondro toerana sy ny fahazoan-dalana mampiasa ny\"application\" mba hahafahanao miverina manaraka ny làlana aleha.",
@@ -929,7 +994,8 @@
         "title": "Lazaova",
         "unsafeLogout": "Mety ho very ny angona sasany",
         "unsavedDataLost": "Mety ho very na tsy vita mifanaraka amin'ny kaontinao ny angona sasany raha miala ianao. \nTafiditra amin’izany karazana faritra sy tatitra sasany sy ny làlana rehetra, sarintany fototra sy tongoa mifanaraka amin’ny zava-misy. \nRaha mila fanazavana fanampiny sy te hahafantatra ny dingana mba hidirana amin’io angona io indray, azafady jereo ny pejy FAQ-nay mahakasika io foto-dresaka io.",
-        "yourRoutes": "Ny Làlana Nalehako"
+        "yourRoutes": "Ny Làlana Nalehako",
+        "deleteAcount": "Delete Your Account"
     },
     "setupCountry": {
         "firstInstruction": "Voalohany, safidio ny firenena mahaliana iasanao",
@@ -1027,14 +1093,33 @@
         "title": "Tonga soa ato amin'ny \"Forest Watcher\""
     },
     "whatsNew": {
-        "improvedAlerting": {
-            "body": "Midira amin'ny karazana fanairana vaovao maro anaty faritra vitsivitsy mba hampahomby kokoa ny fanarahamaso",
-            "title": "Rafitra fanairana maro nohatsaraina"
+        "improvedAreaCreation": {
+            "body": "Draw areas, upload shapefiles and add data bundles",
+            "title": "Improved Area Creation"
         },
-        "selectConnected": {
-            "body": "Fanteno izay fanairana misy fifandraisana hita eo amin'ny sarintany amin'ny alàlan'ny fanindriana bokotra",
-            "title": "Fanteno izay fanairana misy fifandraisana"
+        "joinTeams": {
+            "body": "Accept invitations to join teams within the Forest Watcher app",
+            "title": "Join Teams"
+        },
+        "teamOverview": {
+            "body": "View a team overview including related areas, monitors and managers",
+            "title": "View Team Overview"
         },
         "title": "Zava-baovao amin'ity Endrika ity"
+    },
+    "update": {
+        "title": "New Update Available",
+        "subtitle": "Update your app to use new features"
+    },
+    "createAnArea": {
+        "title": "Create An Area",
+        "subtitle": "To create an area, select one of the following options:",
+        "sections": {
+            "drawArea": "Draw A New Area",
+            "uploadShapefile": "Upload Shapefile",
+            "importBundle": "Import From Forest Watcher Data Bundle"
+        },
+        "invalidShapefile": "Error uploading shapefile. Please try another.",
+        "invalidBundle": "Error importing GFW Bundle."
     }
 }

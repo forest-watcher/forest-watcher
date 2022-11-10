@@ -262,7 +262,7 @@ export default class RouteMarkers extends PureComponent<Props, State> {
     const end = count > 1 ? routeLocations[count - 1] : null;
     const properties = this.getRouteProperties();
     const startSource = start ? point(coordsObjectToArray(start), properties) : null;
-    const endSource = start ? point(coordsObjectToArray(end), properties) : null;
+    const endSource = end ? point(coordsObjectToArray(end), properties) : null;
     const onPress = this.props.onShapeSourcePressed || null;
     const visibility = this.props.selected ? mapboxStyles.visible : mapboxStyles.invisible;
     const shadowStyle = { ...mapboxStyles.routeEndsShadow, ...visibility };

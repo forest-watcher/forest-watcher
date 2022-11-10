@@ -25,6 +25,63 @@
             "title": "Maak gebieden offline beschikbaar"
         }
     },
+    "teams": {
+        "sectionTitles": {
+            "invites": "Teamuitnodigingen",
+            "joined": "Door mij aangesloten",
+            "managed": "Door mij beheerd"
+        },
+        "teamCards": {
+            "areas": "Zones:"
+        },
+        "titles": {
+            "teamOverviewTitle": "Teams",
+            "teamDetailsTitle": "Teamgegevens"
+        },
+        "teamDetails": {
+            "teamNameLabel": "Naam",
+            "teamAreasLabel": "Gebieden",
+            "teamMonitorsLabel": "Monitors",
+            "teamManagersLabel": "Beheerders",
+            "buttonJoinTeam": "Lid worden van team",
+            "buttonDontJoinTeam": "Geen lid worden",
+            "buttonLeaveTeam": "Team verlaten",
+            "leaveConfirmationTitle": "Team verlaten",
+            "leaveConfirmation": "Weet u zeker dat u dit team wilt verlaten?",
+            "joinConfirmationTitle": "Lid worden van team",
+            "joinConfirmation": "Weet u zeker dat u lid wilt worden van dit team?",
+            "declineConfirmationtitle": "Uitnodiging weigeren",
+            "declineConfirmation": "Weet u zeker dat u deze uitnodiging wilt weigeren?"
+        },
+        "notifications": {
+            "acceptSuccess": "Met succes lid geworden van een team",
+            "leaveSuccess": "Met succes een team verlaten",
+            "declineSuccess": "Uitnodiging geweigerd",
+            "newInviteTitle_one": "U hebt 1 uitnodiging om lid te worden van een team",
+            "newInviteTitle_other": "U hebt %{count} uitnodigingen om lid te worden van een team",
+            "newInviteSubtitle": "Tik om teamgegevens te bekijken"
+        }
+    },
+    "deleteAccount": {
+        "title": "Uw account verwijderen",
+        "heading": "Gelieve te lezen alvorens verder te gaan",
+        "body1": "Uw Forest Watcher-account wordt gedeeld met meerdere apps van het World Resource Institute (WRI). Hieronder vallen:",
+        "bullet1": "Forest Watcher\nGlobal Forest Watch (GFW)\nMapBuilder\nResource Watch\nPartnership for Resilience & Preparedness (PREPdata)",
+        "body2": "Als u verdergaat, hebt u met dit account geen toegang meer tot deze apps. Als u ze in de toekomst wilt gebruiken, dient u zich opnieuw te registreren.\n\nBovendien wordt alle inhoud die aan dit account is gekoppeld (in alle apps) verwijderd. Dit omvat:",
+        "bullet2": "Zones waarnaar uw belangstelling uitgaat\nRapporten\nRoutes\nContextuele lagen\nAbonnementen\nDatasets\nWidgets",
+        "footer": "Ga voor een volledige lijst met soorten inhoud naar https://resource-watch.github.io/doc-api/concepts.html#core-resources",
+        "footerLinkText": "API-documentatie Resource Watch",
+        "deleteButton": "Uw account verwijderen",
+        "confirmationTitle": "Weet u dit zeker?",
+        "confirmationBody": "Deze actie kan niet ongedaan worden gemaakt. Hiermee worden uw Forest Watcher-account en alle bijbehorende inhoud van alle WRI-producten die u hebt gebruikt definitief verwijderd.",
+        "confirmationNegative": "Annuleren",
+        "confirmationPositive": "Uw account verwijderen",
+        "scheduleDeletionTitle": "Uw account is ingepland om te worden verwijderd",
+        "ok": "OK",
+        "adminErrorMessage": "U bent momenteel beheerder van één of meerdere teams. Verwijder deze teams of draag de status van beheerder over aan een andere gebruiker op http://forestwatcher.globalforestwatch.org. Zodra deze stap is voltooid, synchroniseert u dit apparaat en komt u hier terug om uw account te verwijderen.",
+        "failedMessage": "Uw account kon niet worden verwijderd.",
+        "openLink": "Forest Watcher-website openen"
+    },
     "basemaps": {
         "delete": {
             "messageGFWContent": "Gegevens voor deze contextuele laag zijn alleen online beschikbaar. Wilt u doorgaan?",
@@ -189,6 +246,7 @@
     },
     "dashboard": {
         "areas": "Gebieden",
+        "teams": "Teams",
         "downloadFailed": "Download mislukt",
         "map": "Kaart",
         "reports": "Rapporten",
@@ -650,8 +708,11 @@
         "enablePermissions": "Schakel toestemming aan",
         "subTitle": "Om U lokatie te zien op de kaart",
         "title": "Schakel lokatie toestemming aan",
-        "bullet1": "Klik hieronder om \"sta toe tijdens gebruik van deze app\" aan te zetten.",
-        "bullet2": "Houd preciese lokatie op \"aan\" zodat de positie bepaling akkuraat blijft."
+        "bullet1": "Houd exacte locatie ingesteld op 'aan' om ervoor te zorgen dat uw positie nauwkeurig blijft. Stel toegang in op 'toestaan tijdens gebruik van de app'.",
+        "bullet2": "Achtergrondgegevens worden verzameld om kaart- en routetracking mogelijk te maken, zelfs wanneer de app gesloten is of niet gebruikt wordt.",
+        "bullet3": "Mocht u van gedachten veranderen, dan kunt u deze voorkeur wijzigen bij app-instellingen. Deze toestemming uitschakelen zal uw app-ervaring beperken.",
+        "bullet4_10": "Selecteer 'altijd toestaan' om achtergrondlocatie in te schakelen",
+        "bullet4_11": "Om achtergrondlocatie in te schakelen: ga naar de toestemmingsinstellingen van de app en selecteer 'altijd toestaan' bij locatietoestemming"
     },
     "login": {
         "emailLogin": {
@@ -664,7 +725,7 @@
             "loginWithEmail": "Inloggen met e-mail",
             "password": "Wachtwoord"
         },
-        "appleTitle": "Log in met Apple",
+        "appleTitle": "Inloggen met Apple",
         "emailTitle": "Inloggen met e-mail",
         "facebookTitle": "Facebook",
         "failed": "Er is een fout opgetreden tijdens het inloggen / uitloggen",
@@ -859,7 +920,11 @@
         "title": "Rapport",
         "toReport": "Rapport",
         "upload": "Upload",
-        "uploaded": "Geupload"
+        "uploaded": "Geupload",
+        "choose": {
+            "title": "Een sjabloon kiezen",
+            "subtitle": "Selecteer één van de volgende sjablonen om een rapport aan te maken:"
+        }
     },
     "routes": {
         "backgroundErrorDialogMessage": "Controleer uw locatie-instellingen en app-toestemmingen om het volgen van routes te hervatten.",
@@ -929,7 +994,8 @@
         "title": "Instellingen",
         "unsafeLogout": "Sommige gegevens zijn mogelijk verlorent",
         "unsavedDataLost": "Sommige gegevens worden niet gesynchroniseerd met uw account en kunnen verloren gaan als u uitlogt. \nDit omvat bepaalde soorten gebieden en rapporten en alle routes, basiskaarten en contextuele lagen. \nVoor meer informatie en stappen om deze gegevens opnieuw te openen, bekijkt u onze FAQ-pagina over dit onderwerp.",
-        "yourRoutes": "Uw routes"
+        "yourRoutes": "Uw routes",
+        "deleteAcount": "Uw account verwijderen"
     },
     "setupCountry": {
         "firstInstruction": "Selecteer eerst uw land van interesse",
@@ -1027,14 +1093,33 @@
         "title": "Welkom bij Forest Watcher"
     },
     "whatsNew": {
-        "improvedAlerting": {
-            "body": "Toegang tot nieuwe meldingtypes in bepaalde gebieden voor een effectiever beeld",
-            "title": "Verbeterde meldingssystemen"
+        "improvedAreaCreation": {
+            "body": "Teken zones, upload shapefiles en voeg databundels toe",
+            "title": "Verbeterde aanmaak van zones"
         },
-        "selectConnected": {
-            "body": "Selecteer met een druk op de knop gerelateerde meldingen op de kaart",
-            "title": "Selecteer gerelateerde meldingen"
+        "joinTeams": {
+            "body": "Accepteer uitnodigingen om lid te worden van teams in de Forest Watcher-app",
+            "title": "Lid worden van teams"
+        },
+        "teamOverview": {
+            "body": "Bekijk een teamoverzicht, inclusief gerelateerde zones, monitors en beheerders",
+            "title": "Teamoverzicht bekijken"
         },
         "title": "Nieuw in deze versie"
+    },
+    "update": {
+        "title": "Nieuwe update beschikbaar",
+        "subtitle": "Update uw app om nieuwe functies te gebruiken"
+    },
+    "createAnArea": {
+        "title": "Een zone aanmaken",
+        "subtitle": "Selecteer één van de volgende opties om een zone aan te maken:",
+        "sections": {
+            "drawArea": "Een nieuwe zone tekenen",
+            "uploadShapefile": "Shapefile uploaden",
+            "importBundle": "Importeren van Forest Watcher-databundel"
+        },
+        "invalidShapefile": "Fout bij uploaden van shapefile. Probeer een andere.",
+        "invalidBundle": "Fout bij importeren GFW-bundel."
     }
 }

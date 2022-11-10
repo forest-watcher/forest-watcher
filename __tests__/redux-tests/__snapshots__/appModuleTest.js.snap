@@ -14,7 +14,7 @@ Object {
   "pristineCacheTooltip": true,
   "reduxVersion": 3,
   "synced": false,
-  "version": "2.1.0",
+  "version": "2.2.0"",
   "welcomeSeenVersion": null,
 }
 `;
@@ -73,7 +73,7 @@ Object {
   "pristineCacheTooltip": true,
   "reduxVersion": 3,
   "synced": false,
-  "version": "2.1.0",
+  "version": "2.2.0"",
   "welcomeSeenVersion": null,
 }
 `;
@@ -101,7 +101,7 @@ Object {
   "pristineCacheTooltip": true,
   "reduxVersion": 3,
   "synced": false,
-  "version": "2.1.0",
+  "version": "2.2.0"",
   "welcomeSeenVersion": null,
 }
 `;
@@ -128,7 +128,7 @@ Object {
   "pristineCacheTooltip": true,
   "reduxVersion": 3,
   "synced": false,
-  "version": "2.1.0",
+  "version": "2.2.0"",
   "welcomeSeenVersion": null,
 }
 `;
@@ -175,7 +175,7 @@ Object {
   "pristineCacheTooltip": true,
   "reduxVersion": 3,
   "synced": true,
-  "version": "2.1.0",
+  "version": "2.2.0"",
   "welcomeSeenVersion": null,
 }
 `;
@@ -201,7 +201,7 @@ Object {
   "pristineCacheTooltip": true,
   "reduxVersion": 3,
   "synced": false,
-  "version": "2.1.0",
+  "version": "2.2.0"",
   "welcomeSeenVersion": null,
 }
 `;
@@ -227,7 +227,7 @@ Object {
   "pristineCacheTooltip": true,
   "reduxVersion": 3,
   "synced": false,
-  "version": "2.1.0",
+  "version": "2.2.0"",
   "welcomeSeenVersion": null,
 }
 `;
@@ -253,7 +253,7 @@ Object {
   "pristineCacheTooltip": true,
   "reduxVersion": 3,
   "synced": false,
-  "version": "2.1.0",
+  "version": "2.2.0"",
   "welcomeSeenVersion": null,
 }
 `;
@@ -279,7 +279,7 @@ Object {
   "pristineCacheTooltip": true,
   "reduxVersion": 3,
   "synced": false,
-  "version": "2.1.0",
+  "version": "2.2.0"",
   "welcomeSeenVersion": null,
 }
 `;
@@ -305,7 +305,7 @@ Object {
   "pristineCacheTooltip": true,
   "reduxVersion": 3,
   "synced": false,
-  "version": "2.1.0",
+  "version": "2.2.0"",
   "welcomeSeenVersion": null,
 }
 `;
@@ -331,7 +331,7 @@ Object {
   "pristineCacheTooltip": true,
   "reduxVersion": 3,
   "synced": false,
-  "version": "2.1.0",
+  "version": "2.2.0"",
   "welcomeSeenVersion": null,
 }
 `;
@@ -357,7 +357,7 @@ Object {
   "pristineCacheTooltip": false,
   "reduxVersion": 3,
   "synced": false,
-  "version": "2.1.0",
+  "version": "2.2.0"",
   "welcomeSeenVersion": null,
 }
 `;
@@ -382,7 +382,7 @@ Object {
   "pristineCacheTooltip": true,
   "reduxVersion": 3,
   "synced": false,
-  "version": "2.1.0",
+  "version": "2.2.0"",
   "welcomeSeenVersion": null,
 }
 `;

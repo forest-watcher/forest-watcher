@@ -13,7 +13,7 @@ import type {
   RouteFeatureProperties
 } from 'types/common.types';
 import type { LocationPoint, Route } from 'types/routes.types';
-import type { BasicReport, ReportArea, SelectedReport } from 'types/reports.types';
+import type { ReportArea, SelectedReport } from 'types/reports.types';
 import type { LayerSettings } from 'types/layerSettings.types';
 
 import {
@@ -80,6 +80,7 @@ import { lineString, type Feature, type Geometry, type Position } from '@turf/he
 import { showMapWalkthrough } from 'screens/maps';
 
 const emitter = require('tiny-emitter/instance');
+import type { EventSubscription } from 'react-native/Libraries/EventEmitter/NativeEventEmitter';
 
 const ROUTE_TRACKING_BOTTOM_DIALOG_STATE_HIDDEN = 0;
 const ROUTE_TRACKING_BOTTOM_DIALOG_STATE_EXITING = 1;
@@ -95,7 +96,6 @@ const userLocationImage = require('assets/userLocation.png');
 
 type Props = {
   componentId: string,
-  createReport: (BasicReport, ReportingSource) => void,
   areaCoordinates: ?$ReadOnlyArray<Coordinates>,
   isConnected: boolean,
   isOfflineMode: boolean,
@@ -130,7 +130,8 @@ type State = {
   animatedPosition: any,
   infoBannerShowing: boolean,
   // feature(s) that the user has just tapped on
-  tappedOnFeatures: $ReadOnlyArray<MapItemFeatureProperties>
+  tappedOnFeatures: $ReadOnlyArray<MapItemFeatureProperties>,
+  loading: boolean
 };
 
 class MapComponent extends Component<Props, State> {
@@ -155,6 +156,7 @@ class MapComponent extends Component<Props, State> {
 
   mapCamera: ?MapboxGL.Camera = null;
   map: ?MapboxGL.MapView = null;
+  appStateSubscription: ?EventSubscription = null;
 
   constructor(props: Props) {
     super(props);
@@ -176,7 +178,8 @@ class MapComponent extends Component<Props, State> {
       mapCenterCoords: null,
       animatedPosition: new Animated.Value(DISMISSED_INFO_BANNER_POSTIION),
       infoBannerShowing: false,
-      tappedOnFeatures: []
+      tappedOnFeatures: [],
+      loading: false
     };
   }
 
@@ -190,7 +193,7 @@ class MapComponent extends Component<Props, State> {
 
   componentDidMount() {
     BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
-    AppState.addEventListener('change', this.handleAppStateChange);
+    this.appStateSubscription = AppState.addEventListener('change', this.handleAppStateChange);
 
     trackScreenView('Map');
 
@@ -233,7 +236,7 @@ class MapComponent extends Component<Props, State> {
   }
 
   componentWillUnmount() {
-    AppState.removeEventListener('change', this.handleAppStateChange);
+    this.appStateSubscription?.remove();
     BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
 
     // If we're currently tracking a location, don't stop watching for updates!
@@ -258,7 +261,6 @@ class MapComponent extends Component<Props, State> {
       switch (status) {
         case 'background':
         case 'inactive': {
-          stopTrackingLocation();
           stopTrackingHeading();
           this.isGeolocationPausedInBackground = true;
           break;
@@ -465,7 +467,7 @@ class MapComponent extends Component<Props, State> {
     }
     if (!isFromGps) {
       // Use heading reading from sensor if we are getting that data
-      this.setState({ heading: parseInt(heading), hasHeadingReadingFromCompass: true });
+      this.setState({ heading: parseInt(heading.heading), hasHeadingReadingFromCompass: true });
     } else if (!this.state.hasHeadingReadingFromCompass) {
       // Otherwise use gps reading, provided by mapbox
       this.setState({ heading: parseInt(heading) });
@@ -549,7 +551,7 @@ class MapComponent extends Component<Props, State> {
       .join('|');
   };
 
-  createReport = () => {
+  createReport: () => void = () => {
     const { area } = this.props;
     const { userLocation, customReporting, mapCenterCoords, selectedAlerts, selectedReports } = this.state;
 
@@ -607,23 +609,22 @@ class MapComponent extends Component<Props, State> {
     const reportedDataset = datasetId ? `-${datasetId}` : '';
     const areaName = toUpper(kebabCase(deburr(area.name)));
     const reportName = `${areaName}${reportedDataset}-REPORT--${moment().format('YYYY-MM-DDTHH:mm:ss')}`;
-    this.props.createReport(
-      {
-        area,
-        reportName,
-        userPosition: userLatLng || REPORTS.noGpsPosition,
-        clickedPosition: JSON.stringify(latLng)
-      },
-      source
-    );
 
     Navigation.showModal({
       stack: {
         children: [
           {
             component: {
-              name: 'ForestWatcher.NewReport',
-              passProps: { reportName }
+              name: 'ForestWatcher.ChooseTemplate',
+              passProps: {
+                report: {
+                  area,
+                  reportName,
+                  userPosition: userLatLng || REPORTS.noGpsPosition,
+                  clickedPosition: JSON.stringify(latLng)
+                },
+                source
+              }
             }
           }
         ]
@@ -659,21 +660,20 @@ class MapComponent extends Component<Props, State> {
 
   // Displays user location circle with direction heading on map
   renderUserLocation = () => {
-    const userLocationStyle =
-      this.state.heading != null
-        ? {
-            iconImage: userLocationBearingImage,
-            iconAllowOverlap: true,
-            // center of image should be the center of the user location circle
-            iconOffset: [0, 10],
-            iconAnchor: 'bottom',
-            iconRotationAlignment: 'map',
-            iconRotate: this.state.heading ?? 180
-          }
-        : {
-            iconImage: userLocationImage,
-            iconAllowOverlap: true
-          };
+    const userLocationStyle = this.state.heading
+      ? {
+          iconImage: userLocationBearingImage,
+          iconAllowOverlap: true,
+          // center of image should be the center of the user location circle
+          iconOffset: [0, 10],
+          iconAnchor: 'bottom',
+          iconRotationAlignment: 'map',
+          iconRotate: this.state.heading ?? 180
+        }
+      : {
+          iconImage: userLocationImage,
+          iconAllowOverlap: true
+        };
     return (
       <MapboxGL.UserLocation
         onUpdate={location => this.updateHeading(location?.coords?.heading, true)}
@@ -1023,6 +1023,7 @@ class MapComponent extends Component<Props, State> {
             onHighlightedAlertsChanged={(highlightedAlerts, connectedAlerts) => {
               this.setState({ highlightedAlerts, connectedAlerts });
             }}
+            setLoading={loading => this.setState({ loading })}
           />
           <Reports
             featureId={featureId}
@@ -1058,6 +1059,7 @@ class MapComponent extends Component<Props, State> {
           selectedReports={this.state.selectedReports}
           tappedOnFeatures={this.state.tappedOnFeatures}
           userLocation={this.state.userLocation}
+          loading={this.state.loading}
         />
         {this.renderRouteTrackingDialog()}
       </View>

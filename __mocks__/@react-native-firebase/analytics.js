@@ -1,6 +1,6 @@
 export default {
   logEvent: () => {
   },
-  setCurrentScreen: () => {
+  logScreenView: () => {
   }
 };

@@ -11,6 +11,7 @@ import { RETRY_SYNC } from 'redux-modules/shared';
 import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 import storeAlertsFromCSV from 'helpers/alert-store/storeAlertsFromCSV';
 import deleteAlerts from 'helpers/alert-store/deleteAlerts';
+import { decreaseAppSynced } from './app';
 
 const GET_ALERTS_REQUEST = 'alerts/GET_ALERTS_REQUEST';
 const CLEAR_ALERTS_CACHE = 'alerts/CLEAR_ALERTS_CACHE';
@@ -105,7 +106,20 @@ export function getAreaAlerts(area: Area, datasetSlug: string, apiConfig: AlertD
     meta: {
       offline: {
         effect: { url, deserialize: false, headers },
-        commit: { type: GET_ALERTS_COMMIT, meta: { area, datasetSlug, minDate, alertId, confidenceKey, dateKey } },
+        commit: {
+          type: GET_ALERTS_COMMIT,
+          meta: {
+            area,
+            datasetSlug,
+            minDate,
+            alertId,
+            confidenceKey,
+            dateKey,
+            then: payload => (dispatch, state) => {
+              dispatch(decreaseAppSynced());
+            }
+          }
+        },
         rollback: { type: GET_ALERTS_ROLLBACK, meta: { alertId } }
       }
     }

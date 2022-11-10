@@ -2,14 +2,13 @@
 import type { Coordinates } from 'types/common.types';
 import type { ComponentProps, Dispatch, State } from 'types/store.types';
 import type { Route } from 'types/routes.types';
-import type { BasicReport, Report, ReportsList, ReportArea } from 'types/reports.types';
+import type { Report, ReportsList, ReportArea } from 'types/reports.types';
 
 import { flatten } from 'lodash';
 import memoizeOne from 'memoize-one';
 import { connect } from 'react-redux';
-import { createReport } from 'redux-modules/reports';
 import { discardActiveRoute, setRouteDestination } from 'redux-modules/routes';
-import { trackRouteFlowEvent, trackReportingStarted, type ReportingSource } from 'helpers/analytics';
+import { trackRouteFlowEvent } from 'helpers/analytics';
 import { shouldBeConnected } from 'helpers/app';
 import { activeDataset } from 'helpers/area';
 import Map from 'components/map';
@@ -17,6 +16,7 @@ import { coordsArrayToObject } from 'helpers/location';
 import { DEFAULT_LAYER_SETTINGS, getActiveBasemap } from 'redux-modules/layerSettings';
 
 type OwnProps = {|
+  +teamId: ?string,
   +areaId: ?string,
   +componentId: string,
   +featureId: string,
@@ -79,7 +79,7 @@ function reconcileRoutes(activeRoute: ?Route, previousRoute: ?Route): ?Route {
 
 function mapStateToProps(state: State, ownProps: OwnProps) {
   const featureId = ownProps.featureId;
-  const area = state.areas.data.find(item => item.id === ownProps.areaId);
+  const area = state.areas.data.find(item => item.id === ownProps.areaId && item.teamId === ownProps.teamId);
   const previousRoute = state.routes.previousRoutes.find(item => item.id === ownProps.routeId);
   let areaCoordinates: ?Array<Coordinates> = null;
   let areaProps: ?ReportArea = null;
@@ -90,12 +90,12 @@ function mapStateToProps(state: State, ownProps: OwnProps) {
       areaCoordinates = getAreaCoordinates(areaFeatures);
     }
     areaProps = {
+      ...area,
       dataset,
-      id: area.id,
-      name: area.name,
       templateId: area.templateId || 'default'
     };
   }
+
   const route = reconcileRoutes(state.routes.activeRoute, previousRoute);
   const layerSettings = state.layerSettings?.[featureId] || DEFAULT_LAYER_SETTINGS;
 
@@ -119,15 +119,6 @@ function mapStateToProps(state: State, ownProps: OwnProps) {
 
 function mapDispatchToProps(dispatch: Dispatch, ownProps: OwnProps) {
   return {
-    createReport: (report: BasicReport, source: ReportingSource) => {
-      dispatch(createReport(report));
-      let numAlertsInReport = 0;
-      if (report.clickedPosition) {
-        const parsedAlerts = JSON.parse(report.clickedPosition);
-        numAlertsInReport = parsedAlerts.length;
-      }
-      trackReportingStarted(numAlertsInReport, source);
-    },
     onStartTrackingRoute: (location: Coordinates) => {
       const areaId = ownProps.areaId;
       if (areaId) {

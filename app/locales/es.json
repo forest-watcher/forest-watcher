@@ -25,6 +25,63 @@
             "title": "Hacer que las áreas estén disponibles fuera de línea"
         }
     },
+    "teams": {
+        "sectionTitles": {
+            "invites": "Invitaciones de equipo",
+            "joined": "Unido por mí",
+            "managed": "Gestionado por mí"
+        },
+        "teamCards": {
+            "areas": "Áreas:"
+        },
+        "titles": {
+            "teamOverviewTitle": "Equipos",
+            "teamDetailsTitle": "Información del equipo"
+        },
+        "teamDetails": {
+            "teamNameLabel": "Nombre",
+            "teamAreasLabel": "Áreas",
+            "teamMonitorsLabel": "Observadores",
+            "teamManagersLabel": "Administradores",
+            "buttonJoinTeam": "Unirse al equipo",
+            "buttonDontJoinTeam": "No unirse",
+            "buttonLeaveTeam": "Abandonar equipo",
+            "leaveConfirmationTitle": "Abandonar equipo",
+            "leaveConfirmation": "Está seguro de que desea abandonar este equipo?",
+            "joinConfirmationTitle": "Unirse al equipo",
+            "joinConfirmation": "Está seguro de que desea unirse a este equipo?",
+            "declineConfirmationtitle": "Rechazar invitación",
+            "declineConfirmation": "Está seguro de que desea rechazar esta invitación?"
+        },
+        "notifications": {
+            "acceptSuccess": "Se ha unido a un equipo",
+            "leaveSuccess": "Ha abandonado un equipo",
+            "declineSuccess": "Se ha rechazado la invitación",
+            "newInviteTitle_one": "Tiene una invitación para unirse a un equipo",
+            "newInviteTitle_other": "Tiene %{count} invitaciones para unirse a un equipo",
+            "newInviteSubtitle": "Toque para ver la información del equipo"
+        }
+    },
+    "deleteAccount": {
+        "title": "Eliminar su cuenta",
+        "heading": "Lea antes de continuar",
+        "body1": "Su cuenta de Forest Watcher se comparte en muchas aplicaciones del Instituto de Recursos Mundiales (WRI, por sus siglas en inglés). Entre estas se incluyen:",
+        "bullet1": "Forest Watcher\nGlobal Forest Watch (GFW)\nMapBuilder\nResource Watch\nPartnership for Resilience & Preparedness (PREPdata)",
+        "body2": "Si continúa, ya no podrá acceder a estas aplicaciones con esta cuenta. Tendrá que registrarse nuevamente si desea utilizarlas en el futuro.\n\nAdemás, se eliminará todo el contenido asociado con esta cuenta (en todas las aplicaciones). Esto incluye:",
+        "bullet2": "Áreas de interés\nInformes\nRutas\nCapas contextuales\nSuscripciones\nConjuntos de datos\nMódulos interactivos",
+        "footer": "Visite https://resource-watch.github.io/doc-api/concepts.html#core-resources para obtener una lista completa de los tipos de contenido.",
+        "footerLinkText": "Documentación de la API de Resource Watch",
+        "deleteButton": "Eliminar su cuenta",
+        "confirmationTitle": "Estás seguro?",
+        "confirmationBody": "No se puede deshacer esta acción. Esto eliminará de manera permanente su cuenta de Forest Watcher y todo el contenido asociado en todos los productos del WRI que haya utilizado.",
+        "confirmationNegative": "Cancelar",
+        "confirmationPositive": "Eliminar su cuenta",
+        "scheduleDeletionTitle": "Se ha programado la eliminación de su cuenta",
+        "ok": "OK",
+        "adminErrorMessage": "Actualmente, es el administrador de uno o más equipos. Elimine estos equipos o transfiera el estado administrativo a otro usuario en http://forestwatcher.globalforestwatch.org. Una vez que se complete este paso, sincronice este dispositivo y vuelva aquí para eliminar su cuenta",
+        "failedMessage": "Se ha producido un error al eliminar su cuenta.",
+        "openLink": "Abrir sitio web de Forest Watcher"
+    },
     "basemaps": {
         "delete": {
             "messageGFWContent": "Los datos de este mapa base solo estarán disponibles en línea. ¿Desea continuar?",
@@ -189,6 +246,7 @@
     },
     "dashboard": {
         "areas": "Áreas",
+        "teams": "Equipos",
         "downloadFailed": "Error en la descarga",
         "map": "Mapa",
         "reports": "Informes",
@@ -650,8 +708,11 @@
         "enablePermissions": "Activar los permisos",
         "subTitle": "Para ver tu ubicación en el mapa",
         "title": "Activar los permisos de ubicación",
-        "bullet1": "Pulsa abajo y configura el acceso a \"permitir mientras se usa la aplicación\".",
-        "bullet2": "Mantén la ubicación exacta encendida para asegurarte de que tu posición sea exacta."
+        "bullet1": "Mantiene la localización precisa configurada como \"encendido\" para asegurar que la posición permanezca precisa. Configura el acceso para \"permitir mientras se usa la aplicación\".",
+        "bullet2": "La información de la localización de fondo es recolectada para permitir el seguimiento de mapa y ruta incluso cuando la aplicación está cerrada o no está en uso. ",
+        "bullet3": "Si es que debes cambiar tu decisión, esta preferencia puede ser cambiada en la configuración de la aplicación. Al denegar este permiso limitarás la experiencia de la aplicación. ",
+        "bullet4_10": "Para habilitar la localización de fondo, selecciona \"permitir todo el tiempo\"",
+        "bullet4_11": "Para habilitar la localización de fondo, ve hacia la configuración de permiso de la aplicación y selecciona para el permiso de localización, \"permitir todo el tiempo\""
     },
     "login": {
         "emailLogin": {
@@ -859,7 +920,11 @@
         "title": "Reporte",
         "toReport": "Reportar",
         "upload": "Cargar",
-        "uploaded": "Subido"
+        "uploaded": "Subido",
+        "choose": {
+            "title": "Elegir una plantilla",
+            "subtitle": "Seleccione una de las siguientes plantillas para crear un informe:"
+        }
     },
     "routes": {
         "backgroundErrorDialogMessage": "Compruebe los ajustes de su ubicación y los permisos de la aplicación para reanudar el seguimiento de las rutas.",
@@ -929,7 +994,8 @@
         "title": "Ajustes",
         "unsafeLogout": "Se pueden perder algunos datos",
         "unsavedDataLost": "Algunos datos no están sincronizados con su cuenta y pueden perderse si se cierra la sesión.\nEsto incluye algunos tipos de zonas e informes y todas las rutas, mapas base y capas contextuales.\nPara obtener más información y conocer los pasos para volver a acceder a estos datos, consulte nuestra página de preguntas frecuentes sobre este tema.",
-        "yourRoutes": "Sus rutas"
+        "yourRoutes": "Sus rutas",
+        "deleteAcount": "Eliminar su cuenta"
     },
     "setupCountry": {
         "firstInstruction": "Primero, selecciona tu país de interés",
@@ -1027,14 +1093,33 @@
         "title": "Bienvenido a Forest Watcher"
     },
     "whatsNew": {
-        "improvedAlerting": {
-            "body": "Acceda a nuevos tipos de alertas en determinadas regiones para una monitorización más eficaz",
-            "title": "Sistemas de alerta mejorados"
+        "improvedAreaCreation": {
+            "body": "Dibuje áreas, suba archivos shapefile y añada paquetes de datos",
+            "title": "Creación de área mejorada"
         },
-        "selectConnected": {
-            "body": "Seleccione las alertas conectadas en el mapa con solo tocar un botón",
-            "title": "Seleccionar las alertas conectadas"
+        "joinTeams": {
+            "body": "Acepte invitaciones para unirse a equipos dentro de la aplicación Forest Watcher",
+            "title": "Unirse a equipos"
+        },
+        "teamOverview": {
+            "body": "Ver una descripción general del equipo, incluidas las áreas relacionadas, los observadores y los administradores",
+            "title": "Ver descripción general del equipo"
         },
         "title": "Nuevo en esta versión"
+    },
+    "update": {
+        "title": "Nueva actualización disponible",
+        "subtitle": "Actualice la aplicación para utilizar nuevas funciones"
+    },
+    "createAnArea": {
+        "title": "Crear un área",
+        "subtitle": "Seleccione una de las siguientes opciones para crear un área:",
+        "sections": {
+            "drawArea": "Dibujar una nueva área",
+            "uploadShapefile": "Subir archivo shapefile",
+            "importBundle": "Importar desde el paquete de datos de Forest Watcher"
+        },
+        "invalidShapefile": "Se ha producido un error al subir el archivo shapefile. Intente con otro.",
+        "invalidBundle": "Se ha producido un error al importar el paquete GFW."
     }
 }

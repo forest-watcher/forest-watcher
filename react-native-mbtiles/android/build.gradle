@@ -32,7 +32,7 @@ buildscript {
     if (project == rootProject) {
         repositories {
             google()
-            jcenter()
+            mavenCentral()
         }
         dependencies {
             classpath 'com.android.tools.build:gradle:3.4.1'
@@ -69,7 +69,7 @@ repositories {
         url "$rootDir/../node_modules/jsc-android/dist"
     }
     google()
-    jcenter()
+    mavenCentral()
 }
 
 dependencies {
@@ -77,7 +77,6 @@ dependencies {
     implementation 'com.facebook.react:react-native:+'  // From node_modules
     implementation 'org.nanohttpd:nanohttpd:2.2.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.71"
-    implementation "org.jetbrains.anko:anko-sqlite:0.10.8"
 }
 
 def configureReactNativePom(def pom) {

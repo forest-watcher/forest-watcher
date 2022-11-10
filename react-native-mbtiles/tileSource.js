@@ -5,6 +5,7 @@ import MapboxGL from '@react-native-mapbox-gl/maps';
 
 import ReactNativeMBTiles from './nativeModule.js';
 import type { MBTileBasemapMetadata } from './types';
+import type { EventSubscription } from 'react-native/Libraries/EventEmitter/NativeEventEmitter';
 
 type Props = {
   basemapId: string,
@@ -19,10 +20,11 @@ type State = {
 };
 
 export default class MBTilesSource extends PureComponent<Props, State> {
+  changeSubscription: ?EventSubscription = null;
   constructor(props: Props) {
     super(props);
 
-    AppState.addEventListener('change', this.handleAppStateChange);
+    this.changeSubscription = AppState.addEventListener('change', this.handleAppStateChange);
 
     this.state = {
       metadata: null
@@ -35,7 +37,7 @@ export default class MBTilesSource extends PureComponent<Props, State> {
 
   componentWillUnmount() {
     ReactNativeMBTiles.stopServer();
-    AppState.removeEventListener('change', this.handleAppStateChange);
+    this.changeSubscription?.remove();
   }
 
   handleAppStateChange = (status: string) => {

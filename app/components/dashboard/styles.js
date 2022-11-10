@@ -1,17 +1,18 @@
 import Theme, { isSmallScreen } from 'config/theme';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Theme.background.main
+    backgroundColor: Theme.background.main,
+    paddingTop: Platform.OS === 'android' ? 20 : 0
   },
   label: {
     ...Theme.sectionHeaderText
   },
   list: {
     flex: 1,
-    paddingTop: isSmallScreen ? 28 : 76
+    paddingTop: isSmallScreen ? 8 : 30
   },
   listContent: {
     paddingTop: 10,
@@ -40,5 +41,24 @@ export default StyleSheet.create({
     position: 'absolute',
     top: 0,
     right: 0
+  },
+  noticeTitle: {
+    color: Theme.fontColors.white,
+    fontWeight: '400',
+    fontSize: 16,
+    lineHeight: 20
+  },
+  noticeSubtitle: {
+    color: Theme.fontColors.white,
+    fontWeight: '400',
+    fontSize: 12,
+    lineHeight: 16,
+    marginTop: 2
+  },
+  noticeRow: {
+    backgroundColor: '#94BE43',
+    paddingVertical: 24,
+    marginBottom: 0,
+    marginTop: 0
   }
 });

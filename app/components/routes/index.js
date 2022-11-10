@@ -74,6 +74,8 @@ export default class Routes extends PureComponent<Props, State> {
       inShareMode: false,
       selectedForExport: []
     };
+
+    console.log('Routes', JSON.stringify(this.props.routes));
   }
 
   componentDidMount() {

@@ -3,6 +3,8 @@ import { Navigation } from 'react-native-navigation';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import Areas from 'containers/areas';
+import Teams from 'containers/teams';
+import TeamDetails from 'containers/teamDetails';
 import MappingFiles from 'containers/settings/mapping-files';
 import ImportMappingFileRename from 'containers/settings/mapping-files/import/rename';
 import ImportMappingFileType from 'components/settings/mapping-files/import/type';
@@ -11,6 +13,7 @@ import Login from 'containers/login';
 import SetupBoundaries from 'containers/setup/boundaries';
 import SetupCountry from 'containers/setup/country';
 import SetupOverview from 'containers/setup/overview';
+import ShapefileOverview from 'containers/setup/shapefile';
 import Dashboard from 'containers/dashboard';
 import Map from 'containers/map';
 import Settings from 'containers/settings';
@@ -50,6 +53,9 @@ import ImportSharingBundleConfirm from 'containers/sharing-bundle/import/confirm
 import Information from 'components/common/information';
 import MultipleItems from 'components/map/info-banner/multiple-items';
 import LocationPermissions from 'components/location-permissions';
+import CreateArea from 'containers/setup/create-area';
+import ChooseTemplate from 'containers/chooseTemplate';
+import DeleteAccount from 'containers/delete-account';
 
 /**
  * Registers a component with React Native Navigation
@@ -87,6 +93,7 @@ export function registerScreens(store, Provider) {
   registerComponent('ForestWatcher.SetupBoundaries', SetupBoundaries, Provider, store);
   registerComponent('ForestWatcher.SetupCountry', SetupCountry, Provider, store);
   registerComponent('ForestWatcher.SetupOverview', SetupOverview, Provider, store);
+  registerComponent('ForestWatcher.ShapefileOverview', ShapefileOverview, Provider, store);
   registerComponent('ForestWatcher.Dashboard', Dashboard, Provider, store);
   registerComponent('ForestWatcher.Map', Map, Provider, store);
   registerComponent('ForestWatcher.MapWalkthrough', MapWalkthrough, Provider, store);
@@ -124,4 +131,9 @@ export function registerScreens(store, Provider) {
   registerComponent('ForestWatcher.Information', Information, Provider, store);
   registerComponent('ForestWatcher.MultipleItems', MultipleItems, Provider, store);
   registerComponent('ForestWatcher.LocationPermissions', LocationPermissions, Provider, store);
+  registerComponent('ForestWatcher.Teams', Teams, Provider, store);
+  registerComponent('ForestWatcher.TeamDetails', TeamDetails, Provider, store);
+  registerComponent('ForestWatcher.CreateArea', CreateArea, Provider, store);
+  registerComponent('ForestWatcher.ChooseTemplate', ChooseTemplate, Provider, store);
+  registerComponent('ForestWatcher.DeleteAccount', DeleteAccount, Provider, store);
 }

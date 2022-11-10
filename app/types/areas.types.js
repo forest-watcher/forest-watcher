@@ -40,9 +40,10 @@ export type Area = {
   datasets: ?Array<Dataset>,
   use: Object,
   iso: Object,
-  reportTemplate: Template,
+  reportTemplate: Array<Template>,
   templateId: string,
-  isImported?: true
+  isImported?: true,
+  teamId?: string
 };
 
 export type AreasState = {

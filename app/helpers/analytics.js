@@ -3,7 +3,7 @@ import analytics from '@react-native-firebase/analytics';
 import { formatBytes } from 'helpers/data';
 
 type LoginMethod = 'email' | 'facebook' | 'twitter' | 'google';
-type MenuButtonType = 'areas' | 'reports' | 'routes' | 'settings';
+type MenuButtonType = 'areas' | 'reports' | 'routes' | 'settings' | 'teams';
 type DownloadableContentType = 'basemap' | 'layer';
 type ImportableContentType = 'area' | 'basemap' | 'bundle' | 'layer' | 'report' | 'route';
 type SharableContentType = 'area' | 'basemap' | 'bundle' | 'report' | 'route' | 'layer';
@@ -50,7 +50,10 @@ export const trackMenuButtonPress = (menuButton: MenuButtonType) => {
 };
 
 export const trackScreenView = (screenName: string) => {
-  analytics().setCurrentScreen(screenName, screenName);
+  analytics().logScreenView({
+    screen_class: screenName,
+    screen_name: screenName
+  });
 };
 
 /// AREA
@@ -236,4 +239,18 @@ export const trackReportingConcluded = (reportOutcome: ReportingOutcome, screenN
     time_taken: timeTaken,
     screen_name: screenName
   });
+};
+
+export const trackSelectAllConnectedAlerts = (alerts: $ReadOnlyArray<Alert>) => {
+  analytics().logEvent('select_all_connected_alerts', {
+    alerts: JSON.stringify(alerts)
+  });
+};
+
+export const trackInviteAction = (action: string) => {
+  analytics().logEvent(action === 'accept' ? 'team_joined' : 'team_refused');
+};
+
+export const trackCreateAreaType = (type: 'draw' | 'upload' | 'FWBundle') => {
+  analytics().logEvent(`area_creation_${type}`);
 };

@@ -3,22 +3,28 @@ import type { ComponentProps, Dispatch, State } from 'types/store.types';
 import { bindActionCreators } from 'redux';
 import i18n from 'i18next';
 import { connect } from 'react-redux';
-import { getTemplate, getNextStep, parseQuestion, getBtnTextByType, isQuestionAnswered } from 'helpers/forms';
+import { getNextStep, parseQuestion, getBtnTextByType, isQuestionAnswered } from 'helpers/forms';
 import { setReportAnswer } from 'redux-modules/reports';
 
 import ReportForm from 'components/form';
+import type { Template } from 'types/reports.types';
 
 type OwnProps = {|
   reportName: string,
   questionIndex: number,
-  editMode: boolean
+  editMode: boolean,
+  template: Template,
+  isModal: Boolean
 |};
 
 const mapStateToProps = (state: State, ownProps: OwnProps) => {
   const lang = state.app.language || 'en';
   const { reportName, questionIndex = 0, editMode } = ownProps;
   const { answers = [] } = state.reports.list[reportName] || {};
-  const template = getTemplate(state.reports.list[reportName], state.reports.templates);
+  const template =
+    state.reports.list[reportName]?.template ||
+    state.reports.templates[(ownProps.template?.id)] ||
+    state.reports.templates['default'];
   const { questions = [] } = template;
 
   const question = parseQuestion({ template, question: questions[questionIndex] }, lang);

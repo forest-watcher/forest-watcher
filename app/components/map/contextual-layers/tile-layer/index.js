@@ -20,7 +20,7 @@ type Props = {
 
 // Renders all active imported contextual layers in settings
 export default class TileContextualLayer extends Component<Props> {
-  render = () => {
+  render: () => null | React$Element<any> = () => {
     const { featureId, layer, layerCache, isOfflineMode } = this.props;
 
     const layerMetadata: ContextualLayerRenderSpec = GFW_CONTEXTUAL_LAYERS_METADATA[layer.id] ?? {
@@ -86,6 +86,7 @@ export default class TileContextualLayer extends Component<Props> {
               id={'imported_layer_layer_' + layer.id}
               sourceId={sourceID}
               layerIndex={MAP_LAYER_INDEXES.contextualLayer}
+              style={{ rasterResampling: 'nearest' }}
             />
           </MapboxGL.RasterSource>
         );

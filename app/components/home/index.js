@@ -18,7 +18,7 @@ type Props = {
 };
 
 class Home extends Component<Props> {
-  static options(passProps: {}) {
+  static options(passProps: {}): any {
     return {
       topBar: {
         drawBehind: true,
@@ -52,7 +52,7 @@ class Home extends Component<Props> {
         if (!hasAreas) {
           Navigation.setStackRoot(componentId, {
             component: {
-              name: 'ForestWatcher.SetupCountry',
+              name: 'ForestWatcher.CreateArea',
               passProps: {
                 goBackDisabled: true
               }
@@ -87,7 +87,7 @@ class Home extends Component<Props> {
     this.syncModalOpen = status;
   }
 
-  openModal = () => {
+  openModal() {
     this.setSyncModal(true);
     Navigation.showModal({
       stack: {
@@ -103,9 +103,9 @@ class Home extends Component<Props> {
         ]
       }
     });
-  };
+  }
 
-  render() {
+  render(): React$Element<any> {
     return (
       <View style={[styles.mainContainer, styles.center]}>
         <ActivityIndicator color={Theme.colors.turtleGreen} style={{ height: 80 }} size="large" />

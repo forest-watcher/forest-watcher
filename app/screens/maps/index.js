@@ -20,6 +20,7 @@ export function pushMapScreen(
     sideMenu: {
       id: 'ForestWatcher.Map', // Specify an ID so that the sidebar can easily push screens to this stack
       options: {
+        ignoreChildOptions: true,
         topBar: {
           drawBehind: true,
           visible: false
@@ -36,6 +37,7 @@ export function pushMapScreen(
                     style: Platform.select({ android: 'light', ios: 'dark' })
                   },
                   topBar: {
+                    visible: true,
                     background: {
                       color: 'transparent',
                       translucent: true
