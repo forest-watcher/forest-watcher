@@ -4,23 +4,23 @@ import { StyleSheet } from 'react-native';
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Theme.background.main,
-    position: 'relative'
+    backgroundColor: Theme.background.main
   },
   containerCenter: {
     alignItems: 'center',
     justifyContent: 'center'
   },
   buttonPos: {
-    position: 'absolute',
-    bottom: 52,
-    left: 8,
-    right: 8
+    height: 48,
+    flexGrow: 0,
+    marginBottom: 52,
+    marginHorizontal: 8,
+    marginTop: 10
   },
   buttonNextPos: {
     position: 'absolute',
-    bottom: 52,
-    right: 8
+    bottom: 24,
+    right: 24
   },
   answersContainer: {
     backgroundColor: Theme.background.main,

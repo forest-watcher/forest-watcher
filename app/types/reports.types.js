@@ -18,7 +18,8 @@ export type Question = {
   values?: Array<any>,
   order: number,
   required: boolean,
-  label: { [string]: string }
+  label: { [string]: string },
+  maxImageCount?: ?number
 };
 
 export type Answer = {
@@ -44,8 +45,11 @@ export type Template = {
   createdAt: string,
   public: boolean,
   status: 'unpublished' | 'published',
+  Id: string,
   id: string,
-  isImported?: true
+  isImported?: true,
+  isLatest?: boolean,
+  assignmentId?: string // Only local for our use - not in the API
 };
 
 export type Report = {
@@ -103,7 +107,8 @@ export type ReportsState = {
   },
   list: ReportsList,
   synced: boolean,
-  syncing: boolean
+  syncing: boolean,
+  audioMethodDecided: boolean
 };
 
 export type GetDefaultTemplateRequest = { type: 'report/GET_DEFAULT_TEMPLATE_REQUEST' };

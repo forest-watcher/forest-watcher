@@ -18,18 +18,22 @@ export default StyleSheet.create({
   contentContainer: {
     ...Theme.modalContainer,
     alignItems: 'stretch',
-    paddingTop: 24
+    maxHeight: '90%',
+    paddingTop: 24,
+    paddingHorizontal: 24
   },
   headerImage: {
-    resizeMode: 'contain'
+    resizeMode: 'contain',
+    width: '100%'
   },
   headerImageContainer: {
-    alignItems: 'center'
+    alignItems: 'center',
+    width: '100%'
   },
   itemContainer: {
     flexDirection: 'row',
     flex: 1,
-    marginBottom: 32
+    marginBottom: 16
   },
   itemContainerLast: {
     marginBottom: 92
@@ -43,20 +47,22 @@ export default StyleSheet.create({
   itemText: {
     ...Theme.text,
     flexShrink: 1,
-    fontSize: 16
+    fontSize: 16,
+    lineHeight: 24
   },
   list: {
-    marginVertical: 12
+    marginTop: 16
   },
   listContent: {
     alignItems: 'stretch',
     flexGrow: 1,
-    paddingTop: 28
+    paddingTop: 8
   },
   subtitleText: {
     ...Theme.text,
     fontSize: 16,
-    textAlign: 'center'
+    textAlign: 'center',
+    marginTop: 4
   },
   titleText: {
     ...Theme.text,

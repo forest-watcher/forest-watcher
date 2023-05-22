@@ -12,5 +12,9 @@ export default StyleSheet.create({
     marginBottom: 12,
     marginHorizontal: 16,
     lineHeight: 24
+  },
+  row: {
+    paddingLeft: 0,
+    marginLeft: -8
   }
 });

@@ -13,7 +13,6 @@ import { PERSIST_REHYDRATE } from '@redux-offline/redux-offline/lib/constants';
 import deleteAlerts from 'helpers/alert-store/deleteAlerts';
 import type { Template } from '../types/reports.types';
 import { setAppSyncing } from './app';
-import { DATASETS } from '../config/constants';
 
 const GET_AREAS_REQUEST = 'areas/GET_AREAS_REQUEST';
 export const GET_AREAS_COMMIT = 'areas/GET_AREAS_COMMIT';
@@ -183,7 +182,7 @@ export function convertAreaTemplates(reportTemplate: any): Array<Template> {
 }
 
 export function getAreas(): AreasAction {
-  const url = `${Config.API_V3_URL}/forest-watcher/area/teams`;
+  const url = `${Config.API_V3_URL}/areas/userAndTeam`;
   return {
     type: GET_AREAS_REQUEST,
     meta: {
@@ -219,7 +218,7 @@ export function updateArea(area: Area) {
       return;
     }
 
-    const url = `${Config.API_V3_URL}/forest-watcher/area/${area.id}`;
+    const url = `${Config.API_V3_URL}/areas/${area.id}`;
     const originalArea = getAreaById(state().areas.data, area.id);
     const headers = { 'content-type': 'multipart/form-data' };
     const body = new FormData();
@@ -251,7 +250,7 @@ export function setAreasRefreshing(refreshing: boolean): AreasAction {
 }
 
 export function saveArea(params: { datasets: Array<Dataset>, snapshot: string, area: CountryArea }): AreasAction {
-  const url = `${Config.API_V3_URL}/forest-watcher/area`;
+  const url = `${Config.API_V3_URL}/areas`;
   const headers = { 'content-type': 'multipart/form-data' };
   const body = new FormData();
   body.append('name', params.area.name);
@@ -301,13 +300,13 @@ export function deleteArea(areaId: ?string) {
         return;
       }
 
-      const url = `${Config.API_V3_URL}/forest-watcher/area/${area.id}`;
+      const url = `${Config.API_V3_URL}/areas/${area.id}`;
       dispatch({
         type: DELETE_AREA_REQUEST,
         payload: area,
         meta: {
           offline: {
-            effect: { url, method: 'DELETE' },
+            effect: { url, method: 'DELETE', deserialize: false },
             commit: { type: DELETE_AREA_COMMIT, meta: { area } },
             rollback: { type: DELETE_AREA_ROLLBACK, meta: { area } }
           }

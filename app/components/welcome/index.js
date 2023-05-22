@@ -82,7 +82,7 @@ export default class Welcome extends Component<Props> {
   };
 
   componentDidMount() {
-    trackScreenView('Custom Components');
+    trackScreenView('onboarding');
   }
 
   render() {

@@ -76,7 +76,7 @@ class Form extends Component<Props> {
     }
   }
 
-  shouldComponentUpdate(nextProps) {
+  shouldComponentUpdate(nextProps, nextState) {
     return this.props.answer !== nextProps.answer;
   }
 
@@ -129,8 +129,9 @@ class Form extends Component<Props> {
   getNext(question, questionAnswered, text) {
     const disabled = question.required && !questionAnswered;
     const isBlob = question && question.type === 'blob';
-    const Next = isBlob ? NextButton : ActionButton;
-    const style = isBlob ? styles.buttonNextPos : styles.buttonPos;
+    const isAudio = question && question.type === 'audio';
+    const Next = isBlob || (isAudio && !questionAnswered) ? NextButton : ActionButton;
+    const style = isBlob || (isAudio && !questionAnswered) ? styles.buttonNextPos : styles.buttonPos;
 
     return <Next style={style} disabled={disabled} onPress={this.onSubmit} text={!isBlob && text} />;
   }

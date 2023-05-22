@@ -1,0 +1,13 @@
+diff --git a/node_modules/react-native-audio-recorder-player/android/src/main/java/com/dooboolab.audiorecorderplayer/RNAudioRecorderPlayerModule.kt b/node_modules/react-native-audio-recorder-player/android/src/main/java/com/dooboolab.audiorecorderplayer/RNAudioRecorderPlayerModule.kt
+index 8bd601e..71d58f4 100644
+--- a/node_modules/react-native-audio-recorder-player/android/src/main/java/com/dooboolab.audiorecorderplayer/RNAudioRecorderPlayerModule.kt
++++ b/node_modules/react-native-audio-recorder-player/android/src/main/java/com/dooboolab.audiorecorderplayer/RNAudioRecorderPlayerModule.kt
+@@ -181,7 +181,7 @@ class RNAudioRecorderPlayerModule(private val reactContext: ReactApplicationCont
+     @ReactMethod
+     fun startPlayer(path: String, httpHeaders: ReadableMap?, promise: Promise) {
+         if (mediaPlayer != null) {
+-            val isPaused = !mediaPlayer!!.isPlaying && mediaPlayer!!.currentPosition > 1
++            val isPaused = !mediaPlayer!!.isPlaying
+ 
+             if (isPaused) {
+                 mediaPlayer!!.start()

@@ -53,3 +53,17 @@ export function formatInfoBannerDates(dates: Array<number>, types: Array<string>
   }
   return i18n.t(localisationKey, { date: dateFormatted });
 }
+
+/**
+ * Show explicit date from a Valid date parameter or a Milisecond type
+ * @param date | string
+ * @returns '2022-12-03' | undefined
+ */
+export function getExplicitDate(date: Date | string): string {
+  const parsedDate = moment(date);
+  const validDateFormat = parsedDate.isValid();
+  // Date param
+  if (validDateFormat) return parsedDate.format('YYYY-MM-DD');
+  // Milliseconds param
+  return moment(Number(date)).format('YYYY-MM-DD');
+}

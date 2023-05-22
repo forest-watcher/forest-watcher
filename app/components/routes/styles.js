@@ -82,5 +82,12 @@ export default StyleSheet.create({
   },
   rowContainer: {
     marginBottom: 25
+  },
+  buttonText: {
+    ...Theme.tableRowText,
+    color: Theme.colors.turtleGreen
+  },
+  rowText: {
+    ...Theme.tableRowText
   }
 });

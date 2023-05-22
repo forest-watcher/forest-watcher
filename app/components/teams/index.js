@@ -2,13 +2,15 @@
 
 import React, { useEffect, useState } from 'react';
 import type { Team } from 'types/teams.types';
-import { ScrollView } from 'react-native';
+import { ScrollView, View } from 'react-native';
+import EmptyState from 'components/common/empty-state';
 import styles from './styles';
 import i18n from 'i18next';
-import Theme from 'config/theme';
 import { Navigation } from 'react-native-navigation';
 import { TeamSection } from './teamSection';
 import type { Area } from '../../types/areas.types';
+
+const emptyIcon = require('assets/teamsEmpty.png');
 
 type Props = {
   teams: Array<Team>,
@@ -43,49 +45,66 @@ const Teams = (props: Props): React$Element<any> => {
     [props.teams.length]
   );
 
-  return (
-    <ScrollView
-      style={styles.list}
-      contentContainerStyle={styles.listContent}
-      showsVerticalScrollIndicator={false}
-      showsHorizontalScrollIndicator={false}
-    >
-      {props.invites.length > 0 && (
-        <TeamSection
-          teams={props.invites}
-          areas={props.areas}
-          title={i18n.t('teams.sectionTitles.invites')}
-          action={team => navigateToDetails(team, props.componentId, true)}
+  if (props.teams.length === 0 && props.invites.length === 0) {
+    return (
+      <View style={styles.containerEmpty}>
+        <EmptyState
+          actionTitle={i18n.t('teams.empty.action')}
+          body={i18n.t('teams.empty.subtitle')}
+          onActionPress={() => {
+            Navigation.push(props.componentId, {
+              component: {
+                name: 'ForestWatcher.FaqCategories'
+              }
+            });
+          }}
+          icon={emptyIcon}
+          title={i18n.t('teams.empty.title')}
         />
-      )}
+      </View>
+    );
+  } else {
+    return (
+      <ScrollView
+        style={styles.list}
+        contentContainerStyle={styles.listContent}
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+      >
+        {props.invites.length > 0 && (
+          <TeamSection
+            teams={props.invites}
+            areas={props.areas}
+            title={i18n.t('teams.sectionTitles.invites')}
+            action={team => navigateToDetails(team, props.componentId, true)}
+          />
+        )}
 
-      {joined.length > 0 && (
-        <TeamSection
-          teams={joined}
-          areas={props.areas}
-          title={i18n.t('teams.sectionTitles.joined')}
-          action={team => navigateToDetails(team, props.componentId)}
-        />
-      )}
+        {joined.length > 0 && (
+          <TeamSection
+            teams={joined}
+            areas={props.areas}
+            title={i18n.t('teams.sectionTitles.joined')}
+            action={team => navigateToDetails(team, props.componentId)}
+          />
+        )}
 
-      {managed.length > 0 && (
-        <TeamSection
-          teams={managed}
-          areas={props.areas}
-          title={i18n.t('teams.sectionTitles.managed')}
-          action={team => navigateToDetails(team, props.componentId)}
-        />
-      )}
-    </ScrollView>
-  );
+        {managed.length > 0 && (
+          <TeamSection
+            teams={managed}
+            areas={props.areas}
+            title={i18n.t('teams.sectionTitles.managed')}
+            action={team => navigateToDetails(team, props.componentId)}
+          />
+        )}
+      </ScrollView>
+    );
+  }
 };
 
 Teams.options = (passProps: {}): any => {
   return {
     topBar: {
-      background: {
-        color: Theme.colors.veryLightPink
-      },
       title: {
         text: i18n.t('teams.titles.teamOverviewTitle')
       }

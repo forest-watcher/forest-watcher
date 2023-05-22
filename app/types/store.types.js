@@ -14,6 +14,7 @@ import type { LayersAction, LayersState } from 'types/layers.types';
 import type { RouteAction, RouteState } from 'types/routes.types';
 import type { LayerSettingsAction, LayerSettingsState } from 'types/layerSettings.types';
 import type { TeamsAction, TeamsState } from './teams.types';
+import type { AssignmentAction, AssignmentState } from './assignments.types';
 
 export type Action =
   | UserAction
@@ -26,7 +27,8 @@ export type Action =
   | LayersAction
   | LayerSettingsAction
   | RouteAction
-  | TeamsAction;
+  | TeamsAction
+  | AssignmentAction;
 
 export type State = {
   app: AppState,
@@ -40,7 +42,8 @@ export type State = {
   layers: LayersState,
   layerSettings: LayerSettingsState,
   routes: RouteState,
-  teams: TeamsState
+  teams: TeamsState,
+  assignments: AssignmentState
 };
 
 export type Store = ReduxStore<State, Action>;

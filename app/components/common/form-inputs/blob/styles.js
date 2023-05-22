@@ -20,6 +20,7 @@ export default StyleSheet.create({
     marginTop: 16,
     marginLeft: 56,
     marginRight: 56,
+    marginBottom: 10,
     alignItems: 'center',
     justifyContent: 'center',
     ...Platform.select({
@@ -38,8 +39,8 @@ export default StyleSheet.create({
     position: 'absolute',
     alignItems: 'center',
     justifyContent: 'center',
-    left: 8,
-    bottom: 52,
+    left: 24,
+    bottom: 24,
     backgroundColor: Theme.background.gray,
     borderRadius: 32
   },

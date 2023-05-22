@@ -1,0 +1,13 @@
+diff --git a/node_modules/react-native-safe-area/lib/SafeArea.ios.js b/node_modules/react-native-safe-area/lib/SafeArea.ios.js
+index e3892aa..e1d61d4 100644
+--- a/node_modules/react-native-safe-area/lib/SafeArea.ios.js
++++ b/node_modules/react-native-safe-area/lib/SafeArea.ios.js
+@@ -17,7 +17,7 @@ class SafeArea {
+   }
+ 
+   removeEventListener(eventType: string, listener: Function): void {
+-    nativeEventEmitter.removeListener(eventType, listener)
++    nativeEventEmitter.removeAllListeners(eventType)
+   }
+ }
+ 

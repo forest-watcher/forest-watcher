@@ -21,6 +21,8 @@ import { storeReportFiles } from 'helpers/report-store/storeReportFiles';
 import { Platform } from 'react-native';
 import { appDocumentsRootDir } from 'helpers/report-store/reportFilePaths';
 import { decreaseAppSynced } from './app';
+import { getAssignments } from './assignments';
+import { getAudioExtension } from '../helpers/report-store/reportFilePaths';
 
 // Actions
 const GET_DEFAULT_TEMPLATE_REQUEST = 'report/GET_DEFAULT_TEMPLATE_REQUEST';
@@ -35,13 +37,16 @@ export const IMPORT_TEMPLATE = 'report/IMPORT_TEMPLATE';
 export const UPLOAD_REPORT_COMMIT = 'report/UPLOAD_REPORT_COMMIT';
 export const UPLOAD_REPORT_ROLLBACK = 'report/UPLOAD_REPORT_ROLLBACK';
 const SET_REPORT_ANSWER = 'report/SET_REPORT_ANSWER';
+const SET_AS_UPLOADED = 'report/SET_AS_UPLOADED';
+const SET_AUDIO_METHOD_DECIDED = 'report/SET_AUDIO_METHOD_DECIDED';
 
 // Reducer
 const initialState = {
   templates: {},
   list: {},
   synced: false,
-  syncing: false
+  syncing: false,
+  audioMethodDecided: false
 };
 
 function orderQuestions(questions) {
@@ -76,7 +81,7 @@ export default function reducer(state: ReportsState = initialState, action: Repo
       // Merge in the templates retrieved from the areas
       action.payload.forEach(area => {
         area.reportTemplate?.forEach(template => {
-          templates[template.id] = {
+          templates[template.Id] = {
             ...template,
             questions: orderQuestions(template.questions)
           };
@@ -86,7 +91,7 @@ export default function reducer(state: ReportsState = initialState, action: Repo
       return { ...state, templates };
     }
     case IMPORT_TEMPLATE: {
-      const templateId = action.payload.id;
+      const templateId = action.payload.Id;
       if (state.templates[templateId] && !state.templates[templateId].isImported) {
         console.warn('3SC', `Ignore already existing template with ID ${templateId}`);
         return state;
@@ -173,6 +178,33 @@ export default function reducer(state: ReportsState = initialState, action: Repo
       const list = { ...state.list, [name]: { ...report, status } };
       return { ...state, list, synced: true, syncing: false };
     }
+    case SET_AS_UPLOADED: {
+      let newlist = { ...state.list };
+      action.payload.forEach(x => {
+        if (newlist[x]) {
+          newlist = {
+            ...newlist,
+            [x]: {
+              ...newlist[x],
+              status: 'uploaded'
+            }
+          };
+        }
+      });
+
+      return {
+        ...state,
+        list: {
+          ...newlist
+        }
+      };
+    }
+    case SET_AUDIO_METHOD_DECIDED: {
+      return {
+        ...state,
+        audioMethodDecided: action.payload
+      };
+    }
     case LOGOUT_REQUEST: {
       deleteReportFiles().then(() => console.info('Folder removed successfully'));
       return initialState;
@@ -218,7 +250,7 @@ export function createReport(report: BasicReport): ReportsAction {
         clickedPosition,
         index: 0,
         answers: [],
-        date: new Date().toISOString(),
+        date: new Date().getTime(),
         status: CONSTANTS.status.draft,
         template
       }
@@ -337,9 +369,8 @@ export function uploadReport(reportName: string) {
     const area = report.area;
     const dataset = area.dataset || {};
     const template = report.template || getTemplate(report, reports.templates);
-
     const form = new FormData();
-    form.append('report', template.id);
+    form.append('report', template.Id || template.id);
     form.append('reportName', reportName);
     form.append('areaOfInterest', area.id);
     form.append('areaOfInterestName', area.name);
@@ -352,7 +383,12 @@ export function uploadReport(reportName: string) {
     form.append('date', report && report.date);
     form.append('clickedPosition', report && report.clickedPosition);
     form.append('userPosition', report && report.userPosition);
-    form.append('teamId', area.teamId);
+    if (area.teamId) {
+      form.append('teamId', area.teamId);
+    }
+    if (template.assignmentId) {
+      form.append('assignmentId', template.assignmentId);
+    }
 
     const answeredQuestions = mapFormToAnsweredQuestions(report.answers, template, null);
     // eslint-disable-next-line no-unused-vars
@@ -367,6 +403,18 @@ export function uploadReport(reportName: string) {
             uri: toFileUri(reportFile.path),
             type: 'image/jpg',
             name: `${reportName}-image-${question.name}.jpg`
+          })
+        );
+      } else if (question.type === 'audio') {
+        const reportFiles = await queryReportFiles({
+          reportName: reportName,
+          questionName: question.name
+        });
+        reportFiles.forEach(reportFile =>
+          form.append(question.name, {
+            uri: toFileUri(reportFile.path),
+            type: `audio/${getAudioExtension()}`,
+            name: `${reportName}-audio-${question.name}.${getAudioExtension()}`
           })
         );
       } else {
@@ -387,7 +435,7 @@ export function uploadReport(reportName: string) {
       name: reportName,
       status: CONSTANTS.status.complete
     };
-    const url = `${Config.API_V3_URL}/reports/${template.id}/answers`;
+    const url = `${Config.API_V3_URL}/templates/${template.Id || template.id}/answers`;
     const headers = { 'content-type': 'multipart/form-data' };
     dispatch({
       type: UPLOAD_REPORT_REQUEST,
@@ -395,10 +443,51 @@ export function uploadReport(reportName: string) {
       meta: {
         offline: {
           effect: { url, body: form, method: 'POST', headers, errorCode: 400 },
-          commit: { type: UPLOAD_REPORT_COMMIT, meta: { report: commitPayload } },
+          commit: {
+            type: UPLOAD_REPORT_COMMIT,
+            meta: {
+              report: commitPayload,
+              then: payload => (dispatch, state) => {
+                if (template.assignmentId) {
+                  dispatch(getAssignments());
+                }
+              }
+            }
+          },
           rollback: { type: UPLOAD_REPORT_ROLLBACK, meta: { report: rollbackPayload } }
         }
       }
+    });
+  };
+}
+
+export function setAsUploaded(reportIds: Array<string>) {
+  return (dispatch: Dispatch, state: GetState) => {
+    dispatch({
+      type: SET_AS_UPLOADED,
+      payload: reportIds
+    });
+  };
+}
+
+export function setAsUploadedAll() {
+  return (dispatch: Dispatch, state: GetState) => {
+    const { reports } = state();
+    const completed = Object.keys(reports.list)
+      .map(x => reports.list[x])
+      .filter(x => x.status === 'complete');
+    dispatch({
+      type: SET_AS_UPLOADED,
+      payload: completed.map(x => x.reportName)
+    });
+  };
+}
+
+export function setAudioMethodDecided(decided: boolean) {
+  return (dispatch: Dispatch, state: GetState) => {
+    dispatch({
+      type: SET_AUDIO_METHOD_DECIDED,
+      payload: decided
     });
   };
 }

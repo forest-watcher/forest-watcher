@@ -48,9 +48,6 @@ export default class Settings extends Component<Props, State> {
   static options(passProps: {}) {
     return {
       topBar: {
-        background: {
-          color: Theme.colors.veryLightPink
-        },
         title: {
           text: i18n.t('settings.title')
         }
@@ -253,7 +250,10 @@ export default class Settings extends Component<Props, State> {
           <CoordinatesDropdown />
           <View style={styles.offlineMode}>
             <Row value={offlineMode} onValueChange={setOfflineMode}>
-              <Text style={[styles.rowLabel, { marginLeft: 0 }]}>{i18n.t('settings.offlineMode')}</Text>
+              <View style={{ maxWidth: '85%' }}>
+                <Text style={[styles.rowLabel, { marginLeft: 0 }]}>{i18n.t('settings.offlineMode')}</Text>
+                <Text style={styles.rowSubText}>{i18n.t('settings.offlineModeDescription')}</Text>
+              </View>
             </Row>
           </View>
           <Row action={this.basemapsAction} rowStyle={styles.noMarginsRow} style={styles.row}>

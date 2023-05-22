@@ -61,7 +61,7 @@ class ImportMappingFileType extends PureComponent<Props, State> {
 
   importMappingFile = debounceUI(async () => {
     try {
-      const res = await DocumentPicker.pick({
+      const res = await DocumentPicker.pickSingle({
         type: [DocumentPicker.types.allFiles, 'public.item']
       });
       const validFile = await this.verifyImportedFile(res);

@@ -7,6 +7,7 @@ import Select from './select';
 import Date from './date';
 import Blob from './blob';
 import Number from './number';
+import { AudioInput } from './audio';
 
 type Props = {
   reportName: string,
@@ -35,6 +36,8 @@ function FormField(props: Props) {
       return <Text {...props} />;
     case 'blob':
       return <Blob {...props} />;
+    case 'audio':
+      return <AudioInput {...props} />;
     default:
       return null;
   }

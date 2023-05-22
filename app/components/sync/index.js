@@ -1,7 +1,7 @@
 // @flow
 import type { Thunk } from 'types/store.types';
 import React, { Component } from 'react';
-import { StatusBar, View, Text } from 'react-native';
+import { View, Text } from 'react-native';
 import i18n from 'i18next';
 import LottieView from 'lottie-react-native';
 import ActionButton from 'components/common/action-button';
@@ -33,7 +33,7 @@ class Sync extends Component<Props> {
 
   componentDidMount() {
     if (this.animation) {
-      this.animation.play();
+      setTimeout(() => this.animation.play(), 150);
     }
   }
 
@@ -107,7 +107,6 @@ class Sync extends Component<Props> {
 
     return (
       <View style={[styles.mainContainer, styles.center]}>
-        <StatusBar networkActivityIndicatorVisible />
         {/*
          * The Mapbox native Android SDK crashes if the following steps are performed:
          * (i) Install fresh version of app and log into an account with an area

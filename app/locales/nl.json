@@ -19,10 +19,42 @@
         },
         "importedAreas": "Geïmporteerde gebieden",
         "myAreas": "Mijn gebieden",
+        "teamAreas": "Teamgebieden",
+        "teamArea": "Teamgebied",
         "title": "Gebieden",
         "tooltip": {
             "body": "Bekijk waarschuwingen en kaartlagen zonder internet",
             "title": "Maak gebieden offline beschikbaar"
+        }
+    },
+    "assignments": {
+        "titles": {
+            "assignments": "Opdrachten (%{count})",
+            "assignments_nocount": "Opdrachten",
+            "assignmentDetails": "Opdracht %{name}"
+        },
+        "empty": {
+            "title": "Geen opdrachten",
+            "subtitle": "Alle opdrachten die aan u zijn toegewezen, worden hier weergegeven",
+            "action": "Veel gestelde vragen over app"
+        },
+        "labels": {
+            "high": "Hoge prioriteit",
+            "normal": "Normale prioriteit",
+            "onhold": "In de wacht"
+        },
+        "details": {
+            "details": "Details",
+            "monitors": "Monitors",
+            "notes": "Notities",
+            "status": "Status",
+            "markOnHold": "Markeer als in de wacht",
+            "startAssignment": "Begin opdracht"
+        },
+        "statusTitles": {
+            "open": "Niet voltooid",
+            "onHold": "In de wacht",
+            "completed": "Voltooid"
         }
     },
     "teams": {
@@ -60,6 +92,11 @@
             "newInviteTitle_one": "U hebt 1 uitnodiging om lid te worden van een team",
             "newInviteTitle_other": "U hebt %{count} uitnodigingen om lid te worden van een team",
             "newInviteSubtitle": "Tik om teamgegevens te bekijken"
+        },
+        "empty": {
+            "action": "Veel gestelde vragen over app",
+            "subtitle": "Teams waar je voor uitgenodigd bent, lid van wordt en beheert worden hier weergegeven.",
+            "title": "Geen teams"
         }
     },
     "deleteAccount": {
@@ -140,7 +177,8 @@
         "cancel": "Annuleren",
         "chooseFromLibrary": "Kies uit bibliotheek",
         "takePhoto": "Maak een foto",
-        "title": "Selecteer een afbeelding"
+        "title": "Selecteer een afbeelding",
+        "subtitle": "Kies de methode die u wilt gebruiken om de afbeelding toe te voegen"
     },
     "commonText": {
         "alert": "Waarschuwing",
@@ -154,6 +192,7 @@
         "connectionRequired": "U heeft een internetverbinding nodig om deze actie te voltooien",
         "connectionRequiredTitle": "Geen verbinding",
         "continue": "Doorgaan met",
+        "skip": "Overslaan",
         "crashFeedback": "Er is iets fout gegaan. We werken eraan om dit zo snel mogelijk te verhelpen.",
         "date": "Datum",
         "deselectAll": "Deselecteer alles",
@@ -187,7 +226,8 @@
         "send": "Versturen",
         "settings": "Instellingen",
         "setup": "in stellen",
-        "userPosition": "Gebruikers locatie"
+        "userPosition": "Gebruikers locatie",
+        "syncingNotice": "De app synchroniseert gegevens. U kunt doorgaan met uw actie nadat de synchronisatie is voltooid!"
     },
     "contactUs": {
         "description": "Vragen of feedback? Email mailto:forestwatcher@wri.org"
@@ -250,8 +290,14 @@
         "downloadFailed": "Download mislukt",
         "map": "Kaart",
         "reports": "Rapporten",
+        "draft_reports_one": "%{count} rapport niet gesynchroniseerd",
+        "draft_reports_many": "%{count} rapporten niet gesynchroniseerd",
         "routes": "Routes",
-        "settings": "instellingen"
+        "settings": "instellingen",
+        "assignments": "Opdrachten",
+        "assignments_count_one": "%{count} onvoltooide opdracht",
+        "assignments_count_many": "%{count} onvoltooide opdrachten",
+        "syncing": "App-gegevens synchroniseren met Forest Watcher..."
     },
     "datasets": {
         "umd_as_it_happens": "Ontbossing (GLAD)",
@@ -762,12 +808,12 @@
                 "oneMonth": "%{count} maanden",
                 "oneWeek": "%{count} week",
                 "reportedOn": "Gerapporteerd over",
-                "showingManyDays": "Tot 10,000 alarmeringen over de laatste %{count} dagen",
-                "showingManyMonths": "Tot 10,000 alarmeringen over de laatste %{count} maanden",
-                "showingManyWeeks": "Tot 10.000 meldingen in de afgelopen %{count} weken",
-                "showingOneDay": "Tot 10,000 alarmeringen van gisteren",
-                "showingOneMonth": "Tot 10,000 alarmeringen in de laatste maand",
-                "showingOneWeek": "Tot 10.000 meldingen in de afgelopen week",
+                "showingManyDays": "Tot 5000 meldingen in de afgelopen %{count} dagen",
+                "showingManyMonths": "Tot 5000 meldingen in de afgelopen %{count} maanden",
+                "showingManyWeeks": "Tot 5000 meldingen in de afgelopen %{count} weken",
+                "showingOneDay": "Tot 5000 meldingen in de afgelopen dag",
+                "showingOneMonth": "Tot 5000 meldingen in de afgelopen maand",
+                "showingOneWeek": "Tot 5000 meldingen in de afgelopen week",
                 "timeFrame": "Tijds bestek",
                 "timeFrameDescDays": "Selecteer het aantal dagen",
                 "timeFrameDescMonths": "Selecteer het aantal maanden",
@@ -869,7 +915,7 @@
         "addPicture": "Foto toevoegen",
         "answers": "Antwoorden",
         "choosePicture": "Maak of kies een foto",
-        "completed": "Voltooid",
+        "completed": "Voltooid (niet gesynchroniseerd met FW Web)",
         "custom": "Aangepast rapport",
         "datePlaceholder": "Selecteer een datum",
         "delete": "Verwijder dit rapport",
@@ -893,6 +939,12 @@
             "reportSizeAction": "Exporteer Rapporten (%{bundleSize})",
             "successful": "Exporteren van rapporten succesvol!",
             "title": "Exporteer rapport"
+        },
+        "deleteModal": {
+            "title": "Rapport verwijderen",
+            "description": "Weet u zeker dat u dit rapport wilt verwijderen?",
+            "cancel": "Annuleren",
+            "approve": "Verwijderen"
         },
         "alertType": {
             "wur_radd_alerts": "RADD",
@@ -920,10 +972,24 @@
         "title": "Rapport",
         "toReport": "Rapport",
         "upload": "Upload",
-        "uploaded": "Geupload",
+        "uploaded": "Voltooid (gesynchroniseerd met FW Web)",
         "choose": {
             "title": "Een sjabloon kiezen",
             "subtitle": "Selecteer één van de volgende sjablonen om een rapport aan te maken:"
+        },
+        "fileTooSizeErrorTitle": "Afbeelding te groot",
+        "fileTooSizeErrorMessage": "Dit afbeeldingsbestand is te groot. Kies een kleiner bestand.",
+        "voice": {
+            "idleTitle": "Tik om de opname te starten",
+            "idleSubtitle": "Lorum ipsum dolor sit amet. Lorum ipsum dolor sit amet. Lorum ipsum dolor sit amet.",
+            "recording": "Opname",
+            "paused": "Gepauzeerd",
+            "recordingEmptyState": "Neem of kies een opname",
+            "chooseRecordingTitle": "Selecteer een opname",
+            "chooseRecordingSubtitle": "Selecteer de methode die u wilt gebruiken om de opname toe te voegen",
+            "uploadRecording": "Opname uploaden",
+            "startRecording": "Opname starten",
+            "enterDescriptionHint": "Voer beschrijving in"
         }
     },
     "routes": {
@@ -971,7 +1037,16 @@
         "stopRouteTrackingPanelDeleteOption": "Stop en verwijder route",
         "stopRouteTrackingPanelSaveOption": "Stop en route opslaan",
         "stopRouteTrackingPanelTitle": "Stop het volgen van routes",
-        "viewOnMap": "Bekijk route op kaart"
+        "viewOnMap": "Bekijk route op kaart",
+        "sync": {
+            "buttonTitle": "Synchroniseren met het web",
+            "buttonProgress": "Synchroniseren...",
+            "buttonActive": "Synchronisatie geselecteerd",
+            "successNotif": "Routes zijn succesvol geüpload",
+            "failNotif": "Uploaden van routes mislukt",
+            "uploaded": "Geüpload naar het web",
+            "notUploaded": "Niet geüpload naar het web"
+        }
     },
     "settings": {
         "aboutApp": "Over deze app",
@@ -990,6 +1065,7 @@
         "logOut": "Log Out",
         "moreInfo": "meer informatie",
         "offlineMode": "Offline modus",
+        "offlineModeDescription": "Gebruik de offline modus om te voorkomen dat Forest Watcher mobiel gegevens synchroniseert met Forest Watcher web. Dit is handig als u de batterij wilt besparen en de gegevensoverdracht wilt beperken.",
         "shareData": "Deel alle app-gegevens",
         "title": "Instellingen",
         "unsafeLogout": "Sommige gegevens zijn mogelijk verlorent",
@@ -1063,7 +1139,8 @@
             "updated": "Download compleet!",
             "updating": "Gegevens downloaden..."
         },
-        "tryAgain": "Probeer het opnieuw"
+        "tryAgain": "Probeer het opnieuw",
+        "complete": "Synchronisatie voltooid"
     },
     "termsAndConditions": {
         "agreeText": "Door deze app te gebruiken, gaat u akkoord met",
@@ -1121,5 +1198,13 @@
         },
         "invalidShapefile": "Fout bij uploaden van shapefile. Probeer een andere.",
         "invalidBundle": "Fout bij importeren GFW-bundel."
+    },
+    "offline": {
+        "bannerTitleOnline": "Online modus",
+        "bannerTitleOffline": "Offline modus",
+        "modalTitle": "U bevindt zich in de offline modus",
+        "modalSubtitle": "Gebruik de offline modus om content te zien die u hebt gedownload op uw apparaat als u geen internetverbinding hebt.",
+        "buttonTitle": "Terug naar online modus",
+        "doneButton": "Gedaan"
     }
 }

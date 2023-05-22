@@ -19,10 +19,42 @@
         },
         "importedAreas": "Áreas importadas",
         "myAreas": "Mis áreas",
+        "teamAreas": "Zonas del equipo",
+        "teamArea": "Área de equipo",
         "title": "Áreas",
         "tooltip": {
             "body": "Ver alertas y capas de mapas sin Internet",
             "title": "Hacer que las áreas estén disponibles fuera de línea"
+        }
+    },
+    "assignments": {
+        "titles": {
+            "assignments": "Tareas (%{count})",
+            "assignments_nocount": "Tareas",
+            "assignmentDetails": "Tarea %{name}"
+        },
+        "empty": {
+            "title": "No hay tareas",
+            "subtitle": "Todas las tareas que se le asignen se enumerarán aquí",
+            "action": "Preguntas frecuentes sobre la aplicación"
+        },
+        "labels": {
+            "high": "Prioridad alta",
+            "normal": "Prioridad normal",
+            "onhold": "A la espera"
+        },
+        "details": {
+            "details": "Detalles",
+            "monitors": "Observadores",
+            "notes": "Notas",
+            "status": "Estado",
+            "markOnHold": "Marcar como a la espera",
+            "startAssignment": "Empezar tarea"
+        },
+        "statusTitles": {
+            "open": "Incompleta",
+            "onHold": "A la espera",
+            "completed": "Terminado"
         }
     },
     "teams": {
@@ -60,6 +92,11 @@
             "newInviteTitle_one": "Tiene una invitación para unirse a un equipo",
             "newInviteTitle_other": "Tiene %{count} invitaciones para unirse a un equipo",
             "newInviteSubtitle": "Toque para ver la información del equipo"
+        },
+        "empty": {
+            "action": "Preguntas frecuentes sobre la aplicación",
+            "subtitle": "Aquí aparecerán los equipos a los que se le invite, a los que se una y los que gestiona.",
+            "title": "No hay equipos"
         }
     },
     "deleteAccount": {
@@ -140,7 +177,8 @@
         "cancel": "Cancelar",
         "chooseFromLibrary": "Elegir del álbum de fotos",
         "takePhoto": "Tomar foto",
-        "title": "Selecciona una foto"
+        "title": "Seleccione una imagen",
+        "subtitle": "Elija el método que desee utilizar para añadir la imagen"
     },
     "commonText": {
         "alert": "Alerta",
@@ -154,6 +192,7 @@
         "connectionRequired": "Necesitas una conexión a internet para completar esta acción.",
         "connectionRequiredTitle": "Sin conexión",
         "continue": "Continuar",
+        "skip": "Omitir",
         "crashFeedback": "Algo salió mal. Estamos trabajando en arreglar esto tan pronto como podamos.",
         "date": "Fecha",
         "deselectAll": "Anular la selección de todos",
@@ -187,7 +226,8 @@
         "send": "Enviar",
         "settings": "Ajustes",
         "setup": "Configuración",
-        "userPosition": "Posición del usuario"
+        "userPosition": "Posición del usuario",
+        "syncingNotice": "La aplicación está sincronizando datos. Puede continuar con su actividad cuando haya terminado."
     },
     "contactUs": {
         "description": "¿Tienes preguntas o comentarios? Envíanos un correo a mailto:forestwatcher@wri.org"
@@ -250,8 +290,14 @@
         "downloadFailed": "Error en la descarga",
         "map": "Mapa",
         "reports": "Informes",
+        "draft_reports_one": "%{count} informe no sincronizado",
+        "draft_reports_many": "%{count} informes no sincronizados",
         "routes": "Rutas",
-        "settings": "Ajustes"
+        "settings": "Ajustes",
+        "assignments": "Tareas",
+        "assignments_count_one": "%{count} tarea incompleta",
+        "assignments_count_many": "%{count} tareas incompletas",
+        "syncing": "Sincronizando datos de la aplicación con Forest Watcher..."
     },
     "datasets": {
         "umd_as_it_happens": "Deforestación (GLAD)",
@@ -762,12 +808,12 @@
                 "oneMonth": "%{count} mes",
                 "oneWeek": "%{count} semana",
                 "reportedOn": "Informado el",
-                "showingManyDays": "Hasta 10 000 alertas de los últimos %{count} días.",
-                "showingManyMonths": "Hasta 10 000 alertas de los últimos %{count} meses.",
-                "showingManyWeeks": "Hasta 10 000 alertas de las últimas %{count} semanas",
-                "showingOneDay": "Hasta 10 000 alertas del día anterior",
-                "showingOneMonth": "Hasta 10 000 alertas del mes pasado",
-                "showingOneWeek": "Hasta 10 000 alertas de la última semana",
+                "showingManyDays": "Hasta 5000 alertas de los últimos %{count} días",
+                "showingManyMonths": "Hasta 5000 alertas de los últimos %{count} meses",
+                "showingManyWeeks": "Hasta 5000 alertas de las últimas %{count} semanas",
+                "showingOneDay": "Hasta 5000 alertas del último día",
+                "showingOneMonth": "Hasta 5000 alertas del último mes",
+                "showingOneWeek": "Hasta 5000 alertas de la última semana",
                 "timeFrame": "Periodo de tiempo",
                 "timeFrameDescDays": "Seleccione el número de días",
                 "timeFrameDescMonths": "Seleccione el número de meses",
@@ -869,7 +915,7 @@
         "addPicture": "Añadir imagen",
         "answers": "Respuestas",
         "choosePicture": "Por favor, haz o elige una foto",
-        "completed": "Terminado",
+        "completed": "Completado (no sincronizado con FW web)",
         "custom": "Informe personalizado",
         "datePlaceholder": "Seleccione una fecha",
         "delete": "Borrar este reporte",
@@ -893,6 +939,12 @@
             "reportSizeAction": "Exportar informes (%{bundleSize})",
             "successful": "¡Informes exportados correctamente!",
             "title": "Exportar informe"
+        },
+        "deleteModal": {
+            "title": "Eliminar informe",
+            "description": "Está seguro de que desea eliminar este informe?",
+            "cancel": "Cancelar",
+            "approve": "Eliminar"
         },
         "alertType": {
             "wur_radd_alerts": "RADD",
@@ -920,10 +972,24 @@
         "title": "Reporte",
         "toReport": "Reportar",
         "upload": "Cargar",
-        "uploaded": "Subido",
+        "uploaded": "Completado (sincronizado con FW Web)",
         "choose": {
             "title": "Elegir una plantilla",
             "subtitle": "Seleccione una de las siguientes plantillas para crear un informe:"
+        },
+        "fileTooSizeErrorTitle": "Imagen demasiado grande",
+        "fileTooSizeErrorMessage": "El archivo de imagen es demasiado grande. Elija un archivo más pequeño.",
+        "voice": {
+            "idleTitle": "Toque para empezar a grabar",
+            "idleSubtitle": "Lorum ipsum dolor sit amet. Lorum ipsum dolor sit amet. Lorum ipsum dolor sit amet.",
+            "recording": "Grabando",
+            "paused": "En pausa",
+            "recordingEmptyState": "Haga o elija una grabación",
+            "chooseRecordingTitle": "Seleccione una grabación",
+            "chooseRecordingSubtitle": "Seleccione el método que desea utilizar para añadir la grabación",
+            "uploadRecording": "Subir grabación",
+            "startRecording": "Iniciar grabación",
+            "enterDescriptionHint": "Introducir descripción"
         }
     },
     "routes": {
@@ -971,7 +1037,16 @@
         "stopRouteTrackingPanelDeleteOption": "Detener y eliminar la ruta",
         "stopRouteTrackingPanelSaveOption": "Detener y guardar ruta",
         "stopRouteTrackingPanelTitle": "Detener el seguimiento de la ruta",
-        "viewOnMap": "Ver la ruta en el mapa"
+        "viewOnMap": "Ver la ruta en el mapa",
+        "sync": {
+            "buttonTitle": "Sincronizar con la web",
+            "buttonProgress": "Sincronizando...",
+            "buttonActive": "Sincronización seleccionada",
+            "successNotif": "Rutas cargadas correctamente",
+            "failNotif": "Las rutas no han podido cargarse",
+            "uploaded": "Se ha cargado en la web",
+            "notUploaded": "No se ha cargado en la web"
+        }
     },
     "settings": {
         "aboutApp": "Acerca de esta aplicación",
@@ -990,6 +1065,7 @@
         "logOut": "Cerrar sesión",
         "moreInfo": "Más información",
         "offlineMode": "Modo Sin Conexión",
+        "offlineModeDescription": "Utilice el modo sin conexión para evitar que la versión móvil de Forest Watcher sincronice los datos con la versión web. Esto resulta útil cuando se desea ahorrar batería y limitar la transferencia de datos.",
         "shareData": "Compartir todos los datos de la aplicación",
         "title": "Ajustes",
         "unsafeLogout": "Se pueden perder algunos datos",
@@ -1063,7 +1139,8 @@
             "updated": "Descarga Completada!",
             "updating": "Descargando datos..."
         },
-        "tryAgain": "Intentar de nuevo"
+        "tryAgain": "Intentar de nuevo",
+        "complete": "Sincronización completada"
     },
     "termsAndConditions": {
         "agreeText": "Al utilizar esta aplicación, usted acepta estos",
@@ -1121,5 +1198,13 @@
         },
         "invalidShapefile": "Se ha producido un error al subir el archivo shapefile. Intente con otro.",
         "invalidBundle": "Se ha producido un error al importar el paquete GFW."
+    },
+    "offline": {
+        "bannerTitleOnline": "Modo en línea",
+        "bannerTitleOffline": "Modo Sin Conexión",
+        "modalTitle": "Está en modo sin conexión",
+        "modalSubtitle": "Utilice el modo sin conexión para ver el contenido que ha descargado en su dispositivo sin conexión a internet.",
+        "buttonTitle": "Volver al modo en línea",
+        "doneButton": "Listo"
     }
 }

@@ -1,0 +1,18 @@
+diff --git a/node_modules/@react-native-mapbox-gl/maps/javascript/utils/index.js b/node_modules/@react-native-mapbox-gl/maps/javascript/utils/index.js
+index bc3c28f..6f566d9 100644
+--- a/node_modules/@react-native-mapbox-gl/maps/javascript/utils/index.js
++++ b/node_modules/@react-native-mapbox-gl/maps/javascript/utils/index.js
+@@ -1,12 +1,12 @@
+ import React from 'react';
+ import {
+-  ViewPropTypes,
+   View,
+   NativeModules,
+   findNodeHandle,
+   Platform,
+ } from 'react-native';
+ import resolveAssetSource from 'react-native/Libraries/Image/resolveAssetSource';
++import {ViewPropTypes} from 'deprecated-react-native-prop-types'
+ 
+ function getAndroidManagerInstance(module) {
+   const haveViewManagerConfig =

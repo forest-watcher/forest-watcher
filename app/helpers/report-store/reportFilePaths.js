@@ -2,9 +2,10 @@
 
 import type { ReportFile } from 'types/sharing.types';
 import CONSTANTS from 'config/constants';
+import { Platform } from 'react-native';
 import RNFetchBlob from 'rn-fetch-blob';
 
-export type ReportAttachmentType = 'image/jpeg'; // more to be added here when we support audio etc.
+export type ReportAttachmentType = 'image/jpeg' | 'audio/mp4' | 'audio/m4a'; // more to be added here when we support audio etc.
 
 export function appDocumentsRootDir() {
   return RNFetchBlob.fs.dirs.DocumentDir;
@@ -15,7 +16,13 @@ export function reportRootDir() {
 }
 
 export function attachmentForFileName(fileName: string): ReportAttachmentType {
-  return 'image/jpeg';
+  if (fileName.endsWith('.mp4')) {
+    return 'audio/mp4';
+  } else if (fileName.endsWith('.m4a')) {
+    return 'audio/m4a';
+  } else {
+    return 'image/jpeg';
+  }
 }
 
 /**
@@ -25,10 +32,19 @@ export function attachmentForFileName(fileName: string): ReportAttachmentType {
  * For now, only image attachments are supported, but we have written these functions generally so that other attachments
  * can be supported in future (e.g. audio)
  */
-function fileNameForAttachment(type: ReportAttachmentType): string {
+function fileNameForAttachment(type: ReportAttachmentType, index?: number): string {
   switch (type) {
     case 'image/jpeg': {
+      if (index !== undefined) {
+        return `attachment_${index}.jpeg`;
+      }
       return 'attachment.jpeg';
+    }
+    case 'audio/mp4': {
+      return `attachment_audio.mp4`;
+    }
+    case 'audio/m4a': {
+      return `attachment_audio.m4a`;
     }
     default: {
       // This case is a placeholder for future attachment types - Flow will flag if we omit one
@@ -37,6 +53,10 @@ function fileNameForAttachment(type: ReportAttachmentType): string {
       throw new Error('Unsupported attachment type: ' + type);
     }
   }
+}
+
+export function getAudioExtension(): 'mp4' | 'm4a' {
+  return Platform.OS === 'android' ? 'mp4' : 'm4a';
 }
 
 /**
@@ -73,10 +93,11 @@ export function pathForReportQuestionAttachment(
   reportName: string,
   questionName: string,
   attachmentType: ReportAttachmentType,
-  dir: string = reportRootDir()
+  dir: string = reportRootDir(),
+  index?: number
 ): string {
   const path = pathForReportQuestion(reportName, questionName, dir);
-  const fileName = fileNameForAttachment(attachmentType);
+  const fileName = fileNameForAttachment(attachmentType, index);
   return `${path}/${fileName}`;
 }
 
@@ -84,5 +105,34 @@ export function pathForReportQuestionAttachment(
  * Uses the metadata in the specified file to return the path this file should be stored in under the specified root
  */
 export function pathForReportFile(file: ReportFile, dir: string = reportRootDir()): string {
-  return pathForReportQuestionAttachment(file.reportName, file.questionName, file.type, dir);
+  return pathForReportQuestionAttachment(file.reportName, file.questionName, file.type, dir, file.index);
+}
+
+/**
+ * Get all attachments for an answer
+ */
+export function listAnswerAttachments(
+  reportName: string,
+  questionName: string,
+  attachmentType: ReportAttachmentType,
+  indexes: Array<any>,
+  dir: string = reportRootDir()
+): Array<string> {
+  const path = pathForReportQuestion(reportName, questionName, dir);
+  return indexes.map(x => `${path}/${fileNameForAttachment(attachmentType, x.index)}`);
+}
+
+/**
+ * Delete a report attachment
+ */
+export async function deleteReportFile(
+  reportName: string,
+  questionName: string,
+  attachmentType: ReportAttachmentType,
+  index: number,
+  dir: string = reportRootDir()
+) {
+  const path = pathForReportQuestion(reportName, questionName, dir);
+  const file = `${path}/${fileNameForAttachment(attachmentType, index)}`;
+  await RNFetchBlob.fs.unlink(file);
 }

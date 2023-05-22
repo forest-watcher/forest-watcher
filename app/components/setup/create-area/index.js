@@ -25,7 +25,8 @@ type Props = {|
   +componentId: string,
   +setSetupArea: ({ area: CountryArea, snapshot: string }) => SetupAction,
   +startImport: () => SetupAction,
-  +imported: boolean
+  +imported: boolean,
+  +skipAvailable: boolean
 |};
 type State = {|
   +isLoading: boolean
@@ -38,23 +39,43 @@ type CreateSection = {
 };
 
 class CreateArea extends Component<Props, State> {
-  static options(passProps: {}): any {
+  static options(passProps: { goBackDisabled: boolean, skipAvailable: boolean }): any {
     return {
       topBar: {
         title: {
           text: i18n.t('createAnArea.title')
         },
-        background: {
-          color: Theme.colors.veryLightPink
-        }
+        rightButtons: passProps.skipAvailable && [
+          {
+            id: 'skip',
+            text: i18n.t('commonText.skip'),
+            fontSize: 16,
+            fontFamily: Theme.font,
+            fontWeight: '400',
+            allCaps: false,
+            color: Theme.colors.turtleGreen,
+            backgroundColor: Theme.background.main
+          }
+        ]
       }
     };
   }
 
+  navigationButtonPressed({ buttonId }: any) {
+    if (buttonId === 'skip') {
+      Navigation.setStackRoot(this.props.componentId, {
+        component: {
+          id: 'ForestWatcher.Dashboard',
+          name: 'ForestWatcher.Dashboard'
+        }
+      });
+    }
+  }
+
   createSections: Array<CreateSection>;
 
-  constructor() {
-    super();
+  constructor(props: Props) {
+    super(props);
     this.state = {
       isLoading: false
     };
@@ -68,7 +89,10 @@ class CreateArea extends Component<Props, State> {
           trackCreateAreaType('draw');
           Navigation.push(this.props.componentId, {
             component: {
-              name: 'ForestWatcher.SetupCountry'
+              name: 'ForestWatcher.SetupCountry',
+              passProps: {
+                skipAvailable: this.props.skipAvailable
+              }
             }
           });
         }
@@ -82,6 +106,7 @@ class CreateArea extends Component<Props, State> {
         functionOnPress: this.importFromBundle
       }
     ];
+    Navigation.events().bindComponent(this);
   }
 
   async componentDidUpdate(prevProps: Props) {
@@ -109,7 +134,7 @@ class CreateArea extends Component<Props, State> {
       return;
     }
     try {
-      const res = await DocumentPicker.pick({
+      const res = await DocumentPicker.pickSingle({
         type: [DocumentPicker.types.allFiles, 'public.item']
       });
 
@@ -166,7 +191,7 @@ class CreateArea extends Component<Props, State> {
     }
     this.setState({ isLoading: true });
     try {
-      const res = await DocumentPicker.pick({
+      const res = await DocumentPicker.pickSingle({
         type: [DocumentPicker.types.allFiles, 'public.item']
       });
 

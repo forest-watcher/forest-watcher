@@ -15,7 +15,8 @@ type Props = {|
   +setSetupArea: ({ area: CountryArea, snapshot: string }) => SetupAction,
   +coordinates: Array<Array<number>>,
   +setupCountry: ?Country,
-  +componentId: string
+  +componentId: string,
+  +skipAvailable?: ?boolean
 |};
 
 class SetupBoundaries extends Component<Props> {
@@ -42,7 +43,10 @@ class SetupBoundaries extends Component<Props> {
     this.props.setSetupArea({ area, snapshot });
     Navigation.push('ForestWatcher.Map', {
       component: {
-        name: 'ForestWatcher.SetupOverview'
+        name: 'ForestWatcher.SetupOverview',
+        passProps: {
+          skipAvailable: this.props.skipAvailable
+        }
       }
     });
   };

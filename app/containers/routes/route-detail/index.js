@@ -7,6 +7,7 @@ import RouteDetail from 'components/routes/route-detail';
 
 import { deleteRoutes, updateSavedRoute } from 'redux-modules/routes';
 import { initialiseAreaLayerSettings } from 'redux-modules/layerSettings';
+import { deleteRoute } from '../../../redux-modules/routes';
 
 type OwnProps = {|
   +componentId: string,
@@ -25,12 +26,15 @@ function mapDispatchToProps(dispatch: Dispatch, ownProps: OwnProps) {
     initialiseAreaLayerSettings: (featureId: string, areaId: string) => {
       dispatch(initialiseAreaLayerSettings(featureId, areaId));
     },
-    deleteRoute: () => {
+    deleteRoute: (route: Route) => {
       dispatch(
         deleteRoutes({
           id: ownProps.routeId
         })
       );
+      if (route.status === 'uploaded') {
+        dispatch(deleteRoute(route));
+      }
     },
     updateRoute: (updatedFields: $Shape<Route>) => {
       dispatch(

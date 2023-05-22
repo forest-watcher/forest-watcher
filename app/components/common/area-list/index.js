@@ -8,6 +8,9 @@ import VerticalSplitRow from 'components/common/vertical-split-row';
 import DataCacher from 'containers/common/download';
 import styles from './styles';
 import type { Team } from 'types/teams.types';
+import i18n from 'i18next';
+
+const placeholderImage = require('assets/area_ph.png');
 
 type Props = {
   areas: Array<Area>,
@@ -44,10 +47,13 @@ export default class AreaList extends Component<Props> {
               disableSettingsButton={this.props.sharing || (index === 0 && downloadCalloutVisible)}
               onSettingsPress={() => onAreaSettingsPress(area.id, area.name)}
               imageSrc={area.image}
+              defaultImage={placeholderImage}
               // $FlowFixMe
               selected={this.props.sharing ? this.props.selectionState?.includes?.(area.id) : null}
               title={area.name}
-              subtitle={this.props.teams.find(x => x.id === area.teamId)?.name || null}
+              subtitle={
+                area.teamId ? this.props.teams.find(x => x.id === area.teamId)?.name || i18n.t('areas.teamArea') : null
+              }
               style={styles.row}
               largerPadding
               largeImage

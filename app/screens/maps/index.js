@@ -2,15 +2,23 @@
 
 import { Navigation } from 'react-native-navigation';
 import Theme from 'config/theme';
-import { Platform } from 'react-native';
 import i18n from 'i18next';
 
 const backButtonImage = require('assets/back.png');
 const mapSettingsIcon = require('assets/map_settings.png');
+import type { Template } from 'types/reports.types';
+import type { AssignmentLocation } from 'types/assignments.types';
 
 export function pushMapScreen(
   componentId: string,
-  passProps: { areaId?: ?string, featureId?: ?string, routeId?: ?string },
+  passProps: {
+    areaId?: ?string,
+    featureId?: ?string,
+    routeId?: ?string,
+    templates?: ?Array<Template>,
+    preSelectedAlerts?: ?Array<AssignmentLocation>,
+    skipAvailable?: ?boolean
+  },
   title: ?string = null,
   mapScreenName: string = 'ForestWatcher.Map',
   isNewArea = false // GFW-772: only show contextual layers and basemap options when creating a new area
@@ -34,7 +42,8 @@ export function pushMapScreen(
                 name: mapScreenName,
                 options: {
                   statusBar: {
-                    style: Platform.select({ android: 'light', ios: 'dark' })
+                    style: 'light',
+                    backgroundColor: 'black'
                   },
                   topBar: {
                     visible: true,
@@ -81,10 +90,10 @@ export function pushMapScreen(
   });
 }
 
-export function pushMapSetupScreen(componentId: string) {
+export function pushMapSetupScreen(componentId: string, skipAvailable: boolean = false) {
   pushMapScreen(
     componentId,
-    { featureId: 'newAreaFeatureId' },
+    { featureId: 'newAreaFeatureId', skipAvailable },
     i18n.t('commonText.setup'),
     'ForestWatcher.SetupBoundaries',
     true

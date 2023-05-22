@@ -139,7 +139,8 @@ export type ReportFile = {|
   reportName: string,
   questionName: string,
   type: ReportAttachmentType,
-  size: number
+  size: number,
+  index?: number
 |};
 
 /**

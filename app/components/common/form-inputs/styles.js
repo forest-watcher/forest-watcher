@@ -6,7 +6,8 @@ export default StyleSheet.create({
     flex: 1
   },
   containerContent: {
-    marginBottom: 120
+    paddingBottom: 20,
+    flex: 1
   },
   label: {
     color: Theme.fontColors.secondary,

@@ -19,10 +19,42 @@
         },
         "importedAreas": "Area Impor",
         "myAreas": "Area Saya",
+        "teamAreas": "Area Tim",
+        "teamArea": "Area tim",
         "title": "Area",
         "tooltip": {
             "body": "Lihat peringatan dan lapisan peta tanpa internet",
             "title": "Jadikan Area Tersedia Offline"
+        }
+    },
+    "assignments": {
+        "titles": {
+            "assignments": "Penugasan (%{count})",
+            "assignments_nocount": "Tugas",
+            "assignmentDetails": "Penugasan %{name}"
+        },
+        "empty": {
+            "title": "Tidak Ada Tugas",
+            "subtitle": "Semua tugas yang diberikan kepada Anda akan dicantumkan di sini",
+            "action": "Pertanyaan Populer Aplikasi"
+        },
+        "labels": {
+            "high": "Prioritas Tinggi",
+            "normal": "Prioritas Normal",
+            "onhold": "Ditangguhkan"
+        },
+        "details": {
+            "details": "Detail",
+            "monitors": "Pemantau",
+            "notes": "Catatan\n",
+            "status": "Status",
+            "markOnHold": "Tandai sebagai ditangguhkan",
+            "startAssignment": "Mulai Tugas"
+        },
+        "statusTitles": {
+            "open": "Tidak lengkap",
+            "onHold": "Ditangguhkan",
+            "completed": "Lengkap"
         }
     },
     "teams": {
@@ -60,6 +92,11 @@
             "newInviteTitle_one": "Anda punya 1 undangan untuk memasuki tim",
             "newInviteTitle_other": "Anda punya %{count} undangan untuk memasuki tim",
             "newInviteSubtitle": "Ketuk untuk melihat perincian tim"
+        },
+        "empty": {
+            "action": "Pertanyaan Populer Aplikasi",
+            "subtitle": "Tim yang mengundang Anda, yang Anda masuki, dan yang Anda kelola akan tampil di sini.",
+            "title": "Tidak Ada Tim"
         }
     },
     "deleteAccount": {
@@ -140,7 +177,8 @@
         "cancel": "Batal",
         "chooseFromLibrary": "Pilih dari perpustakaan",
         "takePhoto": "Ambil foto",
-        "title": "Pilih gambar"
+        "title": "Pilih gambar",
+        "subtitle": "Pilih metode yang ingin Anda gunakan untuk menambahkan gambar"
     },
     "commonText": {
         "alert": "Peringatan",
@@ -154,6 +192,7 @@
         "connectionRequired": "Anda memerlukan koneksi internet",
         "connectionRequiredTitle": "Tidak ada koneksi",
         "continue": "Lanjutkan",
+        "skip": "Lewati",
         "crashFeedback": "Ada yang salah. Kami sedang mengusahakan untuk memperbaiki hal ini secepat mungkin.",
         "date": "Tanggal",
         "deselectAll": "Batalkan Semua",
@@ -187,7 +226,8 @@
         "send": "Kirim",
         "settings": "Pengaturan",
         "setup": "Pengaturan",
-        "userPosition": "Posisi Pengguna"
+        "userPosition": "Posisi Pengguna",
+        "syncingNotice": "Aplikasi sedang menyinkronkan data. Anda dapat melanjutkan tindakan Anda setelah sinkronisasi selesai!"
     },
     "contactUs": {
         "description": "Pertanyaan atau masukan? Surel mailto: forestwatcher@wri.org"
@@ -250,8 +290,14 @@
         "downloadFailed": "Unduhan gagal",
         "map": "Peta",
         "reports": "Laporan",
+        "draft_reports_one": "%{count} laporan belum tersinkron",
+        "draft_reports_many": "%{count} laporan belum tersinkron",
         "routes": "Rute",
-        "settings": "Pengaturan"
+        "settings": "Pengaturan",
+        "assignments": "Tugas",
+        "assignments_count_one": "%{count} tugas belum selesai",
+        "assignments_count_many": "%{count} tugas belum selesai",
+        "syncing": "Menyinkronkan data aplikasi ke Forest Watcher..."
     },
     "datasets": {
         "umd_as_it_happens": "Deforestasi (GLAD)",
@@ -762,12 +808,12 @@
                 "oneMonth": "%{count} bulan",
                 "oneWeek": "%{count} minggu",
                 "reportedOn": "Dilaporkan Pada",
-                "showingManyDays": "Hingga 10.000 peringatan dari %{count} hari terakhir",
-                "showingManyMonths": "Hingga 10.000 peringatan dari %{count} bulan terakhir",
-                "showingManyWeeks": "Hingga 10.000 peringatan dari %{count} minggu terakhir",
-                "showingOneDay": "Hingga 10.000 peringatan dari hari sebelumnya",
-                "showingOneMonth": "Hingga 10.000 peringatan dari bulan sebelumnya",
-                "showingOneWeek": "Hingga 10.000 peringatan dari minggu terakhir",
+                "showingManyDays": "Hingga 5.000 peringatan dari %{count} hari terakhir",
+                "showingManyMonths": "Hingga 5.000 peringatan dari %{count} bulan terakhir",
+                "showingManyWeeks": "Hingga 5.000 peringatan dari %{count} pekan terakhir",
+                "showingOneDay": "Hingga 5.000 peringatan dari hari kemarin",
+                "showingOneMonth": "Hingga 5.000 peringatan dari bulan lalu",
+                "showingOneWeek": "Hingga 5.000 peringatan dari pekan lalu",
                 "timeFrame": "Jangka waktu",
                 "timeFrameDescDays": "Pilih jumlah hari",
                 "timeFrameDescMonths": "Pilh jumlah bulan",
@@ -869,7 +915,7 @@
         "addPicture": "Tambah Gambar",
         "answers": "Jawaban",
         "choosePicture": "Silakan ambil atau pilih gambar",
-        "completed": "Lengkap",
+        "completed": "Selesai (tidak disinkronkan ke FW Web)",
         "custom": "Laporan Kustom",
         "datePlaceholder": "Pilih tanggal",
         "delete": "Hapus laporan ini",
@@ -893,6 +939,12 @@
             "reportSizeAction": "Ekspor Laporan (%{bundleSize})",
             "successful": "Ekspor laporan berhasil!",
             "title": "Ekspor laporan"
+        },
+        "deleteModal": {
+            "title": "Hapus Laporan",
+            "description": "Yakin ingin menghapus laporan ini?",
+            "cancel": "Batal",
+            "approve": "Hapus"
         },
         "alertType": {
             "wur_radd_alerts": "RADD",
@@ -920,10 +972,24 @@
         "title": "Lapor",
         "toReport": "Lapor",
         "upload": "Unggah",
-        "uploaded": "Terunggah",
+        "uploaded": "Selesai (Disinkronkan ke FW Web)",
         "choose": {
             "title": "Pilih Templat",
             "subtitle": "Untuk membuat laporan, pilih salah satu dari templat berikut:"
+        },
+        "fileTooSizeErrorTitle": "Gambar Terlalu Besar",
+        "fileTooSizeErrorMessage": "File gambar ini terlalu besar. Silakan pilih file yang lebih kecil.",
+        "voice": {
+            "idleTitle": "Ketuk untuk mulai merekam",
+            "idleSubtitle": "Lorum ipsum dolor sit amet. Lorum ipsum dolor sit amet. Lorum ipsum dolor sit amet.",
+            "recording": "Merekam",
+            "paused": "Dijeda",
+            "recordingEmptyState": "Harap ambil atau pilih rekaman",
+            "chooseRecordingTitle": "Pilih rekaman",
+            "chooseRecordingSubtitle": "Pilih metode yang Anda inginkan untuk menambahkan rekaman",
+            "uploadRecording": "Unggah rekaman",
+            "startRecording": "Mulai rekaman",
+            "enterDescriptionHint": "Masukkan deskripsi"
         }
     },
     "routes": {
@@ -971,7 +1037,16 @@
         "stopRouteTrackingPanelDeleteOption": "Hentikan dan hapus rute",
         "stopRouteTrackingPanelSaveOption": "Hentikan dan simpan rute",
         "stopRouteTrackingPanelTitle": "Hentikan Pelacakan Rute",
-        "viewOnMap": "Tampilkan Rute di Peta"
+        "viewOnMap": "Tampilkan Rute di Peta",
+        "sync": {
+            "buttonTitle": "Sinkronkan ke web",
+            "buttonProgress": "Sinkronisasi...",
+            "buttonActive": "Sinkronisasi yang terpilih",
+            "successNotif": "Rute berhasil diunggah",
+            "failNotif": "Rute gagal diunggah",
+            "uploaded": "Diunggah ke web",
+            "notUploaded": "Tidak diunggah ke web"
+        }
     },
     "settings": {
         "aboutApp": "Tentang aplikasi ini",
@@ -990,6 +1065,7 @@
         "logOut": "Keluar",
         "moreInfo": "Info Lainnya",
         "offlineMode": "Mode Luring",
+        "offlineModeDescription": "Gunakan mode luring untuk mencegah Forest Watcher mobile menyinkronkan data ke Forest Watcher web. Ini berguna saat Anda ingin menghemat masa pakai baterai dan membatasi transfer data.",
         "shareData": "Bagikan Semua Data Aplikasi",
         "title": "Pengaturan",
         "unsafeLogout": "Sebagian data mungkin hilang",
@@ -1063,7 +1139,8 @@
             "updated": "Unduhan Selesai!",
             "updating": "Mengunduh data..."
         },
-        "tryAgain": "Coba lagi"
+        "tryAgain": "Coba lagi",
+        "complete": "Sinkronisasi selesai"
     },
     "termsAndConditions": {
         "agreeText": "Dengan menggunakan aplikasi ini, Anda setuju dengan",
@@ -1121,5 +1198,13 @@
         },
         "invalidShapefile": "Eror saat mengunggah shapefile. Harap coba shapefile lainnya.",
         "invalidBundle": "Eror saat mengimpor GFW Bundle."
+    },
+    "offline": {
+        "bannerTitleOnline": "Moda Daring",
+        "bannerTitleOffline": "Mode Luring",
+        "modalTitle": "Anda berada dalam Mode Luring",
+        "modalSubtitle": "Gunakan moda luring untuk melihat konten yang telah Anda unduh di perangkat Anda tanpa koneksi internet.",
+        "buttonTitle": "Kembali ke Mode Daring",
+        "doneButton": "Selesai"
     }
 }

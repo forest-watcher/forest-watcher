@@ -148,7 +148,7 @@ export default class ShareSelector extends Component<Props, State> {
           <BottomTray
             showProgressBar={isSharing}
             requiresSafeAreaView={true}
-            style={{ flexDirection: 'row', alignSelf: 'stretch', alignItems: 'stretch' }}
+            style={{ flexDirection: 'column', alignItems: 'stretch', justifyContent: 'space-between' }}
           >
             {showEditButton && !sharing && (
               <ActionButton
@@ -156,8 +156,8 @@ export default class ShareSelector extends Component<Props, State> {
                 noIcon
                 onPress={this.props.disableEditButton ? null : editing ? this.props.onEdit : this.onClickEdit}
                 secondary={!editing && !this.props.disableEditButton}
-                style={{ flex: 1 }}
                 text={editing ? this.props.editButtonEnabledTitle : this.props.editButtonDisabledTitle}
+                style={{ height: 48 }}
                 textStyle={{ flexGrow: 0 }}
               />
             )}
@@ -166,9 +166,9 @@ export default class ShareSelector extends Component<Props, State> {
               <ActionButton
                 disabled={this.props.disabled || isSharing || (!hasItemsSelected && sharing)}
                 noIcon
+                style={{ height: 48, marginTop: 10 }}
                 onPress={this.props.disabled ? null : sharing ? this.props.onShare : this.onClickShare}
-                secondary={!sharing && !this.props.disabled}
-                style={{ flex: 1 }}
+                secondary={!sharing}
                 text={
                   isSharing
                     ? this.props.shareButtonInProgressTitle

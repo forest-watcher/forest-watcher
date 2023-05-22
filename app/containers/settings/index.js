@@ -10,6 +10,7 @@ import Settings from 'components/settings';
 import { trackSharedContent } from 'helpers/analytics';
 import { exportWholeAppBundleFromRedux } from 'helpers/sharing/exportBundleFromRedux';
 import shareBundle from 'helpers/sharing/shareBundle';
+import { setAsUploadedAll } from 'redux-modules/reports';
 
 type OwnProps = {|
   +componentId: string
@@ -37,6 +38,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       const outputPath = await dispatch(exportWholeAppBundleFromRedux());
       trackSharedContent('bundle');
       await shareBundle(outputPath);
+      dispatch(setAsUploadedAll());
       return outputPath;
     }
   };

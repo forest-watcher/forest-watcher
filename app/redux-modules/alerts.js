@@ -120,7 +120,15 @@ export function getAreaAlerts(area: Area, datasetSlug: string, apiConfig: AlertD
             }
           }
         },
-        rollback: { type: GET_ALERTS_ROLLBACK, meta: { alertId } }
+        rollback: {
+          type: GET_ALERTS_ROLLBACK,
+          meta: {
+            alertId,
+            then: payload => (dispatch, state) => {
+              dispatch(decreaseAppSynced());
+            }
+          }
+        }
       }
     }
   };

@@ -14,6 +14,7 @@ import generateUniqueID from 'helpers/uniqueId';
 import { DATASETS, DATASET_CATEGORIES, MAP_LAYER_INDEXES } from 'config/constants';
 import { getNeighboursSelected } from 'helpers/map';
 import kdbush from 'kdbush';
+import type { AssignmentLocation } from 'types/assignments.types';
 
 // eslint-disable-next-line import/no-unused-modules
 export type AlertsIndex = {|
@@ -31,7 +32,8 @@ type Props = {|
   +reportedAlerts: $ReadOnlyArray<Coordinates>,
   +selectedAlerts: $ReadOnlyArray<SelectedAlert>,
   +highlightedAlerts: $ReadOnlyArray<Alert>,
-  +timeframe: FilterThreshold
+  +timeframe: FilterThreshold,
+  +preSelectedAlerts?: ?Array<AssignmentLocation>
 |};
 
 type FeatureCollectionState = {|
@@ -133,7 +135,8 @@ export default class AlertDatasetCategory extends PureComponent<Props, State> {
         datasets: activeSlugs.length > 1 ? activeSlugs : null,
         timeAgo: { max: timeframe.value, unit: timeframe.units },
         limitAlerts: true,
-        distinctLocations: true
+        distinctLocations: true,
+        specificAlerts: this.props.preSelectedAlerts?.find(x => x.alertType) && this.props.preSelectedAlerts
       });
 
       const alertsIndex: AlertsIndex = kdbush(alertsFromDb, p => p.long, p => p.lat);
@@ -161,6 +164,15 @@ export default class AlertDatasetCategory extends PureComponent<Props, State> {
     const allAlerts = [...(this.state.alertsFromDb ?? [])];
     const selectedNeighbours = getNeighboursSelected(this.state.alertsIndex, selectedAlerts, allAlerts);
     return selectedNeighbours;
+  };
+
+  _getAssignmentProperties = (location: AssignmentLocation) => {
+    return {
+      lat: '' + location.lat,
+      long: '' + location.lon,
+      icon: this.props.selectedAlerts.length === 1 ? 'assignmentSelected' : 'assigment',
+      name: 'Assignment'
+    };
   };
 
   _getAlertProperties = (alert: Alert, selectedNeighbours: $ReadOnlyArray<Alert>): AlertFeatureProperties => {
@@ -231,6 +243,48 @@ export default class AlertDatasetCategory extends PureComponent<Props, State> {
     };
   };
 
+  renderAssignmentLocation: () => React$Element<any> | null = () => {
+    if (
+      this.props.preSelectedAlerts &&
+      this.props.preSelectedAlerts.length > 0 &&
+      ((this.props.preSelectedAlerts.length === 1 && !this.props.preSelectedAlerts[0].alertType) ||
+        (this.state.reportedAlerts.features.length === 0 && this.state.otherAlerts.features.length === 0))
+    ) {
+      const location = this.props.preSelectedAlerts[0];
+      return (
+        <MapboxGL.ShapeSource
+          id={'assignment'}
+          cluster
+          clusterRadius={120}
+          clusterMaxZoomLevel={15}
+          shape={featureCollection([point([location.lon, location.lat], this._getAssignmentProperties(location))])}
+          onPress={this.props.onPress}
+        >
+          <MapboxGL.SymbolLayer
+            id={'someIdIdonno'}
+            style={mapboxStyles.clusterCount}
+            layerIndex={MAP_LAYER_INDEXES.alerts}
+          />
+          <MapboxGL.CircleLayer
+            id={'circleLayerAssignment'}
+            belowLayerID={'someIdIdonno'}
+            filter={['has', 'point_count']}
+            style={{ ...mapboxStyles.clusteredPoints }}
+            layerIndex={MAP_LAYER_INDEXES.alerts}
+          />
+          <MapboxGL.SymbolLayer
+            id={'assignmentThemselves'}
+            filter={['!', ['has', 'point_count']]}
+            style={{ ...mapboxStyles.alert, iconOpacity: 1 }}
+            layerIndex={MAP_LAYER_INDEXES.alerts}
+          />
+        </MapboxGL.ShapeSource>
+      );
+    } else {
+      return null;
+    }
+  };
+
   render() {
     // As tempted as you may be to make this function conditionally return `null` based on the
     // activeSlugs prop, this causes issues with enabling/disabling alert types on iOS so please don't!
@@ -243,11 +297,17 @@ export default class AlertDatasetCategory extends PureComponent<Props, State> {
       <React.Fragment>
         {this.renderCluster(`${categoryId}ReportedAlerts`, colorReported, reportedAlerts)}
         {this.renderCluster(`${categoryId}OtherAlerts`, color, otherAlerts)}
+        {this.renderAssignmentLocation()}
       </React.Fragment>
     );
   }
 
-  renderCluster = (
+  renderCluster: (
+    clusterName: string,
+    clusterColor: any,
+    alerts: FeatureCollection<Point>,
+    darkTextOnCluster?: boolean
+  ) => React$Element<any> = (
     clusterName: string,
     clusterColor: any,
     alerts: FeatureCollection<Point>,
