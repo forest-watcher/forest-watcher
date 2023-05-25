@@ -87,7 +87,8 @@ export default function reducer(state: UserState = initialState, action: UserAct
         oAuthToken: null,
         socialNetwork: null,
         userId: null,
-        deleted: false
+        deleted: false,
+        data: {}
       };
     default:
       return state;

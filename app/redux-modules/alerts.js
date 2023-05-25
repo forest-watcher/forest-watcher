@@ -89,7 +89,7 @@ export function getAreaAlerts(area: Area, datasetSlug: string, apiConfig: AlertD
     area.geostore.id
   }&sql=select latitude, longitude, ${dateKey}${
     confidenceKey ? ', ' + confidenceKey : ''
-  } from ${tableName} where ${dateKey} > '${moment(minDate).format('YYYY-MM-DD')}'`;
+  } from ${tableName} where ${dateKey} >= '${moment(minDate).format('YYYY-MM-DD')}'`;
   if (requiresMaxDate) {
     url += ` and ${dateKey} < '${moment().format('YYYY-MM-DD')}'`;
   }
