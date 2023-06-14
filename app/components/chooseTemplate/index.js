@@ -89,7 +89,7 @@ export const ChooseTemplate = (props: Props): React$Element<any> => {
     <View style={styles.container}>
       <View style={styles.areaSection}>
         <Text style={styles.label}>{i18n.t('report.choose.subtitle')}</Text>
-        <ScrollView contentInsetAdjustmentBehavior={'always'}>
+        <ScrollView contentContainerStyle={styles.listContent} contentInsetAdjustmentBehavior={'always'}>
           {latestTemplates.map((template: Template) => (
             <Row action={handleRowAction(template)} key={template.Id} rowStyle={styles.row}>
               <View>

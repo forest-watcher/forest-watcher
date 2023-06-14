@@ -12,6 +12,7 @@ import FormField from 'components/common/form-inputs';
 import NextButton from 'components/form/next-button';
 import withDraft from 'components/form/withDraft';
 import { Navigation } from 'react-native-navigation';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 type Props = {
   question: Question,
@@ -140,8 +141,17 @@ class Form extends Component<Props> {
     const { question, answer, reportName, questionAnswered, text } = this.props;
     return (
       <View style={styles.container}>
-        {question && <FormField reportName={reportName} question={question} answer={answer} onChange={this.onChange} />}
-        {this.getNext(question, questionAnswered, text)}
+        <KeyboardAwareScrollView
+          style={styles.container}
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
+          keyboardShouldPersistTaps={'always'}
+        >
+          {question && (
+            <FormField reportName={reportName} question={question} answer={answer} onChange={this.onChange} />
+          )}
+          {this.getNext(question, questionAnswered, text)}
+        </KeyboardAwareScrollView>
       </View>
     );
   }

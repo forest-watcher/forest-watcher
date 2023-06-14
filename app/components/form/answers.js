@@ -246,6 +246,7 @@ class Answers extends PureComponent<Props> {
                   key={result.question.Id}
                   answers={result.answer.value}
                   question={result.question.label}
+                  childAnswer={result.answer.child?.value}
                   onEditPress={() => this.onEdit(result.question.order)}
                   readOnly={readOnly}
                 />
