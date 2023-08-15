@@ -20,8 +20,7 @@ index 0000000..0d259dd
 +o/classes
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/.transforms/048284d48ee8047acd1de52abe4ee947/transformed/classes/classes.dex b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/.transforms/048284d48ee8047acd1de52abe4ee947/transformed/classes/classes.dex
 new file mode 100644
-index 0000000..e2f1936
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/.transforms/048284d48ee8047acd1de52abe4ee947/transformed/classes/classes.dex differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/generated/res/resValues/debug/values/gradleResValues.xml b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/generated/res/resValues/debug/values/gradleResValues.xml
 new file mode 100644
 index 0000000..d37a732
@@ -198,12 +197,10 @@ index 0000000..9e26dfe
 \ No newline at end of file
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/compile_library_classes_jar/debug/classes.jar b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/compile_library_classes_jar/debug/classes.jar
 new file mode 100644
-index 0000000..4eecccf
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/compile_library_classes_jar/debug/classes.jar differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/compile_r_class_jar/debug/R.jar b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/compile_r_class_jar/debug/R.jar
 new file mode 100644
-index 0000000..5714c16
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/compile_r_class_jar/debug/R.jar differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/compile_symbol_list/debug/R.txt b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/compile_symbol_list/debug/R.txt
 new file mode 100644
 index 0000000..fbac195
@@ -219,32 +216,25 @@ index 0000000..fbac195
 +int xml syncadapter 0x0
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/compiled_local_resources/debug/out/mipmap-hdpi-v4_ic_launcher.png.flat b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/compiled_local_resources/debug/out/mipmap-hdpi-v4_ic_launcher.png.flat
 new file mode 100644
-index 0000000..be8f20e
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/compiled_local_resources/debug/out/mipmap-hdpi-v4_ic_launcher.png.flat differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/compiled_local_resources/debug/out/mipmap-mdpi-v4_ic_launcher.png.flat b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/compiled_local_resources/debug/out/mipmap-mdpi-v4_ic_launcher.png.flat
 new file mode 100644
-index 0000000..da34608
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/compiled_local_resources/debug/out/mipmap-mdpi-v4_ic_launcher.png.flat differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/compiled_local_resources/debug/out/mipmap-xhdpi-v4_ic_launcher.png.flat b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/compiled_local_resources/debug/out/mipmap-xhdpi-v4_ic_launcher.png.flat
 new file mode 100644
-index 0000000..a69c1ea
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/compiled_local_resources/debug/out/mipmap-xhdpi-v4_ic_launcher.png.flat differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/compiled_local_resources/debug/out/mipmap-xxhdpi-v4_ic_launcher.png.flat b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/compiled_local_resources/debug/out/mipmap-xxhdpi-v4_ic_launcher.png.flat
 new file mode 100644
-index 0000000..cd5e53a
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/compiled_local_resources/debug/out/mipmap-xxhdpi-v4_ic_launcher.png.flat differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/compiled_local_resources/debug/out/mipmap-xxxhdpi-v4_ic_launcher.png.flat b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/compiled_local_resources/debug/out/mipmap-xxxhdpi-v4_ic_launcher.png.flat
 new file mode 100644
-index 0000000..46edcd7
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/compiled_local_resources/debug/out/mipmap-xxxhdpi-v4_ic_launcher.png.flat differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/compiled_local_resources/debug/out/xml_authenticator.xml.flat b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/compiled_local_resources/debug/out/xml_authenticator.xml.flat
 new file mode 100644
-index 0000000..722d41b
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/compiled_local_resources/debug/out/xml_authenticator.xml.flat differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/compiled_local_resources/debug/out/xml_syncadapter.xml.flat b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/compiled_local_resources/debug/out/xml_syncadapter.xml.flat
 new file mode 100644
-index 0000000..451bf9e
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/compiled_local_resources/debug/out/xml_syncadapter.xml.flat differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/incremental/debug/packageDebugResources/compile-file-map.properties b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/incremental/debug/packageDebugResources/compile-file-map.properties
 new file mode 100644
 index 0000000..a878e9a
@@ -311,468 +301,352 @@ index 0000000..4f0d4de
 \ No newline at end of file
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/backgroundgeolocation/BuildConfig.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/backgroundgeolocation/BuildConfig.class
 new file mode 100644
-index 0000000..f396932
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/backgroundgeolocation/BuildConfig.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/BackgroundGeolocationFacade$1.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/BackgroundGeolocationFacade$1.class
 new file mode 100644
-index 0000000..c7704c7
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/BackgroundGeolocationFacade$1.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/BackgroundGeolocationFacade$2.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/BackgroundGeolocationFacade$2.class
 new file mode 100644
-index 0000000..0fa39a8
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/BackgroundGeolocationFacade$2.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/BackgroundGeolocationFacade$3.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/BackgroundGeolocationFacade$3.class
 new file mode 100644
-index 0000000..9c426fe
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/BackgroundGeolocationFacade$3.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/BackgroundGeolocationFacade.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/BackgroundGeolocationFacade.class
 new file mode 100644
-index 0000000..6c80330
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/BackgroundGeolocationFacade.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/BootCompletedReceiver.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/BootCompletedReceiver.class
 new file mode 100644
-index 0000000..e719420
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/BootCompletedReceiver.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/Config$1.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/Config$1.class
 new file mode 100644
-index 0000000..ebc3318
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/Config$1.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/Config.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/Config.class
 new file mode 100644
-index 0000000..95063a9
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/Config.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/ConnectivityListener.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/ConnectivityListener.class
 new file mode 100644
-index 0000000..010b0c4
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/ConnectivityListener.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/HttpPostService$UploadingProgressListener.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/HttpPostService$UploadingProgressListener.class
 new file mode 100644
-index 0000000..fc06a02
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/HttpPostService$UploadingProgressListener.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/HttpPostService.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/HttpPostService.class
 new file mode 100644
-index 0000000..de0cb68
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/HttpPostService.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/LocationManager$1.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/LocationManager$1.class
 new file mode 100644
-index 0000000..29e13d4
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/LocationManager$1.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/LocationManager$CurrentLocationListener.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/LocationManager$CurrentLocationListener.class
 new file mode 100644
-index 0000000..2c9038a
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/LocationManager$CurrentLocationListener.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/LocationManager$PermissionDeniedException.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/LocationManager$PermissionDeniedException.class
 new file mode 100644
-index 0000000..52f0f1b
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/LocationManager$PermissionDeniedException.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/LocationManager.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/LocationManager.class
 new file mode 100644
-index 0000000..4635d45
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/LocationManager.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/PluginDelegate.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/PluginDelegate.class
 new file mode 100644
-index 0000000..9df7ad3
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/PluginDelegate.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/PluginException.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/PluginException.class
 new file mode 100644
-index 0000000..18de7cd
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/PluginException.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/PostLocationTask$1.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/PostLocationTask$1.class
 new file mode 100644
-index 0000000..5abefc1
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/PostLocationTask$1.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/PostLocationTask$2.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/PostLocationTask$2.class
 new file mode 100644
-index 0000000..ed4e0c2
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/PostLocationTask$2.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/PostLocationTask$PostLocationTaskListener.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/PostLocationTask$PostLocationTaskListener.class
 new file mode 100644
-index 0000000..a22defc
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/PostLocationTask$PostLocationTaskListener.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/PostLocationTask.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/PostLocationTask.class
 new file mode 100644
-index 0000000..ebe34bf
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/PostLocationTask.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/ResourceResolver.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/ResourceResolver.class
 new file mode 100644
-index 0000000..bfd0b7b
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/ResourceResolver.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/AbstractLocationTemplate$LocationMapper.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/AbstractLocationTemplate$LocationMapper.class
 new file mode 100644
-index 0000000..64e2f6d
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/AbstractLocationTemplate$LocationMapper.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/AbstractLocationTemplate.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/AbstractLocationTemplate.class
 new file mode 100644
-index 0000000..7750e70
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/AbstractLocationTemplate.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/ArrayListLocationTemplate.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/ArrayListLocationTemplate.class
 new file mode 100644
-index 0000000..f1e1004
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/ArrayListLocationTemplate.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/BackgroundActivity$1.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/BackgroundActivity$1.class
 new file mode 100644
-index 0000000..5d06229
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/BackgroundActivity$1.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/BackgroundActivity.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/BackgroundActivity.class
 new file mode 100644
-index 0000000..bf392dc
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/BackgroundActivity.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/BackgroundLocation$1.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/BackgroundLocation$1.class
 new file mode 100644
-index 0000000..076c72a
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/BackgroundLocation$1.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/BackgroundLocation.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/BackgroundLocation.class
 new file mode 100644
-index 0000000..e4c8235
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/BackgroundLocation.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/ConfigurationDAO.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/ConfigurationDAO.class
 new file mode 100644
-index 0000000..103c9c4
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/ConfigurationDAO.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/DAOFactory.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/DAOFactory.class
 new file mode 100644
-index 0000000..10cf927
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/DAOFactory.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/HashMapLocationTemplate.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/HashMapLocationTemplate.class
 new file mode 100644
-index 0000000..9dbf95f
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/HashMapLocationTemplate.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/LocationDAO.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/LocationDAO.class
 new file mode 100644
-index 0000000..d36970b
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/LocationDAO.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/LocationTemplate.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/LocationTemplate.class
 new file mode 100644
-index 0000000..896f89a
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/LocationTemplate.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/LocationTemplateFactory.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/LocationTemplateFactory.class
 new file mode 100644
-index 0000000..86b80c1
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/LocationTemplateFactory.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/LocationTransform.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/LocationTransform.class
 new file mode 100644
-index 0000000..4469d60
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/LocationTransform.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/provider/ContentProviderLocationDAO.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/provider/ContentProviderLocationDAO.class
 new file mode 100644
-index 0000000..fa58560
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/provider/ContentProviderLocationDAO.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/provider/LocationContentProvider.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/provider/LocationContentProvider.class
 new file mode 100644
-index 0000000..92f6828
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/provider/LocationContentProvider.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/sqlite/SQLiteConfigurationContract$ConfigurationEntry.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/sqlite/SQLiteConfigurationContract$ConfigurationEntry.class
 new file mode 100644
-index 0000000..bbb01a0
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/sqlite/SQLiteConfigurationContract$ConfigurationEntry.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/sqlite/SQLiteConfigurationContract.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/sqlite/SQLiteConfigurationContract.class
 new file mode 100644
-index 0000000..279e6df
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/sqlite/SQLiteConfigurationContract.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/sqlite/SQLiteConfigurationDAO.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/sqlite/SQLiteConfigurationDAO.class
 new file mode 100644
-index 0000000..f8d5dfa
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/sqlite/SQLiteConfigurationDAO.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/sqlite/SQLiteLocationContract$LocationEntry.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/sqlite/SQLiteLocationContract$LocationEntry.class
 new file mode 100644
-index 0000000..d0e2804
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/sqlite/SQLiteLocationContract$LocationEntry.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/sqlite/SQLiteLocationContract.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/sqlite/SQLiteLocationContract.class
 new file mode 100644
-index 0000000..95c7bfd
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/sqlite/SQLiteLocationContract.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/sqlite/SQLiteLocationDAO.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/sqlite/SQLiteLocationDAO.class
 new file mode 100644
-index 0000000..18bb52d
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/sqlite/SQLiteLocationDAO.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/sqlite/SQLiteOpenHelper.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/sqlite/SQLiteOpenHelper.class
 new file mode 100644
-index 0000000..1141ece
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/data/sqlite/SQLiteOpenHelper.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/headless/AbstractTaskRunner.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/headless/AbstractTaskRunner.class
 new file mode 100644
-index 0000000..0d5d34d
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/headless/AbstractTaskRunner.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/headless/ActivityTask.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/headless/ActivityTask.class
 new file mode 100644
-index 0000000..f716ebb
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/headless/ActivityTask.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/headless/JsCallback.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/headless/JsCallback.class
 new file mode 100644
-index 0000000..4fac065
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/headless/JsCallback.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/headless/LocationTask.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/headless/LocationTask.class
 new file mode 100644
-index 0000000..971b242
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/headless/LocationTask.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/headless/StationaryTask.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/headless/StationaryTask.class
 new file mode 100644
-index 0000000..4b7d44f
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/headless/StationaryTask.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/headless/Task.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/headless/Task.class
 new file mode 100644
-index 0000000..3b84e01
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/headless/Task.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/headless/TaskRunner.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/headless/TaskRunner.class
 new file mode 100644
-index 0000000..d0475b5
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/headless/TaskRunner.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/headless/TaskRunnerFactory.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/headless/TaskRunnerFactory.class
 new file mode 100644
-index 0000000..86feb12
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/headless/TaskRunnerFactory.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/provider/AbstractLocationProvider.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/provider/AbstractLocationProvider.class
 new file mode 100644
-index 0000000..ec57ea1
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/provider/AbstractLocationProvider.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/provider/ActivityRecognitionLocationProvider$1.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/provider/ActivityRecognitionLocationProvider$1.class
 new file mode 100644
-index 0000000..d56eb72
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/provider/ActivityRecognitionLocationProvider$1.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/provider/ActivityRecognitionLocationProvider.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/provider/ActivityRecognitionLocationProvider.class
 new file mode 100644
-index 0000000..ef053bf
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/provider/ActivityRecognitionLocationProvider.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/provider/LocationProvider.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/provider/LocationProvider.class
 new file mode 100644
-index 0000000..c328917
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/provider/LocationProvider.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/provider/LocationProviderFactory.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/provider/LocationProviderFactory.class
 new file mode 100644
-index 0000000..6272f9d
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/provider/LocationProviderFactory.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/provider/ProviderDelegate.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/provider/ProviderDelegate.class
 new file mode 100644
-index 0000000..15b52fe
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/provider/ProviderDelegate.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/provider/RawLocationProvider.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/provider/RawLocationProvider.class
 new file mode 100644
-index 0000000..dc8a463
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/provider/RawLocationProvider.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/service/CommandId.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/service/CommandId.class
 new file mode 100644
-index 0000000..1e3a48b
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/service/CommandId.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/service/LocationService.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/service/LocationService.class
 new file mode 100644
-index 0000000..5e4cd08
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/service/LocationService.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/service/LocationServiceImpl$1.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/service/LocationServiceImpl$1.class
 new file mode 100644
-index 0000000..1158091
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/service/LocationServiceImpl$1.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/service/LocationServiceImpl$2.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/service/LocationServiceImpl$2.class
 new file mode 100644
-index 0000000..ae72716
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/service/LocationServiceImpl$2.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/service/LocationServiceImpl$3.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/service/LocationServiceImpl$3.class
 new file mode 100644
-index 0000000..97f2951
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/service/LocationServiceImpl$3.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/service/LocationServiceImpl$4.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/service/LocationServiceImpl$4.class
 new file mode 100644
-index 0000000..dd2920f
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/service/LocationServiceImpl$4.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/service/LocationServiceImpl$5.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/service/LocationServiceImpl$5.class
 new file mode 100644
-index 0000000..d05d0a0
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/service/LocationServiceImpl$5.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/service/LocationServiceImpl$6.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/service/LocationServiceImpl$6.class
 new file mode 100644
-index 0000000..23af0fe
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/service/LocationServiceImpl$6.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/service/LocationServiceImpl$7.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/service/LocationServiceImpl$7.class
 new file mode 100644
-index 0000000..21ca502
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/service/LocationServiceImpl$7.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/service/LocationServiceImpl$8.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/service/LocationServiceImpl$8.class
 new file mode 100644
-index 0000000..9527d8e
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/service/LocationServiceImpl$8.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/service/LocationServiceImpl$9.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/service/LocationServiceImpl$9.class
 new file mode 100644
-index 0000000..3ea5a57
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/service/LocationServiceImpl$9.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/service/LocationServiceImpl$LocalBinder.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/service/LocationServiceImpl$LocalBinder.class
 new file mode 100644
-index 0000000..45ac342
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/service/LocationServiceImpl$LocalBinder.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/service/LocationServiceImpl$ServiceHandler.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/service/LocationServiceImpl$ServiceHandler.class
 new file mode 100644
-index 0000000..c7f542a
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/service/LocationServiceImpl$ServiceHandler.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/service/LocationServiceImpl.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/service/LocationServiceImpl.class
 new file mode 100644
-index 0000000..3241483
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/service/LocationServiceImpl.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/service/LocationServiceInfo.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/service/LocationServiceInfo.class
 new file mode 100644
-index 0000000..fe7acf9
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/service/LocationServiceInfo.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/service/LocationServiceInfoImpl.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/service/LocationServiceInfoImpl.class
 new file mode 100644
-index 0000000..01f95ce
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/service/LocationServiceInfoImpl.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/service/LocationServiceIntentBuilder$Command.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/service/LocationServiceIntentBuilder$Command.class
 new file mode 100644
-index 0000000..cef7e48
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/service/LocationServiceIntentBuilder$Command.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/service/LocationServiceIntentBuilder.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/service/LocationServiceIntentBuilder.class
 new file mode 100644
-index 0000000..1047f5a
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/service/LocationServiceIntentBuilder.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/service/LocationServiceProxy.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/service/LocationServiceProxy.class
 new file mode 100644
-index 0000000..2debde5
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/service/LocationServiceProxy.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/sync/AccountHelper.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/sync/AccountHelper.class
 new file mode 100644
-index 0000000..6f4f412
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/sync/AccountHelper.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/sync/Authenticator.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/sync/Authenticator.class
 new file mode 100644
-index 0000000..023cd44
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/sync/Authenticator.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/sync/AuthenticatorService.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/sync/AuthenticatorService.class
 new file mode 100644
-index 0000000..7a8c532
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/sync/AuthenticatorService.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/sync/BatchManager$LocationTemplateWriter.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/sync/BatchManager$LocationTemplateWriter.class
 new file mode 100644
-index 0000000..8e2d640
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/sync/BatchManager$LocationTemplateWriter.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/sync/BatchManager$LocationWriter.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/sync/BatchManager$LocationWriter.class
 new file mode 100644
-index 0000000..882e3ab
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/sync/BatchManager$LocationWriter.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/sync/BatchManager.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/sync/BatchManager.class
 new file mode 100644
-index 0000000..3cd4be2
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/sync/BatchManager.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/sync/NotificationHelper$NotificationFactory.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/sync/NotificationHelper$NotificationFactory.class
 new file mode 100644
-index 0000000..2a316de
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/sync/NotificationHelper$NotificationFactory.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/sync/NotificationHelper.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/sync/NotificationHelper.class
 new file mode 100644
-index 0000000..77d7524
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/sync/NotificationHelper.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/sync/SyncAdapter$1.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/sync/SyncAdapter$1.class
 new file mode 100644
-index 0000000..8651c6c
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/sync/SyncAdapter$1.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/sync/SyncAdapter.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/sync/SyncAdapter.class
 new file mode 100644
-index 0000000..b77fb5e
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/sync/SyncAdapter.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/sync/SyncService.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/sync/SyncService.class
 new file mode 100644
-index 0000000..7ef4c32
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/bgloc/sync/SyncService.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/logging/DBLogReader$QueryBuilder.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/logging/DBLogReader$QueryBuilder.class
 new file mode 100644
-index 0000000..90768e2
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/logging/DBLogReader$QueryBuilder.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/logging/DBLogReader.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/logging/DBLogReader.class
 new file mode 100644
-index 0000000..39e0e02
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/logging/DBLogReader.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/logging/LogEntry.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/logging/LogEntry.class
 new file mode 100644
-index 0000000..4951499
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/logging/LogEntry.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/logging/LoggerManager.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/logging/LoggerManager.class
 new file mode 100644
-index 0000000..008cdb4
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/logging/LoggerManager.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/logging/UncaughtExceptionLogger.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/logging/UncaughtExceptionLogger.class
 new file mode 100644
-index 0000000..daf7af4
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/logging/UncaughtExceptionLogger.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/utils/CloneHelper.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/utils/CloneHelper.class
 new file mode 100644
-index 0000000..aacf247
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/utils/CloneHelper.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/utils/Convert.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/utils/Convert.class
 new file mode 100644
-index 0000000..ce3fe53
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/utils/Convert.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/utils/TextUtils.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/utils/TextUtils.class
 new file mode 100644
-index 0000000..7f64d98
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/utils/TextUtils.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/utils/ToneGenerator$1.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/utils/ToneGenerator$1.class
 new file mode 100644
-index 0000000..19defd7
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/utils/ToneGenerator$1.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/utils/ToneGenerator$2.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/utils/ToneGenerator$2.class
 new file mode 100644
-index 0000000..8a64a33
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/utils/ToneGenerator$2.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/utils/ToneGenerator$Tone.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/utils/ToneGenerator$Tone.class
 new file mode 100644
-index 0000000..6d30e06
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/utils/ToneGenerator$Tone.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/utils/ToneGenerator.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/utils/ToneGenerator.class
 new file mode 100644
-index 0000000..9c64ca7
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/marianhello/utils/ToneGenerator.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/tenforwardconsulting/bgloc/DistanceFilterLocationProvider$1.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/tenforwardconsulting/bgloc/DistanceFilterLocationProvider$1.class
 new file mode 100644
-index 0000000..355dbde
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/tenforwardconsulting/bgloc/DistanceFilterLocationProvider$1.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/tenforwardconsulting/bgloc/DistanceFilterLocationProvider$2.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/tenforwardconsulting/bgloc/DistanceFilterLocationProvider$2.class
 new file mode 100644
-index 0000000..a0a2268
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/tenforwardconsulting/bgloc/DistanceFilterLocationProvider$2.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/tenforwardconsulting/bgloc/DistanceFilterLocationProvider$3.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/tenforwardconsulting/bgloc/DistanceFilterLocationProvider$3.class
 new file mode 100644
-index 0000000..048e949
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/tenforwardconsulting/bgloc/DistanceFilterLocationProvider$3.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/tenforwardconsulting/bgloc/DistanceFilterLocationProvider$4.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/tenforwardconsulting/bgloc/DistanceFilterLocationProvider$4.class
 new file mode 100644
-index 0000000..ffbbaa2
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/tenforwardconsulting/bgloc/DistanceFilterLocationProvider$4.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/tenforwardconsulting/bgloc/DistanceFilterLocationProvider.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/tenforwardconsulting/bgloc/DistanceFilterLocationProvider.class
 new file mode 100644
-index 0000000..f870e88
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/com/tenforwardconsulting/bgloc/DistanceFilterLocationProvider.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/org/apache/commons/io/Charsets.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/org/apache/commons/io/Charsets.class
 new file mode 100644
-index 0000000..e8c2674
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/org/apache/commons/io/Charsets.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/org/apache/commons/io/input/ReversedLinesFileReader$1.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/org/apache/commons/io/input/ReversedLinesFileReader$1.class
 new file mode 100644
-index 0000000..c85607f
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/org/apache/commons/io/input/ReversedLinesFileReader$1.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/org/apache/commons/io/input/ReversedLinesFileReader$FilePart.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/org/apache/commons/io/input/ReversedLinesFileReader$FilePart.class
 new file mode 100644
-index 0000000..9381aff
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/org/apache/commons/io/input/ReversedLinesFileReader$FilePart.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/org/apache/commons/io/input/ReversedLinesFileReader.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/org/apache/commons/io/input/ReversedLinesFileReader.class
 new file mode 100644
-index 0000000..4fac9d8
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/org/apache/commons/io/input/ReversedLinesFileReader.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/org/chromium/content/browser/ThreadUtils.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/org/chromium/content/browser/ThreadUtils.class
 new file mode 100644
-index 0000000..493a262
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/org/chromium/content/browser/ThreadUtils.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/ru/andremoniy/sqlbuilder/SqlExpression.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/ru/andremoniy/sqlbuilder/SqlExpression.class
 new file mode 100644
-index 0000000..4dd6205
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/ru/andremoniy/sqlbuilder/SqlExpression.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/ru/andremoniy/sqlbuilder/SqlSelectStatement.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/ru/andremoniy/sqlbuilder/SqlSelectStatement.class
 new file mode 100644
-index 0000000..dc80c4f
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/ru/andremoniy/sqlbuilder/SqlSelectStatement.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/ru/andremoniy/sqlbuilder/SqlStatement.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/ru/andremoniy/sqlbuilder/SqlStatement.class
 new file mode 100644
-index 0000000..b2a13b2
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/ru/andremoniy/sqlbuilder/SqlStatement.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/ru/andremoniy/utils/TextUtils.class b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/ru/andremoniy/utils/TextUtils.class
 new file mode 100644
-index 0000000..d433793
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/javac/debug/classes/ru/andremoniy/utils/TextUtils.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/local_only_symbol_list/debug/R-def.txt b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/local_only_symbol_list/debug/R-def.txt
 new file mode 100644
 index 0000000..93c3226
@@ -1078,24 +952,19 @@ index 0000000..a9a6e9f
 \ No newline at end of file
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/packaged_res/debug/mipmap-hdpi-v4/ic_launcher.png b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/packaged_res/debug/mipmap-hdpi-v4/ic_launcher.png
 new file mode 100644
-index 0000000..2e85200
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/packaged_res/debug/mipmap-hdpi-v4/ic_launcher.png differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/packaged_res/debug/mipmap-mdpi-v4/ic_launcher.png b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/packaged_res/debug/mipmap-mdpi-v4/ic_launcher.png
 new file mode 100644
-index 0000000..96cd9b9
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/packaged_res/debug/mipmap-mdpi-v4/ic_launcher.png differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/packaged_res/debug/mipmap-xhdpi-v4/ic_launcher.png b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/packaged_res/debug/mipmap-xhdpi-v4/ic_launcher.png
 new file mode 100644
-index 0000000..81463a7
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/packaged_res/debug/mipmap-xhdpi-v4/ic_launcher.png differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/packaged_res/debug/mipmap-xxhdpi-v4/ic_launcher.png b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/packaged_res/debug/mipmap-xxhdpi-v4/ic_launcher.png
 new file mode 100644
-index 0000000..db9b3ae
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/packaged_res/debug/mipmap-xxhdpi-v4/ic_launcher.png differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/packaged_res/debug/mipmap-xxxhdpi-v4/ic_launcher.png b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/packaged_res/debug/mipmap-xxxhdpi-v4/ic_launcher.png
 new file mode 100644
-index 0000000..f00c7c1
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/packaged_res/debug/mipmap-xxxhdpi-v4/ic_launcher.png differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/packaged_res/debug/values/values.xml b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/packaged_res/debug/values/values.xml
 new file mode 100644
 index 0000000..6d07615
@@ -1140,8 +1009,7 @@ index 0000000..0226391
 +    android:isAlwaysSyncable="true"/>
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/runtime_library_classes_jar/debug/classes.jar b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/runtime_library_classes_jar/debug/classes.jar
 new file mode 100644
-index 0000000..4dc2c81
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/runtime_library_classes_jar/debug/classes.jar differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/symbol_list_with_package_name/debug/package-aware-r.txt b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/intermediates/symbol_list_with_package_name/debug/package-aware-r.txt
 new file mode 100644
 index 0000000..f396087
@@ -1317,8 +1185,7 @@ index 0000000..97ed31c
 +		INJECTED from /Users/alirezaee/Documents/projects/3sc/forest-watcher-mobile-client/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/AndroidManifest.xml
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/build/tmp/compileDebugJavaWithJavac/previous-compilation-data.bin b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/tmp/compileDebugJavaWithJavac/previous-compilation-data.bin
 new file mode 100644
-index 0000000..1cc17e6
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/common/build/tmp/compileDebugJavaWithJavac/previous-compilation-data.bin differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/AndroidManifest.xml b/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/AndroidManifest.xml
 index a3888f3..113b5a0 100644
 --- a/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/AndroidManifest.xml
@@ -1416,35 +1283,113 @@ index 3e3b65c..4f84ee7 100644
  {
      /**
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/java/com/marianhello/bgloc/provider/ActivityRecognitionLocationProvider.java b/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/java/com/marianhello/bgloc/provider/ActivityRecognitionLocationProvider.java
-index bfb2199..e986566 100644
+index bfb2199..eeadf65 100644
 --- a/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/java/com/marianhello/bgloc/provider/ActivityRecognitionLocationProvider.java
 +++ b/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/java/com/marianhello/bgloc/provider/ActivityRecognitionLocationProvider.java
-@@ -6,6 +6,7 @@ import android.content.Context;
+@@ -6,7 +6,9 @@ import android.content.Context;
  import android.content.Intent;
  import android.content.IntentFilter;
  import android.location.Location;
 +import android.os.Build;
  import android.os.Bundle;
++import android.os.Looper;
  import android.os.PowerManager;
  import android.util.Log;
-@@ -49,8 +50,15 @@ public class ActivityRecognitionLocationProvider extends AbstractLocationProvide
+ 
+@@ -15,8 +17,10 @@ import com.google.android.gms.common.api.GoogleApiClient;
+ import com.google.android.gms.location.ActivityRecognition;
+ import com.google.android.gms.location.ActivityRecognitionResult;
+ import com.google.android.gms.location.DetectedActivity;
++import com.google.android.gms.location.LocationCallback;
+ import com.google.android.gms.location.LocationListener;
+ import com.google.android.gms.location.LocationRequest;
++import com.google.android.gms.location.LocationResult;
+ import com.google.android.gms.location.LocationServices;
+ import com.marianhello.bgloc.Config;
+ import com.marianhello.bgloc.data.BackgroundActivity;
+@@ -24,7 +28,7 @@ import com.marianhello.bgloc.data.BackgroundActivity;
+ import java.util.ArrayList;
+ 
+ public class ActivityRecognitionLocationProvider extends AbstractLocationProvider implements GoogleApiClient.ConnectionCallbacks,
+-        GoogleApiClient.OnConnectionFailedListener, LocationListener {
++        GoogleApiClient.OnConnectionFailedListener {
+ 
+     private static final String TAG = ActivityRecognitionLocationProvider.class.getSimpleName();
+     private static final String P_NAME = " com.marianhello.bgloc";
+@@ -49,7 +53,14 @@ public class ActivityRecognitionLocationProvider extends AbstractLocationProvide
          super.onCreate();
  
          Intent detectedActivitiesIntent = new Intent(DETECTED_ACTIVITY_UPDATE);
 -        detectedActivitiesPI = PendingIntent.getBroadcast(mContext, 9002, detectedActivitiesIntent, PendingIntent.FLAG_UPDATE_CURRENT);
--        registerReceiver(detectedActivitiesReceiver, new IntentFilter(DETECTED_ACTIVITY_UPDATE));
-+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
-+		{
-+			detectedActivitiesPI = PendingIntent.getBroadcast(mContext, 9002, detectedActivitiesIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);
-+		}
-+		else
-+		{
-+			detectedActivitiesPI = PendingIntent.getBroadcast(mContext, 9002, detectedActivitiesIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-+		}
-+		registerReceiver(detectedActivitiesReceiver, new IntentFilter(DETECTED_ACTIVITY_UPDATE));
++        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
++        {
++            detectedActivitiesPI = PendingIntent.getBroadcast(mContext, 9002, detectedActivitiesIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);
++        }
++        else
++        {
++            detectedActivitiesPI = PendingIntent.getBroadcast(mContext, 9002, detectedActivitiesIntent, PendingIntent.FLAG_UPDATE_CURRENT);
++        }
+         registerReceiver(detectedActivitiesReceiver, new IntentFilter(DETECTED_ACTIVITY_UPDATE));
      }
  
-     @Override
+@@ -82,21 +93,27 @@ public class ActivityRecognitionLocationProvider extends AbstractLocationProvide
+         return isStarted;
+     }
+ 
+-    @Override
+-    public void onLocationChanged(Location location) {
+-        logger.debug("Location change: {}", location.toString());
++    LocationCallback locationCallback = new LocationCallback() {
++        @Override public void onLocationResult(LocationResult locationResult)
++        {
++            if (locationResult.getLocations().isEmpty()) {
++                    return;
++            }
++            Location location = locationResult.getLocations().get(0);
++            logger.debug("Location change: {}", location.toString());
+ 
+-        if (lastActivity.getType() == DetectedActivity.STILL) {
+-            handleStationary(location);
+-            stopTracking();
+-            return;
+-        }
++            if (lastActivity.getType() == DetectedActivity.STILL) {
++                    handleStationary(location);
++                    stopTracking();
++                    return;
++                }
+ 
+-        showDebugToast("acy:" + location.getAccuracy() + ",v:" + location.getSpeed());
++            showDebugToast("acy:" + location.getAccuracy() + ",v:" + location.getSpeed());
+ 
+-        lastLocation = location;
+-        handleLocation(location);
+-    }
++            lastLocation = location;
++            handleLocation(location);
++        }
++    };
+ 
+     public void startTracking() {
+         if (isTracking) { return; }
+@@ -108,7 +125,7 @@ public class ActivityRecognitionLocationProvider extends AbstractLocationProvide
+                 .setInterval(mConfig.getInterval());
+         // .setSmallestDisplacement(mConfig.getStationaryRadius());
+         try {
+-            LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
++            LocationServices.getFusedLocationProviderClient(mContext).requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
+             isTracking = true;
+             logger.debug("Start tracking with priority={} fastestInterval={} interval={} activitiesInterval={} stopOnStillActivity={}", priority, mConfig.getFastestInterval(), mConfig.getInterval(), mConfig.getActivitiesInterval(), mConfig.getStopOnStillActivity());
+         } catch (SecurityException e) {
+@@ -120,7 +137,7 @@ public class ActivityRecognitionLocationProvider extends AbstractLocationProvide
+     public void stopTracking() {
+         if (!isTracking) { return; }
+ 
+-        LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient, this);
++        LocationServices.getFusedLocationProviderClient(mContext).removeLocationUpdates(locationCallback);
+         isTracking = false;
+     }
+ 
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/java/com/marianhello/bgloc/service/LocationServiceImpl.java b/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/java/com/marianhello/bgloc/service/LocationServiceImpl.java
 index 18f1ba1..ab00e71 100644
 --- a/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/java/com/marianhello/bgloc/service/LocationServiceImpl.java
@@ -1549,7 +1494,7 @@ index 9c713e9..c91dcdc 100644
   * Handle the transfer of data between a server and an
   * app, using the Android sync adapter framework.
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/java/com/tenforwardconsulting/bgloc/DistanceFilterLocationProvider.java b/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/java/com/tenforwardconsulting/bgloc/DistanceFilterLocationProvider.java
-index bada0c4..1e32d46 100644
+index bada0c4..d79cfc6 100644
 --- a/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/java/com/tenforwardconsulting/bgloc/DistanceFilterLocationProvider.java
 +++ b/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/java/com/tenforwardconsulting/bgloc/DistanceFilterLocationProvider.java
 @@ -21,6 +21,7 @@ import android.location.Criteria;
@@ -1592,6 +1537,30 @@ index bada0c4..1e32d46 100644
          registerReceiver(singleUpdateReceiver, new IntentFilter(SINGLE_LOCATION_UPDATE_ACTION));
  
          // Location criteria
+@@ -202,7 +209,7 @@ public class DistanceFilterLocationProvider extends AbstractLocationProvider imp
+                     }
+                 }
+             } else {
+-                locationManager.requestLocationUpdates(locationManager.getBestProvider(criteria, true), mConfig.getInterval(), scaledDistanceFilter, this);
++                locationManager.requestLocationUpdates(getProvider(), mConfig.getInterval(), scaledDistanceFilter, this);
+             }
+         } catch (SecurityException e) {
+             logger.error("Security exception: {}", e.getMessage());
+@@ -210,6 +217,14 @@ public class DistanceFilterLocationProvider extends AbstractLocationProvider imp
+         }
+     }
+ 
++    private String getProvider() {
++        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
++            return LocationManager.GPS_PROVIDER;
++        } else {
++            return locationManager.getBestProvider(criteria, true);
++        }
++    }
++    
+     /**
+      * Translates a number representing desired accuracy of Geolocation system from set [0, 10, 100, 1000].
+      * 0:  most aggressive, most accurate, worst battery drain
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/.transforms/25a99d036ab599ae16929e8f09b8d339/results.bin b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/.transforms/25a99d036ab599ae16929e8f09b8d339/results.bin
 new file mode 100644
 index 0000000..0d259dd
@@ -1601,8 +1570,7 @@ index 0000000..0d259dd
 +o/classes
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/.transforms/25a99d036ab599ae16929e8f09b8d339/transformed/classes/classes.dex b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/.transforms/25a99d036ab599ae16929e8f09b8d339/transformed/classes/classes.dex
 new file mode 100644
-index 0000000..345713b
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/.transforms/25a99d036ab599ae16929e8f09b8d339/transformed/classes/classes.dex differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/.transforms/68a74531c3430caff29392b49f345c91/results.bin b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/.transforms/68a74531c3430caff29392b49f345c91/results.bin
 new file mode 100644
 index 0000000..0d259dd
@@ -1612,8 +1580,7 @@ index 0000000..0d259dd
 +o/classes
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/.transforms/68a74531c3430caff29392b49f345c91/transformed/classes/classes.dex b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/.transforms/68a74531c3430caff29392b49f345c91/transformed/classes/classes.dex
 new file mode 100644
-index 0000000..345713b
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/.transforms/68a74531c3430caff29392b49f345c91/transformed/classes/classes.dex differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/generated/source/buildConfig/debug/com/marianhello/bgloc/react/BuildConfig.java b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/generated/source/buildConfig/debug/com/marianhello/bgloc/react/BuildConfig.java
 new file mode 100644
 index 0000000..9615a26
@@ -1775,12 +1742,10 @@ index 0000000..9e26dfe
 \ No newline at end of file
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/compile_library_classes_jar/debug/classes.jar b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/compile_library_classes_jar/debug/classes.jar
 new file mode 100644
-index 0000000..fa74ee4
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/compile_library_classes_jar/debug/classes.jar differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/compile_r_class_jar/debug/R.jar b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/compile_r_class_jar/debug/R.jar
 new file mode 100644
-index 0000000..35571e8
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/compile_r_class_jar/debug/R.jar differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/compile_symbol_list/debug/R.txt b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/compile_symbol_list/debug/R.txt
 new file mode 100644
 index 0000000..55bb72e
@@ -1793,32 +1758,25 @@ index 0000000..55bb72e
 +int xml syncadapter 0x0
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/compiled_local_resources/debug/out/mipmap-hdpi-v4_ic_launcher.png.flat b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/compiled_local_resources/debug/out/mipmap-hdpi-v4_ic_launcher.png.flat
 new file mode 100644
-index 0000000..0d4801a
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/compiled_local_resources/debug/out/mipmap-hdpi-v4_ic_launcher.png.flat differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/compiled_local_resources/debug/out/mipmap-mdpi-v4_ic_launcher.png.flat b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/compiled_local_resources/debug/out/mipmap-mdpi-v4_ic_launcher.png.flat
 new file mode 100644
-index 0000000..cdd8997
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/compiled_local_resources/debug/out/mipmap-mdpi-v4_ic_launcher.png.flat differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/compiled_local_resources/debug/out/mipmap-xhdpi-v4_ic_launcher.png.flat b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/compiled_local_resources/debug/out/mipmap-xhdpi-v4_ic_launcher.png.flat
 new file mode 100644
-index 0000000..6f7f271
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/compiled_local_resources/debug/out/mipmap-xhdpi-v4_ic_launcher.png.flat differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/compiled_local_resources/debug/out/mipmap-xxhdpi-v4_ic_launcher.png.flat b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/compiled_local_resources/debug/out/mipmap-xxhdpi-v4_ic_launcher.png.flat
 new file mode 100644
-index 0000000..cefb6b9
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/compiled_local_resources/debug/out/mipmap-xxhdpi-v4_ic_launcher.png.flat differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/compiled_local_resources/debug/out/mipmap-xxxhdpi-v4_ic_launcher.png.flat b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/compiled_local_resources/debug/out/mipmap-xxxhdpi-v4_ic_launcher.png.flat
 new file mode 100644
-index 0000000..2c942cb
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/compiled_local_resources/debug/out/mipmap-xxxhdpi-v4_ic_launcher.png.flat differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/compiled_local_resources/debug/out/xml_authenticator.xml.flat b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/compiled_local_resources/debug/out/xml_authenticator.xml.flat
 new file mode 100644
-index 0000000..da568e9
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/compiled_local_resources/debug/out/xml_authenticator.xml.flat differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/compiled_local_resources/debug/out/xml_syncadapter.xml.flat b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/compiled_local_resources/debug/out/xml_syncadapter.xml.flat
 new file mode 100644
-index 0000000..4941147
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/compiled_local_resources/debug/out/xml_syncadapter.xml.flat differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/incremental/debug/packageDebugResources/compile-file-map.properties b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/incremental/debug/packageDebugResources/compile-file-map.properties
 new file mode 100644
 index 0000000..be27a64
@@ -1882,88 +1840,67 @@ index 0000000..1c55976
 \ No newline at end of file
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/iodine/start/ArrayUtil$1.class b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/iodine/start/ArrayUtil$1.class
 new file mode 100644
-index 0000000..1146e18
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/iodine/start/ArrayUtil$1.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/iodine/start/ArrayUtil.class b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/iodine/start/ArrayUtil.class
 new file mode 100644
-index 0000000..a47d45c
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/iodine/start/ArrayUtil.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/iodine/start/MapUtil$1.class b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/iodine/start/MapUtil$1.class
 new file mode 100644
-index 0000000..3b242e8
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/iodine/start/MapUtil$1.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/iodine/start/MapUtil.class b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/iodine/start/MapUtil.class
 new file mode 100644
-index 0000000..ba55ec4
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/iodine/start/MapUtil.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/marianhello/bgloc/react/BackgroundGeolocationModule$1.class b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/marianhello/bgloc/react/BackgroundGeolocationModule$1.class
 new file mode 100644
-index 0000000..aa7e13e
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/marianhello/bgloc/react/BackgroundGeolocationModule$1.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/marianhello/bgloc/react/BackgroundGeolocationModule$2.class b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/marianhello/bgloc/react/BackgroundGeolocationModule$2.class
 new file mode 100644
-index 0000000..1a9d03f
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/marianhello/bgloc/react/BackgroundGeolocationModule$2.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/marianhello/bgloc/react/BackgroundGeolocationModule$3.class b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/marianhello/bgloc/react/BackgroundGeolocationModule$3.class
 new file mode 100644
-index 0000000..4e8573c
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/marianhello/bgloc/react/BackgroundGeolocationModule$3.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/marianhello/bgloc/react/BackgroundGeolocationModule$4.class b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/marianhello/bgloc/react/BackgroundGeolocationModule$4.class
 new file mode 100644
-index 0000000..6f50825
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/marianhello/bgloc/react/BackgroundGeolocationModule$4.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/marianhello/bgloc/react/BackgroundGeolocationModule$5.class b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/marianhello/bgloc/react/BackgroundGeolocationModule$5.class
 new file mode 100644
-index 0000000..45e9950
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/marianhello/bgloc/react/BackgroundGeolocationModule$5.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/marianhello/bgloc/react/BackgroundGeolocationModule$6.class b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/marianhello/bgloc/react/BackgroundGeolocationModule$6.class
 new file mode 100644
-index 0000000..07ffc12
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/marianhello/bgloc/react/BackgroundGeolocationModule$6.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/marianhello/bgloc/react/BackgroundGeolocationModule$7.class b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/marianhello/bgloc/react/BackgroundGeolocationModule$7.class
 new file mode 100644
-index 0000000..1a7a148
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/marianhello/bgloc/react/BackgroundGeolocationModule$7.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/marianhello/bgloc/react/BackgroundGeolocationModule$8.class b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/marianhello/bgloc/react/BackgroundGeolocationModule$8.class
 new file mode 100644
-index 0000000..503ba96
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/marianhello/bgloc/react/BackgroundGeolocationModule$8.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/marianhello/bgloc/react/BackgroundGeolocationModule$9.class b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/marianhello/bgloc/react/BackgroundGeolocationModule$9.class
 new file mode 100644
-index 0000000..b8dbd90
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/marianhello/bgloc/react/BackgroundGeolocationModule$9.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/marianhello/bgloc/react/BackgroundGeolocationModule$ErrorMap.class b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/marianhello/bgloc/react/BackgroundGeolocationModule$ErrorMap.class
 new file mode 100644
-index 0000000..0585463
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/marianhello/bgloc/react/BackgroundGeolocationModule$ErrorMap.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/marianhello/bgloc/react/BackgroundGeolocationModule.class b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/marianhello/bgloc/react/BackgroundGeolocationModule.class
 new file mode 100644
-index 0000000..64eecde
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/marianhello/bgloc/react/BackgroundGeolocationModule.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/marianhello/bgloc/react/BackgroundGeolocationPackage.class b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/marianhello/bgloc/react/BackgroundGeolocationPackage.class
 new file mode 100644
-index 0000000..230168f
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/marianhello/bgloc/react/BackgroundGeolocationPackage.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/marianhello/bgloc/react/BuildConfig.class b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/marianhello/bgloc/react/BuildConfig.class
 new file mode 100644
-index 0000000..c3e048d
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/marianhello/bgloc/react/BuildConfig.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/marianhello/bgloc/react/ConfigMapper.class b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/marianhello/bgloc/react/ConfigMapper.class
 new file mode 100644
-index 0000000..c0d1d2b
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/marianhello/bgloc/react/ConfigMapper.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/marianhello/bgloc/react/data/LocationMapper.class b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/marianhello/bgloc/react/data/LocationMapper.class
 new file mode 100644
-index 0000000..d7eddba
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/marianhello/bgloc/react/data/LocationMapper.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/marianhello/bgloc/react/headless/HeadlessService.class b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/marianhello/bgloc/react/headless/HeadlessService.class
 new file mode 100644
-index 0000000..4c91da5
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/marianhello/bgloc/react/headless/HeadlessService.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/marianhello/bgloc/react/headless/HeadlessTaskRunner.class b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/marianhello/bgloc/react/headless/HeadlessTaskRunner.class
 new file mode 100644
-index 0000000..4519fb3
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/javac/debug/classes/com/marianhello/bgloc/react/headless/HeadlessTaskRunner.class differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/local_only_symbol_list/debug/R-def.txt b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/local_only_symbol_list/debug/R-def.txt
 new file mode 100644
 index 0000000..28b82e8
@@ -2278,24 +2215,19 @@ index 0000000..0405522
 \ No newline at end of file
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/packaged_res/debug/mipmap-hdpi-v4/ic_launcher.png b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/packaged_res/debug/mipmap-hdpi-v4/ic_launcher.png
 new file mode 100644
-index 0000000..2e85200
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/packaged_res/debug/mipmap-hdpi-v4/ic_launcher.png differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/packaged_res/debug/mipmap-mdpi-v4/ic_launcher.png b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/packaged_res/debug/mipmap-mdpi-v4/ic_launcher.png
 new file mode 100644
-index 0000000..96cd9b9
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/packaged_res/debug/mipmap-mdpi-v4/ic_launcher.png differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/packaged_res/debug/mipmap-xhdpi-v4/ic_launcher.png b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/packaged_res/debug/mipmap-xhdpi-v4/ic_launcher.png
 new file mode 100644
-index 0000000..81463a7
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/packaged_res/debug/mipmap-xhdpi-v4/ic_launcher.png differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/packaged_res/debug/mipmap-xxhdpi-v4/ic_launcher.png b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/packaged_res/debug/mipmap-xxhdpi-v4/ic_launcher.png
 new file mode 100644
-index 0000000..db9b3ae
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/packaged_res/debug/mipmap-xxhdpi-v4/ic_launcher.png differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/packaged_res/debug/mipmap-xxxhdpi-v4/ic_launcher.png b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/packaged_res/debug/mipmap-xxxhdpi-v4/ic_launcher.png
 new file mode 100644
-index 0000000..f00c7c1
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/packaged_res/debug/mipmap-xxxhdpi-v4/ic_launcher.png differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/packaged_res/debug/values/values.xml b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/packaged_res/debug/values/values.xml
 new file mode 100644
 index 0000000..2b938a0
@@ -2337,8 +2269,7 @@ index 0000000..0226391
 +    android:isAlwaysSyncable="true"/>
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/runtime_library_classes_jar/debug/classes.jar b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/runtime_library_classes_jar/debug/classes.jar
 new file mode 100644
-index 0000000..cc2f305
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/runtime_library_classes_jar/debug/classes.jar differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/symbol_list_with_package_name/debug/package-aware-r.txt b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/intermediates/symbol_list_with_package_name/debug/package-aware-r.txt
 new file mode 100644
 index 0000000..3b8c043
@@ -2519,8 +2450,7 @@ index 0000000..62592e6
 +		INJECTED from /Users/alirezaee/Documents/projects/3sc/forest-watcher-mobile-client/node_modules/@mauron85/react-native-background-geolocation/android/lib/src/main/AndroidManifest.xml
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/tmp/compileDebugJavaWithJavac/previous-compilation-data.bin b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/tmp/compileDebugJavaWithJavac/previous-compilation-data.bin
 new file mode 100644
-index 0000000..ae332ab
-Binary files /dev/null and b/node_modules/@mauron85/react-native-background-geolocation/android/lib/build/tmp/compileDebugJavaWithJavac/previous-compilation-data.bin differ
+index 0000000..e69de29
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/lib/src/main/AndroidManifest.xml b/node_modules/@mauron85/react-native-background-geolocation/android/lib/src/main/AndroidManifest.xml
 index 4065e38..af19745 100644
 --- a/node_modules/@mauron85/react-native-background-geolocation/android/lib/src/main/AndroidManifest.xml
