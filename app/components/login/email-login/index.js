@@ -3,7 +3,7 @@ import type { Thunk } from 'types/store.types';
 import type { UserAction } from 'types/user.types';
 
 import React, { Component } from 'react';
-import { View, Image, Text, TextInput, TouchableHighlight, ActivityIndicator, Keyboard } from 'react-native';
+import { View, Image, Text, TextInput, TouchableHighlight, ActivityIndicator, Keyboard, Platform } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import debounceUI from 'helpers/debounceUI';
 
@@ -43,13 +43,16 @@ export default class EmailLogin extends Component<Props, State> {
         title: {
           text: i18n.t('login.emailLogin.loginWithEmail')
         },
-        background: {
-          color: Theme.colors.veryLightPink
-        },
         backButton: {
           icon: backIcon,
           id: 'backButton'
         }
+      },
+      statusBar: {
+        style: Platform.OS === 'android' ? 'light' : 'dark',
+        backgroundColor: 'black',
+        translucent: false,
+        visible: true
       }
     };
   }

@@ -73,7 +73,7 @@ function mapDispatchToProps(dispatch: Dispatch, ownProps: OwnProps) {
         )
       );
       trackSharedContent(mappingFileType === 'basemap' ? 'basemap' : 'layer');
-      await shareBundle(outputPath);
+      return await shareBundle(outputPath);
     },
     importGFWContent: async (contentType: LayerType, content: Layer, onlyNonDownloadedAreas: boolean = false) => {
       await dispatch(importGFWContent(contentType, content, onlyNonDownloadedAreas));
@@ -88,7 +88,4 @@ function mapDispatchToProps(dispatch: Dispatch, ownProps: OwnProps) {
 }
 
 type PassedProps = ComponentProps<OwnProps, typeof mapStateToProps, typeof mapDispatchToProps>;
-export default connect<PassedProps, OwnProps, _, _, State, Dispatch>(
-  mapStateToProps,
-  mapDispatchToProps
-)(MappingFiles);
+export default connect<PassedProps, OwnProps, _, _, State, Dispatch>(mapStateToProps, mapDispatchToProps)(MappingFiles);

@@ -167,7 +167,7 @@ export default class MappingFileRow extends Component<Props, State> {
 
     const titleKey =
       layerType === 'basemap' && !layer.isCustom && layer.name ? `basemaps.names.${layer.name}` : layer.name;
-    const title = i18n.t(titleKey);
+    const title = layer.isCustom ? layer.name : i18n.t(titleKey);
 
     const subtitle =
       layerType === 'basemap' && !layer.isCustom

@@ -9,6 +9,7 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import AlertDatasetCategory from 'components/map/alerts/dataset-category';
+import type { AssignmentLocation } from 'types/assignments.types';
 
 type Props = {|
   +alertLayerSettings: AlertLayerSettingsType,
@@ -17,7 +18,8 @@ type Props = {|
   +selectedAlerts: $ReadOnlyArray<SelectedAlert>,
   +onShapeSourcePressed?: (MapboxFeaturePressEvent<AlertFeatureProperties>) => void,
   +onHighlightedAlertsChanged?: ($ReadOnlyArray<Alert>, $ReadOnlyArray<Alert>) => void,
-  +setLoading?: (loading: boolean) => void
+  +setLoading?: (loading: boolean) => void,
+  +preSelectedAlerts?: ?Array<AssignmentLocation>
 |};
 
 type State = {|
@@ -94,6 +96,7 @@ export default class Alerts extends Component<Props, State> {
     if (!this.props.alertLayerSettings.layerIsActive) {
       return null;
     }
+
     return (
       <View>
         <MapboxGL.Images
@@ -107,7 +110,9 @@ export default class Alerts extends Component<Props, State> {
             firesSelected: require('assets/alertMapIcons/firesSelectedAlertMapIcon.png'),
             firesReported: require('assets/alertMapIcons/firesReportedAlertMapIcon.png'),
             firesReportedSelected: require('assets/alertMapIcons/firesReportedSelectedAlertMapIcon.png'),
-            selected: require('assets/alertMapIcons/selectedAlertMapIcon.png')
+            selected: require('assets/alertMapIcons/selectedAlertMapIcon.png'),
+            assigment: require('assets/alertMapIcons/assignments_marker.png'),
+            assignmentSelected: require('assets/alertMapIcons/assignments_selected_marker.png')
           }}
         />
         <AlertDatasetCategory
@@ -120,6 +125,7 @@ export default class Alerts extends Component<Props, State> {
           reportedAlerts={this.props.reportedAlerts}
           selectedAlerts={this.props.selectedAlerts}
           highlightedAlerts={this.state.highlightedAlerts}
+          preSelectedAlerts={this.props.preSelectedAlerts}
           ref={'firesCategory'}
         />
         <AlertDatasetCategory
@@ -132,6 +138,7 @@ export default class Alerts extends Component<Props, State> {
           reportedAlerts={this.props.reportedAlerts}
           selectedAlerts={this.props.selectedAlerts}
           highlightedAlerts={this.state.highlightedAlerts}
+          preSelectedAlerts={this.props.preSelectedAlerts}
           ref={'deforestationCategory'}
         />
       </View>

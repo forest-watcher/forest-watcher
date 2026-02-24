@@ -24,7 +24,7 @@ const screenDimensions = Dimensions.get('screen');
 type Props = {
   componentId: string,
   coordinatesFormat: CoordinatesFormat,
-  deleteRoute: () => void,
+  deleteRoute: (route: Route) => void,
   updateRoute: ($Shape<Route>) => void,
   initialiseAreaLayerSettings: (string, string) => void,
   route: ?Route
@@ -89,7 +89,7 @@ export default class RouteDetail extends PureComponent<Props> {
       {
         text: i18n.t('commonText.confirm'),
         onPress: () => {
-          this.props.deleteRoute();
+          this.props.deleteRoute(this.props.route);
           Navigation.dismissModal(this.props.componentId);
         }
       },

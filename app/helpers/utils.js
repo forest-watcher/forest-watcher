@@ -11,7 +11,7 @@ type ObjectOrArray = Object | Array<any>;
  */
 export function removeNulls(obj: ObjectOrArray): ObjectOrArray {
   return (function prune(current) {
-    _.forOwn(current, function(value, key) {
+    _.forOwn(current, function (value, key) {
       if (_.isUndefined(value) || _.isNull(value) || _.isNaN(value)) {
         delete current[key];
       }

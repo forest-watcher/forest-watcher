@@ -60,12 +60,20 @@ export default class App {
     }
     // If we're logged in with Apple Login
     if (state.user.loggedIn && state.user.socialNetwork === 'apple' && state.user.userId && appleAuth.isSupported) {
-      // Check credential state
-      const credentialState = await appleAuth.getCredentialStateForUser(state.user.userId);
-      // If we're not authorized, then log the user out!
-      if (credentialState !== appleAuth.State.AUTHORIZED) {
-        this.store.dispatch(logout('apple'));
-        screen = 'ForestWatcher.Home';
+
+      try {
+        // using try-catch for error when user does not sign in to icloud 
+        // Issue: https://github.com/invertase/react-native-apple-authentication/issues/89
+
+        // Check credential state
+        const credentialState = await appleAuth.getCredentialStateForUser(state.user.userId);
+        // If we're not authorized, then log the user out!
+        if (credentialState !== appleAuth.State.AUTHORIZED) {
+          this.store.dispatch(logout('apple'));
+          screen = 'ForestWatcher.Home';
+        }
+      } catch (error) {
+        console.warn('3SC', 'Error getting credential state', error);
       }
     }
 

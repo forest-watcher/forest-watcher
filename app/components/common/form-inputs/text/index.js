@@ -14,7 +14,10 @@ type State = {
 type Props = {
   question: Question,
   answer: Answer,
-  onChange: Answer => void
+  onChange: Answer => void,
+  containerStyle?: ?any,
+  labelStyle?: ?any,
+  placeHolder?: ?string
 };
 
 class InputTextCustom extends React.PureComponent<Props, State> {
@@ -31,8 +34,8 @@ class InputTextCustom extends React.PureComponent<Props, State> {
   render() {
     const { question } = this.props;
     return (
-      <View style={styles.container}>
-        <Text style={styles.label}>{question.label}</Text>
+      <View style={[styles.container, this.props.containerStyle]}>
+        <Text style={[styles.label, this.props.labelStyle]}>{question.label}</Text>
         <View style={styles.inputContainer}>
           <TextInput
             autoFocus={false}
@@ -41,7 +44,7 @@ class InputTextCustom extends React.PureComponent<Props, State> {
             autoCapitalize="none"
             value={this.state.value}
             onChangeText={this.onChange}
-            placeholder={question.defaultValue}
+            placeholder={this.props.placeHolder || question.defaultValue}
             underlineColorAndroid="transparent"
             selectionColor={Theme.colors.turtleGreen}
             placeholderTextColor={Theme.fontColors.light}

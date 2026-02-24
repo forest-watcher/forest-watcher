@@ -19,7 +19,7 @@ class GFWVectorLayer extends Component<Props, {}> {
   convertPaintToCamelCase = (paint: PaintStyle): PaintStyle => {
     return _.reduce(
       paint,
-      function(newDict, val, oldKey) {
+      function (newDict, val, oldKey) {
         let keyComponents = oldKey.split('-');
         keyComponents = keyComponents.map((component, index) => {
           return index === 0 ? component : component.charAt(0).toUpperCase() + component.slice(1);

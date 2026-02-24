@@ -24,7 +24,7 @@ import { pushMapScreen } from 'screens/maps';
 const RoutePreviewSize = isSmallScreen ? 86 : 122;
 
 const routeMapBackground = require('assets/routeMapBackground.png');
-const SafeAreaView = withSafeArea(View, 'margin', 'vertical');
+const SafeAreaView = withSafeArea(View, 'padding', 'vertical');
 const editIcon = require('assets/edit.png');
 const deleteIcon = require('assets/delete_white.png');
 

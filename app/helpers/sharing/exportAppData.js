@@ -107,13 +107,13 @@ function exportReports(reportsState: ReportsState, reportIds: Array<string>): [A
         return null;
       }
 
-      templatesToExport[template.id] = template;
+      templatesToExport[template.Id] = template;
 
       return {
         ...report,
         area: {
           ...(report.area ?? {}),
-          templateId: template.id
+          templateId: template.Id
         }
       };
     })

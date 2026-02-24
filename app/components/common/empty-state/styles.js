@@ -15,7 +15,8 @@ export default StyleSheet.create({
     marginTop: 8,
     marginBottom: 60,
     opacity: 0.6,
-    textAlign: 'center'
+    textAlign: 'center',
+    lineHeight: 16
   },
   container: {
     alignItems: 'center',

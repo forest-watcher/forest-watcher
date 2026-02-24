@@ -22,7 +22,4 @@ function mapStateToProps(state: State, ownProps: OwnProps) {
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({}, dispatch);
 
 type PassedProps = ComponentProps<OwnProps, typeof mapStateToProps, typeof mapDispatchToProps>;
-export default connect<PassedProps, OwnProps, _, _, State, Dispatch>(
-  mapStateToProps,
-  mapDispatchToProps
-)(DrawAreas);
+export default connect<PassedProps, OwnProps, _, _, State, Dispatch>(mapStateToProps, mapDispatchToProps)(DrawAreas);

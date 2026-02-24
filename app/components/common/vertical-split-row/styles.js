@@ -21,8 +21,7 @@ export default StyleSheet.create({
     backgroundColor: Theme.background.white,
     flexDirection: 'row',
     alignItems: 'stretch',
-    minHeight: 128,
-    maxHeight: 128
+    minHeight: 128
   },
   imageContainer: {
     minWidth: 92,

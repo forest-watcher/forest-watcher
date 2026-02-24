@@ -24,7 +24,8 @@ function ActionButton(props) {
     props.dark ? styles.dark : '',
     props.light ? styles.light : '',
     props.disabled ? styles.disabled : '',
-    props.secondary ? styles.secondary : '',
+    props.secondary && props.disabled ? styles.secondaryDisabled : '',
+    props.secondary && !props.disabled ? styles.secondary : '',
     props.error ? styles.error : '',
     props.delete ? styles.error : '',
     props.transparent ? styles.transparent : '',
@@ -50,7 +51,8 @@ function ActionButton(props) {
     props.disabled ? styles.buttonTextDisabled : '',
     props.error ? styles.buttonTextError : '',
     props.delete ? styles.buttonTextError : '',
-    props.secondary ? styles.buttonTextSecondary : '',
+    props.secondary && !props.disabled ? styles.buttonTextSecondary : '',
+    props.secondary && props.disabled ? styles.buttonTextDisabled : '',
     props.transparent
       ? { color: props.delete ? Theme.colors.carnation : props.light || props.dark ? '' : Theme.background.secondary }
       : '',

@@ -28,6 +28,7 @@ import {
   getRouteById
 } from 'redux-modules/shared';
 import * as Sentry from '@sentry/react-native';
+import { trackDownloadPlanetImagery } from '../../helpers/analytics';
 
 const initialProgressState = { progress: 0, requested: false, completed: false, error: null };
 
@@ -175,7 +176,6 @@ function downloadAllLayers(
   return Promise.all(
     cacheZoom.map(cacheLevel => {
       const layerConfig = { ...config, zoom: cacheLevel };
-      console.log('Download all layers', layerType, layerConfig);
       return downloadLayer(layerType, layerConfig, dispatch);
     })
   );
@@ -222,6 +222,8 @@ export function importGFWContent(
     const regionPromises = regions.map(async region => {
       return await downloadLayerForRegion(content, region, contentType, dispatch);
     });
+
+    trackDownloadPlanetImagery(content.name || '');
 
     await Promise.all(regionPromises);
   };

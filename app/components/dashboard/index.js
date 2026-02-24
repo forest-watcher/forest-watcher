@@ -1,17 +1,7 @@
 // @flow
 
 import React, { PureComponent } from 'react';
-import {
-  Image,
-  Linking,
-  PermissionsAndroid,
-  Platform,
-  RefreshControl,
-  ScrollView,
-  StatusBar,
-  Text,
-  View
-} from 'react-native';
+import { Image, Linking, PermissionsAndroid, Platform, RefreshControl, ScrollView, Text, View } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import { checkMultiple, PERMISSIONS, RESULTS } from 'react-native-permissions';
 
@@ -21,9 +11,10 @@ import { trackMenuButtonPress, trackScreenView } from 'helpers/analytics';
 import i18n from 'i18next';
 import styles from './styles';
 import { showLocationPermissionsScreen, showWelcomeScreen } from 'screens/common';
-import Theme from 'config/theme';
 import type { Team } from '../../types/teams.types';
 import type { AppUpdateType } from '../../types/app.types';
+import SyncContainer from 'components/common/sync-container';
+import OptionalWrapper from '../common/wrapper/OptionalWrapper';
 
 const settingsIcon = require('assets/settings.png');
 const nextIcon = require('assets/next.png');
@@ -31,6 +22,7 @@ const areasIcon = require('assets/areas.png');
 const reportsIcon = require('assets/reports.png');
 const routesIcon = require('assets/routes.png');
 const teamsIcon = require('assets/teams.png');
+const assignmentsIcon = require('assets/assignments.png');
 
 type Props = {
   componentId: string,
@@ -39,17 +31,21 @@ type Props = {
   isConnected: boolean,
   needsUpdate: boolean,
   appSyncing: boolean,
+  syncRemaining: number,
   refreshing: boolean,
   pristine: boolean,
   setPristine: boolean => void,
   invites: Array<Team>,
   needsAppUpdate: AppUpdateType,
   isAppUpdate: boolean,
+  openAssignments: number,
+  unsyncedReports: number,
   setWelcomeScreenSeen: () => void,
   updateApp: () => void,
   showNotConnectedNotification: () => void,
   getTeamInvites: () => void,
-  checkAppVersion: () => void
+  checkAppVersion: () => void,
+  areasLength: number
 };
 
 class Dashboard extends PureComponent<Props> {
@@ -58,13 +54,7 @@ class Dashboard extends PureComponent<Props> {
       topBar: {
         title: {
           text: i18n.t('commonText.appName'),
-          fontSize: Platform.OS === 'android' ? 24 : 20
-        },
-        largeTitle: {
-          visible: true
-        },
-        background: {
-          color: Theme.background.main
+          fontSize: 24
         }
       }
     };
@@ -83,6 +73,8 @@ class Dashboard extends PureComponent<Props> {
   routesAction: { callback: () => void, icon: any };
 
   settingsAction: { callback: () => void, icon: any };
+
+  assignmentsAction: { callback: () => void, icon: any };
 
   doneLocationPermissionsShowCheck: boolean;
 
@@ -114,6 +106,11 @@ class Dashboard extends PureComponent<Props> {
 
     this.teamsAction = {
       callback: this.onPressTeams,
+      icon: nextIcon
+    };
+
+    this.assignmentsAction = {
+      callback: this.onPressAssignments,
       icon: nextIcon
     };
   }
@@ -188,9 +185,7 @@ class Dashboard extends PureComponent<Props> {
         showLocationPermissionsScreen();
       }
     } else if (Platform.OS === 'android' && !this.doneLocationPermissionsShowCheck) {
-      const fineLocationCheck = await PermissionsAndroid.checkPermission(
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
-      );
+      const fineLocationCheck = await PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION);
       if (!fineLocationCheck) {
         showLocationPermissionsScreen();
         this.doneLocationPermissionsShowCheck = true;
@@ -267,17 +262,17 @@ class Dashboard extends PureComponent<Props> {
     });
   });
 
-  onPressInvite(team: Team) {
+  onPressAssignments: () => void = debounceUI(() => {
+    trackMenuButtonPress('assignments');
     Navigation.push(this.props.componentId, {
       component: {
-        name: 'ForestWatcher.TeamDetails',
+        name: 'ForestWatcher.Assignments',
         passProps: {
-          team,
-          invited: true
+          openAssignments: this.props.openAssignments
         }
       }
     });
-  }
+  });
 
   launchImportBundleModal: () => void = debounceUI((bundlePath: string) => {
     Navigation.showModal({
@@ -329,33 +324,13 @@ class Dashboard extends PureComponent<Props> {
           </View>
         </Row>
       );
-    } else if (this.props.invites?.length > 0) {
-      const localisationKey =
-        this.props.invites?.length > 1
-          ? 'teams.notifications.newInviteTitle_other'
-          : 'teams.notifications.newInviteTitle_one';
-      return (
-        <Row
-          action={{
-            icon: nextIcon,
-            callback: () => this.onPressInvite(this.props.invites[0])
-          }}
-          rowStyle={{ ...styles.noticeRow, opacity: 1, marginVertical: 0 }}
-          iconStyle={{ tintColor: 'white' }}
-        >
-          <View>
-            <Text style={styles.noticeTitle}>{i18n.t(localisationKey, { count: this.props.invites?.length })}</Text>
-            <Text style={styles.noticeSubtitle}>{i18n.t('teams.notifications.newInviteSubtitle')}</Text>
-          </View>
-        </Row>
-      );
     } else {
       return null;
     }
   }
 
   render(): React$Element<any> {
-    const { pristine, refreshing, appSyncing } = this.props;
+    const { pristine, syncRemaining } = this.props;
     const isIOS = Platform.OS === 'ios';
     // we remove the event handler to improve performance
     // this is done this way because in android the event listener needs to be at...
@@ -367,13 +342,15 @@ class Dashboard extends PureComponent<Props> {
     const iOSHandler = isIOS ? this.disablePristine : undefined;
     return (
       <View style={styles.container} onStartShouldSetResponder={androidListener} onResponderRelease={androidHandler}>
-        <StatusBar networkActivityIndicatorVisible={appSyncing} />
         <ScrollView
           contentInsetAdjustmentBehavior={'always'}
           onScroll={disablePristine}
-          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={this.onRefresh} />}
+          refreshControl={<RefreshControl refreshing={false} onRefresh={this.onRefresh} />}
         >
           {this.getNotice()}
+          <OptionalWrapper data={syncRemaining !== 0}>
+            <SyncContainer syncRemaining={syncRemaining} areasLength={this.props.areasLength} />
+          </OptionalWrapper>
           <View onStartShouldSetResponder={iOSListener} onResponderRelease={iOSHandler} style={styles.list}>
             <Row action={this.areasAction}>
               <View style={styles.tableRowContent}>
@@ -384,13 +361,46 @@ class Dashboard extends PureComponent<Props> {
             <Row action={this.teamsAction}>
               <View style={styles.tableRowContent}>
                 <Image source={teamsIcon} />
-                <Text style={styles.tableRowText}>{i18n.t('dashboard.teams')}</Text>
+                <View>
+                  <Text style={styles.tableRowText}>{i18n.t('dashboard.teams')}</Text>
+                  {this.props.invites?.length > 0 && (
+                    <Text style={styles.tableRowSubText}>
+                      {this.props.invites?.length > 1
+                        ? i18n.t('teams.notifications.newInviteTitle_other', { count: this.props.invites?.length })
+                        : i18n.t('teams.notifications.newInviteTitle_one', { count: this.props.invites?.length })}
+                    </Text>
+                  )}
+                </View>
+              </View>
+            </Row>
+            <Row action={this.assignmentsAction}>
+              <View style={styles.tableRowContent}>
+                <Image source={assignmentsIcon} />
+                <View>
+                  <Text style={styles.tableRowText}>{i18n.t('dashboard.assignments')}</Text>
+                  {this.props.openAssignments > 0 && (
+                    <Text style={styles.tableRowSubText}>
+                      {this.props.openAssignments > 1
+                        ? i18n.t('dashboard.assignments_count_many', { count: this.props.openAssignments })
+                        : i18n.t('dashboard.assignments_count_one', { count: this.props.openAssignments })}
+                    </Text>
+                  )}
+                </View>
               </View>
             </Row>
             <Row action={this.reportsAction}>
               <View style={styles.tableRowContent}>
                 <Image source={reportsIcon} />
-                <Text style={styles.tableRowText}>{i18n.t('dashboard.reports')}</Text>
+                <View>
+                  <Text style={styles.tableRowText}>{i18n.t('dashboard.reports')}</Text>
+                  {this.props.unsyncedReports > 0 && (
+                    <Text style={styles.tableRowSubText}>
+                      {this.props.unsyncedReports > 1
+                        ? i18n.t('dashboard.draft_reports_many', { count: this.props.unsyncedReports })
+                        : i18n.t('dashboard.draft_reports_one', { count: this.props.unsyncedReports })}
+                    </Text>
+                  )}
+                </View>
               </View>
             </Row>
             <Row action={this.routesAction}>

@@ -2,49 +2,30 @@
 
 buildscript {
     ext {
-        buildToolsVersion = "30.0.2"
-        minSdkVersion = 21
-        compileSdkVersion = 30
-        targetSdkVersion = 30
-        ndkVersion = "21.4.7075529"
+        buildToolsVersion = "35.0.0"
+        minSdkVersion = 24
+        compileSdkVersion = 35
+        targetSdkVersion = 35
+        ndkVersion = "26.1.10909125"
+        kotlinVersion = "1.9.24"
+        RNNKotlinVersion = "1.8.0"
+
         supportLibVersion = "28.0.0"
         playServicesVersion = "17+"
-        reactNativeNavigationFlavor = "reactNative63"
-        kotlin_version = "1.3.72"
-        RNNKotlinVersion = kotlin_version
-        RNNKotlinStdlib = "kotlin-stdlib-jdk8"
     }
     repositories {
         google()
         mavenLocal()
         mavenCentral()
-        maven { url "https://plugins.gradle.org/m2/" }
     }
     dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version")
-        classpath 'com.android.tools.build:gradle:4.2.2'
-        classpath 'com.google.gms:google-services:4.2.0'
-        classpath "gradle.plugin.com.browserstack.gradle:browserstack-gradle-plugin:2.3.3"
+        classpath("com.android.tools.build:gradle")
+        classpath("com.facebook.react:react-native-gradle-plugin")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.0")
+        classpath 'com.google.gms:google-services:4.3.14'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
-    }
-}
-
-subprojects {
-    afterEvaluate { project ->
-        if (!project.name.equalsIgnoreCase("app")
-                && project.hasProperty("android")) {
-
-            android {
-                variantFilter { variant ->
-                    def names = variant.flavors*.name
-                    if (project.name.equalsIgnoreCase("react-native-navigation") && !names.contains(rootProject.ext.reactNativeNavigationFlavor)) {
-                        setIgnore(true)
-                    }
-                }
-            }
-        }
     }
 }
 
@@ -53,27 +34,21 @@ allprojects {
         google()
         mavenLocal()
         mavenCentral()
-        maven {
-            // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
-            url "$rootDir/../node_modules/react-native/android"
-        }
-        maven {
-            // Android JSC is installed from npm
-            url("$rootDir/../node_modules/jsc-android/dist")
-        }
         maven { url 'https://jitpack.io' }
-	    maven {
-		    url 'https://api.mapbox.com/downloads/v2/releases/maven'
-		    authentication {
-			    basic(BasicAuthentication)
-		    }
-		    credentials {
-			    // Do not change the username below.
-			    // This should always be `mapbox` (not your username).
-			    username = 'mapbox'
-			    // Use the secret token you stored in gradle.properties as the password
-			    password = "${MAPBOX_MAVEN_PASSWORD}"
-		    }
-	    }
+        maven {
+            url 'https://api.mapbox.com/downloads/v2/releases/maven'
+            authentication {
+                basic(BasicAuthentication)
+            }
+            credentials {
+                // Do not change the username below.
+                // This should always be `mapbox` (not your username).
+                username = 'mapbox'
+                // Use the secret token you stored in gradle.properties as the password
+                password = project.properties['MAPBOX_MAVEN_PASSWORD'] ?: ""
+            }
+       }
     }
 }
+
+apply plugin: "com.facebook.react.rootproject"

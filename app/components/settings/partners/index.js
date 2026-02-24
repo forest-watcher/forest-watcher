@@ -7,7 +7,6 @@ import { trackScreenView } from 'helpers/analytics';
 import i18n from 'i18next';
 import List from 'components/common/list';
 import styles from './styles';
-
 import Theme from 'config/theme';
 
 const tscLogo = require('assets/3sc_logo.jpeg');
@@ -17,16 +16,6 @@ const gfwLogo = require('assets/gfw_logo.png');
 const vizzualityLogo = require('assets/vizzuality_logo.png');
 
 class Partners extends Component<{}> {
-  static options(passProps: {}) {
-    return {
-      topBar: {
-        background: {
-          color: Theme.colors.veryLightPink
-        }
-      }
-    };
-  }
-
   partners: Array<{ text: string, image: number, url: string, functionOnPress: string => void }>;
 
   constructor() {
@@ -63,6 +52,15 @@ class Partners extends Component<{}> {
         functionOnPress: this.handleLink
       }
     ];
+  }
+  static options(passProps: {}) {
+    return {
+      topBar: {
+        background: {
+          color: Theme.colors.veryLightPink
+        }
+      }
+    };
   }
 
   componentDidMount() {

@@ -61,7 +61,7 @@ class ImportMappingFileType extends PureComponent<Props, State> {
 
   importMappingFile = debounceUI(async () => {
     try {
-      const res = await DocumentPicker.pick({
+      const res = await DocumentPicker.pickSingle({
         type: [DocumentPicker.types.allFiles, 'public.item']
       });
       const validFile = await this.verifyImportedFile(res);
@@ -121,10 +121,7 @@ class ImportMappingFileType extends PureComponent<Props, State> {
 
   verifyImportedFile = async (file: File) => {
     // $FlowFixMe
-    const fileExtension = file.name
-      .split('.')
-      ?.pop()
-      ?.toLowerCase();
+    const fileExtension = file.name.split('.')?.pop()?.toLowerCase();
 
     // First, ensure that this file is one of the supported file types.
     if (!this.acceptedFileTypes().includes(fileExtension)) {

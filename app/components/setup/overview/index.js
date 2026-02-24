@@ -1,3 +1,4 @@
+// @flow
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, Image, TextInput, ActivityIndicator } from 'react-native';
@@ -20,7 +21,21 @@ class SetupOverview extends Component {
       topBar: {
         title: {
           text: i18n.t('commonText.setup')
-        }
+        },
+        rightButtons: passProps.skipAvailable
+          ? [
+              {
+                id: 'skip',
+                text: i18n.t('commonText.skip'),
+                fontSize: 16,
+                fontFamily: Theme.font,
+                fontWeight: '400',
+                allCaps: false,
+                color: Theme.colors.turtleGreen,
+                backgroundColor: Theme.background.main
+              }
+            ]
+          : undefined
       }
     };
   }
@@ -31,6 +46,7 @@ class SetupOverview extends Component {
       name: this.props.area ? this.props.area.name : '',
       navigateToAreasWhenReady: false
     };
+    Navigation.events().bindComponent(this);
   }
 
   componentDidMount() {
@@ -40,6 +56,17 @@ class SetupOverview extends Component {
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (this.state.navigateToAreasWhenReady && !this.props.syncingAreas && prevProps.syncingAreas) {
       this.navigateToAreaScreen();
+    }
+  }
+
+  navigationButtonPressed({ buttonId }: any) {
+    if (buttonId === 'skip') {
+      Navigation.setStackRoot(this.props.componentId, {
+        component: {
+          id: 'ForestWatcher.Dashboard',
+          name: 'ForestWatcher.Dashboard'
+        }
+      });
     }
   }
 

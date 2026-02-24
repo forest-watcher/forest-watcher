@@ -1,4 +1,4 @@
-image: node:14.16.1
+image: node:18.19.0
 pipelines:
   default:
     - step:

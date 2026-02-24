@@ -1,5 +1,6 @@
 import defaultEffect from '@redux-offline/redux-offline/lib/defaults/effect';
 import FWError from 'helpers/fwError';
+import * as Sentry from '@sentry/react-native';
 
 const JSONAPIDeserializer = require('jsonapi-serializer').Deserializer;
 
@@ -21,12 +22,9 @@ export default function effect({ url, headers, errorCode, deserialize = true, ..
     };
     const canDeserialize = res => res && typeof res === 'object' && res.data && deserialize;
     return defaultEffect(req, action)
-      .then(data => {
-        console.log('still downloading', url);
-        return canDeserialize(data) ? new JSONAPIDeserializer(deserializeOptions).deserialize(data) : data;
-      })
+      .then(data => (canDeserialize(data) ? new JSONAPIDeserializer(deserializeOptions).deserialize(data) : data))
       .catch(err => {
-        console.log('ERROR', JSON.stringify(err), JSON.stringify(req));
+        Sentry.captureException(err);
         if (errorCode) {
           throw new FWError({ message: err, status: errorCode });
         }

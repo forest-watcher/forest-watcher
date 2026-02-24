@@ -1,13 +1,823 @@
+diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/.project b/node_modules/@mauron85/react-native-background-geolocation/android/common/.project
+new file mode 100644
+index 0000000..09ca118
+--- /dev/null
++++ b/node_modules/@mauron85/react-native-background-geolocation/android/common/.project
+@@ -0,0 +1,28 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<projectDescription>
++	<name>@mauron85_react-native-background-geolocation-common</name>
++	<comment>Project @mauron85_react-native-background-geolocation-common created by Buildship.</comment>
++	<projects>
++	</projects>
++	<buildSpec>
++		<buildCommand>
++			<name>org.eclipse.buildship.core.gradleprojectbuilder</name>
++			<arguments>
++			</arguments>
++		</buildCommand>
++	</buildSpec>
++	<natures>
++		<nature>org.eclipse.buildship.core.gradleprojectnature</nature>
++	</natures>
++	<filteredResources>
++		<filter>
++			<id>1717415292951</id>
++			<name></name>
++			<type>30</type>
++			<matcher>
++				<id>org.eclipse.core.resources.regexFilterMatcher</id>
++				<arguments>node_modules|\.git|__CREATED_BY_JAVA_LANGUAGE_SERVER__</arguments>
++			</matcher>
++		</filter>
++	</filteredResources>
++</projectDescription>
 diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/VERSIONS.gradle b/node_modules/@mauron85/react-native-background-geolocation/android/common/VERSIONS.gradle
-index 61f0865..12bbb2d 100644
+index 61f0865..5faff62 100644
 --- a/node_modules/@mauron85/react-native-background-geolocation/android/common/VERSIONS.gradle
 +++ b/node_modules/@mauron85/react-native-background-geolocation/android/common/VERSIONS.gradle
+@@ -3,7 +3,7 @@ import org.gradle.util.GradleVersion
+ def DEFAULT_COMPILE_SDK_VERSION = 28
+ def DEFAULT_BUILD_TOOLS_VERSION = "28.0.3"
+ def DEFAULT_TARGET_SDK_VERSION = 28
+-def DEFAULT_MIN_SDK_VERSION = 16
++def DEFAULT_MIN_SDK_VERSION = 24
+ def DEFAULT_PLAY_SERVICES_VERSION = "11+"
+ def DEFAULT_SUPPORT_LIB_VERSION = "28.0.0"
+ def DEFAULT_REACT_NATIVE_LIB_VERSION = "+"
 @@ -142,7 +142,7 @@ ext {
  
      libs = [
          reactNative: [group: 'com.facebook.react', name: 'react-native', version: getReactNativeLibVersion()],
 -        permissions: [group: 'com.intentfilter', name: 'android-permissions', version: '0.1.7'],
-+        permissions: [group: 'io.github.nishkarsh', name: 'android-permissions', version: '0.1.7'],
++        permissions: [group: 'io.github.nishkarsh', name: 'android-permissions', version: '2.1.6'],
          logback: [group: 'com.github.tony19', name: 'logback-android', version: '1.1.1-9'],
          slf4j: [group: 'org.slf4j', name: 'slf4j-api', version: '1.7.21'],
          promise: [group: 'com.github.jparkie', name: 'promise', version: '1.0.3'],
+diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/src/androidTest/java/com/marianhello/bgloc/BackgroundGeolocationFacadeTest.java b/node_modules/@mauron85/react-native-background-geolocation/android/common/src/androidTest/java/com/marianhello/bgloc/BackgroundGeolocationFacadeTest.java
+index 24fc246..a9bc039 100644
+--- a/node_modules/@mauron85/react-native-background-geolocation/android/common/src/androidTest/java/com/marianhello/bgloc/BackgroundGeolocationFacadeTest.java
++++ b/node_modules/@mauron85/react-native-background-geolocation/android/common/src/androidTest/java/com/marianhello/bgloc/BackgroundGeolocationFacadeTest.java
+@@ -1,7 +1,7 @@
+ package com.marianhello.bgloc;
+ 
+-import android.support.test.InstrumentationRegistry;
+-import android.support.test.runner.AndroidJUnit4;
++import androidx.test.InstrumentationRegistry;
++import androidx.test.runner.AndroidJUnit4;
+ 
+ import com.marianhello.bgloc.data.BackgroundLocation;
+ import com.marianhello.bgloc.provider.TestLocationProviderFactory;
+diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/src/androidTest/java/com/marianhello/bgloc/BatchManagerTest.java b/node_modules/@mauron85/react-native-background-geolocation/android/common/src/androidTest/java/com/marianhello/bgloc/BatchManagerTest.java
+index 33e5c69..8fd5484 100644
+--- a/node_modules/@mauron85/react-native-background-geolocation/android/common/src/androidTest/java/com/marianhello/bgloc/BatchManagerTest.java
++++ b/node_modules/@mauron85/react-native-background-geolocation/android/common/src/androidTest/java/com/marianhello/bgloc/BatchManagerTest.java
+@@ -2,9 +2,9 @@ package com.marianhello.bgloc;
+ 
+ import android.content.Context;
+ import android.database.sqlite.SQLiteDatabase;
+-import android.support.test.InstrumentationRegistry;
+-import android.support.test.runner.AndroidJUnit4;
+-import android.support.test.filters.SmallTest;
++import androidx.test.InstrumentationRegistry;
++import androidx.test.runner.AndroidJUnit4;
++import androidx.test.filters.SmallTest;
+ import android.util.JsonReader;
+ import android.util.JsonToken;
+ 
+diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/src/androidTest/java/com/marianhello/bgloc/ContentProviderLocationDAOTest.java b/node_modules/@mauron85/react-native-background-geolocation/android/common/src/androidTest/java/com/marianhello/bgloc/ContentProviderLocationDAOTest.java
+index a255b87..6b4424f 100644
+--- a/node_modules/@mauron85/react-native-background-geolocation/android/common/src/androidTest/java/com/marianhello/bgloc/ContentProviderLocationDAOTest.java
++++ b/node_modules/@mauron85/react-native-background-geolocation/android/common/src/androidTest/java/com/marianhello/bgloc/ContentProviderLocationDAOTest.java
+@@ -16,7 +16,7 @@ import java.util.ArrayList;
+ import java.util.Collection;
+ import java.util.Iterator;
+ 
+-import static android.support.test.InstrumentationRegistry.getContext;
++import static androidx.test.InstrumentationRegistry.getContext;
+ import static com.marianhello.bgloc.data.sqlite.SQLiteLocationContract.LocationEntry.SQL_DROP_LOCATION_TABLE;
+ import static junit.framework.Assert.assertEquals;
+ 
+diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/src/androidTest/java/com/marianhello/bgloc/DBLogReaderTest.java b/node_modules/@mauron85/react-native-background-geolocation/android/common/src/androidTest/java/com/marianhello/bgloc/DBLogReaderTest.java
+index 27c27c9..5f09f58 100644
+--- a/node_modules/@mauron85/react-native-background-geolocation/android/common/src/androidTest/java/com/marianhello/bgloc/DBLogReaderTest.java
++++ b/node_modules/@mauron85/react-native-background-geolocation/android/common/src/androidTest/java/com/marianhello/bgloc/DBLogReaderTest.java
+@@ -1,9 +1,10 @@
+ package com.marianhello.bgloc;
+ 
+ import android.content.Context;
+-import android.support.test.InstrumentationRegistry;
+-import android.support.test.runner.AndroidJUnit4;
+-import android.support.test.filters.SmallTest;
++
++import androidx.test.InstrumentationRegistry;
++import androidx.test.runner.AndroidJUnit4;
++import androidx.test.filters.SmallTest;
+ 
+ import com.marianhello.logging.DBLogReader;
+ import com.marianhello.logging.LogEntry;
+diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/src/androidTest/java/com/marianhello/bgloc/LocationServiceProxyTest.java b/node_modules/@mauron85/react-native-background-geolocation/android/common/src/androidTest/java/com/marianhello/bgloc/LocationServiceProxyTest.java
+index 01c5271..efcb389 100644
+--- a/node_modules/@mauron85/react-native-background-geolocation/android/common/src/androidTest/java/com/marianhello/bgloc/LocationServiceProxyTest.java
++++ b/node_modules/@mauron85/react-native-background-geolocation/android/common/src/androidTest/java/com/marianhello/bgloc/LocationServiceProxyTest.java
+@@ -6,10 +6,6 @@ import android.content.Intent;
+ import android.content.IntentFilter;
+ import android.os.Bundle;
+ import android.os.IBinder;
+-import android.support.test.InstrumentationRegistry;
+-import android.support.test.rule.ServiceTestRule;
+-import android.support.test.runner.AndroidJUnit4;
+-import android.support.v4.content.LocalBroadcastManager;
+ 
+ import com.marianhello.bgloc.provider.TestLocationProviderFactory;
+ import com.marianhello.bgloc.service.LocationServiceImpl;
+@@ -32,6 +28,11 @@ import static org.hamcrest.core.Is.is;
+ import static org.hamcrest.core.IsEqual.equalTo;
+ import static org.junit.Assert.assertThat;
+ 
++import androidx.localbroadcastmanager.content.LocalBroadcastManager;
++import androidx.test.InstrumentationRegistry;
++import androidx.test.rule.ServiceTestRule;
++import androidx.test.runner.AndroidJUnit4;
++
+ @RunWith(AndroidJUnit4.class)
+ public class LocationServiceProxyTest {
+ 
+diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/src/androidTest/java/com/marianhello/bgloc/LocationServiceTest.java b/node_modules/@mauron85/react-native-background-geolocation/android/common/src/androidTest/java/com/marianhello/bgloc/LocationServiceTest.java
+index 6698819..f307692 100644
+--- a/node_modules/@mauron85/react-native-background-geolocation/android/common/src/androidTest/java/com/marianhello/bgloc/LocationServiceTest.java
++++ b/node_modules/@mauron85/react-native-background-geolocation/android/common/src/androidTest/java/com/marianhello/bgloc/LocationServiceTest.java
+@@ -7,12 +7,12 @@ import android.content.IntentFilter;
+ import android.location.Location;
+ import android.os.Bundle;
+ import android.os.IBinder;
+-import android.support.annotation.NonNull;
+-import android.support.annotation.Nullable;
+-import android.support.test.InstrumentationRegistry;
+-import android.support.test.rule.ServiceTestRule;
+-import android.support.test.runner.AndroidJUnit4;
+-import android.support.v4.content.LocalBroadcastManager;
++import androidx.annotation.NonNull;
++import androidx.annotation.Nullable;
++import androidx.localbroadcastmanager.content.LocalBroadcastManager;
++import androidx.test.InstrumentationRegistry;
++import androidx.test.rule.ServiceTestRule;
++import androidx.test.runner.AndroidJUnit4;
+ 
+ import com.marianhello.bgloc.data.BackgroundLocation;
+ import com.marianhello.bgloc.provider.MockLocationProvider;
+diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/src/androidTest/java/com/marianhello/bgloc/SQLiteConfigurationDAOTest.java b/node_modules/@mauron85/react-native-background-geolocation/android/common/src/androidTest/java/com/marianhello/bgloc/SQLiteConfigurationDAOTest.java
+index 2257931..65a7eea 100644
+--- a/node_modules/@mauron85/react-native-background-geolocation/android/common/src/androidTest/java/com/marianhello/bgloc/SQLiteConfigurationDAOTest.java
++++ b/node_modules/@mauron85/react-native-background-geolocation/android/common/src/androidTest/java/com/marianhello/bgloc/SQLiteConfigurationDAOTest.java
+@@ -3,9 +3,9 @@ package com.marianhello.bgloc;
+ import android.content.Context;
+ import android.database.Cursor;
+ import android.database.sqlite.SQLiteDatabase;
+-import android.support.test.InstrumentationRegistry;
+-import android.support.test.runner.AndroidJUnit4;
+-import android.support.test.filters.SmallTest;
++import androidx.test.InstrumentationRegistry;
++import androidx.test.runner.AndroidJUnit4;
++import androidx.test.filters.SmallTest;
+ 
+ import com.marianhello.bgloc.Config;
+ import com.marianhello.bgloc.data.HashMapLocationTemplate;
+diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/src/androidTest/java/com/marianhello/bgloc/SQLiteLocationDAOTest.java b/node_modules/@mauron85/react-native-background-geolocation/android/common/src/androidTest/java/com/marianhello/bgloc/SQLiteLocationDAOTest.java
+index 3c8ff11..69642e3 100644
+--- a/node_modules/@mauron85/react-native-background-geolocation/android/common/src/androidTest/java/com/marianhello/bgloc/SQLiteLocationDAOTest.java
++++ b/node_modules/@mauron85/react-native-background-geolocation/android/common/src/androidTest/java/com/marianhello/bgloc/SQLiteLocationDAOTest.java
+@@ -3,9 +3,9 @@ package com.marianhello.bgloc;
+ import android.content.Context;
+ import android.database.sqlite.SQLiteDatabase;
+ import android.location.Location;
+-import android.support.test.InstrumentationRegistry;
+-import android.support.test.runner.AndroidJUnit4;
+-import android.support.test.filters.SmallTest;
++import androidx.test.InstrumentationRegistry;
++import androidx.test.runner.AndroidJUnit4;
++import androidx.test.filters.SmallTest;
+ 
+ import com.marianhello.bgloc.data.BackgroundLocation;
+ import com.marianhello.bgloc.data.sqlite.SQLiteLocationDAO;
+diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/src/androidTest/java/com/marianhello/bgloc/SQLiteLocationDAOThreadTest.java b/node_modules/@mauron85/react-native-background-geolocation/android/common/src/androidTest/java/com/marianhello/bgloc/SQLiteLocationDAOThreadTest.java
+index 32b9b7b..32aefa6 100644
+--- a/node_modules/@mauron85/react-native-background-geolocation/android/common/src/androidTest/java/com/marianhello/bgloc/SQLiteLocationDAOThreadTest.java
++++ b/node_modules/@mauron85/react-native-background-geolocation/android/common/src/androidTest/java/com/marianhello/bgloc/SQLiteLocationDAOThreadTest.java
+@@ -3,9 +3,9 @@ package com.marianhello.bgloc;
+ import android.content.Context;
+ import android.database.sqlite.SQLiteDatabase;
+ import android.location.Location;
+-import android.support.test.InstrumentationRegistry;
+-import android.support.test.runner.AndroidJUnit4;
+-import android.support.test.filters.SmallTest;
++import androidx.test.InstrumentationRegistry;
++import androidx.test.runner.AndroidJUnit4;
++import androidx.test.filters.SmallTest;
+ 
+ import com.marianhello.bgloc.data.BackgroundLocation;
+ import com.marianhello.bgloc.data.sqlite.SQLiteLocationDAO;
+diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/src/androidTest/java/com/marianhello/bgloc/SQLiteOpenHelperTest.java b/node_modules/@mauron85/react-native-background-geolocation/android/common/src/androidTest/java/com/marianhello/bgloc/SQLiteOpenHelperTest.java
+index 169c6c4..ff68848 100644
+--- a/node_modules/@mauron85/react-native-background-geolocation/android/common/src/androidTest/java/com/marianhello/bgloc/SQLiteOpenHelperTest.java
++++ b/node_modules/@mauron85/react-native-background-geolocation/android/common/src/androidTest/java/com/marianhello/bgloc/SQLiteOpenHelperTest.java
+@@ -5,9 +5,9 @@ import android.content.Context;
+ import android.database.Cursor;
+ import android.database.sqlite.SQLiteDatabase;
+ import android.location.Location;
+-import android.support.test.InstrumentationRegistry;
+-import android.support.test.runner.AndroidJUnit4;
+-import android.support.test.filters.SmallTest;
++import androidx.test.InstrumentationRegistry;
++import androidx.test.runner.AndroidJUnit4;
++import androidx.test.filters.SmallTest;
+ 
+ import com.marianhello.bgloc.data.BackgroundLocation;
+ import com.marianhello.bgloc.data.sqlite.SQLiteConfigurationContract;
+diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/AndroidManifest.xml b/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/AndroidManifest.xml
+index a3888f3..72568b1 100644
+--- a/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/AndroidManifest.xml
++++ b/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/AndroidManifest.xml
+@@ -31,6 +31,7 @@
+                 android:resource="@xml/syncadapter"/>
+         </service>
+         <service
++			android:exported="false"
+             android:name="com.marianhello.bgloc.sync.AuthenticatorService">
+             <intent-filter>
+                 <action android:name="android.accounts.AccountAuthenticator"/>
+@@ -44,7 +45,7 @@
+             android:authorities="@string/mauron85_bgloc_content_authority"
+             android:exported="false"
+             android:syncable="true"/>
+-        <service android:enabled="true" android:exported="false" android:name="com.marianhello.bgloc.service.LocationServiceImpl" />
++        <service android:enabled="true" android:exported="false" android:name="com.marianhello.bgloc.service.LocationServiceImpl" android:foregroundServiceType="location" />
+         <receiver android:enabled="true" android:exported="true" android:name="com.marianhello.bgloc.BootCompletedReceiver">
+             <intent-filter>
+                 <action android:name="android.intent.action.BOOT_COMPLETED" />
+@@ -65,4 +66,5 @@
+     <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS"/>
+     <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
+     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
++    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
+ </manifest>
+diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/java/com/marianhello/bgloc/BackgroundGeolocationFacade.java b/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/java/com/marianhello/bgloc/BackgroundGeolocationFacade.java
+index a8c755f..4b471b0 100644
+--- a/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/java/com/marianhello/bgloc/BackgroundGeolocationFacade.java
++++ b/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/java/com/marianhello/bgloc/BackgroundGeolocationFacade.java
+@@ -14,12 +14,11 @@ import android.os.Build;
+ import android.os.Bundle;
+ import android.provider.Settings;
+ import android.provider.Settings.SettingNotFoundException;
+-import android.support.v4.content.ContextCompat;
+-import android.support.v4.content.LocalBroadcastManager;
+ import android.text.TextUtils;
+ 
+ import com.github.jparkie.promise.Promise;
+ import com.intentfilter.androidpermissions.PermissionManager;
++import com.intentfilter.androidpermissions.models.DeniedPermissions;
+ import com.marianhello.bgloc.data.BackgroundActivity;
+ import com.marianhello.bgloc.data.BackgroundLocation;
+ import com.marianhello.bgloc.data.ConfigurationDAO;
+@@ -45,6 +44,9 @@ import java.util.Arrays;
+ import java.util.Collection;
+ import java.util.concurrent.TimeoutException;
+ 
++import androidx.core.content.ContextCompat;
++import androidx.localbroadcastmanager.content.LocalBroadcastManager;
++
+ public class BackgroundGeolocationFacade {
+ 
+     public static final int SERVICE_STARTED = 1;
+@@ -226,7 +228,7 @@ public class BackgroundGeolocationFacade {
+             }
+ 
+             @Override
+-            public void onPermissionDenied() {
++            public void onPermissionDenied(DeniedPermissions deniedPermissions) {
+                 logger.info("User denied requested permissions");
+                 if (mDelegate != null) {
+                     mDelegate.onAuthorizationChanged(BackgroundGeolocationFacade.AUTHORIZATION_DENIED);
+diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/java/com/marianhello/bgloc/Config.java b/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/java/com/marianhello/bgloc/Config.java
+index db809d0..0eee5a3 100644
+--- a/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/java/com/marianhello/bgloc/Config.java
++++ b/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/java/com/marianhello/bgloc/Config.java
+@@ -12,7 +12,6 @@ package com.marianhello.bgloc;
+ import android.os.Bundle;
+ import android.os.Parcel;
+ import android.os.Parcelable;
+-import android.support.annotation.Nullable;
+ 
+ import com.marianhello.bgloc.data.AbstractLocationTemplate;
+ import com.marianhello.bgloc.data.LocationTemplate;
+@@ -25,6 +24,8 @@ import org.json.JSONObject;
+ import java.util.HashMap;
+ import java.util.Iterator;
+ 
++import androidx.annotation.Nullable;
++
+ /**
+  * Config class
+  */
+diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/java/com/marianhello/bgloc/LocationManager.java b/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/java/com/marianhello/bgloc/LocationManager.java
+index d0f00ca..d377591 100644
+--- a/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/java/com/marianhello/bgloc/LocationManager.java
++++ b/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/java/com/marianhello/bgloc/LocationManager.java
+@@ -12,6 +12,7 @@ import android.os.Looper;
+ import com.github.jparkie.promise.Promise;
+ import com.github.jparkie.promise.Promises;
+ import com.intentfilter.androidpermissions.PermissionManager;
++import com.intentfilter.androidpermissions.models.DeniedPermissions;
+ 
+ import java.util.Arrays;
+ import java.util.concurrent.CountDownLatch;
+@@ -58,7 +59,7 @@ public class LocationManager {
+             }
+ 
+             @Override
+-            public void onPermissionDenied() {
++            public void onPermissionDenied(DeniedPermissions deniedPermissions) {
+                 promise.setError(new PermissionDeniedException());
+             }
+         });
+diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/java/com/marianhello/bgloc/data/BackgroundLocation.java b/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/java/com/marianhello/bgloc/data/BackgroundLocation.java
+index f41b12a..f25ed62 100644
+--- a/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/java/com/marianhello/bgloc/data/BackgroundLocation.java
++++ b/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/java/com/marianhello/bgloc/data/BackgroundLocation.java
+@@ -7,7 +7,6 @@ import android.os.Build;
+ import android.os.Bundle;
+ import android.os.Parcel;
+ import android.os.Parcelable;
+-import android.support.v4.util.TimeUtils;
+ 
+ import com.marianhello.bgloc.data.sqlite.SQLiteLocationContract;
+ import com.marianhello.bgloc.data.sqlite.SQLiteLocationContract.LocationEntry;
+@@ -15,6 +14,8 @@ import com.marianhello.bgloc.data.sqlite.SQLiteLocationContract.LocationEntry;
+ import org.json.JSONException;
+ import org.json.JSONObject;
+ 
++import androidx.core.util.TimeUtils;
++
+ public class BackgroundLocation implements Parcelable {
+     public static final int DELETED = 0;
+     public static final int POST_PENDING = 1;
+diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/java/com/marianhello/bgloc/data/LocationTransform.java b/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/java/com/marianhello/bgloc/data/LocationTransform.java
+index 3e3b65c..4f84ee7 100644
+--- a/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/java/com/marianhello/bgloc/data/LocationTransform.java
++++ b/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/java/com/marianhello/bgloc/data/LocationTransform.java
+@@ -1,11 +1,12 @@
+ package com.marianhello.bgloc.data;
+ 
+ import android.content.Context;
+-import android.support.annotation.NonNull;
+-import android.support.annotation.Nullable;
+ 
+ import com.marianhello.bgloc.data.BackgroundLocation;
+ 
++import androidx.annotation.NonNull;
++import androidx.annotation.Nullable;
++
+ public interface LocationTransform
+ {
+     /**
+diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/java/com/marianhello/bgloc/provider/ActivityRecognitionLocationProvider.java b/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/java/com/marianhello/bgloc/provider/ActivityRecognitionLocationProvider.java
+index bfb2199..eeadf65 100644
+--- a/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/java/com/marianhello/bgloc/provider/ActivityRecognitionLocationProvider.java
++++ b/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/java/com/marianhello/bgloc/provider/ActivityRecognitionLocationProvider.java
+@@ -6,7 +6,9 @@ import android.content.Context;
+ import android.content.Intent;
+ import android.content.IntentFilter;
+ import android.location.Location;
++import android.os.Build;
+ import android.os.Bundle;
++import android.os.Looper;
+ import android.os.PowerManager;
+ import android.util.Log;
+ 
+@@ -15,8 +17,10 @@ import com.google.android.gms.common.api.GoogleApiClient;
+ import com.google.android.gms.location.ActivityRecognition;
+ import com.google.android.gms.location.ActivityRecognitionResult;
+ import com.google.android.gms.location.DetectedActivity;
++import com.google.android.gms.location.LocationCallback;
+ import com.google.android.gms.location.LocationListener;
+ import com.google.android.gms.location.LocationRequest;
++import com.google.android.gms.location.LocationResult;
+ import com.google.android.gms.location.LocationServices;
+ import com.marianhello.bgloc.Config;
+ import com.marianhello.bgloc.data.BackgroundActivity;
+@@ -24,7 +28,7 @@ import com.marianhello.bgloc.data.BackgroundActivity;
+ import java.util.ArrayList;
+ 
+ public class ActivityRecognitionLocationProvider extends AbstractLocationProvider implements GoogleApiClient.ConnectionCallbacks,
+-        GoogleApiClient.OnConnectionFailedListener, LocationListener {
++        GoogleApiClient.OnConnectionFailedListener {
+ 
+     private static final String TAG = ActivityRecognitionLocationProvider.class.getSimpleName();
+     private static final String P_NAME = " com.marianhello.bgloc";
+@@ -49,7 +53,14 @@ public class ActivityRecognitionLocationProvider extends AbstractLocationProvide
+         super.onCreate();
+ 
+         Intent detectedActivitiesIntent = new Intent(DETECTED_ACTIVITY_UPDATE);
+-        detectedActivitiesPI = PendingIntent.getBroadcast(mContext, 9002, detectedActivitiesIntent, PendingIntent.FLAG_UPDATE_CURRENT);
++        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
++        {
++            detectedActivitiesPI = PendingIntent.getBroadcast(mContext, 9002, detectedActivitiesIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);
++        }
++        else
++        {
++            detectedActivitiesPI = PendingIntent.getBroadcast(mContext, 9002, detectedActivitiesIntent, PendingIntent.FLAG_UPDATE_CURRENT);
++        }
+         registerReceiver(detectedActivitiesReceiver, new IntentFilter(DETECTED_ACTIVITY_UPDATE));
+     }
+ 
+@@ -82,21 +93,27 @@ public class ActivityRecognitionLocationProvider extends AbstractLocationProvide
+         return isStarted;
+     }
+ 
+-    @Override
+-    public void onLocationChanged(Location location) {
+-        logger.debug("Location change: {}", location.toString());
++    LocationCallback locationCallback = new LocationCallback() {
++        @Override public void onLocationResult(LocationResult locationResult)
++        {
++            if (locationResult.getLocations().isEmpty()) {
++                    return;
++            }
++            Location location = locationResult.getLocations().get(0);
++            logger.debug("Location change: {}", location.toString());
+ 
+-        if (lastActivity.getType() == DetectedActivity.STILL) {
+-            handleStationary(location);
+-            stopTracking();
+-            return;
+-        }
++            if (lastActivity.getType() == DetectedActivity.STILL) {
++                    handleStationary(location);
++                    stopTracking();
++                    return;
++                }
+ 
+-        showDebugToast("acy:" + location.getAccuracy() + ",v:" + location.getSpeed());
++            showDebugToast("acy:" + location.getAccuracy() + ",v:" + location.getSpeed());
+ 
+-        lastLocation = location;
+-        handleLocation(location);
+-    }
++            lastLocation = location;
++            handleLocation(location);
++        }
++    };
+ 
+     public void startTracking() {
+         if (isTracking) { return; }
+@@ -108,7 +125,7 @@ public class ActivityRecognitionLocationProvider extends AbstractLocationProvide
+                 .setInterval(mConfig.getInterval());
+         // .setSmallestDisplacement(mConfig.getStationaryRadius());
+         try {
+-            LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
++            LocationServices.getFusedLocationProviderClient(mContext).requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
+             isTracking = true;
+             logger.debug("Start tracking with priority={} fastestInterval={} interval={} activitiesInterval={} stopOnStillActivity={}", priority, mConfig.getFastestInterval(), mConfig.getInterval(), mConfig.getActivitiesInterval(), mConfig.getStopOnStillActivity());
+         } catch (SecurityException e) {
+@@ -120,7 +137,7 @@ public class ActivityRecognitionLocationProvider extends AbstractLocationProvide
+     public void stopTracking() {
+         if (!isTracking) { return; }
+ 
+-        LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient, this);
++        LocationServices.getFusedLocationProviderClient(mContext).removeLocationUpdates(locationCallback);
+         isTracking = false;
+     }
+ 
+diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/java/com/marianhello/bgloc/service/LocationServiceImpl.java b/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/java/com/marianhello/bgloc/service/LocationServiceImpl.java
+index 18f1ba1..ab00e71 100644
+--- a/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/java/com/marianhello/bgloc/service/LocationServiceImpl.java
++++ b/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/java/com/marianhello/bgloc/service/LocationServiceImpl.java
+@@ -29,8 +29,6 @@ import android.os.IBinder;
+ import android.os.Looper;
+ import android.os.Message;
+ import android.os.Process;
+-import android.support.annotation.Nullable;
+-import android.support.v4.content.LocalBroadcastManager;
+ 
+ import com.marianhello.bgloc.Config;
+ import com.marianhello.bgloc.ConnectivityListener;
+@@ -62,6 +60,9 @@ import com.marianhello.logging.UncaughtExceptionLogger;
+ import org.chromium.content.browser.ThreadUtils;
+ import org.json.JSONException;
+ 
++import androidx.annotation.Nullable;
++import androidx.localbroadcastmanager.content.LocalBroadcastManager;
++
+ import static com.marianhello.bgloc.service.LocationServiceIntentBuilder.containsCommand;
+ import static com.marianhello.bgloc.service.LocationServiceIntentBuilder.containsMessage;
+ import static com.marianhello.bgloc.service.LocationServiceIntentBuilder.getCommand;
+diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/java/com/marianhello/bgloc/service/LocationServiceIntentBuilder.java b/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/java/com/marianhello/bgloc/service/LocationServiceIntentBuilder.java
+index fd0b99e..8e37d10 100644
+--- a/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/java/com/marianhello/bgloc/service/LocationServiceIntentBuilder.java
++++ b/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/java/com/marianhello/bgloc/service/LocationServiceIntentBuilder.java
+@@ -21,11 +21,12 @@ import android.content.Context;
+ import android.content.Intent;
+ import android.os.Bundle;
+ import android.os.Parcelable;
+-import android.support.annotation.IntDef;
+ 
+ import java.lang.annotation.Retention;
+ import java.lang.annotation.RetentionPolicy;
+ 
++import androidx.annotation.IntDef;
++
+ // CommandId enumeration
+ // more info - http://blog.shamanland.com/2016/02/int-string-enum.html
+ @IntDef({
+diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/java/com/marianhello/bgloc/sync/NotificationHelper.java b/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/java/com/marianhello/bgloc/sync/NotificationHelper.java
+index 9be9687..3900d28 100644
+--- a/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/java/com/marianhello/bgloc/sync/NotificationHelper.java
++++ b/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/java/com/marianhello/bgloc/sync/NotificationHelper.java
+@@ -9,12 +9,13 @@ import android.content.Intent;
+ import android.graphics.BitmapFactory;
+ import android.graphics.Color;
+ import android.os.Build;
+-import android.support.annotation.RequiresApi;
+-import android.support.v4.app.NotificationCompat;
+ 
+ import com.marianhello.bgloc.ResourceResolver;
+ import com.marianhello.logging.LoggerManager;
+ 
++import androidx.annotation.RequiresApi;
++import androidx.core.app.NotificationCompat;
++
+ public class NotificationHelper {
+     public static final String SERVICE_CHANNEL_ID = "bglocservice";
+     // https://github.com/nishkarsh/android-permissions/blob/master/src/main/java/com/intentfilter/androidpermissions/services/NotificationService.java#L15
+@@ -74,8 +75,16 @@ public class NotificationHelper {
+             if (launchIntent != null) {
+                 // NOTICE: testing apps might not have registered launch intent
+                 launchIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+-                PendingIntent contentIntent = PendingIntent.getActivity(appContext, 0, launchIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+-                builder.setContentIntent(contentIntent);
++				PendingIntent contentIntent = null;
++				if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S)
++				{
++					contentIntent = PendingIntent.getActivity(appContext, 0, launchIntent, PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_MUTABLE);
++				}
++				else
++				{
++					contentIntent = PendingIntent.getActivity(appContext, 0, launchIntent, PendingIntent.FLAG_CANCEL_CURRENT);
++				}
++				builder.setContentIntent(contentIntent);
+             }
+ 
+             Notification notification = builder.build();
+diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/java/com/marianhello/bgloc/sync/SyncAdapter.java b/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/java/com/marianhello/bgloc/sync/SyncAdapter.java
+index 9c713e9..c91dcdc 100644
+--- a/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/java/com/marianhello/bgloc/sync/SyncAdapter.java
++++ b/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/java/com/marianhello/bgloc/sync/SyncAdapter.java
+@@ -11,8 +11,6 @@ import android.content.SyncResult;
+ import android.os.Bundle;
+ import android.os.Handler;
+ import android.os.Looper;
+-import android.support.v4.app.NotificationCompat;
+-import android.support.v4.content.LocalBroadcastManager;
+ 
+ import com.marianhello.bgloc.Config;
+ import com.marianhello.bgloc.HttpPostService;
+@@ -27,6 +25,9 @@ import java.io.File;
+ import java.io.IOException;
+ import java.util.HashMap;
+ 
++import androidx.core.app.NotificationCompat;
++import androidx.localbroadcastmanager.content.LocalBroadcastManager;
++
+ /**
+  * Handle the transfer of data between a server and an
+  * app, using the Android sync adapter framework.
+diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/java/com/tenforwardconsulting/bgloc/DistanceFilterLocationProvider.java b/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/java/com/tenforwardconsulting/bgloc/DistanceFilterLocationProvider.java
+index bada0c4..4df4bc2 100644
+--- a/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/java/com/tenforwardconsulting/bgloc/DistanceFilterLocationProvider.java
++++ b/node_modules/@mauron85/react-native-background-geolocation/android/common/src/main/java/com/tenforwardconsulting/bgloc/DistanceFilterLocationProvider.java
+@@ -21,6 +21,7 @@ import android.location.Criteria;
+ import android.location.Location;
+ import android.location.LocationListener;
+ import android.location.LocationManager;
++import android.os.Build;
+ import android.os.Bundle;
+ 
+ import com.marianhello.bgloc.Config;
+@@ -84,21 +85,35 @@ public class DistanceFilterLocationProvider extends AbstractLocationProvider imp
+         locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
+         alarmManager = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
+ 
++		int flag = 0;
++		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
++		{
++			flag = PendingIntent.FLAG_MUTABLE;
++		}
++
+         // Stop-detection PI
+-        stationaryAlarmPI = PendingIntent.getBroadcast(mContext, 0, new Intent(STATIONARY_ALARM_ACTION), 0);
+-        registerReceiver(stationaryAlarmReceiver, new IntentFilter(STATIONARY_ALARM_ACTION));
++		Intent stationaryAlarmIntent = new Intent(STATIONARY_ALARM_ACTION);
++		stationaryAlarmIntent.setPackage(mContext.getPackageName());
++		stationaryAlarmPI = PendingIntent.getBroadcast(mContext, 0, stationaryAlarmIntent, flag);
++		mContext.registerReceiver(stationaryAlarmReceiver, new IntentFilter(STATIONARY_ALARM_ACTION), mContext.RECEIVER_NOT_EXPORTED);
+ 
+         // Stationary region PI
+-        stationaryRegionPI = PendingIntent.getBroadcast(mContext, 0, new Intent(STATIONARY_REGION_ACTION), PendingIntent.FLAG_CANCEL_CURRENT);
+-        registerReceiver(stationaryRegionReceiver, new IntentFilter(STATIONARY_REGION_ACTION));
++		Intent stationaryRegionIntent = new Intent(STATIONARY_REGION_ACTION);
++		stationaryRegionIntent.setPackage(mContext.getPackageName());
++        stationaryRegionPI = PendingIntent.getBroadcast(mContext, 0, stationaryRegionIntent, PendingIntent.FLAG_CANCEL_CURRENT | flag);
++        mContext.registerReceiver(stationaryRegionReceiver, new IntentFilter(STATIONARY_REGION_ACTION), mContext.RECEIVER_NOT_EXPORTED);
+ 
+         // Stationary location monitor PI
+-        stationaryLocationPollingPI = PendingIntent.getBroadcast(mContext, 0, new Intent(STATIONARY_LOCATION_MONITOR_ACTION), 0);
+-        registerReceiver(stationaryLocationMonitorReceiver, new IntentFilter(STATIONARY_LOCATION_MONITOR_ACTION));
++		Intent stationaryLocationPollingIntent = new Intent(STATIONARY_LOCATION_MONITOR_ACTION);
++		stationaryLocationPollingIntent.setPackage(mContext.getPackageName());
++        stationaryLocationPollingPI = PendingIntent.getBroadcast(mContext, 0, stationaryLocationPollingIntent, flag);
++        mContext.registerReceiver(stationaryLocationMonitorReceiver, new IntentFilter(STATIONARY_LOCATION_MONITOR_ACTION), mContext.RECEIVER_NOT_EXPORTED);
+ 
+         // One-shot PI (TODO currently unused)
+-        singleUpdatePI = PendingIntent.getBroadcast(mContext, 0, new Intent(SINGLE_LOCATION_UPDATE_ACTION), PendingIntent.FLAG_CANCEL_CURRENT);
+-        registerReceiver(singleUpdateReceiver, new IntentFilter(SINGLE_LOCATION_UPDATE_ACTION));
++		Intent singleUpdateIntent = new Intent(SINGLE_LOCATION_UPDATE_ACTION);
++		singleUpdateIntent.setPackage(mContext.getPackageName());
++        singleUpdatePI = PendingIntent.getBroadcast(mContext, 0, singleUpdateIntent, PendingIntent.FLAG_CANCEL_CURRENT | flag);
++        mContext.registerReceiver(singleUpdateReceiver, new IntentFilter(SINGLE_LOCATION_UPDATE_ACTION), mContext.RECEIVER_NOT_EXPORTED);
+ 
+         // Location criteria
+         criteria = new Criteria();
+@@ -202,7 +217,7 @@ public class DistanceFilterLocationProvider extends AbstractLocationProvider imp
+                     }
+                 }
+             } else {
+-                locationManager.requestLocationUpdates(locationManager.getBestProvider(criteria, true), mConfig.getInterval(), scaledDistanceFilter, this);
++                locationManager.requestLocationUpdates(getProvider(), mConfig.getInterval(), scaledDistanceFilter, this);
+             }
+         } catch (SecurityException e) {
+             logger.error("Security exception: {}", e.getMessage());
+@@ -210,6 +225,14 @@ public class DistanceFilterLocationProvider extends AbstractLocationProvider imp
+         }
+     }
+ 
++    private String getProvider() {
++        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
++            return LocationManager.GPS_PROVIDER;
++        } else {
++            return locationManager.getBestProvider(criteria, true);
++        }
++    }
++    
+     /**
+      * Translates a number representing desired accuracy of Geolocation system from set [0, 10, 100, 1000].
+      * 0:  most aggressive, most accurate, worst battery drain
+@@ -537,8 +560,11 @@ public class DistanceFilterLocationProvider extends AbstractLocationProvider imp
+         logger.info("Destroying DistanceFilterLocationProvider");
+ 
+         this.onStop();
+-        alarmManager.cancel(stationaryAlarmPI);
+-        alarmManager.cancel(stationaryLocationPollingPI);
++
++        if (alarmManager != null && stationaryAlarmPI != null && stationaryLocationPollingPI != null) {
++            alarmManager.cancel(stationaryAlarmPI);
++            alarmManager.cancel(stationaryLocationPollingPI);
++        }
+ 
+         unregisterReceiver(stationaryAlarmReceiver);
+         unregisterReceiver(singleUpdateReceiver);
+diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/src/test/java/com/marianhello/backgroundgeolocation/BackgroundLocationTest.java b/node_modules/@mauron85/react-native-background-geolocation/android/common/src/test/java/com/marianhello/backgroundgeolocation/BackgroundLocationTest.java
+index 145816a..ed55138 100644
+--- a/node_modules/@mauron85/react-native-background-geolocation/android/common/src/test/java/com/marianhello/backgroundgeolocation/BackgroundLocationTest.java
++++ b/node_modules/@mauron85/react-native-background-geolocation/android/common/src/test/java/com/marianhello/backgroundgeolocation/BackgroundLocationTest.java
+@@ -1,7 +1,8 @@
+ package com.marianhello.backgroundgeolocation;
+ 
+ import android.os.Build;
+-import android.support.test.filters.SmallTest;
++
++import androidx.test.filters.SmallTest;
+ 
+ import com.marianhello.bgloc.data.BackgroundLocation;
+ 
+diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/src/test/java/com/marianhello/backgroundgeolocation/ConfigTest.java b/node_modules/@mauron85/react-native-background-geolocation/android/common/src/test/java/com/marianhello/backgroundgeolocation/ConfigTest.java
+index 01ee7f9..44e829e 100644
+--- a/node_modules/@mauron85/react-native-background-geolocation/android/common/src/test/java/com/marianhello/backgroundgeolocation/ConfigTest.java
++++ b/node_modules/@mauron85/react-native-background-geolocation/android/common/src/test/java/com/marianhello/backgroundgeolocation/ConfigTest.java
+@@ -1,6 +1,7 @@
+ package com.marianhello.backgroundgeolocation;
+ 
+-import android.support.test.filters.SmallTest;
++
++import androidx.test.filters.SmallTest;
+ 
+ import com.marianhello.bgloc.Config;
+ import com.marianhello.bgloc.data.ArrayListLocationTemplate;
+diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/common/src/test/java/com/marianhello/backgroundgeolocation/DBLogReaderTest.java b/node_modules/@mauron85/react-native-background-geolocation/android/common/src/test/java/com/marianhello/backgroundgeolocation/DBLogReaderTest.java
+index 39e3d3e..6072a6f 100644
+--- a/node_modules/@mauron85/react-native-background-geolocation/android/common/src/test/java/com/marianhello/backgroundgeolocation/DBLogReaderTest.java
++++ b/node_modules/@mauron85/react-native-background-geolocation/android/common/src/test/java/com/marianhello/backgroundgeolocation/DBLogReaderTest.java
+@@ -1,6 +1,6 @@
+ package com.marianhello.backgroundgeolocation;
+ 
+-import android.support.test.filters.SmallTest;
++import androidx.test.filters.SmallTest;
+ 
+ import com.marianhello.logging.DBLogReader;
+ 
+diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/lib/.project b/node_modules/@mauron85/react-native-background-geolocation/android/lib/.project
+new file mode 100644
+index 0000000..1c787cb
+--- /dev/null
++++ b/node_modules/@mauron85/react-native-background-geolocation/android/lib/.project
+@@ -0,0 +1,28 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<projectDescription>
++	<name>@mauron85_react-native-background-geolocation</name>
++	<comment>Project @mauron85_react-native-background-geolocation created by Buildship.</comment>
++	<projects>
++	</projects>
++	<buildSpec>
++		<buildCommand>
++			<name>org.eclipse.buildship.core.gradleprojectbuilder</name>
++			<arguments>
++			</arguments>
++		</buildCommand>
++	</buildSpec>
++	<natures>
++		<nature>org.eclipse.buildship.core.gradleprojectnature</nature>
++	</natures>
++	<filteredResources>
++		<filter>
++			<id>1717415292942</id>
++			<name></name>
++			<type>30</type>
++			<matcher>
++				<id>org.eclipse.core.resources.regexFilterMatcher</id>
++				<arguments>node_modules|\.git|__CREATED_BY_JAVA_LANGUAGE_SERVER__</arguments>
++			</matcher>
++		</filter>
++	</filteredResources>
++</projectDescription>
+diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/lib/src/androidTest/java/com/marianhello/bgloc/react/ConfigMapperTest.java b/node_modules/@mauron85/react-native-background-geolocation/android/lib/src/androidTest/java/com/marianhello/bgloc/react/ConfigMapperTest.java
+index 44682bc..fec8981 100644
+--- a/node_modules/@mauron85/react-native-background-geolocation/android/lib/src/androidTest/java/com/marianhello/bgloc/react/ConfigMapperTest.java
++++ b/node_modules/@mauron85/react-native-background-geolocation/android/lib/src/androidTest/java/com/marianhello/bgloc/react/ConfigMapperTest.java
+@@ -1,9 +1,9 @@
+ package com.marianhello.bgloc.react;
+ 
+ import android.content.Context;
+-import android.support.test.InstrumentationRegistry;
+-import android.support.test.runner.AndroidJUnit4;
+-import android.support.test.filters.SmallTest;
++import androidx.test.InstrumentationRegistry;
++import androidx.test.runner.AndroidJUnit4;
++import androidx.test.filters.SmallTest;
+ 
+ import com.facebook.react.bridge.Arguments;
+ import com.facebook.react.bridge.ReadableMap;
+diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/lib/src/main/AndroidManifest.xml b/node_modules/@mauron85/react-native-background-geolocation/android/lib/src/main/AndroidManifest.xml
+index 4065e38..af19745 100644
+--- a/node_modules/@mauron85/react-native-background-geolocation/android/lib/src/main/AndroidManifest.xml
++++ b/node_modules/@mauron85/react-native-background-geolocation/android/lib/src/main/AndroidManifest.xml
+@@ -31,7 +31,8 @@
+                 android:resource="@xml/syncadapter"/>
+         </service>
+         <service
+-            android:name="com.marianhello.bgloc.sync.AuthenticatorService">
++            android:name="com.marianhello.bgloc.sync.AuthenticatorService"
++			android:exported="false">
+             <intent-filter>
+                 <action android:name="android.accounts.AccountAuthenticator"/>
+             </intent-filter>
+diff --git a/node_modules/@mauron85/react-native-background-geolocation/android/lib/src/main/java/com/marianhello/bgloc/react/headless/HeadlessService.java b/node_modules/@mauron85/react-native-background-geolocation/android/lib/src/main/java/com/marianhello/bgloc/react/headless/HeadlessService.java
+index 50a31b4..d0d90cc 100644
+--- a/node_modules/@mauron85/react-native-background-geolocation/android/lib/src/main/java/com/marianhello/bgloc/react/headless/HeadlessService.java
++++ b/node_modules/@mauron85/react-native-background-geolocation/android/lib/src/main/java/com/marianhello/bgloc/react/headless/HeadlessService.java
+@@ -2,7 +2,6 @@ package com.marianhello.bgloc.react.headless;
+ 
+ import android.content.Intent;
+ import android.os.Bundle;
+-import android.support.annotation.Nullable;
+ 
+ import com.facebook.react.HeadlessJsTaskService;
+ import com.facebook.react.bridge.Arguments;
+@@ -12,7 +11,7 @@ public class HeadlessService extends HeadlessJsTaskService {
+     public final String TASK_KEY = "com.marianhello.bgloc.react.headless.Task";
+ 
+     @Override
+-    protected @Nullable
++    protected
+     HeadlessJsTaskConfig getTaskConfig(Intent intent) {
+         Bundle extras = intent.getExtras();
+         if (extras != null) {
+diff --git a/node_modules/@mauron85/react-native-background-geolocation/ios/common/BackgroundGeolocation/FMDB.m b/node_modules/@mauron85/react-native-background-geolocation/ios/common/BackgroundGeolocation/FMDB.m
+index 552f22a..1379126 100644
+--- a/node_modules/@mauron85/react-native-background-geolocation/ios/common/BackgroundGeolocation/FMDB.m
++++ b/node_modules/@mauron85/react-native-background-geolocation/ios/common/BackgroundGeolocation/FMDB.m
+@@ -1,5 +1,5 @@
+ #import "FMDB.h"
+-#import "unistd.h"
++#import <unistd.h>
+ #import <objc/runtime.h>
+ 
+ #if FMDB_SQLITE_STANDALONE

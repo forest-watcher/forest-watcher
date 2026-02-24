@@ -65,7 +65,7 @@ class InputTextDetail extends Component<Props, State> {
         <View style={[detailStyles.marker, visible ? '' : detailStyles.hide]}>
           <View style={[detailStyles.marker, detailStyles.markerInner]} />
         </View>
-        <Animated.View style={{ height: this.state.inputHeight }}>
+        <View>
           {visible && (
             <TextInput
               autoFocus={!this.state.value}
@@ -75,12 +75,13 @@ class InputTextDetail extends Component<Props, State> {
               value={this.state.value}
               onChangeText={this.onChange}
               placeholder={question.label}
+              multiline
               underlineColorAndroid="transparent"
               selectionColor={Theme.colors.turtleGreen}
               placeholderTextColor={Theme.fontColors.light}
             />
           )}
-        </Animated.View>
+        </View>
       </View>
     );
   }

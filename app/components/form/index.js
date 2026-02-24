@@ -12,6 +12,7 @@ import FormField from 'components/common/form-inputs';
 import NextButton from 'components/form/next-button';
 import withDraft from 'components/form/withDraft';
 import { Navigation } from 'react-native-navigation';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 type Props = {
   question: Question,
@@ -76,7 +77,7 @@ class Form extends Component<Props> {
     }
   }
 
-  shouldComponentUpdate(nextProps) {
+  shouldComponentUpdate(nextProps, nextState) {
     return this.props.answer !== nextProps.answer;
   }
 
@@ -129,8 +130,9 @@ class Form extends Component<Props> {
   getNext(question, questionAnswered, text) {
     const disabled = question.required && !questionAnswered;
     const isBlob = question && question.type === 'blob';
-    const Next = isBlob ? NextButton : ActionButton;
-    const style = isBlob ? styles.buttonNextPos : styles.buttonPos;
+    const isAudio = question && question.type === 'audio';
+    const Next = isBlob || (isAudio && !questionAnswered) ? NextButton : ActionButton;
+    const style = isBlob || (isAudio && !questionAnswered) ? styles.buttonNextPos : styles.buttonPos;
 
     return <Next style={style} disabled={disabled} onPress={this.onSubmit} text={!isBlob && text} />;
   }
@@ -139,8 +141,17 @@ class Form extends Component<Props> {
     const { question, answer, reportName, questionAnswered, text } = this.props;
     return (
       <View style={styles.container}>
-        {question && <FormField reportName={reportName} question={question} answer={answer} onChange={this.onChange} />}
-        {this.getNext(question, questionAnswered, text)}
+        <KeyboardAwareScrollView
+          style={styles.container}
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
+          keyboardShouldPersistTaps={'always'}
+        >
+          {question && (
+            <FormField reportName={reportName} question={question} answer={answer} onChange={this.onChange} />
+          )}
+          {this.getNext(question, questionAnswered, text)}
+        </KeyboardAwareScrollView>
       </View>
     );
   }

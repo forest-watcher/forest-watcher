@@ -11,8 +11,29 @@ MAPBOX_BASE_URL=
 MAPBOX_TOKEN=
 ```
 
+### Android Mapbox Maven Repository
 
+For Android builds, you also need to configure the Mapbox Maven password to download Mapbox SDK dependencies. This should **NOT** be committed to git.
 
+**Option 1: Use local.properties (Recommended)**
+Create `android/local.properties` (this file is already gitignored) and add:
+```properties
+MAPBOX_MAVEN_PASSWORD=your_mapbox_secret_token_here
+```
+
+**Option 2: Use environment variable**
+Set the environment variable before building:
+```bash
+export ORG_GRADLE_PROJECT_MAPBOX_MAVEN_PASSWORD=your_mapbox_secret_token_here
+```
+
+**Option 3: User-level gradle.properties**
+Add to `~/.gradle/gradle.properties`:
+```properties
+MAPBOX_MAVEN_PASSWORD=your_mapbox_secret_token_here
+```
+
+To get your Mapbox secret token, see [Mapbox's documentation on Maven credentials](https://docs.mapbox.com/android/maps/guides/install/#configure-credentials).
 
 
 ## Translations dependencies

@@ -102,7 +102,8 @@ async function exportReportFiles(
   // eslint-disable-next-line no-unused-vars
   for (const report of reports) {
     const queriedFiles = await queryReportFiles({
-      reportName: report.reportName
+      reportName: report.reportName,
+      index: report.index
     });
     reportFiles.push(...queriedFiles);
   }

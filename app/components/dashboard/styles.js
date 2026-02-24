@@ -1,18 +1,18 @@
 import Theme, { isSmallScreen } from 'config/theme';
-import { StyleSheet, Platform } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Theme.background.main,
-    paddingTop: Platform.OS === 'android' ? 20 : 0
+    paddingTop: 0
   },
   label: {
     ...Theme.sectionHeaderText
   },
   list: {
     flex: 1,
-    paddingTop: isSmallScreen ? 8 : 30
+    paddingTop: isSmallScreen ? 8 : 28
   },
   listContent: {
     paddingTop: 10,
@@ -36,6 +36,13 @@ export default StyleSheet.create({
   tableRowText: {
     marginLeft: 24,
     ...Theme.tableRowText
+  },
+  tableRowSubText: {
+    marginLeft: 24,
+    ...Theme.tableRowText,
+    fontSize: 12,
+    opacity: 0.8,
+    marginTop: 4
   },
   iconSettings: {
     position: 'absolute',

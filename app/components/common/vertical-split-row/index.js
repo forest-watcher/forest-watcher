@@ -58,7 +58,9 @@ type Props = {
   subtitleBelowLegend?: ?boolean,
   subtitleStyle?: ?TextStyle,
   title: string,
-  backgroundImageResizeMode?: ?string
+  backgroundImageResizeMode?: ?string,
+  nameContainerStyle?: ?ViewStyle,
+  defaultImage?: ?any
 };
 
 export default class VerticalSplitRow extends Component<Props> {
@@ -97,6 +99,12 @@ export default class VerticalSplitRow extends Component<Props> {
   };
 
   render() {
+    const image =
+      typeof this.props.imageSrc === 'string' && this.props.imageSrc.length > 0
+        ? { uri: this.props.imageSrc }
+        : typeof this.props.imageSrc === 'string' && this.props.imageSrc.length === 0 && this.props.defaultImage
+        ? this.props.defaultImage
+        : this.props.imageSrc;
     return (
       <TouchableHighlight
         activeOpacity={0.5}
@@ -112,7 +120,8 @@ export default class VerticalSplitRow extends Component<Props> {
                 <ImageBackground
                   resizeMode={this.props.backgroundImageResizeMode || 'cover'}
                   style={[styles.image, this.props.disabled ? { opacity: 0.6 } : {}]}
-                  source={typeof this.props.imageSrc === 'string' ? { uri: this.props.imageSrc } : this.props.imageSrc}
+                  source={image}
+                  defaultSource={this.props.defaultImage}
                 >
                   {this.props.renderImageChildren && this.props.renderImageChildren()}
                 </ImageBackground>
@@ -136,7 +145,8 @@ export default class VerticalSplitRow extends Component<Props> {
               style={[
                 styles.nameContainer,
                 !this.props.hideDivider ? styles.bottomBorder : {},
-                this.props.smallerVerticalPadding ? styles.smallerVerticalPadding : {}
+                this.props.smallerVerticalPadding ? styles.smallerVerticalPadding : {},
+                this.props.nameContainerStyle
               ]}
             >
               <View style={styles.titleContainer}>

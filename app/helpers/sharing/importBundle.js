@@ -88,23 +88,19 @@ export async function unpackBundle(uri: string): Promise<UnpackedSharingBundle> 
   const fixedUri = Platform.OS === 'android' ? uri : decodeURI(uri);
   const stagingDir = await createTemporaryStagingDirectory();
 
-  if (Platform.OS === 'ios') {
-    const fileName = fixedUri.substring(fixedUri.lastIndexOf('/') + 1);
-    // Replace trailing slash from `RNFS.TemporaryDirectoryPath` because it's presence is platform dependent
-    const tempZipPath = RNFS.TemporaryDirectoryPath.replace(/\/$/, '') + '/' + fileName.replace(/\.[^/.]+$/, '.zip');
+  const fileName = fixedUri.substring(fixedUri.lastIndexOf('/') + 1);
+  // Replace trailing slash from `RNFS.TemporaryDirectoryPath` because it's presence is platform dependent
+  const tempZipPath = RNFS.TemporaryDirectoryPath.replace(/\/$/, '') + '/' + fileName.replace(/\.[^/.]+$/, '.zip');
 
-    await RNFS.copyFile(fixedUri, tempZipPath);
-    await unzip(tempZipPath, stagingDir);
+  await RNFS.copyFile(fixedUri, tempZipPath);
+  await unzip(tempZipPath, stagingDir);
 
-    // We have to remove this otherwise will get an error if the user tries to import same file twice.
-    // Also we should probably just clear it up anyways as it takes disk space!
-    try {
-      await RNFS.unlink(tempZipPath);
-    } catch {
-      console.warn('Failed to remove zip at tempZipPath');
-    }
-  } else {
-    await unzip(fixedUri, stagingDir);
+  // We have to remove this otherwise will get an error if the user tries to import same file twice.
+  // Also we should probably just clear it up anyways as it takes disk space!
+  try {
+    await RNFS.unlink(tempZipPath);
+  } catch {
+    console.warn('Failed to remove zip at tempZipPath');
   }
 
   const bundleDataUri = `${stagingDir}/${BUNDLE_DATA_FILE_NAME}`;

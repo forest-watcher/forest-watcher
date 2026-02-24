@@ -7,7 +7,7 @@ import { Platform } from 'react-native';
 import RNFetchBlob from 'rn-fetch-blob';
 
 import { showNotConnectedNotification, showExportReportsSuccessfulNotification } from 'redux-modules/app';
-import { saveReport, uploadReport, deleteReport, setReportAnswer } from 'redux-modules/reports';
+import { saveReport, uploadReport, deleteReport, setReportAnswer, setAsUploaded } from 'redux-modules/reports';
 
 import { shouldBeConnected } from 'helpers/app';
 import { trackSharedContent } from 'helpers/analytics';
@@ -43,7 +43,7 @@ function mapStateToProps(state: State, ownProps: OwnProps) {
         })
       );
 
-      shareFile(zippedPath);
+      return shareFile(zippedPath);
     },
     results: mapFormToAnsweredQuestions(answers, template, state.app.language),
     metadata: mapReportToMetadata(report, templateLang),
@@ -64,7 +64,7 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
         })
       );
       trackSharedContent('report');
-      await shareBundle(outputPath);
+      return await shareBundle(outputPath);
     },
     saveReport: (name: string, data: Report) => {
       dispatch(saveReport(name, data));
@@ -80,12 +80,12 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
     },
     uploadReport: () => {
       dispatch(uploadReport(ownProps.reportName));
-    }
+    },
+    completeReport: () => {
+      dispatch(setAsUploaded([ownProps.reportName]));
+    },
   };
 };
 
 type PassedProps = ComponentProps<OwnProps, typeof mapStateToProps, typeof mapDispatchToProps>;
-export default connect<PassedProps, OwnProps, _, _, State, Dispatch>(
-  mapStateToProps,
-  mapDispatchToProps
-)(Answers);
+export default connect<PassedProps, OwnProps, _, _, State, Dispatch>(mapStateToProps, mapDispatchToProps)(Answers);

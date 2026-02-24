@@ -9,6 +9,7 @@ import { hasSyncFinished } from 'helpers/sync';
 import { shouldBeConnected } from 'helpers/app';
 
 import Sync from 'components/sync';
+import * as Sentry from '@sentry/react-native';
 
 type OwnProps = {|
   +componentId: string
@@ -17,9 +18,19 @@ type OwnProps = {|
 function mapStateToProps(state: State) {
   const hasAreas = !!state.areas.data.length;
   const hasAlerts = !isEmpty(state.alerts.cache);
+  const criticalSyncError = (!hasAreas && state.areas.syncError) || (!hasAlerts && state.alerts.syncError);
+  if (criticalSyncError) {
+    Sentry.captureException(
+      new Error(
+        `Critical sync error: ${String(hasAreas)} ${String(hasAlerts)} ${String(state.areas.syncError)} ${String(
+          state.alerts.syncError
+        )}`
+      )
+    );
+  }
 
   return {
-    criticalSyncError: (!hasAreas && state.areas.syncError) || (!hasAlerts && state.alerts.syncError),
+    criticalSyncError,
     isConnected: shouldBeConnected(state),
     syncFinished: hasSyncFinished(state)
   };
@@ -34,7 +45,4 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
   );
 
 type PassedProps = ComponentProps<OwnProps, typeof mapStateToProps, typeof mapDispatchToProps>;
-export default connect<PassedProps, OwnProps, _, _, State, Dispatch>(
-  mapStateToProps,
-  mapDispatchToProps
-)(Sync);
+export default connect<PassedProps, OwnProps, _, _, State, Dispatch>(mapStateToProps, mapDispatchToProps)(Sync);

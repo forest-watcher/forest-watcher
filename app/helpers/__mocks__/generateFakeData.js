@@ -21,7 +21,10 @@ export function createFakeQuestion(languages, overrides = {}) {
     defaultValue: '',
     order: 0,
     required: faker.random.boolean(),
-    label: _.zipObject(languages, languages.map(() => faker.lorem.sentence())),
+    label: _.zipObject(
+      languages,
+      languages.map(() => faker.lorem.sentence())
+    ),
     ...overrides
   };
 }
@@ -55,7 +58,10 @@ export function createFakeTemplate(overrides = {}) {
     );
   return {
     Id: faker.random.uuid(),
-    name: _.zipObject(languages, languages.map(() => faker.lorem.sentence())),
+    name: _.zipObject(
+      languages,
+      languages.map(() => faker.lorem.sentence())
+    ),
     languages: languages,
     defaultLanguage: faker.random.arrayElement(languages),
     user: faker.random.uuid(),

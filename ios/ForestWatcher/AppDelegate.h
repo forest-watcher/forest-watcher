@@ -7,13 +7,14 @@
  * of patent rights can be found in the PATENTS file in the same directory.
  */
 
-@import UIKit;
-
+#import <RCTAppDelegate.h>
+#import <UIKit/UIKit.h>
+#import <React/RCTLinkingManager.h>
 #import "RNAppAuthAuthorizationFlowManager.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate, RNAppAuthAuthorizationFlowManager>
 
-@property (nonatomic, weak, nullable) id<RNAppAuthAuthorizationFlowManagerDelegate>authorizationFlowManagerDelegate;
+@interface AppDelegate : RCTAppDelegate <RNAppAuthAuthorizationFlowManager>
+@property(nonatomic, weak) id<RNAppAuthAuthorizationFlowManagerDelegate> authorizationFlowManagerDelegate;
 @property (nonatomic, strong, null_unspecified) UIWindow *window;
 
 @end

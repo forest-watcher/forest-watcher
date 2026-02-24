@@ -9,7 +9,6 @@
   },
   "extends": [
     "eslint:recommended",
-    "plugin:flowtype/recommended",
     "plugin:import/errors",
     "plugin:prettier/recommended",
     "plugin:promise/recommended",
@@ -17,8 +16,9 @@
     "plugin:react-native/all",
     "prettier/react"
   ],
-  "parser": "babel-eslint",
+  "parser": "@babel/eslint-parser",
   "parserOptions": {
+    "requireConfigFile": false,
     "ecmaVersion": 2017,
     "ecmaFeatures": {
       "experimentalObjectRestSpread": true,
@@ -26,7 +26,7 @@
     },
     "sourceType": "module"
   },
-  "plugins": ["babel", "flowtype", "import", "prettier", "promise", "react", "react-native"],
+  "plugins": ["babel", "import", "prettier", "promise", "react", "react-native"],
   "rules": {
     "array-callback-return": "warn",
     "babel/no-unused-expressions": "error",
@@ -41,6 +41,7 @@
     ],
     "no-duplicate-imports": "warn",
     "no-throw-literal": "error",
+    "no-undef": "off",
     "no-unused-vars": [
       "warn",
       {
