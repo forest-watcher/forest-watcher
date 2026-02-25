@@ -2,7 +2,7 @@
 
 import { readTextFile } from 'helpers/fileManagement';
 
-const DOMParser = require('xmldom').DOMParser;
+const DOMParser = require('@xmldom/xmldom').DOMParser;
 import togeojson from 'helpers/toGeoJSON';
 
 /**
