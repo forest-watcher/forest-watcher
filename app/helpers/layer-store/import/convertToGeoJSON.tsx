@@ -1,19 +1,19 @@
-// @flow
-
 import { readTextFile } from 'helpers/fileManagement';
-
-const DOMParser = require('@xmldom/xmldom').DOMParser;
+import { GeoJSONObject } from '@turf/helpers';
+import * as xmldom from '@xmldom/xmldom';
 import togeojson from 'helpers/toGeoJSON';
+
+const { DOMParser } = xmldom;
 
 /**
  * Converts a file to GeoJSON
  *
- * @param {string} file The file uri to read and convert to GeoJSON
- * @param {string} directory The directory to save the file to
+ * @param uri - The file uri to read and convert to GeoJSON
+ * @param extension - The file extension ('gpx' or 'kml')
  *
- * @returns {Object} The converted GeoJSON
+ * @returns The converted GeoJSON
  */
-export default async function convertToGeoJSON(uri: string, extension: string) {
+export default async function convertToGeoJSON(uri: string, extension: string): Promise<GeoJSONObject> {
   // Read from file so we can convert to GeoJSON
   const fileContents = await readTextFile(uri);
   // Parse XML from file string
@@ -23,5 +23,5 @@ export default async function convertToGeoJSON(uri: string, extension: string) {
   const geoJSON =
     extension === 'gpx' ? togeojson.gpx(xmlDoc, { styles: true }) : togeojson.kml(xmlDoc, { styles: true });
 
-  return geoJSON;
+  return geoJSON as GeoJSONObject;
 }
