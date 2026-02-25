@@ -22,10 +22,7 @@
     "release:upstream": "git merge --squash --allow-unrelated-histories --strategy recursive -Xtheirs",
     "lint": "node_modules/.bin/eslint ./app/ --max-warnings=0",
     "lint-fix": "node_modules/.bin/eslint ./app/ --max-warnings=0 --fix",
-    "lint:ci": "node_modules/.bin/eslint ./app/ --max-warnings=0 -o reports/lint.html -f html",
-    "flow": "flow check --show-all-errors",
-    "flow:ci": "flow check --show-all-errors",
-    "flow:update-lib-types": "flow-typed install --ignoreDeps dev"
+    "lint:ci": "node_modules/.bin/eslint ./app/ --max-warnings=0 -o reports/lint.html -f html"
   },
   "dependencies": {
     "@invertase/react-native-apple-authentication": "2.4.0",
@@ -132,9 +129,10 @@
     "babel-plugin-module-resolver": "3.1.1",
     "dotenv": "6.1.0",
     "eslint": "^8.19.0",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "typescript": "^5.4.0",
     "faker": "^4.1.0",
-    "flow-bin": "0.175.1",
-    "flow-typed": "3.8.0",
     "i18next-scanner": "2.7.0",
     "metro-react-native-babel-preset": "^0.77.0",
     "node-fetch": "2.3.0",
