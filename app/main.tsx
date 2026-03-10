@@ -27,6 +27,8 @@ import { SET_HAS_MIGRATED_V1_FILES } from 'redux-modules/app';
 import { logout } from 'redux-modules/user';
 import * as Sentry from '@sentry/react-native';
 
+type AppStore = ReturnType<typeof createStore>;
+
 // Disable ios warnings
 // console.disableYellowBox = true;
 
@@ -35,6 +37,9 @@ import * as Sentry from '@sentry/react-native';
 
 // eslint-disable-next-line import/no-unused-modules
 export default class App {
+  private store: AppStore | null;
+  private currentAppState: string;
+
   constructor() {
     this.store = null;
     this.currentAppState = 'background';
@@ -49,9 +54,7 @@ export default class App {
   async launchRoot() {
     setI18nConfig();
 
-    await Navigation.setDefaultOptions({
-      ...Theme.navigator.styles
-    });
+    await Navigation.setDefaultOptions(Theme.navigator.styles as any);
 
     const state = this.store.getState();
     let screen = 'ForestWatcher.Home';
@@ -60,9 +63,8 @@ export default class App {
     }
     // If we're logged in with Apple Login
     if (state.user.loggedIn && state.user.socialNetwork === 'apple' && state.user.userId && appleAuth.isSupported) {
-
       try {
-        // using try-catch for error when user does not sign in to icloud 
+        // using try-catch for error when user does not sign in to icloud
         // Issue: https://github.com/invertase/react-native-apple-authentication/issues/89
 
         // Check credential state
@@ -226,3 +228,4 @@ export default class App {
     }
   };
 }
+
