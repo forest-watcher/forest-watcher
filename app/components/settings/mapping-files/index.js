@@ -9,7 +9,6 @@ import i18n from 'i18next';
 import EmptyState from 'components/common/empty-state';
 import ShareSheet from 'components/common/share';
 import Constants, { GFW_CONTEXTUAL_LAYERS_METADATA } from 'config/constants';
-import Theme from 'config/theme';
 import debounceUI from 'helpers/debounceUI';
 import showDeleteConfirmationPrompt from 'helpers/showDeleteModal';
 import { trackScreenView } from 'helpers/analytics';
@@ -66,9 +65,6 @@ class MappingFiles extends Component<Props, State> {
   static options(passProps: { mappingFileType: LayerType }) {
     return {
       topBar: {
-        background: {
-          color: Theme.colors.veryLightPink
-        },
         title: {
           text: i18n.t(`${passProps.mappingFileType === 'basemap' ? 'basemaps' : 'contextualLayers'}.title`)
         },

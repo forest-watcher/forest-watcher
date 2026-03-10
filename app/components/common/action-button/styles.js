@@ -29,6 +29,11 @@ export default StyleSheet.create({
     backgroundColor: Theme.colors.veryLightPinkTwo,
     borderColor: Theme.colors.veryLightPinkTwo
   },
+  secondaryDisabled: {
+    backgroundColor: 'transparent',
+    borderColor: '#F2F2F2',
+    color: '#777777'
+  },
   error: {
     backgroundColor: Theme.colors.carnation,
     borderColor: Theme.colors.carnation
@@ -92,8 +97,9 @@ export default StyleSheet.create({
     fontWeight: '400'
   },
   buttonTextDisabled: {
-    color: Theme.fontColors.light,
-    marginLeft: 0
+    color: '#777777',
+    marginLeft: 0,
+    fontWeight: '500'
   },
   buttonTextError: {
     color: Theme.fontColors.white,

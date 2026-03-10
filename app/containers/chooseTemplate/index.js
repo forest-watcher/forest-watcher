@@ -2,20 +2,21 @@
 import type { ComponentProps, Dispatch, State } from 'types/store.types';
 import { connect } from 'react-redux';
 import { ChooseTemplate } from 'components/chooseTemplate';
-import type { BasicReport } from 'types/reports.types';
+import type { BasicReport, Template } from 'types/reports.types';
 import { type ReportingSource, trackReportingStarted } from 'helpers/analytics';
 import { createReport } from 'redux-modules/reports';
 
 type OwnProps = {|
   componentId: string,
   report: BasicReport,
-  source: ReportingSource
+  source: ReportingSource,
+  templates: Array<Template>
 |};
 
 function mapStateToProps(state: State, props: OwnProps) {
   return {
-    defaultTemplate: state.reports.templates['default'],
-    language: state.app.language || 'en'
+    language: state.app.language || 'en',
+    defaultTemplate: state.reports.templates.default
   };
 }
 

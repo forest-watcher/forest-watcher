@@ -1,6 +1,6 @@
 //@flow
 import type { ComponentProps, Dispatch, State } from 'types/store.types';
-import { deleteAccount, logout } from 'redux-modules/user';
+import { logout } from 'redux-modules/user';
 
 import { connect } from 'react-redux';
 import { DeleteAccount } from 'components/delete-account';
@@ -16,9 +16,6 @@ function mapStateToProps(state: State, props: OwnProps) {
 
 function mapDispatchToProps(dispatch: Dispatch) {
   return {
-    deleteAccount: () => {
-      dispatch(deleteAccount());
-    },
     logout: () => {
       dispatch(logout());
     }

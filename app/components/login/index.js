@@ -89,6 +89,12 @@ class Login extends PureComponent<Props, State> {
       topBar: {
         drawBehind: true,
         visible: false
+      },
+      statusBar: {
+        style: 'light',
+        backgroundColor: 'black',
+        translucent: false,
+        visible: true
       }
     };
   }

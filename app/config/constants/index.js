@@ -55,8 +55,8 @@ export const MAP_DEFAULT_ICON_SIZE: IconSize = {
 // Detailed documentation & library defaults are available here: https://github.com/mauron85/react-native-background-geolocation#configureoptions-success-fail
 export const LOCATION_TRACKING = {
   locationProvider: BackgroundGeolocation.DISTANCE_FILTER_PROVIDER,
-  stationaryRadius: 50,
-  distanceFilter: 50,
+  stationaryRadius: 25,
+  distanceFilter: 25,
   startOnBoot: false,
   stopOnTerminate: false,
   interval: 10000,
@@ -118,10 +118,6 @@ export const DATASET_CATEGORIES: { string: AlertDatasetCategory } = {
       {
         units: 'months',
         value: 6
-      },
-      {
-        units: 'months',
-        value: 12
       }
     ],
     iconPrefix: 'deforestation',
@@ -174,7 +170,7 @@ export const DATASETS: { [slug: string]: AlertDatasetConfig } = {
     sortKey: 1,
     nameKey: 'map.gladAlert',
     reportNameId: 'GLAD',
-    requestThreshold: 365
+    requestThreshold: 200
   },
   glad_sentinel_2: {
     api: {
@@ -192,7 +188,7 @@ export const DATASETS: { [slug: string]: AlertDatasetConfig } = {
     sortKey: 2,
     nameKey: 'map.gladS2Alert',
     reportNameId: 'GLADSTWO', // Must match regex for report names: [A-Z]
-    requestThreshold: 365
+    requestThreshold: 180
   },
   wur_radd_alerts: {
     api: {
@@ -210,7 +206,7 @@ export const DATASETS: { [slug: string]: AlertDatasetConfig } = {
     sortKey: 3,
     nameKey: 'map.raddAlert',
     reportNameId: 'RADD',
-    requestThreshold: 365
+    requestThreshold: 180
   },
   viirs: {
     api: {
@@ -825,8 +821,7 @@ export const GFW_CONTEXTUAL_LAYERS: Array<Layer> = [
     description:
       'Boundaries of forested areas allocated by governments to companies for harvesting timber and other wood products.',
     name: 'logging',
-    url:
-      'https://cartocdn-gusc-a.global.ssl.fastly.net/wri-01/api/v1/map/aa3157cf3a5b0acc1f78b48899fb7a02:1548761157303/{z}/{x}/{y}.mvt',
+    url: 'https://cartocdn-gusc-a.global.ssl.fastly.net/wri-01/api/v1/map/aa3157cf3a5b0acc1f78b48899fb7a02:1548761157303/{z}/{x}/{y}.mvt',
     type: 'contextual_layer'
   },
   {
@@ -863,8 +858,7 @@ export const GFW_CONTEXTUAL_LAYERS: Array<Layer> = [
     id: '82229960-13c2-4810-84e7-bdd4812d4578',
     description: 'Wood fiber plantation areas',
     name: 'woodFiberConcessions',
-    url:
-      'https://cartocdn-gusc-a.global.ssl.fastly.net/wri-01/api/v1/map/1805b7c9ae919f705548dfb470679f8a:1569405047170/{z}/{x}/{y}.mvt',
+    url: 'https://cartocdn-gusc-a.global.ssl.fastly.net/wri-01/api/v1/map/1805b7c9ae919f705548dfb470679f8a:1569405047170/{z}/{x}/{y}.mvt',
     type: 'contextual_layer'
   }
 ];

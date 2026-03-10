@@ -4,7 +4,7 @@ import type { Report, Template } from 'types/reports.types';
 import type { GroupedReports } from 'containers/reports';
 
 import React, { PureComponent } from 'react';
-import { Platform, View, Text, ScrollView } from 'react-native';
+import { Platform, View, Text, ScrollView, Alert } from 'react-native';
 import RNFetchBlob from 'rn-fetch-blob';
 
 import Row from 'components/common/row';
@@ -26,9 +26,8 @@ import calculateBundleSize from 'helpers/sharing/calculateBundleSize';
 import generateUniqueID from 'helpers/uniqueId';
 import { getShareButtonText } from 'helpers/sharing/utils';
 
-import Theme from 'config/theme';
-
-const editIcon = require('assets/edit.png');
+const editIcon = require('assets/edit-round.png');
+const deleteRoundIcon = require('assets/deleteRound.png');
 const emptyIcon = require('assets/reportsEmpty.png');
 const nextIcon = require('assets/next.png');
 const checkboxOff = require('assets/checkbox_off.png');
@@ -43,26 +42,25 @@ type Props = {|
   },
   +appLanguage: string,
   +getLastStep: string => ?number,
-  +showExportReportsSuccessfulNotification: () => void
+  +showExportReportsSuccessfulNotification: () => void,
+  deleteReport: () => void,
+  completeReports: (ids: Array<string>) => void,
+  uploadReports: (ids: Array<string>) => void
 |};
 
 type State = {|
   +bundleSize: number | typeof undefined,
   +creatingArchive: boolean,
   +selectedForExport: Array<string>,
-  +inShareMode: boolean
+  +inShareMode: boolean,
+  +editMode: boolean
 |};
 
 class Reports extends PureComponent<Props, State> {
   static options(passProps: {}) {
     return {
       topBar: {
-        background: {
-          color: Theme.colors.veryLightPink
-        },
-        title: {
-          text: i18n.t('dashboard.reports')
-        }
+        title: { text: i18n.t('dashboard.reports') }
       }
     };
   }
@@ -78,12 +76,19 @@ class Reports extends PureComponent<Props, State> {
       bundleSize: undefined,
       creatingArchive: false,
       inShareMode: false,
-      selectedForExport: []
+      selectedForExport: [],
+      editMode: false
     };
   }
 
   componentDidMount() {
     trackScreenView('My Reports');
+    this.navigationEventListener = Navigation.events().bindComponent(this);
+    this.handleShowEditButton();
+  }
+
+  componentWillUnmount() {
+    if (this.navigationEventListener) this.navigationEventListener.remove();
   }
 
   fetchExportSize = async (reportIds: Array<string>) => {
@@ -106,6 +111,66 @@ class Reports extends PureComponent<Props, State> {
         bundleSize: fileSize
       });
     }
+  };
+
+  /**
+   * Handle Show Edit Button
+   */
+  handleShowEditButton = (visible: boolean) => {
+    if (!this.props.componentId || !this.props.reports) return;
+    const { draft } = this.props.reports;
+    Navigation.mergeOptions(this.props.componentId, {
+      topBar: {
+        rightButtons: draft.length !== 0 ? [{ id: 'edit', icon: editIcon }] : []
+      }
+    });
+  };
+
+  /**
+   * Handle Edit Mode
+   */
+  navigationButtonPressed({ buttonId }) {
+    const { draft } = this.props.reports;
+    switch (buttonId) {
+      case 'edit':
+        if (this.state.editMode) {
+          Navigation.mergeOptions(this.props.componentId, {
+            topBar: {
+              rightButtons: draft.length !== 0 ? [{ id: 'edit', icon: editIcon }] : []
+            }
+          });
+          return this.setState({ ...this.state, editMode: false });
+        }
+        Navigation.mergeOptions(this.props.componentId, {
+          topBar: { rightButtons: [{ id: 'edit', text: i18n.t('commonText.finish'), ...styles.topBarTextButton }] }
+        });
+        return this.setState({ ...this.state, editMode: true });
+      default:
+        return true;
+    }
+  }
+
+  /*
+   * Handles Report Deletion Process in Edit Mode
+   */
+  handleReportDelete = (reportName: string) => {
+    Alert.alert(i18n.t('report.deleteModal.title'), i18n.t('report.deleteModal.description'), [
+      {
+        text: i18n.t('report.deleteModal.cancel'),
+        onPress: () => {
+          this.setState({ ...this.state, editMode: true });
+        },
+        style: 'cancel'
+      },
+      {
+        text: i18n.t('report.deleteModal.approve'),
+        onPress: () => {
+          this.setState({ ...this.state, editMode: true });
+          this.props.deleteReport(reportName);
+        },
+        style: 'destructive'
+      }
+    ]);
   };
 
   /**
@@ -134,7 +199,7 @@ class Reports extends PureComponent<Props, State> {
   /**
    * Handles an uploaded report row being selected.
    */
-  onClickNext = debounceUI((reportName: string) =>
+  onClickNext = debounceUI((reportName: string) => {
     Navigation.showModal({
       stack: {
         children: [
@@ -149,14 +214,15 @@ class Reports extends PureComponent<Props, State> {
           }
         ]
       }
-    })
-  );
+    });
+  });
 
   /**
    * Handles a completed report row being selected.
    */
-  onClickUpload = debounceUI((reportName: string) =>
-    Navigation.showModal({
+  onClickUpload = debounceUI((reportName: string) => {
+    if (this.state.editMode) return this.handleReportDelete(reportName);
+    return Navigation.showModal({
       stack: {
         children: [
           {
@@ -171,14 +237,15 @@ class Reports extends PureComponent<Props, State> {
           }
         ]
       }
-    })
-  );
+    });
+  });
 
   onClickDraft = debounceUI(reportName => {
+    if (this.state.editMode) return this.handleReportDelete(reportName);
     const lastStep = this.props.getLastStep(reportName);
     if (lastStep !== null) {
       const title = i18n.t('report.title');
-      Navigation.showModal({
+      return Navigation.showModal({
         stack: {
           children: [
             {
@@ -204,7 +271,7 @@ class Reports extends PureComponent<Props, State> {
         }
       });
     } else {
-      Navigation.showModal({
+      return Navigation.showModal({
         stack: {
           children: [
             {
@@ -231,29 +298,54 @@ class Reports extends PureComponent<Props, State> {
       this.setState({
         creatingArchive: true
       });
+
       switch (idx) {
         case 0: {
-          await this.props.exportReportsAsBundle(selectedReports);
+          await this.exportLocalReport(true, selectedReports);
           break;
         }
         case 1: {
-          await this.exportReportsAsCsv(selectedReports);
+          await this.exportLocalReport(false, selectedReports);
           break;
         }
       }
-
-      // Show 'export successful' notification, and reset export state to reset UI.
-      this.props.showExportReportsSuccessfulNotification();
-      // $FlowFixMe
-      this.shareSheet?.setSharing?.(false);
-      this.setState({
-        creatingArchive: false,
-        selectedForExport: [],
-        inShareMode: false
-      });
     };
     await displayExportReportDialog(false, buttonHandler);
   });
+
+  exportLocalReport = async (exportAsBundle: boolean, selectedReports: Array<string>) => {
+    //this.props.uploadReports(selectedReports);  https://3sidedcube.atlassian.net/browse/SP-3072 We don't actually need to upload the report here
+    this.props.completeReports(selectedReports);
+
+    try {
+      let res;
+      if (exportAsBundle) {
+        res = await this.props.exportReportsAsBundle(selectedReports);
+      } else {
+        res = await this.exportReportsAsCsv(selectedReports);
+      }
+  
+      this.showExportReportsSuccessfulNotificationIfRequired(res);
+    } finally {
+      this.resetArchivingState();
+    }
+  }
+
+  showExportReportsSuccessfulNotificationIfRequired = (res: ShareOpenResult) => {
+    if (res.success) {
+      this.props.showExportReportsSuccessfulNotification();
+    }
+  };
+
+  resetArchivingState = () => {
+    // $FlowFixMe
+    this.shareSheet?.setSharing?.(false);
+    this.setState({
+      creatingArchive: false,
+      selectedForExport: [],
+      inShareMode: false
+    });
+  };
 
   exportReportsAsCsv = async (selectedReports: Array<string>) => {
     // Merge the completed and uploaded reports that are available together, so we can find any selected reports to export them.
@@ -277,7 +369,7 @@ class Reports extends PureComponent<Props, State> {
       })
     );
 
-    shareFile(zippedReportsPath);
+    return await shareFile(zippedReportsPath);
   };
 
   onFrequentlyAskedQuestionsPress = () => {
@@ -411,16 +503,27 @@ class Reports extends PureComponent<Props, State> {
         showsHorizontalScrollIndicator={false}
       >
         <View style={styles.container}>
-          {draft && draft.length > 0 && !inExportMode && this.getDrafts(draft, editIcon, this.onClickDraft)}
+          {draft &&
+            draft.length > 0 &&
+            !inExportMode &&
+            this.getDrafts(draft, this.state.editMode ? deleteRoundIcon : nextIcon, this.onClickDraft)}
           {complete &&
             complete.length > 0 &&
-            this.getCompleted(complete, nextIcon, inExportMode ? this.onReportSelectedForExport : this.onClickUpload)}
+            this.getCompleted(
+              complete,
+              this.state.editMode ? deleteRoundIcon : nextIcon,
+              inExportMode ? this.onReportSelectedForExport : this.onClickUpload
+            )}
           {uploaded &&
             uploaded.length > 0 &&
             this.getUploaded(uploaded, nextIcon, inExportMode ? this.onReportSelectedForExport : this.onClickNext)}
           {imported &&
             imported.length > 0 &&
-            this.getImported(imported, nextIcon, inExportMode ? this.onReportSelectedForExport : this.onClickUpload)}
+            this.getImported(
+              imported,
+              this.state.editMode ? deleteRoundIcon : nextIcon,
+              inExportMode ? this.onReportSelectedForExport : this.onClickUpload
+            )}
         </View>
       </ScrollView>
     );

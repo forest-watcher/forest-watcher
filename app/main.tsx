@@ -1,0 +1,231 @@
+import { Alert, AppState, NativeModules, Platform } from 'react-native';
+import { Navigation } from 'react-native-navigation';
+import { Provider } from 'react-redux';
+import Theme from 'config/theme';
+import { registerScreens } from 'screens';
+import createStore from 'store';
+import { setupCrashLogging } from './crashes';
+import { setI18nConfig } from 'locales';
+import i18n from 'i18next';
+import { appleAuth } from '@invertase/react-native-apple-authentication';
+
+import {
+  GFWLocationAuthorizedAlways,
+  initialiseLocationFramework,
+  checkLocationStatus,
+  showAppSettings,
+  showLocationSettings,
+  startTrackingLocation
+} from 'helpers/location';
+import { discardActiveRoute } from 'redux-modules/routes';
+import Config from 'react-native-config';
+import MapboxGL from '@react-native-mapbox-gl/maps';
+import { trackRouteFlowEvent } from 'helpers/analytics';
+import { launchAppRoot } from 'screens/common';
+import { migrateFilesFromV1ToV2 } from './migrate';
+import { SET_HAS_MIGRATED_V1_FILES } from 'redux-modules/app';
+import { logout } from 'redux-modules/user';
+import * as Sentry from '@sentry/react-native';
+
+type AppStore = ReturnType<typeof createStore>;
+
+// Disable ios warnings
+// console.disableYellowBox = true;
+
+// Show request in chrome network tool
+// GLOBAL.XMLHttpRequest = GLOBAL.originalXMLHttpRequest || GLOBAL.XMLHttpRequest;
+
+// eslint-disable-next-line import/no-unused-modules
+export default class App {
+  private store: AppStore | null;
+  private currentAppState: string;
+
+  constructor() {
+    this.store = null;
+    this.currentAppState = 'background';
+    // onCredentialRevoked isn't reliably called, so we also check in `launchRoot` and `_handleAppStateChange` and log the
+    // user out there if necessary
+    if (appleAuth.isSupported) {
+      appleAuth.onCredentialRevoked(this._onAppleLoginCredentialRevoked);
+    }
+    AppState.addEventListener('change', this._handleAppStateChange);
+  }
+
+  async launchRoot() {
+    setI18nConfig();
+
+    await Navigation.setDefaultOptions(Theme.navigator.styles as any);
+
+    const state = this.store.getState();
+    let screen = 'ForestWatcher.Home';
+    if (state.user.loggedIn && state.app.synced) {
+      screen = 'ForestWatcher.Dashboard';
+    }
+    // If we're logged in with Apple Login
+    if (state.user.loggedIn && state.user.socialNetwork === 'apple' && state.user.userId && appleAuth.isSupported) {
+      try {
+        // using try-catch for error when user does not sign in to icloud
+        // Issue: https://github.com/invertase/react-native-apple-authentication/issues/89
+
+        // Check credential state
+        const credentialState = await appleAuth.getCredentialStateForUser(state.user.userId);
+        // If we're not authorized, then log the user out!
+        if (credentialState !== appleAuth.State.AUTHORIZED) {
+          this.store.dispatch(logout('apple'));
+          screen = 'ForestWatcher.Home';
+        }
+      } catch (error) {
+        console.warn('3SC', 'Error getting credential state', error);
+      }
+    }
+
+    this.setupMapbox();
+    await launchAppRoot(screen);
+    await this._handleAppStateChange('active');
+
+    try {
+      const hasMigratedFiles = state.app.hasMigratedV1Files;
+      if (!hasMigratedFiles) {
+        await migrateFilesFromV1ToV2(this.store.dispatch);
+        this.store.dispatch({
+          type: SET_HAS_MIGRATED_V1_FILES
+        });
+      }
+    } catch (err) {
+      console.warn('3SC', 'Could not migrate files', err);
+      Sentry.captureException(err);
+    }
+  }
+
+  _onAppleLoginCredentialRevoked = () => {
+    // As this can be called before the store is initialised, ensure we have a store before continuing.
+    if (!this.store) {
+      return;
+    }
+    this.store.dispatch(logout('apple'));
+    launchAppRoot('ForestWatcher.Home');
+  };
+
+  _handleAppStateChange = async nextAppState => {
+    // As this can be called before the store is initialised, ensure we have a store before continuing.
+    if (!this.store) {
+      return;
+    }
+
+    const hasTransitionedToForeground = this.currentAppState.match(/inactive|background/) && nextAppState === 'active';
+    this.currentAppState = nextAppState;
+
+    if (!hasTransitionedToForeground) {
+      return;
+    }
+
+    const state = this.store.getState();
+
+    // If we're logged in with Apple Login
+    if (state.user.loggedIn && state.user.socialNetwork === 'apple' && state.user.userId && appleAuth.isSupported) {
+      // Check credential state
+      const credentialState = await appleAuth.getCredentialStateForUser(state.user.userId);
+      // If we're not authorized, then log the user out!
+      if (credentialState !== appleAuth.State.AUTHORIZED) {
+        this.store.dispatch(logout('apple'));
+        launchAppRoot('ForestWatcher.Home');
+      }
+    }
+
+    const activeRoute = state.routes.activeRoute;
+
+    // If there was no active route then we are done
+    if (!activeRoute) {
+      return;
+    }
+
+    // If we have an active route in state it means we should be tracking locations for it...
+    const locationStatus = await checkLocationStatus();
+    let trackingIsBlocked = false;
+
+    // If the tracker is not currently running then find out what the user wants to do and possibly start it
+    if (!locationStatus.isRunning) {
+      // Ask the user if they want to resume tracking
+      const shouldResume = await new Promise(resolve => {
+        Alert.alert(i18n.t('routes.resumeTrackingDialogTitle'), i18n.t('routes.resumeTrackingDialogMessage'), [
+          { text: i18n.t('routes.resumeTrackingDialogPositiveButton'), onPress: () => resolve(true) },
+          {
+            text: i18n.t('routes.resumeTrackingDialogNegativeButton'),
+            onPress: () => resolve(false)
+          }
+        ]);
+      });
+
+      if (!shouldResume) {
+        trackRouteFlowEvent('discardedOnLaunch');
+        this.store.dispatch(discardActiveRoute());
+        return;
+      }
+
+      // Attempt to start tracking. If it succeeds then we are done
+      try {
+        await startTrackingLocation(GFWLocationAuthorizedAlways);
+        return;
+      } catch (err) {
+        // Could not start tracking after resuming from background - tell the user to fix their settings
+        trackingIsBlocked = true;
+      }
+    } else {
+      trackingIsBlocked =
+        !locationStatus.locationServicesEnabled || locationStatus.authorization !== GFWLocationAuthorizedAlways;
+    }
+
+    // Show a message saying tracking is paused until they fix the problem, along with buttons to take them to app settings.
+    if (trackingIsBlocked) {
+      Alert.alert(i18n.t('routes.backgroundErrorDialogTitle'), i18n.t('routes.backgroundErrorDialogMessage'), [
+        { text: i18n.t('commonText.ok') },
+        {
+          text: i18n.t('routes.insufficientPermissionsDialogOpenAppSettings'),
+          onPress: showAppSettings
+        },
+        ...Platform.select({
+          android: [
+            {
+              text: i18n.t('routes.insufficientPermissionsDialogOpenDeviceSettings'),
+              onPress: showLocationSettings
+            }
+          ],
+          ios: [{}]
+        })
+      ]);
+    }
+  };
+
+  /**
+   * Performs one-time setup tasks needed to launch the application
+   *
+   * If called further times it will only setup the UI
+   */
+  async setupApp() {
+    // If we've already setup the app then store will be non-null, and we just need to launch a UI root
+    if (this.store) {
+      this.launchRoot();
+      return;
+    }
+
+    if (!__DEV__) {
+      await setupCrashLogging();
+    }
+
+    const store = createStore(async () => {
+      this.store = store;
+      registerScreens(store, Provider);
+      initialiseLocationFramework();
+      createStore.runSagas();
+      await this.launchRoot();
+    });
+  }
+
+  setupMapbox = () => {
+    MapboxGL.setAccessToken(Config.MAPBOX_TOKEN);
+    if (Platform.OS === 'android') {
+      NativeModules.FWMapbox.installOfflineModeInterceptor(this.store.getState().app.offlineMode);
+    }
+  };
+}
+

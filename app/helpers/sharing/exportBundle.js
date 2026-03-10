@@ -41,11 +41,14 @@ export default async function exportBundle(appState: State, request: ExportBundl
   const implicitlyIncludedBasemapIds: Array<string> = fileManifest.layerFiles
     .filter(file => file.type === 'basemap')
     .map(file => file.layerId);
+
   const implicitlyIncludedLayerIds: Array<string> = fileManifest.layerFiles
     .filter(file => file.type === 'contextual_layer')
     .map(file => file.layerId);
+
   const allBasemapIds: Array<string> = _.uniq([...request.basemapIds, ...implicitlyIncludedBasemapIds]);
   const allLayerIds: Array<string> = _.uniq([...request.layerIds, ...implicitlyIncludedLayerIds]);
+
   const finalBundleData = {
     ...explicitBundleData,
     basemaps: exportBasemaps(appState.layers, allBasemapIds),

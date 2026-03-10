@@ -1,7 +1,10 @@
+pluginManagement { includeBuild("../node_modules/@react-native/gradle-plugin") }
+plugins { id("com.facebook.react.settings") }
+extensions.configure(com.facebook.react.ReactSettingsExtension){ ex -> ex.autolinkLibrariesFromCommand() }
 rootProject.name = 'forest-watcher-android-client'
-apply from: file("../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesSettingsGradle(settings)
-
 include ':app'
+includeBuild('../node_modules/@react-native/gradle-plugin')
+
 include ':@mauron85_react-native-background-geolocation'
 include ':@mauron85_react-native-background-geolocation-common'
 include ':react-native-safe-area-context'

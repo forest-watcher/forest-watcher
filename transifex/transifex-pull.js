@@ -1,51 +1,45 @@
 // Script to request all active languages on transifex and then fetch their respective translations
-const fetch = require('node-fetch');
-const fs = require('fs');
-require('dotenv').config();
+const fetch = require("node-fetch");
+const fs = require("fs");
+const { transifexApi } = require("@transifex/api");
+require("dotenv").config();
 
-// Endpoint for fetching available languages
-const langUrl = `${process.env.TRANSIFEX_URL}/${process.env.TRANSIFEX_PROJECT}/resource/${process.env.TRANSIFEX_SLUG}/?details`;
+transifexApi.setup({
+  auth: process.env.TRANSIFEX_API_TOKEN
+});
 
-// Endpoint for fetching translations
-const transUrl = `${process.env.TRANSIFEX_URL}/${process.env.TRANSIFEX_PROJECT}/resource/${process.env.TRANSIFEX_SLUG}/translation`;
+(async function () {
+  const organization = await transifexApi.Organization.get({ slug: "WRI" });
 
-// Fetch config
-const fetchConfig = {
-    headers: {
-        Authorization: `Basic ${process.env.TRANSIFEX_API_TOKEN}`
-    },
-    method: 'GET'
-}
+  const projects = await organization.fetch("projects");
+  const project = await projects.get({ slug: process.env.TRANSIFEX_PROJECT });
 
-// Lets start
-console.log('Fetching available languages...');
+  const resources = await project.fetch("resources");
+  const resource = await resources.get({ slug: process.env.TRANSIFEX_SLUG });
 
-fetch(langUrl, fetchConfig)
-    .then(function(res) {
-        if (res.ok) return res.json();
-        throw new Error(res.statusText);
-    })
-    .then(function(json) {
-        const languages = json.available_languages.map((language) => {
-            return language.code;
-        });
-        return languages;
-    })
-    .then(function(languages) {
-        languages.forEach((lang) => {
-            fetch(`${transUrl}/${lang}`, fetchConfig)
-                .then(function(res) {
-                    return res.json();
-                })
-                .then(function(json) {
-                    fs.writeFile(`app/locales/${lang}.json`, JSON.stringify(JSON.parse(json.content), null, 4), (err) => {
-                        if (err) throw err;
-                        console.log(`Translations for ${lang} successfully saved!`);
-                    });
-                });
-        });
+  const languages = await project.fetch("languages");
+  await languages.fetch();
 
-    })
-    .catch((err) => {
-        console.log(err);
+  const url = await transifexApi.ResourceStringsAsyncDownload.download({ resource });
+  const response = await fetch(url);
+
+  fs.writeFile(`${process.env.LOCALES_PATH}/en.json`, JSON.stringify(await response.json(), null, 4), err => {
+    if (err) throw err;
+    console.log(`Source string successfully saved!`);
+  });
+
+  for (const lang of languages.data) {
+    const code = lang.get("code");
+    const language = await transifexApi.Language.get({ code });
+    const url = await transifexApi.ResourceTranslationsAsyncDownload.download({
+      language,
+      resource
     });
+    const response = await fetch(url);
+
+    fs.writeFile(`${process.env.LOCALES_PATH}/${code}.json`, JSON.stringify(await response.json(), null, 4), err => {
+      if (err) throw err;
+      console.log(`Translations for ${code} successfully saved!`);
+    });
+  }
+})();

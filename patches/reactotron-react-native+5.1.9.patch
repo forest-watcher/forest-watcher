@@ -1,0 +1,13 @@
+diff --git a/node_modules/reactotron-react-native/src/plugins/devTools.ts b/node_modules/reactotron-react-native/src/plugins/devTools.ts
+index c2af7ab..4799b11 100644
+--- a/node_modules/reactotron-react-native/src/plugins/devTools.ts
++++ b/node_modules/reactotron-react-native/src/plugins/devTools.ts
+@@ -2,7 +2,7 @@ import { Platform } from "react-native"
+ import type { ReactotronCore, Plugin } from "reactotron-core-client"
+ 
+ let DevMenu = { show: () => {}, reload: () => {} }
+-if (Platform.OS === "ios") {
++if (Platform.OS === "ios" && __DEV__) {
+   DevMenu = require("react-native/Libraries/NativeModules/specs/NativeDevMenu")
+ }
+ 

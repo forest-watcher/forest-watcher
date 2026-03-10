@@ -289,9 +289,11 @@ export function getPolygonBoundingBox(
     return undefined;
   }
 
+  const filtered = polygon.filter(x => x);
+
   return {
-    ne: [_.maxBy(polygon, x => x.longitude).longitude, _.maxBy(polygon, x => x.latitude).latitude],
-    sw: [_.minBy(polygon, x => x.longitude).longitude, _.minBy(polygon, x => x.latitude).latitude]
+    ne: [_.maxBy(filtered, x => x.longitude).longitude, _.maxBy(filtered, x => x.latitude).latitude],
+    sw: [_.minBy(filtered, x => x.longitude).longitude, _.minBy(filtered, x => x.latitude).latitude]
   };
 }
 

@@ -1,0 +1,37 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "lib": ["ES2020"],
+    "module": "ESNext",
+    "jsx": "react-native",
+    "allowJs": true,
+    "checkJs": false,
+    "noEmit": true,
+    "strict": false,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "baseUrl": ".",
+    "paths": {
+      "app/*": ["./app/*"],
+      "screens": ["./app/screens"],
+      "screens/*": ["./app/screens/*"],
+      "locales": ["./app/locales"],
+      "locales/*": ["./app/locales/*"],
+      "config/*": ["./app/config/*"],
+      "helpers/*": ["./app/helpers/*"],
+      "components/*": ["./app/components/*"],
+      "containers/*": ["./app/containers/*"],
+      "redux-modules/*": ["./app/redux-modules/*"],
+      "assets/*": ["./app/assets/*"],
+      "offline/*": ["./app/offline/*"],
+      "types/*": ["./app/types/*"],
+      "store": ["./app/store"]
+    }
+  },
+  "include": ["app", "react-native-mbtiles", "index.js"],
+  "exclude": ["node_modules"]
+}
+

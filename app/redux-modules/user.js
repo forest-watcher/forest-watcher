@@ -5,15 +5,13 @@ import type { UserState, UserAction } from 'types/user.types';
 
 import { PERSIST_REHYDRATE, RESET_STATE } from '@redux-offline/redux-offline/lib/constants';
 import { authorize, revoke } from 'react-native-app-auth';
-import { LoginManager, AccessToken } from 'react-native-fbsdk';
+import { LoginManager, AccessToken } from 'react-native-fbsdk-next';
 import Config from 'react-native-config';
 import oAuth from 'config/oAuth';
 import i18n from 'i18next';
 import jwt_decode from 'jwt-decode';
 
 import { appleAuth } from '@invertase/react-native-apple-authentication';
-
-const CookieManager = require('@react-native-community/cookies');
 
 import { deleteAllOfflinePacks } from 'helpers/mapbox';
 import { decreaseAppSynced } from './app';
@@ -28,9 +26,6 @@ export const LOGOUT_REQUEST = 'user/LOGOUT_REQUEST';
 const SET_LOGIN_LOADING = 'user/SET_LOGIN_LOADING';
 const SET_EMAIL_LOGIN_ERROR = 'user/SET_EMAIL_LOGIN_ERROR';
 const CLEAR_EMAIL_LOGIN_ERROR = 'user/CLEAR_EMAIL_LOGIN_ERROR';
-const DELETE_ACCOUNT_REQUEST = 'user/DELETE_ACCOUNT_REQUEST';
-const DELETE_ACCOUNT_COMMIT = 'user/DELETE_ACCOUNT_COMMIT';
-export const DELETE_ACCOUNT_ROLLBACK = 'user/DELETE_ACCOUNT_ROLLBACK';
 
 // Reducer
 const initialState = {
@@ -39,6 +34,7 @@ const initialState = {
   token: null,
   oAuthToken: null,
   socialNetwork: null,
+  socialEmail: null,
   logSuccess: true,
   synced: false,
   syncing: false,
@@ -66,7 +62,17 @@ export default function reducer(state: UserState = initialState, action: UserAct
     case SET_LOGIN_AUTH: {
       const { socialNetwork, loggedIn, token, oAuthToken } = action.payload;
       const userId = parseJwt(token).id;
-      return { ...state, socialNetwork, loggedIn, token, oAuthToken, userId, emailLoginError: null };
+      const email = parseJwt(token).email;
+      return {
+        ...state,
+        socialNetwork,
+        socialEmail: email,
+        loggedIn,
+        token,
+        oAuthToken,
+        userId,
+        emailLoginError: null
+      };
     }
     case SET_LOGIN_STATUS: {
       const logSuccess = action.payload;
@@ -92,18 +98,9 @@ export default function reducer(state: UserState = initialState, action: UserAct
         oAuthToken: null,
         socialNetwork: null,
         userId: null,
-        deleted: false
+        deleted: false,
+        data: {}
       };
-    case DELETE_ACCOUNT_REQUEST: {
-      return { ...state, loading: false, deleted: false };
-    }
-    case DELETE_ACCOUNT_COMMIT: {
-      logout();
-      return { ...state, loading: false, deleted: true };
-    }
-    case DELETE_ACCOUNT_ROLLBACK: {
-      return { ...state, loading: false };
-    }
     default:
       return state;
   }
@@ -335,12 +332,9 @@ export function setLoginAuth(details: { token: string, loggedIn: boolean, social
 export function logout(socialNetworkFallback: ?string): Thunk<Promise<void>> {
   return async (dispatch: Dispatch, state: GetState) => {
     const { oAuthToken: tokenToRevoke, socialNetwork } = state().user;
-    dispatch({ type: LOGOUT_REQUEST });
-    dispatch({ type: RESET_STATE });
 
     try {
       await deleteAllOfflinePacks();
-      await CookieManager.clearAll();
 
       const social = socialNetwork || socialNetworkFallback;
       switch (social) {
@@ -361,20 +355,8 @@ export function logout(socialNetworkFallback: ?string): Thunk<Promise<void>> {
       console.error(e);
       dispatch({ type: SET_LOGIN_STATUS, payload: false });
     }
-  };
-}
 
-export function deleteAccount(): UserAction {
-  const url = `${Config.API_URL}/users`;
-
-  return {
-    type: DELETE_ACCOUNT_REQUEST,
-    meta: {
-      offline: {
-        effect: { url, method: 'DELETE' },
-        commit: { type: DELETE_ACCOUNT_COMMIT },
-        rollback: { type: DELETE_ACCOUNT_ROLLBACK }
-      }
-    }
+    dispatch({ type: LOGOUT_REQUEST });
+    dispatch({ type: RESET_STATE });
   };
 }

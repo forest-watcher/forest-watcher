@@ -15,7 +15,13 @@ function NextButton(props) {
   }
   return (
     <TouchableHighlight
-      style={[styles.container, props.transparent ? styles.transparent : '', props.style]}
+      style={[
+        styles.container,
+        props.transparent ? styles.transparent : '',
+        props.disabled && styles.disabled,
+        props.style
+      ]}
+      disabled={props.disabled}
       onPress={onButtonPress}
       activeOpacity={0.8}
       underlayColor={props.transparent ? 'transparent' : Theme.background.secondary}

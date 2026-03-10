@@ -13,7 +13,7 @@ import type {
   RouteFeatureProperties
 } from 'types/common.types';
 import type { LocationPoint, Route } from 'types/routes.types';
-import type { ReportArea, SelectedReport } from 'types/reports.types';
+import type { ReportArea, SelectedReport, Template } from 'types/reports.types';
 import type { LayerSettings } from 'types/layerSettings.types';
 
 import {
@@ -76,17 +76,18 @@ import RouteMarkers from 'components/map/route';
 import Alerts from 'components/map/alerts';
 import Reports from 'containers/map/reports';
 import Footer from 'components/map/footer';
-import { lineString, type Feature, type Geometry, type Position } from '@turf/helpers';
+import { lineString, type Feature, type Geometry, type Position, featureCollection, point } from '@turf/helpers';
 import { showMapWalkthrough } from 'screens/maps';
 
 const emitter = require('tiny-emitter/instance');
 import type { EventSubscription } from 'react-native/Libraries/EventEmitter/NativeEventEmitter';
+import type { AssignmentLocation } from 'types/assignments.types';
 
 const ROUTE_TRACKING_BOTTOM_DIALOG_STATE_HIDDEN = 0;
 const ROUTE_TRACKING_BOTTOM_DIALOG_STATE_EXITING = 1;
 const ROUTE_TRACKING_BOTTOM_DIALOG_STATE_STOPPING = 2;
 
-const DISMISSED_INFO_BANNER_POSTIION = 300 + initialWindowMetrics.insets.bottom;
+const DISMISSED_INFO_BANNER_POSTIION = 300 + (initialWindowMetrics?.insets?.bottom || 0);
 
 const backgroundImage = require('assets/map_bg_gradient.png');
 
@@ -110,7 +111,9 @@ type Props = {
   isTracking: boolean,
   onStartTrackingRoute: (location: Coordinates) => void,
   onCancelTrackingRoute: () => void,
-  basemap: Layer
+  basemap: Layer,
+  templates: ?Array<Template>,
+  +preSelectedAlerts?: ?Array<AssignmentLocation>
 };
 
 type State = {
@@ -131,7 +134,8 @@ type State = {
   infoBannerShowing: boolean,
   // feature(s) that the user has just tapped on
   tappedOnFeatures: $ReadOnlyArray<MapItemFeatureProperties>,
-  loading: boolean
+  loading: boolean,
+  topInset: number
 };
 
 class MapComponent extends Component<Props, State> {
@@ -158,9 +162,13 @@ class MapComponent extends Component<Props, State> {
   map: ?MapboxGL.MapView = null;
   appStateSubscription: ?EventSubscription = null;
 
+  sidebarOpened: boolean;
+
   constructor(props: Props) {
     super(props);
     Navigation.events().bindComponent(this);
+
+    this.sidebarOpened = false;
 
     this.state = {
       userLocation: null,
@@ -179,7 +187,8 @@ class MapComponent extends Component<Props, State> {
       animatedPosition: new Animated.Value(DISMISSED_INFO_BANNER_POSTIION),
       infoBannerShowing: false,
       tappedOnFeatures: [],
-      loading: false
+      loading: false,
+      topInset: 0
     };
   }
 
@@ -202,6 +211,37 @@ class MapComponent extends Component<Props, State> {
 
     this.geoLocate();
     this.showMapWalkthroughIfNecessary();
+
+    if (this.props.preSelectedAlerts && this.props.preSelectedAlerts.length > 0) {
+      this.onAlertFeaturesPressed({
+        ...featureCollection(
+          this.props.preSelectedAlerts.map(item =>
+            point([item.lon, item.lat], {
+              lat: '' + item.lat,
+              long: '' + item.lon,
+              name: 'Assignment',
+              date: item.date
+            })
+          )
+        ),
+        coordinates: {
+          latitude: '' + this.props.preSelectedAlerts[0].lat,
+          longitude: '' + this.props.preSelectedAlerts[0].lon
+        }
+      });
+    }
+
+    // set the top inset to the top inset of the initial window metrics if we're on iOS
+    // setting the value to state onmount because the value is not available in the constructor
+    // this is done automatically with useSafeAreaInsets hook in react-native-safe-area-context
+    if (Platform.OS === 'ios') {
+      const insets = initialWindowMetrics?.insets;
+      if (insets) {
+        this.setState({
+          topInset: insets.top
+        });
+      }
+    }
   }
 
   // called on startup to set initial camera position
@@ -489,18 +529,19 @@ class MapComponent extends Component<Props, State> {
     });
   });
 
-  onSettingsPress = debounceUI(() => {
+  onSettingsPress: () => void = () => {
     this.dismissInfoBanner();
+    this.sidebarOpened = !this.sidebarOpened;
     // If route has been opened, that is the current layer settings feature ID,
     // otherwise use the area ID
     Navigation.mergeOptions(this.props.componentId, {
       sideMenu: {
         right: {
-          visible: true
+          visible: this.sidebarOpened
         }
       }
     });
-  });
+  };
 
   // Zoom map to user location
   zoomToUserLocation = debounceUI(() => {
@@ -623,7 +664,8 @@ class MapComponent extends Component<Props, State> {
                   userPosition: userLatLng || REPORTS.noGpsPosition,
                   clickedPosition: JSON.stringify(latLng)
                 },
-                source
+                source,
+                templates: this.props.templates || area.reportTemplate
               }
             }
           }
@@ -633,7 +675,7 @@ class MapComponent extends Component<Props, State> {
   };
 
   // Renders all active routes in layer settings
-  renderAllRoutes = (): Node => {
+  renderAllRoutes: () => Node = (): Node => {
     const { activeRouteIds, showAll } = this.props.layerSettings.routes;
     const routes: $ReadOnlyArray<Route> = showAll
       ? this.props.routes
@@ -654,12 +696,12 @@ class MapComponent extends Component<Props, State> {
       });
   };
 
-  isRouteSelected = (routeId: ?string) => {
+  isRouteSelected: (routeId: ?string) => boolean = (routeId: ?string) => {
     return this.state.infoBannerShowing && this.state.tappedOnFeatures?.[0]?.featureId === routeId;
   };
 
   // Displays user location circle with direction heading on map
-  renderUserLocation = () => {
+  renderUserLocation: () => React$Element<any> = () => {
     const userLocationStyle = this.state.heading
       ? {
           iconImage: userLocationBearingImage,
@@ -685,7 +727,7 @@ class MapComponent extends Component<Props, State> {
   };
 
   // Draw line from user location to destination
-  renderDestinationLine = () => {
+  renderDestinationLine: () => null | React$Element<any> = () => {
     const { mapCenterCoords, userLocation, customReporting } = this.state;
     if (!customReporting || !mapCenterCoords || !userLocation) {
       return null;
@@ -788,7 +830,9 @@ class MapComponent extends Component<Props, State> {
     }
   };
 
-  onAlertFeaturesPressed = (e: MapboxFeaturePressEvent<AlertFeatureProperties>) => {
+  onAlertFeaturesPressed: (e: MapboxFeaturePressEvent<AlertFeatureProperties>) => void = (
+    e: MapboxFeaturePressEvent<AlertFeatureProperties>
+  ) => {
     // if any of the features are a cluster - zoom in on the cluster so items will be moved apart
     const clusters = e.features.filter(feature => feature.properties?.cluster);
     if (clusters.length) {
@@ -806,9 +850,11 @@ class MapComponent extends Component<Props, State> {
       long: Number(alertProps.long),
       datasetId: alertProps.datasetId
     };
-    const dataset = DATASETS[alertProps.datasetId] ?? DATASETS.find(dataset => dataset.id === alertProps.datasetId);
-    if (dataset) {
-      trackAlertTapped(dataset.reportNameId.toLowerCase());
+    if (alertProps.datasetId) {
+      const dataset = DATASETS[alertProps.datasetId] || DATASETS.find(dataset => dataset.id === alertProps.datasetId);
+      if (dataset) {
+        trackAlertTapped(dataset.reportNameId.toLowerCase());
+      }
     }
     const isAlert = alert => Number(alert.lat) === pressedAlert.lat && Number(alert.long) === pressedAlert.long;
 
@@ -977,7 +1023,7 @@ class MapComponent extends Component<Props, State> {
             <View
               style={[
                 styles.coordinateTextContainer,
-                { paddingTop: Platform.OS === 'ios' ? initialWindowMetrics.insets.top : 0 } // Status bar padding only on iOS because on Android
+                { paddingTop: Platform.OS === 'ios' ? this.state.topInset : 0 } // Status bar padding only on iOS because on Android
                 // the status bar is opaque and pushes the whole app down
               ]}
             >
@@ -1024,6 +1070,7 @@ class MapComponent extends Component<Props, State> {
               this.setState({ highlightedAlerts, connectedAlerts });
             }}
             setLoading={loading => this.setState({ loading })}
+            preSelectedAlerts={this.props.preSelectedAlerts}
           />
           <Reports
             featureId={featureId}

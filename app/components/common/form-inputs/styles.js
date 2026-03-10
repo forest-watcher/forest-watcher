@@ -6,7 +6,8 @@ export default StyleSheet.create({
     flex: 1
   },
   containerContent: {
-    marginBottom: 120
+    paddingBottom: 20,
+    flex: 1
   },
   label: {
     color: Theme.fontColors.secondary,
@@ -19,7 +20,6 @@ export default StyleSheet.create({
     marginLeft: Theme.margin.left
   },
   inputContainer: {
-    height: 64,
     paddingLeft: Theme.margin.left,
     paddingRight: Theme.margin.right,
     borderBottomColor: Theme.borderColors.main,
@@ -31,7 +31,8 @@ export default StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    marginVertical: 20
   },
   input: {
     flex: 1,

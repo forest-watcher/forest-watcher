@@ -1,6 +1,6 @@
 #import "ReactNativeMBTiles.h"
 
-#import <react_native_mbtiles-Swift.h>
+#import <react_native_mbtiles/react_native_mbtiles-Swift.h>
 @implementation ReactNativeMBTiles
 
 RCT_EXPORT_MODULE()

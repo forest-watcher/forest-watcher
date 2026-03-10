@@ -32,15 +32,12 @@ export const TeamDetails = (props: Props): React$Element<any> => {
   const areas = props.team.areas?.map(areaID => props.areas.find(area => area.id === areaID)?.name)?.filter(x => x);
   const [actionPerformed, setActionPerformed] = useState(false);
 
-  useEffect(
-    () => {
-      if (actionPerformed && !props.syncing) {
-        props.updateApp();
-        Navigation.pop(props.componentId);
-      }
-    },
-    [props.syncing]
-  );
+  useEffect(() => {
+    if (actionPerformed && !props.syncing) {
+      props.updateApp();
+      Navigation.pop(props.componentId);
+    }
+  }, [props.syncing]);
 
   return (
     <View style={styles.container}>
@@ -99,11 +96,7 @@ export const TeamDetails = (props: Props): React$Element<any> => {
           justifyContent: 'space-between'
         }}
       >
-        {props.appSyncing > 0 && (
-          <Text style={styles.error}>
-            The app is syncing data. You can continue with your action after the syncing is finished!
-          </Text>
-        )}
+        {props.appSyncing > 0 && <Text style={styles.error}>{i18n.t('commonText.syncingNotice')}</Text>}
         {props.syncing && actionPerformed ? (
           <View style={styles.loading}>
             <ActivityIndicator color={Theme.colors.turtleGreen} style={{ height: 80 }} size="large" />
@@ -178,9 +171,6 @@ export const TeamDetails = (props: Props): React$Element<any> => {
 TeamDetails.options = (passProps: {}): any => {
   return {
     topBar: {
-      background: {
-        color: Theme.colors.veryLightPink
-      },
       title: {
         text: i18n.t('teams.titles.teamDetailsTitle')
       }

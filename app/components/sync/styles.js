@@ -10,7 +10,10 @@ export default StyleSheet.create({
     justifyContent: 'center'
   },
   animation: {
-    height: 256
+    height: 256,
+    // v6 onwards of lottie-react-native requires height
+    // https://github.com/lottie-react-native/lottie-react-native/blob/master/MIGRATION-5-TO-6.md
+    aspectRatio: 4 / 3
   },
   center: {
     justifyContent: 'center'

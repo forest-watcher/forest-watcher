@@ -1,71 +1,137 @@
-require_relative '../node_modules/react-native/scripts/react_native_pods'
-require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
-
-platform :ios, '13.0'
-
+ENV["RCT_NEW_ARCH_ENABLED"]="0"
+ENV['NO_FLIPPER'] = '1'
+ENV['USE_FRAMEWORKS'] = 'static'
 $RNFirebaseAnalyticsWithoutAdIdSupport=true
+
+def node_require(script)
+  # Resolve script with node to allow for hoisting
+  require Pod::Executable.execute_command('node', ['-p',
+    "require.resolve(
+      '#{script}',
+      {paths: [process.argv[1]]},
+    )", __dir__]).strip
+end
+
+node_require('react-native/scripts/react_native_pods.rb')
+node_require('react-native-permissions/scripts/setup.rb')
+
+platform :ios, '15.5'
+prepare_react_native_project!
+
+setup_permissions([
+  'LocationAlways',
+  'LocationWhenInUse',
+])
+
+# If you are using a `react-native-flipper` your iOS build will fail when `NO_FLIPPER=1` is set.
+# because `react-native-flipper` depends on (FlipperKit,...) that will be excluded
+#
+# To fix this you can also exclude `react-native-flipper` using a `react-native.config.js`
+# ```js
+# module.exports = {
+#   dependencies: {
+#     ...(process.env.NO_FLIPPER ? { 'react-native-flipper': { platforms: { ios: null } } } : {}),
+# ```
+# flipper_config = ENV['NO_FLIPPER'] == "1" ? FlipperConfiguration.disabled : FlipperConfiguration.enabled
+
+linkage = ENV['USE_FRAMEWORKS']
+if linkage != nil
+  Pod::UI.puts "Configuring Pod with #{linkage}ally linked Frameworks".green
+  use_frameworks! :linkage => linkage.to_sym
+end
 
 target 'ForestWatcher' do
   config = use_native_modules!
+  # Flags change depending on the env values.
+  
+  flags = get_default_flags()
 
-  permissions_path = '../node_modules/react-native-permissions/ios'
-
-  pod 'Permission-LocationAlways', :path => "#{permissions_path}/LocationAlways.podspec"
-  pod 'Permission-LocationWhenInUse', :path => "#{permissions_path}/LocationWhenInUse.podspec"
-
-  # Pods for ForestWatcher
-  use_react_native!(
-    :path => config[:reactNativePath],
-    # to enable hermes on iOS, change `false` to `true` and then install pods
-    :hermes_enabled => false
-  )
+  use_frameworks! :linkage => :static
+  $RNFirebaseAsStaticFramework = true
 
   # react-native-safe-area dependency.
   pod 'react-native-safe-area', :path => '../node_modules/react-native-safe-area'
 
+  # react-native-fbsdk-next dependency.
+  pod 'react-native-fbsdk-next', :path => '../node_modules/react-native-fbsdk-next'
+
   # react-native-webview dependency.
   pod 'react-native-webview', :path => '../node_modules/react-native-webview'
-
-  # react-native-mapbox-gl dependency.
-  pod 'react-native-mapbox-gl', :path => '../node_modules/@react-native-mapbox-gl/maps'
 
   # react-native-mbtiles dependency.
   # This is required, as otherwise the swift pod will not be able to work correctly.
   pod "GCDWebServer", "~> 3.0", :modular_headers => true
 
+  use_react_native!(
+    :path => config[:reactNativePath],
+    :hermes_enabled => true,
+    # Enables Flipper.
+    #
+    # Note that if you have use_frameworks! enabled, Flipper will not work and
+    # you should disable the next line.
+    # :flipper_configuration => flipper_config,
+    # An absolute path to your application root.
+    :app_path => "#{Pod::Config.instance.installation_root}/.."
+  )
+
   pre_install do |installer|
     $RNMBGL.pre_install(installer)
   end
 
-  # Enables Flipper.
-  #
-  # Note that if you have use_frameworks! enabled, Flipper will not work and
-  # you should disable these next few lines.
-  use_flipper!({ 'Flipper-Folly' => '2.5.3', 'Flipper' => '0.87.0', 'Flipper-RSocket' => '1.3.1' })
   post_install do |installer|
     $RNMBGL.post_install(installer)
-    react_native_post_install(installer)
-    __apply_Xcode_12_5_M1_post_install_workaround(installer)
+    
+    # https://github.com/facebook/react-native/blob/main/packages/react-native/scripts/react_native_pods.rb#L197-L202
+    react_native_post_install(
+      installer,
+      config[:reactNativePath],
+      :mac_catalyst_enabled => false
+    )
 
-    # magic post-install script that'll fix up some broken dependencies.
-    installer.pods_project.targets.each do |target|
+    
 
-      # If the target's name is React or yoga, remove it from the project.
-      # This means that the pods which don't correctly add header search paths still get their search paths,
-      # while also ensuring that we don't have duplicated targets.
-
-      # NOTE: This can probably be removed at the next React Native upgrade,
-      # when these modules are only being linked in this file & not in Xcode.
-      targets_to_ignore = %w(React yoga)
-
-      if targets_to_ignore.include? target.name
-        target.remove_from_project
+    # Fix for M1 macs loading mapbox dylib as x86
+    projects = installer.aggregate_targets
+    .map{ |t| t.user_project }
+    .uniq{ |p| p.path }
+    .push(installer.pods_project)
+    
+    projects.each do |project|
+      project.build_configurations.each do |config|
+        config.build_settings['EXCLUDED_ARCHS[sdk=iphonesimulator*]'] = 'arm64'
       end
+      project.save()
+    end
 
-    # Set some magic build settings on each of the remaining targets to silence warnings.
-      target.build_configurations.each do |config|
-        config.build_settings['CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF'] = 'NO'
-        config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '10.0'
+    # This is necessary for Xcode 14, because it signs resource bundles by default
+    # when building for devices.
+    installer.target_installation_results.pod_target_installation_results
+      .each do |pod_name, target_installation_result|
+      target_installation_result.resource_bundle_targets.each do |resource_bundle_target|
+        resource_bundle_target.build_configurations.each do |config|
+          config.build_settings['CODE_SIGNING_ALLOWED'] = 'NO'
+        end
+      end
+    end
+
+    # installer.pods_project.targets.each do |target|
+    #   # If the target's name is React or yoga, remove it from the project.
+    #   # This means that the pods which don't correctly add header search paths still get their search paths,
+    #   # while also ensuring that we don't have duplicated targets.
+
+    #   # NOTE: This can probably be removed at the next React Native upgrade,
+    #   # when these modules are only being linked in this file & not in Xcode.
+    #   targets_to_ignore = %w(React yoga)
+
+    #   if targets_to_ignore.include? target.name
+    #     target.remove_from_project
+    #   end
+    # end   
+    
+    # Strip bitcode from Mapbox frameworks because Xcode 16.0.1 is not able to compile them
+    installer.pods_project.targets.each do |target|
+      if target.name == 'Mapbox-iOS-SDK'
+        `xcrun -sdk iphoneos bitcode_strip -r Pods/Mapbox-iOS-SDK/dynamic/Mapbox.framework/Mapbox -o Pods/Mapbox-iOS-SDK/dynamic/Mapbox.framework/Mapbox`
       end
     end
   end

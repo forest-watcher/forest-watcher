@@ -1,9 +1,12 @@
 // @flow
+import type { LogoutRequest } from './user.types';
 import type { Coordinates } from 'types/common.types';
 
 export type RouteState = {
   activeRoute: ?Route,
-  previousRoutes: Array<Route>
+  previousRoutes: Array<Route>,
+  syncing: ?boolean,
+  synced: ?boolean
 };
 
 // eslint-disable-next-line import/no-unused-modules
@@ -21,7 +24,10 @@ export type Route = {
   difficulty: RouteDifficulty,
   destination: Coordinates,
   locations: Array<LocationPoint>,
-  isImported?: true
+  isImported?: true,
+  routeId?: string,
+  status?: 'draft' | 'completed' | 'uploaded',
+  teamId?: ?string
 };
 
 export type LocationPoint = {
@@ -43,7 +49,17 @@ export type RouteAction =
   | UpdateActiveRoute
   | UpdateSavedRoute
   | DiscardActiveRoute
-  | ImportRoute;
+  | ImportRoute
+  | UploadRouteRequest
+  | UploadRouteCommit
+  | UploadRouteRollback
+  | FetchRoutesRequest
+  | FetchRoutesCommit
+  | FetchRoutesRollback
+  | DeleteRouteRequest
+  | DeleteRouteCommit
+  | DeleteRouteRollback
+  | LogoutRequest;
 
 type UpdateActiveRoute = {
   type: 'routes/UPDATE_ACTIVE_ROUTE',
@@ -54,3 +70,15 @@ type FinishAndSaveRoute = { type: 'routes/FINISH_AND_SAVE_ROUTE' };
 type DeleteRouteAction = { type: 'routes/DELETE_ROUTE', payload: RouteDeletionCriteria };
 type DiscardActiveRoute = { type: 'routes/DISCARD_ACTIVE_ROUTE' };
 type ImportRoute = { type: 'routes/IMPORT_ROUTE', payload: Route };
+
+type UploadRouteRequest = { type: 'routes/UPLOAD_ROUTE_REQUEST', meta: { offline: any } };
+type UploadRouteCommit = { type: 'routes/UPLOAD_ROUTE_COMMIT', meta: { routes: Array<Route> } };
+type UploadRouteRollback = { type: 'routes/UPLOAD_ROUTE_ROLLBACK' };
+
+type FetchRoutesRequest = { type: 'routes/FETCH_ROUTES_REQUEST', meta: { offline: any } };
+type FetchRoutesCommit = { type: 'routes/FETCH_ROUTES_COMMIT', payload: Array<Route> };
+type FetchRoutesRollback = { type: 'routes/FETCH_ROUTES_ROLLBACK' };
+
+type DeleteRouteRequest = { type: 'routes/DELETE_ROUTE_REQUEST', meta: { offline: any } };
+type DeleteRouteCommit = { type: 'routes/DELETE_ROUTE_COMMIT' };
+type DeleteRouteRollback = { type: 'routes/DELETE_ROUTE_ROLLBACK' };

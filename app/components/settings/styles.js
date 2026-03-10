@@ -20,6 +20,10 @@ export default StyleSheet.create({
   label: {
     ...Theme.sectionHeaderText
   },
+  accountLabel: {
+    ...Theme.sectionHeaderText,
+    marginTop: 28
+  },
   noMarginsRow: {
     marginBottom: 0
   },
@@ -28,6 +32,9 @@ export default StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     flex: 1
+  },
+  userDetailRow: {
+    marginBottom: 12
   },
   row: {
     flexDirection: 'row',
@@ -39,30 +46,32 @@ export default StyleSheet.create({
     marginRight: 26
   },
   info: {
-    width: '66%'
+    flex: 1,
+    marginEnd: 8
   },
   name: {
-    height: 22,
     fontFamily: Theme.font,
     color: Theme.fontColors.secondary,
-    fontSize: 17,
+    fontSize: 16,
     fontWeight: '400'
   },
   email: {
-    height: 24,
     fontFamily: Theme.font,
-    color: Theme.fontColors.light,
-    fontSize: 17,
+    color: Theme.fontColors.secondary,
+    fontSize: 12,
     fontWeight: '400',
-    fontStyle: 'italic'
+    marginTop: 4
   },
   completeProfile: {
-    width: 180,
     fontFamily: Theme.font,
     color: Theme.fontColors.light,
-    fontSize: 17,
+    fontSize: 16,
     fontWeight: '400',
-    fontStyle: 'italic'
+    lineHeight: 24
+  },
+  linkContainer: {
+    flex: 1,
+    flexDirection: 'row'
   },
   logout: {
     height: 24,
@@ -74,8 +83,7 @@ export default StyleSheet.create({
     marginRight: 10
   },
   offlineMode: {
-    width: Theme.screen.width,
-    marginTop: 30
+    width: Theme.screen.width
   },
   areas: {
     marginTop: 30
@@ -185,5 +193,12 @@ export default StyleSheet.create({
   rowLabel: {
     ...Theme.tableRowText,
     flex: 1
+  },
+  rowSubText: {
+    ...Theme.tableRowText,
+    fontSize: 12,
+    lineHeight: 16,
+    opacity: 0.8,
+    marginTop: 4
   }
 });

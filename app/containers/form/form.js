@@ -23,7 +23,7 @@ const mapStateToProps = (state: State, ownProps: OwnProps) => {
   const { answers = [] } = state.reports.list[reportName] || {};
   const template =
     state.reports.list[reportName]?.template ||
-    state.reports.templates[(ownProps.template?.id)] ||
+    state.reports.templates[ownProps.template?.id] ||
     state.reports.templates['default'];
   const { questions = [] } = template;
 
@@ -35,7 +35,8 @@ const mapStateToProps = (state: State, ownProps: OwnProps) => {
   };
   const answer = answers.find(a => a.questionName === question.name) || defaultAnswer;
   const nextStep = getNextStep({ currentQuestion: questionIndex, questions, answers });
-  const questionAnswered = isQuestionAnswered(answer);
+
+  const questionAnswered = isQuestionAnswered(answer, question);
   const text =
     questionAnswered || !question.required
       ? editMode
@@ -45,6 +46,7 @@ const mapStateToProps = (state: State, ownProps: OwnProps) => {
 
   const nextQuestionAnswer = answers.find(ans => ans.questionName === (nextStep && questions[nextStep].name));
   const nextQuestionIndex = typeof nextQuestionAnswer !== 'undefined' && editMode ? null : nextStep;
+
   // Necessary for `blob` until we have the "cache" selection ready
   // because the image won't change the path on the report
   // but we don't want to clear following answers
@@ -68,7 +70,4 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
   );
 
 type PassedProps = ComponentProps<OwnProps, typeof mapStateToProps, typeof mapDispatchToProps>;
-export default connect<PassedProps, OwnProps, _, _, State, Dispatch>(
-  mapStateToProps,
-  mapDispatchToProps
-)(ReportForm);
+export default connect<PassedProps, OwnProps, _, _, State, Dispatch>(mapStateToProps, mapDispatchToProps)(ReportForm);

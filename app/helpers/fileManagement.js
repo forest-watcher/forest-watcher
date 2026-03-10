@@ -7,13 +7,13 @@ const RNFS = require('react-native-fs');
 global.Buffer = global.Buffer || require('buffer').Buffer; // eslint-disable-line
 
 if (typeof btoa === 'undefined') {
-  global.btoa = function(str) {
+  global.btoa = function (str) {
     return new Buffer(str).toString('base64');
   };
 }
 
 if (typeof atob === 'undefined') {
-  global.atob = function(b64Encoded) {
+  global.atob = function (b64Encoded) {
     return new Buffer(b64Encoded, 'base64').toString();
   };
 }
@@ -131,10 +131,7 @@ export async function readTextFile(path: string): Promise<string> {
  * On Android this function will work with both content:// and file:// URIs
  */
 export async function writeFileWithReplacement(sourceUri: string, destinationUri: string, method: 'copy' | 'move') {
-  const destinationPath = destinationUri
-    .split('/')
-    .slice(0, -1)
-    .join('/');
+  const destinationPath = destinationUri.split('/').slice(0, -1).join('/');
 
   const decodedSourceUri = Platform.OS === 'android' ? sourceUri : decodeURI(sourceUri);
 

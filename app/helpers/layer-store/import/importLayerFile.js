@@ -66,10 +66,7 @@ function getFormattedFile(layerFile: File) {
   });
 
   // Set these up as constants
-  const fileExtension = fileName
-    .split('.')
-    .pop()
-    .toLowerCase();
+  const fileExtension = fileName.split('.').pop().toLowerCase();
 
   return { file, fileName, fileExtension };
 }

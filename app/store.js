@@ -29,15 +29,22 @@ if (__DEV__) {
 const sagaMonitor = __DEV__ && Reactotron.createSagaMonitor();
 const sagaMiddleware = createSagaMiddleware({ sagaMonitor });
 
-const authMiddleware = ({ getState }) => next => action =>
-  action && action.type && action.type.endsWith('REQUEST')
-    ? next({ ...action, auth: getState().user.token })
-    : next(action);
+const authMiddleware =
+  ({ getState }) =>
+  next =>
+  action =>
+    action && action.type && action.type.endsWith('REQUEST')
+      ? next({ ...action, auth: getState().user.token })
+      : next(action);
 
 const middlewareList = [thunk, authMiddleware, sagaMiddleware];
 
 function createAppStore(startApp) {
-  const { middleware: offlineMiddleware, enhanceReducer, enhanceStore } = offline({
+  const {
+    middleware: offlineMiddleware,
+    enhanceReducer,
+    enhanceStore
+  } = offline({
     persistCallback: startApp
   });
   const middleware = applyMiddleware(...middlewareList, offlineMiddleware, offlineChain);
@@ -45,7 +52,12 @@ function createAppStore(startApp) {
   if (__DEV__) {
     storeEnhancers.push(Reactotron.createEnhancer());
   }
-  return createStore(enhanceReducer(combinedReducer), compose(...storeEnhancers));
+  let composeEnhancers = compose;
+
+  if (__DEV__) {
+    composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+  }
+  return createStore(enhanceReducer(combinedReducer), composeEnhancers(...storeEnhancers));
 }
 
 createAppStore.runSagas = () => sagaMiddleware.run(rootSaga);
