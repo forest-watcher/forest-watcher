@@ -12,13 +12,13 @@ import ImageCarousel from 'components/common/image-carousel';
 import withDraft from './withDraft';
 import styles from './styles';
 import displayExportReportDialog from 'helpers/sharing/displayExportReportDialog';
-import { pathForReportQuestionAttachment } from 'helpers/report-store/reportFilePaths';
 import { toFileUri } from 'helpers/fileURI';
 import { trackReportingConcluded } from 'helpers/analytics';
 import { isBlobResponse } from 'helpers/forms';
 
 const deleteIcon = require('assets/delete_red.png');
 const exportIcon = require('assets/upload.png');
+import { deleteReportFile, listAnswerAttachments } from '../../helpers/report-store/reportFilePaths';
 
 type Props = {
   componentId: string,
@@ -42,7 +42,9 @@ type Image = {
   name: string,
   order: number,
   required: boolean,
-  uri: any
+  uri: any,
+  index: number,
+  answer: Answer
 };
 
 const closeIcon = require('assets/close.png');
@@ -158,14 +160,23 @@ class Answers extends PureComponent<Props> {
 
   onDeleteImage = (id, questionName, images: Array<Image>) => {
     const image: ?Image = images.find(i => i.id === id);
+    if (!image) {
+      return;
+    }
     const { setReportAnswer } = this.props;
-    const answer = {
-      questionName,
-      value: ''
-    };
-    setReportAnswer(answer, true);
-    if (image?.required) {
-      this.onEdit(image?.order);
+    const found = images.findIndex(x => x.index === image.index) ?? -1;
+    deleteReportFile(this.props.reportName, image.answer.questionName, 'image/jpeg', image.index);
+    if (found >= 0) {
+      const newList = image.answer.value;
+      newList.splice(found, 1);
+      const answer = {
+        questionName,
+        value: newList
+      };
+      setReportAnswer(answer, true);
+      if (image.required && newList.length === 0) {
+        this.onEdit(image?.order);
+      }
     }
   };
 
@@ -179,14 +190,27 @@ class Answers extends PureComponent<Props> {
   render() {
     const { results, readOnly, metadata } = this.props;
     const regularAnswers = results.filter(({ question }) => question.type !== 'blob');
+    const images = [];
+    results.filter(isBlobResponse).forEach((image, index) => {
+      const attachments = listAnswerAttachments(
+        this.props.reportName,
+        image.question.name,
+        'image/jpeg',
+        image.answer.value
+      );
 
-    const images = results.filter(isBlobResponse).map((image, index) => ({
-      id: image.question.Id,
-      uri: toFileUri(pathForReportQuestionAttachment(this.props.reportName, image.question.name, 'image/jpeg')),
-      name: image.question.name,
-      order: image.question.order,
-      required: image.question.required
-    }));
+      attachments.forEach((path, index) => {
+        images.push({
+          id: `${image.question.name}-${image.answer.value[index].index}`,
+          uri: toFileUri(path),
+          name: image.question.name,
+          order: image.question.order,
+          required: image.question.required,
+          index: image.answer.value[index].index,
+          answer: image.answer
+        });
+      });
+    });
     const imageActions = !readOnly
       ? [
           {

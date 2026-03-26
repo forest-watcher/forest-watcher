@@ -7,7 +7,7 @@ import { Platform } from 'react-native';
 import RNFetchBlob from 'rn-fetch-blob';
 
 import { showNotConnectedNotification, showExportReportsSuccessfulNotification } from 'redux-modules/app';
-import { saveReport, uploadReport, deleteReport, setReportAnswer } from 'redux-modules/reports';
+import { saveReport, uploadReport, deleteReport, setReportAnswer, setAsUploaded } from 'redux-modules/reports';
 
 import { shouldBeConnected } from 'helpers/app';
 import { trackSharedContent } from 'helpers/analytics';
@@ -74,6 +74,7 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
     },
     showExportReportsSuccessfulNotification: () => {
       dispatch(showExportReportsSuccessfulNotification());
+      dispatch(setAsUploaded([ownProps.reportName]));
     },
     showNotConnectedNotification: () => {
       dispatch(showNotConnectedNotification());

@@ -12,7 +12,7 @@ import i18n from 'i18next';
 import { trackAreaCreationFlowStarted, trackScreenView } from 'helpers/analytics';
 import debounceUI from 'helpers/debounceUI';
 import styles from './styles';
-import { launchAppRoot, showWelcomeScreen } from 'screens/common';
+import { launchAppRoot } from 'screens/common';
 import { pushMapSetupScreen } from 'screens/maps';
 
 const SafeAreaView = withSafeArea(View, 'margin', 'bottom');
@@ -22,9 +22,6 @@ class SetupCountry extends Component {
   static options(passProps) {
     return {
       topBar: {
-        background: {
-          color: Theme.colors.veryLightPink
-        },
         leftButtons: passProps.goBackDisabled
           ? [
               {
@@ -34,6 +31,17 @@ class SetupCountry extends Component {
               }
             ]
           : undefined,
+        rightButtons: passProps.skipAvailable && [
+          {
+            id: 'skip',
+            text: i18n.t('commonText.skip'),
+            fontSize: 16,
+            fontFamily: Theme.font,
+            allCaps: false,
+            color: Theme.colors.turtleGreen,
+            backgroundColor: Theme.background.main
+          }
+        ],
         title: {
           text: i18n.t('commonText.setup')
         }
@@ -49,28 +57,21 @@ class SetupCountry extends Component {
   componentDidMount() {
     trackAreaCreationFlowStarted();
     trackScreenView('Set Up - Select Country');
-    this.showWelcomeScreenIfNecessary();
-  }
-
-  componentDidAppear() {
-    // This is called both here and componentDidAppear because componentDidAppear isn't called when setting
-    // the app root using RNN
-    this.showWelcomeScreenIfNecessary();
   }
 
   navigationButtonPressed({ buttonId }) {
     if (buttonId === 'logout') {
       this.props.logout();
       launchAppRoot('ForestWatcher.Home');
+    } else if (buttonId === 'skip') {
+      Navigation.setStackRoot(this.props.componentId, {
+        component: {
+          id: 'ForestWatcher.Dashboard',
+          name: 'ForestWatcher.Dashboard'
+        }
+      });
     }
   }
-
-  showWelcomeScreenIfNecessary = debounceUI(() => {
-    if (!this.props.hasSeenWelcomeScreen) {
-      this.props.setWelcomeScreenSeen();
-      showWelcomeScreen();
-    }
-  });
 
   renderLoading() {
     return (
@@ -107,7 +108,7 @@ class SetupCountry extends Component {
       const currentCountry = this.getCurrentCountry(countries, user.country);
       this.props.setSetupCountry(currentCountry);
     }
-    pushMapSetupScreen(componentId);
+    pushMapSetupScreen(componentId, this.props.skipAvailable);
   });
 
   render() {
@@ -163,9 +164,8 @@ SetupCountry.propTypes = {
   countries: PropTypes.any,
   setAreaCountryTooltipSeen: PropTypes.func.isRequired,
   setSetupCountry: PropTypes.func.isRequired,
-  setWelcomeScreenSeen: PropTypes.func.isRequired,
-  hasSeenWelcomeScreen: PropTypes.bool.isRequired,
-  componentId: PropTypes.string.isRequired
+  componentId: PropTypes.string.isRequired,
+  skipAvailable: PropTypes.bool
 };
 
 export default SetupCountry;

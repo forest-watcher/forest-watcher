@@ -18,7 +18,6 @@ import FWError from 'helpers/fwError';
 import { formatCoordsByFormat, formatDistance, getDistanceOfLine } from 'helpers/map';
 
 const emitter = require('tiny-emitter/instance');
-import { showLocationPermissionsScreen } from '../screens/common';
 // Defines the type of error emitted by BackgroundGeolocation.
 export type GFWLocationError = BackgroundGeolocationError;
 
@@ -223,7 +222,6 @@ export async function startTrackingLocation(requiredPermission: number) {
     throw new FWError({ code: GFWErrorLocation, message: 'Location disabled' });
   }
 
-  console.log('Starting tracking?');
   if (result.authorization === GFWLocationUnauthorized) {
     const isResolved = Platform.OS === 'android' && (await requestAndroidLocationPermissions());
     // If location services are disabled and the authorization is explicitally denied, return an error.

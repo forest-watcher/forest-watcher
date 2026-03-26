@@ -10,15 +10,6 @@ import Theme from 'config/theme';
 import styles from './styles';
 
 class ContactUs extends Component<{}> {
-  static options(passProps: {}) {
-    return {
-      topBar: {
-        background: {
-          color: Theme.colors.veryLightPink
-        }
-      }
-    };
-  }
   componentDidMount() {
     trackScreenView('ContactUs');
   }

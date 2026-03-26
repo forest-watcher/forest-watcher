@@ -89,7 +89,7 @@ export function getAreaAlerts(area: Area, datasetSlug: string, apiConfig: AlertD
     area.geostore.id
   }&sql=select latitude, longitude, ${dateKey}${
     confidenceKey ? ', ' + confidenceKey : ''
-  } from ${tableName} where ${dateKey} > '${moment(minDate).format('YYYY-MM-DD')}'`;
+  } from ${tableName} where ${dateKey} >= '${moment(minDate).format('YYYY-MM-DD')}'`;
   if (requiresMaxDate) {
     url += ` and ${dateKey} < '${moment().format('YYYY-MM-DD')}'`;
   }
@@ -120,7 +120,15 @@ export function getAreaAlerts(area: Area, datasetSlug: string, apiConfig: AlertD
             }
           }
         },
-        rollback: { type: GET_ALERTS_ROLLBACK, meta: { alertId } }
+        rollback: {
+          type: GET_ALERTS_ROLLBACK,
+          meta: {
+            alertId,
+            then: payload => (dispatch, state) => {
+              dispatch(decreaseAppSynced());
+            }
+          }
+        }
       }
     }
   };

@@ -66,13 +66,3 @@ export type SetEmailLoginError = {
 export type ClearEmailLoginError = {
   type: 'user/CLEAR_EMAIL_LOGIN_ERROR'
 };
-export type DeleteAccountRequest = {
-  type: 'user/DELETE_ACCOUNT_REQUEST',
-  meta: any
-};
-export type DeleteAccountCommit = {
-  type: 'user/DELETE_ACCOUNT_COMMIT'
-};
-export type DeleteAccountRollback = {
-  type: 'user/DELETE_ACCOUNT_ROLLBACK'
-};

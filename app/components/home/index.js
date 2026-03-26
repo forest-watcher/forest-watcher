@@ -54,7 +54,8 @@ class Home extends Component<Props> {
             component: {
               name: 'ForestWatcher.CreateArea',
               passProps: {
-                goBackDisabled: true
+                goBackDisabled: true,
+                skipAvailable: true
               }
             }
           });

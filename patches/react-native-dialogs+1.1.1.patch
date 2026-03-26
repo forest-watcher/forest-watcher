@@ -1,0 +1,1169 @@
+diff --git a/node_modules/react-native-dialogs/android/build/generated/source/buildConfig/debug/com/aakashns/reactnativedialogs/BuildConfig.java b/node_modules/react-native-dialogs/android/build/generated/source/buildConfig/debug/com/aakashns/reactnativedialogs/BuildConfig.java
+new file mode 100644
+index 0000000..ab7ba3f
+--- /dev/null
++++ b/node_modules/react-native-dialogs/android/build/generated/source/buildConfig/debug/com/aakashns/reactnativedialogs/BuildConfig.java
+@@ -0,0 +1,10 @@
++/**
++ * Automatically generated file. DO NOT MODIFY
++ */
++package com.aakashns.reactnativedialogs;
++
++public final class BuildConfig {
++  public static final boolean DEBUG = Boolean.parseBoolean("true");
++  public static final String LIBRARY_PACKAGE_NAME = "com.aakashns.reactnativedialogs";
++  public static final String BUILD_TYPE = "debug";
++}
+diff --git a/node_modules/react-native-dialogs/android/build/intermediates/aapt_friendly_merged_manifests/debug/aapt/AndroidManifest.xml b/node_modules/react-native-dialogs/android/build/intermediates/aapt_friendly_merged_manifests/debug/aapt/AndroidManifest.xml
+new file mode 100644
+index 0000000..dc4d64f
+--- /dev/null
++++ b/node_modules/react-native-dialogs/android/build/intermediates/aapt_friendly_merged_manifests/debug/aapt/AndroidManifest.xml
+@@ -0,0 +1,10 @@
++<?xml version="1.0" encoding="utf-8"?>
++<manifest xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:tools="http://schemas.android.com/tools"
++    package="com.aakashns.reactnativedialogs" >
++
++    <uses-sdk
++        android:minSdkVersion="16"
++        android:targetSdkVersion="33" />
++
++</manifest>
+\ No newline at end of file
+diff --git a/node_modules/react-native-dialogs/android/build/intermediates/aapt_friendly_merged_manifests/debug/aapt/output-metadata.json b/node_modules/react-native-dialogs/android/build/intermediates/aapt_friendly_merged_manifests/debug/aapt/output-metadata.json
+new file mode 100644
+index 0000000..9954219
+--- /dev/null
++++ b/node_modules/react-native-dialogs/android/build/intermediates/aapt_friendly_merged_manifests/debug/aapt/output-metadata.json
+@@ -0,0 +1,16 @@
++{
++  "version": 2,
++  "artifactType": {
++    "type": "AAPT_FRIENDLY_MERGED_MANIFESTS",
++    "kind": "Directory"
++  },
++  "applicationId": "com.aakashns.reactnativedialogs",
++  "variantName": "debug",
++  "elements": [
++    {
++      "type": "SINGLE",
++      "filters": [],
++      "outputFile": "AndroidManifest.xml"
++    }
++  ]
++}
+\ No newline at end of file
+diff --git a/node_modules/react-native-dialogs/android/build/intermediates/aar_metadata/debug/aar-metadata.properties b/node_modules/react-native-dialogs/android/build/intermediates/aar_metadata/debug/aar-metadata.properties
+new file mode 100644
+index 0000000..d8560bd
+--- /dev/null
++++ b/node_modules/react-native-dialogs/android/build/intermediates/aar_metadata/debug/aar-metadata.properties
+@@ -0,0 +1,2 @@
++aarFormatVersion=1.0
++aarMetadataVersion=1.0
+diff --git a/node_modules/react-native-dialogs/android/build/intermediates/annotation_processor_list/debug/annotationProcessors.json b/node_modules/react-native-dialogs/android/build/intermediates/annotation_processor_list/debug/annotationProcessors.json
+new file mode 100644
+index 0000000..9e26dfe
+--- /dev/null
++++ b/node_modules/react-native-dialogs/android/build/intermediates/annotation_processor_list/debug/annotationProcessors.json
+@@ -0,0 +1 @@
++{}
+\ No newline at end of file
+diff --git a/node_modules/react-native-dialogs/android/build/intermediates/compile_r_class_jar/debug/R.jar b/node_modules/react-native-dialogs/android/build/intermediates/compile_r_class_jar/debug/R.jar
+new file mode 100644
+index 0000000..deb2491
+Binary files /dev/null and b/node_modules/react-native-dialogs/android/build/intermediates/compile_r_class_jar/debug/R.jar differ
+diff --git a/node_modules/react-native-dialogs/android/build/intermediates/compile_symbol_list/debug/R.txt b/node_modules/react-native-dialogs/android/build/intermediates/compile_symbol_list/debug/R.txt
+new file mode 100644
+index 0000000..e69de29
+diff --git a/node_modules/react-native-dialogs/android/build/intermediates/incremental/mergeDebugShaders/merger.xml b/node_modules/react-native-dialogs/android/build/intermediates/incremental/mergeDebugShaders/merger.xml
+new file mode 100644
+index 0000000..a6a36db
+--- /dev/null
++++ b/node_modules/react-native-dialogs/android/build/intermediates/incremental/mergeDebugShaders/merger.xml
+@@ -0,0 +1,2 @@
++<?xml version="1.0" encoding="utf-8"?>
++<merger version="3"><dataSet config="main" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/alirezaee/Documents/projects/3sc/forest-watcher-mobile-client/node_modules/react-native-dialogs/android/src/main/shaders"/></dataSet><dataSet config="debug" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/alirezaee/Documents/projects/3sc/forest-watcher-mobile-client/node_modules/react-native-dialogs/android/src/debug/shaders"/></dataSet></merger>
+\ No newline at end of file
+diff --git a/node_modules/react-native-dialogs/android/build/intermediates/incremental/packageDebugAssets/merger.xml b/node_modules/react-native-dialogs/android/build/intermediates/incremental/packageDebugAssets/merger.xml
+new file mode 100644
+index 0000000..aaf56b2
+--- /dev/null
++++ b/node_modules/react-native-dialogs/android/build/intermediates/incremental/packageDebugAssets/merger.xml
+@@ -0,0 +1,2 @@
++<?xml version="1.0" encoding="utf-8"?>
++<merger version="3"><dataSet config="main" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/alirezaee/Documents/projects/3sc/forest-watcher-mobile-client/node_modules/react-native-dialogs/android/src/main/assets"/><source path="/Users/alirezaee/Documents/projects/3sc/forest-watcher-mobile-client/node_modules/react-native-dialogs/android/build/intermediates/shader_assets/debug/out"/></dataSet><dataSet config="debug" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/alirezaee/Documents/projects/3sc/forest-watcher-mobile-client/node_modules/react-native-dialogs/android/src/debug/assets"/></dataSet></merger>
+\ No newline at end of file
+diff --git a/node_modules/react-native-dialogs/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties b/node_modules/react-native-dialogs/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties
+new file mode 100644
+index 0000000..2366a1a
+--- /dev/null
++++ b/node_modules/react-native-dialogs/android/build/intermediates/incremental/packageDebugResources/compile-file-map.properties
+@@ -0,0 +1 @@
++#Tue Dec 13 13:26:07 GMT 2022
+diff --git a/node_modules/react-native-dialogs/android/build/intermediates/incremental/packageDebugResources/merger.xml b/node_modules/react-native-dialogs/android/build/intermediates/incremental/packageDebugResources/merger.xml
+new file mode 100644
+index 0000000..8a2480c
+--- /dev/null
++++ b/node_modules/react-native-dialogs/android/build/intermediates/incremental/packageDebugResources/merger.xml
+@@ -0,0 +1,2 @@
++<?xml version="1.0" encoding="utf-8"?>
++<merger version="3"><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="main$Generated" generated="true" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/alirezaee/Documents/projects/3sc/forest-watcher-mobile-client/node_modules/react-native-dialogs/android/src/main/res"/><source path="/Users/alirezaee/Documents/projects/3sc/forest-watcher-mobile-client/node_modules/react-native-dialogs/android/build/generated/res/rs/debug"/><source path="/Users/alirezaee/Documents/projects/3sc/forest-watcher-mobile-client/node_modules/react-native-dialogs/android/build/generated/res/resValues/debug"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="main" generated-set="main$Generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/alirezaee/Documents/projects/3sc/forest-watcher-mobile-client/node_modules/react-native-dialogs/android/src/main/res"/><source path="/Users/alirezaee/Documents/projects/3sc/forest-watcher-mobile-client/node_modules/react-native-dialogs/android/build/generated/res/rs/debug"/><source path="/Users/alirezaee/Documents/projects/3sc/forest-watcher-mobile-client/node_modules/react-native-dialogs/android/build/generated/res/resValues/debug"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="debug$Generated" generated="true" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/alirezaee/Documents/projects/3sc/forest-watcher-mobile-client/node_modules/react-native-dialogs/android/src/debug/res"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="debug" generated-set="debug$Generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/Users/alirezaee/Documents/projects/3sc/forest-watcher-mobile-client/node_modules/react-native-dialogs/android/src/debug/res"/></dataSet><mergedItems/></merger>
+\ No newline at end of file
+diff --git a/node_modules/react-native-dialogs/android/build/intermediates/javac/debug/classes/com/aakashns/reactnativedialogs/ReactNativeDialogsPackage.class b/node_modules/react-native-dialogs/android/build/intermediates/javac/debug/classes/com/aakashns/reactnativedialogs/ReactNativeDialogsPackage.class
+new file mode 100644
+index 0000000..145e84e
+Binary files /dev/null and b/node_modules/react-native-dialogs/android/build/intermediates/javac/debug/classes/com/aakashns/reactnativedialogs/ReactNativeDialogsPackage.class differ
+diff --git a/node_modules/react-native-dialogs/android/build/intermediates/local_only_symbol_list/debug/R-def.txt b/node_modules/react-native-dialogs/android/build/intermediates/local_only_symbol_list/debug/R-def.txt
+new file mode 100644
+index 0000000..78ac5b8
+--- /dev/null
++++ b/node_modules/react-native-dialogs/android/build/intermediates/local_only_symbol_list/debug/R-def.txt
+@@ -0,0 +1,2 @@
++R_DEF: Internal format may change without notice
++local
+diff --git a/node_modules/react-native-dialogs/android/build/intermediates/manifest_merge_blame_file/debug/manifest-merger-blame-debug-report.txt b/node_modules/react-native-dialogs/android/build/intermediates/manifest_merge_blame_file/debug/manifest-merger-blame-debug-report.txt
+new file mode 100644
+index 0000000..92ac7cd
+--- /dev/null
++++ b/node_modules/react-native-dialogs/android/build/intermediates/manifest_merge_blame_file/debug/manifest-merger-blame-debug-report.txt
+@@ -0,0 +1,12 @@
++1<?xml version="1.0" encoding="utf-8"?>
++2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
++3    xmlns:tools="http://schemas.android.com/tools"
++4    package="com.aakashns.reactnativedialogs" >
++5
++6    <uses-sdk
++7        android:minSdkVersion="16"
++7-->/Users/alirezaee/Documents/projects/3sc/forest-watcher-mobile-client/node_modules/react-native-dialogs/android/src/main/AndroidManifest.xml
++8        android:targetSdkVersion="33" />
++8-->/Users/alirezaee/Documents/projects/3sc/forest-watcher-mobile-client/node_modules/react-native-dialogs/android/src/main/AndroidManifest.xml
++9
++10</manifest>
+diff --git a/node_modules/react-native-dialogs/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml b/node_modules/react-native-dialogs/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml
+new file mode 100644
+index 0000000..dc4d64f
+--- /dev/null
++++ b/node_modules/react-native-dialogs/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml
+@@ -0,0 +1,10 @@
++<?xml version="1.0" encoding="utf-8"?>
++<manifest xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:tools="http://schemas.android.com/tools"
++    package="com.aakashns.reactnativedialogs" >
++
++    <uses-sdk
++        android:minSdkVersion="16"
++        android:targetSdkVersion="33" />
++
++</manifest>
+\ No newline at end of file
+diff --git a/node_modules/react-native-dialogs/android/build/intermediates/navigation_json/debug/navigation.json b/node_modules/react-native-dialogs/android/build/intermediates/navigation_json/debug/navigation.json
+new file mode 100644
+index 0000000..0637a08
+--- /dev/null
++++ b/node_modules/react-native-dialogs/android/build/intermediates/navigation_json/debug/navigation.json
+@@ -0,0 +1 @@
++[]
+\ No newline at end of file
+diff --git a/node_modules/react-native-dialogs/android/build/intermediates/packaged_manifests/debug/output-metadata.json b/node_modules/react-native-dialogs/android/build/intermediates/packaged_manifests/debug/output-metadata.json
+new file mode 100644
+index 0000000..e101941
+--- /dev/null
++++ b/node_modules/react-native-dialogs/android/build/intermediates/packaged_manifests/debug/output-metadata.json
+@@ -0,0 +1,16 @@
++{
++  "version": 2,
++  "artifactType": {
++    "type": "PACKAGED_MANIFESTS",
++    "kind": "Directory"
++  },
++  "applicationId": "com.aakashns.reactnativedialogs",
++  "variantName": "debug",
++  "elements": [
++    {
++      "type": "SINGLE",
++      "filters": [],
++      "outputFile": "../../merged_manifest/debug/AndroidManifest.xml"
++    }
++  ]
++}
+\ No newline at end of file
+diff --git a/node_modules/react-native-dialogs/android/build/intermediates/symbol_list_with_package_name/debug/package-aware-r.txt b/node_modules/react-native-dialogs/android/build/intermediates/symbol_list_with_package_name/debug/package-aware-r.txt
+new file mode 100644
+index 0000000..3b08f30
+--- /dev/null
++++ b/node_modules/react-native-dialogs/android/build/intermediates/symbol_list_with_package_name/debug/package-aware-r.txt
+@@ -0,0 +1 @@
++com.aakashns.reactnativedialogs
+diff --git a/node_modules/react-native-dialogs/android/build/outputs/logs/manifest-merger-debug-report.txt b/node_modules/react-native-dialogs/android/build/outputs/logs/manifest-merger-debug-report.txt
+new file mode 100644
+index 0000000..aa0ea05
+--- /dev/null
++++ b/node_modules/react-native-dialogs/android/build/outputs/logs/manifest-merger-debug-report.txt
+@@ -0,0 +1,27 @@
++-- Merging decision tree log ---
++manifest
++ADDED from /Users/alirezaee/Documents/projects/3sc/forest-watcher-mobile-client/node_modules/react-native-dialogs/android/src/main/AndroidManifest.xml:1:1-5:12
++INJECTED from /Users/alirezaee/Documents/projects/3sc/forest-watcher-mobile-client/node_modules/react-native-dialogs/android/src/main/AndroidManifest.xml:1:1-5:12
++INJECTED from /Users/alirezaee/Documents/projects/3sc/forest-watcher-mobile-client/node_modules/react-native-dialogs/android/src/main/AndroidManifest.xml:1:1-5:12
++	package
++		ADDED from /Users/alirezaee/Documents/projects/3sc/forest-watcher-mobile-client/node_modules/react-native-dialogs/android/src/main/AndroidManifest.xml:3:5-46
++		INJECTED from /Users/alirezaee/Documents/projects/3sc/forest-watcher-mobile-client/node_modules/react-native-dialogs/android/src/main/AndroidManifest.xml
++		INJECTED from /Users/alirezaee/Documents/projects/3sc/forest-watcher-mobile-client/node_modules/react-native-dialogs/android/src/main/AndroidManifest.xml
++	xmlns:tools
++		ADDED from /Users/alirezaee/Documents/projects/3sc/forest-watcher-mobile-client/node_modules/react-native-dialogs/android/src/main/AndroidManifest.xml:2:5-51
++	xmlns:android
++		ADDED from /Users/alirezaee/Documents/projects/3sc/forest-watcher-mobile-client/node_modules/react-native-dialogs/android/src/main/AndroidManifest.xml:1:1-5:12
++uses-sdk
++INJECTED from /Users/alirezaee/Documents/projects/3sc/forest-watcher-mobile-client/node_modules/react-native-dialogs/android/src/main/AndroidManifest.xml reason: use-sdk injection requested
++INJECTED from /Users/alirezaee/Documents/projects/3sc/forest-watcher-mobile-client/node_modules/react-native-dialogs/android/src/main/AndroidManifest.xml
++INJECTED from /Users/alirezaee/Documents/projects/3sc/forest-watcher-mobile-client/node_modules/react-native-dialogs/android/src/main/AndroidManifest.xml
++INJECTED from /Users/alirezaee/Documents/projects/3sc/forest-watcher-mobile-client/node_modules/react-native-dialogs/android/src/main/AndroidManifest.xml
++INJECTED from /Users/alirezaee/Documents/projects/3sc/forest-watcher-mobile-client/node_modules/react-native-dialogs/android/src/main/AndroidManifest.xml
++	android:targetSdkVersion
++		INJECTED from /Users/alirezaee/Documents/projects/3sc/forest-watcher-mobile-client/node_modules/react-native-dialogs/android/src/main/AndroidManifest.xml
++		ADDED from /Users/alirezaee/Documents/projects/3sc/forest-watcher-mobile-client/node_modules/react-native-dialogs/android/src/main/AndroidManifest.xml
++		INJECTED from /Users/alirezaee/Documents/projects/3sc/forest-watcher-mobile-client/node_modules/react-native-dialogs/android/src/main/AndroidManifest.xml
++	android:minSdkVersion
++		INJECTED from /Users/alirezaee/Documents/projects/3sc/forest-watcher-mobile-client/node_modules/react-native-dialogs/android/src/main/AndroidManifest.xml
++		ADDED from /Users/alirezaee/Documents/projects/3sc/forest-watcher-mobile-client/node_modules/react-native-dialogs/android/src/main/AndroidManifest.xml
++		INJECTED from /Users/alirezaee/Documents/projects/3sc/forest-watcher-mobile-client/node_modules/react-native-dialogs/android/src/main/AndroidManifest.xml
+diff --git a/node_modules/react-native-dialogs/android/src/main/java/com/aakashns/reactnativedialogs/modules/DialogAndroid.java b/node_modules/react-native-dialogs/android/src/main/java/com/aakashns/reactnativedialogs/modules/DialogAndroid.java
+index 24fa0b4..3cfa957 100644
+--- a/node_modules/react-native-dialogs/android/src/main/java/com/aakashns/reactnativedialogs/modules/DialogAndroid.java
++++ b/node_modules/react-native-dialogs/android/src/main/java/com/aakashns/reactnativedialogs/modules/DialogAndroid.java
+@@ -9,7 +9,6 @@ import android.view.View;
+ import android.os.Build;
+ import android.view.WindowManager;
+ 
+-import com.aakashns.reactnativedialogs.R;
+ import com.afollestad.materialdialogs.DialogAction;
+ import com.afollestad.materialdialogs.GravityEnum;
+ import com.afollestad.materialdialogs.MaterialDialog;
+@@ -31,489 +30,495 @@ import java.lang.reflect.InvocationTargetException;
+ @ReactModule(name = DialogAndroid.NAME)
+ public class DialogAndroid extends ReactContextBaseJavaModule {
+ 
+-    public static final String NAME = "DialogAndroid";
+-
+-    @Override
+-    public String getName() {
+-        return NAME;
++  public static final String NAME = "DialogAndroid";
++
++  @Override
++  public String getName() {
++    return NAME;
++  }
++
++  public DialogAndroid(ReactApplicationContext reactContext) {
++    super(reactContext);
++  }
++
++  /* Apply the options to the provided builder */
++  private MaterialDialog.Builder applyOptions(MaterialDialog.Builder builder, ReadableMap options)
++      throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
++    ReadableMapKeySetIterator iterator = options.keySetIterator();
++    while (iterator.hasNextKey()) {
++      String key = iterator.nextKey();
++
++      switch (key) {
++        case "title":
++          builder.title(options.getString("title"));
++          break;
++        case "content":
++          if (options.hasKey("contentIsHtml") && options.getBoolean("contentIsHtml")) {
++            // // i have no idea how to get this to work, it seems its all api level 24
++            // stuff
++            // // requires buildToolsVersion >= "24.0.1"
++            // if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
++            // builder.content(Html.fromHtml(options.getString("content"),
++            // Html.FROM_HTML_MODE_LEGACY | Html.FROM_HTML_MODE_COMPACT));
++            // } else {
++            // builder.content(Html.fromHtml(options.getString("content"),
++            // Html.FROM_HTML_MODE_COMPACT));
++            // }
++            builder.content(Html.fromHtml(options.getString("content")));
++          } else {
++            builder.content(options.getString("content"));
++          }
++          break;
++        case "positiveText":
++          builder.positiveText(options.getString("positiveText"));
++          break;
++        case "positiveColor":
++          builder.positiveColor(options.getInt("positiveColor"));
++          break;
++        case "negativeText":
++          builder.negativeText(options.getString("negativeText"));
++          break;
++        case "negativeColor":
++          builder.negativeColor(options.getInt("negativeColor"));
++          break;
++        case "neutralText":
++          builder.neutralText(options.getString("neutralText"));
++          break;
++        case "neutralColor":
++          builder.neutralColor(options.getInt("neutralColor"));
++          break;
++        case "titleColor":
++          builder.titleColor(options.getInt("titleColor"));
++          break;
++        case "widgetColor":
++          builder.widgetColor(options.getInt("widgetColor"));
++          break;
++        case "linkColor":
++          builder.linkColor(options.getInt("linkColor"));
++          break;
++        case "contentColor":
++          builder.contentColor(options.getInt("contentColor"));
++          break;
++        case "backgroundColor":
++          builder.backgroundColor(options.getInt("backgroundColor"));
++          break;
++        case "items":
++          ReadableArray arr = options.getArray("items");
++          String[] items = new String[arr.size()];
++          for (int i = 0; i < arr.size(); i++) {
++            items[i] = arr.getString(i);
++          }
++          builder.items(items);
++          break;
++        case "autoDismiss":
++          builder.autoDismiss(options.getBoolean("autoDismiss"));
++          break;
++        case "forceStacking":
++          builder.stackingBehavior(
++              options.getBoolean("forceStacking") ? StackingBehavior.ALWAYS : StackingBehavior.ADAPTIVE);
++          break;
++        case "alwaysCallSingleChoiceCallback":
++          if (options.getBoolean("alwaysCallSingleChoiceCallback")) {
++            builder.alwaysCallSingleChoiceCallback();
++          }
++          break;
++        case "alwaysCallMultiChoiceCallback":
++          if (options.getBoolean("alwaysCallMultiChoiceCallback")) {
++            builder.alwaysCallMultiChoiceCallback();
++          }
++          break;
++        case "alwaysCallInputCallback":
++          if (options.getBoolean("alwaysCallInputCallback")) {
++            builder.alwaysCallInputCallback();
++          }
++          break;
++        case "cancelable":
++          builder.cancelable(options.getBoolean("cancelable"));
++          break;
++        case "progressIndeterminateStyle": // true for horizontal, DO NOT USE
++          builder.progressIndeterminateStyle(options.getBoolean("progressIndeterminateStyle"));
++          break;
++        case "buttonsGravity":
++          String bg = options.getString("buttonsGravity");
++          if (bg.equals("start"))
++            builder.buttonsGravity(GravityEnum.START);
++          else if (bg.equals("end"))
++            builder.buttonsGravity(GravityEnum.END);
++          else
++            builder.buttonsGravity(GravityEnum.CENTER);
++          break;
++        case "itemsGravity":
++          String ig = options.getString("itemsGravity");
++          if (ig.equals("start"))
++            builder.itemsGravity(GravityEnum.START);
++          else if (ig.equals("end"))
++            builder.itemsGravity(GravityEnum.END);
++          else
++            builder.itemsGravity(GravityEnum.CENTER);
++          break;
++        case "titleGravity":
++          String tg = options.getString("titleGravity");
++          if (tg.equals("start"))
++            builder.titleGravity(GravityEnum.START);
++          else if (tg.equals("end"))
++            builder.titleGravity(GravityEnum.END);
++          else
++            builder.titleGravity(GravityEnum.CENTER);
++          break;
++        case "rtl":
++          if (options.getBoolean("rtl")) {
++            builder.titleGravity(GravityEnum.END);
++            builder.itemsGravity(GravityEnum.END);
++            builder.contentGravity(GravityEnum.END);
++            builder.buttonsGravity(GravityEnum.START);
++            builder.btnStackedGravity(GravityEnum.START);
++          }
++          break;
++        case "checkboxLabel":
++          boolean defaultValue = options.hasKey("checkboxDefaultValue") && options.getBoolean("checkboxDefaultValue");
++          builder.checkBoxPrompt(options.getString("checkboxLabel"), defaultValue, null);
++          break;
++        case "progress":
++          ReadableMap progress = options.getMap("progress");
++          boolean indeterminate = progress.hasKey("indeterminate") && progress.getBoolean("indeterminate");
++
++          if (indeterminate) {
++            builder.progress(true, 0);
++            boolean horizontal = progress.hasKey("style") && progress.getString("style").equals("horizontal");
++            if (horizontal)
++              builder.progressIndeterminateStyle(horizontal);
++          } else {
++            // Determinate progress bar not supported currently
++            // TODO : Implement determinate progress bar
++          }
++      }
+     }
+ 
+-    public DialogAndroid(ReactApplicationContext reactContext) {
+-        super(reactContext);
+-    }
++    return builder;
++  }
+ 
+-    /* Apply the options to the provided builder */
+-    private MaterialDialog.Builder applyOptions(MaterialDialog.Builder builder, ReadableMap options) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+-        ReadableMapKeySetIterator iterator = options.keySetIterator();
+-        while(iterator.hasNextKey()) {
+-            String key = iterator.nextKey();
+-
+-            switch (key) {
+-                case "title":
+-                    builder.title(options.getString("title"));
+-                    break;
+-                case "content":
+-                    if(options.hasKey("contentIsHtml") && options.getBoolean("contentIsHtml")) {
+-                        // // i have no idea how to get this to work, it seems its all api level 24 stuff
+-                        // // requires buildToolsVersion >= "24.0.1"
+-                        // if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+-                        //     builder.content(Html.fromHtml(options.getString("content"), Html.FROM_HTML_MODE_LEGACY | Html.FROM_HTML_MODE_COMPACT));
+-                        // } else {
+-                        //     builder.content(Html.fromHtml(options.getString("content"), Html.FROM_HTML_MODE_COMPACT));
+-                        // }
+-                        builder.content(Html.fromHtml(options.getString("content")));
+-                    } else {
+-                        builder.content(options.getString("content"));
+-                    }
+-                    break;
+-                case "positiveText":
+-                    builder.positiveText(options.getString("positiveText"));
+-                    break;
+-                case "positiveColor":
+-                    builder.positiveColor(options.getInt("positiveColor"));
+-                    break;
+-                case "negativeText":
+-                    builder.negativeText(options.getString("negativeText"));
+-                    break;
+-                case "negativeColor":
+-                    builder.negativeColor(options.getInt("negativeColor"));
+-                    break;
+-                case "neutralText":
+-                    builder.neutralText(options.getString("neutralText"));
+-                    break;
+-                case "neutralColor":
+-                    builder.neutralColor(options.getInt("neutralColor"));
+-                    break;
+-                case "titleColor":
+-                    builder.titleColor(options.getInt("titleColor"));
+-                    break;
+-                case "widgetColor":
+-                    builder.widgetColor(options.getInt("widgetColor"));
+-                    break;
+-                case "linkColor":
+-                    builder.linkColor(options.getInt("linkColor"));
+-                    break;
+-                case "contentColor":
+-                    builder.contentColor(options.getInt("contentColor"));
+-                    break;
+-                case "backgroundColor":
+-                    builder.backgroundColor(options.getInt("backgroundColor"));
+-                    break;
+-                case "items":
+-                    ReadableArray arr = options.getArray("items");
+-                    String[] items = new String[arr.size()];
+-                    for (int i = 0; i < arr.size(); i++) {
+-                        items[i] = arr.getString(i);
+-                    }
+-                    builder.items(items);
+-                    break;
+-                case "autoDismiss":
+-                    builder.autoDismiss(options.getBoolean("autoDismiss"));
+-                    break;
+-                case "forceStacking":
+-                    builder.stackingBehavior(
+-                        options.getBoolean("forceStacking") ? StackingBehavior.ALWAYS : StackingBehavior.ADAPTIVE);
+-                    break;
+-                case "alwaysCallSingleChoiceCallback":
+-                    if (options.getBoolean("alwaysCallSingleChoiceCallback")) {
+-                        builder.alwaysCallSingleChoiceCallback();
+-                    }
+-                    break;
+-                case "alwaysCallMultiChoiceCallback":
+-                    if (options.getBoolean("alwaysCallMultiChoiceCallback")) {
+-                        builder.alwaysCallMultiChoiceCallback();
+-                    }
+-                    break;
+-                case "alwaysCallInputCallback":
+-                    if (options.getBoolean("alwaysCallInputCallback")) {
+-                        builder.alwaysCallInputCallback();
+-                    }
+-                    break;
+-                case "cancelable":
+-                    builder.cancelable(options.getBoolean("cancelable"));
+-                    break;
+-                case "progressIndeterminateStyle": // true for horizontal, DO NOT USE
+-                    builder.progressIndeterminateStyle(options.getBoolean("progressIndeterminateStyle"));
+-                    break;
+-                case "buttonsGravity":
+-                    String bg = options.getString("buttonsGravity");
+-                    if( bg.equals("start") )
+-                        builder.buttonsGravity(GravityEnum.START);
+-                    else if( bg.equals("end") )
+-                        builder.buttonsGravity(GravityEnum.END);
+-                    else
+-                        builder.buttonsGravity(GravityEnum.CENTER);
+-                    break;
+-                case "itemsGravity":
+-                    String ig = options.getString("itemsGravity");
+-                    if( ig.equals("start") )
+-                        builder.itemsGravity(GravityEnum.START);
+-                    else if( ig.equals("end") )
+-                        builder.itemsGravity(GravityEnum.END);
+-                    else
+-                        builder.itemsGravity(GravityEnum.CENTER);
+-                    break;
+-                case "titleGravity":
+-                    String tg = options.getString("titleGravity");
+-                    if( tg.equals("start") )
+-                        builder.titleGravity(GravityEnum.START);
+-                    else if( tg.equals("end") )
+-                        builder.titleGravity(GravityEnum.END);
+-                    else
+-                        builder.titleGravity(GravityEnum.CENTER);
+-                    break;
+-                case "rtl":
+-                    if( options.getBoolean("rtl") ) {
+-                        builder.titleGravity(GravityEnum.END);
+-                        builder.itemsGravity(GravityEnum.END);
+-                        builder.contentGravity(GravityEnum.END);
+-                        builder.buttonsGravity(GravityEnum.START);
+-                        builder.btnStackedGravity(GravityEnum.START);
+-                    }
+-                    break;
+-                case "checkboxLabel":
+-                    boolean defaultValue = options.hasKey("checkboxDefaultValue") && options.getBoolean("checkboxDefaultValue");
+-                    builder.checkBoxPrompt(options.getString("checkboxLabel"), defaultValue, null);
+-                    break;
+-                case "progress":
+-                    ReadableMap progress = options.getMap("progress");
+-                    boolean indeterminate = progress.hasKey("indeterminate") && progress.getBoolean("indeterminate");
+-
+-                    if (indeterminate) {
+-                        builder.progress(true, 0);
+-                        boolean horizontal = progress.hasKey("style") && progress.getString("style").equals("horizontal");
+-                        if (horizontal) builder.progressIndeterminateStyle(horizontal);
+-                    } else {
+-                        // Determinate progress bar not supported currently
+-                        // TODO : Implement determinate progress bar
+-                    }
+-            }
+-        }
++  MaterialDialog.Builder mBuilder;
++  MaterialDialog mDialog;
++  private boolean mCallbackConsumed = false;
+ 
+-        return builder;
++  @ReactMethod
++  public void show(ReadableMap options, final Callback callback) {
++    if (getCurrentActivity() == null) {
++      callback.invoke("error", "React Native Activity is null", options.toString());
++      return;
++    }
++    mBuilder = new MaterialDialog.Builder(getCurrentActivity());
++    try {
++      applyOptions(mBuilder, options);
++    } catch (Exception e) {
++      callback.invoke("error", e.getMessage(), options.toString());
++      return;
+     }
+ 
+-    MaterialDialog.Builder mBuilder;
+-    MaterialDialog mDialog;
+-    private boolean mCallbackConsumed = false;
+-
+-    @ReactMethod
+-    public void show(ReadableMap options, final Callback callback) {
+-        if (getCurrentActivity() == null) {
+-            callback.invoke("error", "React Native Activity is null", options.toString());
+-            return;
+-        }
+-        mBuilder = new MaterialDialog.Builder(getCurrentActivity());
+-        try {
+-            applyOptions(mBuilder, options);
+-        } catch (Exception e) {
+-            callback.invoke("error", e.getMessage(), options.toString());
+-            return;
++    if (options.hasKey("onPositive")) {
++      mBuilder.onPositive(new MaterialDialog.SingleButtonCallback() {
++        @Override
++        public void onClick(MaterialDialog materialDialog, DialogAction dialogAction) {
++          if (!mCallbackConsumed) {
++            mCallbackConsumed = true;
++            callback.invoke("onPositive");
++          }
+         }
++      });
++    }
+ 
+-        if (options.hasKey("onPositive")) {
+-            mBuilder.onPositive(new MaterialDialog.SingleButtonCallback() {
+-                @Override
+-                public void onClick(MaterialDialog materialDialog, DialogAction dialogAction) {
+-                    if (!mCallbackConsumed) {
+-                        mCallbackConsumed = true;
+-                        callback.invoke("onPositive");
+-                    }
+-                }
+-            });
++    if (options.hasKey("onNegative")) {
++      mBuilder.onNegative(new MaterialDialog.SingleButtonCallback() {
++        @Override
++        public void onClick(MaterialDialog materialDialog, DialogAction dialogAction) {
++          if (!mCallbackConsumed) {
++            mCallbackConsumed = true;
++            callback.invoke("onNegative");
++          }
+         }
++      });
++    }
+ 
+-        if (options.hasKey("onNegative")) {
+-            mBuilder.onNegative(new MaterialDialog.SingleButtonCallback() {
+-                @Override
+-                public void onClick(MaterialDialog materialDialog, DialogAction dialogAction) {
+-                    if (!mCallbackConsumed) {
+-                        mCallbackConsumed = true;
+-                        callback.invoke("onNegative");
+-                    }
+-                }
+-            });
++    if (options.hasKey("onNeutral")) {
++      mBuilder.onNeutral(new MaterialDialog.SingleButtonCallback() {
++        @Override
++        public void onClick(MaterialDialog materialDialog, DialogAction dialogAction) {
++          if (!mCallbackConsumed) {
++            mCallbackConsumed = true;
++            callback.invoke("onNeutral");
++          }
+         }
++      });
++    }
+ 
+-        if (options.hasKey("onNeutral")) {
+-            mBuilder.onNeutral(new MaterialDialog.SingleButtonCallback() {
+-                @Override
+-                public void onClick(MaterialDialog materialDialog, DialogAction dialogAction) {
+-                    if (!mCallbackConsumed) {
+-                        mCallbackConsumed = true;
+-                        callback.invoke("onNeutral");
+-                    }
+-                }
+-            });
++    if (options.hasKey("onAny")) {
++      mBuilder.onAny(new MaterialDialog.SingleButtonCallback() {
++        @Override
++        public void onClick(MaterialDialog materialDialog, DialogAction dialogAction) {
++          if (!mCallbackConsumed) {
++            mCallbackConsumed = true;
++            if (dialogAction == DialogAction.POSITIVE) {
++              callback.invoke("onAny", 0, materialDialog.isPromptCheckBoxChecked());
++            } else if (dialogAction == DialogAction.NEUTRAL) {
++              callback.invoke("onAny", 1, materialDialog.isPromptCheckBoxChecked());
++            } else {
++              callback.invoke("onAny", 2, materialDialog.isPromptCheckBoxChecked());
++            }
++          }
+         }
++      });
++    }
+ 
+-        if (options.hasKey("onAny")) {
+-            mBuilder.onAny(new MaterialDialog.SingleButtonCallback() {
+-                @Override
+-                public void onClick(MaterialDialog materialDialog, DialogAction dialogAction) {
+-                    if (!mCallbackConsumed) {
+-                        mCallbackConsumed = true;
+-                        if (dialogAction == DialogAction.POSITIVE) {
+-                            callback.invoke("onAny", 0, materialDialog.isPromptCheckBoxChecked());
+-                        } else if (dialogAction == DialogAction.NEUTRAL) {
+-                            callback.invoke("onAny", 1, materialDialog.isPromptCheckBoxChecked());
+-                        } else {
+-                            callback.invoke("onAny", 2, materialDialog.isPromptCheckBoxChecked());
+-                        }
+-                    }
+-                }
+-            });
++    if (options.hasKey("itemsCallback")) {
++      mBuilder.itemsCallback(new MaterialDialog.ListCallback() {
++        @Override
++        public void onSelection(MaterialDialog materialDialog, View view, int i, CharSequence charSequence) {
++          if (!mCallbackConsumed) {
++            mCallbackConsumed = true;
++            callback.invoke("itemsCallback", i, materialDialog.isPromptCheckBoxChecked());
++          }
+         }
++      });
++    }
+ 
+-        if (options.hasKey("itemsCallback")) {
+-            mBuilder.itemsCallback(new MaterialDialog.ListCallback() {
+-                @Override
+-                public void onSelection(MaterialDialog materialDialog, View view, int i, CharSequence charSequence) {
+-                    if (!mCallbackConsumed) {
+-                        mCallbackConsumed = true;
+-                        callback.invoke("itemsCallback", i, materialDialog.isPromptCheckBoxChecked());
+-                    }
+-                }
+-            });
++    if (options.hasKey("itemsCallbackSingleChoice")) {
++      // Check if there is a preselected index
++      int selectedIndex = options.hasKey("selectedIndex") ? options.getInt("selectedIndex") : -1;
++      mBuilder.itemsCallbackSingleChoice(selectedIndex, new MaterialDialog.ListCallbackSingleChoice() {
++        @Override
++        public boolean onSelection(MaterialDialog materialDialog, View view, int i, CharSequence charSequence) {
++          if (!mCallbackConsumed) {
++            mCallbackConsumed = true;
++            charSequence = charSequence == null ? "" : charSequence;
++            callback.invoke("itemsCallbackSingleChoice", i, materialDialog.isPromptCheckBoxChecked());
++          }
++          return true;
+         }
++      });
++    }
+ 
+-        if (options.hasKey("itemsCallbackSingleChoice")) {
+-            // Check if there is a preselected index
+-            int selectedIndex = options.hasKey("selectedIndex") ? options.getInt("selectedIndex") : -1;
+-            mBuilder.itemsCallbackSingleChoice(selectedIndex, new MaterialDialog.ListCallbackSingleChoice() {
+-                @Override
+-                public boolean onSelection(MaterialDialog materialDialog, View view, int i, CharSequence charSequence) {
+-                    if (!mCallbackConsumed) {
+-                        mCallbackConsumed = true;
+-                        charSequence = charSequence == null ? "" : charSequence;
+-                        callback.invoke("itemsCallbackSingleChoice", i, materialDialog.isPromptCheckBoxChecked());
+-                    }
+-                    return true;
+-                }
+-            });
++    if (options.hasKey("itemsCallbackMultiChoice")) {
++      // Check if there are preselected indices
++      Integer[] selectedIndices = null;
++      if (options.hasKey("selectedIndices")) {
++        ReadableArray arr = options.getArray("selectedIndices");
++        selectedIndices = new Integer[arr.size()];
++        for (int i = 0; i < arr.size(); i++) {
++          selectedIndices[i] = arr.getInt(i);
+         }
+-
+-        if (options.hasKey("itemsCallbackMultiChoice")) {
+-            // Check if there are preselected indices
+-            Integer[] selectedIndices = null;
+-            if (options.hasKey("selectedIndices")) {
+-                ReadableArray arr = options.getArray("selectedIndices");
+-                selectedIndices = new Integer[arr.size()];
+-                for (int i = 0; i < arr.size(); i++) {
+-                    selectedIndices[i] = arr.getInt(i);
+-                }
+-            }
+-
+-            mBuilder.itemsCallbackMultiChoice(selectedIndices, new MaterialDialog.ListCallbackMultiChoice() {
+-                @Override
+-                public boolean onSelection(MaterialDialog materialDialog, Integer[] integers, CharSequence[] charSequences) {
+-
+-                    // Concatenate selected IDs into a string
+-                    StringBuilder selected = new StringBuilder("");
+-                    for (int i = 0; i < integers.length - 1; i++) {
+-                        selected.append(integers[i]).append(",");
+-                    }
+-                    if (integers.length > 0) {
+-                        selected.append(integers[integers.length - 1]);
+-                    }
+-
+-                    if (!mCallbackConsumed) {
+-                        mCallbackConsumed = true;
+-                        callback.invoke("itemsCallbackMultiChoice", selected.toString(), materialDialog.isPromptCheckBoxChecked());
+-                    }
+-                    return true;
+-                }
+-            });
+-
+-            // Provide a 'Clear' button to unselect all choices
+-            if (options.hasKey("multiChoiceClearButton") && options.getBoolean("multiChoiceClearButton")) {
+-                mBuilder.onNeutral(new MaterialDialog.SingleButtonCallback() {
+-                    @Override
+-                    public void onClick(MaterialDialog materialDialog, DialogAction dialogAction) {
+-                        materialDialog.clearSelectedIndices();
+-                    }
+-                });
+-            }
++      }
++
++      mBuilder.itemsCallbackMultiChoice(selectedIndices, new MaterialDialog.ListCallbackMultiChoice() {
++        @Override
++        public boolean onSelection(MaterialDialog materialDialog, Integer[] integers, CharSequence[] charSequences) {
++
++          // Concatenate selected IDs into a string
++          StringBuilder selected = new StringBuilder("");
++          for (int i = 0; i < integers.length - 1; i++) {
++            selected.append(integers[i]).append(",");
++          }
++          if (integers.length > 0) {
++            selected.append(integers[integers.length - 1]);
++          }
++
++          if (!mCallbackConsumed) {
++            mCallbackConsumed = true;
++            callback.invoke("itemsCallbackMultiChoice", selected.toString(), materialDialog.isPromptCheckBoxChecked());
++          }
++          return true;
+         }
+-
+-        mBuilder.showListener(new DialogInterface.OnShowListener() {
+-            @Override
+-            public void onShow(DialogInterface dialog) {
+-                // if (!mCallbackConsumed) {
+-                //     mCallbackConsumed = true;
+-                //     callback.invoke("showListener");
+-                // }
+-                mCallbackConsumed = false;
+-            }
++      });
++
++      // Provide a 'Clear' button to unselect all choices
++      if (options.hasKey("multiChoiceClearButton") && options.getBoolean("multiChoiceClearButton")) {
++        mBuilder.onNeutral(new MaterialDialog.SingleButtonCallback() {
++          @Override
++          public void onClick(MaterialDialog materialDialog, DialogAction dialogAction) {
++            materialDialog.clearSelectedIndices();
++          }
+         });
++      }
++    }
+ 
+-        if (options.hasKey("cancelListener")) {
+-            mBuilder.cancelListener(new DialogInterface.OnCancelListener() {
+-                @Override
+-                public void onCancel(DialogInterface dialog) {
+-                    if (!mCallbackConsumed) {
+-                        mCallbackConsumed = true;
+-                        callback.invoke("cancelListener");
+-                    }
+-                }
+-            });
++    mBuilder.showListener(new DialogInterface.OnShowListener() {
++      @Override
++      public void onShow(DialogInterface dialog) {
++        // if (!mCallbackConsumed) {
++        // mCallbackConsumed = true;
++        // callback.invoke("showListener");
++        // }
++        mCallbackConsumed = false;
++      }
++    });
++
++    if (options.hasKey("cancelListener")) {
++      mBuilder.cancelListener(new DialogInterface.OnCancelListener() {
++        @Override
++        public void onCancel(DialogInterface dialog) {
++          if (!mCallbackConsumed) {
++            mCallbackConsumed = true;
++            callback.invoke("cancelListener");
++          }
+         }
++      });
++    }
+ 
+-        if (options.hasKey("dismissListener")) {
+-            mBuilder.dismissListener(new DialogInterface.OnDismissListener() {
+-                @Override
+-                public void onDismiss(DialogInterface dialog) {
+-                    if (!mCallbackConsumed) {
+-                        mCallbackConsumed = true;
+-                        callback.invoke("dismissListener");
+-                    }
+-                }
+-            });
++    if (options.hasKey("dismissListener")) {
++      mBuilder.dismissListener(new DialogInterface.OnDismissListener() {
++        @Override
++        public void onDismiss(DialogInterface dialog) {
++          if (!mCallbackConsumed) {
++            mCallbackConsumed = true;
++            callback.invoke("dismissListener");
++          }
+         }
++      });
++    }
+ 
+-        if (options.hasKey("input")) {
+-            ReadableMap input = options.getMap("input");
+-
+-            // Check for hint and prefilled text
+-            String hint = input.hasKey("hint") ? input.getString("hint") : null;
+-            String prefill = input.hasKey("prefill") ? input.getString("prefill") : null;
+-
+-            // Check if empty input is allowed
+-            boolean allowEmptyInput = !input.hasKey("allowEmptyInput") || input.getBoolean("allowEmptyInput");
+-
+-            if (input.hasKey("keyboardType")) {
+-                switch (input.getString("keyboardType")) {
+-                    case "phone-pad":
+-                        mBuilder.inputType(InputType.TYPE_CLASS_PHONE);
+-                        break;
++    if (options.hasKey("input")) {
++      ReadableMap input = options.getMap("input");
+ 
+-                    case "number-pad":
+-                        mBuilder.inputType(InputType.TYPE_CLASS_NUMBER);
+-                        break;
++      // Check for hint and prefilled text
++      String hint = input.hasKey("hint") ? input.getString("hint") : null;
++      String prefill = input.hasKey("prefill") ? input.getString("prefill") : null;
+ 
+-                    case "decimal-pad":
+-                        mBuilder.inputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+-                        break;
++      // Check if empty input is allowed
++      boolean allowEmptyInput = !input.hasKey("allowEmptyInput") || input.getBoolean("allowEmptyInput");
+ 
+-                    case "numeric":
+-                        mBuilder.inputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
+-                        break;
++      if (input.hasKey("keyboardType")) {
++        switch (input.getString("keyboardType")) {
++          case "phone-pad":
++            mBuilder.inputType(InputType.TYPE_CLASS_PHONE);
++            break;
+ 
+-                    case "numeric-password":
+-                        mBuilder.inputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+-                        break;
++          case "number-pad":
++            mBuilder.inputType(InputType.TYPE_CLASS_NUMBER);
++            break;
+ 
+-                    case "email-address":
+-                        mBuilder.inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+-                        break;
++          case "decimal-pad":
++            mBuilder.inputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
++            break;
+ 
+-                    case "password":
+-                        mBuilder.inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+-                        break;
++          case "numeric":
++            mBuilder.inputType(
++                InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
++            break;
+ 
+-                    case "url":
+-                        mBuilder.inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS | InputType.TYPE_TEXT_VARIATION_URI);
+-                        break;
++          case "numeric-password":
++            mBuilder.inputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
++            break;
+ 
+-                    default:
+-                        mBuilder.inputType(InputType.TYPE_CLASS_TEXT);
+-                }
+-            }
++          case "email-address":
++            mBuilder.inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
++            break;
+ 
+-            int minLength = input.hasKey("minLength") ? input.getInt("minLength") : 0;
+-            int maxLength = input.hasKey("maxLength") ? input.getInt("maxLength") : -1;
++          case "password":
++            mBuilder.inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
++            break;
+ 
+-            mBuilder.inputRange(minLength, maxLength);
++          case "url":
++            mBuilder.inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS
++                | InputType.TYPE_TEXT_VARIATION_URI);
++            break;
+ 
+-            mBuilder.input(hint, prefill, allowEmptyInput, new MaterialDialog.InputCallback() {
+-                @Override
+-                public void onInput(MaterialDialog materialDialog, CharSequence charSequence) {
+-                    if (!mCallbackConsumed) {
+-                        mCallbackConsumed = true;
+-                        callback.invoke("input", charSequence.toString(), materialDialog.isPromptCheckBoxChecked());
+-                    }
+-                }
+-            });
++          default:
++            mBuilder.inputType(InputType.TYPE_CLASS_TEXT);
+         }
++      }
+ 
+-        final int numberOfItems;
+-        if (options.hasKey("maxNumberOfItems")) {
+-            numberOfItems = options.getInt("maxNumberOfItems");
+-        }else{
+-            numberOfItems = -1;
+-        }
++      int minLength = input.hasKey("minLength") ? input.getInt("minLength") : 0;
++      int maxLength = input.hasKey("maxLength") ? input.getInt("maxLength") : -1;
+ 
+-        UiThreadUtil.runOnUiThread(new Runnable() {
+-            public void run() {
+-                if (mDialog != null)
+-                    mDialog.dismiss();
+-                mDialog = mBuilder.build();
++      mBuilder.inputRange(minLength, maxLength);
+ 
+-                if(numberOfItems > 0) {
+-                    WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+-                    lp.copyFrom(mDialog.getWindow().getAttributes());
+-                    lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
++      mBuilder.input(hint, prefill, allowEmptyInput, new MaterialDialog.InputCallback() {
++        @Override
++        public void onInput(MaterialDialog materialDialog, CharSequence charSequence) {
++          if (!mCallbackConsumed) {
++            mCallbackConsumed = true;
++            callback.invoke("input", charSequence.toString(), materialDialog.isPromptCheckBoxChecked());
++          }
++        }
++      });
++    }
+ 
+-                    int dp = (int) (getReactApplicationContext().getResources().getDimension(R.dimen.md_listitem_height)
+-                            / getReactApplicationContext().getResources().getDisplayMetrics().density);
++    final int numberOfItems;
++    if (options.hasKey("maxNumberOfItems")) {
++      numberOfItems = options.getInt("maxNumberOfItems");
++    } else {
++      numberOfItems = -1;
++    }
+ 
++    UiThreadUtil.runOnUiThread(new Runnable() {
++      public void run() {
++        if (mDialog != null)
++          mDialog.dismiss();
++        mDialog = mBuilder.build();
+ 
+-                    float pixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp * (numberOfItems +3), getReactApplicationContext().getResources().getDisplayMetrics());
++        if (numberOfItems > 0) {
++          WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
++          lp.copyFrom(mDialog.getWindow().getAttributes());
++          lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+ 
++          int dp = (int)(48 / getReactApplicationContext().getResources().getDisplayMetrics().density);
+ 
+-                    lp.height = (int) pixels;
+-                    mDialog.getWindow().setAttributes(lp);
+-                }
++          float pixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp * (numberOfItems + 3),
++              getReactApplicationContext().getResources().getDisplayMetrics());
+ 
++          lp.height = (int) pixels;
++          mDialog.getWindow().setAttributes(lp);
++        }
+ 
+-                mDialog.show();
++        mDialog.show();
++      }
++    });
++  }
++
++  MaterialDialog simple;
++
++  @ReactMethod
++  public void list(ReadableMap options, final Callback callback) {
++    final MaterialSimpleListAdapter simpleListAdapter = new MaterialSimpleListAdapter(
++        new MaterialSimpleListAdapter.Callback() {
++          @Override
++          public void onMaterialListItemSelected(MaterialDialog dialog, int index, MaterialSimpleListItem item) {
++            if (!mCallbackConsumed) {
++              mCallbackConsumed = true;
++              callback.invoke(index, item.getContent());
+             }
+-        });
+-    }
+-
+-    MaterialDialog simple;
+-    @ReactMethod
+-    public void list(ReadableMap options, final Callback callback) {
+-        final MaterialSimpleListAdapter simpleListAdapter = new MaterialSimpleListAdapter(new MaterialSimpleListAdapter.Callback() {
+-            @Override
+-            public void onMaterialListItemSelected(MaterialDialog dialog, int index, MaterialSimpleListItem item) {
+-                if (!mCallbackConsumed) {
+-                    mCallbackConsumed = true;
+-                    callback.invoke(index, item.getContent());
+-                }
+-                if (simple != null) {
+-                    simple.dismiss();
+-                }
++            if (simple != null) {
++              simple.dismiss();
+             }
++          }
+         });
+ 
+-        ReadableArray arr = options.getArray("items");
+-        for(int i = 0; i < arr.size(); i++){
+-            simpleListAdapter.add(new MaterialSimpleListItem.Builder(getCurrentActivity())
+-                    .content(arr.getString(i))
+-                    .build());
+-        }
+-
+-        final MaterialDialog.Builder adapter = new MaterialDialog.Builder(getCurrentActivity())
+-                .title(options.hasKey("title") ? options.getString("title") : "")
+-                .adapter(simpleListAdapter, null)
+-                .autoDismiss(true);
+-
+-        UiThreadUtil.runOnUiThread(new Runnable() {
+-            public void run() {
+-                if (simple != null) {
+-                    simple.dismiss();
+-                }
+-                simple = adapter.build();
+-                simple.show();
+-            }
+-        });
++    ReadableArray arr = options.getArray("items");
++    for (int i = 0; i < arr.size(); i++) {
++      simpleListAdapter.add(new MaterialSimpleListItem.Builder(getCurrentActivity())
++          .content(arr.getString(i))
++          .build());
+     }
+ 
+-    @ReactMethod
+-    public void dismiss() {
+-        if(mDialog != null)
+-            mDialog.dismiss();
+-    }
++    final MaterialDialog.Builder adapter = new MaterialDialog.Builder(getCurrentActivity())
++        .title(options.hasKey("title") ? options.getString("title") : "")
++        .adapter(simpleListAdapter, null)
++        .autoDismiss(true);
++
++    UiThreadUtil.runOnUiThread(new Runnable() {
++      public void run() {
++        if (simple != null) {
++          simple.dismiss();
++        }
++        simple = adapter.build();
++        simple.show();
++      }
++    });
++  }
++
++  @ReactMethod
++  public void dismiss() {
++    if (mDialog != null)
++      mDialog.dismiss();
++  }
+ 
+ }

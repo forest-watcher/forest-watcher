@@ -7,10 +7,13 @@ export const isSmallScreen = screen.width <= 320;
 
 const colors = {
   turtleGreen: '#97be43',
+  turtleGreenLight: '#E3ECC6',
+  turtleGreenDark: '#82A73B',
   greyishBrown: '#555555',
   grey: '#8a8a8a',
   veryLightPink: '#f2f2f2',
   white: '#ffffff',
+  offWhite: '#fcfcfc',
   black: '#000000',
   veryLightPinkTwo: '#dcdcdc',
   carnation: '#f15656',
@@ -20,7 +23,8 @@ const colors = {
   lightBlue: '#ACC6D5',
   blue: '#2e8dc7',
   purple: '#5e4fc3',
-  cyan: '#52d0c4'
+  cyan: '#52d0c4',
+  bannerGreen: '#94BE43'
 };
 
 const fontColors = {
@@ -42,10 +46,13 @@ const config = {
   },
   colors: {
     turtleGreen: colors.turtleGreen,
+    turtleGreenLight: colors.turtleGreenLight,
+    turtleGreenDark: colors.turtleGreenDark,
     greyishBrown: colors.greyishBrown,
     grey: colors.grey,
     veryLightPink: colors.veryLightPink,
     white: colors.white,
+    offWhite: colors.offWhite,
     black: colors.black,
     veryLightPinkTwo: colors.veryLightPinkTwo,
     carnation: colors.carnation,
@@ -56,12 +63,14 @@ const config = {
     coral: colors.coral,
     report: colors.turtleGreen,
     importedReport: colors.cyan,
-    viirsReported: colors.purple
+    viirsReported: colors.purple,
+    bannerGreen: colors.bannerGreen
   },
   font: fontName,
   fontColors: fontColors,
   background: {
     main: colors.veryLightPink,
+    actionbar: colors.white,
     secondary: colors.turtleGreen,
     white: colors.white,
     gray: colors.veryLightPinkTwo,
@@ -153,11 +162,14 @@ const config = {
         }
       },
       statusBar: {
-        style: 'light'
+        style: 'dark',
+        backgroundColor: colors.veryLightPink,
+        translucent: false,
+        visible: true
       },
       topBar: {
         background: {
-          color: 'transparent'
+          color: colors.white
         },
         backButton: {
           color: colors.greyishBrown,
@@ -176,7 +188,8 @@ const config = {
         title: {
           color: fontColors.secondary,
           fontFamily: fontName,
-          fontSize: 20
+          fontWeight: '400',
+          fontSize: 16
         },
         largeTitle: {
           fontSize: 24,

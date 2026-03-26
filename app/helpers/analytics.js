@@ -3,7 +3,7 @@ import analytics from '@react-native-firebase/analytics';
 import { formatBytes } from 'helpers/data';
 
 type LoginMethod = 'email' | 'facebook' | 'twitter' | 'google';
-type MenuButtonType = 'areas' | 'reports' | 'routes' | 'settings' | 'teams';
+type MenuButtonType = 'areas' | 'reports' | 'routes' | 'settings' | 'teams' | 'assignments';
 type DownloadableContentType = 'basemap' | 'layer';
 type ImportableContentType = 'area' | 'basemap' | 'bundle' | 'layer' | 'report' | 'route';
 type SharableContentType = 'area' | 'basemap' | 'bundle' | 'report' | 'route' | 'layer';
@@ -253,4 +253,22 @@ export const trackInviteAction = (action: string) => {
 
 export const trackCreateAreaType = (type: 'draw' | 'upload' | 'FWBundle') => {
   analytics().logEvent(`area_creation_${type}`);
+};
+
+export const trackAssignmentStarted = () => {
+  analytics().logEvent('assignment_started');
+};
+
+export const trackAssignmentOnHold = () => {
+  analytics().logEvent('assignment_on_hold');
+};
+
+export const trackVoiceRecordingStates = (state: string) => {
+  analytics().logEvent(`${state}_voice_recording`);
+};
+
+export const trackDownloadPlanetImagery = (layerName: string) => {
+  analytics().logEvent('downloaded_planet_imagery', {
+    planet_imagery_downloaded: layerName
+  });
 };

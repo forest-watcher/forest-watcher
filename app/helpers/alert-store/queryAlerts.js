@@ -3,6 +3,7 @@ import type { Alert } from 'types/alerts.types';
 import _ from 'lodash';
 import moment from 'moment';
 import { initDb } from 'helpers/alert-store/database';
+import type { AssignmentLocation } from 'types/assignments.types';
 
 export type AlertsQuery = {|
   +areaId?: string,
@@ -24,7 +25,12 @@ export type AlertsQuery = {|
    * For instance, if we're querying alerts to display on a map then it doesn't make sense to have two alerts in the
    * same geographic coordinate
    */
-  +distinctLocations?: boolean
+  +distinctLocations?: boolean,
+
+  /**
+   * A list of alerts we want to fetch based on their location
+   */
+  +specificAlerts?: ?Array<AssignmentLocation>
 |};
 
 /**
@@ -43,7 +49,7 @@ export default function queryAlerts(query: AlertsQuery): Array<Alert> {
  * Synchronous method of the above, because Realm works synchronously
  */
 export function queryAlertsLazy(query: AlertsQuery) {
-  const { areaId, dataset, datasets, timeAgo, distinctLocations, limitAlerts } = query;
+  const { areaId, dataset, datasets, timeAgo, distinctLocations, limitAlerts, specificAlerts } = query;
   const db = initDb();
 
   const predicateParts = [];
@@ -63,7 +69,23 @@ export function queryAlertsLazy(query: AlertsQuery) {
     predicateParts.push(`slug = '${dataset}'`);
   }
 
-  if (timeAgo) {
+  // If we're looking for specific alerts, we ignore `timeAgo` becasue those alerts might be old
+  if (specificAlerts) {
+    const specificAlertsPredicate = specificAlerts
+      .filter(x => x.alertType !== undefined)
+      .map(
+        x =>
+          `((lat > ${x.lat - 0.00001} AND lat < ${x.lat + 0.00001} ) AND (long > ${x.lon - 0.00001} AND long < ${x.lon +
+            0.00001} ) ${x.alertId &&
+            `AND (date >= ${moment(x.alertId)
+              .subtract(1, 'days')
+              .valueOf()} AND date < ${moment(x.alertId)
+              .add(1, 'days')
+              .valueOf()})`})`
+      )
+      .join(' OR ');
+    predicateParts.push(`(${specificAlertsPredicate})`);
+  } else if (timeAgo) {
     const units = timeAgo.unit;
     const now = moment();
     if (timeAgo.max !== undefined) {
@@ -84,9 +106,11 @@ export function queryAlertsLazy(query: AlertsQuery) {
   }
 
   if (limitAlerts) {
-    queryParts.push('LIMIT(10000)');
+    queryParts.push('LIMIT(5000)');
   }
 
   const queryString = queryParts.join(' ');
-  return db.objects('Alert').filtered(queryString);
+  const data = db.objects('Alert').filtered(queryString);
+
+  return data;
 }

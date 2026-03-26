@@ -19,10 +19,42 @@
         },
         "importedAreas": "Zones importées",
         "myAreas": "Mes zones",
+        "teamAreas": "Domaines de l'équipe",
+        "teamArea": "Zone de l'équipe",
         "title": "Zones",
         "tooltip": {
             "body": "Afficher les alertes et les couches cartographiques sans Internet",
             "title": "Rendre les zones disponibles hors ligne"
+        }
+    },
+    "assignments": {
+        "titles": {
+            "assignments": "Affectations (%{count})",
+            "assignments_nocount": "Affectations",
+            "assignmentDetails": "Affectation %{name}"
+        },
+        "empty": {
+            "title": "Pas d'affectations",
+            "subtitle": "Toutes les affectations qui vous ont été confiées sont répertoriées ici",
+            "action": "FAQ de l'application"
+        },
+        "labels": {
+            "high": "Priorité élevée",
+            "normal": "Priorité normale",
+            "onhold": "En attente"
+        },
+        "details": {
+            "details": "Détails",
+            "monitors": "Dispositifs de contrôle",
+            "notes": "Notes",
+            "status": "Statut",
+            "markOnHold": "Marquer comme étant en attente",
+            "startAssignment": "Commencer l'affectation"
+        },
+        "statusTitles": {
+            "open": "Incomplet",
+            "onHold": "En attente",
+            "completed": "Terminé"
         }
     },
     "teams": {
@@ -60,6 +92,11 @@
             "newInviteTitle_one": "Vous avez une invitation à rejoindre une équipe.",
             "newInviteTitle_other": "Vous avez %{count} invitations à rejoindre une équipe.",
             "newInviteSubtitle": "Appuyer pour afficher les informations concernant l'équipe"
+        },
+        "empty": {
+            "action": "FAQ de l'application",
+            "subtitle": "Les équipes auxquelles vous êtes invité, que vous rejoignez et que vous gérez apparaîtront ici.",
+            "title": "Aucune équipe"
         }
     },
     "deleteAccount": {
@@ -140,7 +177,8 @@
         "cancel": "Annuler",
         "chooseFromLibrary": "Choisissez parmi la bibliothèque",
         "takePhoto": "Prendre photo",
-        "title": "Sélectionnez une image"
+        "title": "Sélectionner une image",
+        "subtitle": "Choisissez le mode d'ajout de l'image"
     },
     "commonText": {
         "alert": "Alerte",
@@ -154,6 +192,7 @@
         "connectionRequired": "Une connexion internet est requise pour effectuer cette action",
         "connectionRequiredTitle": "Pas de connexion",
         "continue": "Continuer",
+        "skip": "Ignorer",
         "crashFeedback": "Quelque chose s’est mal passé. Nous ferons tout notre possible pour régler le problème aussi vite que possible.",
         "date": "Date",
         "deselectAll": "Tout désélectionner",
@@ -187,7 +226,8 @@
         "send": "Envoyer",
         "settings": "Paramètres",
         "setup": "Configurer",
-        "userPosition": " Position de l’utilisateur"
+        "userPosition": " Position de l’utilisateur",
+        "syncingNotice": "L'application synchronise les données. Vous pouvez poursuivre votre action une fois la synchronisation terminée !"
     },
     "contactUs": {
         "description": "Vous avez des questions ou des commentaires ? Envoyez un e-mail à mailto:forestwatcher@wri.org"
@@ -250,8 +290,14 @@
         "downloadFailed": "Échec du téléchargement",
         "map": "Carte",
         "reports": "Rapports",
+        "draft_reports_one": "%{count} rapport non synchronisé",
+        "draft_reports_many": "%{count} rapports non synchronisés",
         "routes": "Itinéraires",
-        "settings": "Paramètres"
+        "settings": "Paramètres",
+        "assignments": "Affectations",
+        "assignments_count_one": "%{count} affectation incomplète",
+        "assignments_count_many": "%{count} affectations incomplètes",
+        "syncing": "Synchronisation des données de l'application avec Forest Watcher..."
     },
     "datasets": {
         "umd_as_it_happens": "La déforestation (GLAD)",
@@ -762,12 +808,12 @@
                 "oneMonth": "%{count} mois",
                 "oneWeek": "%{count} semaine",
                 "reportedOn": "Rapporté le",
-                "showingManyDays": "Jusqu'à 10 000 alertes des %{count} derniers jours",
-                "showingManyMonths": "Jusqu'à 10 000 alertes des derniers %{count} mois",
-                "showingManyWeeks": "Jusqu'à 10 000 alertes des %{count} dernières semaines",
-                "showingOneDay": "Jusqu'à 10 000 alertes du jour précédent",
-                "showingOneMonth": "Jusqu'à 10 000 alertes pour le mois écoulé",
-                "showingOneWeek": "Jusqu'à 10 000 alertes de la semaine passée",
+                "showingManyDays": "Jusqu'à 5 000 alertes au cours des %{count} derniers jours",
+                "showingManyMonths": "Jusqu'à 5 000 alertes au cours des %{count} derniers mois",
+                "showingManyWeeks": "Jusqu'à 5 000 alertes au cours des %{count} dernières semaines",
+                "showingOneDay": "Jusqu'à 5 000 alertes au cours du dernier jour",
+                "showingOneMonth": "Jusqu'à 5 000 alertes au cours du dernier mois",
+                "showingOneWeek": "Jusqu'à 5 000 alertes au cours de la dernière semaine",
                 "timeFrame": "Intervalle de temps",
                 "timeFrameDescDays": "Sélectionnez le nombre de jours",
                 "timeFrameDescMonths": "Sélectionnez le nombre de mois",
@@ -869,7 +915,7 @@
         "addPicture": "Ajouter image",
         "answers": "Réponses",
         "choosePicture": "Veuillez prendre ou choisir une image",
-        "completed": "Terminé",
+        "completed": "Terminé (non synchronisé avec FW Web)",
         "custom": "Rapport personnalisé",
         "datePlaceholder": "Sélectionner une date",
         "delete": "Eliminer ce rapport",
@@ -893,6 +939,12 @@
             "reportSizeAction": "Exporter les rapports (%{bundleSize})",
             "successful": "Export des rapports réussi !",
             "title": "Exporter le rapport"
+        },
+        "deleteModal": {
+            "title": "Supprimer un rapport",
+            "description": "Êtes-vous sûr de vouloir supprimer ce rapport ?",
+            "cancel": "Annuler",
+            "approve": "Supprimer"
         },
         "alertType": {
             "wur_radd_alerts": "RADD",
@@ -920,10 +972,24 @@
         "title": "Rapport",
         "toReport": "Rapport",
         "upload": "Charger",
-        "uploaded": "Sauvegardé",
+        "uploaded": "Terminé (synchronisé avec FW Web)",
         "choose": {
             "title": "Choisir un modèle",
             "subtitle": "Pour créer un rapport, sélectionnez l'un des modèles suivants :"
+        },
+        "fileTooSizeErrorTitle": "Image trop volumineuse",
+        "fileTooSizeErrorMessage": "Ce fichier image est trop volumineux. Veuillez choisir un fichier plus petit.",
+        "voice": {
+            "idleTitle": "Tapez pour commencer l'enregistrement",
+            "idleSubtitle": "Lorum ipsum dolor sit amet. Lorum ipsum dolor sit amet. Lorum ipsum dolor sit amet.",
+            "recording": "Enregistrement",
+            "paused": "En pause",
+            "recordingEmptyState": "Veuillez prendre ou choisir un enregistrement",
+            "chooseRecordingTitle": "Sélectionnez un enregistrement",
+            "chooseRecordingSubtitle": "Sélectionnez la méthode que vous souhaitez utiliser pour ajouter l'enregistrement",
+            "uploadRecording": "Importer l'enregistrement",
+            "startRecording": "Démarrer l'enregistrement",
+            "enterDescriptionHint": "Saisissez une description"
         }
     },
     "routes": {
@@ -971,7 +1037,16 @@
         "stopRouteTrackingPanelDeleteOption": "Arrêter et supprimer le trajet",
         "stopRouteTrackingPanelSaveOption": "Arrêter et sauvegarder le trajet",
         "stopRouteTrackingPanelTitle": "Arrêter le suivi de trajet",
-        "viewOnMap": "Voir le trajet sur la carte"
+        "viewOnMap": "Voir le trajet sur la carte",
+        "sync": {
+            "buttonTitle": "Synchronisation avec le web",
+            "buttonProgress": "Synchronisation...",
+            "buttonActive": "Synchronisation sélectionnée",
+            "successNotif": "Téléchargement des itinéraires réussi",
+            "failNotif": "Échec du téléchargement des itinéraires",
+            "uploaded": "Téléchargé sur le web",
+            "notUploaded": "Non téléchargé sur le web"
+        }
     },
     "settings": {
         "aboutApp": "À propos de cette application",
@@ -990,6 +1065,7 @@
         "logOut": "Se déconnecter",
         "moreInfo": "Plus d'infos",
         "offlineMode": "Mode hors ligne",
+        "offlineModeDescription": "Utilisez le mode hors ligne pour empêcher Forest Watcher mobile de synchroniser les données avec Forest Watcher web. Ceci est utile si vous souhaitez économiser la batterie et limiter le transfert de données.",
         "shareData": "Partager toutes les données de l'application",
         "title": "Paramètres",
         "unsafeLogout": "Des données peuvent être perdues",
@@ -1063,7 +1139,8 @@
             "updated": "Téléchargement terminé !",
             "updating": "Téléchargement des données..."
         },
-        "tryAgain": "Réessayez"
+        "tryAgain": "Réessayez",
+        "complete": "Synchronisation terminée"
     },
     "termsAndConditions": {
         "agreeText": "En utilisant cette application, vous acceptez d’être soumis aux présentes",
@@ -1121,5 +1198,13 @@
         },
         "invalidShapefile": "Erreur de téléchargement du fichier shapefile. Veuillez en essayer un autre.",
         "invalidBundle": "Erreur d'importation de l'ensemble de données de GFW."
+    },
+    "offline": {
+        "bannerTitleOnline": "Mode en ligne",
+        "bannerTitleOffline": "Mode hors ligne",
+        "modalTitle": "Vous êtes en mode hors ligne",
+        "modalSubtitle": "Utilisez le mode hors ligne pour voir le contenu que vous avez téléchargé sur votre appareil sans connexion Internet.",
+        "buttonTitle": "Retour au mode en ligne",
+        "doneButton": "Terminé"
     }
 }

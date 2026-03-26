@@ -19,68 +19,105 @@
         },
         "importedAreas": "Faritra Nampidirina Nankao",
         "myAreas": "Ny Faritro",
+        "teamAreas": "Faritra iasan'ireo ekipa",
+        "teamArea": "Faritra ho an'ny ekipa",
         "title": "Faritra",
         "tooltip": {
             "body": "Hijery fanairana sy tongoan-tsaritany tsy misy aterineto",
             "title": "Atao Azo Ampiasaina Ivelan'ny Aterineto ireo Faritra"
         }
     },
+    "assignments": {
+        "titles": {
+            "assignments": "Ireo asa notendrena atao (% 1 {isa} )",
+            "assignments_nocount": "Asa notendrena atao",
+            "assignmentDetails": "Asa notendrena atao % 1 {anarana}"
+        },
+        "empty": {
+            "title": "Tsy misy asa notendrena atao",
+            "subtitle": "Ho voatanisa eto avokoa ny asa notendrena ho anao ",
+            "action": "Fanontaniana momba ny App Matetika Mipetraka"
+        },
+        "labels": {
+            "high": "Ilaina maika be",
+            "normal": "Ilaina tsy dia maika loatra",
+            "onhold": "Naato"
+        },
+        "details": {
+            "details": "Antsipirihany",
+            "monitors": "Mpanaramaso",
+            "notes": "Fanamarihana",
+            "status": "Toe-draharaha",
+            "markOnHold": "Asiana marika hoe haato",
+            "startAssignment": "Hanomboka ilay asa notendrena atao"
+        },
+        "statusTitles": {
+            "open": "Tsy feno",
+            "onHold": "Naato",
+            "completed": "Vita"
+        }
+    },
     "teams": {
         "sectionTitles": {
-            "invites": "Team Invites",
-            "joined": "Joined By Me",
-            "managed": "Managed By Me"
+            "invites": "Fanasana ekipa",
+            "joined": "Ireo noraisiko ho mpikambana",
+            "managed": "Ireo notantaniko"
         },
         "teamCards": {
-            "areas": "Areas: "
+            "areas": "Faritra"
         },
         "titles": {
-            "teamOverviewTitle": "Teams",
-            "teamDetailsTitle": "Team Details"
+            "teamOverviewTitle": "Ireo ekipa",
+            "teamDetailsTitle": "Ireo mombamomba ny ekipa"
         },
         "teamDetails": {
             "teamNameLabel": "Anarana",
             "teamAreasLabel": "Faritra (maro)",
-            "teamMonitorsLabel": "Monitors",
-            "teamManagersLabel": "Managers",
-            "buttonJoinTeam": "Join Team",
-            "buttonDontJoinTeam": "Do Not Join",
-            "buttonLeaveTeam": "Leave Team",
-            "leaveConfirmationTitle": "Leave Team",
-            "leaveConfirmation": "Are you sure you want to leave this team?",
-            "joinConfirmationTitle": "Join Team",
-            "joinConfirmation": "Are you sure you want to join this team?",
-            "declineConfirmationtitle": "Decline Invite",
-            "declineConfirmation": "Are you sure you want to decline this invitation?"
+            "teamMonitorsLabel": "Mpanaramaso",
+            "teamManagersLabel": "Mpitantana",
+            "buttonJoinTeam": "Miditra amin'ny ekipa",
+            "buttonDontJoinTeam": "Tsy miditra ekipa",
+            "buttonLeaveTeam": "Misaraka amin'ny ekipa",
+            "leaveConfirmationTitle": "Misaraka amin'ny ekipa",
+            "leaveConfirmation": "Azonao antoka ve fa te hisaraka amin'ity ekipa ity ianao?",
+            "joinConfirmationTitle": "Miditra amin'ny ekipa",
+            "joinConfirmation": "Azonao antoka ve fa te hiditra amin'ity ekipa ity ianao?",
+            "declineConfirmationtitle": "Hitsipaka ny fanasana",
+            "declineConfirmation": "Azonao antoka ve fa te hitsipaka ity fanasana ity ianao?"
         },
         "notifications": {
-            "acceptSuccess": "Successfully joined a team",
-            "leaveSuccess": "Successfully left a team",
-            "declineSuccess": "Invitation declined",
-            "newInviteTitle_one": "You have 1 invitation to join a team",
-            "newInviteTitle_other": "You have %{count} invitations to join a team",
-            "newInviteSubtitle": "Tap to view team details"
+            "acceptSuccess": "Nahomby ny fidirana ao anaty ekipa",
+            "leaveSuccess": "Nahomby ny fisarahana amin'ny ekipa",
+            "declineSuccess": "Notsipahana ny fanasana",
+            "newInviteTitle_one": "Nahazo fanasana 1 hiditra ekipa ianao",
+            "newInviteTitle_other": "Manana fanasana % 1 [ isa] hiditra amin'ny ekipa ianao",
+            "newInviteSubtitle": "Tsindrio mba hahitanao antsipiriany momba ny ekipa"
+        },
+        "empty": {
+            "action": "Fanontaniana momba ny App Matetika Mipetraka",
+            "subtitle": "Hiseho eto ireo ekipa nasaina, ho idiranao sy hotantaninao.",
+            "title": "Tsy misy ekipa"
         }
     },
     "deleteAccount": {
-        "title": "Delete Your Account",
-        "heading": "Please read before continuing",
-        "body1": "Your Forest Watcher account is shared across many World Resource Institute (WRI) applications. This includes:",
-        "bullet1": "Forest Watcher\nGlobal Forest Watch (GFW)\nMapBuilder\nResource Watch\nPartnership for Resilience & Preparedness (PREPdata)",
-        "body2": "If you proceed, you will no longer be able to access these applications with this account. You will need to register again if you wish to use them in the future.\n\nIn addition, all content associated with this account (across all applications) will be deleted. This includes:",
-        "bullet2": "Areas of interest\nReports\nRoutes\nContextual Layers\nSubscriptions\nDatasets\nWidgets",
-        "footer": "For a complete list of content types, please visit the https://resource-watch.github.io/doc-api/concepts.html#core-resources.",
-        "footerLinkText": "Resource Watch API documentation",
-        "deleteButton": "Delete Your Account",
-        "confirmationTitle": "Are you sure?",
-        "confirmationBody": "This action cannot be undone. This will permanently delete your Forest Watcher account and all associated content across any WRI products you have used.",
+        "title": "Foano ny kaontinao",
+        "heading": "Mba vakio alohan'ny hanohizanao",
+        "body1": "Ny kaonty Forest Watcher-nao dia mifandray amin'ny app World Resource Institute marobe. Anisan'izany ny:",
+        "bullet1": "Forest Watcher Global Forest Watcher ( GFW)  MapBuilder  Resource Watch  Partnership for Resilience & Preparedness ( PREPdata)",
+        "body2": "Raha manohy ianao, dia tsy ho afaka hampiasa ireto app ireto intsony amin'ity kaonty ity. Mila misoratra anarana indray ianao raha te hampiasa azy ireto amin'ny manaraka.\n\nAnkoatr'izay, ny tahirin-kevitra rehetra mifandray amin'ity kaonty ity ( amin'ny app rehetra) dia ho fafana avokoa. Anisan'izany ny:",
+        "bullet2": "Faritra mahaliana\nTatitra\nLalana\nSosona miovaova\nFamandrihana\nAntontan-kevitra\n",
+        "footer": "Raha te hahazo ny lisitr'ireo karazana tahirin-kevitra dia tsidiho ny https://resource-watch.github.io/doc-api/concepts.html#core-resources",
+        "footerLinkText": "Tahirin-kevitra momba ny Resource Watch API",
+        "deleteButton": "Foano ny kaontinao",
+        "confirmationTitle": "Azonao antoka ve?",
+        "confirmationBody": "Tsy azo ovaina ny vokatr'ity asa ity. Ity dia hanafoana maharitra ny kaonty Forest watcher-nao ary ireo tahirin-kevitra rehetra mifandray amin'ny fitaovana WRI izay nampiasainao",
         "confirmationNegative": "Ajanona",
-        "confirmationPositive": "Delete Your Account",
-        "scheduleDeletionTitle": "Your Account Has Been Scheduled For Deletion",
+        "confirmationPositive": "Foano ny kaontinao",
+        "scheduleDeletionTitle": "Ny kaontinao dia nomanina mba hofoanana",
         "ok": "OK",
-        "adminErrorMessage": "You are currently an administrator of one or more teams. Please delete these teams or transfer administrative status to another user at http://forestwatcher.globalforestwatch.org. Once this step is complete, sync this device and come back here to delete your account",
-        "failedMessage": "Failed to delete your account.",
-        "openLink": "Open Forest Watcher website"
+        "adminErrorMessage": "Mpitarika ekipa iray na maromaro ianao amin'izao fotoana izao. Mba foano ireo ekipa ireo na mamindra fahefana amin'ny mpampiasa iray hafa ao amin'ny http://forestwatcher.globalforestwatch.org. Rehefa vitanao izay dia ampifandraiso ity fitaovana ity ary miverena eto mba hanfoana ny kaontinao",
+        "failedMessage": "Tsy nahomby ny fanafoanana ny kaontinao",
+        "openLink": "Sokafy ny Tranokalan'ny Forest Watcher"
     },
     "basemaps": {
         "delete": {
@@ -140,7 +177,8 @@
         "cancel": "Ajanona",
         "chooseFromLibrary": "Hisafidy avy ao amin'ny fitehirizan-tsary",
         "takePhoto": "Haka sary",
-        "title": "Hisafidy sary"
+        "title": "Misafidiana sary iray",
+        "subtitle": "Fidio ny fomba tianao hanampiana ny sary "
     },
     "commonText": {
         "alert": "Fanairana",
@@ -154,6 +192,7 @@
         "connectionRequired": "Mila aterineto ianao hamitanao ity asa ity",
         "connectionRequiredTitle": "Tsy misy aterineto",
         "continue": "Hanohy",
+        "skip": "Dinganina",
         "crashFeedback": "Nisy zavatra tsy nety. Miezaka manarina izany farak'izay haingana izahay.",
         "date": "Daty",
         "deselectAll": "Tsy Hisafidy Azy Rehetra",
@@ -187,7 +226,8 @@
         "send": "Handefa",
         "settings": "Lazaova",
         "setup": "Hanangana",
-        "userPosition": "Toerana Misy ny Mpampiasa"
+        "userPosition": "Toerana Misy ny Mpampiasa",
+        "syncingNotice": "Ny rindrambaiko dia eo am-pandrindrana ny tahirin-kevitra. Azonao atao ny manohy ny asanao rehefa vita ny fandrindrana! "
     },
     "contactUs": {
         "description": "Fanontaniana sa Fanehoan-kevitra? Mandefasa mailaka any amin'ny mailto:forestwatcher@wri.org"
@@ -246,12 +286,18 @@
     },
     "dashboard": {
         "areas": "Faritra",
-        "teams": "Teams",
+        "teams": "Ireo ekipa",
         "downloadFailed": "Tsy tontosa ny fakàna raki-takila",
         "map": "Sarintany",
         "reports": "Tatitra",
+        "draft_reports_one": "% {count} tatitra tsy voarindra",
+        "draft_reports_many": "% {count} tatitra mihoatran'ny 1 tsy voarindra",
         "routes": "Lalana",
-        "settings": "Lazaova"
+        "settings": "Lazaova",
+        "assignments": "Asa notendrena atao",
+        "assignments_count_one": "%1 {isa} asa notendrena atao tsy vita",
+        "assignments_count_many": "%1 {isa} ireo asa notendrena atao tsy vita",
+        "syncing": "Eo am-pandrindrana ny tahirin-kevitry ny rindrambaiko ho any amin'ny Forest Watcher..."
     },
     "datasets": {
         "umd_as_it_happens": "Fandripahana ala (GLAD)",
@@ -386,7 +432,7 @@
                                 "text1": "Vita andrana siantifika hentitra avokoa ary manana fetra tokana ny angona tsirairay.",
                                 "text2": "Tokony hifantsika ao antsain’ny mpampiasa mandrakariva fa ny fanairana fandripahana ala hita ao amin’ny Forest Watcher dia mitsirika ny fahaverezan’ny rakotr'ala rehetra, na olona no nahatonga izany (toy ny fitrandrahana ala) na antony ara-boajanahary (toy ny fihotsahan'ny tany). Ny fanairana dia tsy manavaka ny rakotr’ala voajanahary sy ny rakotr’ala hazo novolena.  ",
                                 "text3": "Ny fanairana dia mila raisina amim-pitandremana noho ny hampiasana azy any amin’ny farany hanaovana fisafoana eny an-toerana (oh: 1% ny tahan’ny miabo diso ho an'ny fanairana GLAD voamarina, ary 33% ny tahan’ny miiba diso; 2% ny tahan’ny miabo diso ho an'ny fanairana RADD voamarina, ary 5% ny tahan’ny miiba diso). Ankoatrizay, na dia ahitsy ara-potoana foana ary ny fanairana, rehefa misy rako-drahona mamaharitra dia mety mitarika tsy fahafahana mitsirika fanairana amin’ny alàlan’ny GLAD sy GLAD-S2 mandritry ny herinandro maromaro na volana maromaro mihitsy aorian’ny nisehoan’ilay tranga.",
-                                "text4": "An assessment of the VIIRS fire alerts found the rate of false positives to be near 0 for most regions, with a maximum of 1.2% in the regions assessed, mostly associated with sunglint on reflective rooftops. VIIRS fire alerts cannot detect fires that are too small or too cool (generally smaller than 100 square meters or cooler than 700 Kelvin).",
+                                "text4": "Ny fanombanana nataon'ny fanairana momba ny afo VIIRS dia nahitana fa ireo fanairana diso dia manakaiky ny aotra amin'ny ankabeazana'ny faritra, ary 1,2 isan-jato amin'ireo faritra nanaovana fanombanana, noho ny taramasoandro amin'ny tafotrano. Ny fanairana afo VIIRS dia tsy afaka mahita afo izay kely loatra na malefaka loatra ( izay amin'ny ankapobeny 100 metatra toradroa na latsaky ny 700 kelvin)",
                                 "text5": "Raha mila fanazavana fanampiny, tsidiho azafady data.globalforestwatch.org."
                             }
                         },
@@ -708,11 +754,11 @@
         "enablePermissions": "Hanome alalana",
         "subTitle": "Hijery ny toerana misy anao eo amin'ny sarintany",
         "title": "Hanome alalana ny fijerena ny toerana",
-        "bullet1": "Keep precise location set to ‘on’ to ensure your position remains accurate. Set access to ‘allow while using the app’.",
-        "bullet2": "Background location data is collected to enable map and route tracking even when the app is closed or not in use.",
-        "bullet3": "Should you choose to change your decision, this preference can be changed within your app settings. Denying this permission will limit your app experience.",
-        "bullet4_10": "To enable background location, select ‘allow all the time’",
-        "bullet4_11": "To enable background location, go to the app's permission settings and for the location permission, select ‘allow all the time’"
+        "bullet1": "Tazomy ho eo amin'ny \"on\" ny toerana marina misy anao mba hanamarinana fa marina ilay toerana misy anao.",
+        "bullet2": "Ireo antontan-kevitra momba ny toerana dia angonina mba ahafahana manaramaso ny lalana na dia mikatona sy tsy ampiasaina aza ny app",
+        "bullet3": "Raha hisafidy ny hanova ny fanapahakevitrao ianao, ity safidy ity dia azonao ovaina ao amin'ny fikirakirana ny app. raha mitsipaka io alalana io ianao dia ho voafetra ny traikefanao amin'ny fampiasana app",
+        "bullet4_10": "Mba hahafahana mahalala ny toerana misy anao dia fidio ny \" omeo alalana foana\"",
+        "bullet4_11": "Mba ahalalana ny toerana misy anao, mandehana any amin'ny fikirakirana ny app, ary fidio ny \" omeo alalana foana\""
     },
     "login": {
         "emailLogin": {
@@ -725,7 +771,7 @@
             "loginWithEmail": "Hiditra amin’ny alalan’ny mailaka",
             "password": "Teny Miafina"
         },
-        "appleTitle": "Sign in With Apple",
+        "appleTitle": "Midira amin'ny kaontinao amin'ny Apple",
         "emailTitle": "Hiditra amin’ny alalan’ny mailaka",
         "facebookTitle": "Facebook",
         "failed": "Nisy Olana nandritra ny fidirana/fialana",
@@ -762,12 +808,12 @@
                 "oneMonth": "%{count} volana",
                 "oneWeek": "%{count} herinandro",
                 "reportedOn": "Notaterina tamin’ny",
-                "showingManyDays": "Hatramin'ny fanairana 10,000 nandritra ny %{count} andro lasa",
-                "showingManyMonths": "Hatramin'ny fanairana 10,000 nandritra ny %{count} volana lasa",
-                "showingManyWeeks": "Hatramin'ny fanairana 10000 isa nanomboka tamin'ny %{count} herinandro maro lasa teo",
-                "showingOneDay": "Hatramin'ny fanairana 10,000 nandritra ny iray andro lasa",
-                "showingOneMonth": "Hatramin'ny fanairana 10,000 nandritra ny iray volana lasa",
-                "showingOneWeek": "Hatramin'ny fanairana 10000 isa nanomboka tamin'ny herinandro lasa teo",
+                "showingManyDays": "Hatramin'ny fanairana 5,000, farafabetsany, avy amin'ny andro % 1{isa} vitsy lasa izay.",
+                "showingManyMonths": "Hatramin'ny fanairana 5,000, farafabetsany, avy amin'ny volana % 1{isa} vitsy lasa izay.",
+                "showingManyWeeks": "Hatramin'ny fanairana 5,000, farafabetsany, avy amin'ny herinandro % 1{isa} vitsy lasa izay.",
+                "showingOneDay": "Hatramin'ny fanairana 5,000, farafabetsany, avy amin'ny omaly ",
+                "showingOneMonth": "Hatramin'ny fanairana 5,000, farafabetsany, tamin'ny volana lasa teo",
+                "showingOneWeek": "Hatramin'ny fanairana 5,000, farafabetsany, avy amin'ny herinandro lasa.",
                 "timeFrame": "Fe-potoana",
                 "timeFrameDescDays": "Hisafidy ny isan’andro",
                 "timeFrameDescMonths": "Hisafidy ny isan’ny volana",
@@ -869,7 +915,7 @@
         "addPicture": "Hanampy Sary",
         "answers": "Valiny",
         "choosePicture": "Makà na misafidiana sary iray",
-        "completed": "Vita",
+        "completed": "Vita (tsy mifandray amin'ny FW Web)",
         "custom": "Tatitra Mifanaraka Amin’izay Ilaina",
         "datePlaceholder": "Hisafidy daty",
         "delete": "Hamafa ity tatitra ity",
@@ -893,6 +939,12 @@
             "reportSizeAction": "Hamoaka Tatitra (%{bundleSize})",
             "successful": "Tontosa ny famoahana tatitra!",
             "title": "Hamoaka tatitra"
+        },
+        "deleteModal": {
+            "title": "Fafao ny tatitra",
+            "description": "Azonao antoka ve fa te hamafa ity tatitra ity ianao",
+            "cancel": "Ajanona",
+            "approve": "Fafao"
         },
         "alertType": {
             "wur_radd_alerts": "RADD",
@@ -920,10 +972,24 @@
         "title": "Tatitra",
         "toReport": "Tatitra",
         "upload": "Hampiditra",
-        "uploaded": "Tafiditra",
+        "uploaded": "Vita (mifandray amin'ny FW Web)",
         "choose": {
-            "title": "Choose A Template",
-            "subtitle": "To create a report, select one of the following templates:"
+            "title": "Mifidiana modely iray",
+            "subtitle": "Ho fanaovana tatitra dia mifidiana iray amin'ireto modely ireto:"
+        },
+        "fileTooSizeErrorTitle": "Sary Lehibe Loatra",
+        "fileTooSizeErrorMessage": "Ity raki-takila an-tsary ity dia lehibe loatra. Mba mifidiana raki-takila kely kokoa azafady.",
+        "voice": {
+            "idleTitle": "Tsindrio raha teo hanomboka ny fandraisam-peo",
+            "idleSubtitle": "Lorum ipsum dolor sit amet. Lorum ipsum dolor sit amet. Lorum ipsum dolor sit amet.",
+            "recording": "Fandraisam-peo",
+            "paused": "Naato",
+            "recordingEmptyState": "Mba makà na misafidiana fandraisam-peo iray azafady",
+            "chooseRecordingTitle": "Misafidiana fandraisam-peo iray",
+            "chooseRecordingSubtitle": "Safidio ny fomba tianao hampiasaina mba ahafahana manampy ilay fandraisam-peo",
+            "uploadRecording": "Mampidira fandraisam-peo",
+            "startRecording": "Atomboy ny fandraisam-peo",
+            "enterDescriptionHint": "Mampidira fanoritsoritana"
         }
     },
     "routes": {
@@ -971,7 +1037,16 @@
         "stopRouteTrackingPanelDeleteOption": "Hanajanona sy hamafa làlana naleha",
         "stopRouteTrackingPanelSaveOption": "Hanajanona sy hitahiry làlana naleha",
         "stopRouteTrackingPanelTitle": "Hanajanona Fanarahana ny làlana naleha",
-        "viewOnMap": "Hijery ny Làlana naleha ao amin’ny Sarintany"
+        "viewOnMap": "Hijery ny Làlana naleha ao amin’ny Sarintany",
+        "sync": {
+            "buttonTitle": "Handrindra amin'ny tranonkala",
+            "buttonProgress": "Eo am-pandrindrana...",
+            "buttonActive": "Fifandrindrana voafidy",
+            "successNotif": "Lalana tafiditra soa aman-tsara",
+            "failNotif": "Lalana tsy nahomby ny fampidirana azy",
+            "uploaded": "Tafiditra tany amin'ny tranonkala",
+            "notUploaded": "Tsy tafiditra tany amin'ny tranonkala"
+        }
     },
     "settings": {
         "aboutApp": "Mombamomba ity \"application\" ity",
@@ -990,12 +1065,13 @@
         "logOut": "Hiala",
         "moreInfo": "Fampahalalana bebe kokoa",
         "offlineMode": "Tsy misy aterineto",
+        "offlineModeDescription": "Mampiasà fomba ivelan'ny aterineto mba hanakanana ny finday Forest Watcher tsy hifandrindra tahirin-kevitra amin'ny tranokala Forest Watcher. Tena ilaina izany rehefa te hitsitsy ny herin'ny bateria sy hametra ny famindrana tahirin-kevitra ianao.",
         "shareData": "Hizara ny Angona amin’ny App Rehetra",
         "title": "Lazaova",
         "unsafeLogout": "Mety ho very ny angona sasany",
         "unsavedDataLost": "Mety ho very na tsy vita mifanaraka amin'ny kaontinao ny angona sasany raha miala ianao. \nTafiditra amin’izany karazana faritra sy tatitra sasany sy ny làlana rehetra, sarintany fototra sy tongoa mifanaraka amin’ny zava-misy. \nRaha mila fanazavana fanampiny sy te hahafantatra ny dingana mba hidirana amin’io angona io indray, azafady jereo ny pejy FAQ-nay mahakasika io foto-dresaka io.",
         "yourRoutes": "Ny Làlana Nalehako",
-        "deleteAcount": "Delete Your Account"
+        "deleteAcount": "Foano ny kaontinao"
     },
     "setupCountry": {
         "firstInstruction": "Voalohany, safidio ny firenena mahaliana iasanao",
@@ -1047,7 +1123,7 @@
         "errorCreatingArea": "Nisy olana ny famoronana ny faritrao",
         "errorDesc": "Nisy zavatra tsy nety",
         "failed": {
-            "title": "There was an error syncing alerts",
+            "title": "Nisy fahadisoana teo amin'ny fandrindrana ny tatitra",
             "outOfSpaceMessage": "Mba ahazoana fanairana sy votoatin-kevitra mety ho azo tsisy connection, tsy maintsy mamafa ireo raki-takila tsy miasa ao anatin’ny findainao ianao."
         },
         "gettingLatestAlerts": "Eto am-pandraisana ireo fanairanafarany",
@@ -1063,7 +1139,8 @@
             "updated": "Vita tanteraka ny fampidirana!",
             "updating": "Eto am-pampidirana ny angona..."
         },
-        "tryAgain": "Andramo indray"
+        "tryAgain": "Andramo indray",
+        "complete": "Fifandrindrana vita"
     },
     "termsAndConditions": {
         "agreeText": "Rehefa mampiasa ity app ity ianaodia manaiky ireto Fitsipika sy Fepetra ireto",
@@ -1094,32 +1171,40 @@
     },
     "whatsNew": {
         "improvedAreaCreation": {
-            "body": "Draw areas, upload shapefiles and add data bundles",
-            "title": "Improved Area Creation"
+            "body": "Manaova sary an'ireo faritra, mampidira shapefiles sy vondrona tahirin-kevitra",
+            "title": "Famoronana faritra nohatsaraina"
         },
         "joinTeams": {
-            "body": "Accept invitations to join teams within the Forest Watcher app",
-            "title": "Join Teams"
+            "body": "Manaiky fanasana hiditra amin'ny ekipa ao anatin'ny Forest Watcher app",
+            "title": "Hiditra anaty ekipa"
         },
         "teamOverview": {
-            "body": "View a team overview including related areas, monitors and managers",
-            "title": "View Team Overview"
+            "body": "Mijery famintinana momba ny ekipa sy ny faritra mifandray, mpanaramaso ary ireo mpitantana",
+            "title": "Mijery famintinana momba ireo ekipa"
         },
         "title": "Zava-baovao amin'ity Endrika ity"
     },
     "update": {
-        "title": "New Update Available",
-        "subtitle": "Update your app to use new features"
+        "title": "Misy fanavaozana indray",
+        "subtitle": "Avaozy ny app-nao mba hahitanao endri-javatra vaovao"
     },
     "createAnArea": {
-        "title": "Create An Area",
-        "subtitle": "To create an area, select one of the following options:",
+        "title": "Mamorona faritra iray",
+        "subtitle": "Mba hamoronana faritra dia mifidiana iray amin'ireto:",
         "sections": {
-            "drawArea": "Draw A New Area",
-            "uploadShapefile": "Upload Shapefile",
-            "importBundle": "Import From Forest Watcher Data Bundle"
+            "drawArea": "Manaova sarim-paritra iray",
+            "uploadShapefile": "Mampidira shapefile",
+            "importBundle": "Manafatra antontan-kevitra avy amin'ny Forest Watcher Data Bundle"
         },
-        "invalidShapefile": "Error uploading shapefile. Please try another.",
-        "invalidBundle": "Error importing GFW Bundle."
+        "invalidShapefile": "Fahadisoana teo am-pikirakirana shapefile. Mba manandrama iray hafa",
+        "invalidBundle": "Fahadisoana rehefa nanafatra GFW Bundle"
+    },
+    "offline": {
+        "bannerTitleOnline": "Fisian'ny aterineto",
+        "bannerTitleOffline": "Tsy misy aterineto",
+        "modalTitle": "Eto ivelan'ny aterineto ianao",
+        "modalSubtitle": "Mampiasà ny fomba tsisy aterineto raha hijery votoaty nosintoninao tao amin'ny fitaovanao tsy misy fifandraisana aterineto. ",
+        "buttonTitle": "Hiverina any amin'ny misy aterineto",
+        "doneButton": "Vita"
     }
 }

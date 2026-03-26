@@ -4,12 +4,12 @@ import { StyleSheet } from 'react-native';
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Theme.background.main
+    backgroundColor: Theme.background.main,
+    paddingTop: 8
   },
   contentContainer: {
     flex: 1,
-    width: Theme.screen.width,
-    height: Theme.screen.height
+    paddingTop: 10
   },
   input: {
     flex: 1,

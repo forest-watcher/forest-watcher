@@ -1,7 +1,6 @@
 import React from 'react';
 import { Navigation } from 'react-native-navigation';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-
 import Areas from 'containers/areas';
 import Teams from 'containers/teams';
 import TeamDetails from 'containers/teamDetails';
@@ -56,6 +55,10 @@ import LocationPermissions from 'components/location-permissions';
 import CreateArea from 'containers/setup/create-area';
 import ChooseTemplate from 'containers/chooseTemplate';
 import DeleteAccount from 'containers/delete-account';
+import Assignments from 'containers/assignments';
+import AssignmentDetails from 'containers/assignmentDetails';
+import Topbar from 'components/common/topbar';
+import OfflineModal from 'components/common/topbar/offlineModal';
 
 /**
  * Registers a component with React Native Navigation
@@ -66,13 +69,14 @@ import DeleteAccount from 'containers/delete-account';
  * @param {Object} store The redux store to give to the provider
  * @param {boolean} wrapInSafeAreaProvider Allows you to disable wrapping in safe area provider. This is useful as for example wrapping in safe area provider breaks RNN overlay's `interceptTouchOutside`
  */
-function registerComponent(name, Screen, Provider, store, wrapInSafeAreaProvider = true) {
+function registerComponent(name, Screen, Provider, store, wrapInSafeAreaProvider = true, bannerNeeded = true) {
   const Wrapper = wrapInSafeAreaProvider ? SafeAreaProvider : React.Fragment;
   Navigation.registerComponent(
     name,
     () => props => (
       <Provider store={store}>
         <Wrapper>
+          {bannerNeeded && <Topbar nativeID="offlineBannerComponent" />}
           <Screen {...props} />
         </Wrapper>
       </Provider>
@@ -84,19 +88,19 @@ function registerComponent(name, Screen, Provider, store, wrapInSafeAreaProvider
 export function registerScreens(store, Provider) {
   registerComponent('ForestWatcher.Areas', Areas, Provider, store);
   registerComponent('ForestWatcher.MappingFiles', MappingFiles, Provider, store);
-  registerComponent('ForestWatcher.Home', Home, Provider, store);
+  registerComponent('ForestWatcher.Home', Home, Provider, store, true, false);
   registerComponent('ForestWatcher.ImportMappingFileRename', ImportMappingFileRename, Provider, store);
   registerComponent('ForestWatcher.ImportMappingFileType', ImportMappingFileType, Provider, store);
   registerComponent('ForestWatcher.ImportMappingFileError', ImportMappingFileError, Provider, store);
-  registerComponent('ForestWatcher.Login', Login, Provider, store);
-  registerComponent('ForestWatcher.LoginEmail', EmailLogin, Provider, store);
-  registerComponent('ForestWatcher.SetupBoundaries', SetupBoundaries, Provider, store);
+  registerComponent('ForestWatcher.Login', Login, Provider, store, true, false);
+  registerComponent('ForestWatcher.LoginEmail', EmailLogin, Provider, store, true, false);
+  registerComponent('ForestWatcher.SetupBoundaries', SetupBoundaries, Provider, store, true, false);
   registerComponent('ForestWatcher.SetupCountry', SetupCountry, Provider, store);
   registerComponent('ForestWatcher.SetupOverview', SetupOverview, Provider, store);
   registerComponent('ForestWatcher.ShapefileOverview', ShapefileOverview, Provider, store);
   registerComponent('ForestWatcher.Dashboard', Dashboard, Provider, store);
-  registerComponent('ForestWatcher.Map', Map, Provider, store);
-  registerComponent('ForestWatcher.MapWalkthrough', MapWalkthrough, Provider, store);
+  registerComponent('ForestWatcher.Map', Map, Provider, store, true, false);
+  registerComponent('ForestWatcher.MapWalkthrough', MapWalkthrough, Provider, store, true, false);
   registerComponent('ForestWatcher.Settings', Settings, Provider, store);
   registerComponent('ForestWatcher.ContactUs', ContactUs, Provider, store);
   registerComponent('ForestWatcher.Reports', Reports, Provider, store);
@@ -107,15 +111,15 @@ export function registerScreens(store, Provider) {
   registerComponent('ForestWatcher.FaqCategories', FaqCategories, Provider, store);
   registerComponent('ForestWatcher.FaqCategory', FaqCategory, Provider, store);
   registerComponent('ForestWatcher.FaqDetail', FaqDetail, Provider, store);
-  registerComponent('ForestWatcher.Sync', Sync, Provider, store);
+  registerComponent('ForestWatcher.Sync', Sync, Provider, store, true, false);
   registerComponent('ForestWatcher.Answers', Answers, Provider, store);
-  registerComponent('ForestWatcher.MapLayersDrawer', MapSidebar, Provider, store);
-  registerComponent('ForestWatcher.ErrorLightbox', ErrorLightbox, Provider, store);
-  registerComponent('ForestWatcher.ToastNotification', ToastNotification, Provider, store, false);
+  registerComponent('ForestWatcher.MapLayersDrawer', MapSidebar, Provider, store, true, false);
+  registerComponent('ForestWatcher.ErrorLightbox', ErrorLightbox, Provider, store, true, false);
+  registerComponent('ForestWatcher.ToastNotification', ToastNotification, Provider, store, false, false);
   registerComponent('ForestWatcher.Routes', Routes, Provider, store);
   registerComponent('ForestWatcher.RouteDetail', RouteDetail, Provider, store);
   registerComponent('ForestWatcher.SaveRoute', SaveRoute, Provider, store);
-  registerComponent('ForestWatcher.Welcome', Welcome, Provider, store);
+  registerComponent('ForestWatcher.Welcome', Welcome, Provider, store, true, false);
   registerComponent('ForestWatcher.AlertLayerSettings', AlertLayerSettings, Provider, store);
   registerComponent('ForestWatcher.RoutesLayerSettings', RoutesLayerSettings, Provider, store);
   registerComponent('ForestWatcher.ReportsLayerSettings', ReportLayerSettings, Provider, store);
@@ -128,12 +132,15 @@ export function registerScreens(store, Provider) {
   registerComponent('ForestWatcher.ImportBundleCustomLayers', ImportSharingBundleCustomLayers, Provider, store);
   registerComponent('ForestWatcher.ImportBundleCustomBasemaps', ImportSharingBundleCustomBasemaps, Provider, store);
   registerComponent('ForestWatcher.ImportBundleConfirm', ImportSharingBundleConfirm, Provider, store);
-  registerComponent('ForestWatcher.Information', Information, Provider, store);
+  registerComponent('ForestWatcher.Information', Information, Provider, store, true, false);
   registerComponent('ForestWatcher.MultipleItems', MultipleItems, Provider, store);
-  registerComponent('ForestWatcher.LocationPermissions', LocationPermissions, Provider, store);
+  registerComponent('ForestWatcher.LocationPermissions', LocationPermissions, Provider, store, true, false);
   registerComponent('ForestWatcher.Teams', Teams, Provider, store);
   registerComponent('ForestWatcher.TeamDetails', TeamDetails, Provider, store);
   registerComponent('ForestWatcher.CreateArea', CreateArea, Provider, store);
   registerComponent('ForestWatcher.ChooseTemplate', ChooseTemplate, Provider, store);
   registerComponent('ForestWatcher.DeleteAccount', DeleteAccount, Provider, store);
+  registerComponent('ForestWatcher.Assignments', Assignments, Provider, store);
+  registerComponent('ForestWatcher.AssignmentDetails', AssignmentDetails, Provider, store);
+  registerComponent('ForestWatcher.OfflineModal', OfflineModal, Provider, store, false, false);
 }

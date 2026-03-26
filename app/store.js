@@ -45,7 +45,12 @@ function createAppStore(startApp) {
   if (__DEV__) {
     storeEnhancers.push(Reactotron.createEnhancer());
   }
-  return createStore(enhanceReducer(combinedReducer), compose(...storeEnhancers));
+  let composeEnhancers = compose;
+
+  if (__DEV__) {
+    composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+  }
+  return createStore(enhanceReducer(combinedReducer), composeEnhancers(...storeEnhancers));
 }
 
 createAppStore.runSagas = () => sagaMiddleware.run(rootSaga);

@@ -20,7 +20,6 @@ import calculateBundleSize from 'helpers/sharing/calculateBundleSize';
 import generateUniqueID from 'helpers/uniqueId';
 import { getShareButtonText } from 'helpers/sharing/utils';
 
-import Theme from 'config/theme';
 import { AREA_ROW_TOTAL_HEIGHT } from 'components/common/area-list/styles';
 import { pushMapScreen } from 'screens/maps';
 import type { Team } from 'types/teams.types';
@@ -53,9 +52,6 @@ class Areas extends Component<Props, State> {
   static options(passProps: {}) {
     return {
       topBar: {
-        background: {
-          color: Theme.colors.veryLightPink
-        },
         title: {
           text: i18n.t('areas.title')
         },
@@ -209,7 +205,10 @@ class Areas extends Component<Props, State> {
     });
   });
 
-  onScrollViewContentSizeChange = (areasOwnedLength: number, areasImportedLength: number) => {
+  onScrollViewContentSizeChange: (areasOwnedLength: number, areasImportedLength: number) => void = (
+    areasOwnedLength: number,
+    areasImportedLength: number
+  ) => {
     if (areasOwnedLength < 4) {
       // No need to scroll
       return;
@@ -270,6 +269,7 @@ class Areas extends Component<Props, State> {
     const totalAreas = areas.length;
 
     const [areasImported, areasOwned] = _.partition(areas, area => area.isImported);
+    const [teamAreas, myAreas] = _.partition(areasOwned, area => area.teamId);
 
     const hasAreas = areas && areas.length > 0;
     const sharingType = i18n.t('sharing.type.areas');
@@ -317,7 +317,9 @@ class Areas extends Component<Props, State> {
               ref={ref => {
                 this.scrollView = ref;
               }}
-              onContentSizeChange={() => this.onScrollViewContentSizeChange(areasOwned.length, areasImported.length)}
+              onContentSizeChange={() =>
+                this.onScrollViewContentSizeChange(myAreas.length, areasImported.length + teamAreas.length)
+              }
               onStartShouldSetResponder={event => {
                 // If the user taps ANYWHERE set the area download tooltip as seen
                 event.persist();
@@ -329,7 +331,8 @@ class Areas extends Component<Props, State> {
               showsVerticalScrollIndicator={false}
               showsHorizontalScrollIndicator={false}
             >
-              {this.renderAreaList(areasOwned, i18n.t('areas.myAreas'), true)}
+              {this.renderAreaList(myAreas, i18n.t('areas.myAreas'), true)}
+              {this.renderAreaList(teamAreas, i18n.t('areas.teamAreas'))}
               {this.renderAreaList(areasImported, i18n.t('areas.importedAreas'))}
             </ScrollView>
           ) : (

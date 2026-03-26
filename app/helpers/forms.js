@@ -15,6 +15,8 @@ import { readableNameForReportName } from 'helpers/reports';
  */
 export const REPORT_BLOB_IMAGE_ATTACHMENT_PRESENT = 'image/jpeg';
 
+export const REPORT_BLOB_AUDIO_ATTACHMENT_PRESENT = 'audio/mp4';
+
 export const getBtnTextByType = (type: string): string => {
   switch (type) {
     case 'text':
@@ -23,6 +25,8 @@ export const getBtnTextByType = (type: string): string => {
       return i18n.t('report.inputRadio');
     case 'select':
       return i18n.t('report.inputSelect');
+    case 'audio':
+      return i18n.t('commonText.continue');
     default:
       return i18n.t('report.input');
   }
@@ -88,15 +92,26 @@ export const getNextStep = (step: {
     };
     const next = getJump(currentQuestion);
     return next !== null ? currentQuestion + next : null;
+  } else if (questions && currentQuestion === questions.length - 1) {
+    if (
+      !isQuestionAnswered(answers[currentQuestion], questions[currentQuestion]) &&
+      questions[currentQuestion].required
+    ) {
+      return currentQuestion;
+    }
   }
   return null;
 };
 
-export const isQuestionAnswered = (answer: Answer): boolean => {
+export const isQuestionAnswered = (answer: Answer, question: Question): boolean => {
   if (!answer) {
     return false;
   }
-  return answer.value !== '';
+  if (question.type === 'audio') {
+    return answer.value.length > 0;
+  }
+  if (answer) return answer.value !== '' && !(answer.value.length !== undefined && answer.value.length === 0);
+  return false;
 };
 
 function getAnswerValues(question: Question, answer: ?Answer) {
@@ -106,8 +121,14 @@ function getAnswerValues(question: Question, answer: ?Answer) {
 
   const simpleTypeInputs = ['number', 'text', 'point', 'blob'];
   let value = Array.isArray(answer.value) ? answer.value : [answer.value];
-  if (!simpleTypeInputs.includes(question.type)) {
-    value = question.values?.filter(item => value.includes(item.value)).map(item => item.label);
+  if (question.type === 'audio') {
+    if (answer.value.length > 0) {
+      value = ['Recording.mp4'];
+    }
+  } else if (!simpleTypeInputs.includes(question.type)) {
+    value = question.values
+      ?.filter(item => value.includes(item.value) || value.includes(item.label))
+      .map(item => item.label);
   }
   return { ...answer, value };
 }
@@ -152,7 +173,10 @@ export function mapFormToAnsweredQuestions(
       answer: getAnswerValues(question, answer)
     };
 
-    const childMatchCondition = question.childQuestion && answer.value === question.childQuestion.conditionalValue;
+    const childMatchCondition =
+      question.type === 'audio'
+        ? true
+        : question.childQuestion && answer.value === question.childQuestion.conditionalValue;
     if (!!answer.child && childMatchCondition) {
       const questionName = answer.child.questionName;
       const childQuestion = questions[questionName];

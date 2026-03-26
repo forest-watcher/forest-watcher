@@ -18,6 +18,8 @@ import { RETRY_SYNC } from 'redux-modules/shared';
 import { CURRENT_REDUX_STATE_VERSION } from '../migrate';
 import { NativeModules, Platform } from 'react-native';
 import { checkVersion } from 'react-native-check-version';
+import { syncAssignments } from 'redux-modules/assignments';
+import { syncRoutes } from 'redux-modules/routes';
 
 // Actions
 const SET_OFFLINE_MODE = 'app/SET_OFFLINE_MODE';
@@ -37,6 +39,7 @@ export const UPDATE_APP = 'app/UPDATE_APP';
 export const EXPORT_REPORTS_SUCCESSFUL = 'app/EXPORT_REPORTS_SUCCESSFUL';
 export const SHARING_BUNDLE_IMPORTED = 'app/SHARING_BUNDLE_IMPORT_SUCCESSFUL';
 const SET_NEEDS_APP_UPDATE = 'app/SET_NEEDS_APP_UPDATE';
+export const SYNC_FINISHED = 'app/SYNC_FINISHED';
 
 // Reducer
 const initialState = {
@@ -73,6 +76,7 @@ export default function reducer(state: AppState = initialState, action: AppActio
         ...app,
         language,
         version,
+        syncing: 0,
         isUpdate: app?.version && app.version !== version,
         needsAppUpdate: {
           ...app?.needsAppUpdate,
@@ -153,9 +157,16 @@ export function setAppSynced(open: boolean): AppAction {
   };
 }
 
-export function decreaseAppSynced(): AppAction {
-  return {
-    type: DECREASE_APP_SYNCING
+export function decreaseAppSynced(): any {
+  return (dispatch: Dispatch, state: GetState) => {
+    if (state().app.syncing === 1) {
+      dispatch({
+        type: SYNC_FINISHED
+      });
+    }
+    dispatch({
+      type: DECREASE_APP_SYNCING
+    });
   };
 }
 
@@ -176,6 +187,8 @@ export function syncApp(): (dispatch: Dispatch, state: GetState) => void {
       dispatch(syncAreas());
       dispatch(syncLayers());
       dispatch(syncTeams());
+      dispatch(syncAssignments());
+      dispatch(syncRoutes());
     }
   };
 }

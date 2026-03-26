@@ -21,12 +21,8 @@ export default function effect({ url, headers, errorCode, deserialize = true, ..
     };
     const canDeserialize = res => res && typeof res === 'object' && res.data && deserialize;
     return defaultEffect(req, action)
-      .then(data => {
-        console.log('still downloading', url);
-        return canDeserialize(data) ? new JSONAPIDeserializer(deserializeOptions).deserialize(data) : data;
-      })
+      .then(data => (canDeserialize(data) ? new JSONAPIDeserializer(deserializeOptions).deserialize(data) : data))
       .catch(err => {
-        console.log('ERROR', JSON.stringify(err), JSON.stringify(req));
         if (errorCode) {
           throw new FWError({ message: err, status: errorCode });
         }

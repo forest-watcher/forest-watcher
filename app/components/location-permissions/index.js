@@ -12,7 +12,7 @@ import ActionButton from 'components/common/action-button';
 import { request, PERMISSIONS } from 'react-native-permissions';
 
 import { withSafeArea } from 'react-native-safe-area';
-import parseInt from 'lodash/fp/parseInt';
+
 const SafeAreaView = withSafeArea(View, 'margin', 'vertical');
 
 const locationPermissionsImage = require('assets/locationPermissions.jpg');
@@ -80,18 +80,23 @@ export default class Welcome extends Component<Props> {
                 <Text style={styles.itemText}>{i18n.t('locationPermissions.bullet3')}</Text>
               </View>
             </View>
-            <View style={styles.itemContainer}>
-              <View style={styles.bullet} />
-              <View style={styles.itemContentContainer}>
-                <Text style={styles.itemText}>
-                  {Platform.Version < 32
-                    ? i18n.t('locationPermissions.bullet4_10')
-                    : i18n.t('locationPermissions.bullet4_11')}
-                </Text>
+            {Platform.OS === 'android' && (
+              <View style={styles.itemContainer}>
+                <View style={styles.bullet} />
+                <View style={styles.itemContentContainer}>
+                  <Text style={styles.itemText}>
+                    {Platform.Version < 32
+                      ? i18n.t('locationPermissions.bullet4_10')
+                      : i18n.t('locationPermissions.bullet4_11')}
+                  </Text>
+                </View>
               </View>
-            </View>
+            )}
           </ScrollView>
-          <ActionButton onPress={this.onContinue} noIcon text={i18n.t('locationPermissions.enablePermissions')} />
+
+          <View style={{ paddingTop: 16 }}>
+            <ActionButton onPress={this.onContinue} noIcon text={i18n.t('locationPermissions.enablePermissions')} />
+          </View>
         </View>
       </SafeAreaView>
     );

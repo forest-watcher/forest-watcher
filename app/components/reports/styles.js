@@ -78,5 +78,11 @@ export default StyleSheet.create({
   itemText: {
     ...Theme.tableRowText,
     fontSize: 12
+  },
+  topBarTextButton: {
+    fontSize: 16,
+    fontFamily: Theme.font,
+    color: Theme.colors.turtleGreen,
+    backgroundColor: Theme.background.main
   }
 });

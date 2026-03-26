@@ -8,6 +8,8 @@ import { initialiseAreaLayerSettings } from 'redux-modules/layerSettings';
 import { trackSharedContent } from 'helpers/analytics';
 import exportBundleFromRedux from 'helpers/sharing/exportBundleFromRedux';
 import shareBundle from 'helpers/sharing/shareBundle';
+import type { Route } from '../../types/routes.types';
+import { uploadRoutes } from '../../redux-modules/routes';
 
 type OwnProps = {|
   +componentId: string
@@ -15,7 +17,8 @@ type OwnProps = {|
 
 function mapStateToProps(state: State) {
   return {
-    routes: state.routes.previousRoutes
+    routes: state.routes.previousRoutes,
+    syncing: state.routes.syncing
   };
 }
 
@@ -29,6 +32,9 @@ function mapDispatchToProps(dispatch: Dispatch) {
       );
       trackSharedContent('route');
       await shareBundle(outputPath);
+    },
+    syncRoutes: (routes: Array<Route>) => {
+      dispatch(uploadRoutes(routes));
     },
     initialiseAreaLayerSettings: (featureId: string, areaId: string) => {
       dispatch(initialiseAreaLayerSettings(featureId, areaId));

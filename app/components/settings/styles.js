@@ -185,5 +185,12 @@ export default StyleSheet.create({
   rowLabel: {
     ...Theme.tableRowText,
     flex: 1
+  },
+  rowSubText: {
+    ...Theme.tableRowText,
+    fontSize: 12,
+    lineHeight: 16,
+    opacity: 0.8,
+    marginTop: 4
   }
 });

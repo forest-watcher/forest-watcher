@@ -16,7 +16,6 @@ import Config from 'react-native-config';
 type Props = {
   teams: Array<Team>,
   user: UserState,
-  deleteAccount: () => void,
   logout: () => void
 };
 
@@ -104,7 +103,8 @@ const DeleteAccount = (props: Props): React$Element<any> => {
                               {
                                 text: i18n.t('deleteAccount.ok'),
                                 onPress: () => {
-                                  props.deleteAccount();
+                                  props.logout();
+                                  launchAppRoot('ForestWatcher.Login');
                                 }
                               }
                             ]);
@@ -142,9 +142,6 @@ const DeleteAccount = (props: Props): React$Element<any> => {
 DeleteAccount.options = (passProps: {}): any => {
   return {
     topBar: {
-      background: {
-        color: Theme.colors.veryLightPink
-      },
       title: {
         text: i18n.t('deleteAccount.title')
       }

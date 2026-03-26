@@ -8,6 +8,8 @@ import { getDefaultReport } from 'redux-modules/reports';
 import { getTeams } from 'redux-modules/teams';
 import { setAppSyncing } from '../redux-modules/app';
 import jwt_decode from 'jwt-decode';
+import { getAssignments } from 'redux-modules/assignments';
+import { getRoutes } from 'redux-modules/routes';
 
 export function* updateApp(): Generator<*, *, *> {
   function* fetchAreasAndAlerts() {
@@ -21,9 +23,11 @@ export function* updateApp(): Generator<*, *, *> {
       userId = decoded.id;
     }
     if (loggedIn) {
-      yield put(setAppSyncing(6));
+      yield put(setAppSyncing(9));
       yield put(getUser()); // To get possible my GFW changes
       yield put(getTeams(userId));
+      yield put(getAssignments());
+      yield put(getRoutes());
       yield put(getAreas());
       yield put(getUserLayers());
       yield put(getDefaultReport());

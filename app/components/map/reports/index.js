@@ -4,7 +4,7 @@ import type { Report, SelectedReport } from 'types/reports.types';
 
 import React, { Component } from 'react';
 
-import { View } from 'react-native';
+import { View, Platform } from 'react-native';
 import Theme from 'config/theme';
 import { mapboxStyles } from './styles';
 import MapboxGL from '@react-native-mapbox-gl/maps';
@@ -130,16 +130,18 @@ export default class Reports extends Component<Props> {
     }
   };
 
-  renderReports: (reports: $ReadOnlyArray<Report>, imported: boolean) => any = (
+  renderReports: (reports: $ReadOnlyArray<Report>, imported: boolean, shouldDraw: boolean) => any = (
     reports: $ReadOnlyArray<Report>,
-    imported: boolean
+    imported: boolean,
+    shouldDraw: boolean
   ) => {
-    if (!reports?.length) {
+    // For android, we need to return null if don't want to render the reports - But for iOS, we should render an empty array! Apparently!
+    if (!reports?.length || (Platform.OS === 'android' && !shouldDraw)) {
       return null;
     }
     const points = [];
     reports.forEach(report => points.push(...this.getPoints(report)));
-    const reportFeatureCollection = reports ? featureCollection(points) : null;
+    const reportFeatureCollection = reports && shouldDraw ? featureCollection(points) : [];
     const circleColor = imported ? Theme.colors.importedReport : Theme.colors.report;
     const onPress = this.props.onShapeSourcePressed || null;
     const key = imported ? 'importedReport' : 'myReport';
@@ -191,8 +193,8 @@ export default class Reports extends Component<Props> {
             importedReportSelected: require('assets/alertMapIcons/importedReportSelectedMapIcon.png')
           }}
         />
-        {myReportsActive && this.renderReports(this.props.myReports, false)}
-        {importedReportsActive && this.renderReports(this.props.importedReports, true)}
+        {this.renderReports(this.props.myReports, false, myReportsActive)}
+        {this.renderReports(this.props.importedReports, true, importedReportsActive)}
       </View>
     );
   }

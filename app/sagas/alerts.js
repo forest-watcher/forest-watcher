@@ -8,7 +8,6 @@ import { GET_AREAS_COMMIT, SAVE_AREA_COMMIT } from 'redux-modules/areas';
 import { DATASETS } from 'config/constants';
 import moment from 'moment/moment';
 import deleteAlerts from 'helpers/alert-store/deleteAlerts';
-import { decreaseAppSynced } from '../redux-modules/app';
 
 function* syncAlertDatasets({ area, cache }): Generator<*, *, *> {
   yield all(

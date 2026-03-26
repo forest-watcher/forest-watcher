@@ -11,7 +11,6 @@ import debounceUI from 'helpers/debounceUI';
 import styles from './styles';
 import { Navigation, NavigationButtonPressedEvent } from 'react-native-navigation';
 import { readableNameForReportName } from 'helpers/reports';
-import Theme from 'config/theme';
 
 const nextIcon = require('assets/next.png');
 
@@ -24,9 +23,6 @@ export default class MultipleItems extends PureComponent<Props, null> {
   static options(passProps: {}) {
     return {
       topBar: {
-        background: {
-          color: Theme.colors.veryLightPink
-        },
         title: {
           text: i18n.t('map.selectedItems.multipleItems')
         },

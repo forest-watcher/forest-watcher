@@ -118,10 +118,6 @@ export const DATASET_CATEGORIES: { string: AlertDatasetCategory } = {
       {
         units: 'months',
         value: 6
-      },
-      {
-        units: 'months',
-        value: 12
       }
     ],
     iconPrefix: 'deforestation',
@@ -174,7 +170,7 @@ export const DATASETS: { [slug: string]: AlertDatasetConfig } = {
     sortKey: 1,
     nameKey: 'map.gladAlert',
     reportNameId: 'GLAD',
-    requestThreshold: 365
+    requestThreshold: 200
   },
   glad_sentinel_2: {
     api: {
@@ -192,7 +188,7 @@ export const DATASETS: { [slug: string]: AlertDatasetConfig } = {
     sortKey: 2,
     nameKey: 'map.gladS2Alert',
     reportNameId: 'GLADSTWO', // Must match regex for report names: [A-Z]
-    requestThreshold: 365
+    requestThreshold: 180
   },
   wur_radd_alerts: {
     api: {
@@ -210,7 +206,7 @@ export const DATASETS: { [slug: string]: AlertDatasetConfig } = {
     sortKey: 3,
     nameKey: 'map.raddAlert',
     reportNameId: 'RADD',
-    requestThreshold: 365
+    requestThreshold: 180
   },
   viirs: {
     api: {

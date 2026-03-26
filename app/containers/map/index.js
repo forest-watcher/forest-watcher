@@ -2,7 +2,7 @@
 import type { Coordinates } from 'types/common.types';
 import type { ComponentProps, Dispatch, State } from 'types/store.types';
 import type { Route } from 'types/routes.types';
-import type { Report, ReportsList, ReportArea } from 'types/reports.types';
+import type { Report, ReportsList, ReportArea, Template } from 'types/reports.types';
 
 import { flatten } from 'lodash';
 import memoizeOne from 'memoize-one';
@@ -14,13 +14,16 @@ import { activeDataset } from 'helpers/area';
 import Map from 'components/map';
 import { coordsArrayToObject } from 'helpers/location';
 import { DEFAULT_LAYER_SETTINGS, getActiveBasemap } from 'redux-modules/layerSettings';
+import type { AssignmentLocation } from 'types/assignments.types';
 
 type OwnProps = {|
   +teamId: ?string,
   +areaId: ?string,
   +componentId: string,
   +featureId: string,
-  +routeId: ?string
+  +routeId: ?string,
+  +templates: ?Array<Template>,
+  +preSelectedAlerts?: ?Array<AssignmentLocation>
 |};
 
 function getAreaCoordinates(areaFeature): ?Array<Coordinates> {
@@ -79,7 +82,9 @@ function reconcileRoutes(activeRoute: ?Route, previousRoute: ?Route): ?Route {
 
 function mapStateToProps(state: State, ownProps: OwnProps) {
   const featureId = ownProps.featureId;
-  const area = state.areas.data.find(item => item.id === ownProps.areaId && item.teamId === ownProps.teamId);
+  const area = state.areas.data.find(
+    item => item.id === ownProps.areaId && (!ownProps.teamId || item.teamId === ownProps.teamId)
+  );
   const previousRoute = state.routes.previousRoutes.find(item => item.id === ownProps.routeId);
   let areaCoordinates: ?Array<Coordinates> = null;
   let areaProps: ?ReportArea = null;
@@ -113,7 +118,8 @@ function mapStateToProps(state: State, ownProps: OwnProps) {
     isOfflineMode: state.app.offlineMode,
     coordinatesFormat: state.app.coordinatesFormat,
     reportedAlerts: reportedCoordinates,
-    mapWalkthroughSeen: state.app.mapWalkthroughSeen
+    mapWalkthroughSeen: state.app.mapWalkthroughSeen,
+    templates: ownProps.templates || areaProps?.reportTemplate
   };
 }
 
@@ -123,7 +129,7 @@ function mapDispatchToProps(dispatch: Dispatch, ownProps: OwnProps) {
       const areaId = ownProps.areaId;
       if (areaId) {
         trackRouteFlowEvent('started');
-        dispatch(setRouteDestination(location, areaId));
+        dispatch(setRouteDestination(location, areaId, ownProps.teamId));
       }
     },
     onCancelTrackingRoute: () => {
