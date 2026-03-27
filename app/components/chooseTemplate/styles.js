@@ -5,7 +5,7 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Theme.background.main,
-    paddingTop: isSmallScreen ? 22 : 30
+    paddingVertical: isSmallScreen ? 22 : 30
   },
   label: {
     ...Theme.sectionHeaderText,
@@ -16,5 +16,8 @@ export default StyleSheet.create({
   row: {
     paddingLeft: 0,
     marginLeft: -8
+  },
+  listContent: {
+    paddingBottom: 30
   }
 });

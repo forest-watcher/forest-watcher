@@ -111,6 +111,5 @@ export function queryAlertsLazy(query: AlertsQuery) {
 
   const queryString = queryParts.join(' ');
   const data = db.objects('Alert').filtered(queryString);
-
   return data;
 }

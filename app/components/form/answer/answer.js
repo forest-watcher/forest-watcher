@@ -11,7 +11,8 @@ type Props = {
   question: string,
   answers: Array<any>,
   onEditPress?: () => void,
-  readOnly: boolean
+  readOnly: boolean,
+  childAnswer?: string
 };
 
 const Answer = (props: Props) => (
@@ -24,7 +25,7 @@ const Answer = (props: Props) => (
         {props.answers &&
           props.answers.map((answer, i) => (
             <Text numberOfLines={3} style={styles.answer} key={`${props.questionId}${i}`}>
-              {answer}
+              {answer} {props.childAnswer && `: ${props.childAnswer}`}
             </Text>
           ))}
       </View>

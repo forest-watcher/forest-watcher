@@ -93,7 +93,7 @@ export function getAreaAlerts(area: Area, datasetSlug: string, apiConfig: AlertD
   if (requiresMaxDate) {
     url += ` and ${dateKey} < '${moment().format('YYYY-MM-DD')}'`;
   }
-  url += ` ORDER BY ${dateKey} DESC LIMIT 10000`;
+  url += ` ORDER BY ${dateKey} DESC LIMIT 5000`;
   const alertId = `${area.id}_${datasetSlug}`;
   const headers = {
     Origin: 'com.wri.forestwatcher',
