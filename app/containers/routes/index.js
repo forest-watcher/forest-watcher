@@ -36,6 +36,9 @@ function mapDispatchToProps(dispatch: Dispatch) {
     syncRoutes: (routes: Array<Route>) => {
       dispatch(uploadRoutes(routes));
     },
+    syncRoutes: (routes: Array<Route>) => {
+      dispatch(uploadRoutes(routes));
+    },
     initialiseAreaLayerSettings: (featureId: string, areaId: string) => {
       dispatch(initialiseAreaLayerSettings(featureId, areaId));
     }

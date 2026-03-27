@@ -74,6 +74,7 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
     },
     showExportReportsSuccessfulNotification: () => {
       dispatch(showExportReportsSuccessfulNotification());
+      dispatch(setAsUploaded([ownProps.reportName]));
     },
     showNotConnectedNotification: () => {
       dispatch(showNotConnectedNotification());
