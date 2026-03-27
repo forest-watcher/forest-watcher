@@ -168,11 +168,14 @@ export default class Routes extends PureComponent<Props, State> {
     this.setState({
       creatingArchive: true
     });
-    await this.props.exportRoutes(selectedRoutes);
-    this.setState({
-      creatingArchive: false
-    });
-    this.setSharing(false);
+    try {
+      await this.props.exportRoutes(selectedRoutes);
+    } finally {
+      this.setState({
+        creatingArchive: false
+      });
+      this.setSharing(false);
+    }
   });
 
   setAllSelected: (selected: boolean) => void = (selected: boolean) => {

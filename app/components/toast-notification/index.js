@@ -44,7 +44,7 @@ class ToastNotification extends PureComponent<Props> {
   render() {
     const { type, text, description } = this.props;
     return (
-      <View style={[styles.view, styles[type], { paddingTop: initialWindowMetrics.insets.top }]}>
+      <View style={[styles.view, styles[type], { paddingTop: initialWindowMetrics?.insets?.top || 0 }]}>
         <View style={styles.internalView}>
           <Text style={[styles.text, styles[`${type}Text`]]}>{text}</Text>
           {description && <Text style={[styles.description, styles[`${type}Text`]]}>{description}</Text>}

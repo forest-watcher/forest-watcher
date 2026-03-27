@@ -87,7 +87,7 @@ const ROUTE_TRACKING_BOTTOM_DIALOG_STATE_HIDDEN = 0;
 const ROUTE_TRACKING_BOTTOM_DIALOG_STATE_EXITING = 1;
 const ROUTE_TRACKING_BOTTOM_DIALOG_STATE_STOPPING = 2;
 
-const DISMISSED_INFO_BANNER_POSTIION = 300 + initialWindowMetrics.insets.bottom;
+const DISMISSED_INFO_BANNER_POSTIION = 300 + (initialWindowMetrics?.insets?.bottom || 0);
 
 const backgroundImage = require('assets/map_bg_gradient.png');
 
@@ -134,7 +134,8 @@ type State = {
   infoBannerShowing: boolean,
   // feature(s) that the user has just tapped on
   tappedOnFeatures: $ReadOnlyArray<MapItemFeatureProperties>,
-  loading: boolean
+  loading: boolean,
+  topInset: number
 };
 
 class MapComponent extends Component<Props, State> {
@@ -186,7 +187,8 @@ class MapComponent extends Component<Props, State> {
       animatedPosition: new Animated.Value(DISMISSED_INFO_BANNER_POSTIION),
       infoBannerShowing: false,
       tappedOnFeatures: [],
-      loading: false
+      loading: false,
+      topInset: 0
     };
   }
 
@@ -227,6 +229,18 @@ class MapComponent extends Component<Props, State> {
           longitude: '' + this.props.preSelectedAlerts[0].lon
         }
       });
+    }
+
+    // set the top inset to the top inset of the initial window metrics if we're on iOS
+    // setting the value to state onmount because the value is not available in the constructor
+    // this is done automatically with useSafeAreaInsets hook in react-native-safe-area-context
+    if (Platform.OS === 'ios') {
+      const insets = initialWindowMetrics?.insets;
+      if (insets) {
+        this.setState({
+          topInset: insets.top
+        });
+      }
     }
   }
 
@@ -1009,7 +1023,7 @@ class MapComponent extends Component<Props, State> {
             <View
               style={[
                 styles.coordinateTextContainer,
-                { paddingTop: Platform.OS === 'ios' ? initialWindowMetrics.insets.top : 0 } // Status bar padding only on iOS because on Android
+                { paddingTop: Platform.OS === 'ios' ? this.state.topInset : 0 } // Status bar padding only on iOS because on Android
                 // the status bar is opaque and pushes the whole app down
               ]}
             >

@@ -260,7 +260,7 @@ export function saveArea(params: { datasets: Array<Dataset>, snapshot: string, a
   const image = {
     uri: params.snapshot,
     type: 'image/jpg',
-    name: `${encodeURIComponent(params.area.name)}.jpg`
+    name: `${encodeURIComponent(params.area.name.replaceAll(' ', '_'))}.jpg`
   };
 
   if (params.datasets) {

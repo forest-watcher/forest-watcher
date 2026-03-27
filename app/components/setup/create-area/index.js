@@ -246,10 +246,7 @@ class CreateArea extends Component<Props, State> {
 
   verifyShapefile: (file: File) => boolean = (file: File) => {
     // $FlowFixMe
-    const fileExtension = file.name
-      .split('.')
-      ?.pop()
-      ?.toLowerCase();
+    const fileExtension = file.name.split('.')?.pop()?.toLowerCase();
 
     if (!ACCEPTED_FILE_TYPES_CONTEXTUAL_LAYERS.includes(fileExtension)) {
       this.showErrorModal(file, 'fileFormat');

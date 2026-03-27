@@ -6,6 +6,7 @@ import i18n from 'i18next';
 import { generateAlertId, initDb } from 'helpers/alert-store/database';
 
 import { showNotification } from 'components/toast-notification';
+import * as Sentry from '@sentry/react-native';
 
 /**
  * Synchronously store the specified alerts
@@ -24,6 +25,7 @@ export default function storeAlerts(alerts: Array<Alert>): void {
       });
     });
   } catch (error) {
+    Sentry.captureException(error);
     showNotification({
       type: 'error',
       text: i18n.t('sync.failed.title'),

@@ -77,21 +77,40 @@ export const getNextStep = (step: {
 }): ?number => {
   const { currentQuestion, questions, answers } = step;
   if (questions && currentQuestion < questions.length - 1) {
-    const getJump = (currentIndex: number = 0, jumpStart: number = 0) => {
-      const jump = jumpStart + 1;
-      const question = questions[currentIndex + 1];
-      const conditions = question.conditions;
-      const answer = answers[currentIndex] || {};
-      const isLastQuestion = questions.length - 1 === currentIndex + 1;
+    const getNextIndex = (currentIndex: number = 0): number => {
+      const nextIndex = currentIndex + 1;
+      const isLastQuestion = questions.length - 1 === nextIndex;
+
+      const nextQuestion = questions[nextIndex];
+      const conditions = nextQuestion.conditions;
       const nextHasConditions = conditions && conditions.length > 0;
-      const answerMatchesCondition = nextHasConditions && answer.value === conditions[0].value;
-      if (nextHasConditions && !answerMatchesCondition && isLastQuestion) {
-        return null;
+
+      if (nextHasConditions) {
+        let conditionsMatch = false;
+        const parentQuestion = questions.findIndex(question => question.name === conditions[0].name);
+        const answer = answers[parentQuestion] || {};
+        conditionsMatch = nextHasConditions && answer.value === conditions[0].value;
+
+        if (isLastQuestion) {
+          if (conditionsMatch) {
+            return nextIndex;
+          } else {
+            return null;
+          }
+        } else {
+          if (conditionsMatch) {
+            return nextIndex;
+          } else {
+            return getNextIndex(nextIndex);
+          }
+        }
+      } else {
+        return nextIndex;
       }
-      return !nextHasConditions || answerMatchesCondition || isLastQuestion ? jump : getJump(currentIndex + 1, jump);
     };
-    const next = getJump(currentQuestion);
-    return next !== null ? currentQuestion + next : null;
+
+    const nextIndex = getNextIndex(currentQuestion);
+    return nextIndex;
   } else if (questions && currentQuestion === questions.length - 1) {
     if (
       !isQuestionAnswered(answers[currentQuestion], questions[currentQuestion]) &&

@@ -8,10 +8,8 @@ type Props = {|
   +animationEasing: () => any,
   +count: number,
   +hideAnimationDuration: number,
-  +hidesWhenStopped: boolean,
   +interaction: boolean,
-  +color: string,
-  +size: number
+  +color: string
 |};
 
 // Max height for audio spectrum bars - see screen 03.13
@@ -55,24 +53,21 @@ const BarIndicator = (props: Props) => {
     }
   }, []);
 
-  useEffect(
-    () => {
-      const { animating } = props;
+  useEffect(() => {
+    const { animating } = props;
 
-      if (animating === true) {
-        resumeAnimation();
-      } else {
-        stopAnimation();
-      }
+    if (animating === true) {
+      resumeAnimation();
+    } else {
+      stopAnimation();
+    }
 
-      Animated.timing(hideAnimation, {
-        toValue: animating ? 1 : 0,
-        duration: props.hideAnimationDuration,
-        useNativeDriver: true
-      }).start();
-    },
-    [props.animating]
-  );
+    Animated.timing(hideAnimation, {
+      toValue: animating ? 1 : 0,
+      duration: props.hideAnimationDuration,
+      useNativeDriver: true
+    }).start();
+  }, [props.animating]);
 
   const outputRange = (base, index, count, samples) => {
     const range = Array.from(
@@ -229,9 +224,7 @@ BarIndicator.defaultProps = {
   color: 'rgb(0, 0, 0)',
   count: 3,
   hideAnimationDuration: 200,
-  hidesWhenStopped: true,
-  interaction: true,
-  size: 40
+  interaction: true
 };
 
 export default BarIndicator;

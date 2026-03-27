@@ -9,6 +9,7 @@ import styles from './styles';
 function Row(props) {
   const hasCustomSwitch = typeof props.value !== 'undefined';
   const onPress = props.action ? props.action.callback : null;
+  const icon = props.action ? props.action.icon : null;
 
   const Touchable = Platform.select({
     android: TouchableNativeFeedback,
@@ -36,10 +37,10 @@ function Row(props) {
             onValueChange={props.onValueChange}
           />
         )}
-        {props.action && (
+        {icon && (
           <Image
             style={[Theme.icon, props.action.position === 'top' ? styles.topIcon : {}, props.iconStyle]}
-            source={props.action.icon}
+            source={icon}
           />
         )}
       </View>

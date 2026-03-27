@@ -20,38 +20,32 @@ const SyncContainer = ({ syncRemaining, areasLength }: Props): React.FC => {
    * Calculation: Every step under 10 represents 3% -> 36% ; dispatchedAlerts -> 64%
    */
   const dispatchedAlerts = 2 + areasLength * 4; // ref: app/redux-modules/areas.js
-  useEffect(
-    () => {
-      // 64%
-      if (syncRemaining >= 10) {
-        setLoading(9 + ((dispatchedAlerts - syncRemaining) * 64) / dispatchedAlerts);
-      }
-      // 12 steps -> 36% -> 3% each
-      if (syncRemaining < 10 && syncRemaining !== 0) {
-        setLoading(loading + 3);
-      }
-    },
-    [syncRemaining]
-  );
+  useEffect(() => {
+    // 64%
+    if (syncRemaining >= 10) {
+      setLoading(9 + ((dispatchedAlerts - syncRemaining) * 64) / dispatchedAlerts);
+    }
+    // 12 steps -> 36% -> 3% each
+    if (syncRemaining < 10 && syncRemaining !== 0) {
+      setLoading(loading + 3);
+    }
+  }, [syncRemaining]);
 
   /**
    * Spinning Animation
    */
   const rotateAnimation = useRef(new Animated.Value(0)).current;
   const rotate = rotateAnimation.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '360deg'] });
-  useEffect(
-    () => {
-      Animated.loop(
-        Animated.timing(rotateAnimation, {
-          toValue: 1,
-          duration: 1350,
-          easing: Easing.linear,
-          useNativeDriver: true
-        })
-      ).start();
-    },
-    [rotateAnimation]
-  );
+  useEffect(() => {
+    Animated.loop(
+      Animated.timing(rotateAnimation, {
+        toValue: 1,
+        duration: 1350,
+        easing: Easing.linear,
+        useNativeDriver: true
+      })
+    ).start();
+  }, [rotateAnimation]);
 
   return (
     <View>

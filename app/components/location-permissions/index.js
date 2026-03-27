@@ -35,7 +35,10 @@ export default class Welcome extends Component<Props> {
 
   onContinue: () => Promise<void> = async () => {
     if (Platform.OS === 'android') {
-      await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION);
+      await PermissionsAndroid.requestMultiple([
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS
+      ]);
     } else {
       await request(PERMISSIONS.IOS.LOCATION_ALWAYS);
     }

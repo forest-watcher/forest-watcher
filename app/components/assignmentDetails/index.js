@@ -49,22 +49,16 @@ export const AssignmentDetails = (props: Props): React$Element<any> => {
     };
   }, []);
 
-  useEffect(
-    () => {
-      if (!props.assignment) {
-        shouldPop = true;
-      }
-    },
-    [props.assignment]
-  );
+  useEffect(() => {
+    if (!props.assignment) {
+      shouldPop = true;
+    }
+  }, [props.assignment]);
 
   const [onHold, setOnHold] = useState(props.assignment?.status === 'on hold');
-  useEffect(
-    () => {
-      setOnHold(props.assignment?.status === 'on hold');
-    },
-    [props.assignment?.status]
-  );
+  useEffect(() => {
+    setOnHold(props.assignment?.status === 'on hold');
+  }, [props.assignment?.status]);
 
   if (!props.assignment) {
     return null;

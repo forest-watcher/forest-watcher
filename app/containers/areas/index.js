@@ -32,7 +32,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
         })
       );
       trackSharedContent('area');
-      await shareBundle(outputPath);
+      return await shareBundle(outputPath);
     },
     initialiseAreaLayerSettings: (featureId: string, areaId: string) => {
       dispatch(initialiseAreaLayerSettings(featureId, areaId));
@@ -47,7 +47,4 @@ function mapDispatchToProps(dispatch: Dispatch) {
 }
 
 type PassedProps = ComponentProps<OwnProps, typeof mapStateToProps, typeof mapDispatchToProps>;
-export default connect<PassedProps, OwnProps, _, _, State, Dispatch>(
-  mapStateToProps,
-  mapDispatchToProps
-)(Areas);
+export default connect<PassedProps, OwnProps, _, _, State, Dispatch>(mapStateToProps, mapDispatchToProps)(Areas);

@@ -73,14 +73,15 @@ function registerComponent(name, Screen, Provider, store, wrapInSafeAreaProvider
   const Wrapper = wrapInSafeAreaProvider ? SafeAreaProvider : React.Fragment;
   Navigation.registerComponent(
     name,
-    () => props => (
-      <Provider store={store}>
-        <Wrapper>
-          {bannerNeeded && <Topbar nativeID="offlineBannerComponent" />}
-          <Screen {...props} />
-        </Wrapper>
-      </Provider>
-    ),
+    () => props =>
+      (
+        <Provider store={store}>
+          <Wrapper>
+            {bannerNeeded && <Topbar nativeID="offlineBannerComponent" />}
+            <Screen {...props} />
+          </Wrapper>
+        </Provider>
+      ),
     () => Screen
   );
 }

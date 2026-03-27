@@ -75,13 +75,14 @@ export function queryAlertsLazy(query: AlertsQuery) {
       .filter(x => x.alertType !== undefined)
       .map(
         x =>
-          `((lat > ${x.lat - 0.00001} AND lat < ${x.lat + 0.00001} ) AND (long > ${x.lon - 0.00001} AND long < ${x.lon +
-            0.00001} ) ${x.alertId &&
-            `AND (date >= ${moment(x.alertId)
-              .subtract(1, 'days')
-              .valueOf()} AND date < ${moment(x.alertId)
+          `((lat > ${x.lat - 0.00001} AND lat < ${x.lat + 0.00001} ) AND (long > ${x.lon - 0.00001} AND long < ${
+            x.lon + 0.00001
+          } ) ${
+            x.alertId &&
+            `AND (date >= ${moment(x.alertId).subtract(1, 'days').valueOf()} AND date < ${moment(x.alertId)
               .add(1, 'days')
-              .valueOf()})`})`
+              .valueOf()})`
+          })`
       )
       .join(' OR ');
     predicateParts.push(`(${specificAlertsPredicate})`);

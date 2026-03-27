@@ -153,6 +153,8 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>FacebookAppID</key>
 	<string>$(LOGIN_FACEBOOK_APP_ID)</string>
+	<key>FacebookClientToken</key>
+	<string>$(LOGIN_FACEBOOK_CLIENT_TOKEN)</string>
 	<key>FacebookDisplayName</key>
 	<string>Global Forest Watch</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
@@ -171,11 +173,15 @@
 	<key>LSSupportsOpeningDocumentsInPlace</key>
 	<false/>
 	<key>MinimumOSVersion</key>
-	<string>13.0</string>
+	<string>16.0</string>
 	<key>NSAllowsLocationNetworking</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<false/>
+		<key>NSAllowsLocalNetworking</key>
+		<true/>
 		<key>NSExceptionDomains</key>
 		<dict>
 			<key>localhost</key>
@@ -188,13 +194,19 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Forest Watcher will use your camera when running the application to collect photos for your reports.</string>
+	<string>Forest Watcher will use your camera when running the application to collect photos for
+      your reports.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>The app uses location services to track your movements when you create a route in the map</string>
+	<string>The app uses location services to track your movements when you create a route in the
+      map</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>The app uses location services to track your movements when you create a route in the map</string>
+	<string>The app uses location services to track your movements when you create a route in the
+      map</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>The app uses location services to track your movements when you create a route in the map</string>
+	<string>The app uses location services to track your movements when you create a route in the
+      map</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Forest Watcher needs access to allow you to add voice recordings to your reports</string>
 	<key>NSMotionUsageDescription</key>
 	<string>App requires motion tracking</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
@@ -218,7 +230,7 @@
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
-		<string>armv7</string>
+		<string>arm64</string>
 	</array>
 	<key>UIStatusBarStyle</key>
 	<string>UIStatusBarStyleDefault</string>
@@ -231,7 +243,7 @@
 	<key>UIUserInterfaceStyle</key>
 	<string>Light</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<false/>
+	<true/>
 	<key>UTExportedTypeDeclarations</key>
 	<array>
 		<dict>

@@ -2,7 +2,7 @@
 import type { Coordinates } from 'types/common.types';
 import type { RouteState, RouteAction, Route, RouteDeletionCriteria } from 'types/routes.types';
 import type { Dispatch, GetState, Thunk } from 'types/store.types';
-import { LOGOUT_REQUEST } from './user';
+import { LOGOUT_REQUEST } from 'redux-modules/user';
 
 import { deleteAllLocations } from 'helpers/location';
 import generateUniqueID from 'helpers/uniqueId';
@@ -147,7 +147,13 @@ export default function reducer(state: RouteState = initialState, action: RouteA
     case DELETE_ROUTE_ROLLBACK:
       return { ...state, synced: true, syncing: false };
     case LOGOUT_REQUEST: {
-      return initialState;
+      return {
+        ...initialState,
+        activeRoute: undefined,
+        previousRoutes: [],
+        synced: false,
+        syncing: false
+      };
     }
     default:
       return state;

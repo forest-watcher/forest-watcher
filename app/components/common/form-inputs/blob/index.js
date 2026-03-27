@@ -49,7 +49,7 @@ class ImageBlobInput extends Component<Props, State> {
     const options = {
       mediaType: 'photo',
       noData: true,
-      quality: 0.7,
+      quality: 1.0,
       cancelButtonTitle: i18n.t('chooseImage.cancel'),
       storageOptions: {
         skipBackup: true,

@@ -391,7 +391,7 @@ export function removeDuplicateLocations<T: { latitude: number, longitude: numbe
     return null;
   }
 
-  _.reject(locations, function(location, i) {
+  _.reject(locations, function (location, i) {
     return (
       i > 0 && locations[i - 1].latitude === location.latitude && locations[i - 1].longitude === location.longitude
     );

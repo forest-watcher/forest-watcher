@@ -98,10 +98,7 @@ export const trackImportedContent = (
   success: boolean,
   fileSize?: ?number
 ) => {
-  const fileType = fileName
-    .split('.')
-    .pop()
-    .toLowerCase();
+  const fileType = fileName.split('.').pop().toLowerCase();
 
   analytics().logEvent('imported_content', {
     content_type: contentType,

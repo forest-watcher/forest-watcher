@@ -34,6 +34,7 @@ const initialState = {
   token: null,
   oAuthToken: null,
   socialNetwork: null,
+  socialEmail: null,
   logSuccess: true,
   synced: false,
   syncing: false,
@@ -61,7 +62,17 @@ export default function reducer(state: UserState = initialState, action: UserAct
     case SET_LOGIN_AUTH: {
       const { socialNetwork, loggedIn, token, oAuthToken } = action.payload;
       const userId = parseJwt(token).id;
-      return { ...state, socialNetwork, loggedIn, token, oAuthToken, userId, emailLoginError: null };
+      const email = parseJwt(token).email;
+      return {
+        ...state,
+        socialNetwork,
+        socialEmail: email,
+        loggedIn,
+        token,
+        oAuthToken,
+        userId,
+        emailLoginError: null
+      };
     }
     case SET_LOGIN_STATUS: {
       const logSuccess = action.payload;
@@ -321,8 +332,6 @@ export function setLoginAuth(details: { token: string, loggedIn: boolean, social
 export function logout(socialNetworkFallback: ?string): Thunk<Promise<void>> {
   return async (dispatch: Dispatch, state: GetState) => {
     const { oAuthToken: tokenToRevoke, socialNetwork } = state().user;
-    dispatch({ type: LOGOUT_REQUEST });
-    dispatch({ type: RESET_STATE });
 
     try {
       await deleteAllOfflinePacks();
@@ -346,5 +355,8 @@ export function logout(socialNetworkFallback: ?string): Thunk<Promise<void>> {
       console.error(e);
       dispatch({ type: SET_LOGIN_STATUS, payload: false });
     }
+
+    dispatch({ type: LOGOUT_REQUEST });
+    dispatch({ type: RESET_STATE });
   };
 }

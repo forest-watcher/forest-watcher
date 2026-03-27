@@ -29,27 +29,24 @@ export const Assignments = (props: Props): React$Element<any> => {
   );
   const [onHold, setOnhold] = useState(props.assignments.filter(x => x.status === 'on hold'));
 
-  useEffect(
-    () => {
-      setHighPriority(props.assignments.filter(x => x.priority === ASSIGNMENT_PRIORITY.HIGH && x.status !== 'on hold'));
-      setNormalPriority(
-        props.assignments.filter(x => x.priority === ASSIGNMENT_PRIORITY.NORMAL && x.status !== 'on hold')
-      );
-      setOnhold(props.assignments.filter(x => x.status === 'on hold'));
-      const open = props.assignments.filter(x => x.status !== 'on hold').length;
-      Navigation.mergeOptions(props.componentId, {
-        topBar: {
-          title: {
-            text:
-              open > 0
-                ? i18n.t('assignments.titles.assignments', { count: open })
-                : i18n.t('assignments.titles.assignments_nocount')
-          }
+  useEffect(() => {
+    setHighPriority(props.assignments.filter(x => x.priority === ASSIGNMENT_PRIORITY.HIGH && x.status !== 'on hold'));
+    setNormalPriority(
+      props.assignments.filter(x => x.priority === ASSIGNMENT_PRIORITY.NORMAL && x.status !== 'on hold')
+    );
+    setOnhold(props.assignments.filter(x => x.status === 'on hold'));
+    const open = props.assignments.filter(x => x.status !== 'on hold').length;
+    Navigation.mergeOptions(props.componentId, {
+      topBar: {
+        title: {
+          text:
+            open > 0
+              ? i18n.t('assignments.titles.assignments', { count: open })
+              : i18n.t('assignments.titles.assignments_nocount')
         }
-      });
-    },
-    [props.assignments]
-  );
+      }
+    });
+  }, [props.assignments]);
 
   useEffect(() => trackScreenView('Assignments'), []);
 

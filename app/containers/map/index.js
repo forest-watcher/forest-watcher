@@ -49,26 +49,24 @@ function getAreaCoordinates(areaFeature): ?Array<Coordinates> {
  *
  * Memoize the result so we don't create a new array every time mapStateToProps is called below.
  */
-const getReportedCoordinates = memoizeOne(
-  (reportsMap: ReportsList): $ReadOnlyArray<Coordinates> => {
-    const reports: Array<Report> = Object.keys(reportsMap).map(key => reportsMap[key]);
-    const locations: Array<Array<{ lat?: number, long?: number }>> = reports.map(report => {
-      const clickedPositions = report.clickedPosition ? JSON.parse(report.clickedPosition) : [];
-      // Check we've got an array back from JSON.parse
-      return Array.isArray(clickedPositions) ? clickedPositions : [];
-    });
-    return flatten(locations)
-      .map(item =>
-        item && item.lat !== undefined && item.lon !== undefined
-          ? {
-              latitude: item.lat ?? 0,
-              longitude: item.lon ?? 0
-            }
-          : null
-      )
-      .filter(Boolean);
-  }
-);
+const getReportedCoordinates = memoizeOne((reportsMap: ReportsList): $ReadOnlyArray<Coordinates> => {
+  const reports: Array<Report> = Object.keys(reportsMap).map(key => reportsMap[key]);
+  const locations: Array<Array<{ lat?: number, long?: number }>> = reports.map(report => {
+    const clickedPositions = report.clickedPosition ? JSON.parse(report.clickedPosition) : [];
+    // Check we've got an array back from JSON.parse
+    return Array.isArray(clickedPositions) ? clickedPositions : [];
+  });
+  return flatten(locations)
+    .map(item =>
+      item && item.lat !== undefined && item.lon !== undefined
+        ? {
+            latitude: item.lat ?? 0,
+            longitude: item.lon ?? 0
+          }
+        : null
+    )
+    .filter(Boolean);
+});
 
 function reconcileRoutes(activeRoute: ?Route, previousRoute: ?Route): ?Route {
   if (activeRoute) {
@@ -140,7 +138,4 @@ function mapDispatchToProps(dispatch: Dispatch, ownProps: OwnProps) {
 }
 
 type PassedProps = ComponentProps<OwnProps, typeof mapStateToProps, typeof mapDispatchToProps>;
-export default connect<PassedProps, OwnProps, _, _, State, Dispatch>(
-  mapStateToProps,
-  mapDispatchToProps
-)(Map);
+export default connect<PassedProps, OwnProps, _, _, State, Dispatch>(mapStateToProps, mapDispatchToProps)(Map);

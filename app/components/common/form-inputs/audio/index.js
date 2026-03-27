@@ -201,7 +201,7 @@ export class AudioInput extends React.Component<Props, State> {
           duration: this.audioRecorderPlayer.mmssss(Math.floor(e.duration)).substring(0, 5)
         }
       });
-      if (e.currentPosition === e.duration) {
+      if (e.currentPosition >= e.duration) {
         this.setState({ status: 'STOPPED' });
       }
     });
@@ -235,8 +235,8 @@ export class AudioInput extends React.Component<Props, State> {
       await this.pausePlaying();
     }
     let newValue = this.state.playSpec.currentPositionSec + 10000;
-    if (newValue >= this.state.playSpec.currentDurationSec) {
-      newValue = this.state.playSpec.currentDurationSec - 100;
+    if (newValue >= this.state.playSpec.currentDurationSec - 1000) {
+      newValue = this.state.playSpec.currentDurationSec - 1000;
     }
     await this.audioRecorderPlayer.seekToPlayer(newValue);
     this.setState({

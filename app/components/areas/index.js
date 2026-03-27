@@ -150,14 +150,17 @@ class Areas extends Component<Props, State> {
     this.setState({
       creatingArchive: true
     });
-    await this.props.exportAreas(selectedAreas);
-    this.setState({
-      creatingArchive: false
-    });
-    if (this.shareSheet) {
-      this.shareSheet.setSharing(false);
+    try {
+      await this.props.exportAreas(selectedAreas);
+    } finally {
+      this.setState({
+        creatingArchive: false
+      });
+      if (this.shareSheet) {
+        this.shareSheet.setSharing(false);
+      }
+      this.setSharing(false);
     }
-    this.setSharing(false);
   });
 
   onAreaSettingsPress = debounceUI((areaId: string, name: string) => {

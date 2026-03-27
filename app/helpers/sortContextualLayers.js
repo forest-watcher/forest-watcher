@@ -32,11 +32,7 @@ export function sortGFWContextualLayers(layers: Array<Layer>): Array<Layer> {
   // Find all tree cover loss layers
   const nonTreeCoverLossLayers = [];
   const treeCoverLossLayers = allLayers.filter((layer: Layer) => {
-    const isTreeCoverLossLayer =
-      layer.name
-        ?.toLowerCase?.()
-        .replace?.(/\s/g, '')
-        .includes?.('treecoverloss') === true;
+    const isTreeCoverLossLayer = layer.name?.toLowerCase?.().replace?.(/\s/g, '').includes?.('treecoverloss') === true;
     // If it's a tree cover loss layer, remove it from `allLayers`
     if (!isTreeCoverLossLayer) {
       nonTreeCoverLossLayers.push(layer);

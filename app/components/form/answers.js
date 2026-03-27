@@ -34,7 +34,8 @@ type Props = {
   isConnected: boolean,
   showNotConnectedNotification: () => void,
   showExportReportsSuccessfulNotification: () => void,
-  showUploadButton: boolean
+  showUploadButton: boolean,
+  completeReport: () => void
 };
 
 type Image = {
@@ -85,15 +86,15 @@ class Answers extends PureComponent<Props> {
   async navigationButtonPressed({ buttonId }) {
     if (buttonId === 'export') {
       const buttonHandler = async idx => {
-        switch (idx) {
+        switch (idx) {  
           case 0: {
-            await this.props.exportReportAsBundle();
-            this.props.showExportReportsSuccessfulNotification();
+            // Export Bundle
+            await this.exportLocalReport(true);
             break;
           }
           case 1: {
-            await this.props.exportReport();
-            this.props.showExportReportsSuccessfulNotification();
+            // Export CSV
+            await this.exportLocalReport(false);
             break;
           }
           case 2: {
@@ -110,6 +111,23 @@ class Answers extends PureComponent<Props> {
     if (buttonId === 'backButton') {
       Navigation.dismissModal(this.props.componentId);
       trackReportingConcluded('cancelled', 'answers');
+    }
+  }
+
+  exportLocalReport = async (exportBundle: boolean) => {
+    // Upload and complete the report before exporting
+    //this.props.uploadReport();  https://3sidedcube.atlassian.net/browse/SP-3072 We don't actually need to upload the report here
+    this.props.completeReport();
+
+    let res;
+    if (exportBundle) {
+      res = await this.props.exportReportAsBundle(); 
+    } else {
+      res = await this.props.exportReport()
+    }
+
+    if (res && res.success) {
+      this.props.showExportReportsSuccessfulNotification();
     }
   }
 

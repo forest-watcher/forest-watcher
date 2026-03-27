@@ -32,15 +32,12 @@ export const TeamDetails = (props: Props): React$Element<any> => {
   const areas = props.team.areas?.map(areaID => props.areas.find(area => area.id === areaID)?.name)?.filter(x => x);
   const [actionPerformed, setActionPerformed] = useState(false);
 
-  useEffect(
-    () => {
-      if (actionPerformed && !props.syncing) {
-        props.updateApp();
-        Navigation.pop(props.componentId);
-      }
-    },
-    [props.syncing]
-  );
+  useEffect(() => {
+    if (actionPerformed && !props.syncing) {
+      props.updateApp();
+      Navigation.pop(props.componentId);
+    }
+  }, [props.syncing]);
 
   return (
     <View style={styles.container}>

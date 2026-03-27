@@ -118,11 +118,16 @@ class RNMBTileSource(var id: String, var filePath: String) {
 
     // Given a metadata property, queries the database and returns it, if it exists.
     private fun getMetadata(property: String): String? {
-        val c = database.query("metadata", arrayOf("name", "value"), "name = ?", arrayOf(property), null, null, null)
-        c.moveToFirst()
-        val index = c.getColumnIndex("value")
-        val data = c.getString(index)
-        c.close()
-        return data
+		try
+		{
+			val c = database.query("metadata", arrayOf("name", "value"), "name = ?", arrayOf(property), null, null, null)
+			c.moveToFirst()
+			val index = c.getColumnIndex("value")
+			val data = c.getString(index)
+			c.close()
+			return data
+		}catch( e: Exception){
+			return null
+		}
     }
 }

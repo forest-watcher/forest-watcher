@@ -47,6 +47,7 @@ Forest Watcher is part of the wider GFW technological offering, and as such also
 ## Other information
 
 - [API endpoints used](./docs/mobile/api.md)
+- [How sharing bundles work](./docs/mobile/sharing-bundles.md)
 - [Custom patches applied to dependencies](./PATCHES.md)
 - [Changelog](./CHANGELOG.md)
 
@@ -54,3 +55,9 @@ Forest Watcher is part of the wider GFW technological offering, and as such also
 MIT License
 
 Developed by Vizzuality (until July 2018, v1.6) and 3 Sided Cube (since July 2018).
+
+## Patches
+
+| Date | Description | File | Issue | Resolution |
+|------|-------------|------|--------|------------|
+| Current | FormData file upload debugging | `react-native+0.76.7.patch` | Files not being received by backend in multipart request | Fix content-disposition filename encoding

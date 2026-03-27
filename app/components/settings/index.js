@@ -1,8 +1,7 @@
 // @flow
 import React, { Component } from 'react';
-import { ActivityIndicator, View, Text, TouchableHighlight, ScrollView, Image, Alert } from 'react-native';
+import { ActivityIndicator, View, Text, ScrollView, Image, Alert, Linking } from 'react-native';
 import { Navigation } from 'react-native-navigation';
-import Hyperlink from 'react-native-hyperlink';
 
 import List from 'components/common/list';
 import Theme from 'config/theme';
@@ -23,6 +22,7 @@ const basemapsIcon = require('assets/basemap.png');
 
 type Props = {
   user: any,
+  socialEmail: ?string,
   loggedIn: boolean, // eslint-disable-line
   componentId: string,
   logout: (?string) => void,
@@ -112,6 +112,16 @@ export default class Settings extends Component<Props, State> {
       icon: nextIcon
     };
 
+    this.completeProfileAction = {
+      callback: this.onCompleteProfilePress,
+      icon: nextIcon
+    };
+
+    this.logoutAction = {
+      callback: this.onLogoutPress,
+      icon: null
+    };
+
     this.state = {
       isExportInProgress: false,
       versionName: getVersionName()
@@ -143,13 +153,23 @@ export default class Settings extends Component<Props, State> {
   onPressShare = async () => {
     try {
       this.setState({
+        ...this.state,
         isExportInProgress: true
       });
       await this.props.shareAppData();
     } finally {
       this.setState({
+        ...this.state,
         isExportInProgress: false
       });
+    }
+  };
+
+  onCompleteProfilePress = async () => {
+    const myGfw = 'https://www.globalforestwatch.org/my-gfw';
+    const supported = await Linking.canOpenURL(myGfw);
+    if (supported) {
+      await Linking.openURL(myGfw);
     }
   };
 
@@ -211,7 +231,6 @@ export default class Settings extends Component<Props, State> {
 
   render() {
     const { setOfflineMode, offlineMode } = this.props;
-    const hasUserData = this.props.user.fullName && this.props.user.email;
 
     return (
       <View style={styles.container}>
@@ -221,31 +240,38 @@ export default class Settings extends Component<Props, State> {
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
         >
-          <Row style={styles.user}>
-            {hasUserData ? (
-              <View style={styles.info}>
-                <Text style={styles.name}>{this.props.user.fullName}</Text>
-                <Text style={styles.email} numberOfLines={1} ellipsizeMode="tail">
-                  {this.props.user.email}
-                </Text>
-              </View>
-            ) : (
-              <View style={styles.info}>
-                <Hyperlink
-                  linkDefault
-                  linkStyle={Theme.link}
-                  linkText={url => (url === 'https://www.globalforestwatch.org/my-gfw' ? 'my GFW' : url)}
-                >
-                  <Text selectable style={styles.completeProfile}>
-                    {`${i18n.t('settings.completeYourProfileOn')} https://www.globalforestwatch.org/my-gfw`}
-                  </Text>
-                </Hyperlink>
-              </View>
-            )}
-            <TouchableHighlight activeOpacity={0.5} underlayColor="transparent" onPress={this.onLogoutPress}>
-              <Text style={styles.logout}>{i18n.t('settings.logOut')}</Text>
-            </TouchableHighlight>
+          <Text style={styles.accountLabel}>{i18n.t('settings.accountLabel')}</Text>
+          <Row action={this.completeProfileAction} style={styles.user} rowStyle={styles.userDetailRow}>
+            <View style={styles.info}>
+              <Text style={styles.completeProfile}>
+                {this.props.user.firstName !== undefined && this.props.user.lastName !== undefined
+                  ? `${i18n.t('settings.viewYourProfileOn')}\n`
+                  : `${i18n.t('settings.completeYourProfileOn')}\n`}
+                <Text style={Theme.link}>{i18n.t('settings.myGfw')}</Text>
+              </Text>
+            </View>
           </Row>
+
+          <Row action={(this, this.logoutAction)} style={styles.user}>
+            <View style={styles.info}>
+              {this.props.user.firstName !== undefined && this.props.user.lastName !== undefined ? (
+                <>
+                  <Text style={styles.name} numberOfLines={1} ellipsizeMode="tail">
+                    {this.props.user.firstName} {this.props.user.lastName}
+                  </Text>
+                  <Text style={styles.email} numberOfLines={1} ellipsizeMode="tail">
+                    {this.props.user.email ?? this.props.socialEmail}
+                  </Text>
+                </>
+              ) : (
+                <Text style={styles.name} numberOfLines={1} ellipsizeMode="tail">
+                  {this.props.socialEmail}
+                </Text>
+              )}
+            </View>
+            <Text style={styles.logout}>{i18n.t('settings.logOut')}</Text>
+          </Row>
+
           <Text style={styles.label}>{i18n.t('settings.coordinatesFormat')}</Text>
           <CoordinatesDropdown />
           <View style={styles.offlineMode}>
@@ -265,7 +291,7 @@ export default class Settings extends Component<Props, State> {
             <Text style={styles.rowLabel}>{i18n.t('settings.contextualLayers')}</Text>
           </Row>
           <Row
-            action={this.state.isExportInProgress ? null : this.shareAction}
+            action={this.shareAction}
             rowStyle={styles.noMarginsRow}
             style={styles.row}
           >

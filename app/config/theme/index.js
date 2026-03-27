@@ -208,7 +208,7 @@ const config = {
   },
   sectionHeaderText: {
     marginLeft: 16,
-    marginBottom: 8,
+    marginBottom: 12,
     fontSize: 17,
     color: fontColors.secondary,
     fontFamily: fontName,
@@ -225,8 +225,8 @@ const config = {
     backgroundColor: 'white',
     borderBottomWidth: 1,
     borderBottomColor: colors.veryLightPinkTwo,
-    paddingVertical: 22,
-    paddingHorizontal: 20,
+    paddingVertical: 18,
+    paddingHorizontal: 22,
     marginBottom: isSmallScreen ? 12 : 24,
     flexDirection: 'row',
     justifyContent: 'space-between'

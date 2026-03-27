@@ -37,13 +37,10 @@ const Teams = (props: Props): React$Element<any> => {
     props.teams.filter(x => x.userRole === 'manager' || x.userRole === 'administrator')
   );
 
-  useEffect(
-    () => {
-      setJoined(props.teams.filter(x => x.userRole === 'monitor'));
-      setManaged(props.teams.filter(x => x.userRole === 'manager' || x.userRole === 'administrator'));
-    },
-    [props.teams.length]
-  );
+  useEffect(() => {
+    setJoined(props.teams.filter(x => x.userRole === 'monitor'));
+    setManaged(props.teams.filter(x => x.userRole === 'manager' || x.userRole === 'administrator'));
+  }, [props.teams.length]);
 
   if (props.teams.length === 0 && props.invites.length === 0) {
     return (

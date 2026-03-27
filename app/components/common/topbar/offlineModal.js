@@ -52,12 +52,9 @@ const OfflineModal = (props: Props) => {
   const netInfo = useNetInfo();
   const [content, setContent] = useState(getContent(props.offlineMode, !netInfo.isConnected));
 
-  useEffect(
-    () => {
-      setContent(getContent(props.offlineMode, !netInfo.isConnected));
-    },
-    [props.offlineMode, netInfo.isConnected]
-  );
+  useEffect(() => {
+    setContent(getContent(props.offlineMode, !netInfo.isConnected));
+  }, [props.offlineMode, netInfo.isConnected]);
 
   useEffect(() => trackScreenView('offline_mode_modal'), []);
 
@@ -127,7 +124,5 @@ function mapDispatchToProps(dispatch: Dispatch) {
   };
 }
 
-export default (connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(OfflineModal): Class<any> & ((props: any) => React$Element<any>));
+export default (connect(mapStateToProps, mapDispatchToProps)(OfflineModal): Class<any> &
+  ((props: any) => React$Element<any>));

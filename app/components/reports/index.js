@@ -44,7 +44,8 @@ type Props = {|
   +getLastStep: string => ?number,
   +showExportReportsSuccessfulNotification: () => void,
   deleteReport: () => void,
-  completeReports: (ids: Array<string>) => void
+  completeReports: (ids: Array<string>) => void,
+  uploadReports: (ids: Array<string>) => void
 |};
 
 type State = {|
@@ -297,29 +298,54 @@ class Reports extends PureComponent<Props, State> {
       this.setState({
         creatingArchive: true
       });
+
       switch (idx) {
         case 0: {
-          await this.props.exportReportsAsBundle(selectedReports);
+          await this.exportLocalReport(true, selectedReports);
           break;
         }
         case 1: {
-          await this.exportReportsAsCsv(selectedReports);
+          await this.exportLocalReport(false, selectedReports);
           break;
         }
       }
-
-      // Show 'export successful' notification, and reset export state to reset UI.
-      this.props.showExportReportsSuccessfulNotification();
-      // $FlowFixMe
-      this.shareSheet?.setSharing?.(false);
-      this.setState({
-        creatingArchive: false,
-        selectedForExport: [],
-        inShareMode: false
-      });
     };
     await displayExportReportDialog(false, buttonHandler);
   });
+
+  exportLocalReport = async (exportAsBundle: boolean, selectedReports: Array<string>) => {
+    //this.props.uploadReports(selectedReports);  https://3sidedcube.atlassian.net/browse/SP-3072 We don't actually need to upload the report here
+    this.props.completeReports(selectedReports);
+
+    try {
+      let res;
+      if (exportAsBundle) {
+        res = await this.props.exportReportsAsBundle(selectedReports);
+      } else {
+        res = await this.exportReportsAsCsv(selectedReports);
+      }
+  
+      this.showExportReportsSuccessfulNotificationIfRequired(res);
+    } finally {
+      this.resetArchivingState();
+    }
+  }
+
+  showExportReportsSuccessfulNotificationIfRequired = (res: ShareOpenResult) => {
+    if (res.success) {
+      this.props.showExportReportsSuccessfulNotification();
+    }
+  };
+
+  resetArchivingState = () => {
+    // $FlowFixMe
+    this.shareSheet?.setSharing?.(false);
+    this.setState({
+      creatingArchive: false,
+      selectedForExport: [],
+      inShareMode: false
+    });
+  };
 
   exportReportsAsCsv = async (selectedReports: Array<string>) => {
     // Merge the completed and uploaded reports that are available together, so we can find any selected reports to export them.
@@ -343,8 +369,7 @@ class Reports extends PureComponent<Props, State> {
       })
     );
 
-    shareFile(zippedReportsPath);
-    this.props.completeReports(selectedReports);
+    return await shareFile(zippedReportsPath);
   };
 
   onFrequentlyAskedQuestionsPress = () => {
